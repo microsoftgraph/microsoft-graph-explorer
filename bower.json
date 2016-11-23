@@ -1,0 +1,28 @@
+{
+  "name": "microsoft-graph-explorer",
+  "authors": [
+    "Dan Silver <dansil@microsoft.com>"
+  ],
+  "description": "",
+  "main": "",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-animate": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "angular-material": "^1.1.1",
+    "angular-messages": "^1.5.8",
+    "angular-aria": "^1.5.8",
+    "angular-bootstrap": "^2.2.0",
+    "bootstrap": "v4.0.0-alpha.5",
+    "angular": "^1.5.8",
+    "hello": "^1.14.0",
+    "components-font-awesome": "^4.7.0"
+  }
+}
