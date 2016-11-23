@@ -14,6 +14,9 @@ function initializeJsonEditor($scope, bodyVal) {
         jsonEditor.renderer.setOption('showLineNumbers', false);
         //accessibility - keyboard dependant users must be able to "tab out" of session
         jsonEditor.commands.bindKey("Tab", null);
+
+        jsonEditor.$blockScrolling = Infinity
+
         $scope.jsonEditor = jsonEditor;
     });
 }

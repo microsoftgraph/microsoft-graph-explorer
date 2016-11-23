@@ -41,13 +41,13 @@ angular.module('ApiExplorer')
             return session && session.access_token && session.expires > currentTime;
         };
 
-        $scope.getEditor = function(){
+        $scope.getEditor = function() {
             return apiService.showJsonEditor;
         }
         
-        $scope.$watch("getEditor()", function(event, args){
+        $scope.$watch("getEditor()", function(event, args) {
             $scope.showJsonEditor = $scope.getEditor();
-            if($scope.showJsonEditor){
+            if ($scope.showJsonEditor) {
                 initializeJsonEditor($scope, bodyVal);
             }
         });
@@ -73,7 +73,7 @@ angular.module('ApiExplorer')
     
         $scope.selectedOption = apiService.selectedOption;
 
-        $scope.onItemClick = function(choice){
+        $scope.onItemClick = function(choice) {
             $scope.selectedOption = choice;
         }
 
@@ -84,16 +84,16 @@ angular.module('ApiExplorer')
             'DELETE'
           ];
     
-        $scope.getServiceOption = function(){
+        $scope.getServiceOption = function() {
             return apiService.selectedOption;
         }
     
-        $scope.getOption = function(){
+        $scope.getOption = function() {
             return $scope.selectedOption;
         }
 
         $scope.$watch("getOption()", function(newVal, oldVal) {
-            if(oldVal !== newVal){
+            if (oldVal !== newVal) {
                 console.log("switching to: " + $scope.selectedOption);
                 apiService.selectedOption = $scope.selectedOption;
                 apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
@@ -121,25 +121,24 @@ angular.module('ApiExplorer')
             'v1.0',
           ];
     
-        $scope.getVersion = function(){
+        $scope.getVersion = function() {
             return $scope.selectedVersion;
         }
         
-       $scope.getServiceVersion = function(){
+       $scope.getServiceVersion = function() {
             return apiService.selectedVersion;
         }
         
-        $scope.onItemClick = function(choice){
+        $scope.onItemClick = function(choice) {
             $scope.selectedVersion = choice;
             apiService.selectedVersion = choice;
         }
         $scope.$watch("getVersion()", function(newVal, oldVal) {
-            if(oldVal !== newVal){
+            if (oldVal !== newVal) {
                 apiService.selectedVersion = $scope.selectedVersion;
-                console.log("switching to: " + apiService.selectedVersion);
-                if($scope.$parent.searchText){
+                if ($scope.$parent.searchText) {
                     apiService.text = $scope.$parent.searchText.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
-                }else{
+                } else {
                     apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));    
                 }
                 parseMetadata(apiService, $scope);
@@ -153,11 +152,11 @@ angular.module('ApiExplorer')
         $scope.urlArray = []; 
         $scope.urlArrayHash = {};
         
-        $scope.getEntity = function(){
+        $scope.getEntity = function() {
             return apiService.entity;
         }
 
-        $scope.getText = function(){
+        $scope.getText = function() {
             return apiService.text;
         }
         
@@ -166,47 +165,47 @@ angular.module('ApiExplorer')
              this.searchText = $scope.text;
         });
 
-       $scope.searchTextChange = function(searchText){
+       $scope.searchTextChange = function(searchText) {
             this.searchText = searchText;
-            if(searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name){
-                if(apiService.cache.get(apiService.selectedVersion + "Metadata")) {
+            if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
+                if (apiService.cache.get(apiService.selectedVersion + "Metadata")) {
                     apiService.text = searchText;
                     setEntity(getEntityName(searchText), apiService, true);
                 }
             }
        }
 
-       $scope.urlHashFunction = function(urlObj){
+       $scope.urlHashFunction = function(urlObj) {
             var hash = urlObj.autocompleteVal.length;
-            for(var i=0; i<urlObj.name.length; i++){
+            for(var i=0; i<urlObj.name.length; i++) {
                 hash += urlObj.name.charCodeAt(i);
             }
             return hash;
        }
 
-        $scope.$on("clearUrlOptions", function(){
+        $scope.$on("clearUrlOptions", function() {
             console.log("clearing options");
             $scope.urlOptions = {};
             $scope.urlArray = [];
             $scope.urlArrayHash = {};
         });
 
-        $scope.$on("updateUrlOptions", function(){
+        $scope.$on("updateUrlOptions", function() {
             console.log("updating url options");
             console.log(apiService.entity);
-            if(apiService.entity && apiService.entity.name === apiService.selectedVersion){
+            if (apiService.entity && apiService.entity.name === apiService.selectedVersion) {
                  $scope.urlOptions = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
                  apiService.entity.name = apiService.selectedVersion;
-            }else if(apiService.entity != null){
+            }else if (apiService.entity != null) {
                 $scope.urlOptions = apiService.entity.URLS;  
             }else{
                 return;
             }
 
             //for each new URL to add
-            for(var x in $scope.urlOptions){
+            for(var x in $scope.urlOptions) {
 
-                if(apiService.text.charAt((apiService.text).length-1) != '/'){
+                if (apiService.text.charAt((apiService.text).length-1) != '/') {
                     $scope.urlOptions[x].autocompleteVal = apiService.text + '/' + $scope.urlOptions[x].name;
                 }else{
                     $scope.urlOptions[x].autocompleteVal = apiService.text + $scope.urlOptions[x].name;
@@ -216,18 +215,18 @@ angular.module('ApiExplorer')
                 var hashNumber = $scope.urlHashFunction($scope.urlOptions[x]);
                 var bucket = $scope.urlArrayHash[hashNumber.toString()];
                 //if it exists
-                if(bucket){
+                if (bucket) {
                     var inBucket = false;
                     //for each value already in the hash, 
-                     for(var i=0; i<bucket.length; i++){
+                     for(var i=0; i<bucket.length; i++) {
                         //check to see if its the value to add
-                        if(bucket[i].autocompleteVal === $scope.urlOptions[x].autocompleteVal){
+                        if (bucket[i].autocompleteVal === $scope.urlOptions[x].autocompleteVal) {
                             inBucket = true;
                             break;
                         } 
                      }
 
-                    if(!inBucket){
+                    if (!inBucket) {
                         //if its not, add it
                          bucket.push($scope.urlOptions[x]);
                          $scope.urlArray.push($scope.urlOptions[x]);
@@ -242,7 +241,7 @@ angular.module('ApiExplorer')
 
         });
 
-        $scope.$watch("getEntity()", function(event, args){
+        $scope.$watch("getEntity()", function(event, args) {
             console.log("entity changed - changing URLs");
             $scope.$emit("updateUrlOptions");
 
@@ -250,8 +249,8 @@ angular.module('ApiExplorer')
 
 
        $scope.getMatches = function(query) {
-         if(apiService.cache.get(apiService.selectedVersion + "EntitySetData")){
-              return $scope.urlArray.filter( function(option){
+         if (apiService.cache.get(apiService.selectedVersion + "EntitySetData")) {
+              return $scope.urlArray.filter( function(option) {
 
                   var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
                   var queryIsEmpty = (getEntityName(query).length == 0);
@@ -276,7 +275,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.entityItem = null;
     $scope.hasAResponse = false;
     $scope.insufficientPrivileges = false;
-    if(apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH'){
+    if (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH') {
         $scope.requestTab = 1;
     }else{
         $scope.requestTab = 0;
@@ -284,7 +283,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
     $scope.submissionInProgress = false;
             
-    $scope.getText = function(){
+    $scope.getText = function() {
         return apiService.text;
     }
     
@@ -298,8 +297,8 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     });
     
     //function called when link in the back button history is clicked
-    $scope.historyOnClick = function(input){
-        if(input.urlText == "Query"){
+    $scope.historyOnClick = function(input) {
+        if (input.urlText == "Query") {
             return;
         }
         
@@ -307,16 +306,16 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         apiService.selectedVersion = input.selectedVersion;
         apiService.selectedOption = input.htmlOption;
 
-        if(input.htmlOption == 'POST' || input.htmlOption == 'PATCH'){
+        if (input.htmlOption == 'POST' || input.htmlOption == 'PATCH') {
             apiService.showJsonEditor = true;
-            if($scope.jsonEditor){
+            if ($scope.jsonEditor) {
                 $scope.jsonEditor.getSession().setValue(input.jsonInput);
-            }else{
-                console.log("error: json editor watch event not firing");
+            } else {
+                console.error("json editor watch event not firing");
             }
-        }else{
+        } else {
             //clear jsonEditor
-            if($scope.jsonEditor){
+            if ($scope.jsonEditor) {
                 $scope.jsonEditor.getSession().setValue("");
             }
             apiService.showJsonEditor = false;
@@ -325,7 +324,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         $scope.submit($scope.text);
     }
     
-    $scope.closeAdminConsentBar = function(){
+    $scope.closeAdminConsentBar = function() {
         $scope.insufficientPrivileges = false;
     }
     
@@ -336,20 +335,20 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         // adalService.login();
     }
     
-    $scope.selectedItemChange = function(item){
-        $scope.entityItem = item; 
+    $scope.selectedItemChange = function(item) {
+        $scope.entityItem = item;
     }
     
-    $scope.setSelectedTab = function(num){
-        if(num >= 2 || num < 0){
+    $scope.setSelectedTab = function(num) {
+        if (num >= 2 || num < 0) {
             return;
-        }else{
+        } else {
             $scope.requestTab = num;
         }
     }
 
     $scope.submit = function (query) {
-        if(!query){
+        if (!query) {
             return;
         }
         
@@ -383,7 +382,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         historyObj.htmlOption = apiService.selectedOption;
 
 
-        if(historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH'){
+        if (historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH') {
             historyObj.jsonInput = $scope.jsonEditor.getSession().getValue();
         }else{
             historyObj.jsonInput ="";
@@ -398,7 +397,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             postBody = $scope.jsonEditor.getSession().getValue();
         }
         var requestHeaders = "";
-            if($scope.jsonEditorHeaders != undefined){
+            if ($scope.jsonEditorHeaders != undefined) {
                 requestHeaders = $scope.jsonEditorHeaders.getSession().getValue();
                 requestHeaders = formatRequestHeaders(requestHeaders);
         }
@@ -419,7 +418,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             $scope.hasAResponse = true;
 
 
-            if(apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET"){
+            if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, true, apiService.text);
             }
 

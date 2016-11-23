@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="build/all.min.css">
 
 
+        <!--Client ID and scopes-->
         <script src="secrets.js"></script>
 
 
@@ -30,6 +31,6 @@
         </script>
     </head>
     <body ng-app="ExplorerSampleApp" ng-controller="SampleAppCtrl">
-        <div api-explorer strings="customStrings" scopes="explorerScopes" client-id="clientId"></div>
+        <api-explorer strings="customStrings" scopes="explorerScopes" client-id="clientId"></api-explorer>
     </body>
 </html>
