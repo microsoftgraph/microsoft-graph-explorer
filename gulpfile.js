@@ -12,7 +12,6 @@ const paths = {
       "bower_components/angular-material/angular-material.min.js",
       "bower_components/angular-messages/angular-messages.min.js",
       "bower_components/angular-aria/angular-aria.min.js",
-      "bower_components/angular-bootstrap/ui-bootstrap.min.js",
       "bower_components/hello/dist/hello.all.js",
       "bower_components/hello/dist/hello.js",
       "scripts/api-explorer-init.js",
@@ -22,7 +21,6 @@ const paths = {
       "scripts/**/*.js"
     ],
     stylesheets: [
-      "bower_components/bootstrap/dist/css/bootstrap.min.css",
       "bower_components/angular-material/angular-material.min.css",
       "styles/api-explorer.css"
     ]

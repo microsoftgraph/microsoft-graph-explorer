@@ -1,6 +1,6 @@
 <div ng-app="ApiExplorer" ng-controller="ApiExplorerCtrl" role="document">
-    <div class="full-width-container" style="padding-top:10px;">
-            <div class="container body-content" ng-controller="FormCtrl" ng-cloak>
+    <div style="padding-top:10px;">
+            <div class="body-content" ng-controller="FormCtrl" ng-cloak>
             <div ng-hide="isAuthenticated()" layout="row" layout-align="end center">
                 <span tabindex=0>{{::str.using_sample_tenant}}</span>
                 <md-button tabindex=0 ng-click="login()">{{::str.sign_in}}</md-button>
