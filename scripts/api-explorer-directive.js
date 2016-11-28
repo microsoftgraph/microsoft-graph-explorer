@@ -4,6 +4,7 @@ angular.module('ApiExplorer')
             scope: {
                 strings: '=',
                 scopes: '=',
+                adminScopes: '=',
                 clientId: '='
             },
             templateUrl: 'views/explorer.html',
@@ -26,14 +27,14 @@ angular.module('ApiExplorer')
                 // merge $scope.strings into $scope.str
                 angular.extend($scope.str, $scope.strings);
 
-                // logic that depends on the passed in clientId and scopes
+
                 hello.init( {
-                    msft: $scope.clientId
+                    msft: $scope.clientId,
+                    msft_admin_consent: $scope.clientId,
                 }, {
                     scope: $scope.scopes,
                     response_type: "token"
                 });
-
             }
         };
     });

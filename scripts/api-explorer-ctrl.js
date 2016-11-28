@@ -327,12 +327,12 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.closeAdminConsentBar = function() {
         $scope.insufficientPrivileges = false;
     }
-    
+
     $scope.getAdminConsent = function () {
-        console.log("requesting admin priviliges");
-        // adalService.config.scope = [adminScopes];
-        // adalService.config.adminConsent = true;
-        // adalService.login();
+        hello('msft_admin_consent').login({
+            scope: $scope.adminScopes,
+            display: 'popup'
+        });
     }
     
     $scope.selectedItemChange = function(item) {

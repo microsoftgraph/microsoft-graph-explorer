@@ -36,3 +36,12 @@ $scope.customStrings = {
 ```html
 <api-explorer strings="customStrings"></api-explorer>
 ```
+
+### Administrator Scopes
+
+```javascript
+$scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All"
+```
+```html
+<api-explorer admin-scopes="adminScopes"></api-explorer>
+```
