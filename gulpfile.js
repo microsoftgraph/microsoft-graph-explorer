@@ -38,11 +38,10 @@ gulp.task('scripts', ['clean'], function() {
     .pipe(gulp.dest('build/'));
 });
 
-
 gulp.task('fonts', ['clean'], function() {
   return gulp.src(['./bower_components/components-font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}'])
     .pipe(gulp.dest('fonts/'));
-})
+});
 
 gulp.task('stylesheets', ['clean'], function() {
   return gulp.src(paths.stylesheets)

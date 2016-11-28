@@ -1,7 +1,7 @@
 <html>
     <head>
 
-        <!-- Bootstrap isn't required, just used in sample app for container positioning -->
+        <!-- Bootstrap isn't required to embed the Graph explorer. It's just used in sample app for container positioning -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
         <!-- Graph explorer depends on ACE editor -->
@@ -12,7 +12,7 @@
         <script src="/build/all.min.js"></script>
         <link rel="stylesheet" href="/build/all.min.css">
 
-        <!--Client ID and scopes-->
+        <!-- Client ID and scopes -->
         <script src="/secrets.js"></script>
 
         <script>
@@ -25,16 +25,13 @@
 
                 $scope.clientId = clientId;
                 $scope.explorerScopes = scopes;
-
             }]);
         </script>
     </head>
     
     <body ng-app="ExplorerSampleApp" ng-controller="SampleAppCtrl">
         <div class="container">
-            <div class="row">
-                <api-explorer class="col-md-12" strings="customStrings" admin-scopes="adminScopes" scopes="explorerScopes" client-id="clientId"></api-explorer>
-            </div>
+            <api-explorer strings="customStrings" admin-scopes="adminScopes" scopes="explorerScopes" client-id="clientId"></api-explorer>
         </div>
     </body>
 </html>
