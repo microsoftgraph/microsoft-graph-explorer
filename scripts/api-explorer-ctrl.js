@@ -353,39 +353,22 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         }
         
         apiService.text = query;
-        
-        console.log("submitting " + apiService.text);
         $scope.requestInProgress = true;
-        
-        var accountType = "";
-
-        if ($scope.isAuthenticated()) {
-            // accountType = adalService.getAccountType();
-        }else{
-            accountType = "anonymous";
-        }
-
-        console.log("account type: ", accountType);
-        
-        if (typeof ga !== "undefined") {
-            ga('send', 'account', 'GraphExplorer', accountType);
-            ga('send', 'query', 'GraphExplorer', apiService.selectedOption + " " + query);
-        }
 
         /*MscomCustomEvent('ms.InteractionType', '4', 'ms.controlname', 'graphexplorer', 'ms.ea_action', $scope.selectedOptions, 'ms.contentproperties', $scope.text);*/
         
         //create an object to store the api call
         var historyObj = {};
 
-        historyObj.urlText = apiService.text;
+        historyObj.urlText = query;
         historyObj.selectedVersion = apiService.selectedVersion;
         historyObj.htmlOption = apiService.selectedOption;
 
 
         if (historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH') {
             historyObj.jsonInput = $scope.jsonEditor.getSession().getValue();
-        }else{
-            historyObj.jsonInput ="";
+        } else {
+            historyObj.jsonInput = "";
         }
 
         $scope.showJsonViewer = true;
@@ -397,10 +380,11 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             postBody = $scope.jsonEditor.getSession().getValue();
         }
         var requestHeaders = "";
-            if ($scope.jsonEditorHeaders != undefined) {
-                requestHeaders = $scope.jsonEditorHeaders.getSession().getValue();
-                requestHeaders = formatRequestHeaders(requestHeaders);
+        if ($scope.jsonEditorHeaders != undefined) {
+            requestHeaders = $scope.jsonEditorHeaders.getSession().getValue();
+            requestHeaders = formatRequestHeaders(requestHeaders);
         }
+
         var startTime = new Date();
 
         var handleSuccessfulQueryResponse = function(results, status, headers) {
@@ -414,7 +398,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
                 handleJsonResponse($scope, startTime, results, headers, status);
             }
 
-            saveHistoryObject(status);
+            saveHistoryObject(historyObj, status);
             $scope.hasAResponse = true;
 
 
@@ -427,7 +411,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         var handleUnsuccessfulQueryResponse = function(err, status) {
             handleJsonResponse($scope, startTime, err, null, status);
-            saveHistoryObject(status);
+            saveHistoryObject(historyObj, status);
             $scope.hasAResponse = true;
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
@@ -438,32 +422,26 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             }
         }
 
+
         if ($scope.isAuthenticated()) {
             apiService.performQuery(apiService.selectedOption)(apiService.text, postBody, requestHeaders)
                 .success(handleSuccessfulQueryResponse)
                 .error(handleUnsuccessfulQueryResponse);
 
         } else {
-            if (apiService.selectedOption == "POST" || apiService.selectedOption == "PATCH" || apiService.selectedOption == "DELETE") {
-                var error = "action: " + apiService.selectedOption +  " not supported in anonymous login scenario";
-                console.log(error);
-                handleJsonResponse($scope, startTime, error, null, status);
-                return;
-            }
-            
             apiService.performAnonymousQuery(apiService.selectedOption)(apiService.text, postBody, requestHeaders)
                 .success(handleSuccessfulQueryResponse)
                 .error(handleUnsuccessfulQueryResponse);
         }
         
-        $scope.setSelectedTab(1);  
-
-        function saveHistoryObject(statusCode) {
-            historyObj.successful = statusCode >= 200 && statusCode < 300;
-            historyObj.statusCode = statusCode;
-            historyObj.duration = $scope.duration;
-            $scope.history.splice(0, 0, historyObj); //add history object to the array
-        }
-
+        $scope.setSelectedTab(1);
     };
+
+    
+    function saveHistoryObject(historyObject, statusCode) {
+        historyObject.successful = statusCode >= 200 && statusCode < 300;
+        historyObject.statusCode = statusCode;
+        historyObject.duration = $scope.duration;
+        $scope.history.splice(0, 0, historyObject); //add history object to the array
+    }
 }]);

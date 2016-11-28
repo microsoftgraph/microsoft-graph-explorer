@@ -19,8 +19,7 @@
     height: 60vh;
     background: rgb(230, 230, 230);
     border: 1px solid #ccc;
-    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
-    -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
     margin-top: 10px;
 }
 
@@ -60,22 +59,7 @@
     border-bottom: 1px solid blue;
 }
 
-.panel {
-    margin-bottom: 20px;
-    background-color: #fff;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    border-color:#ddd;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-    color: #333;
-}
-
-.main-query{
-    width: 100%;
-}
-
-#adminConsent{
+#adminConsent {
     font-size: 85%;
     background-color: #ECECEC;
     padding-left: 1em;
@@ -96,12 +80,14 @@
     font-size:18px;
 }
 
-.historyItem{
+.historyItem {
     border-top: 1px solid #808080;
 }
 
-.historyButton[disabled] .historyIcon{
-    -webkit-filter: opacity(50%);
+#historyButton .historyIcon {
+    transition: all 0.25s;
+}
+#historyButton[disabled] .historyIcon {
     filter: opacity(50%);
 }
 
@@ -115,18 +101,18 @@
     padding-right: 10px;
 }
 
-.historyTable th{
+#historyTable th{
    color: #707070;
    font-size: 14px;
    font-weight: 700;
 }
 
-.historyTable td, .historyTable th{
+#historyTable td, #historyTable th{
     padding: 10px;
 }
 
-.historyTable td, .historyTable tr, .historyTable th{
-    border: 1px dotted #707070;
+#historyTable td, #historyTable tr, #historyTable th{
+    border: 1px solid #cecece;
 }
 
 .historyRow:hover {
