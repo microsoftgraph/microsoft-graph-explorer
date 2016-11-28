@@ -1,10 +1,13 @@
-function initializeJsonViewer($scope, run, apiService) {
-    $(document).ready(function() {
+function initializeJsonViewer($scope, apiService) {
+    $(function() {
     
         var jsonViewerElement = document.getElementById("jsonViewer");
         jsonViewer = ace.edit(jsonViewerElement);
         jsonViewer.getSession().setMode("ace/mode/javascript");
+        
+        jsonViewer.$blockScrolling = Infinity;
         jsonViewer.renderer.setOption('showLineNumbers', false);
+        
         jsonViewer.setOptions({
             readOnly: true,
             highlightActiveLine: false,

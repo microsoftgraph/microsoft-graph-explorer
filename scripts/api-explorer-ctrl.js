@@ -4,7 +4,7 @@ angular.module('ApiExplorer')
         hello.on('auth.login', function (auth) {
             var accessToken = hello('msft').getAuthResponse().access_token;
             $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-
+            $scope.userInfo = null;
             apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me/", null, {})
                 .success(function(res, statusCode) {
                     $scope.userInfo = res;
@@ -19,7 +19,6 @@ angular.module('ApiExplorer')
         $scope.showJsonEditor = apiService.showJsonEditor;
         $scope.showJsonViewer = apiService.showJsonViewer;
         $scope.showImage = false;
-        initializeJsonViewer($scope, run, apiService);
         
         var requestVal = $location.search().request;
         var actionVal = $location.search().method;
@@ -29,7 +28,10 @@ angular.module('ApiExplorer')
         
         handleQueryString(apiService, actionVal, versionVal, requestVal);
         
-        initializeJsonEditorHeaders($scope, headersVal); 
+        $(function() {
+            initializeJsonEditorHeaders($scope, headersVal);
+            initializeJsonViewer($scope, apiService);
+        });
         
         parseMetadata(apiService, $scope);
 
@@ -94,7 +96,6 @@ angular.module('ApiExplorer')
 
         $scope.$watch("getOption()", function(newVal, oldVal) {
             if (oldVal !== newVal) {
-                console.log("switching to: " + $scope.selectedOption);
                 apiService.selectedOption = $scope.selectedOption;
                 apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
                 if ($scope.selectedOption == 'POST' || $scope.selectedOption == 'PATCH') {

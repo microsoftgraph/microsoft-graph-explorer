@@ -1,5 +1,5 @@
 <div ng-app="ApiExplorer" ng-controller="ApiExplorerCtrl" role="document">
-    <div ng-controller="FormCtrl" ng-cloak>
+    <form ng-controller="FormCtrl" ng-cloak>
         <div ng-hide="isAuthenticated()" layout="row" layout-align="end center">
             <span tabindex=0>{{::str.using_sample_tenant}}</span>
             <md-button tabindex=0 ng-click="login()">{{::str.sign_in}}</md-button>
@@ -81,6 +81,7 @@
                 </md-menu>
 
                 <!-- autocomplete -->
+                
                 <md-autocomplete flex
                                 role="combobox"
                                 title="{{searchText}}"
@@ -145,5 +146,5 @@
                 </md-tab-body>
             </md-tab>
         </md-tabs>
-    </div>
+    </form>
 </div>
