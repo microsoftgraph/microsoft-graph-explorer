@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "serve": "static-server -p 3000"
   },
   "author": "",
   "devDependencies": {
@@ -13,6 +14,7 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-order": "^1.1.1",
-    "gulp-sourcemaps": "^1.9.1"
+    "gulp-sourcemaps": "^1.9.1",
+    "static-server": "^2.0.3"
   }
 }
