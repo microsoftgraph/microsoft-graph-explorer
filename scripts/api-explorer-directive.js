@@ -7,7 +7,7 @@ angular.module('ApiExplorer')
                 adminScopes: '=',
                 clientId: '='
             },
-            templateUrl: 'views/explorer.html',
+            templateUrl: '/views/explorer.html',
             controller: function ($scope) {
 
                 // default strings
