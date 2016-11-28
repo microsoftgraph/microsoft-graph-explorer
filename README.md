@@ -45,3 +45,8 @@ $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite
 ```html
 <api-explorer admin-scopes="adminScopes"></api-explorer>
 ```
+
+
+
+## Development
+* `npm run gulp` starts gulp
