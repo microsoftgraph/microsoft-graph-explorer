@@ -2,11 +2,12 @@ function initializeJsonEditor($scope, bodyVal) {
     var jsonViewerElement = document.getElementById("jsonEditor");
     jsonEditor = ace.edit(jsonViewerElement);
     jsonEditor.getSession().setMode("ace/mode/javascript");
+    jsonEditor.$blockScrolling = Infinity;
     
     jsonEditor.setShowPrintMargin(false);
-    if(bodyVal){
+    if (bodyVal){
         jsonEditor.getSession().insert(0, bodyVal);
-    }else{
+    } else {
         jsonEditor.getSession().insert(0, " ");
     }
 

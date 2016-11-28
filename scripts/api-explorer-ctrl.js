@@ -20,6 +20,7 @@ angular.module('ApiExplorer')
         $scope.showJsonViewer = apiService.showJsonViewer;
         $scope.showImage = false;
         
+        // For deep linking into the Graph Explorer
         var requestVal = $location.search().request;
         var actionVal = $location.search().method;
         var bodyVal = $location.search().body;
@@ -112,9 +113,6 @@ angular.module('ApiExplorer')
         
 angular.module('ApiExplorer')
     .controller('VersionCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-
-        $scope.selectedVersion = "Version";
-
         $scope.selectedVersion = apiService.selectedVersion;
         
         $scope.items = [
@@ -274,11 +272,11 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.text = apiService.text;
     $scope.requestInProgress = false;
     $scope.entityItem = null;
-    $scope.hasAResponse = false;
     $scope.insufficientPrivileges = false;
+
     if (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH') {
         $scope.requestTab = 1;
-    }else{
+    } else {
         $scope.requestTab = 0;
     }
 
@@ -356,8 +354,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         apiService.text = query;
         $scope.requestInProgress = true;
 
-        /*MscomCustomEvent('ms.InteractionType', '4', 'ms.controlname', 'graphexplorer', 'ms.ea_action', $scope.selectedOptions, 'ms.contentproperties', $scope.text);*/
-        
         //create an object to store the api call
         var historyObj = {};
 
@@ -380,6 +376,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         if ($scope.jsonEditor != undefined) {
             postBody = $scope.jsonEditor.getSession().getValue();
         }
+
         var requestHeaders = "";
         if ($scope.jsonEditorHeaders != undefined) {
             requestHeaders = $scope.jsonEditorHeaders.getSession().getValue();
@@ -400,7 +397,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             }
 
             saveHistoryObject(historyObj, status);
-            $scope.hasAResponse = true;
 
 
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
@@ -413,7 +409,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         var handleUnsuccessfulQueryResponse = function(err, status) {
             handleJsonResponse($scope, startTime, err, null, status);
             saveHistoryObject(historyObj, status);
-            $scope.hasAResponse = true;
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
             }
