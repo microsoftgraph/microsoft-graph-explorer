@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ApiExplorer', ['ngRoute', 'ngAnimate', 'ngMaterial'])
+angular.module('ApiExplorer', ['ngAnimate', 'ngMaterial'])
     .config(['$mdThemingProvider', function ($mdThemingProvider) {
 
     $mdThemingProvider.definePalette('O365PrimaryPalette', {
