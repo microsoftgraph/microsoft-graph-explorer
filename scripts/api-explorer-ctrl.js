@@ -1,20 +1,37 @@
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', function ($scope, $http, $location, apiService) {
+        $scope.finishAdminConsertFlow = function() {
+            // silently get a new access token with the admin scopes
+            hello('msft_token_refresh').login({
+                display: 'popup',
+                response_type: "token",
+                redirect_uri: "http://localhost:3000/sample.html",
+                scope: $scope.scopes + " " + $scope.adminScopes,
+                response_mode: 'fragment',
+                prompt: 'none',
+                domain_hint: 'organizations',
+                login_hint: $scope.userInfo.mail
+            }, function(res) {
+                try {
+                    if (res.authResponse) {
+                        var accessToken = res.authResponse.access_token;
+                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+                    }
+
+                } catch (e) {
+                    console.error(e);
+                }
+            }, function(res) {
+                console.error(res);
+            });
+        }
 
         hello.on('auth.login', function (auth) {
-            var accessToken = hello('msft').getAuthResponse().access_token;
-            $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-            $scope.userInfo = null;
-            apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me/", null, {})
-                .success(function(res, statusCode) {
-                    $scope.userInfo = res;
-                })
-                .error(function() {
-                    console.error("Error getting user info")
-                    debugger;
-                });
+            if (auth.network == "msft") {
+                var accessToken = hello('msft').getAuthResponse().access_token;
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+            }
         });
-
         
         $scope.showJsonEditor = apiService.showJsonEditor;
         $scope.showJsonViewer = apiService.showJsonViewer;
@@ -47,7 +64,7 @@ angular.module('ApiExplorer')
         $scope.getEditor = function() {
             return apiService.showJsonEditor;
         }
-        
+
         $scope.$watch("getEditor()", function(event, args) {
             $scope.showJsonEditor = $scope.getEditor();
             if ($scope.showJsonEditor) {
@@ -55,14 +72,48 @@ angular.module('ApiExplorer')
             }
         });
 
+        function saveUserState(userInfo) {
+            $scope.userInfo = userInfo;
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        }
+
+        function loadUserInfo() {
+            var userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                $scope.userInfo = JSON.parse(userInfo);
+            }
+        }
+
+        function clearUserInfo() {
+            localStorage.clear('userInfo');
+        }
+
+        loadUserInfo();
+
+        // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
         $scope.login = function () {
             hello('msft').login({
-                display: 'popup'
+                display: 'popup',
+                response_type: "id_token token",
+                nonce: "abc"
+            }, function(res) {
+                var accessToken = res.authResponse.access_token;
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+                apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me/", null, {})
+                    .success(function(res, statusCode) {
+                        saveUserState(res);
+                    })
+                    .error(function() {
+                        console.error("Error getting user info");
+                    });
+            }, function() {
+                console.error('error signing in');
             });
         };
-        
+
         $scope.logout = function () {
             hello('msft').logout();
+            clearUserInfo();
         };
 
         $scope.isActive = function (viewLocation) {
@@ -329,9 +380,12 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
     $scope.getAdminConsent = function () {
         hello('msft_admin_consent').login({
-            scope: $scope.adminScopes,
             display: 'popup'
-        });
+        }).then(function() {
+            $scope.finishAdminConsertFlow();
+        }, function() {
+            $scope.finishAdminConsertFlow();
+        })
     }
     
     $scope.selectedItemChange = function(item) {

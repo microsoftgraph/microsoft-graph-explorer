@@ -28,13 +28,16 @@ angular.module('ApiExplorer')
                 angular.extend($scope.str, $scope.strings);
 
 
-                hello.init( {
-                    msft: $scope.clientId,
-                    msft_admin_consent: $scope.clientId,
+                hello.init({
+                    msft: $scope.clientId
                 }, {
-                    scope: $scope.scopes,
-                    response_type: "token"
+                    scope: $scope.scopes
                 });
+
+                hello.init( {
+                    msft_admin_consent: $scope.clientId,
+                    msft_token_refresh: $scope.clientId,
+                }, {});
             }
         };
     });
