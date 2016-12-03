@@ -27,8 +27,15 @@ angular.module('ApiExplorer')
         }
 
         hello.on('auth.login', function (auth) {
-            if (auth.network == "msft") {
-                var accessToken = hello('msft').getAuthResponse().access_token;
+            var accessToken = null;
+
+            if (auth.network == "msft_token_refresh") {
+                accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
+            } else if (auth.network == "msft") {
+                accessToken = hello('msft').getAuthResponse().access_token;
+            }
+
+            if (accessToken) {
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
             }
         });

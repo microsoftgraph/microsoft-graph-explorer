@@ -28,7 +28,7 @@ angular.module('ApiExplorer')
                 angular.extend($scope.str, $scope.strings);
 
 
-                hello.init({
+                hello.init( {
                     msft: $scope.clientId
                 }, {
                     scope: $scope.scopes
