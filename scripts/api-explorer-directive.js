@@ -6,7 +6,7 @@ angular.module('ApiExplorer')
                 scopes: '=',
                 adminScopes: '=',
                 clientId: '=',
-                redirectUrl: '='
+                redirectUrl: '=',
             },
             templateUrl: '/views/explorer.html',
             controller: function ($scope) {

@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const concat = require('gulp-concat');
 const del = require('del');
 const sourcemaps = require('gulp-sourcemaps');
+const minify = require('gulp-minify');
 
 const paths = {
   scripts: [
@@ -34,9 +35,20 @@ gulp.task('clean', function() {
 gulp.task('scripts', ['clean'], function() {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
-    .pipe(concat('all.min.js'))
+    .pipe(concat('all.js'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/'));
+});
+
+gulp.task('minscripts', ['scripts'], function() {
+  return gulp.src(paths.scripts)
+    .pipe(concat('all.js'))
+    .pipe(minify({
+        ext:{
+            src:'.js',
+            min:'.min.js'
+        }}))
+    .pipe(gulp.dest('build/min'));
 });
 
 gulp.task('fonts', ['clean'], function() {
@@ -46,16 +58,16 @@ gulp.task('fonts', ['clean'], function() {
 
 gulp.task('stylesheets', ['clean'], function() {
   return gulp.src(paths.stylesheets)
-    .pipe(concat('all.min.css'))
+    .pipe(concat('all.css'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/'));
 });
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts, ['scripts', 'stylesheets']);
+  gulp.watch(paths.scripts, ['scripts', 'minscripts', 'stylesheets']);
   gulp.watch(paths.stylesheets, ['scripts', 'stylesheets']);
 });
 
 // The default task (called when you run `gulp` from cli) 
-gulp.task('default', ['watch', 'scripts', 'stylesheets', 'fonts']);
+gulp.task('default', ['watch', 'scripts', 'stylesheets', 'fonts', 'minscripts']);
