@@ -12,7 +12,7 @@
         <script src="/build/all.min.js"></script>
         <link rel="stylesheet" href="/build/all.min.css">
 
-        <!-- Client ID and scopes -->
+        <!-- clientId, scopes, redirectUrl -->
         <script src="/secrets.js"></script>
 
         <script>
@@ -21,17 +21,19 @@
                 $scope.customStrings = {
                     "using_sample_tenant": "Using sample account"
                 };
+
                 $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All"
 
-                $scope.clientId = clientId;
-                $scope.explorerScopes = scopes;
+                $scope.clientId = clientId;       //from secrets file
+                $scope.explorerScopes = scopes;   //from secrets file
+                $scope.redirectUrl = redirectUrl; //from secrets file
             }]);
         </script>
     </head>
-    
+
     <body ng-app="ExplorerSampleApp" ng-controller="SampleAppCtrl">
         <div class="container">
-            <api-explorer strings="customStrings" admin-scopes="adminScopes" scopes="explorerScopes" client-id="clientId"></api-explorer>
+            <api-explorer strings="customStrings" admin-scopes="adminScopes" scopes="explorerScopes" client-id="clientId" redirectUrl="redirectUrl"></api-explorer>
         </div>
     </body>
 </html>

@@ -5,7 +5,7 @@
             <md-button tabindex=0 ng-click="login()">{{::str.sign_in}}</md-button>
         </div>
         <div ng-show="isAuthenticated()" layout="row" layout-align="end center" ng-cloak>
-            <span tabindex=0>{{userInfo.mail || userInfo.userPrincipalName}}</span>
+            <span tabindex=0>{{getUsername()}}</span>
             <md-button tabindex=0 ng-click="logout()">{{::str.sign_out}}</md-button>
         </div>
         <div ng-controller="datalistCtrl" role="form">

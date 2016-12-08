@@ -1,17 +1,29 @@
+var a;
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', function ($scope, $http, $location, apiService) {
+        a = $scope;
+        $scope.getUsername = function() {
+            if (!$scope.userInfo) {
+                console.log('userInfo does not exist');
+                return;
+            }
+
+            return $scope.userInfo.mail || $scope.userInfo.userPrincipalName;
+        }
+
         $scope.finishAdminConsertFlow = function() {
             // silently get a new access token with the admin scopes
             hello('msft_token_refresh').login({
                 display: 'popup',
                 response_type: "token",
-                redirect_uri: "http://localhost:3000/sample.html",
+                redirect_uri: $scope.redirectUrl,
                 scope: $scope.scopes + " " + $scope.adminScopes,
                 response_mode: 'fragment',
                 prompt: 'none',
                 domain_hint: 'organizations',
                 login_hint: $scope.userInfo.mail
             }, function(res) {
+                debugger;
                 try {
                     if (res.authResponse) {
                         var accessToken = res.authResponse.access_token;
@@ -22,6 +34,7 @@ angular.module('ApiExplorer')
                     console.error(e);
                 }
             }, function(res) {
+                debugger;
                 console.error(res);
             });
         }
@@ -33,6 +46,15 @@ angular.module('ApiExplorer')
                 accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
             } else if (auth.network == "msft") {
                 accessToken = hello('msft').getAuthResponse().access_token;
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+                apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me/", null, {})
+                    .success(function(res, statusCode) {
+                        saveUserState(res);
+                    })
+                    .error(function() {
+                        console.error("Error getting user info");
+                    });
+
             }
 
             if (accessToken) {
@@ -100,19 +122,11 @@ angular.module('ApiExplorer')
         // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
         $scope.login = function () {
             hello('msft').login({
-                display: 'popup',
+                display: 'page',
                 response_type: "id_token token",
                 nonce: "abc"
             }, function(res) {
-                var accessToken = res.authResponse.access_token;
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-                apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me/", null, {})
-                    .success(function(res, statusCode) {
-                        saveUserState(res);
-                    })
-                    .error(function() {
-                        console.error("Error getting user info");
-                    });
+
             }, function() {
                 console.error('error signing in');
             });
@@ -307,14 +321,14 @@ angular.module('ApiExplorer')
 
        $scope.getMatches = function(query) {
          if (apiService.cache.get(apiService.selectedVersion + "EntitySetData")) {
-              return $scope.urlArray.filter( function(option) {
+              return $scope.urlArray.filter(function(option) {
 
                   var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
                   var queryIsEmpty = (getEntityName(query).length == 0);
 
-                  return  queryIsEmpty || queryInOption;
+                  return queryIsEmpty || queryInOption;
               });
-         }else{
+         } else {
              var obj = {
                  autocompleteVal: apiService.text
              }
@@ -389,8 +403,10 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         hello('msft_admin_consent').login({
             display: 'popup'
         }).then(function() {
+            debugger;
             $scope.finishAdminConsertFlow();
         }, function() {
+            debugger;
             $scope.finishAdminConsertFlow();
         })
     }
