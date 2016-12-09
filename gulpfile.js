@@ -6,13 +6,6 @@ const minify = require('gulp-minify');
 
 const paths = {
   scripts: [
-      "bower_components/jquery/dist/jquery.min.js",
-      "bower_components/angular/angular.min.js",
-      "bower_components/angular-animate/angular-animate.min.js",
-      "bower_components/angular-route/angular-route.min.js",
-      "bower_components/angular-material/angular-material.min.js",
-      "bower_components/angular-messages/angular-messages.min.js",
-      "bower_components/angular-aria/angular-aria.min.js",
       "bower_components/hello/dist/hello.all.js",
       "bower_components/hello/dist/hello.js",
       "scripts/api-explorer-init.js",
@@ -43,11 +36,11 @@ gulp.task('scripts', ['clean'], function() {
 gulp.task('minscripts', ['scripts'], function() {
   return gulp.src(paths.scripts)
     .pipe(concat('all.js'))
-    .pipe(minify({
-        ext:{
-            src:'.js',
-            min:'.min.js'
-        }}))
+    // .pipe(minify({
+    //     ext:{
+    //         src:'.js',
+    //         min:'.min.js'
+    //     }}))
     .pipe(gulp.dest('build/min'));
 });
 
