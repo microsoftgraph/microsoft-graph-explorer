@@ -15,6 +15,6 @@
   ],
   "dependencies": {
     "hello": "^1.14.0",
-    "components-font-awesome": "^4.7.0",
+    "components-font-awesome": "^4.7.0"
   }
 }
