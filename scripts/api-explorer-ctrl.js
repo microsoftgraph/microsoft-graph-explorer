@@ -1,6 +1,6 @@
 var a;
 angular.module('ApiExplorer')
-    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', function ($scope, $http, $location, apiService) {
+    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', function ($scope, $http, $location, apiService, $timeout) {
         a = $scope;
         $scope.getUsername = function() {
             if (!$scope.userInfo) {
@@ -75,7 +75,7 @@ angular.module('ApiExplorer')
         
         handleQueryString(apiService, actionVal, versionVal, requestVal);
         
-        $(function() {
+        $timeout(function() {
             initializeJsonEditorHeaders($scope, headersVal);
             initializeJsonViewer($scope, apiService);
         });

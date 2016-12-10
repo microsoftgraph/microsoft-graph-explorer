@@ -19,6 +19,9 @@ function initializeJsonEditor($scope, bodyVal) {
 
 function initializeJsonEditorHeaders($scope, headersVal) {
     var jsonViewerElement = document.getElementById("jsonEditorHeaders");
+    if (!jsonViewerElement) {
+        console.error('cannot find #jsonEditorHeaders')
+    }
     jsonEditorHeaders = ace.edit(jsonViewerElement);
     jsonEditorHeaders.setShowPrintMargin(false);
     
