@@ -1,12 +1,12 @@
 <div ng-app="ApiExplorer" ng-controller="ApiExplorerCtrl" role="document">
     <form ng-controller="FormCtrl" ng-cloak>
         <div ng-hide="isAuthenticated()" layout="row" layout-align="end center">
-            <span tabindex=0>{{::str.using_sample_tenant}}</span>
-            <md-button tabindex=0 ng-click="login()">{{::str.sign_in}}</md-button>
+            <span tabindex=0>{{::str['Using demo tenant']}}</span>
+            <md-button tabindex=0 ng-click="login()">{{::str['sign in']}}</md-button>
         </div>
         <div ng-show="isAuthenticated()" layout="row" layout-align="end center" ng-cloak>
             <span tabindex=0>{{getUsername()}}</span>
-            <md-button tabindex=0 ng-click="logout()">{{::str.sign_out}}</md-button>
+            <md-button tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
         </div>
         <div ng-controller="datalistCtrl" role="form">
             <div layout="row" layout-align="start center">
@@ -17,16 +17,16 @@
                             <i class="fa fa-history historyIcon" aria-hidden="true"></i>
                         </md-button>
                         <md-tooltip aria-label="history" md-direction="top" ng-cloak>
-                            {{::str.history}}
+                            {{::str['History']}}
                         </md-tooltip>
                     </div>
                     <md-menu-content width="6">
                         <table id="historyTable">
                             <tr>
-                                <th>{{::str.method}}</th>
-                                <th>{{::str.query}}</th>
-                                <th>{{::str.status_code}}</th>
-                                <th>{{::str.duration}}</th>
+                                <th>{{::str['Method']}}</th>
+                                <th>{{::str['Query']}}</th>
+                                <th>{{::str['Status Code']}}</th>
+                                <th>{{::str['Duration']}}</th>
                             </tr>
                             <tr class="historyRow" ng-repeat="call in history" ng-click="historyOnClick(call)">
                                 <td>
@@ -99,7 +99,7 @@
                 <md-button class="md-raised" type="submit" ng-click="submit(searchText)" ng-cloak>
                     <div layout="row" layout-align="center center">
                         <span ng-hide="requestInProgress">
-                            {{str.go}}
+                            {{str.Go}}
                         </span>
                         <md-progress-circular md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular>
                     </div>
@@ -124,12 +124,12 @@
 
         <!-- request -->
         <md-tabs md-dynamic-height md-selected=requestTab ng-cloak>
-            <md-tab label="request header" ng-click="showHeaderEditor = !showHeaderEditor">
+            <md-tab label="{{::str['request header']}}" ng-click="showHeaderEditor = !showHeaderEditor">
                 <md-tab-body>
                     <div id="jsonEditorHeaders" ng-show="showHeaderEditor"></div>
                 </md-tab-body>
             </md-tab>
-            <md-tab label="request body" ng-click="showBodyEditor = !showBodyEditor" ng-disabled="!showJsonEditor">
+            <md-tab label="{{::str['request body']}}" ng-click="showBodyEditor = !showBodyEditor" ng-disabled="!showJsonEditor">
                 <md-tab-body>
                     <div id="jsonEditor" ng-show="showBodyEditor"></div>
                 </md-tab-body>
@@ -140,7 +140,7 @@
 
         <!-- response -->
         <md-tabs md-dynamic-height ng-cloak>
-            <md-tab label="response">
+            <md-tab label="{{::str['response']}}">
                 <md-tab-body>
                     <div id="jsonViewer"></div>
                 </md-tab-body>

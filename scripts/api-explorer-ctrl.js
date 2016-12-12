@@ -4,7 +4,6 @@ angular.module('ApiExplorer')
         a = $scope;
         $scope.getUsername = function() {
             if (!$scope.userInfo) {
-                console.log('userInfo does not exist');
                 return;
             }
 

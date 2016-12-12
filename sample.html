@@ -43,13 +43,15 @@
                 $scope.clientId = clientId;       //from secrets file
                 $scope.explorerScopes = scopes;   //from secrets file
                 $scope.redirectUrl = redirectUrl; //from secrets file
+
+                $scope.lang = 'en_us';// 'ja_jp'
             }]);
         </script>
     </head>
 
     <body ng-app="ExplorerSampleApp" ng-controller="SampleAppCtrl">
         <div class="container">
-            <api-explorer strings="customStrings" admin-scopes="adminScopes" scopes="explorerScopes" client-id="clientId" redirectUrl="redirectUrl"></api-explorer>
+            <api-explorer language="lang" strings="customStrings" admin-scopes="adminScopes" scopes="explorerScopes" client-id="clientId" redirectUrl="redirectUrl"></api-explorer>
         </div>
     </body>
 </html>

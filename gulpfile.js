@@ -12,6 +12,7 @@ const paths = {
       "scripts/api-explorer-helpers.js",
       "scripts/api-explorer-app.js",
       "scripts/api-explorer-svc.js",
+      "scripts/loc_strings.js",
       "scripts/**/*.js"
     ],
     stylesheets: [

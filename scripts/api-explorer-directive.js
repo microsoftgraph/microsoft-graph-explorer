@@ -3,6 +3,7 @@ angular.module('ApiExplorer')
         return {
             scope: {
                 strings: '=',
+                language: '=',
                 scopes: '=',
                 adminScopes: '=',
                 clientId: '=',
@@ -12,18 +13,12 @@ angular.module('ApiExplorer')
             controller: function ($scope) {
 
                 // default strings
-                $scope.str = {
-                    "go": "go",
-                    "login_to_send_requests": "Login to send other types of requests",
-                    "method": "Method",
-                    "status_code": "Status Code",
-                    "duration": "Duration",
-                    "query": "Query",
-                    "history": "History",
-                    "sign_in": "sign in",
-                    "sign_out": "sign out",
-                    "using_sample_tenant": "Using demo tenant"
-                };
+                $scope.str = loc_strings['en_us'];
+
+                // if the user specified a language, use that instead
+                if ($scope.language) {
+                    $scope.str = loc_strings[$scope.language];
+                }
 
                 // merge $scope.strings into $scope.str
                 angular.extend($scope.str, $scope.strings);
