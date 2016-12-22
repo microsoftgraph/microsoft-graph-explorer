@@ -2,11 +2,11 @@
     <form ng-controller="FormCtrl" ng-cloak>
         <div ng-hide="isAuthenticated()" layout="row" layout-align="end center">
             <span tabindex=0>{{::str['Using demo tenant']}}</span>
-            <md-button tabindex=0 ng-click="login()">{{::str['sign in']}}</md-button>
+            <md-button id="signin" tabindex=0 ng-click="login()">{{::str['sign in']}}</md-button>
         </div>
         <div ng-show="isAuthenticated()" layout="row" layout-align="end center" ng-cloak>
-            <span tabindex=0>{{getUsername()}}</span>
-            <md-button tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
+            <span id='userEmail' ng-if="userInfo.preferred_username" tabindex=0>{{userInfo.preferred_username}}</span>
+            <md-button id="signout" tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
         </div>
         <div ng-controller="datalistCtrl" role="form">
             <div layout="row" layout-align="start center">

@@ -6,6 +6,7 @@ const minify = require('gulp-minify');
 
 const paths = {
   scripts: [
+      "bower_components/jwt-decode/build/jwt-decode.min.js",
       "bower_components/hello/dist/hello.all.js",
       "bower_components/hello/dist/hello.js",
       "scripts/api-explorer-init.js",

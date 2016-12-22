@@ -1,14 +1,8 @@
-var a;
+var s;
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', function ($scope, $http, $location, apiService, $timeout) {
-        a = $scope;
-        $scope.getUsername = function() {
-            if (!$scope.userInfo) {
-                return;
-            }
-
-            return $scope.userInfo.mail || $scope.userInfo.userPrincipalName;
-        }
+        s = $scope;
+        $scope.userInfo = {};
 
         $scope.finishAdminConsertFlow = function() {
             // silently get a new access token with the admin scopes
@@ -20,9 +14,8 @@ angular.module('ApiExplorer')
                 response_mode: 'fragment',
                 prompt: 'none',
                 domain_hint: 'organizations',
-                login_hint: $scope.userInfo.mail
+                login_hint: $scope.userInfo.preferred_username
             }, function(res) {
-                debugger;
                 try {
                     if (res.authResponse) {
                         var accessToken = res.authResponse.access_token;
@@ -33,26 +26,31 @@ angular.module('ApiExplorer')
                     console.error(e);
                 }
             }, function(res) {
-                debugger;
                 console.error(res);
             });
         }
 
         hello.on('auth.login', function (auth) {
-            var accessToken = null;
+            var accessToken;
 
             if (auth.network == "msft_token_refresh") {
                 accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
             } else if (auth.network == "msft") {
-                accessToken = hello('msft').getAuthResponse().access_token;
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-                apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me/", null, {})
-                    .success(function(res, statusCode) {
-                        saveUserState(res);
-                    })
-                    .error(function() {
-                        console.error("Error getting user info");
-                    });
+                var authResponse = hello('msft').getAuthResponse()
+
+                accessToken = authResponse.access_token;
+
+                var jwt;
+                if ('id_token' in authResponse) {
+                    jwt = authResponse['id_token'];
+                }
+
+                var decodedJwt = jwt_decode(jwt);
+
+                $scope.userInfo = {
+                    preferred_username: decodedJwt.preferred_username
+                }
+                $scope.$apply();
 
             }
 
@@ -100,30 +98,14 @@ angular.module('ApiExplorer')
             }
         });
 
-        function saveUserState(userInfo) {
-            $scope.userInfo = userInfo;
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        }
-
-        function loadUserInfo() {
-            var userInfo = localStorage.getItem('userInfo');
-            if (userInfo) {
-                $scope.userInfo = JSON.parse(userInfo);
-            }
-        }
-
-        function clearUserInfo() {
-            localStorage.clear('userInfo');
-        }
-
-        loadUserInfo();
-
         // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
         $scope.login = function () {
             hello('msft').login({
                 display: 'page',
                 response_type: "id_token token",
-                nonce: "abc"
+                nonce: "abc",
+                force: true,
+                prompt: 'login'
             }, function(res) {
 
             }, function() {
@@ -132,8 +114,9 @@ angular.module('ApiExplorer')
         };
 
         $scope.logout = function () {
-            hello('msft').logout();
-            clearUserInfo();
+            hello('msft').logout(null, {force:true});
+            // clearUserInfo();
+            delete $scope.userInfo;
         };
 
         $scope.isActive = function (viewLocation) {
@@ -402,10 +385,8 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         hello('msft_admin_consent').login({
             display: 'popup'
         }).then(function() {
-            debugger;
             $scope.finishAdminConsertFlow();
         }, function() {
-            debugger;
             $scope.finishAdminConsertFlow();
         })
     }
