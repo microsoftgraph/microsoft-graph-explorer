@@ -199,9 +199,7 @@ angular.module('ApiExplorer')
 
 angular.module('ApiExplorer')
     .controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-        $scope.urlOptions = {};
-        $scope.urlArray = []; 
-        $scope.urlArrayHash = {};
+        $scope.urlArray = [];
         
         $scope.getEntity = function() {
             return apiService.entity;
@@ -226,68 +224,30 @@ angular.module('ApiExplorer')
             }
        }
 
-       $scope.urlHashFunction = function(urlObj) {
-            var hash = urlObj.autocompleteVal.length;
-            for(var i=0; i<urlObj.name.length; i++) {
-                hash += urlObj.name.charCodeAt(i);
-            }
-            return hash;
-       }
-
-        $scope.$on("clearUrlOptions", function() {
-            console.log("clearing options");
-            $scope.urlOptions = {};
-            $scope.urlArray = [];
-            $scope.urlArrayHash = {};
-        });
-
         $scope.$on("updateUrlOptions", function() {
-            console.log("updating url options");
-            console.log(apiService.entity);
+            var urlOptions = {};
+            console.log("updating url options for", apiService.entity);
             if (apiService.entity && apiService.entity.name === apiService.selectedVersion) {
-                 $scope.urlOptions = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
+                 urlOptions = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
                  apiService.entity.name = apiService.selectedVersion;
-            }else if (apiService.entity != null) {
-                $scope.urlOptions = apiService.entity.URLS;  
-            }else{
+            } else if (apiService.entity != null) {
+                urlOptions = apiService.entity.URLS;
+            } else {
                 return;
             }
 
             //for each new URL to add
-            for(var x in $scope.urlOptions) {
+            for(var x in urlOptions) {
 
+                var separator = '';
                 if (apiService.text.charAt((apiService.text).length-1) != '/') {
-                    $scope.urlOptions[x].autocompleteVal = apiService.text + '/' + $scope.urlOptions[x].name;
-                }else{
-                    $scope.urlOptions[x].autocompleteVal = apiService.text + $scope.urlOptions[x].name;
+                    separator = '/'
                 }
 
-                //find the hash bucket that it would be in
-                var hashNumber = $scope.urlHashFunction($scope.urlOptions[x]);
-                var bucket = $scope.urlArrayHash[hashNumber.toString()];
-                //if it exists
-                if (bucket) {
-                    var inBucket = false;
-                    //for each value already in the hash, 
-                     for(var i=0; i<bucket.length; i++) {
-                        //check to see if its the value to add
-                        if (bucket[i].autocompleteVal === $scope.urlOptions[x].autocompleteVal) {
-                            inBucket = true;
-                            break;
-                        } 
-                     }
+                urlOptions[x].autocompleteVal = apiService.text + separator + urlOptions[x].name;
 
-                    if (!inBucket) {
-                        //if its not, add it
-                         bucket.push($scope.urlOptions[x]);
-                         $scope.urlArray.push($scope.urlOptions[x]);
-                    }
-
-                }else{
-                    //if the bucket does not already exist, create a new array and add it
-                     $scope.urlArrayHash[hashNumber.toString()] = [$scope.urlOptions[x]];
-                     $scope.urlArray.unshift($scope.urlOptions[x]);
-                }
+                if ($scope.urlArray.indexOf(urlOptions[x]) == -1)
+                    $scope.urlArray.push(urlOptions[x]);
             }
 
         });
@@ -295,7 +255,6 @@ angular.module('ApiExplorer')
         $scope.$watch("getEntity()", function(event, args) {
             console.log("entity changed - changing URLs");
             $scope.$emit("updateUrlOptions");
-
         }, true);
 
 
