@@ -224,7 +224,7 @@ angular.module('ApiExplorer')
             }
        }
 
-        $scope.$on("updateUrlOptions", function() {
+        function updateUrlOptions() {
             var urlOptions = {};
             console.log("updating url options for", apiService.entity);
             if (apiService.entity && apiService.entity.name === apiService.selectedVersion) {
@@ -250,13 +250,10 @@ angular.module('ApiExplorer')
                     $scope.urlArray.push(urlOptions[x]);
             }
 
-        });
+        };
 
-        $scope.$watch("getEntity()", function(event, args) {
-            console.log("entity changed - changing URLs");
-            $scope.$emit("updateUrlOptions");
-        }, true);
-
+        // mostly used for the initial page load, when the entity is set (me/user),  load the possible URL options
+        $scope.$watch("getEntity()", updateUrlOptions, true);
 
        $scope.getMatches = function(query) {
          if (apiService.cache.get(apiService.selectedVersion + "EntitySetData")) {
