@@ -103,8 +103,6 @@ angular.module('ApiExplorer')
             hello('msft').login({
                 display: 'page',
                 response_type: "id_token token",
-                nonce: "abc",
-                force: true,
                 prompt: 'login'
             }, function(res) {
 
