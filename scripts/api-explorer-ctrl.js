@@ -217,10 +217,8 @@ angular.module('ApiExplorer')
        $scope.searchTextChange = function(searchText) {
             this.searchText = searchText;
             if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
-                if (apiService.cache.get(apiService.selectedVersion + "Metadata")) {
-                    apiService.text = searchText;
-                    setEntity(getEntityName(searchText), apiService, true);
-                }
+                apiService.text = searchText;
+                setEntity(getEntityName(searchText), apiService, true);
             }
        }
 
