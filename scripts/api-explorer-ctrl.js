@@ -169,14 +169,14 @@ angular.module('ApiExplorer')
         
         $scope.items = [
             'beta',
-            'v1.0',
-          ];
+            'v1.0'
+        ];
     
         $scope.getVersion = function() {
             return $scope.selectedVersion;
         }
-        
-       $scope.getServiceVersion = function() {
+
+        $scope.getServiceVersion = function() {
             return apiService.selectedVersion;
         }
         
@@ -200,7 +200,7 @@ angular.module('ApiExplorer')
 angular.module('ApiExplorer')
     .controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
         $scope.urlArray = [];
-        
+
         $scope.getEntity = function() {
             return apiService.entity;
         }
@@ -208,7 +208,7 @@ angular.module('ApiExplorer')
         $scope.getText = function() {
             return apiService.text;
         }
-        
+
         $scope.$watch("getText()", function(event, args) {
              $scope.text = apiService.text;
              this.searchText = $scope.text;
@@ -236,7 +236,6 @@ angular.module('ApiExplorer')
 
             //for each new URL to add
             for(var x in urlOptions) {
-
                 var separator = '';
                 if (apiService.text.charAt((apiService.text).length-1) != '/') {
                     separator = '/'
@@ -247,27 +246,18 @@ angular.module('ApiExplorer')
                 if ($scope.urlArray.indexOf(urlOptions[x]) == -1)
                     $scope.urlArray.push(urlOptions[x]);
             }
-
         };
 
         // mostly used for the initial page load, when the entity is set (me/user),  load the possible URL options
         $scope.$watch("getEntity()", updateUrlOptions, true);
 
        $scope.getMatches = function(query) {
-         if (apiService.cache.get(apiService.selectedVersion + "EntitySetData")) {
-              return $scope.urlArray.filter(function(option) {
+            return $scope.urlArray.filter(function(option) {
+                var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
+                var queryIsEmpty = (getEntityName(query).length == 0);
 
-                  var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
-                  var queryIsEmpty = (getEntityName(query).length == 0);
-
-                  return queryIsEmpty || queryInOption;
-              });
-         } else {
-             var obj = {
-                 autocompleteVal: apiService.text
-             }
-             return [obj];
-         }
+                return queryIsEmpty || queryInOption;
+            });
      }
         
 }]);
