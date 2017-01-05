@@ -5,9 +5,17 @@
 var assert = chai.assert;
 var testCases = {
     validURLs: [
-        'me/accountEnabled',
+        'me',
+        'me/manager',
         'me/messages',
-        'me/manager'
+        'users',
+        'drives',
+        'me/photo/width',
+        'me/events',
+        'me/contactFolders',
+        'me/registeredDevices/',
+        'organization',
+        'me/photo/$value'
     ]
 }
 
@@ -62,7 +70,7 @@ function isValidURL(validURLs, url) {
     return validURLs.indexOf(url) != -1;
 }
 
-describe('Autocomplete URLs', function() {
+describe('Autocomplete URLs/', function() {
     this.timeout(15000);
     var generatedURLs = [];
 
@@ -77,9 +85,14 @@ describe('Autocomplete URLs', function() {
 
     for (var i=0;i<testCases.validURLs.length;i++) {
         var validURL = testCases.validURLs[i];
-        it(validURL, function(done) {
-            assert.includeMembers(generatedURLs, [[baseURL,version,validURL].join('/')])
-            done();
-        });
+        (function(url) {
+            let _url = url;
+            it(url, function(done) {
+                var url = [baseURL,version,_url].join('/');
+                console.log(url);
+                assert.includeMembers(generatedURLs, [url])
+                done();
+            });
+        })(validURL)
     }
 });
