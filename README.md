@@ -1,6 +1,9 @@
 # Microsoft Graph Explorer
 The Microsoft Graph explorer lets developers quickly navigate and test API endpoints.  The explorer is a client side web app written in JavaScript and powered by AngularJS.
 
+
+![Autocompletion on API endpoints](https://devofficestaging.blob.core.windows.net/media/Default/Blogs/ge-animated.gif)
+
 ## Running the sample
 * `npm install`
 * `bower install`
