@@ -103,6 +103,7 @@ angular.module('ApiExplorer')
             hello('msft').login({
                 display: 'page',
                 response_type: "id_token token",
+                nonce: 'graph_explorer',
                 prompt: 'login'
             }, function(res) {
 
@@ -197,68 +198,69 @@ angular.module('ApiExplorer')
         });
 }]);
 
-angular.module('ApiExplorer')
-    .controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-        $scope.urlArray = [];
+angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
+    $scope.urlArray = [];
 
-        $scope.getEntity = function() {
-            return apiService.entity;
+    $scope.getEntity = function() {
+        return apiService.entity;
+    }
+
+    $scope.getText = function() {
+        return apiService.text;
+    }
+
+    $scope.$watch("getText()", function(event, args) {
+            $scope.text = apiService.text;
+            this.searchText = $scope.text;
+    });
+
+    $scope.searchTextChange = function(searchText) {
+        this.searchText = searchText;
+        if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
+            apiService.text = searchText;
+            setEntity(getEntityName(searchText), apiService, true);
+        }
+    }
+
+    function updateUrlOptions() {
+        var urlOptions = {};
+        console.log("updating url options for", apiService.entity);
+        if (apiService.entity && apiService.entity.name === apiService.selectedVersion) {
+                urlOptions = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
+                apiService.entity.name = apiService.selectedVersion;
+        } else if (apiService.entity != null) {
+            urlOptions = apiService.entity.URLS;
+        } else {
+            return;
         }
 
-        $scope.getText = function() {
-            return apiService.text;
+        //for each new URL to add
+        for(var x in urlOptions) {
+            var separator = '';
+            if (apiService.text.charAt((apiService.text).length-1) != '/') {
+                separator = '/'
+            }
+
+            urlOptions[x].autocompleteVal = apiService.text + separator + urlOptions[x].name;
+
+            if ($scope.urlArray.indexOf(urlOptions[x]) == -1)
+                $scope.urlArray.push(urlOptions[x]);
         }
+    };
 
-        $scope.$watch("getText()", function(event, args) {
-             $scope.text = apiService.text;
-             this.searchText = $scope.text;
-        });
+    // mostly used for the initial page load, when the entity is set (me/user),  load the possible URL options
+    $scope.$watch("getEntity()", updateUrlOptions, true);
 
-       $scope.searchTextChange = function(searchText) {
-            this.searchText = searchText;
-            if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
-                apiService.text = searchText;
-                setEntity(getEntityName(searchText), apiService, true);
-            }
-       }
-
-        function updateUrlOptions() {
-            var urlOptions = {};
-            console.log("updating url options for", apiService.entity);
-            if (apiService.entity && apiService.entity.name === apiService.selectedVersion) {
-                 urlOptions = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
-                 apiService.entity.name = apiService.selectedVersion;
-            } else if (apiService.entity != null) {
-                urlOptions = apiService.entity.URLS;
-            } else {
-                return;
-            }
-
-            //for each new URL to add
-            for(var x in urlOptions) {
-                var separator = '';
-                if (apiService.text.charAt((apiService.text).length-1) != '/') {
-                    separator = '/'
-                }
-
-                urlOptions[x].autocompleteVal = apiService.text + separator + urlOptions[x].name;
-
-                if ($scope.urlArray.indexOf(urlOptions[x]) == -1)
-                    $scope.urlArray.push(urlOptions[x]);
-            }
-        };
-
-        // mostly used for the initial page load, when the entity is set (me/user),  load the possible URL options
-        $scope.$watch("getEntity()", updateUrlOptions, true);
-
-       $scope.getMatches = function(query) {
+    $scope.getMatches = function(query) {
             return $scope.urlArray.filter(function(option) {
                 var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
                 var queryIsEmpty = (getEntityName(query).length == 0);
 
                 return queryIsEmpty || queryInOption;
             });
-     }
+    }
+
+     runAutoCompleteTests(apiService);
         
 }]);
 
@@ -384,15 +386,17 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         var startTime = new Date();
 
-        var handleSuccessfulQueryResponse = function(results, status, headers) {
+        var handleSuccessfulQueryResponse = function(result) {
+            var status = result.status;
+            var headers = result.headers;
             if (isImageResponse(headers)) {
-                handleImageResponse($scope, apiService, startTime, results, headers, status, handleUnsuccessfulQueryResponse);
+                handleImageResponse($scope, apiService, startTime, result, headers, status, handleUnsuccessfulQueryResponse);
             } else if (isHtmlResponse(headers)) {
-                handleHtmlResponse($scope, startTime, results, headers, status);
-            } else if (isXmlResponse(results)) {
-                handleXmlResponse($scope, startTime, results, headers, status);
+                handleHtmlResponse($scope, startTime, result, headers, status);
+            } else if (isXmlResponse(result)) {
+                handleXmlResponse($scope, startTime, result, headers, status);
             } else {
-                handleJsonResponse($scope, startTime, results, headers, status);
+                handleJsonResponse($scope, startTime, result, headers, status);
             }
 
             saveHistoryObject(historyObj, status);
@@ -405,8 +409,8 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             $scope.insufficientPrivileges = false;
         }
 
-        var handleUnsuccessfulQueryResponse = function(err, status) {
-            handleJsonResponse($scope, startTime, err, null, status);
+        var handleUnsuccessfulQueryResponse = function(result) {
+            handleJsonResponse($scope, startTime, result.data.error, null, result.status);
             saveHistoryObject(historyObj, status);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
@@ -420,13 +424,11 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         if ($scope.isAuthenticated()) {
             apiService.performQuery(apiService.selectedOption)(apiService.text, postBody, requestHeaders)
-                .success(handleSuccessfulQueryResponse)
-                .error(handleUnsuccessfulQueryResponse);
+                .then(handleSuccessfulQueryResponse, handleUnsuccessfulQueryResponse);
 
         } else {
             apiService.performAnonymousQuery(apiService.selectedOption)(apiService.text, postBody, requestHeaders)
-                .success(handleSuccessfulQueryResponse)
-                .error(handleUnsuccessfulQueryResponse);
+                .then(handleSuccessfulQueryResponse, handleUnsuccessfulQueryResponse);
         }
         
         $scope.setSelectedTab(1);

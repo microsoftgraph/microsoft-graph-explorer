@@ -17,5 +17,16 @@
     "hello": "^1.14.0",
     "components-font-awesome": "^4.7.0",
     "jwt-decode": "^2.1.0"
+  },
+  "devDependencies": {
+    "mocha":"latest",
+    "chai": "latest",
+    "jQuery": "latest",
+    "bootstrap": "latest",
+    "angular-material": "latest",
+    "angular-animate": "latest",
+    "angular-messages": "latest",
+    "angular-route": "latest",
+    "angular-aria": "latest"
   }
 }

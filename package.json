@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha-phantomjs --ignore-ssl-errors=true --ssl-protocol=any http://localhost:3000/testGraphExplorer.html ",
     "gulp": "gulp",
     "serve": "static-server -p 3000"
   },
@@ -16,6 +16,8 @@
     "gulp-minify": "0.0.14",
     "gulp-order": "^1.1.1",
     "gulp-sourcemaps": "^1.9.1",
-    "static-server": "^2.0.3"
+    "phantomjs-prebuilt": "^2.1.14",
+    "static-server": "^2.0.3",
+    "mocha-phantomjs": "^4.1.0"
   }
 }

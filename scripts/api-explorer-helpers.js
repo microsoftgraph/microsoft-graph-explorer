@@ -313,8 +313,6 @@ var setEntity = function(entityItem, service, lastCallSuccessful) {
     } else {
        var entityName = getEntityName(service.text);
     }
-        
-    console.log("setting entity to", entityName);
     
     var prevCallName = getEntityName(getPreviousCall(service.text, entityName));
     var twoPrevCallsName = getEntityName(getPreviousCall(getPreviousCall(service.text, entityName), prevCallName));
@@ -430,7 +428,7 @@ var parseMetadata = function(service, $scope){
     var entitySetData, entityTypeData;
     if(!service.cache.get(service.selectedVersion + "Metadata")) {
          console.log("parsing metadata");
-         service.getMetadata().success(function(results) {
+         service.getMetadata().then(function(results) {
                 results = JSON.stringify(results, null, 4).trim();
                 service.cache.put(service.selectedVersion + "Metadata", results);
                 entitySetData = getEntitySets(results);
@@ -445,7 +443,7 @@ var parseMetadata = function(service, $scope){
                 }
                 
           $scope.$root.$broadcast("updateUrlOptions");
-         }).error(function(err, status){
+         }, function(err, status){
             console.error("metadata could not be parsed");
          });
      } else {
