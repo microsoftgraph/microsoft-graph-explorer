@@ -1,3 +1,4 @@
+<!-- Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information. -->
 <html>
     <head>
         <!-- Bootstrap isn't required to embed the Graph explorer. It's just used in sample app for container positioning -->
@@ -32,6 +33,7 @@
         <script src="/secrets.js"></script>
 
         <script>
+            window.runTests = true;
             angular.module('ExplorerSampleApp', ['ApiExplorer'])
             .controller('SampleAppCtrl', ['$scope', function($scope) {
                 $scope.customStrings = {

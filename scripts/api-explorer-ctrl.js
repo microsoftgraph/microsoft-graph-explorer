@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
 var s;
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', function ($scope, $http, $location, apiService, $timeout) {
@@ -260,7 +264,8 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
             });
     }
 
-     runAutoCompleteTests(apiService);
+    if (window.runTests)
+         runAutoCompleteTests(apiService);
         
 }]);
 

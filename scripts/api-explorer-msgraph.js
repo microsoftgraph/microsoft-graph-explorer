@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
 var msGraphLinkResolution = function ($scope, body, args, service) {
     if (args.indexOf("https://") == -1) {
         if (service.text.indexOf(args.substr(1)) != -1) {

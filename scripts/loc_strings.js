@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
 var loc_strings = {};
 
 loc_strings['en_us'] = {"To try the explorer, please ":"To try the explorer, please ","sign in":"sign in"," with your work or school account from Microsoft.":" with your work or school account from Microsoft.","Submit":"Submit","Using demo tenant":"Using demo tenant","sign out":"sign out","History":"History","Method":"Method","Query":"Query","Status Code":"Status Code","Duration":"Duration","Go":"Go","YES":"YES","NO":"NO","request header":"request header","request body":"request body","response":"response"}
