@@ -60,3 +60,13 @@ $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite
 
 ## Tests
 * `npm test`
+
+## Contributing
+Please see the [contributing guidelines](CONTRIBUTING.md).
+
+## Additional resources
+* [Microsoft Graph website](https://graph.microsoft.io)
+* [Office Dev Center](http://dev.office.com/)
+
+## Copyright
+Copyright (c) 2017 Microsoft. All rights reserved.
