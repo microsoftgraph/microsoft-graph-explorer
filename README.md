@@ -62,7 +62,8 @@ $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite
 * `npm run gulp` starts gulp
 
 ## Tests
-* `npm test`
+* `npm test` to run tests from the command line
+* You can also run the mocha tests by launching [spec/GraphExplorerBrowserTests.html](spec/GraphExplorerBrowserTests.html)
 
 ## Contributing
 Please see the [contributing guidelines](CONTRIBUTING.md).
