@@ -406,8 +406,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         }
 
         var handleUnsuccessfulQueryResponse = function(result) {
-            var headers = result.headers;
-            handleJsonResponse($scope, startTime, result.data.error, headers, result.status);
+            handleJsonResponse($scope, startTime, result.data.error, result.headers, result.status);
             saveHistoryObject(historyObj, status);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
