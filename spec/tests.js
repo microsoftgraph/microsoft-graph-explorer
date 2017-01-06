@@ -13,9 +13,25 @@ var testCases = {
         'me/photo/width',
         'me/events',
         'me/contactFolders',
-        'me/registeredDevices/',
+        'me/registeredDevices',
         'organization',
         'me/photo/$value'
+    ],
+    invalidURLs: [
+        'me/users',
+        'user',
+        'me/manager/manager',
+        'me/photos',
+        'events',
+        'organizations',
+        'me/photo/size',
+        'me/registeredDevice',
+        'me/mySites',
+        'me//manager',
+        'me/manager/photo',
+        'shares',
+        'workbooks',
+        'me/drive/items'
     ]
 }
 
@@ -48,7 +64,7 @@ function addURLs(UrlArrayDestination, basePath, entity, maxDepthRemaining) {
         if (generatedPath.autocompleteVal)
             subPath = generatedPath.autocompleteVal;
         else
-            subPath = apiService.text + "/" + generatedPath.name;
+            subPath = URL + "/" + generatedPath.name;
 
         UrlArrayDestination.push(subPath);
         if (!generatedPath.isACollection) {
@@ -70,29 +86,45 @@ function isValidURL(validURLs, url) {
     return validURLs.indexOf(url) != -1;
 }
 
-describe('Autocomplete URLs/', function() {
+describe('Autocomplete URLs', function() {
     this.timeout(15000);
     var generatedURLs = [];
 
-    it ('Generate a list of URLs from the v1.0 meatadata', function(done) {
-        setTimeout(function() {
-            generatedURLs = generateValidURLs();
-            console.log('Generated ' + generatedURLs.length + ' urls to compare test cases against');
-            done();
-        },  2000);
+    describe('Parsing metadata', function() {
+        it ('Generate a list of URLs from the v1.0 meatadata', function(done) {
+            setTimeout(function() {
+                generatedURLs = generateValidURLs();
+                console.log('Generated ' + generatedURLs.length + ' urls to compare test cases against');
+                done();
+            },  2000);
+        });
     });
 
+    describe('Positive results - these URLs should autocomplete', function() {
+        for (var i=0;i<testCases.validURLs.length;i++) {
+            var validURL = testCases.validURLs[i];
+            (function(url) {
+                let _url = url;
+                it(url, function(done) {
+                    var url = [baseURL,version,_url].join('/');
+                    assert(generatedURLs.indexOf(url) != -1, "Missing URL");
+                    done();
+                });
+            })(validURL)
+        }
+    });
 
-    for (var i=0;i<testCases.validURLs.length;i++) {
-        var validURL = testCases.validURLs[i];
-        (function(url) {
-            let _url = url;
-            it(url, function(done) {
-                var url = [baseURL,version,_url].join('/');
-                console.log(url);
-                assert.includeMembers(generatedURLs, [url])
-                done();
-            });
-        })(validURL)
-    }
+    describe('Negative results - these URLs should not autocomplete', function() {
+        for (var i=0;i<testCases.invalidURLs.length;i++) {
+            var invalidURL = testCases.invalidURLs[i];
+            (function(url) {
+                let _url = url;
+                it(url, function(done) {
+                    var url = [baseURL,version,_url].join('/');
+                    assert(generatedURLs.indexOf(url) == -1, "Providing user with invalid autocomplete URL");
+                    done();
+                });
+            })(invalidURL)
+        }
+    });
 });
