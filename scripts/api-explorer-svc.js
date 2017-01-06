@@ -27,34 +27,34 @@ angular.module('ApiExplorer')
             entityNameIsAnId: false,
             
             performAnonymousQuery: function (queryType) {
-                    return function (query, postString, requestHeaders) {
-                         var headersObj = {
-                             "Authorization": "Bearer {token:https://graph.microsoft.com/}",
-                             "Accept": "application/json"    
-                        };
-
-                        if (requestHeaders && requestHeaders["Authorization"]){
-                            headersObj["Authorization"] = requestHeaders["Authorization"];
-                        }
-
-                        if (requestHeaders && requestHeaders["Accept"]){
-                            headersObj["Accept"] = requestHeaders["Accept"];
-                        }
-
-                        var request = {
-                            url: 'https://proxy.apisandbox.msdn.microsoft.com/svc?url=' + encodeURIComponent(query),
-                            method: 'GET',
-                            headers: headersObj
-                        }
-
-                        if (queryType == "GET_BINARY") {
-                            request["responseType"] = "arraybuffer";
-                        }
-
-                        if (queryType == "GET_BINARY" || queryType == "GET") {                        
-                            return $http(request);
-                        }
+                return function (query, postString, requestHeaders) {
+                        var headersObj = {
+                            "Authorization": "Bearer {token:https://graph.microsoft.com/}",
+                            "Accept": "application/json"
                     };
+
+                    if (requestHeaders && requestHeaders["Authorization"]){
+                        headersObj["Authorization"] = requestHeaders["Authorization"];
+                    }
+
+                    if (requestHeaders && requestHeaders["Accept"]){
+                        headersObj["Accept"] = requestHeaders["Accept"];
+                    }
+
+                    var request = {
+                        url: 'https://proxy.apisandbox.msdn.microsoft.com/svc?url=' + encodeURIComponent(query),
+                        method: 'GET',
+                        headers: headersObj
+                    }
+
+                    if (queryType == "GET_BINARY") {
+                        request["responseType"] = "arraybuffer";
+                    }
+
+                    if (queryType == "GET_BINARY" || queryType == "GET") {
+                        return $http(request);
+                    }
+                };
             },
 
             performQuery: function (queryType) {

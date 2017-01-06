@@ -20,14 +20,9 @@ angular.module('ApiExplorer')
                 domain_hint: 'organizations',
                 login_hint: $scope.userInfo.preferred_username
             }, function(res) {
-                try {
-                    if (res.authResponse) {
-                        var accessToken = res.authResponse.access_token;
-                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-                    }
-
-                } catch (e) {
-                    console.error(e);
+                if (res.authResponse) {
+                    var accessToken = res.authResponse.access_token;
+                    $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
                 }
             }, function(res) {
                 console.error(res);
@@ -54,6 +49,7 @@ angular.module('ApiExplorer')
                 $scope.userInfo = {
                     preferred_username: decodedJwt.preferred_username
                 }
+
                 $scope.$apply();
 
             }
@@ -256,12 +252,12 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
     $scope.$watch("getEntity()", updateUrlOptions, true);
 
     $scope.getMatches = function(query) {
-            return $scope.urlArray.filter(function(option) {
-                var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
-                var queryIsEmpty = (getEntityName(query).length == 0);
+        return $scope.urlArray.filter(function(option) {
+            var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
+            var queryIsEmpty = (getEntityName(query).length == 0);
 
-                return queryIsEmpty || queryInOption;
-            });
+            return queryIsEmpty || queryInOption;
+        });
     }
 
     if (window.runTests)
@@ -298,20 +294,16 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         msGraphLinkResolution($scope, $scope.$parent.jsonViewer.getSession().getValue(), args, apiService);
     });
     
-    //function called when link in the back button history is clicked
-    $scope.historyOnClick = function(input) {
-        if (input.urlText == "Query") {
-            return;
-        }
-        
-        $scope.text = input.urlText;
-        apiService.selectedVersion = input.selectedVersion;
-        apiService.selectedOption = input.htmlOption;
+    // function called when link in the back button history is clicked
+    $scope.historyOnClick = function(historyItem) {        
+        $scope.text = historyItem.urlText;
+        apiService.selectedVersion = historyItem.selectedVersion;
+        apiService.selectedOption = historyItem.htmlOption;
 
-        if (input.htmlOption == 'POST' || input.htmlOption == 'PATCH') {
+        if (historyItem.htmlOption == 'POST' || historyItem.htmlOption == 'PATCH') {
             apiService.showJsonEditor = true;
             if ($scope.jsonEditor) {
-                $scope.jsonEditor.getSession().setValue(input.jsonInput);
+                $scope.jsonEditor.getSession().setValue(historyItem.jsonInput);
             } else {
                 console.error("json editor watch event not firing");
             }
@@ -356,7 +348,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         if (!query) {
             return;
         }
-        
+
         apiService.text = query;
         $scope.requestInProgress = true;
 
@@ -366,12 +358,11 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         historyObj.urlText = query;
         historyObj.selectedVersion = apiService.selectedVersion;
         historyObj.htmlOption = apiService.selectedOption;
+        historyObj.jsonInput = "";
 
 
         if (historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH') {
             historyObj.jsonInput = $scope.jsonEditor.getSession().getValue();
-        } else {
-            historyObj.jsonInput = "";
         }
 
         $scope.showJsonViewer = true;
@@ -394,6 +385,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         var handleSuccessfulQueryResponse = function(result) {
             var status = result.status;
             var headers = result.headers;
+
             if (isImageResponse(headers)) {
                 handleImageResponse($scope, apiService, startTime, result, headers, status, handleUnsuccessfulQueryResponse);
             } else if (isHtmlResponse(headers)) {
@@ -401,11 +393,10 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             } else if (isXmlResponse(result)) {
                 handleXmlResponse($scope, startTime, result, headers, status);
             } else {
-                handleJsonResponse($scope, startTime, result, headers, status);
+                handleJsonResponse($scope, startTime, result.data, headers, status);
             }
 
             saveHistoryObject(historyObj, status);
-
 
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, true, apiService.text);
@@ -415,7 +406,8 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         }
 
         var handleUnsuccessfulQueryResponse = function(result) {
-            handleJsonResponse($scope, startTime, result.data.error, null, result.status);
+            var headers = result.headers;
+            handleJsonResponse($scope, startTime, result.data.error, headers, result.status);
             saveHistoryObject(historyObj, status);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
