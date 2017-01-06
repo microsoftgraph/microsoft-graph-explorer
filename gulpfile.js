@@ -14,7 +14,11 @@ const paths = {
       "scripts/api-explorer-app.js",
       "scripts/api-explorer-svc.js",
       "scripts/loc_strings.js",
-      "scripts/**/*.js"
+      "scripts/api-explorer-ctrl.js",
+      "scripts/api-explorer-directive.js",
+      "scripts/api-explorer-jseditor.js",
+      "scripts/api-explorer-jsviewer.js",
+      "scripts/api-explorer-msgraph.js"
     ],
     stylesheets: [
       "bower_components/components-font-awesome/css/font-awesome.min.css",

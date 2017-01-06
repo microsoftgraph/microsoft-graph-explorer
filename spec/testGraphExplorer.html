@@ -2,35 +2,34 @@
 <html>
     <head>
         <!-- Bootstrap isn't required to embed the Graph explorer. It's just used in sample app for container positioning -->
-        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
 
-        <link rel="stylesheet" href="./bower_components/mocha/mocha.css" />
+        <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
         
-        <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
         <!-- Graph explorer depends on ACE editor -->
         <!-- Must be inclued separetely -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
 
         <!--Angular dependencies-->
-        <script src="./bower_components/angular/angular.min.js"></script>
-        <script src="./bower_components/angular-route/angular-route.min.js"></script>
-        <script src="./bower_components/angular-animate/angular-animate.min.js"></script>
-        <script src="./bower_components/angular-messages/angular-messages.min.js"></script>
-        <script src="./bower_components/angular-aria/angular-aria.min.js"></script>
+        <script src="../bower_components/angular/angular.min.js"></script>
+        <script src="../bower_components/angular-route/angular-route.min.js"></script>
+        <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="../bower_components/angular-messages/angular-messages.min.js"></script>
+        <script src="../bower_components/angular-aria/angular-aria.min.js"></script>
 
         <!--Angular material-->
-        <script src="./bower_components/angular-material/angular-material.min.js"></script>
+        <script src="../bower_components/angular-material/angular-material.min.js"></script>
 
         <!-- Graph explorer bundled scripts and styles -->
-        <!--<script src="/build/min/all.min.js"></script>-->
-        <script src="/build/min/all.js"></script>
+        <script src="../build/min/all.js"></script>
         
         
-        <link rel="stylesheet" href="/build/all.css">
+        <link rel="stylesheet" href="../build/all.css">
 
         <!-- clientId, scopes, redirectUrl -->
-        <script src="/secrets.js"></script>
+        <script src="../secrets.js"></script>
 
         <script>
             window.runTests = true;
@@ -57,15 +56,15 @@
         </div>
         
         <div id="mocha"></div>
-        <script src="./bower_components/chai/chai.js"></script>
-        <script src="./bower_components/mocha/mocha.js"></script>
+        <script src="../bower_components/chai/chai.js"></script>
+        <script src="../bower_components/mocha/mocha.js"></script>
         <script>
             if (window.initMochaPhantomJS) {
                 window.initMochaPhantomJS();
             }
             mocha.setup('bdd')
         </script>
-        <script src="/spec/tests.js"></script>
+        <script src="../spec/tests.js"></script>
         <script>
             mocha.run();
         </script>
