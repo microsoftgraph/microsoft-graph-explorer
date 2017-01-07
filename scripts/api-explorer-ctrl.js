@@ -61,7 +61,27 @@ angular.module('ApiExplorer')
         
         $scope.showJsonEditor = apiService.showJsonEditor;
         $scope.showJsonViewer = apiService.showJsonViewer;
+        $scope.tabConfig = {
+            disableRequestBodyEditor: true,
+            hideContent: true,
+            selected: 0
+        }
         $scope.showImage = false;
+
+        // $scope.$watch("tabConfig.selected", function() {
+        // })
+
+        // $scope.onTabSelected = function(index) {
+        //     tabConfig.previousSelected = $scope.tabConfig.selected;
+        // }
+
+        $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
+        $scope.processTabClick = function() {
+            var switchingTabs = $scope.tabConfig.previousSelected != $scope.tabConfig.selected;
+            if (!switchingTabs)
+                $scope.tabConfig.hideContent = !$scope.tabConfig.hideContent;
+            $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
+        }
         
         // For deep linking into the Graph Explorer
         var requestVal = $location.search().request;
@@ -76,7 +96,7 @@ angular.module('ApiExplorer')
             initializeJsonEditorHeaders($scope, headersVal);
             initializeJsonViewer($scope, apiService);
         });
-        
+
         parseMetadata(apiService, $scope);
 
         $scope.isAuthenticated = function() {
@@ -93,9 +113,9 @@ angular.module('ApiExplorer')
 
         $scope.$watch("getEditor()", function(event, args) {
             $scope.showJsonEditor = $scope.getEditor();
-            if ($scope.showJsonEditor) {
-                initializeJsonEditor($scope, bodyVal);
-            }
+            initializeJsonEditor($scope, bodyVal);
+            // if ($scope.showJsonEditor) {
+            // }
         });
 
         // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
@@ -126,7 +146,7 @@ angular.module('ApiExplorer')
 
 angular.module('ApiExplorer')
     .controller('DropdownCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-    
+
         $scope.selectedOption = apiService.selectedOption;
 
         $scope.onItemClick = function(choice) {
@@ -138,12 +158,12 @@ angular.module('ApiExplorer')
             'POST',
             'PATCH',
             'DELETE'
-          ];
-    
+        ];
+
         $scope.getServiceOption = function() {
             return apiService.selectedOption;
         }
-    
+
         $scope.getOption = function() {
             return $scope.selectedOption;
         }
@@ -153,26 +173,42 @@ angular.module('ApiExplorer')
                 apiService.selectedOption = $scope.selectedOption;
                 apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
                 if ($scope.selectedOption == 'POST' || $scope.selectedOption == 'PATCH') {
-                    apiService.showJsonEditor = true;
-                    showRequestHeaders($scope);
-                    $scope.setSelectedTab(1);
+
+                    // investigate why $scope doesn't work here
+                    showRequestBodyEditor();
                 } else if ($scope.selectedOption == 'GET' || $scope.selectedOption == 'DELETE') {
-                    apiService.showJsonEditor = false;
-                    $scope.setSelectedTab(1);
+                    s.tabConfig.disableRequestBodyEditor = true;
+                    setSelectedTab(0);
+                }
+            }
+        });
+
+        
+        $scope.$watch("getOption()", function(newVal, oldVal) {
+            if (oldVal !== newVal && newVal == "POST") {
+                debugger
+                // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
+                var text = $scope.searchText
+                var entity = text.split("/").filter((function(a) { return a.length > 0})).pop();
+
+                if (entity in postTemplates) {
+                    console.log('setting template for', entity)
+                    var strToInsert = JSON.stringify(postTemplates[entity], null, 2).trim();
+                    initializeJsonEditor($scope, strToInsert);
                 }
             }
         });
     }]);  
-        
+
 angular.module('ApiExplorer')
     .controller('VersionCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
         $scope.selectedVersion = apiService.selectedVersion;
-        
+
         $scope.items = [
             'beta',
             'v1.0'
         ];
-    
+
         $scope.getVersion = function() {
             return $scope.selectedVersion;
         }
@@ -180,7 +216,7 @@ angular.module('ApiExplorer')
         $scope.getServiceVersion = function() {
             return apiService.selectedVersion;
         }
-        
+
         $scope.onItemClick = function(choice) {
             $scope.selectedVersion = choice;
             apiService.selectedVersion = choice;
@@ -262,7 +298,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
 
     if (window.runTests)
          runAutoCompleteTests(apiService);
-        
+
 }]);
 
 
@@ -274,9 +310,9 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.insufficientPrivileges = false;
 
     if (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH') {
-        $scope.requestTab = 1;
+        showRequestBodyEditor();
     } else {
-        $scope.requestTab = 0;
+        setSelectedTab(0);
     }
 
     $scope.submissionInProgress = false;
@@ -336,13 +372,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         $scope.entityItem = item;
     }
     
-    $scope.setSelectedTab = function(num) {
-        if (num >= 2 || num < 0) {
-            return;
-        } else {
-            $scope.requestTab = num;
-        }
-    }
 
     $scope.submit = function (query) {
         if (!query) {
@@ -426,8 +455,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             apiService.performAnonymousQuery(apiService.selectedOption)(apiService.text, postBody, requestHeaders)
                 .then(handleSuccessfulQueryResponse, handleUnsuccessfulQueryResponse);
         }
-        
-        $scope.setSelectedTab(1);
     };
 
     

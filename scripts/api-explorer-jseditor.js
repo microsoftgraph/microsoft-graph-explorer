@@ -3,6 +3,7 @@
 // ------------------------------------------------------------------------------
 
 function initializeJsonEditor($scope, bodyVal) {
+    debugger
     var jsonViewerElement = document.getElementById("jsonEditor");
     jsonEditor = ace.edit(jsonViewerElement);
     jsonEditor.getSession().setMode("ace/mode/javascript");
@@ -10,7 +11,7 @@ function initializeJsonEditor($scope, bodyVal) {
     
     jsonEditor.setShowPrintMargin(false);
     if (bodyVal){
-        jsonEditor.getSession().insert(0, bodyVal);
+        jsonEditor.getSession().insert({row:0, column:0}, bodyVal);
     } else {
         jsonEditor.getSession().insert(0, " ");
     }

@@ -125,15 +125,15 @@
         </div>
 
         <!-- request -->
-        <md-tabs md-dynamic-height md-selected=requestTab ng-cloak>
-            <md-tab label="{{::str['request header']}}" ng-click="showHeaderEditor = !showHeaderEditor">
+        <md-tabs md-dynamic-height md-selected="tabConfig.selected" ng-cloak ng-class="{'hideTabContent':tabConfig.hideContent}">
+            <md-tab label="{{::str['request header']}}" md-on-select="onTabSelected(0)" ng-click="processTabClick(tabConfig.selected)">
                 <md-tab-body>
-                    <div id="jsonEditorHeaders" ng-show="showHeaderEditor"></div>
+                    <div id="jsonEditorHeaders"></div>
                 </md-tab-body>
             </md-tab>
-            <md-tab label="{{::str['request body']}}" ng-click="showBodyEditor = !showBodyEditor" ng-disabled="!showJsonEditor">
+            <md-tab label="{{::str['request body']}}" md-on-select="onTabSelected(1)" ng-click="processTabClick(tabConfig.selected)" ng-disabled="tabConfig.disableRequestBodyEditor">
                 <md-tab-body>
-                    <div id="jsonEditor" ng-show="showBodyEditor"></div>
+                    <div id="jsonEditor"></div>
                 </md-tab-body>
             </md-tab>
         </md-tabs>

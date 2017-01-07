@@ -411,12 +411,27 @@ var setToSetOrType = function(service, entityName, prevCallName) {
     
 }
 
+var showRequestBodyEditor = function() {
+    s.tabConfig.disableRequestBodyEditor = false;
+    s.tabConfig.hideContent = false;
+    showRequestHeaders(s);
+    initializeJsonEditor(s);
+    setSelectedTab(1);
+}
+
+var setSelectedTab = function(num) {
+    if (num >= 2 || num < 0) {
+        return;
+    }
+    s.tabConfig.selected = num;
+    s.tabConfig.previousSelected = s.tabConfig.selected;
+}
 
 var handleQueryString = function(service, actionValue, versionValue, requestValue) {
     if(actionValue){
         service.selectedOption = actionValue.toUpperCase();
         if(service.selectedOption === 'POST' || service.selectedOption === 'PATCH') {
-                service.showJsonEditor = true;
+                showRequestBodyEditor();
         }
    }
         

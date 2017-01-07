@@ -171,3 +171,7 @@ md-autocomplete-wrap {
     border-right:.0625rem solid #ccc!important;
     border-bottom:.0625rem solid #ccc!important;
 }
+
+.hideTabContent md-tab-content {
+    display: none;
+}
