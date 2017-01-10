@@ -45,7 +45,7 @@ angular.module('ApiExplorer')
                 }
 
                 var decodedJwt = jwt_decode(jwt);
-
+                
                 $scope.userInfo = {
                     preferred_username: decodedJwt.preferred_username
                 }
@@ -154,10 +154,15 @@ angular.module('ApiExplorer')
         $scope.canInsertTemplate = function() {
             return apiService.selectedOption == "POST" && checkCanInsertTemplate(rawSearchText);
         }
-            
+
         $scope.insertPostTemplate = function() {
             var entity = $scope.getCurrentEntityName();
             var strToInsert = JSON.stringify(postTemplates[entity], null, 2).trim();
+
+            var domain = $scope.userInfo.preferred_username.split("@")[1];
+
+            strToInsert = strToInsert.replace(/AUTHENTICATED_DOMAIN/g, domain);
+
             initializeJsonEditor($scope, strToInsert);
         }
 
@@ -470,12 +475,12 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         var handleUnsuccessfulQueryResponse = function(result) {
             handleJsonResponse($scope, startTime, result.data.error, result.headers, result.status);
-            saveHistoryObject(historyObj, status);
+            saveHistoryObject(historyObj, result.status);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
             }
 
-            if (status === 401 || status === 403) {
+            if (result.status === 401 || result.status === 403) {
                 $scope.insufficientPrivileges = true;
             }
         }
