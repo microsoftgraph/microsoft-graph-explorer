@@ -1,5 +1,4 @@
 var postTemplates = {
-    
     messages: {
         "subject": "My message",
         "body": {
@@ -15,7 +14,7 @@ var postTemplates = {
             }
         ]
     },
-    
+
     events: {
         "subject": "My event",
         "start": {
@@ -26,5 +25,24 @@ var postTemplates = {
             "dateTime": "2017-06-07T16:15:00.0000000",
             "timeZone": "UTC"
         },
+    },
+
+    sendMail: {
+        "SaveToSentItems": true,
+        "Message": {
+            "subject": "My message",
+            "body": {
+                "contentType": "html",
+                "content": "<h1>My message</h1>"
+            },
+            "toRecipients": [
+                {
+                    "emailAddress": {
+                        "name": "John Doe",
+                        "address": "john@example.com"
+                    }
+                }
+            ]
+        }
     }
 }
