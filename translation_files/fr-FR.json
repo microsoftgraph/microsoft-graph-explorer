@@ -1,0 +1,19 @@
+{
+  "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ",
+  "sign in": "se connecter",
+  " with your work or school account from Microsoft.": " avec votre compte scolaire ou professionnel de Microsoft.",
+  "Submit": "Envoyer",
+  "Using demo tenant": "À l’aide du client de démonstration",
+  "sign out": "se déconnecter",
+  "History": "Historique",
+  "Method": "Méthode",
+  "Query": "Requête",
+  "Status Code": "Code d'état",
+  "Duration": "Durée",
+  "Go": "Rechercher",
+  "YES": "OUI",
+  "NO": "NON",
+  "request header": "en-tête de la demande",
+  "request body": "corps de la demande",
+  "response": "réponse"
+}

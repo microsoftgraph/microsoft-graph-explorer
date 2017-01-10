@@ -1,0 +1,19 @@
+{
+  "To try the explorer, please ": "Um den Tester auszuprobieren, ",
+  "sign in": "Anmelden",
+  " with your work or school account from Microsoft.": " mit Ihrem Geschäfts- oder Schulkonto von Microsoft an.",
+  "Submit": "Senden",
+  "Using demo tenant": "Verwenden des Demomandanten",
+  "sign out": "Abmelden",
+  "History": "Verlauf",
+  "Method": "Methode",
+  "Query": "Abfrage",
+  "Status Code": "Statuscode",
+  "Duration": "Dauer",
+  "Go": "OK",
+  "YES": "JA",
+  "NO": "NEIN",
+  "request header": "Anforderungsheader",
+  "request body": "Anforderungstextkörper",
+  "response": "Antwort"
+}

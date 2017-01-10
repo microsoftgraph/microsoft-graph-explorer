@@ -1,0 +1,19 @@
+{
+  "To try the explorer, please ": "Para utilizar el probador, ",
+  "sign in": "iniciar sesión",
+  " with your work or school account from Microsoft.": " con su cuenta profesional o educativa de Microsoft.",
+  "Submit": "Enviar",
+  "Using demo tenant": "Uso de inquilinos de demostración",
+  "sign out": "cerrar sesión",
+  "History": "Historial",
+  "Method": "Método",
+  "Query": "Consulta",
+  "Status Code": "Código de estado",
+  "Duration": "Duración",
+  "Go": "Ir",
+  "YES": "SÍ",
+  "NO": "NO",
+  "request header": "encabezado de solicitud",
+  "request body": "cuerpo de solicitud",
+  "response": "respuesta"
+}
