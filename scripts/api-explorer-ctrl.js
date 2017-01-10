@@ -134,14 +134,40 @@ angular.module('ApiExplorer')
 
         $scope.logout = function () {
             hello('msft').logout(null, {force:true});
-            // clearUserInfo();
             delete $scope.userInfo;
         };
 
         $scope.isActive = function (viewLocation) {
             return viewLocation === $location.path();
         };
-        
+
+        var rawSearchText = "";
+        $scope.setRawSearchText = function(text) {
+            rawSearchText = text;
+        }
+
+        $scope.getCurrentEntityName = function() {
+            if (!rawSearchText) return null;
+            return rawSearchText.split("/").filter((function(a) { return a.length > 0})).pop();
+        }
+
+        $scope.canInsertTemplate = function() {
+            return apiService.selectedOption == "POST" && checkCanInsertTemplate(rawSearchText);
+        }
+            
+        $scope.insertPostTemplate = function() {
+            var entity = $scope.getCurrentEntityName();
+            var strToInsert = JSON.stringify(postTemplates[entity], null, 2).trim();
+            initializeJsonEditor($scope, strToInsert);
+        }
+
+        function checkCanInsertTemplate(URL) {
+            // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
+            var entity = $scope.getCurrentEntityName()
+            var canInsertTemplate = entity in postTemplates;
+            return canInsertTemplate;
+        }
+
 }]);
 
 angular.module('ApiExplorer')
@@ -183,22 +209,7 @@ angular.module('ApiExplorer')
             }
         });
 
-        
-        $scope.$watch("getOption()", function(newVal, oldVal) {
-            if (oldVal !== newVal && newVal == "POST") {
-                debugger
-                // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
-                var text = $scope.searchText
-                var entity = text.split("/").filter((function(a) { return a.length > 0})).pop();
-
-                if (entity in postTemplates) {
-                    console.log('setting template for', entity)
-                    var strToInsert = JSON.stringify(postTemplates[entity], null, 2).trim();
-                    initializeJsonEditor($scope, strToInsert);
-                }
-            }
-        });
-    }]);  
+    }]);
 
 angular.module('ApiExplorer')
     .controller('VersionCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
@@ -251,7 +262,8 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
     });
 
     $scope.searchTextChange = function(searchText) {
-        this.searchText = searchText;
+        this.searchText = searchText;        
+        $scope.$parent.setRawSearchText(searchText);
         if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
             apiService.text = searchText;
             setEntity(getEntityName(searchText), apiService, true);
@@ -295,6 +307,28 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
             return queryIsEmpty || queryInOption;
         });
     }
+
+    $scope.processAutocompleteClick = function(item) {
+        $scope.$parent.selectedItemChange(item)
+        
+        if (item && item.autocompleteVal)
+            $scope.$parent.setRawSearchText(item.autocompleteVal);
+    }
+
+
+
+
+    // $scope.$watch("$parent.rawSearchText", function(newVal, oldVal) {
+    //     if (newVal !== oldVal) {
+    //         // checkCanInsertTemplate($scope.$parent.rawSearchText);
+    //         if ($scope.selectedOption == "POST") {
+                
+    //         }
+
+    //     }
+    // }, true);
+
+
 
     if (window.runTests)
          runAutoCompleteTests(apiService);

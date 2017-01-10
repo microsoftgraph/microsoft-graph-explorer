@@ -25,7 +25,7 @@
 
 #jsonEditor {
     position: relative;
-    height: 15vh;
+    height: 20vh;
     border: 1px solid #ccc;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important; 
     margin-top: 10px;
@@ -33,7 +33,7 @@
 
 #jsonEditorHeaders {
     position: relative;
-    height: 15vh;
+    height: 20vh;
     border: 1px solid #ccc;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important; 
     margin-top: 10px;
@@ -174,4 +174,11 @@ md-autocomplete-wrap {
 
 .hideTabContent md-tab-content {
     display: none;
+}
+
+#insertTemplateButton {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    padding: 5px;
 }

@@ -20,7 +20,8 @@ const paths = {
       "scripts/api-explorer-jsviewer.js",
       "scripts/api-explorer-msgraph.js",
       "scripts/auth.js",
-      "scripts/postTemplates.js"
+      "scripts/postTemplates.js",
+      "scripts/*.js"
     ],
     stylesheets: [
       "bower_components/components-font-awesome/css/font-awesome.min.css",

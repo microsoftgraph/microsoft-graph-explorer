@@ -3,14 +3,13 @@
 // ------------------------------------------------------------------------------
 
 function initializeJsonEditor($scope, bodyVal) {
-    debugger
     var jsonViewerElement = document.getElementById("jsonEditor");
     jsonEditor = ace.edit(jsonViewerElement);
     jsonEditor.getSession().setMode("ace/mode/javascript");
     jsonEditor.$blockScrolling = Infinity;
     
     jsonEditor.setShowPrintMargin(false);
-    if (bodyVal){
+    if (bodyVal) {
         jsonEditor.getSession().insert({row:0, column:0}, bodyVal);
     } else {
         jsonEditor.getSession().insert(0, " ");
@@ -29,12 +28,12 @@ function initializeJsonEditorHeaders($scope, headersVal) {
     }
     jsonEditorHeaders = ace.edit(jsonViewerElement);
     jsonEditorHeaders.setShowPrintMargin(false);
-    
+
     jsonEditorHeaders.$blockScrolling = Infinity;
     //accessibility - keyboard dependant users must be able to "tab out" of session
-    if(headersVal){
+    if(headersVal) {
         jsonEditorHeaders.getSession().insert(0, headersVal);
-    }else{
+    } else {
         jsonEditorHeaders.getSession().insert(0, " ");
     }
     jsonEditorHeaders.renderer.setOption('showLineNumbers', false);
