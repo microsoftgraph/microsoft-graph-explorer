@@ -58,6 +58,11 @@ gulp.task('fonts', ['clean'], function() {
     .pipe(gulp.dest('fonts/'));
 });
 
+gulp.task('assets', ['clean'], function() {
+  return gulp.src(['./assets/**/*'])
+    .pipe(gulp.dest('build/assets'));
+});
+
 gulp.task('stylesheets', ['clean'], function() {
   return gulp.src(paths.stylesheets)
     .pipe(concat('all.css'))
@@ -72,4 +77,4 @@ gulp.task('watch', function() {
 });
 
 // The default task (called when you run `gulp` from cli) 
-gulp.task('default', ['watch', 'scripts', 'stylesheets', 'fonts', 'minscripts']);
+gulp.task('default', ['watch', 'scripts', 'stylesheets', 'fonts', 'minscripts', 'assets']);

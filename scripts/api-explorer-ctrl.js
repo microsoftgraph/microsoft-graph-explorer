@@ -4,9 +4,14 @@
 
 var s;
 angular.module('ApiExplorer')
-    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', function ($scope, $http, $location, apiService, $timeout) {
+    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', '$templateCache', function ($scope, $http, $location, apiService, $timeout, $templateCache) {
+
         s = $scope;
         $scope.userInfo = {};
+
+        $scope.getAssetPath = function(relPath) {
+            return s.pathToBuildDir + "/"+ relPath;
+        }
 
         $scope.finishAdminConsertFlow = function() {
             // silently get a new access token with the admin scopes
@@ -332,6 +337,10 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.requestInProgress = false;
     $scope.entityItem = null;
     $scope.insufficientPrivileges = false;
+
+    // $scope.getAssetPath = function(relPath) {
+    //     return $scope.$parent.pathToBuildDir + relPath
+    // }
 
     if (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH') {
         showRequestBodyEditor();
