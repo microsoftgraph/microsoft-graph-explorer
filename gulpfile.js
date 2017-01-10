@@ -72,7 +72,7 @@ gulp.task('stylesheets', ['clean'], function() {
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts, ['scripts', 'minscripts', 'stylesheets']);
+  gulp.watch(paths.scripts, ['scripts', 'minscripts', 'stylesheets', 'assets']);
   gulp.watch(paths.stylesheets, ['scripts', 'stylesheets']);
 });
 

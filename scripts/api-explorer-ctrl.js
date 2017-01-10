@@ -4,7 +4,7 @@
 
 var s;
 angular.module('ApiExplorer')
-    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', '$templateCache', function ($scope, $http, $location, apiService, $timeout, $templateCache) {
+    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', '$templateCache', '$mdDialog', '$sce', function ($scope, $http, $location, apiService, $timeout, $templateCache, $mdDialog, $sce ) {
 
         s = $scope;
         $scope.userInfo = {};
@@ -87,7 +87,7 @@ angular.module('ApiExplorer')
                 $scope.tabConfig.hideContent = !$scope.tabConfig.hideContent;
             $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
         }
-        
+
         // For deep linking into the Graph Explorer
         var requestVal = $location.search().request;
         var actionVal = $location.search().method;
@@ -151,6 +151,10 @@ angular.module('ApiExplorer')
             rawSearchText = text;
         }
 
+        $scope.getRawSearchText = function() {
+            return rawSearchText;
+        }
+
         $scope.getCurrentEntityName = function() {
             if (!rawSearchText) return null;
             return rawSearchText.split("/").filter((function(a) { return a.length > 0})).pop();
@@ -177,6 +181,24 @@ angular.module('ApiExplorer')
             var canInsertTemplate = entity in postTemplates;
             return canInsertTemplate;
         }
+
+
+        $scope.showShareDialog = function(ev) {
+            $mdDialog.show({
+                controller: ShareDialogController,
+                templateUrl: 'assets/views/shareDialog.tmpl.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                scope: $scope.$new(),
+                locals: {apiService: apiService,$sce: $sce},
+            })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+        };
 
 }]);
 
@@ -270,6 +292,8 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
             $scope.text = apiService.text;
             this.searchText = $scope.text;
     });
+
+    $scope.$parent.setRawSearchText(apiService.text);
 
     $scope.searchTextChange = function(searchText) {
         this.searchText = searchText;        

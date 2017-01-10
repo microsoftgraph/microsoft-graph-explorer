@@ -106,7 +106,7 @@
                         <md-progress-circular md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular>
                     </div>
                 </md-button>
-                <md-button class="md-icon-button" aria-label="Share">
+                <md-button class="md-icon-button" aria-label="Share" ng-click="showShareDialog($event)">
                     <md-icon md-svg-icon="{{::getAssetPath('assets/images/share-arrow.svg')}}"></md-icon>
                 </md-button>
             </div>

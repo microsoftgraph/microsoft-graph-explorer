@@ -5,6 +5,13 @@
 'use strict';
 
 angular.module('ApiExplorer')
+.config(function($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    });
+    
+})
 .factory('ApiExplorerSvc', [function () {
     var apiExplorerService = {};
     return apiExplorerService;

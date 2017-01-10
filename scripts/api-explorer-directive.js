@@ -36,13 +36,16 @@ angular.module('ApiExplorer')
                 hello.init( {
                     msft: $scope.clientId
                 }, {
-                    scope: $scope.scopes
+                    scope: $scope.scopes,
+                    redirect_uri: window.location.pathname //required to remove extra url params that make URLs not match
                 });
 
                 hello.init( {
                     msft_admin_consent: $scope.clientId,
                     msft_token_refresh: $scope.clientId,
-                }, {});
+                }, {
+                    redirect_uri: window.location.pathname
+                });
             }
         };
     });
