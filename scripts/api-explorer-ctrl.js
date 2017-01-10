@@ -320,21 +320,6 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
             $scope.$parent.setRawSearchText(item.autocompleteVal);
     }
 
-
-
-
-    // $scope.$watch("$parent.rawSearchText", function(newVal, oldVal) {
-    //     if (newVal !== oldVal) {
-    //         // checkCanInsertTemplate($scope.$parent.rawSearchText);
-    //         if ($scope.selectedOption == "POST") {
-                
-    //         }
-
-    //     }
-    // }, true);
-
-
-
     if (window.runTests)
          runAutoCompleteTests(apiService);
 
