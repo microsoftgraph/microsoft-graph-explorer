@@ -5,6 +5,7 @@
 // get the path to this script
 var scripts = document.getElementsByTagName("script")
 var src = scripts[scripts.length-1].src;
+var pathToBuildDir = src.split('/').slice(0, -2).join('/');
 
 angular.module('ApiExplorer')
     .directive('apiExplorer', function() {
@@ -17,9 +18,9 @@ angular.module('ApiExplorer')
                 clientId: '=',
                 redirectUrl: '='
             },
-            templateUrl: '../assets/views/explorer.html',
+            templateUrl: pathToBuildDir+'/assets/views/explorer.html',
             controller: function ($scope) {
-                $scope.pathToBuildDir = src.split('/').slice(0, -2).join('/');
+                $scope.pathToBuildDir = pathToBuildDir;
 
                 // default strings
                 $scope.str = loc_strings['en_us'];

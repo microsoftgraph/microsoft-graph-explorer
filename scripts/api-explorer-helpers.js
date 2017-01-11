@@ -217,7 +217,7 @@ var findTypeIndex = function(array){
 
 var formatRequestHeaders = function(headers){
     var obj = {};
-    var parts = headers.replace(/^\s+|,\s*$/g, '').split(',');
+    var parts = headers.replace(/^\s+|,\s*$/g, '').split('\n');
     
     for(var i = 0, len = parts.length; i < len; i++) {
         var match = parts[i].match(/^\s*"?([^":]*)"?\s*:\s*"?([^"]*)\s*$/);
@@ -265,7 +265,8 @@ var createEntityTypeObject = function(returnArray, DOMarray) {
     return returnArray;
 }
 
-var showRequestHeaders = function($scope){
+var showRequestHeaders = function($scope) {
+    if (!$scope.jsonEditorHeaders) return;
     $scope.jsonEditorHeaders.getSession().setValue("");
     var requestHeaders = "Content-Type: application/json"
     $scope.jsonEditorHeaders.getSession().insert(0, requestHeaders);

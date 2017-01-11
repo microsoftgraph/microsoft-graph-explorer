@@ -12,7 +12,11 @@ function extractGraphEndpoint(fullRequestUrl) {
     return (requestUrlComponents.join('/'));
 }
 
-function ShareDialogController($scope, $mdDialog, apiService, $sce) {
+function isPostOrPatch(option) {
+    return  option == "POST" || option == "PATCH";
+}
+
+function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, body) {
     var _apiService = apiService;
     $scope.hide = function() {
         $mdDialog.hide();
@@ -31,16 +35,7 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce) {
         var requestUrl = $scope.getRawSearchText();
 
         var fullGraphUrl = "https://graph.microsoft.com/" + _apiService.selectedVersion + "/" + extractGraphEndpoint(requestUrl);
-        /*
-        request
-            .post('/api/pet')
-            .send({ name: 'Manny', species: 'cat' })
-            .set('X-API-Key', 'foobar')
-            .set('Accept', 'application/json')
-            .end(function(err, res){
-                // Calling the end function will send the request
-            });
-        */
+
         var tab = function() {
             return "<span style='padding-left:15px'></span>";
         }
@@ -48,8 +43,25 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce) {
         var line = function() {
             return "<br>"
         }
+
         var str = "request";
         str += line() + tab() + "." + _apiService.selectedOption.toLocaleLowerCase() + "(" + fullGraphUrl + ")"
+
+        if (Object.keys(headers).length > 0) {
+            str += line() + tab() + ".set(" + JSON.stringify(headers) + ")";
+        }
+
+        if (isPostOrPatch( _apiService.selectedOption)) {
+            try {
+                var bodyObj = JSON.parse(body);
+                if (bodyObj) {
+                    str += line() + tab() + ".set(" + JSON.stringify(bodyObj) + ")";
+                }
+            } catch(e) {
+
+            }
+        }
+ 
         str += line() + tab() + ".end(function(err, res) {"
         str += line() + tab() + tab() + "console.log(res);"
         str += line() + tab() + "});"

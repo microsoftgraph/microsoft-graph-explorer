@@ -191,7 +191,12 @@ angular.module('ApiExplorer')
                 targetEvent: ev,
                 clickOutsideToClose:true,
                 scope: $scope.$new(),
-                locals: {apiService: apiService,$sce: $sce},
+                locals: {
+                    apiService: apiService,
+                    $sce: $sce,
+                    headers: formatRequestHeaders($scope.jsonEditorHeaders.getSession().getValue()),
+                    body: $scope.jsonEditor.getSession().getValue()
+                },
             })
             .then(function(answer) {
                 $scope.status = 'You said the information was "' + answer + '".';
