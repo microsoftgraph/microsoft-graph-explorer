@@ -9608,7 +9608,6 @@ angular.module('ApiExplorer')
         var versionVal = $location.search().version;
         var headersVal = $location.search().headers;
         
-        debugger;
 
         handleQueryString(apiService, actionVal, versionVal, requestVal);
         
@@ -9701,7 +9700,7 @@ angular.module('ApiExplorer')
         $scope.showShareDialog = function(ev) {
             $mdDialog.show({
                 controller: ShareDialogController,
-                templateUrl: 'assets/views/shareDialog.tmpl.html',
+                templateUrl: pathToBuildDir + '/assets/views/shareDialog.tmpl.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose:true,
@@ -9753,7 +9752,6 @@ angular.module('ApiExplorer')
                 if ($scope.selectedOption == 'POST' || $scope.selectedOption == 'PATCH') {
 
                     // investigate why $scope doesn't work here
-                    debugger;
                     showRequestBodyEditor();
                 } else if ($scope.selectedOption == 'GET' || $scope.selectedOption == 'DELETE') {
                     s.tabConfig.disableRequestBodyEditor = true;
@@ -10101,7 +10099,6 @@ angular.module('ApiExplorer')
 // ------------------------------------------------------------------------------
 
 function initializeJsonEditor($scope, bodyVal) {
-    debugger;
     var jsonViewerElement = document.getElementById("jsonEditor");
     jsonEditor = ace.edit(jsonViewerElement);
     jsonEditor.getSession().setMode("ace/mode/javascript");

@@ -3,7 +3,6 @@
 // ------------------------------------------------------------------------------
 
 function initializeJsonEditor($scope, bodyVal) {
-    debugger;
     var jsonViewerElement = document.getElementById("jsonEditor");
     jsonEditor = ace.edit(jsonViewerElement);
     jsonEditor.getSession().setMode("ace/mode/javascript");
