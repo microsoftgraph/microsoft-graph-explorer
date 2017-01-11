@@ -1,7 +1,6 @@
 bower_components/
 node_modules/
 npm-debug.log*
-build/
 secrets.js
 fonts/
 debug.log
