@@ -416,8 +416,10 @@ var showRequestBodyEditor = function() {
     s.tabConfig.disableRequestBodyEditor = false;
     s.tabConfig.hideContent = false;
     showRequestHeaders(s);
-    initializeJsonEditor(s);
-    setSelectedTab(1);
+    $(function() {
+        initializeJsonEditor(s);
+        setSelectedTab(1);
+    })
 }
 
 var setSelectedTab = function(num) {
@@ -432,6 +434,7 @@ var handleQueryString = function(service, actionValue, versionValue, requestValu
     if(actionValue){
         service.selectedOption = actionValue.toUpperCase();
         if(service.selectedOption === 'POST' || service.selectedOption === 'PATCH') {
+            if(hello('msft').getAuthResponse() != null)
                 showRequestBodyEditor();
         }
    }

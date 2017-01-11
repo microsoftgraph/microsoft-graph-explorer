@@ -55,7 +55,7 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, bod
             try {
                 var bodyObj = JSON.parse(body);
                 if (bodyObj) {
-                    str += line() + tab() + ".set(" + JSON.stringify(bodyObj) + ")";
+                    str += line() + tab() + ".send(" + JSON.stringify(bodyObj) + ")";
                 }
             } catch(e) {
 

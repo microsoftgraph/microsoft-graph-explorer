@@ -95,6 +95,8 @@ angular.module('ApiExplorer')
         var versionVal = $location.search().version;
         var headersVal = $location.search().headers;
         
+        debugger;
+
         handleQueryString(apiService, actionVal, versionVal, requestVal);
         
         $timeout(function() {
@@ -238,6 +240,7 @@ angular.module('ApiExplorer')
                 if ($scope.selectedOption == 'POST' || $scope.selectedOption == 'PATCH') {
 
                     // investigate why $scope doesn't work here
+                    debugger;
                     showRequestBodyEditor();
                 } else if ($scope.selectedOption == 'GET' || $scope.selectedOption == 'DELETE') {
                     s.tabConfig.disableRequestBodyEditor = true;
@@ -371,8 +374,9 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     //     return $scope.$parent.pathToBuildDir + relPath
     // }
 
-    if (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH') {
-        showRequestBodyEditor();
+    if (hello('msft').getAuthResponse() != null && 
+        (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH')) {
+            showRequestBodyEditor();
     } else {
         setSelectedTab(0);
     }

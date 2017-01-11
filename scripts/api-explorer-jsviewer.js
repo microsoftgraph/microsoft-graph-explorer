@@ -21,7 +21,8 @@ function initializeJsonViewer($scope, apiService) {
         jsonViewer.getSession().setUseWorker(false);
         jsonViewer.renderer.$cursorLayer.element.style.opacity = 0;
 
-        define("hoverlink", [], function (require, exports, module) {
+
+        define("hoverlink", ["require", "exports"], function (require, exports, module) {
             "use strict";
             var oop = require("ace/lib/oop");
             var event = require("ace/lib/event");
