@@ -128,3 +128,17 @@ describe('Autocomplete URLs', function() {
         }
     });
 });
+
+describe('Header Parsing', function() {
+    it ('Parses custom single line headers', function() {
+        assert.deepEqual(formatRequestHeaders("A:B"), {A:"B"});
+    });
+
+    it('Parses multiline custom headers', function() {
+        assert.deepEqual(formatRequestHeaders("A:B\nC:D"), {A:"B", C:"D"});
+    });
+
+    it('Parses multiline custom headers with extra line breaks before and after', function() {
+        assert.deepEqual(formatRequestHeaders("\n\n\n\n\nA:B\n\n\n\nC:D\n\n\n"), {A:"B", C:"D"});        
+    })
+});

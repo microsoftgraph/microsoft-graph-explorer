@@ -45,7 +45,7 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, bod
         }
 
         var str = "request";
-        str += line() + tab() + "." + _apiService.selectedOption.toLocaleLowerCase() + "(" + fullGraphUrl + ")"
+        str += line() + tab() + "." + _apiService.selectedOption.toLocaleLowerCase() + "(\"" + fullGraphUrl + "\")"
 
         if (Object.keys(headers).length > 0) {
             str += line() + tab() + ".set(" + JSON.stringify(headers) + ")";
