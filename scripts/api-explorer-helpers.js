@@ -196,17 +196,6 @@ var findNameIndex = function(array) {
     }
 }
 
-this.parseQueryString = function (url) {
-    var params = {}, 
-        queryString = url.substring(2), 
-        regex = /([^&=]+)=([^&]*)/g, 
-        m;
-    while (m = regex.exec(queryString)) {
-        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-    }
-    return params;
-};
-
 var findTypeIndex = function(array){
     for(var i=0; i<array.length; i++){
         if(array[i].name === "type"){
