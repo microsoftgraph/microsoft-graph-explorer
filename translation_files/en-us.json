@@ -15,5 +15,6 @@
   "NO": "NO",
   "request header": "request header",
   "request body": "request body",
-  "response": "response"
+  "response": "response",
+  "login_to_send_requests": "Login to change the request type"
 }
