@@ -60,6 +60,7 @@ $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite
 
 ## Development
 * `npm run gulp` starts gulp
+* `node .\bundleLocFiles.js` combines all the loc files in `translation_files/` to `scripts/loc_strings.js`
 
 ## Tests
 * `npm test` to run tests from the command line
