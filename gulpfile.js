@@ -47,18 +47,14 @@ gulp.task('scripts', ['clean'], function() {
     .pipe(sourcemaps.init())
     .pipe(concat('all.js'))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('build/'));
-});
-
-gulp.task('minscripts', ['scripts'], function() {
-  return gulp.src(paths.scripts)
-    .pipe(concat('all.js'))
-    // .pipe(minify({
-    //     ext:{
-    //         src:'.js',
-    //         min:'.min.js'
-    //     }}))
-    .pipe(gulp.dest('build/min'));
+    .pipe(minify({
+      compress: true,
+      mangle: false,
+      ext:{
+          src:'.js',
+          min:'.min.js'
+      }}))
+    .pipe(gulp.dest('build/scripts'));
 });
 
 gulp.task('fonts', ['clean'], function() {
@@ -81,9 +77,9 @@ gulp.task('stylesheets', ['clean'], function() {
 // Rerun the task when a file changes
 gulp.task('watch', function() {
   gulp.watch(paths.assets, ['assets'])
-  gulp.watch(paths.scripts, ['scripts', 'minscripts', 'stylesheets', 'assets']);
+  gulp.watch(paths.scripts, ['scripts', 'stylesheets', 'assets']);
   gulp.watch(paths.stylesheets, ['scripts', 'stylesheets']);
 });
 
 // The default task (called when you run `gulp` from cli) 
-gulp.task('default', ['watch', 'scripts', 'stylesheets', 'fonts', 'minscripts', 'assets']);
+gulp.task('default', ['watch', 'scripts', 'stylesheets', 'fonts', 'assets']);
