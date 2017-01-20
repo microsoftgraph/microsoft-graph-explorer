@@ -95,6 +95,10 @@
     border-top: 1px solid #808080;
 }
 
+#historyButton {
+    background: none !important;
+}
+
 #historyButton .historyIcon {
     transition: all 0.25s;
 }
@@ -199,4 +203,8 @@ code {
     background: #ececec;
     padding: 15px;
     color: black;
+}
+
+.md-button.md-raised:not([disabled]) {
+    box-shadow: none;
 }

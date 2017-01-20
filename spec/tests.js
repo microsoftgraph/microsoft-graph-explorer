@@ -140,5 +140,37 @@ describe('Header Parsing', function() {
 
     it('Parses multiline custom headers with extra line breaks before and after', function() {
         assert.deepEqual(formatRequestHeaders("\n\n\n\n\nA:B\n\n\n\nC:D\n\n\n"), {A:"B", C:"D"});        
-    })
+    });
+});
+
+describe('Request history is saved', function() {
+    it ('A POST to /v2.5/me is saved', function() {
+        //create an object to store the api call
+        var historyObj = {};
+        historyObj.urlText = "https://graph.microsoft.com/v1.0/me/";
+        historyObj.selectedVersion = "v2.5";
+        historyObj.htmlOption = "POST";
+        saveHistoryObject(historyObj, 400, 555);
+
+        var savedHistoryObj = requestHistory.pop();
+        assert(savedHistoryObj.htmlOption == historyObj.htmlOption)
+        assert(savedHistoryObj.selectedVersion == historyObj.selectedVersion)
+        assert(savedHistoryObj.urlText == historyObj.urlText)
+        assert(savedHistoryObj.duration == historyObj.duration)
+    });
+
+    it ('A GET to /beta/me is saved', function() {
+        //create an object to store the api call
+        var historyObj = {};
+        historyObj.urlText = "https://graph.microsoft.com/beta/me/";
+        historyObj.selectedVersion = "v2.5";
+        historyObj.htmlOption = "GET";
+        saveHistoryObject(historyObj, 200, 555);
+
+        var savedHistoryObj = requestHistory.pop();
+        assert(savedHistoryObj.htmlOption == historyObj.htmlOption)
+        assert(savedHistoryObj.selectedVersion == historyObj.selectedVersion)
+        assert(savedHistoryObj.urlText == historyObj.urlText)
+        assert(savedHistoryObj.duration == historyObj.duration)
+    });
 });

@@ -9485,9 +9485,21 @@ angular.module('ApiExplorer')
 
 var loc_strings = {};
 
+loc_strings['de-DE'] = {"To try the explorer, please ":"Um den Tester auszuprobieren, ","sign in":"Anmelden"," with your work or school account from Microsoft.":" mit Ihrem Geschäfts- oder Schulkonto von Microsoft an.","Submit":"Senden","Using demo tenant":"Verwenden des Demomandanten","sign out":"Abmelden","History":"Verlauf","Method":"Methode","Query":"Abfrage","Status Code":"Statuscode","Duration":"Dauer","Go":"OK","YES":"JA","NO":"NEIN","request header":"Anforderungsheader","request body":"Anforderungstextkörper","response":"Antwort"}
+
 loc_strings['en-us'] = {"To try the explorer, please ":"To try the explorer, please ","sign in":"sign in"," with your work or school account from Microsoft.":" with your work or school account from Microsoft.","Submit":"Submit","Using demo tenant":"Using demo tenant","sign out":"sign out","History":"History","Method":"Method","Query":"Query","Status Code":"Status Code","Duration":"Duration","Go":"Go","YES":"YES","NO":"NO","request header":"request header","request body":"request body","response":"response","login_to_send_requests":"Login to change the request type"}
 
+loc_strings['pt-BR'] = {"To try the explorer, please ":"Para experimentar o Explorador, ","sign in":"entrar"," with your work or school account from Microsoft.":" com a sua conta corporativa ou de estudante da Microsoft.","Submit":"Enviar","Using demo tenant":"Usando o Locatário de Demonstração","sign out":"sair","History":"Histórico","Method":"Método","Query":"Consulta","Status Code":"Código de Status","Duration":"Duração","Go":"Ir","YES":"SIM","NO":"NÃO","request header":"cabeçalho da solicitação","request body":"corpo da solicitação","response":"resposta"}
 
+loc_strings['es-ES'] = {"To try the explorer, please ":"Para utilizar el probador, ","sign in":"iniciar sesión"," with your work or school account from Microsoft.":" con su cuenta profesional o educativa de Microsoft.","Submit":"Enviar","Using demo tenant":"Uso de inquilinos de demostración","sign out":"cerrar sesión","History":"Historial","Method":"Método","Query":"Consulta","Status Code":"Código de estado","Duration":"Duración","Go":"Ir","YES":"SÍ","NO":"NO","request header":"encabezado de solicitud","request body":"cuerpo de solicitud","response":"respuesta"}
+
+loc_strings['ja-JP'] = {"To try the explorer, please ":"エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ","sign in":"サインイン"," with your work or school account from Microsoft.":" します。","Submit":"送信","Using demo tenant":"デモ テナントを使用しています","sign out":"サインアウト","History":"履歴","Method":"メソッド","Query":"クエリ","Status Code":"状態コード","Duration":"期間","Go":"検索","YES":"はい","NO":"いいえ","request header":"要求ヘッダー","request body":"要求本文","response":"応答"}
+
+loc_strings['ru-RU'] = {"To try the explorer, please ":"Чтобы опробовать песочницу, ","sign in":"войти"," with your work or school account from Microsoft.":" с помощью рабочей или учебной учетной записи от корпорации Майкрософт.","Submit":"Отправить","Using demo tenant":"С помощью демонстрационного клиента","sign out":"выйти","History":"Журнал","Method":"Метод","Query":"Запрос","Status Code":"Код состояния","Duration":"Длительность","Go":"Перейти","YES":"ДА","NO":"НЕТ","request header":"заголовок запроса","request body":"текст запроса","response":"ответ"}
+
+loc_strings['zh-CN'] = {"To try the explorer, please ":"若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户","sign in":"登录"," with your work or school account from Microsoft.":"。","Submit":"提交","Using demo tenant":"使用演示租户","sign out":"注销","History":"历史记录","Method":"方法","Query":"查询","Status Code":"状态代码","Duration":"持续时间","Go":"转到","YES":"是","NO":"否","request header":"请求标题","request body":"请求正文","response":"响应"}
+
+loc_strings['fr-FR'] = {"To try the explorer, please ":"Pour essayer l’afficheur, veuillez ","sign in":"se connecter"," with your work or school account from Microsoft.":" avec votre compte scolaire ou professionnel de Microsoft.","Submit":"Envoyer","Using demo tenant":"À l’aide du client de démonstration","sign out":"se déconnecter","History":"Historique","Method":"Méthode","Query":"Requête","Status Code":"Code d'état","Duration":"Durée","Go":"Rechercher","YES":"OUI","NO":"NON","request header":"en-tête de la demande","request body":"corps de la demande","response":"réponse"}
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
@@ -9784,6 +9796,10 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
         return apiService.text;
     }
 
+    $scope.getRequestHistory = function() {
+        return requestHistory;
+    }
+
     $scope.$watch("getText()", function(event, args) {
             $scope.text = apiService.text;
             this.searchText = $scope.text;
@@ -9852,7 +9868,6 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
 
 
 angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-    $scope.history = [];
     $scope.text = apiService.text;
     $scope.requestInProgress = false;
     $scope.entityItem = null;
@@ -9885,7 +9900,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     });
     
     // function called when link in the back button history is clicked
-    $scope.historyOnClick = function(historyItem) {        
+    $scope.historyOnClick = function(historyItem) {
         $scope.text = historyItem.urlText;
         apiService.selectedVersion = historyItem.selectedVersion;
         apiService.selectedOption = historyItem.htmlOption;
@@ -9979,7 +9994,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
                 handleJsonResponse($scope, startTime, result.data, headers, status);
             }
 
-            saveHistoryObject(historyObj, status);
+            saveHistoryObject(historyObj, status, new Date() - startTime);
 
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, true, apiService.text);
@@ -9990,7 +10005,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         var handleUnsuccessfulQueryResponse = function(result) {
             handleJsonResponse($scope, startTime, result.data.error, result.headers, result.status);
-            saveHistoryObject(historyObj, result.status);
+            saveHistoryObject(historyObj, result.status, new Date() - startTime);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
             }
@@ -10010,14 +10025,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
                 .then(handleSuccessfulQueryResponse, handleUnsuccessfulQueryResponse);
         }
     };
-
-    
-    function saveHistoryObject(historyObject, statusCode) {
-        historyObject.successful = statusCode >= 200 && statusCode < 300;
-        historyObject.statusCode = statusCode;
-        historyObject.duration = $scope.duration;
-        $scope.history.splice(0, 0, historyObject); //add history object to the array
-    }
 }]);
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
@@ -10515,6 +10522,40 @@ var templateNames = {
     events: 'event',
     sendMail: 'email'
 }
+var requestHistory = [];
+var LocalStorageKeyGraphRequestHistory = "GRAPH_REQUEST_HISTORY";
+
+function saveHistoryToLocalStorage() {
+    localStorage.setItem(LocalStorageKeyGraphRequestHistory, JSON.stringify(requestHistory));
+}
+
+function loadHistoryFromLocalStorage() {
+    var possibleHistory = localStorage.getItem(LocalStorageKeyGraphRequestHistory);
+    if (possibleHistory != null) {
+        requestHistory = JSON.parse(possibleHistory);
+        requestHistory = requestHistory.filter(function(value, index, self) { 
+            return self.indexOf(value) === index;   
+        });
+    }
+}
+
+
+function saveHistoryObject(historyObject, statusCode, duration) {
+    historyObject.successful = statusCode >= 200 && statusCode < 300;
+    historyObject.statusCode = statusCode;
+    historyObject.duration = duration;
+    requestHistory.splice(0, 0, historyObject); //add history object to the array
+
+    saveHistoryToLocalStorage();
+}
+
+
+// init scripts
+
+
+loadHistoryFromLocalStorage();
+
+
 function createShareLink(fullRequestUrl, action, version) {    
     return window.location.origin + window.location.pathname + "?request=" + extractGraphEndpoint(fullRequestUrl) + "&method=" + action + "&version=" + version;
 }

@@ -193,3 +193,7 @@ code {
     padding: 15px;
     color: black;
 }
+
+.md-button.md-raised:not([disabled]) {
+    box-shadow: none;
+}

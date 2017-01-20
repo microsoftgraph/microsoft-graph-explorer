@@ -294,6 +294,10 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
         return apiService.text;
     }
 
+    $scope.getRequestHistory = function() {
+        return requestHistory;
+    }
+
     $scope.$watch("getText()", function(event, args) {
             $scope.text = apiService.text;
             this.searchText = $scope.text;
@@ -362,7 +366,6 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
 
 
 angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-    $scope.history = [];
     $scope.text = apiService.text;
     $scope.requestInProgress = false;
     $scope.entityItem = null;
@@ -395,7 +398,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     });
     
     // function called when link in the back button history is clicked
-    $scope.historyOnClick = function(historyItem) {        
+    $scope.historyOnClick = function(historyItem) {
         $scope.text = historyItem.urlText;
         apiService.selectedVersion = historyItem.selectedVersion;
         apiService.selectedOption = historyItem.htmlOption;
@@ -489,7 +492,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
                 handleJsonResponse($scope, startTime, result.data, headers, status);
             }
 
-            saveHistoryObject(historyObj, status);
+            saveHistoryObject(historyObj, status, new Date() - startTime);
 
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, true, apiService.text);
@@ -500,7 +503,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         var handleUnsuccessfulQueryResponse = function(result) {
             handleJsonResponse($scope, startTime, result.data.error, result.headers, result.status);
-            saveHistoryObject(historyObj, result.status);
+            saveHistoryObject(historyObj, result.status, new Date() - startTime);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
             }
@@ -520,12 +523,4 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
                 .then(handleSuccessfulQueryResponse, handleUnsuccessfulQueryResponse);
         }
     };
-
-    
-    function saveHistoryObject(historyObject, statusCode) {
-        historyObject.successful = statusCode >= 200 && statusCode < 300;
-        historyObject.statusCode = statusCode;
-        historyObject.duration = $scope.duration;
-        $scope.history.splice(0, 0, historyObject); //add history object to the array
-    }
 }]);
