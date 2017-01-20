@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha-phantomjs --ignore-ssl-errors=true --ssl-protocol=any http://localhost:3000/testGraphExplorer.html ",
+    "test": "mocha-phantomjs --ignore-ssl-errors=true --ssl-protocol=any http://localhost:3000/GraphExplorerBrowserTests.html ",
     "gulp": "gulp",
     "serve": "static-server -p 3000"
   },
