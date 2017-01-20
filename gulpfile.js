@@ -48,7 +48,6 @@ gulp.task('scripts', ['clean'], function() {
     .pipe(concat('all.js'))
     .pipe(sourcemaps.write())
     .pipe(minify({
-      compress: true,
       mangle: false,
       ext:{
           src:'.js',
