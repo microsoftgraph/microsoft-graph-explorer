@@ -341,7 +341,10 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
     };
 
     // mostly used for the initial page load, when the entity is set (me/user),  load the possible URL options
-    $scope.$watch("getEntity()", updateUrlOptions, true);
+    $scope.$watch("getEntity()", function(newValue, oldValue) {
+        if (oldValue !== newValue)
+            updateUrlOptions()
+    }, true);
 
     $scope.getMatches = function(query) {
         return $scope.urlArray.filter(function(option) {
@@ -478,7 +481,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         var startTime = new Date();
 
-        var handleSuccessfulQueryResponse = function(result) {
+        function handleSuccessfulQueryResponse(result) {
             var status = result.status;
             var headers = result.headers;
 
@@ -501,14 +504,16 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             $scope.insufficientPrivileges = false;
         }
 
-        var handleUnsuccessfulQueryResponse = function(result) {
-            handleJsonResponse($scope, startTime, result.data.error, result.headers, result.status);
-            saveHistoryObject(historyObj, result.status, new Date() - startTime);
+        function handleUnsuccessfulQueryResponse(result) {
+            var status = result.status;
+            var headers = result.headers;
+            handleJsonResponse($scope, startTime, result.data, headers, status);
+            saveHistoryObject(historyObj, status, new Date() - startTime);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
                 setEntity($scope.entityItem, apiService, false, apiService.text);
             }
 
-            if (result.status === 401 || result.status === 403) {
+            if (status === 401 || status === 403) {
                 $scope.insufficientPrivileges = true;
             }
         }

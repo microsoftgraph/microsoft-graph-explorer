@@ -37,11 +37,6 @@ gulp.task('clean', function() {
   return del(['build']);
 });
 
-
-gulp.task('cleanBuildAssets', function() {
-  return del(['build/assets']);
-});
-
 gulp.task('scripts', ['clean'], function() {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
@@ -61,7 +56,7 @@ gulp.task('fonts', ['clean'], function() {
     .pipe(gulp.dest('fonts/'));
 });
 
-gulp.task('assets', ['cleanBuildAssets'], function() {
+gulp.task('assets', ['clean'], function() {
   return gulp.src(paths.assets)
     .pipe(gulp.dest('build/assets'));
 });
@@ -75,9 +70,9 @@ gulp.task('stylesheets', ['clean'], function() {
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-  gulp.watch(paths.assets, ['assets'])
+  gulp.watch(paths.assets, ['scripts', 'stylesheets', 'assets'])
   gulp.watch(paths.scripts, ['scripts', 'stylesheets', 'assets']);
-  gulp.watch(paths.stylesheets, ['scripts', 'stylesheets']);
+  gulp.watch(paths.stylesheets, ['scripts', 'stylesheets', 'assets']);
 });
 
 // The default task (called when you run `gulp` from cli) 

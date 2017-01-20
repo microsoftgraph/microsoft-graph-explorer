@@ -7,20 +7,17 @@
 angular.module('ApiExplorer')
     .factory('ApiExplorerSvc', ['$http', '$cacheFactory', function ($http, $cacheFactory) {
         return {
-            
             text: 'https://graph.microsoft.com/v1.0/me/',
-            
+
             selectedVersion: "v1.0",
-            
+
             selectedOption: "GET",
-            
+
             showJsonEditor: false,
-            
+
             showJsonViewer: true,
-            
+
             cache: $cacheFactory('myCache'),
-            
-         /*   id: null,*/
             
             entity: "",
             
@@ -67,7 +64,7 @@ angular.module('ApiExplorer')
                         case "POST":
                             return $http.post(query, postString, {headers : requestHeaders});
                         case "PATCH":
-                            return $http.patch(query, postString,{headers : requestHeaders});
+                            return $http.patch(query, postString, {headers : requestHeaders});
                         case "DELETE":
                             return $http.delete(query, {headers : requestHeaders});
                     }
