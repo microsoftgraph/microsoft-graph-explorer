@@ -104,7 +104,7 @@ describe('Autocomplete URLs', function() {
         for (var i=0;i<testCases.validURLs.length;i++) {
             var validURL = testCases.validURLs[i];
             (function(url) {
-                let _url = url;
+                var _url = url;
                 it(url, function(done) {
                     var url = [baseURL,version,_url].join('/');
                     assert(generatedURLs.indexOf(url) != -1, "Missing URL");
@@ -118,7 +118,7 @@ describe('Autocomplete URLs', function() {
         for (var i=0;i<testCases.invalidURLs.length;i++) {
             var invalidURL = testCases.invalidURLs[i];
             (function(url) {
-                let _url = url;
+                var _url = url;
                 it(url, function(done) {
                     var url = [baseURL,version,_url].join('/');
                     assert(generatedURLs.indexOf(url) == -1, "Providing user with invalid autocomplete URL");
