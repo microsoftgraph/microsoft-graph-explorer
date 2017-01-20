@@ -27,11 +27,19 @@ const paths = {
       "bower_components/components-font-awesome/css/font-awesome.min.css",
       "bower_components/angular-material/angular-material.min.css",
       "styles/api-explorer.css"
+    ],
+    assets: [
+      './assets/**/*'
     ]
 };
 
 gulp.task('clean', function() {
   return del(['build']);
+});
+
+
+gulp.task('cleanBuildAssets', function() {
+  return del(['build/assets']);
 });
 
 gulp.task('scripts', ['clean'], function() {
@@ -58,8 +66,8 @@ gulp.task('fonts', ['clean'], function() {
     .pipe(gulp.dest('fonts/'));
 });
 
-gulp.task('assets', ['clean'], function() {
-  return gulp.src(['./assets/**/*'])
+gulp.task('assets', ['cleanBuildAssets'], function() {
+  return gulp.src(paths.assets)
     .pipe(gulp.dest('build/assets'));
 });
 
@@ -72,6 +80,7 @@ gulp.task('stylesheets', ['clean'], function() {
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
+  gulp.watch(paths.assets, ['assets'])
   gulp.watch(paths.scripts, ['scripts', 'minscripts', 'stylesheets', 'assets']);
   gulp.watch(paths.stylesheets, ['scripts', 'stylesheets']);
 });
