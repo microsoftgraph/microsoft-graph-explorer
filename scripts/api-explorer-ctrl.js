@@ -486,7 +486,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             var headers = result.headers;
 
             if (isImageResponse(headers)) {
-                handleImageResponse($scope, apiService, startTime, result, headers, status, handleUnsuccessfulQueryResponse);
+                handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse);
             } else if (isHtmlResponse(headers)) {
                 handleHtmlResponse($scope, startTime, result, headers, status);
             } else if (isXmlResponse(result)) {

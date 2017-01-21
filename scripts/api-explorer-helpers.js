@@ -96,23 +96,17 @@ var showResults = function ($scope, results, headers, status) {
     $scope.jsonViewer.getSession().insert(0, results);
 }
 
-var handleImageResponse = function ($scope, apiService, startTime, results, headers, status, handleUnsuccessfulQueryResponse) {
-    apiService.performQuery('GET_BINARY')($scope.text, "").success(function (results, status, headers) {
-        var arr = new Uint8Array(results);
-        //  Don't use fromCharCode.apply as it blows the stack with moderate size images
-        var raw = "";
-        for (var i = 0; i < arr.length; i++) {
-            raw = raw + String.fromCharCode(arr[i]);
-        }
-        var b64 = btoa(raw);
-        var dataURL = "data:image/jpeg;base64," + b64;
+var handleImageResponse = function ($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse) {
+    apiService.performQuery('GET_BINARY')($scope.text).then(function(result) {
+        var blob = new Blob( [ result.data ], { type: "image/jpeg" } );
+        var imageUrl = window.URL.createObjectURL( blob );
 
-        document.getElementById("img").src = dataURL;
+        document.getElementById("img").src = imageUrl;
         $scope.showJsonViewer = false;
         $scope.showImage = true;
-        showHeaders($scope, headers);
+        showHeaders($scope, result.headers);
         showDuration($scope, startTime);
-    }).error(handleUnsuccessfulQueryResponse);
+    }, handleUnsuccessfulQueryResponse);
 }
 
 var handleHtmlResponse = function ($scope, startTime, results, headers, status) {
