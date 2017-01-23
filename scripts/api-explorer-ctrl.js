@@ -73,13 +73,6 @@ angular.module('ApiExplorer')
         }
         $scope.showImage = false;
 
-        // $scope.$watch("tabConfig.selected", function() {
-        // })
-
-        // $scope.onTabSelected = function(index) {
-        //     tabConfig.previousSelected = $scope.tabConfig.selected;
-        // }
-
         $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
         $scope.processTabClick = function() {
             var switchingTabs = $scope.tabConfig.previousSelected != $scope.tabConfig.selected;
@@ -120,8 +113,6 @@ angular.module('ApiExplorer')
         $scope.$watch("getEditor()", function(event, args) {
             $scope.showJsonEditor = $scope.getEditor();
             initializeJsonEditor($scope, bodyVal);
-            // if ($scope.showJsonEditor) {
-            // }
         });
 
         // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
@@ -373,10 +364,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.requestInProgress = false;
     $scope.entityItem = null;
     $scope.insufficientPrivileges = false;
-
-    // $scope.getAssetPath = function(relPath) {
-    //     return $scope.$parent.pathToBuildDir + relPath
-    // }
 
     if (hello('msft').getAuthResponse() != null && 
         (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH')) {
