@@ -24,7 +24,6 @@ var postTemplates = {
             "timeZone": "UTC"
         },
     },
-
     sendMail: {
         "message": {
             "subject": "Meet for lunch?",
@@ -114,6 +113,19 @@ var postTemplates = {
         "mailEnabled": true,
         "mailNickname": "Group911e5",
         "securityEnabled": true
+    },
+    contacts: {
+        "givenName": "Pavel",
+        "surname": "Bansky",
+        "emailAddresses": [
+            {
+            "address": "pavelb@fabrikam.onmicrosoft.com",
+            "name": "Pavel Bansky"
+            }
+        ],
+        "businessPhones": [
+            "+1 732 555 0102"
+        ]
     }
 }
 
