@@ -102,54 +102,53 @@ var handleImageResponse = function ($scope, apiService, startTime, headers, stat
         var imageUrl = window.URL.createObjectURL( blob );
 
         document.getElementById("img").src = imageUrl;
-        $scope.showJsonViewer = false;
         $scope.showImage = true;
-        showHeaders($scope, result.headers);
+        showHeaders($scope, result.headers, result.status);
         showDuration($scope, startTime);
     }, handleUnsuccessfulQueryResponse);
 }
 
-var handleHtmlResponse = function ($scope, startTime, results, headers, status) {
+function handleHtmlResponse ($scope, startTime, results, headers, status) {
     setJsonViewerContentType("html");
     showDuration($scope, startTime);
     showResults($scope, results, headers, status);
 }
 
-var handleJsonResponse = function ($scope, startTime, results, headers, status) {
+function handleJsonResponse ($scope, startTime, results, headers, status) {
     setJsonViewerContentType("json");
     results = JSON.stringify(results, null, 4);
     showDuration($scope, startTime);
     showResults($scope, results, headers, status);
 }
 
-var handleXmlResponse = function ($scope, startTime, results, headers, status) {
+function handleXmlResponse ($scope, startTime, results, headers, status) {
     setJsonViewerContentType("xml");
     results = formatXml(results);
     showDuration($scope, startTime);
     showResults($scope, results, headers, status);
 }
 
-var isImageResponse = function (headers) {
+function isImageResponse (headers) {
     var contentType = getContentType(headers);
     return contentType === "application/octet-stream" || contentType.substr(0, 6) === "image/";
 }
 
-var isHtmlResponse = function (headers) {
+function isHtmlResponse (headers) {
     var contentType = getContentType(headers);
     return contentType === "text/html" || contentType === "application/xhtml+xml";
 }
 
-var isXmlResponse = function (results) {
+function isXmlResponse (results) {
     // Don't use headers, cos xml could be of a million content types.
     return JSON.stringify(results, null, 4).indexOf("<?xml") != -1;
 }
 
-var isJsonResponse = function (headers) {
+function isJsonResponse (headers) {
     var contentType = getContentType(headers);
     return contentType === "application/json";
 }
 
-var getContentType = function(headers) {
+function getContentType (headers) {
     var full = headers("content-type");
     var delimiterPos = full.indexOf(";");
     if (delimiterPos != -1) {
@@ -161,7 +160,7 @@ var getContentType = function(headers) {
 
 
 
-var getEntitySets = function(XML) {
+function getEntitySets (XML) {
     var entitySetArray = {};
     var entitySets = $(($.parseHTML(XML))[2]).find("EntityContainer")[0].children;
     for(var i=0; i<entitySets.length; i++){
@@ -182,7 +181,7 @@ var getEntitySets = function(XML) {
 
 
 
-var findNameIndex = function(array) {
+function findNameIndex (array) {
     for(var i=0; i<array.length; i++) {
         if(array[i].name === "name") {
             return i;
@@ -190,7 +189,7 @@ var findNameIndex = function(array) {
     }
 }
 
-var findTypeIndex = function(array){
+function findTypeIndex (array) {
     for(var i=0; i<array.length; i++){
         if(array[i].name === "type"){
             return i;
@@ -198,7 +197,7 @@ var findTypeIndex = function(array){
     }
 }
 
-var formatRequestHeaders = function(headers){
+function formatRequestHeaders (headers){
     var obj = {};
     var parts = headers.replace(/^\s+|,\s*$/g, '').split('\n');
     
@@ -212,7 +211,7 @@ var formatRequestHeaders = function(headers){
    return obj; 
 }
 
-var createEntityTypeObject = function(returnArray, DOMarray) {
+function createEntityTypeObject (returnArray, DOMarray) {
     for(var i=0; i<DOMarray.length; i++){
            var EntityType = {};
            var name = DOMarray[i].attributes["name"].nodeValue;
@@ -248,14 +247,14 @@ var createEntityTypeObject = function(returnArray, DOMarray) {
     return returnArray;
 }
 
-var showRequestHeaders = function($scope) {
+function showRequestHeaders ($scope) {
     if (!$scope.jsonEditorHeaders) return;
     $scope.jsonEditorHeaders.getSession().setValue("");
     var requestHeaders = "Content-Type: application/json"
     $scope.jsonEditorHeaders.getSession().insert(0, requestHeaders);
 }
 
-var getEntityTypes = function(XML){
+function getEntityTypes (XML){
     var entityTypesArray = {};
     var entityTypes = $(($.parseHTML(XML))[2]).find("EntityType");
     entityTypesArray = createEntityTypeObject(entityTypesArray, entityTypes);
@@ -266,7 +265,7 @@ var getEntityTypes = function(XML){
     return entityTypesArray;
 }
 
-var myTrim = function(word){
+function myTrim (word){
       var returnWord = word;
       if(returnWord != null){
           while(returnWord.charAt(returnWord.length-1) == "/" ){
@@ -276,7 +275,7 @@ var myTrim = function(word){
       }
 } 
 
-var getEntityName = function(URL){
+function getEntityName (URL){
      var returnWord = myTrim(URL);
      if(returnWord != null){
          returnWord = returnWord.substring(returnWord.lastIndexOf("/")+1, returnWord.length);
@@ -285,13 +284,13 @@ var getEntityName = function(URL){
 }
 
 
-var getPreviousCall = function(URL, entityName){
+function getPreviousCall (URL, entityName){
     var index = URL.indexOf(entityName);
     return URL.substr(0, index-1);
 }
 
 
-var setEntity = function(entityItem, service, lastCallSuccessful) {
+function setEntity (entityItem, service, lastCallSuccessful) {
     
    if (getEntityName(service.text) == service.selectedVersion) {
              var entityObj = {};
@@ -378,7 +377,7 @@ var setEntity = function(entityItem, service, lastCallSuccessful) {
     }
 }
 
-var setToSetOrType = function(service, entityName, prevCallName) {
+function setToSetOrType (service, entityName, prevCallName) {
       var isEntitySet = service.cache.get(service.selectedVersion + "EntitySetData")[entityName];
       var isEntityType = service.cache.get(service.selectedVersion + "EntityTypeData")[entityName];
       if(isEntitySet && !isEntityType){
@@ -395,7 +394,7 @@ var setToSetOrType = function(service, entityName, prevCallName) {
     
 }
 
-var showRequestBodyEditor = function() {
+function showRequestBodyEditor () {
     s.tabConfig.disableRequestBodyEditor = false;
     s.tabConfig.hideContent = false;
     showRequestHeaders(s);
@@ -405,7 +404,7 @@ var showRequestBodyEditor = function() {
     })
 }
 
-var setSelectedTab = function(num) {
+function setSelectedTab (num) {
     if (num >= 2 || num < 0) {
         return;
     }
@@ -413,7 +412,7 @@ var setSelectedTab = function(num) {
     s.tabConfig.previousSelected = s.tabConfig.selected;
 }
 
-var handleQueryString = function(service, actionValue, versionValue, requestValue) {
+function handleQueryString (service, actionValue, versionValue, requestValue) {
     if(actionValue){
         service.selectedOption = actionValue.toUpperCase();
         if(service.selectedOption === 'POST' || service.selectedOption === 'PATCH') {
@@ -430,7 +429,7 @@ var handleQueryString = function(service, actionValue, versionValue, requestValu
    }
 }
 
-var parseMetadata = function(service, $scope){
+function parseMetadata (service, $scope){
     var entitySetData, entityTypeData;
     if(!service.cache.get(service.selectedVersion + "Metadata")) {
          console.log("parsing metadata");

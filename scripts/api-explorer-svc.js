@@ -15,8 +15,6 @@ angular.module('ApiExplorer')
 
             showJsonEditor: false,
 
-            showJsonViewer: true,
-
             cache: $cacheFactory('myCache'),
             
             entity: "",
@@ -25,9 +23,9 @@ angular.module('ApiExplorer')
             
             performAnonymousQuery: function (queryType) {
                 return function (query, postString, requestHeaders) {
-                        var headersObj = {
-                            "Authorization": "Bearer {token:https://graph.microsoft.com/}",
-                            "Accept": "application/json"
+                    var headersObj = {
+                        "Authorization": "Bearer {token:https://graph.microsoft.com/}",
+                        "Accept": "application/json"
                     };
 
                     if (requestHeaders && requestHeaders["Authorization"]){

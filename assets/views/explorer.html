@@ -57,7 +57,7 @@
                     <md-menu-content>
                         <md-menu-item ng-repeat="choice in items">
                             <md-button ng-click="onItemClick(choice)">
-                                {{choice}}
+                                {{::choice}}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -103,7 +103,7 @@
                         <span ng-hide="requestInProgress">
                             {{str.Go}}
                         </span>
-                        <md-progress-circular  class="md-hue-1" md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular>
+                        <md-progress-circular  class="white-progress-spinner" md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular>
                     </div>
                 </md-button>
                 <md-button class="md-icon-button" aria-label="Share" ng-click="showShareDialog($event)">
@@ -144,12 +144,11 @@
             </md-tab>
         </md-tabs>
 
-        <img id="img" width="250px" height="250px" ng-show="showImage" ng-cloak />
-
         <!-- response -->
         <md-tabs md-dynamic-height ng-cloak>
             <md-tab label="{{::str['response']}}">
                 <md-tab-body>
+                    <img id="img" width="250px" height="250px" ng-show="showImage" style="margin-top:10px" ng-cloak />
                     <div id="jsonViewer"></div>
                 </md-tab-body>
             </md-tab>
