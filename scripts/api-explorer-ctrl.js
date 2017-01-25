@@ -64,7 +64,6 @@ angular.module('ApiExplorer')
             }
         });
         
-        $scope.showJsonEditor = apiService.showJsonEditor;
         $scope.tabConfig = {
             disableRequestBodyEditor: true,
             hideContent: true,
@@ -105,12 +104,7 @@ angular.module('ApiExplorer')
             return session && session.access_token && session.expires > currentTime;
         };
 
-        $scope.getEditor = function() {
-            return apiService.showJsonEditor;
-        }
-
         $scope.$watch("getEditor()", function(event, args) {
-            $scope.showJsonEditor = $scope.getEditor();
             initializeJsonEditor($scope, bodyVal);
         });
 
@@ -187,7 +181,7 @@ angular.module('ApiExplorer')
                     apiService: apiService,
                     $sce: $sce,
                     headers: formatRequestHeaders($scope.jsonEditorHeaders.getSession().getValue()),
-                    body: $scope.jsonEditor.getSession().getValue()
+                    body: getJsonViewer().getSession().getValue()
                 },
             })
             .then(function(answer) {
@@ -372,12 +366,10 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         setSelectedTab(0);
     }
 
-    $scope.submissionInProgress = false;
-            
     $scope.getText = function() {
         return apiService.text;
     }
-    
+
     $scope.$watch("getText()", function(event, args) {
         $scope.text = apiService.text;
     });
@@ -386,7 +378,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.$parent.$on("urlChange", function (event, args) {
         msGraphLinkResolution($scope, $scope.$parent.jsonViewer.getSession().getValue(), args, apiService);
     });
-    
+
     // function called when link in the back button history is clicked
     $scope.historyOnClick = function(historyItem) {
         $scope.text = historyItem.urlText;
@@ -394,18 +386,16 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         apiService.selectedOption = historyItem.htmlOption;
 
         if (historyItem.htmlOption == 'POST' || historyItem.htmlOption == 'PATCH') {
-            apiService.showJsonEditor = true;
-            if ($scope.jsonEditor) {
-                $scope.jsonEditor.getSession().setValue(historyItem.jsonInput);
+            if (getJsonViewer()) {
+                getJsonViewer().getSession().setValue(historyItem.jsonInput);
             } else {
                 console.error("json editor watch event not firing");
             }
         } else {
             //clear jsonEditor
-            if ($scope.jsonEditor) {
-                $scope.jsonEditor.getSession().setValue("");
+            if (getJsonViewer()) {
+                getJsonViewer().getSession().setValue("");
             }
-            apiService.showJsonEditor = false;
 
         }
         $scope.submit($scope.text);
@@ -448,15 +438,15 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
 
         if (historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH') {
-            historyObj.jsonInput = $scope.jsonEditor.getSession().getValue();
+            historyObj.jsonInput = getJsonViewer().getSession().getValue();
         }
 
         $scope.showImage = false;
 
 
         var postBody = "";
-        if ($scope.jsonEditor != undefined) {
-            postBody = $scope.jsonEditor.getSession().getValue();
+        if (getJsonViewer() != undefined) {
+            postBody = getJsonViewer().getSession().getValue();
         }
 
         var requestHeaders = "";

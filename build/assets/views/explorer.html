@@ -4,11 +4,11 @@
     <form ng-controller="FormCtrl" ng-cloak>
         <div ng-hide="isAuthenticated()" layout="row" layout-align="end center">
             <span tabindex=0>{{::str['Using demo tenant']}}</span>
-            <md-button id="signin" class="md-primary" tabindex=0 ng-click="login()">{{::str['sign in']}}</md-button>
+            <md-button id="signin" class="" tabindex=0 ng-click="login()">{{::str['sign in']}}</md-button>
         </div>
         <div ng-show="isAuthenticated()" layout="row" layout-align="end center" ng-cloak>
             <span id='userEmail' ng-if="userInfo.preferred_username" tabindex=0>{{userInfo.preferred_username}}</span>
-            <md-button id="signout" class="md-primary" tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
+            <md-button id="signout" class="" tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
         </div>
         <div ng-controller="datalistCtrl" role="form">
             <div layout="row" layout-align="start center">
@@ -30,7 +30,7 @@
                                 <th>{{::str['Status Code']}}</th>
                                 <th>{{::str['Duration']}}</th>
                             </tr>
-                            <tr class="historyRow" ng-repeat="call in getRequestHistory() track by $index" ng-click="historyOnClick(call)">
+                            <tr class="historyRow" ng-repeat="call in getRequestHistory() track by call.requestId" ng-click="historyOnClick(call)">
                                 <td>
                                     {{::call.htmlOption}}
                                 </td>
@@ -50,14 +50,14 @@
 
                 <!-- version button -->
                 <md-menu md-offset="0 45" ng-controller="VersionCtrl" ng-cloak>
-                    <md-button class="md-raised md-primary" ng-click="$mdOpenMenu($event)" layout-align="space-around center">
+                    <md-button class="md-raised " ng-click="$mdOpenMenu($event)" layout-align="space-around center">
                         {{getServiceVersion()}}
                         <span> &#9660; </span>
                     </md-button>
                     <md-menu-content>
                         <md-menu-item ng-repeat="choice in items">
                             <md-button ng-click="onItemClick(choice)">
-                                {{choice}}
+                                {{::choice}}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -65,7 +65,7 @@
 
                 <md-menu md-offset="0 45" ng-controller="DropdownCtrl" ng-cloak>
                     <div>
-                        <md-button class="md-raised md-primary" ng-disabled="!isAuthenticated()" ng-click="$mdOpenMenu($event)" layout-align="space-around center">
+                        <md-button class="md-raised " ng-disabled="!isAuthenticated()" ng-click="$mdOpenMenu($event)" layout-align="space-around center">
                             {{getServiceOption()}}
                             <span> &#9660;</span>
                         </md-button>
@@ -98,7 +98,7 @@
                     <span id="autocompleteText" md-highlight-text="searchText" md-highlight-flags="^i" title="{{item.autocompleteVal}}">{{item.autocompleteVal}}</span>
                 </md-autocomplete>
 
-                <md-button class="md-raised md-primary" type="submit" ng-click="submit(searchText)" ng-cloak>
+                <md-button class="md-raised " type="submit" ng-click="submit(searchText)" ng-cloak>
                     <div layout="row" layout-align="center center">
                         <span ng-hide="requestInProgress">
                             {{str.Go}}
@@ -138,18 +138,17 @@
                 <md-tab-body>
                     <div id="requestBodyContainer">
                         <div id="jsonEditor"></div>
-                        <md-button id="insertTemplateButton" ng-if="canInsertTemplate()" class="md-raised md-primary md-mini" ng-click="insertPostTemplate()">Insert {{getCurrentEntityName()}} template</md-button>
+                        <md-button id="insertTemplateButton" ng-if="canInsertTemplate()" class="md-raised  md-mini" ng-click="insertPostTemplate()">Insert {{getCurrentEntityName()}} template</md-button>
                     </div>
                 </md-tab-body>
             </md-tab>
         </md-tabs>
 
-        <img id="img" width="250px" height="250px" ng-show="showImage" ng-cloak />
-
         <!-- response -->
         <md-tabs md-dynamic-height ng-cloak>
             <md-tab label="{{::str['response']}}">
                 <md-tab-body>
+                    <img id="img" width="250px" height="250px" ng-show="showImage" style="margin-top:10px" ng-cloak />
                     <div id="jsonViewer"></div>
                 </md-tab-body>
             </md-tab>

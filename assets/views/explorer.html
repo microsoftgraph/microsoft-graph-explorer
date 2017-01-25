@@ -30,7 +30,7 @@
                                 <th>{{::str['Status Code']}}</th>
                                 <th>{{::str['Duration']}}</th>
                             </tr>
-                            <tr class="historyRow" ng-repeat="call in getRequestHistory() track by $index" ng-click="historyOnClick(call)">
+                            <tr class="historyRow" ng-repeat="call in getRequestHistory() track by call.requestId" ng-click="historyOnClick(call)">
                                 <td>
                                     {{::call.htmlOption}}
                                 </td>

@@ -354,6 +354,7 @@ function setEntity (entityItem, service, lastCallSuccessful) {
 }
 
 function setToSetOrType (service, entityName, prevCallName) {
+    console.log(entityName);
       var isEntitySet = service.cache.get(service.selectedVersion + "EntitySetData")[entityName];
       var isEntityType = service.cache.get(service.selectedVersion + "EntityTypeData")[entityName];
       if(isEntitySet && !isEntityType){
