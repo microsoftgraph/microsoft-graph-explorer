@@ -190,8 +190,6 @@ function initializeJsonViewer($scope, apiService) {
         jsonViewer.hoverLink.on("open", function (x) {
             run($scope, x.value, apiService);
         })
-
-        $scope.jsonViewer = jsonViewer;
     });
 }
 
