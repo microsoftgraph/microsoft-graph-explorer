@@ -65,7 +65,6 @@ angular.module('ApiExplorer')
         });
         
         $scope.showJsonEditor = apiService.showJsonEditor;
-        $scope.showJsonViewer = apiService.showJsonViewer;
         $scope.tabConfig = {
             disableRequestBodyEditor: true,
             hideContent: true,
@@ -121,7 +120,8 @@ angular.module('ApiExplorer')
                 display: 'page',
                 response_type: "id_token token",
                 nonce: 'graph_explorer',
-                prompt: 'login'
+                prompt: 'login',
+                msafed: 0
             }, function(res) {
 
             }, function() {
@@ -451,7 +451,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             historyObj.jsonInput = $scope.jsonEditor.getSession().getValue();
         }
 
-        $scope.showJsonViewer = true;
         $scope.showImage = false;
 
 

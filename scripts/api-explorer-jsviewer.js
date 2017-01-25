@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 function initializeJsonViewer($scope, apiService) {
-    $(function() {
+    $(document).ready(function () {
     
         var jsonViewerElement = document.getElementById("jsonViewer");
         jsonViewer = ace.edit(jsonViewerElement);
@@ -196,5 +196,7 @@ function initializeJsonViewer($scope, apiService) {
 }
 
 function setJsonViewerContentType(mode) {
-    jsonViewer.getSession().setMode("ace/mode/" + mode);
+    $(document).ready(function () {
+        jsonViewer.getSession().setMode("ace/mode/" + mode);
+    });
 }

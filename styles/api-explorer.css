@@ -194,10 +194,6 @@ code {
     color: black;
 }
 
-.md-button.md-raised:not([disabled]) {
-    box-shadow: none;
-}
-
 .white-progress-spinner path {
     stroke: white;
 }
