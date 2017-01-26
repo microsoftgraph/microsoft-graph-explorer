@@ -159,9 +159,12 @@ angular.module('ApiExplorer')
             var entity = $scope.getCurrentEntityName();
             var strToInsert = JSON.stringify(postTemplates[entity], null, 2).trim();
 
-            var domain = $scope.userInfo.preferred_username.split("@")[1];
+            var fullUserEmail = $scope.userInfo.preferred_username;
+            var domain = fullUserEmail.split("@")[1];
 
             strToInsert = strToInsert.replace(/AUTHENTICATED_DOMAIN/g, domain);
+            strToInsert = strToInsert.replace(/FULL_USER_EMAIL/g, fullUserEmail);
+            
 
             initializeJsonEditor($scope, strToInsert);
         }

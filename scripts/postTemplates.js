@@ -45,15 +45,8 @@ var postTemplates = {
         "attendees": [
             {
             "emailAddress": {
-                "address": "AlexD@microsoft.com",
+                "address": "FULL_USER_EMAIL",
                 "name": "Alex Darrow"
-            },
-            "type": "Required"
-            },
-            {
-            "emailAddress": {
-                "address": "GarthF@imgeek.onmicrosoft.com",
-                "name": "Garth Fort"
             },
             "type": "Required"
             }
@@ -61,7 +54,7 @@ var postTemplates = {
         "timeConstraint": {
             "timeslots": [
             {
-            "start": { 
+            "start": {
                 "dateTime": "2016-10-20T07:00:00",  
                 "timeZone": "Pacific Standard Time" 
                 },  
