@@ -95,7 +95,8 @@
     filter: opacity(50%);
 }
 
-.historyIcon{
+.historyIcon {
+    color: black;
     font-size: 25px !important;
     min-height:100%;
     min-width: 100%;
@@ -192,8 +193,4 @@ code {
     background: #ececec;
     padding: 15px;
     color: black;
-}
-
-.white-progress-spinner path {
-    stroke: white;
 }

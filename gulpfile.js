@@ -24,7 +24,6 @@ const paths = {
       "scripts/*.js"
     ],
     stylesheets: [
-      "bower_components/components-font-awesome/css/font-awesome.min.css",
       "bower_components/angular-material/angular-material.min.css",
       "styles/api-explorer.css"
     ],
@@ -51,10 +50,6 @@ gulp.task('scripts', ['clean'], function() {
     .pipe(gulp.dest('build/scripts'));
 });
 
-gulp.task('fonts', ['clean'], function() {
-  return gulp.src(['./bower_components/components-font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}'])
-    .pipe(gulp.dest('fonts/'));
-});
 
 gulp.task('assets', ['clean'], function() {
   return gulp.src(paths.assets)
@@ -76,4 +71,4 @@ gulp.task('watch', function() {
 });
 
 // The default task (called when you run `gulp` from cli) 
-gulp.task('default', ['watch', 'scripts', 'stylesheets', 'fonts', 'assets']);
+gulp.task('default', ['watch', 'scripts', 'stylesheets', 'assets']);

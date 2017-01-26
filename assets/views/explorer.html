@@ -16,7 +16,7 @@
                 <md-menu md-offset="0 45" ng-cloak>
                     <div>
                         <md-button class="md-icon-button" id="historyButton" ng-click="$mdOpenMenu($event)" ng-disabled="getRequestHistory().length==0" aria-label="history">
-                            <i class="fa fa-history historyIcon" aria-hidden="true"></i>
+                            <md-icon class="historyIcon" md-svg-icon="{{::getAssetPath('assets/images/history.svg')}}"></md-icon>
                         </md-button>
                         <md-tooltip aria-label="history" md-direction="top" ng-cloak>
                             {{::str['History']}}
@@ -107,7 +107,7 @@
                     </div>
                 </md-button>
                 <md-button class="md-icon-button" aria-label="Share" ng-click="showShareDialog($event)">
-                    <md-icon md-svg-icon="{{::getAssetPath('assets/images/share-arrow.svg')}}"></md-icon>
+                    <md-icon md-svg-icon="{{::getAssetPath('assets/images/share-square-o.svg')}}"></md-icon>
                 </md-button>
             </div>
         </div>

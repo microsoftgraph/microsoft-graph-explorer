@@ -3,8 +3,7 @@
 // ------------------------------------------------------------------------------
 
 function initializeJsonEditor($scope, bodyVal) {
-    var jsonViewerElement = document.getElementById("jsonEditor");
-    jsonEditor = ace.edit(jsonViewerElement);
+    var jsonEditor = getRequestBodyEditor();
     jsonEditor.getSession().setMode("ace/mode/javascript");
     jsonEditor.$blockScrolling = Infinity;
     
@@ -25,6 +24,7 @@ function initializeJsonEditorHeaders($scope, headersVal) {
     var jsonViewerElement = document.getElementById("jsonEditorHeaders");
     if (!jsonViewerElement) {
         console.error('cannot find #jsonEditorHeaders')
+        return;
     }
     jsonEditorHeaders = ace.edit(jsonViewerElement);
     jsonEditorHeaders.setShowPrintMargin(false);

@@ -86,12 +86,14 @@ function insertHeadersIntoResponseViewer($scope, headers, status) {
     getJsonViewer().getSession().setValue("");
     getJsonViewer().getSession().insert(0, headersArr.join("\n"));
 }
+function getRequestBodyEditor() {
+    var requestBodyEditorElement = document.getElementById("jsonEditor");
+    return ace.edit(requestBodyEditorElement);
+}
 
 function getJsonViewer() {
     var jsonViewerElement = document.getElementById("jsonViewer");
-    var viewer = ace.edit(jsonViewerElement);
-
-    return viewer;
+    return ace.edit(jsonViewerElement);
 }
 
 function showResults($scope, results, headers, status, responseContentType) {
@@ -195,7 +197,8 @@ function formatRequestHeaders(headers){
    return obj; 
 }
 
-function createEntityTypeObject (returnArray, DOMarray) {
+function createEntityTypeObject (DOMarray) {
+    var entityTypes = {}
     for(var i=0; i<DOMarray.length; i++){
            var EntityType = {};
            EntityType.name = DOMarray[i].getAttribute("name");
@@ -218,27 +221,29 @@ function createEntityTypeObject (returnArray, DOMarray) {
                      EntityType.URLS.push(urlObject);
                  }
            }
-           returnArray[EntityType.name] = EntityType;
+           entityTypes[EntityType.name] = EntityType;
     }    
-    return returnArray;
+    return entityTypes;
 }
 
-function showRequestHeaders ($scope) {
-    if (!$scope.jsonEditorHeaders) return;
+function showRequestHeaders($scope) {
+    if (!$scope.jsonEditorHeaders)
+        return;
     $scope.jsonEditorHeaders.getSession().setValue("");
-    var requestHeaders = "Content-Type: application/json"
+    var requestHeaders = "Content-Type: application/json";
     $scope.jsonEditorHeaders.getSession().insert(0, requestHeaders);
 }
 
-function getEntityTypes (metadata){
-    var entityTypesArray = {};
+function getEntityTypes(metadata) {
+    var entities = {};
+
     var entityTypes = $(($.parseHTML(metadata))[1]).find("EntityType");
-    entityTypesArray = createEntityTypeObject(entityTypesArray, entityTypes);
+    jQuery.extend(entities, createEntityTypeObject(entityTypes));
     
     var complexTypes = $(($.parseHTML(metadata))[1]).find("ComplexType");
-    entityTypesArray = createEntityTypeObject(entityTypesArray, complexTypes);
+    jQuery.extend(entities, createEntityTypeObject(complexTypes));
     
-    return entityTypesArray;
+    return entities;
 }
 
 function myTrim (word){
@@ -354,21 +359,19 @@ function setEntity (entityItem, service, lastCallSuccessful) {
 }
 
 function setToSetOrType (service, entityName, prevCallName) {
-    console.log(entityName);
-      var isEntitySet = service.cache.get(service.selectedVersion + "EntitySetData")[entityName];
-      var isEntityType = service.cache.get(service.selectedVersion + "EntityTypeData")[entityName];
-      if(isEntitySet && !isEntityType){
-          return isEntitySet;
-      }else if(isEntityType && !isEntitySet){
-          return isEntityType;
-      }else if(isEntitySet && isEntityType){
-           if(prevCallName === service.selectedVersion){
-               return isEntitySet
-           }else{
-               return isEntityType;
-           }
-      }
-    
+    var isEntitySet = service.cache.get(service.selectedVersion + "EntitySetData")[entityName];
+    var isEntityType = service.cache.get(service.selectedVersion + "EntityTypeData")[entityName];
+    if (isEntitySet && !isEntityType) {
+        return isEntitySet;
+    } else if(isEntityType && !isEntitySet) {
+        return isEntityType;
+    } else if(isEntitySet && isEntityType) {
+        if (prevCallName === service.selectedVersion) {
+            return isEntitySet
+        } else {
+            return isEntityType;
+        }
+    }
 }
 
 function showRequestBodyEditor () {

@@ -124,6 +124,11 @@ angular.module('ApiExplorer')
         };
 
         $scope.logout = function () {
+            // change to GET and show request header tab
+            apiService.selectedOption = "GET";
+            $scope.tabConfig.disableRequestBodyEditor = true;
+            setSelectedTab(0);
+
             hello('msft').logout(null, {force:true});
             delete $scope.userInfo;
         };
@@ -376,7 +381,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
  
     // custom link re-routing logic to resolve links
     $scope.$parent.$on("urlChange", function (event, args) {
-        msGraphLinkResolution($scope, $scope.$parent.jsonViewer.getSession().getValue(), args, apiService);
+        msGraphLinkResolution($scope, getJsonViewer().getSession().getValue(), args, apiService);
     });
 
     // function called when link in the back button history is clicked
@@ -438,15 +443,14 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
 
         if (historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH') {
-            historyObj.jsonInput = getJsonViewer().getSession().getValue();
+            historyObj.jsonInput = getRequestBodyEditor().getSession().getValue();
         }
 
         $scope.showImage = false;
 
-
         var postBody = "";
-        if (getJsonViewer() != undefined) {
-            postBody = getJsonViewer().getSession().getValue();
+        if (getRequestBodyEditor() != undefined) {
+            postBody = getRequestBodyEditor().getSession().getValue();
         }
 
         var requestHeaders = "";
