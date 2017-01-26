@@ -117,23 +117,20 @@ function handleImageResponse($scope, apiService, startTime, headers, status, han
 }
 
 function handleHtmlResponse($scope, startTime, results, headers, status) {
-    setJsonViewerContentType("html");
     showDuration($scope, startTime);
-    showResults($scope, results, headers, status);
+    showResults($scope, results, headers, status, "html");
 }
 
 function handleJsonResponse($scope, startTime, results, headers, status) {
-    setJsonViewerContentType("json");
     results = JSON.stringify(results, null, 4);
     showDuration($scope, startTime);
-    showResults($scope, results, headers, status);
+    showResults($scope, results, headers, status, "json");
 }
 
 function handleXmlResponse($scope, startTime, results, headers, status) {
-    setJsonViewerContentType("xml");
     results = formatXml(results);
     showDuration($scope, startTime);
-    showResults($scope, results, headers, status);
+    showResults($scope, results, headers, status, "xml");
 }
 
 function isImageResponse(headers) {

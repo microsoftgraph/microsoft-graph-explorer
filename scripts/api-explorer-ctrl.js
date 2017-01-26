@@ -467,15 +467,16 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         function handleSuccessfulQueryResponse(result) {
             var status = result.status;
             var headers = result.headers;
+            var resultBody = result.data;
 
             if (isImageResponse(headers)) {
                 handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse);
             } else if (isHtmlResponse(headers)) {
-                handleHtmlResponse($scope, startTime, result, headers, status);
+                handleHtmlResponse($scope, startTime, resultBody, headers, status);
             } else if (isXmlResponse(result)) {
-                handleXmlResponse($scope, startTime, result, headers, status);
+                handleXmlResponse($scope, startTime, resultBody, headers, status);
             } else {
-                handleJsonResponse($scope, startTime, result.data, headers, status);
+                handleJsonResponse($scope, startTime, resultBody, headers, status);
             }
 
             saveHistoryObject(historyObj, status, new Date() - startTime);
