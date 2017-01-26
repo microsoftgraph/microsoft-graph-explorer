@@ -42,43 +42,48 @@ var postTemplates = {
         "saveToSentItems": "false"
     },
     findMeetingTimes: {
-        "attendees": [{
+        "attendees": [
+            {
             "emailAddress": {
                 "address": "AlexD@microsoft.com",
                 "name": "Alex Darrow"
             },
             "type": "Required"
-        }, {
+            },
+            {
             "emailAddress": {
                 "address": "GarthF@imgeek.onmicrosoft.com",
                 "name": "Garth Fort"
             },
             "type": "Required"
-        }],
+            }
+        ],
         "timeConstraint": {
-            "timeslots": [{
-                "start": {
-                    "date": "2016-04-18",
-                    "time": "9:00:00",
-                    "timeZone": "Pacific Standard Time"
-                },
-                "end": {
-                    "date": "2016-04-18",
-                    "time": "18:00:00",
-                    "timeZone": "Pacific Standard Time"
+            "timeslots": [
+            {
+            "start": { 
+                "dateTime": "2016-10-20T07:00:00",  
+                "timeZone": "Pacific Standard Time" 
+                },  
+                "end": { 
+                "dateTime": "2016-10-20T17:00:00",  
+                "timeZone": "Pacific Standard Time" 
                 }
-            }]
+            }
+            ]
         },
-        "locationConstraint": [{
-            "isRequired": "false",
-            "suggestLocation": "true",
-            "locations": [{
-                "displayName": "Conf Room 32/1368",
-                "locationEmailAddress": "conf32room1368@imgeek.onmicrosoft.com"
-            }]
-        }],
+        "locationConstraint": {
+        "isRequired": "false",
+        "suggestLocation": "true",
+        "locations": [
+            {
+            "displayName": "Conf Room 32/1368",
+            "locationEmailAddress": "conf32room1368@imgeek.onmicrosoft.com"
+            }
+        ]
+        },
         "meetingDuration": "PT1H"
-    },
+        },
     users: {
         "accountEnabled": true,
         "city": "Seattle",
