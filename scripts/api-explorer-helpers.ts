@@ -4,6 +4,9 @@
 
 'use strict';
 
+declare const ace:any;
+declare const $:any;
+
 function run ($scope, url, apiService) {
     $scope.$emit('urlChange', url);
 }
@@ -109,7 +112,8 @@ function handleImageResponse($scope, apiService, startTime, headers, status, han
         var blob = new Blob( [ result.data ], { type: "image/jpeg" } );
         var imageUrl = window.URL.createObjectURL( blob );
 
-        document.getElementById("img").src = imageUrl;
+        const imageResultViewer = <HTMLImageElement>document.getElementById("img");
+        imageResultViewer.src = imageUrl;
         $scope.showImage = true;
         insertHeadersIntoResponseViewer($scope, result.headers, result.status);
         showDuration($scope, startTime);
@@ -163,18 +167,28 @@ function getContentType(headers) {
     }
 }
 
-
+// entitysets in EntityContainer
+// entitytypes
+interface GraphEntity {
+    name: string
+    isEntitySet: boolean
+    URLS: string[]
+    entityType: string
+}
 
 function getEntitySets(metadata) {
     var entitySetsObj = {};
     var entitySets = $(($.parseHTML(metadata))[1]).find("EntityContainer")[0].children;
     for(var i=0; i<entitySets.length; i++){
         var set = entitySets[i];
-        var EntitySet = {};
-        EntitySet.name = set.getAttribute("name");;
-        EntitySet.isEntitySet = true;
-        EntitySet.URLS = [];
-        EntitySet.entityType = set.getAttribute("entitytype");
+
+        var EntitySet:GraphEntity = {
+            name: set.getAttribute("name"),
+            isEntitySet: true,
+            URLS: [],
+            entityType: set.getAttribute("entitytype")
+        };
+
         entitySetsObj[EntitySet.name] = EntitySet;
     }
     return entitySetsObj;
@@ -197,10 +211,12 @@ function formatRequestHeaders(headers){
 function createEntityTypeObject (DOMarray) {
     var entityTypes = {}
     for(var i=0; i<DOMarray.length; i++){
-           var EntityType = {};
-           EntityType.name = DOMarray[i].getAttribute("name");
-           EntityType.isEntitySet = false;
-           EntityType.URLS = [];
+           var EntityType:GraphEntity = {
+                name: DOMarray[i].getAttribute("name"),
+                isEntitySet: false
+                URLS: []
+           };
+
            var children = DOMarray[i].children;
            for(var j=0; j<children.length; j++) {
                  if(children[j].attributes.length > 0) {
