@@ -92,10 +92,10 @@
                                 md-search-text="searchText"
                                 md-search-text-change="searchTextChange(searchText)"
                                 md-items="item in getMatches(searchText)"
-                                md-item-text="item.autocompleteVal"
+                                md-item-text="item"
                                 md-min-length="0"
                                 md-selected-item-change="processAutocompleteClick(item)" on-enter ng-cloak>
-                    <span id="autocompleteText" md-highlight-text="searchText" md-highlight-flags="^i" title="{{item.autocompleteVal}}">{{item.autocompleteVal}}</span>
+                    <span id="autocompleteText" md-highlight-text="searchText" md-highlight-flags="^i" title="{{item}}">{{item}}</span>
                 </md-autocomplete>
 
                 <md-button class="md-raised " type="submit" ng-click="submit(searchText)" ng-cloak>

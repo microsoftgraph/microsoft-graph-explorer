@@ -301,10 +301,11 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
     $scope.searchTextChange = function(searchText) {
         this.searchText = searchText;        
         $scope.$parent.setRawSearchText(searchText);
-        if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
-            apiService.text = searchText;
-            setEntity(getEntityName(searchText), apiService, true);
-        }
+        //if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
+        apiService.text = searchText;
+        // setEntity(apiService, true);
+        $scope.urlArray = getUrlsFromServiceURL(apiService)
+       // }
     }
 
     function updateUrlOptions() {
@@ -314,34 +315,24 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
                 urlOptions = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
                 apiService.entity.name = apiService.selectedVersion;
         } else if (apiService.entity != null) {
-            urlOptions = apiService.entity.URLS;
+            urlOptions = getUrlsFromEntityType(apiService, apiService.entity);
         } else {
             return;
         }
 
-        //for each new URL to add
-        for(var x in urlOptions) {
-            var separator = '';
-            if (apiService.text.charAt((apiService.text).length-1) != '/') {
-                separator = '/'
-            }
-
-            urlOptions[x].autocompleteVal = apiService.text + separator + urlOptions[x].name;
-
-            if ($scope.urlArray.indexOf(urlOptions[x]) == -1)
-                $scope.urlArray.push(urlOptions[x]);
-        }
+        
     };
 
     // mostly used for the initial page load, when the entity is set (me/user),  load the possible URL options
-    $scope.$watch("getEntity()", function(newValue, oldValue) {
-        if (oldValue !== newValue)
-            updateUrlOptions()
-    }, true);
+    // $scope.$watch("getEntity()", function(newValue, oldValue) {
+    //     if (oldValue !== newValue)
+    //         updateUrlOptions()
+    // }, true);
 
     $scope.getMatches = function(query) {
+        debugger;
         return $scope.urlArray.filter(function(option) {
-            var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
+            var queryInOption = (option.indexOf(query)>-1);
             var queryIsEmpty = (getEntityName(query).length == 0);
 
             return queryIsEmpty || queryInOption;
@@ -350,9 +341,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
 
     $scope.processAutocompleteClick = function(item) {
         $scope.$parent.selectedItemChange(item)
-        
-        if (item && item.autocompleteVal)
-            $scope.$parent.setRawSearchText(item.autocompleteVal);
+        $scope.$parent.setRawSearchText(item);
     }
 
     if (window.runTests)
@@ -482,7 +471,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             saveHistoryObject(historyObj, status, new Date() - startTime);
 
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
-                setEntity($scope.entityItem, apiService, true, apiService.text);
+                // setEntity(apiService, true);
             }
 
             $scope.insufficientPrivileges = false;
@@ -494,7 +483,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             handleJsonResponse($scope, startTime, result.data, headers, status);
             saveHistoryObject(historyObj, status, new Date() - startTime);
             if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
-                setEntity($scope.entityItem, apiService, false, apiService.text);
+                // setEntity(apiService, false);
             }
 
             if (status === 401 || status === 403) {
