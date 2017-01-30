@@ -12,7 +12,7 @@ angular.module('ApiExplorer')
         $scope.getAssetPath = function(relPath) {
             return s.pathToBuildDir + "/"+ relPath;
         }
-
+  
         $scope.finishAdminConsertFlow = function() {
             // silently get a new access token with the admin scopes
             hello('msft_token_refresh').login({
@@ -137,22 +137,27 @@ angular.module('ApiExplorer')
             return viewLocation === $location.path();
         };
 
-        var rawSearchText = "";
-        $scope.setRawSearchText = function(text) {
-            rawSearchText = text;
+        $scope.searchText = "";
+        $scope.setSearchText = function(text) {
+            $scope.searchText = text;
         }
 
-        $scope.getRawSearchText = function() {
-            return rawSearchText;
+        $scope.getSearchText = function() {
+            return $scope.searchText;
         }
+
 
         $scope.getCurrentEntityName = function() {
-            if (!rawSearchText) return null;
-            return rawSearchText.split("/").filter((function(a) { return a.length > 0})).pop();
+            if (!$scope.searchText) return null;
+            
+            var txt = $scope.searchText;
+            var pathArr = txt.split("/").filter((function(a) { return a.length > 0}));
+
+            return pathArr.pop();
         }
 
         $scope.canInsertTemplate = function() {
-            return apiService.selectedOption == "POST" && checkCanInsertTemplate(rawSearchText);
+            return apiService.selectedOption == "POST" && checkCanInsertTemplate($scope.searchText);
         }
 
         $scope.insertPostTemplate = function() {
@@ -169,7 +174,7 @@ angular.module('ApiExplorer')
             initializeJsonEditor($scope, strToInsert);
         }
 
-        function checkCanInsertTemplate(URL) {
+        function checkCanInsertTemplate(URL) {s
             // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
             var entity = $scope.getCurrentEntityName()
             var canInsertTemplate = entity in postTemplates;
@@ -244,115 +249,60 @@ angular.module('ApiExplorer')
 
 angular.module('ApiExplorer')
     .controller('VersionCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-        $scope.selectedVersion = apiService.selectedVersion;
-
         $scope.items = [
             'beta',
             'v1.0'
         ];
-
-        $scope.getVersion = function() {
-            return $scope.selectedVersion;
-        }
 
         $scope.getServiceVersion = function() {
             return apiService.selectedVersion;
         }
 
         $scope.onItemClick = function(choice) {
-            $scope.selectedVersion = choice;
             apiService.selectedVersion = choice;
-        }
-        $scope.$watch("getVersion()", function(newVal, oldVal) {
-            if (oldVal !== newVal) {
-                apiService.selectedVersion = $scope.selectedVersion;
-                if ($scope.$parent.searchText) {
-                    apiService.text = $scope.$parent.searchText.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
-                } else {
-                    apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));    
-                }
-                parseMetadata(apiService, $scope);
-            }
-        });
+        }   
 }]);
 
 angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-    $scope.urlArray = [];
 
-    $scope.getEntity = function() {
-        return apiService.entity;
-    }
+    $scope.searchTextChange = function(searchText) {
+        $scope.$parent.setSearchText(searchText);
 
-    $scope.getText = function() {
-        return apiService.text;
+        apiService.text = searchText;
     }
 
     $scope.getRequestHistory = function() {
         return requestHistory;
     }
 
-    $scope.$watch("getText()", function(event, args) {
-            $scope.text = apiService.text;
-            this.searchText = $scope.text;
-    });
-
-    $scope.$parent.setRawSearchText(apiService.text);
-
-    $scope.searchTextChange = function(searchText) {
-        this.searchText = searchText;        
-        $scope.$parent.setRawSearchText(searchText);
-        if (searchText.charAt(searchText.length-1) === "/" && apiService.entity && getEntityName(searchText) !== apiService.entity.name) {
-            apiService.text = searchText;
-            setEntity(getEntityName(searchText), apiService, true);
-        }
+    $scope.getServiceVersion = function() {
+        return apiService.selectedVersion;
     }
 
-    function updateUrlOptions() {
-        var urlOptions = {};
-        console.log("updating url options for", apiService.entity);
-        if (apiService.entity && apiService.entity.name === apiService.selectedVersion) {
-                urlOptions = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
-                apiService.entity.name = apiService.selectedVersion;
-        } else if (apiService.entity != null) {
-            urlOptions = apiService.entity.URLS;
-        } else {
-            return;
-        }
-
-        //for each new URL to add
-        for(var x in urlOptions) {
-            var separator = '';
-            if (apiService.text.charAt((apiService.text).length-1) != '/') {
-                separator = '/'
+    $scope.$on('updateUrlFromServiceText', function(event, data) {
+        $scope.text = apiService.text;
+    });
+    
+    $scope.$watch("getServiceVersion()", function(newVal, oldVal) {
+        if (oldVal !== newVal) {
+            if ($scope.$parent.searchText) {
+                $scope.searchTextChange($scope.$parent.searchText.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/")));
+                $scope.text = apiService.text;
             }
-
-            urlOptions[x].autocompleteVal = apiService.text + separator + urlOptions[x].name;
-
-            if ($scope.urlArray.indexOf(urlOptions[x]) == -1)
-                $scope.urlArray.push(urlOptions[x]);
+            parseMetadata(apiService, $scope);
         }
-    };
+    });
 
-    // mostly used for the initial page load, when the entity is set (me/user),  load the possible URL options
-    $scope.$watch("getEntity()", function(newValue, oldValue) {
-        if (oldValue !== newValue)
-            updateUrlOptions()
-    }, true);
+    $scope.searchTextChange(apiService.text);
 
     $scope.getMatches = function(query) {
-        return $scope.urlArray.filter(function(option) {
-            var queryInOption = (option.autocompleteVal.indexOf(query)>-1);
+        var urls = getUrlsFromServiceURL(apiService)
+        return urls.filter(function(option) {
+            var queryInOption = (option.indexOf(query)>-1);
             var queryIsEmpty = (getEntityName(query).length == 0);
 
             return queryIsEmpty || queryInOption;
         });
-    }
-
-    $scope.processAutocompleteClick = function(item) {
-        $scope.$parent.selectedItemChange(item)
-        
-        if (item && item.autocompleteVal)
-            $scope.$parent.setRawSearchText(item.autocompleteVal);
     }
 
     if (window.runTests)
@@ -362,9 +312,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
 
 
 angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-    $scope.text = apiService.text;
     $scope.requestInProgress = false;
-    $scope.entityItem = null;
     $scope.insufficientPrivileges = false;
 
     if (hello('msft').getAuthResponse() != null && 
@@ -377,10 +325,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     $scope.getText = function() {
         return apiService.text;
     }
-
-    $scope.$watch("getText()", function(event, args) {
-        $scope.text = apiService.text;
-    });
  
     // custom link re-routing logic to resolve links
     $scope.$parent.$on("urlChange", function (event, args) {
@@ -422,11 +366,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             $scope.finishAdminConsertFlow();
         })
     }
-    
-    $scope.selectedItemChange = function(item) {
-        $scope.entityItem = item;
-    }
-    
+        
 
     $scope.submit = function (query) {
         if (!query) {
@@ -481,9 +421,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
             saveHistoryObject(historyObj, status, new Date() - startTime);
 
-            if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
-                setEntity($scope.entityItem, apiService, true, apiService.text);
-            }
 
             $scope.insufficientPrivileges = false;
         }
@@ -493,9 +430,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             var headers = result.headers;
             handleJsonResponse($scope, startTime, result.data, headers, status);
             saveHistoryObject(historyObj, status, new Date() - startTime);
-            if (apiService.cache.get(apiService.selectedVersion + "Metadata") && apiService.selectedOption == "GET") {
-                setEntity($scope.entityItem, apiService, false, apiService.text);
-            }
 
             if (status === 401 || status === 403) {
                 $scope.insufficientPrivileges = true;
