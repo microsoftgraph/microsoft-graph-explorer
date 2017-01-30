@@ -90,6 +90,7 @@
                     md-no-cache="true"
                     md-search-text="$parent.searchText"
                     md-search-text-change="searchTextChange($parent.searchText)"
+                    md-selected-item-change="searchTextChange(item)"
                     md-items="item in getMatches($parent.searchText)"
                     md-item-text="item"
                     md-min-length="0">

@@ -148,7 +148,11 @@ angular.module('ApiExplorer')
 
         $scope.getCurrentEntityName = function() {
             if (!$scope.searchText) return null;
-            return $scope.searchText.split("/").filter((function(a) { return a.length > 0})).pop();
+            
+            var txt = $scope.searchText;
+            var pathArr = txt.split("/").filter((function(a) { return a.length > 0}));
+
+            return pathArr.pop();
         }
 
         $scope.canInsertTemplate = function() {
@@ -169,7 +173,7 @@ angular.module('ApiExplorer')
             initializeJsonEditor($scope, strToInsert);
         }
 
-        function checkCanInsertTemplate(URL) {
+        function checkCanInsertTemplate(URL) {s
             // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
             var entity = $scope.getCurrentEntityName()
             var canInsertTemplate = entity in postTemplates;
