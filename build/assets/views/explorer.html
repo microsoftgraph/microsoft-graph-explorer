@@ -2,6 +2,8 @@
 
 <div ng-app="ApiExplorer" ng-controller="ApiExplorerCtrl" role="document">
     <form ng-controller="FormCtrl" ng-cloak>
+
+
         <div ng-hide="isAuthenticated()" layout="row" layout-align="end center">
             <span tabindex=0>{{::str['Using demo tenant']}}</span>
             <md-button id="signin" class="" tabindex=0 ng-click="login()">{{::str['sign in']}}</md-button>
@@ -83,19 +85,15 @@
                 </md-menu>
 
                 <!-- autocomplete -->
-                
                 <md-autocomplete flex
-                                role="combobox"
-                                title="{{searchText}}"
-                                md-selected-item="text"
-                                md-no-cache="true"
-                                md-search-text="searchText"
-                                md-search-text-change="searchTextChange(searchText)"
-                                md-items="item in getMatches(searchText)"
-                                md-item-text="item"
-                                md-min-length="0"
-                                md-selected-item-change="processAutocompleteClick(item)" on-enter ng-cloak>
-                    <span id="autocompleteText" md-highlight-text="searchText" md-highlight-flags="^i" title="{{item}}">{{item}}</span>
+                    md-selected-item="text"
+                    md-no-cache="true"
+                    md-search-text="$parent.searchText"
+                    md-search-text-change="searchTextChange($parent.searchText)"
+                    md-items="item in getMatches($parent.searchText)"
+                    md-item-text="item"
+                    md-min-length="0">
+                    <span id="autocompleteText" title="{{item}}">{{item}}</span>
                 </md-autocomplete>
 
                 <md-button class="md-raised " type="submit" ng-click="submit(searchText)" ng-cloak>

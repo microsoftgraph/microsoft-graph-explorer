@@ -308,36 +308,51 @@ function getEntityName (URL){
 }
 
 
-function getEntityFromTypeName(service, typePossiblyWithPrefix:string) {
+function getEntityFromTypeName(service, typePossiblyWithPrefix:string):GraphEntity {
     const entityTypeData = service.cache.get(service.selectedVersion + "EntityTypeData");
     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
     return entityTypeData[type];
 
 }
 
-function constructGraphLinksFromServicePath(service):GraphEntity[] {
-    let segments:string[] = service.text.split("graph.microsoft.com/")[1].split("/");
+function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
+    const urlPathArr = service.text.split("https://graph.microsoft.com/");
+    if (urlPathArr.length <=1)
+        return [];
+
+    let segments:string[] = urlPathArr[1].split("/");
     let version = segments.shift();
 
-    var graph:GraphEntity[] = [];
+    var graph:GraphNodeLink[] = [];
 
     // singletons and entitysets
     let entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
-
+    if (entityContainerData === undefined) return [];
     while (segments.length > 0) {
         let segment = segments.shift();
         if (graph.length == 0) {
             if (segment in entityContainerData) {
                 let node:GraphNodeLink = entityContainerData[segment];
-                let entity:GraphEntity = getEntityFromTypeName(service, node.type);
-                graph.push(entity);
+                graph.push(node);
             }
         } else {
             let lastGraphItem = graph[graph.length - 1];
-            if (segment in lastGraphItem.links) { // me/drive/root
-                graph.push(getEntityFromTypeName(service, lastGraphItem.links[segment].type));
-            } else if (getEntityFromTypeName(service, lastGraphItem.name)) {
+            let lastGraphItemEntity = getEntityFromTypeName(service, lastGraphItem.type);
+
+            if (lastGraphItemEntity === undefined) {
+                continue;
+            }
+
+            if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) { // me/drive/root
+                graph.push(lastGraphItemEntity.links[segment]);
+            } else if (lastGraphItem.isACollection && segment != "") {
                 // previous link was a collection, current is an id
+                graph.push({
+                    isACollection: false,
+                    isEntitySet: false,
+                    name: segment,
+                    type: lastGraphItem.type
+                });
             }
         }
     }
@@ -351,10 +366,25 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
     // return that array
     
     var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
-    // if ()
+
+
+    let baseUrl = [];
+    while(graphFromServiceUrl.length > 0) {
+        let lastSegment = graphFromServiceUrl.shift();
+        baseUrl.push(lastSegment.name);
+    }
+
+    let baseUrlFinal = "https://graph.microsoft.com/"+service.selectedVersion;
+    
+    if (baseUrl.length > 0) {
+        baseUrlFinal += "/" + baseUrl.join('/');
+    }
 
     let autocompleteUrls = [];
-    
+    for (let urlAutoCompleteSuffix in urlOptions) {
+        autocompleteUrls.push(baseUrlFinal + '/' + urlOptions[urlAutoCompleteSuffix]);
+    }
+    return autocompleteUrls;
 
 }
 
@@ -363,14 +393,17 @@ function getUrlsFromServiceURL (service, lastCallSuccessful):string[] {
     var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
     if (graphFromServiceUrl.length > 0) {
         let lastNode = graphFromServiceUrl.pop();
-        return Object.keys(lastNode.links);
-    }
 
-   if (getEntityName(service.text) == service.selectedVersion) {
-        var entityObj = {};
-        entityObj.name = service.selectedVersion;
-        service.entity = entityObj;
-        return;
+        if (lastNode.isACollection) return [];
+
+        let entity = getEntityFromTypeName(service, lastNode.type);
+        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entity.links));
+    } else {
+        let entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
+        if (entityContainerData === undefined) {
+            return [];
+        }
+        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entityContainerData));
     }
 }
 

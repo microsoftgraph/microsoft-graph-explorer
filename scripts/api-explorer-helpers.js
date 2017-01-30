@@ -240,25 +240,39 @@ function getEntityFromTypeName(service, typePossiblyWithPrefix) {
     return entityTypeData[type];
 }
 function constructGraphLinksFromServicePath(service) {
-    var segments = service.text.split("graph.microsoft.com/")[1].split("/");
+    var urlPathArr = service.text.split("https://graph.microsoft.com/");
+    if (urlPathArr.length <= 1)
+        return [];
+    var segments = urlPathArr[1].split("/");
     var version = segments.shift();
     var graph = [];
     var entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
+    if (entityContainerData === undefined)
+        return [];
     while (segments.length > 0) {
         var segment = segments.shift();
         if (graph.length == 0) {
             if (segment in entityContainerData) {
                 var node = entityContainerData[segment];
-                var entity = getEntityFromTypeName(service, node.type);
-                graph.push(entity);
+                graph.push(node);
             }
         }
         else {
             var lastGraphItem = graph[graph.length - 1];
-            if (segment in lastGraphItem.links) {
-                graph.push(getEntityFromTypeName(service, lastGraphItem.links[segment].type));
+            var lastGraphItemEntity = getEntityFromTypeName(service, lastGraphItem.type);
+            if (lastGraphItemEntity === undefined) {
+                continue;
             }
-            else if (getEntityFromTypeName(service, lastGraphItem.name)) {
+            if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) {
+                graph.push(lastGraphItemEntity.links[segment]);
+            }
+            else if (lastGraphItem.isACollection && segment != "") {
+                graph.push({
+                    isACollection: false,
+                    isEntitySet: false,
+                    name: segment,
+                    type: lastGraphItem.type
+                });
             }
         }
     }
@@ -266,19 +280,36 @@ function constructGraphLinksFromServicePath(service) {
 }
 function combineUrlOptionsWithCurrentUrl(service, urlOptions) {
     var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
+    var baseUrl = [];
+    while (graphFromServiceUrl.length > 0) {
+        var lastSegment = graphFromServiceUrl.shift();
+        baseUrl.push(lastSegment.name);
+    }
+    var baseUrlFinal = "https://graph.microsoft.com/" + service.selectedVersion;
+    if (baseUrl.length > 0) {
+        baseUrlFinal += "/" + baseUrl.join('/');
+    }
     var autocompleteUrls = [];
+    for (var urlAutoCompleteSuffix in urlOptions) {
+        autocompleteUrls.push(baseUrlFinal + '/' + urlOptions[urlAutoCompleteSuffix]);
+    }
+    return autocompleteUrls;
 }
 function getUrlsFromServiceURL(service, lastCallSuccessful) {
     var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
     if (graphFromServiceUrl.length > 0) {
         var lastNode = graphFromServiceUrl.pop();
-        return Object.keys(lastNode.links);
+        if (lastNode.isACollection)
+            return [];
+        var entity = getEntityFromTypeName(service, lastNode.type);
+        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entity.links));
     }
-    if (getEntityName(service.text) == service.selectedVersion) {
-        var entityObj = {};
-        entityObj.name = service.selectedVersion;
-        service.entity = entityObj;
-        return;
+    else {
+        var entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
+        if (entityContainerData === undefined) {
+            return [];
+        }
+        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entityContainerData));
     }
 }
 function showRequestBodyEditor() {

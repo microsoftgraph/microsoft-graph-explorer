@@ -8,7 +8,6 @@ function endsWithSlash(serviceText:string):boolean {
 
 function msGraphLinkResolution ($scope, body, args, service) {
     if (args.indexOf("https://") == -1) {
-        debugger;
         if (service.text.indexOf(args.substr(1)) != -1) {
 
         } else if (service.text.indexOf("/me") != -1 && service.text.indexOf("/memberOf") == -1) {

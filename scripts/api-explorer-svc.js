@@ -17,10 +17,6 @@ angular.module('ApiExplorer')
 
             cache: $cacheFactory('myCache'),
             
-            entity: "",
-            
-            entityNameIsAnId: false,
-            
             performAnonymousQuery: function (queryType) {
                 return function (query, postString, requestHeaders) {
                     var headersObj = {
