@@ -278,6 +278,10 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
     $scope.getServiceVersion = function() {
         return apiService.selectedVersion;
     }
+
+    $scope.$on('updateUrlFromServiceText', function(event, data) {
+        $scope.text = apiService.text;
+    });
     
     $scope.$watch("getServiceVersion()", function(newVal, oldVal) {
         if (oldVal !== newVal) {

@@ -5,7 +5,7 @@ function msGraphLinkResolution($scope, body, args, service) {
     if (args.indexOf("https://") == -1) {
         if (service.text.indexOf(args.substr(1)) != -1) {
         }
-        else if (service.text.indexOf("/me") != -1 && service.text.indexOf("/memberOf") == -1) {
+        else if (service.text.indexOf("/me") != -1 && service.text.indexOf("/me/") == -1 && service.text.indexOf("/memberOf") == -1) {
             service.text = service.text.replace("/me", "") + "/users/" + args.substr(1);
         }
         else {
@@ -36,6 +36,7 @@ function msGraphLinkResolution($scope, body, args, service) {
     if (service.text && endsWithSlash(service.text)) {
         service.text += '/';
     }
+    $scope.$broadcast('updateUrlFromServiceText');
     $scope.submit(service.text);
 }
 //# sourceMappingURL=api-explorer-msgraph.js.map
