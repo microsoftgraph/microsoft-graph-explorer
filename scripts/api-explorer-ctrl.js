@@ -146,6 +146,7 @@ angular.module('ApiExplorer')
             return $scope.searchText;
         }
 
+
         $scope.getCurrentEntityName = function() {
             if (!$scope.searchText) return null;
             
@@ -268,6 +269,10 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
         $scope.$parent.setSearchText(searchText);
 
         apiService.text = searchText;
+    }
+
+    $scope.getRequestHistory = function() {
+        return requestHistory;
     }
 
     $scope.getServiceVersion = function() {
