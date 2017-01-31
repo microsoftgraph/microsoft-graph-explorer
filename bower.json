@@ -14,8 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "hello": "^1.14.0",
-    "jwt-decode": "^2.1.0"
+    "hello": "^1.14.0"
   },
   "devDependencies": {
     "mocha":"latest",
