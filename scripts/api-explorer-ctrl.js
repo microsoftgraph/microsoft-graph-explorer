@@ -43,25 +43,23 @@ angular.module('ApiExplorer')
                 var authResponse = hello('msft').getAuthResponse()
 
                 accessToken = authResponse.access_token;
-
-                var jwt;
-                if ('id_token' in authResponse) {
-                    jwt = authResponse['id_token'];
-                }
-
-                var decodedJwt = jwt_decode(jwt);
-                
-                $scope.userInfo = {
-                    preferred_username: decodedJwt.preferred_username
-                }
-
-                $scope.$apply();
-
             }
 
             if (accessToken) {
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+           
+                apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me")
+                    .then(function (result) {
+                        var resultBody = result.data;
+
+                        $scope.userInfo = {
+                            preferred_username: resultBody.mail
+                        }
+                    }, function(res) {
+                        console.error(res);
+                    });
             }
+
         });
         
         $scope.tabConfig = {
