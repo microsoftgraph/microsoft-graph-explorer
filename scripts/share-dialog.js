@@ -27,12 +27,12 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, bod
     };
     
     $scope.getShareLink = function() {
-        var requestUrl = $scope.getRawSearchText();
+        var requestUrl = $scope.getSearchText();
         return createShareLink(requestUrl, _apiService.selectedOption, _apiService.selectedVersion);
     }
 
     $scope.generateSuperAgentCode = function() {
-        var requestUrl = $scope.getRawSearchText();
+        var requestUrl = $scope.getSearchText();
 
         var fullGraphUrl = "https://graph.microsoft.com/" + _apiService.selectedVersion + "/" + extractGraphEndpoint(requestUrl);
 
