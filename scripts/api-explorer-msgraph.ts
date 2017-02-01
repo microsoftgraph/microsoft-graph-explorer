@@ -44,5 +44,5 @@ function msGraphLinkResolution ($scope, body, args, service) {
     }
     
     $scope.$broadcast('updateUrlFromServiceText');
-    $scope.submit(service.text);
+    $scope.submit();
 }

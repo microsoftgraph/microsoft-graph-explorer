@@ -37,6 +37,6 @@ function msGraphLinkResolution($scope, body, args, service) {
         service.text += '/';
     }
     $scope.$broadcast('updateUrlFromServiceText');
-    $scope.submit(service.text);
+    $scope.submit();
 }
 //# sourceMappingURL=api-explorer-msgraph.js.map

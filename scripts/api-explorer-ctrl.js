@@ -331,7 +331,8 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
     // function called when link in the back button history is clicked
     $scope.historyOnClick = function(historyItem) {
-        $scope.text = historyItem.urlText;
+        apiService.text = historyItem.urlText;
+        $scope.$broadcast('updateUrlFromServiceText');
         apiService.selectedVersion = historyItem.selectedVersion;
         apiService.selectedOption = historyItem.htmlOption;
 
@@ -348,7 +349,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             }
 
         }
-        $scope.submit($scope.text);
+        $scope.submit();
     }
     
     $scope.closeAdminConsentBar = function() {
@@ -366,18 +367,13 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
     }
         
 
-    $scope.submit = function (query) {
-        if (!query) {
-            return;
-        }
-
-        apiService.text = query;
+    $scope.submit = function () {
         $scope.requestInProgress = true;
 
         //create an object to store the api call
         var historyObj = {};
 
-        historyObj.urlText = query;
+        historyObj.urlText = apiService.text;
         historyObj.selectedVersion = apiService.selectedVersion;
         historyObj.htmlOption = apiService.selectedOption;
         historyObj.jsonInput = "";
