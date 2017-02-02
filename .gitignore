@@ -4,3 +4,7 @@ npm-debug.log*
 secrets.js
 fonts/
 debug.log
+
+scripts/typescript/*.js
+scripts/typescript/*.js.map
+scripts/typescript/*.d.ts

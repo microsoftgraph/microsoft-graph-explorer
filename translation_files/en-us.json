@@ -16,5 +16,6 @@
   "request header": "request header",
   "request body": "request body",
   "response": "response",
-  "login_to_send_requests": "Login to change the request type"
+  "login_to_send_requests": "Login to change the request type",
+  "ShareQuery": "Share Query"
 }

@@ -2,7 +2,9 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-var s;
+let s:any;
+declare const angular:any;
+
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', '$templateCache', '$mdDialog', '$sce', function ($scope, $http, $location, apiService, $timeout, $templateCache, $mdDialog, $sce ) {
 
@@ -191,7 +193,7 @@ angular.module('ApiExplorer')
                 locals: {
                     apiService: apiService,
                     $sce: $sce,
-                    headers: formatRequestHeaders($scope.jsonEditorHeaders.getSession().getValue()),
+                    headers: formatRequestHeaders(getHeadersEditor().getSession().getValue()),
                     body: getJsonViewer().getSession().getValue()
                 },
             })
@@ -303,7 +305,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
         });
     }
 
-    if (window.runTests)
+    if (window['runTests'])
          runAutoCompleteTests(apiService);
 
 }]);
@@ -371,7 +373,8 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         $scope.requestInProgress = true;
 
         //create an object to store the api call
-        var historyObj = {};
+        // @todo strongly type historyObj
+        let historyObj:any = {};
 
         historyObj.urlText = apiService.text;
         historyObj.selectedVersion = apiService.selectedVersion;
@@ -390,9 +393,9 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             postBody = getRequestBodyEditor().getSession().getValue();
         }
 
-        var requestHeaders = "";
-        if ($scope.jsonEditorHeaders != undefined) {
-            requestHeaders = $scope.jsonEditorHeaders.getSession().getValue();
+        var requestHeaders:any = "";
+        if (getHeadersEditor() != undefined) {
+            requestHeaders = getHeadersEditor().getSession().getValue();
             requestHeaders = formatRequestHeaders(requestHeaders);
         }
 

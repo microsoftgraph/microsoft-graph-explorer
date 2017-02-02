@@ -9,18 +9,19 @@ const paths = {
       "bower_components/hello/dist/hello.all.js",
       "bower_components/hello/dist/hello.js",
       "scripts/api-explorer-init.js",
-      "scripts/api-explorer-helpers.js",
+      "scripts/typescript/api-explorer-helpers.js",
       "scripts/api-explorer-app.js",
       "scripts/api-explorer-svc.js",
       "scripts/loc_strings.js",
-      "scripts/api-explorer-ctrl.js",
+      "scripts/typescript/api-explorer-ctrl.js",
       "scripts/api-explorer-directive.js",
-      "scripts/api-explorer-jseditor.js",
+      "scripts/typescript/api-explorer-jseditor.js",
       "scripts/api-explorer-jsviewer.js",
-      "scripts/api-explorer-msgraph.js",
+      "scripts/typescript/api-explorer-msgraph.js",
       "scripts/auth.js",
-      "scripts/postTemplates.js",
-      "scripts/*.js"
+      "scripts/*.js",
+      "scripts/typescript/*.js"
+
     ],
     stylesheets: [
       "bower_components/angular-material/angular-material.min.css",

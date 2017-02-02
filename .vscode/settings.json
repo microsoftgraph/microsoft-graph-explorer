@@ -4,5 +4,10 @@
         "**/node_modules": true,
         "**/bower_components": true,
         "**/all.min.js":true
+    },
+    "files.exclude": {
+        "scripts/typescript/*.js": true,
+        "scripts/typescript/*.js.map": true,
+        "scripts/typescript/*.d.ts": true
     }
 }

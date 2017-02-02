@@ -34,6 +34,10 @@ function saveHistoryObject(historyObject:HistoryRecord, statusCode: number, dura
     saveHistoryToLocalStorage();
 }
 
+function fetchRequestHistory() {
+    return requestHistory;
+}
+
 
 // init scripts
 loadHistoryFromLocalStorage();
