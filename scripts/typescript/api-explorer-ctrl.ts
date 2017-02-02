@@ -5,6 +5,9 @@
 let s:any;
 declare const angular:any;
 
+const GraphBaseUrl = "https://graph.microsoft.com/"
+const GraphVersions = ['beta', 'v1.0']
+
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', '$templateCache', '$mdDialog', '$sce', function ($scope, $http, $location, apiService, $timeout, $templateCache, $mdDialog, $sce ) {
 
@@ -172,11 +175,10 @@ angular.module('ApiExplorer')
 
         function checkCanInsertTemplate(URL) {s
             // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
-            var entity = $scope.getCurrentEntityName()
-            var canInsertTemplate = entity in postTemplates;
+            let entity = $scope.getCurrentEntityName()
+            let canInsertTemplate = entity in postTemplates;
             return canInsertTemplate;
         }
-
 
         $scope.showShareDialog = function(ev) {
             $mdDialog.show({
@@ -233,50 +235,55 @@ angular.module('ApiExplorer')
 
 angular.module('ApiExplorer')
     .controller('VersionCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-        $scope.items = [
-            'beta',
-            'v1.0'
-        ];
+        $scope.items = GraphVersions;
 
         $scope.getServiceVersion = function() {
             return apiService.selectedVersion;
         }
 
         $scope.onItemClick = function(choice) {
-            apiService.selectedVersion = choice;
-        }   
+            if (apiService.selectedVersion !== choice) {
+                apiService.selectedVersion = choice;
+                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
+                $scope.$parent.$broadcast('updateUrlFromServiceText');                    
+                parseMetadata(apiService, $scope);
+            }
+        }
 }]);
 
 angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
 
     $scope.searchTextChange = function(searchText) {
         $scope.$parent.setSearchText(searchText);
-
         apiService.text = searchText;
+
+        // if the user typed in a different version, change the dropdown
+        let graphPathStartingWithVersion = searchText.split(GraphBaseUrl);
+        if (graphPathStartingWithVersion.length < 2) {
+            return;
+        }
+        let possibleGraphPathArr = graphPathStartingWithVersion[1].split('/');
+        if (possibleGraphPathArr.length == 0) {
+            return;
+        }
+
+        let possibleVersion = possibleGraphPathArr[0];
+        if (GraphVersions.indexOf(possibleVersion) != -1) {
+            // possibleVersion is a valid version
+            apiService.selectedVersion = possibleVersion;
+            parseMetadata(apiService, $scope);
+        }
+        
     }
 
     $scope.getRequestHistory = function() {
         return requestHistory;
     }
 
-    $scope.getServiceVersion = function() {
-        return apiService.selectedVersion;
-    }
-
     $scope.$on('updateUrlFromServiceText', function(event, data) {
         $scope.text = apiService.text;
     });
     
-    $scope.$watch("getServiceVersion()", function(newVal, oldVal) {
-        if (oldVal !== newVal) {
-            if ($scope.$parent.searchText) {
-                $scope.searchTextChange($scope.$parent.searchText.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/")));
-                $scope.text = apiService.text;
-            }
-            parseMetadata(apiService, $scope);
-        }
-    });
-
     $scope.searchTextChange(apiService.text);
 
     $scope.getMatches = function(query) {
@@ -317,6 +324,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         $scope.$broadcast('updateUrlFromServiceText');
         apiService.selectedVersion = historyItem.selectedVersion;
         apiService.selectedOption = historyItem.htmlOption;
+        parseMetadata(apiService, $scope); // if clicked on beta or other version that we haven't fetched metadata for, download so autocomplete works
 
         if (historyItem.htmlOption == 'POST' || historyItem.htmlOption == 'PATCH') {
             if (getJsonViewer()) {

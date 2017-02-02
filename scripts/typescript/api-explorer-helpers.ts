@@ -360,6 +360,7 @@ function getUrlsFromServiceURL (service):string[] {
         if (lastNode.isACollection) return [];
 
         let entity = getEntityFromTypeName(service, lastNode.type);
+        if (!entity) return [];
         return combineUrlOptionsWithCurrentUrl(service, Object.keys(entity.links));
     } else {
         let entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
