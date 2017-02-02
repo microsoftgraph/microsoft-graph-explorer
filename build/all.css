@@ -23,15 +23,7 @@
     margin-top: 10px;
 }
 
-#jsonEditor {
-    position: relative;
-    height: 20vh;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important; 
-    margin-top: 10px;
-}
-
-#jsonEditorHeaders {
+#jsonEditor, #jsonEditorHeaders {
     position: relative;
     height: 20vh;
     border: 1px solid #ccc;
@@ -75,11 +67,11 @@
     min-width: 100%;
 }
 
-.historyUrl{
+.historyUrl {
     padding-right: 10px;
 }
 
-#historyTable th{
+#historyTable th {
    color: #707070;
    font-size: 14px;
    font-weight: 700;
@@ -95,13 +87,6 @@
 
 .historyRow:hover {
     background-color: #ECECEC;
-}
-
-.editorLabel p{
-   color: #707070;
-   font-size: 14px;
-   padding-left: 2em;
-   font-weight: 500;
 }
 
 .closeColumn .md-button {
