@@ -37,12 +37,12 @@ angular.module('ApiExplorer')
         }
 
         hello.on('auth.login', function (auth) {
-            var accessToken;
+            let accessToken;
 
             if (auth.network == "msft_token_refresh") {
                 accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
             } else if (auth.network == "msft") {
-                var authResponse = hello('msft').getAuthResponse()
+                let authResponse = hello('msft').getAuthResponse()
 
                 accessToken = authResponse.access_token;
             }
@@ -52,7 +52,7 @@ angular.module('ApiExplorer')
            
                 apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me")
                     .then(function (result) {
-                        var resultBody = result.data;
+                        let resultBody = result.data;
 
                         $scope.userInfo = {
                             preferred_username: resultBody.mail
@@ -73,18 +73,18 @@ angular.module('ApiExplorer')
 
         $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
         $scope.processTabClick = function() {
-            var switchingTabs = $scope.tabConfig.previousSelected != $scope.tabConfig.selected;
+            const switchingTabs = $scope.tabConfig.previousSelected != $scope.tabConfig.selected;
             if (!switchingTabs)
                 $scope.tabConfig.hideContent = !$scope.tabConfig.hideContent;
             $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
         }
 
         // For deep linking into the Graph Explorer
-        var requestVal = $location.search().request;
-        var actionVal = $location.search().method;
-        var bodyVal = $location.search().body;
-        var versionVal = $location.search().version;
-        var headersVal = $location.search().headers;
+        let requestVal = $location.search().request;
+        let actionVal = $location.search().method;
+        let bodyVal = $location.search().body;
+        let versionVal = $location.search().version;
+        let headersVal = $location.search().headers;
         
 
         handleQueryString(apiService, actionVal, versionVal, requestVal);
@@ -133,10 +133,6 @@ angular.module('ApiExplorer')
             delete $scope.userInfo;
         };
 
-        $scope.isActive = function (viewLocation) {
-            return viewLocation === $location.path();
-        };
-
         $scope.searchText = "";
         $scope.setSearchText = function(text) {
             $scope.searchText = text;
@@ -146,7 +142,7 @@ angular.module('ApiExplorer')
             return $scope.searchText;
         }
 
-
+        // todo should use construct graph
         $scope.getCurrentEntityName = function() {
             if (!$scope.searchText) return null;
             
@@ -299,9 +295,9 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
         var urls = getUrlsFromServiceURL(apiService)
         return urls.filter(function(option) {
             var queryInOption = (option.indexOf(query)>-1);
-            var queryIsEmpty = (getEntityName(query).length == 0);
+            // var queryIsEmpty = (getEntityName(query).length == 0);
 
-            return queryIsEmpty || queryInOption;
+            return queryInOption;
         });
     }
 
@@ -320,10 +316,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             showRequestBodyEditor();
     } else {
         setSelectedTab(0);
-    }
-
-    $scope.getText = function() {
-        return apiService.text;
     }
  
     // custom link re-routing logic to resolve links
@@ -373,14 +365,12 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         $scope.requestInProgress = true;
 
         //create an object to store the api call
-        // @todo strongly type historyObj
-        let historyObj:any = {};
-
-        historyObj.urlText = apiService.text;
-        historyObj.selectedVersion = apiService.selectedVersion;
-        historyObj.htmlOption = apiService.selectedOption;
-        historyObj.jsonInput = "";
-
+        let historyObj:HistoryRecord = {
+            urlText: apiService.text,
+            selectedVersion: apiService.selectedVersion,
+            htmlOption: apiService.selectedOption,
+            jsonInput: null
+        };
 
         if (historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH') {
             historyObj.jsonInput = getRequestBodyEditor().getSession().getValue();
@@ -388,23 +378,23 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
 
         $scope.showImage = false;
 
-        var postBody = "";
+        let postBody;
         if (getRequestBodyEditor() != undefined) {
             postBody = getRequestBodyEditor().getSession().getValue();
         }
 
-        var requestHeaders:any = "";
+        let requestHeaders:any = "";
         if (getHeadersEditor() != undefined) {
             requestHeaders = getHeadersEditor().getSession().getValue();
             requestHeaders = formatRequestHeaders(requestHeaders);
         }
 
-        var startTime = new Date();
+        let startTime = new Date();
 
         function handleSuccessfulQueryResponse(result) {
-            var status = result.status;
-            var headers = result.headers;
-            var resultBody = result.data;
+            let status = result.status;
+            let headers = result.headers;
+            let resultBody = result.data;
 
             if (isImageResponse(headers)) {
                 handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse);
@@ -416,17 +406,19 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
                 handleJsonResponse($scope, startTime, resultBody, headers, status);
             }
 
-            saveHistoryObject(historyObj, status, new Date() - startTime);
+            historyObj.duration = (new Date()).getTime()- startTime.getTime();
+            saveHistoryObject(historyObj, status);
 
 
             $scope.insufficientPrivileges = false;
         }
 
         function handleUnsuccessfulQueryResponse(result) {
-            var status = result.status;
-            var headers = result.headers;
+            let status = result.status;
+            let headers = result.headers;
             handleJsonResponse($scope, startTime, result.data, headers, status);
-            saveHistoryObject(historyObj, status, new Date() - startTime);
+            historyObj.duration = (new Date()).getTime()- startTime.getTime();
+            saveHistoryObject(historyObj, status);
 
             if (status === 401 || status === 403) {
                 $scope.insufficientPrivileges = true;

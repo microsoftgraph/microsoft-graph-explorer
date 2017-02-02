@@ -66,20 +66,12 @@ function formatXml(xml) {
     return formatted;
 };
 
-function showDuration($scope, startTime) {
-    var endTime = new Date();
-    $scope.duration = (endTime.getTime() - startTime.getTime());
-    $scope.requestInProgress = false;
-}
-
-
-
-function insertHeadersIntoResponseViewer($scope, headers, status) {
+function insertHeadersIntoResponseViewer(headers, status) {
     let responseObj = {};
     if (headers != null) {
         responseObj = headers();
     }
-    
+
     responseObj["Status Code"] = status;
 
     // format headers
@@ -92,25 +84,9 @@ function insertHeadersIntoResponseViewer($scope, headers, status) {
     getJsonViewer().getSession().insert(0, headersArr.join("\n"));
 }
 
-function getRequestBodyEditor() {
-    let requestBodyEditorElement = document.getElementById("jsonEditor");
-    return ace.edit(requestBodyEditorElement);
-}
-
-function getHeadersEditor() {
-    let requestHeaderEditorElement = document.getElementById("jsonEditorHeaders");
-    return ace.edit(requestHeaderEditorElement);
-}
-
-
-function getJsonViewer() {
-    let jsonViewerElement = document.getElementById("jsonViewer");
-    return ace.edit(jsonViewerElement);
-}
-
-function showResults($scope, results, headers, status, responseContentType) {
+function showResults(results, headers, status, responseContentType) {
     getJsonViewer().setValue("");
-    insertHeadersIntoResponseViewer($scope, headers, status);
+    insertHeadersIntoResponseViewer(headers, status);
     getJsonViewer().getSession().insert(0, results);
     if (responseContentType)
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
@@ -118,32 +94,32 @@ function showResults($scope, results, headers, status, responseContentType) {
 
 function handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse) {
     apiService.performQuery('GET_BINARY')($scope.text).then(function(result) {
-        var blob = new Blob( [ result.data ], { type: "image/jpeg" } );
-        var imageUrl = window.URL.createObjectURL( blob );
+        let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
+        let imageUrl = window.URL.createObjectURL( blob );
 
         const imageResultViewer = <HTMLImageElement>document.getElementById("img");
         imageResultViewer.src = imageUrl;
         $scope.showImage = true;
-        insertHeadersIntoResponseViewer($scope, result.headers, result.status);
-        showDuration($scope, startTime);
+        insertHeadersIntoResponseViewer(result.headers, result.status);
+        $scope.requestInProgress = false;
     }, handleUnsuccessfulQueryResponse);
 }
 
 function handleHtmlResponse($scope, startTime, results, headers, status) {
-    showDuration($scope, startTime);
-    showResults($scope, results, headers, status, "html");
+    $scope.requestInProgress = false;
+    showResults(results, headers, status, "html");
 }
 
 function handleJsonResponse($scope, startTime, results, headers, status) {
     results = JSON.stringify(results, null, 4);
-    showDuration($scope, startTime);
-    showResults($scope, results, headers, status, "json");
+    $scope.requestInProgress = false;
+    showResults(results, headers, status, "json");
 }
 
 function handleXmlResponse($scope, startTime, results, headers, status) {
     results = formatXml(results);
-    showDuration($scope, startTime);
-    showResults($scope, results, headers, status, "xml");
+    $scope.requestInProgress = false;
+    showResults(results, headers, status, "xml");
 }
 
 function isImageResponse(headers) {
@@ -194,8 +170,8 @@ interface GraphEntity {
 }
 
 function getEntitySets(metadata) {
-    var entitySetsObj = {};
-    var entitySetsAndSingletons = $(($.parseHTML(metadata))[1]).find("EntityContainer")[0].children;
+    let entitySetsObj = {};
+    let entitySetsAndSingletons = $(($.parseHTML(metadata))[1]).find("EntityContainer")[0].children;
     for(var i=0; i<entitySetsAndSingletons.length; i++){
         var set = entitySetsAndSingletons[i];
         
@@ -226,11 +202,11 @@ function getEntitySets(metadata) {
 }
 
 function formatRequestHeaders(headers){
-    var obj = {};
-    var parts = headers.replace(/^\s+|,\s*$/g, '').split('\n');
+    let obj = {};
+    let parts = headers.replace(/^\s+|,\s*$/g, '').split('\n');
     
     for(var i = 0, len = parts.length; i < len; i++) {
-        var match = parts[i].match(/^\s*"?([^":]*)"?\s*:\s*"?([^"]*)\s*$/);
+        let match = parts[i].match(/^\s*"?([^":]*)"?\s*:\s*"?([^"]*)\s*$/);
         if(match) {
             obj[match[1]] = match[2];
         }
@@ -293,23 +269,6 @@ function getEntityTypes(metadata) {
     return entities;
 }
 
-function myTrim (word){
-      var returnWord = word;
-      if(returnWord != null){
-          while(returnWord.charAt(returnWord.length-1) == "/" ){
-              returnWord = returnWord.replace(/\/$/, "");
-          }
-          return returnWord; 
-      }
-} 
-
-function getEntityName (URL){
-     var returnWord = myTrim(URL);
-     if(returnWord != null){
-         returnWord = returnWord.substring(returnWord.lastIndexOf("/")+1, returnWord.length);
-     }
-     return returnWord;
-}
 
 
 function getEntityFromTypeName(service, typePossiblyWithPrefix:string):GraphEntity {
@@ -466,11 +425,6 @@ function parseMetadata (service, $scope) {
             entityTypeData = getEntityTypes(metadata);
             service.cache.put(service.selectedVersion + "EntityTypeData", entityTypeData);
             console.log("metadata successfully parsed");
-            if(service.entity == ""){
-                service.entity = entityTypeData["user"];
-            }else{
-                service.entity = entityTypeData[getEntityName(service.text)];
-            }
                 
           $scope.$root.$broadcast("updateUrlOptions");
          }, function(err, status){

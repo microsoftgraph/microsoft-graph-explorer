@@ -1,35 +1,45 @@
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
+function getRequestBodyEditor() {
+    let requestBodyEditorElement = document.getElementById("jsonEditor");
+    return ace.edit(requestBodyEditorElement);
+}
+
+function getHeadersEditor() {
+    let requestHeaderEditorElement = document.getElementById("jsonEditorHeaders");
+    return ace.edit(requestHeaderEditorElement);
+}
+
+function getJsonViewer() {
+    let jsonViewerElement = document.getElementById("jsonViewer");
+    return ace.edit(jsonViewerElement);
+}
 
 function initializeJsonEditor(bodyVal?) {
     let editor = getRequestBodyEditor();
-    commonSetup(editor);
+    commonAceSetup(editor);
     editor.getSession().setMode("ace/mode/javascript");
     
     if (bodyVal) {
         editor.getSession().insert({row:0, column:0}, bodyVal);
-    } else {
-        editor.getSession().insert(0, " ");
     }
 }
 
 
 function initializeHeadersEditor(headersVal) {
     let editor = getHeadersEditor();
-    commonSetup(editor);
+    commonAceSetup(editor);
 
-    if(headersVal) {
+    if (headersVal) {
         editor.getSession().insert(0, headersVal);
-    } else {
-        editor.getSession().insert(0, " ");
     }
 
-    editor.moveCursorTo(1,0);
+    editor.moveCursorTo(1, 0);
 }
 
 // standard ace editor setup and customizations
-function commonSetup(editor) {
+function commonAceSetup(editor) {
     editor.setShowPrintMargin(false);
     editor.$blockScrolling = Infinity;
     editor.renderer.setOption('showLineNumbers', false);

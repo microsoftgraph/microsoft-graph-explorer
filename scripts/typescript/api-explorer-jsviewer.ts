@@ -1,23 +1,23 @@
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
+declare let define:any;
+declare let require:any;
 
 function initializeJsonViewer($scope, apiService) {
     $(document).ready(function () {
     
-        let jsonViewerElement = document.getElementById("jsonViewer");
-        let jsonViewer = ace.edit(jsonViewerElement);
+        let jsonViewer = getJsonViewer();
+        commonAceSetup(jsonViewer);
         jsonViewer.getSession().setMode("ace/mode/javascript");
         
-        jsonViewer.$blockScrolling = Infinity;
-        jsonViewer.renderer.setOption('showLineNumbers', false);
         
         jsonViewer.setOptions({
             readOnly: true,
             highlightActiveLine: false,
             highlightGutterLine: false,
         });
-        jsonViewer.setShowPrintMargin(false);
+
         jsonViewer.getSession().setUseWorker(false);
         jsonViewer.renderer.$cursorLayer.element.style.opacity = 0;
 
@@ -190,11 +190,5 @@ function initializeJsonViewer($scope, apiService) {
         jsonViewer.hoverLink.on("open", function (x) {
             run($scope, x.value, apiService);
         })
-    });
-}
-
-function setJsonViewerContentType(mode) {
-    $(document).ready(function () {
-        jsonViewer.getSession().setMode("ace/mode/" + mode);
     });
 }
