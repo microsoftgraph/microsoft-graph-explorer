@@ -90,7 +90,7 @@ angular.module('ApiExplorer')
         handleQueryString(apiService, actionVal, versionVal, requestVal);
         
         $timeout(function() {
-            initializeJsonEditorHeaders($scope, headersVal);
+            initializeHeadersEditor(headersVal);
             initializeJsonViewer($scope, apiService);
         });
 
@@ -105,7 +105,7 @@ angular.module('ApiExplorer')
         };
 
         $scope.$watch("getEditor()", function(event, args) {
-            initializeJsonEditor($scope, bodyVal);
+            initializeJsonEditor(bodyVal);
         });
 
         // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
@@ -171,7 +171,7 @@ angular.module('ApiExplorer')
             strToInsert = strToInsert.replace(/FULL_USER_EMAIL/g, fullUserEmail);
             
 
-            initializeJsonEditor($scope, strToInsert);
+            initializeJsonEditor(strToInsert);
         }
 
         function checkCanInsertTemplate(URL) {s

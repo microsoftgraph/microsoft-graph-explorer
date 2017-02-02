@@ -98,8 +98,8 @@ function getRequestBodyEditor() {
 }
 
 function getHeadersEditor() {
-    let requestBodyEditorElement = document.getElementById("jsonEditorHeaders");
-    return ace.edit(requestBodyEditorElement);
+    let requestHeaderEditorElement = document.getElementById("jsonEditorHeaders");
+    return ace.edit(requestHeaderEditorElement);
 }
 
 
@@ -416,7 +416,7 @@ function showRequestBodyEditor () {
     s.tabConfig.hideContent = false;
     showRequestHeaders(s);
     $(function() {
-        initializeJsonEditor(s);
+        initializeJsonEditor();
         setSelectedTab(1);
     })
 }

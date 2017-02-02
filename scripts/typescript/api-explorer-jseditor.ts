@@ -2,41 +2,38 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-function initializeJsonEditor($scope, bodyVal?) {
-    let jsonEditor = getRequestBodyEditor();
-    jsonEditor.getSession().setMode("ace/mode/javascript");
-    jsonEditor.$blockScrolling = Infinity;
+function initializeJsonEditor(bodyVal?) {
+    let editor = getRequestBodyEditor();
+    commonSetup(editor);
+    editor.getSession().setMode("ace/mode/javascript");
     
-    jsonEditor.setShowPrintMargin(false);
     if (bodyVal) {
-        jsonEditor.getSession().insert({row:0, column:0}, bodyVal);
+        editor.getSession().insert({row:0, column:0}, bodyVal);
     } else {
-        jsonEditor.getSession().insert(0, " ");
+        editor.getSession().insert(0, " ");
     }
-
-    jsonEditor.renderer.setOption('showLineNumbers', false);
-    //accessibility - keyboard dependant users must be able to "tab out" of session
-    jsonEditor.commands.bindKey("Tab", null);
 }
 
-function initializeJsonEditorHeaders($scope, headersVal) {
-    let jsonViewerElement = document.getElementById("jsonEditorHeaders");
-    if (!jsonViewerElement) {
-        console.error('cannot find #jsonEditorHeaders')
-        return;
-    }
 
-    let jsonEditorHeaders = ace.edit(jsonViewerElement);
-    jsonEditorHeaders.setShowPrintMargin(false);
+function initializeHeadersEditor(headersVal) {
+    let editor = getHeadersEditor();
+    commonSetup(editor);
 
-    jsonEditorHeaders.$blockScrolling = Infinity;
-    //accessibility - keyboard dependant users must be able to "tab out" of session
     if(headersVal) {
-        jsonEditorHeaders.getSession().insert(0, headersVal);
+        editor.getSession().insert(0, headersVal);
     } else {
-        jsonEditorHeaders.getSession().insert(0, " ");
+        editor.getSession().insert(0, " ");
     }
-    jsonEditorHeaders.renderer.setOption('showLineNumbers', false);
-    jsonEditorHeaders.moveCursorTo(1,0);
-    jsonEditorHeaders.commands.bindKey("Tab", null);
+
+    editor.moveCursorTo(1,0);
+}
+
+// standard ace editor setup and customizations
+function commonSetup(editor) {
+    editor.setShowPrintMargin(false);
+    editor.$blockScrolling = Infinity;
+    editor.renderer.setOption('showLineNumbers', false);
+
+    //accessibility - keyboard dependant users must be able to "tab out" of session
+    editor.commands.bindKey("Tab", null);
 }

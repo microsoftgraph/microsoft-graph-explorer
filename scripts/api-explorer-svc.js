@@ -13,8 +13,6 @@ angular.module('ApiExplorer')
 
             selectedOption: "GET",
 
-            showJsonEditor: false,
-
             cache: $cacheFactory('myCache'),
             
             performAnonymousQuery: function (queryType) {

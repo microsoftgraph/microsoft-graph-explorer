@@ -5,8 +5,8 @@
 function initializeJsonViewer($scope, apiService) {
     $(document).ready(function () {
     
-        var jsonViewerElement = document.getElementById("jsonViewer");
-        jsonViewer = ace.edit(jsonViewerElement);
+        let jsonViewerElement = document.getElementById("jsonViewer");
+        let jsonViewer = ace.edit(jsonViewerElement);
         jsonViewer.getSession().setMode("ace/mode/javascript");
         
         jsonViewer.$blockScrolling = Infinity;
@@ -185,7 +185,7 @@ function initializeJsonViewer($scope, apiService) {
 
         });
 
-        HoverLink = require("hoverlink").HoverLink
+        let HoverLink = require("hoverlink").HoverLink
         jsonViewer.hoverLink = new HoverLink(jsonViewer);
         jsonViewer.hoverLink.on("open", function (x) {
             run($scope, x.value, apiService);
