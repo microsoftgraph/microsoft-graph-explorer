@@ -6,15 +6,14 @@ const minify = require('gulp-minify');
 
 const paths = {
   scripts: [
-      "bower_components/hello/dist/hello.all.js",
-      "bower_components/hello/dist/hello.js",
+      "bower_components/hello/dist/hello.all.min.js",
       "scripts/api-explorer-init.js",
       "scripts/typescript/api-explorer-helpers.js",
       "scripts/api-explorer-app.js",
       "scripts/api-explorer-svc.js",
       "scripts/loc_strings.js",
       "scripts/typescript/api-explorer-ctrl.js",
-      "scripts/api-explorer-directive.js",
+      "scripts/typescript/api-explorer-directive.js",
       "scripts/typescript/api-explorer-jseditor.js",
       "scripts/api-explorer-jsviewer.js",
       "scripts/typescript/api-explorer-msgraph.js",

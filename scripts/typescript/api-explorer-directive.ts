@@ -3,9 +3,9 @@
 // ------------------------------------------------------------------------------
 
 // get the path to this script
-var scripts = document.getElementsByTagName("script")
-var src = scripts[scripts.length-1].src;
-var pathToBuildDir = src.split('/').slice(0, -2).join('/');
+const scripts = document.getElementsByTagName("script")
+const src = scripts[scripts.length-1].src;
+const pathToBuildDir = src.split('/').slice(0, -2).join('/');
 
 angular.module('ApiExplorer')
     .directive('apiExplorer', function() {

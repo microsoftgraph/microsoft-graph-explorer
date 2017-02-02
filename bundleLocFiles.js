@@ -24,7 +24,7 @@ fs.readdir("translation_files", function(err, filenames) {
         }))
     });
     Promise.all(languageRead).then(() => {
-        fs.writeFile("scripts/loc_strings.js", fileStr, function(err) {
+        fs.writeFile("scripts/typescript/loc_strings.ts", fileStr, function(err) {
             if(err) {
                 return console.log(err);
             }
