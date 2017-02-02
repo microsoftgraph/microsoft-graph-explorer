@@ -389,7 +389,7 @@ function setSelectedTab (num) {
     s.tabConfig.previousSelected = s.tabConfig.selected;
 }
 
-function handleQueryString (service, actionValue, versionValue, requestValue) {
+function handleQueryString(service, actionValue, versionValue, requestValue) {
     if(actionValue){
         service.selectedOption = actionValue.toUpperCase();
         if(service.selectedOption === 'POST' || service.selectedOption === 'PATCH') {
@@ -414,7 +414,7 @@ function getUrlsFromEntityType(service:any, entity:GraphEntity):string[] {
     return combineUrlOptionsWithCurrentUrl(service, Object.keys(type.links));
 }
 
-function parseMetadata (service, $scope) {
+function parseMetadata(service) {
     var entitySetData, entityTypeData;
     if(!service.cache.get(service.selectedVersion + "Metadata")) {
         console.log("parsing metadata");
@@ -427,11 +427,8 @@ function parseMetadata (service, $scope) {
             service.cache.put(service.selectedVersion + "EntityTypeData", entityTypeData);
             console.log("metadata successfully parsed");
                 
-          $scope.$root.$broadcast("updateUrlOptions");
          }, function(err, status){
             console.error("metadata could not be parsed");
          });
-     } else {
-          $scope.$root.$broadcast("updateUrlOptions");
      }
 }

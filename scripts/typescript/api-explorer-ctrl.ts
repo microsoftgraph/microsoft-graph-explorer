@@ -97,7 +97,7 @@ angular.module('ApiExplorer')
             initializeJsonViewer($scope, apiService);
         });
 
-        parseMetadata(apiService, $scope);
+        parseMetadata(apiService);
 
         $scope.isAuthenticated = function() {
             var session = hello('msft').getAuthResponse();
@@ -246,7 +246,7 @@ angular.module('ApiExplorer')
                 apiService.selectedVersion = choice;
                 apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
                 $scope.$parent.$broadcast('updateUrlFromServiceText');                    
-                parseMetadata(apiService, $scope);
+                parseMetadata(apiService);
             }
         }
 }]);
@@ -271,7 +271,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
         if (GraphVersions.indexOf(possibleVersion) != -1) {
             // possibleVersion is a valid version
             apiService.selectedVersion = possibleVersion;
-            parseMetadata(apiService, $scope);
+            parseMetadata(apiService);
         }
         
     }
@@ -324,7 +324,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
         $scope.$broadcast('updateUrlFromServiceText');
         apiService.selectedVersion = historyItem.selectedVersion;
         apiService.selectedOption = historyItem.htmlOption;
-        parseMetadata(apiService, $scope); // if clicked on beta or other version that we haven't fetched metadata for, download so autocomplete works
+        parseMetadata(apiService); // if clicked on beta or other version that we haven't fetched metadata for, download so autocomplete works
 
         if (historyItem.htmlOption == 'POST' || historyItem.htmlOption == 'PATCH') {
             if (getJsonViewer()) {
