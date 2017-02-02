@@ -18,7 +18,7 @@ const paths = {
       "scripts/typescript/api-explorer-jseditor.js",
       "scripts/api-explorer-jsviewer.js",
       "scripts/typescript/api-explorer-msgraph.js",
-      "scripts/auth.js",
+      "scripts/typescript/auth.js",
       "scripts/*.js",
       "scripts/typescript/*.js"
 
