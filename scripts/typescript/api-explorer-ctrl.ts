@@ -280,6 +280,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
     });
     
     $scope.searchTextChange(apiService.text);
+    $scope.searchText = apiService.text; // for init (used in explorer.html)
 
     $scope.getMatches = function(query) {
         var urls = getUrlsFromServiceURL(apiService)
