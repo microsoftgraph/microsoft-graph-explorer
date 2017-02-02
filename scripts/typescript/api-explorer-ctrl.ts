@@ -205,10 +205,17 @@ angular.module('ApiExplorer')
 angular.module('ApiExplorer')
     .controller('DropdownCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
 
-        $scope.selectedOption = apiService.selectedOption;
-
         $scope.onItemClick = function(choice) {
-            $scope.selectedOption = choice;
+            if (choice != apiService.selectedOption) {
+                apiService.selectedOption = choice;
+                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
+                if (choice == 'POST' || choice == 'PATCH') {
+                    showRequestBodyEditor();
+                } else if (choice == 'GET' || choice == 'DELETE') {
+                    s.tabConfig.disableRequestBodyEditor = true;
+                    setSelectedTab(0);
+                }
+            }
         }
 
         $scope.items = [
@@ -221,25 +228,6 @@ angular.module('ApiExplorer')
         $scope.getServiceOption = function() {
             return apiService.selectedOption;
         }
-
-        $scope.getOption = function() {
-            return $scope.selectedOption;
-        }
-
-        $scope.$watch("getOption()", function(newVal, oldVal) {
-            if (oldVal !== newVal) {
-                apiService.selectedOption = $scope.selectedOption;
-                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
-                if ($scope.selectedOption == 'POST' || $scope.selectedOption == 'PATCH') {
-
-                    // investigate why $scope doesn't work here
-                    showRequestBodyEditor();
-                } else if ($scope.selectedOption == 'GET' || $scope.selectedOption == 'DELETE') {
-                    s.tabConfig.disableRequestBodyEditor = true;
-                    setSelectedTab(0);
-                }
-            }
-        });
 
     }]);
 
