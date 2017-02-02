@@ -136,27 +136,23 @@ angular.module('ApiExplorer')
             delete $scope.userInfo;
         };
 
-        $scope.searchText = "";
-        $scope.setSearchText = function(text) {
-            $scope.searchText = text;
-        }
 
         $scope.getSearchText = function() {
-            return $scope.searchText;
+            return apiService.text;
         }
 
         // todo should use construct graph
         $scope.getCurrentEntityName = function() {
-            if (!$scope.searchText) return null;
+            if (!apiService.text) return null;
             
-            var txt = $scope.searchText;
+            var txt = apiService.text;
             var pathArr = txt.split("/").filter((function(a) { return a.length > 0}));
 
             return pathArr.pop();
         }
 
         $scope.canInsertTemplate = function() {
-            return apiService.selectedOption == "POST" && checkCanInsertTemplate($scope.searchText);
+            return apiService.selectedOption == "POST" && checkCanInsertTemplate(apiService.text);
         }
 
         $scope.insertPostTemplate = function() {
@@ -254,7 +250,6 @@ angular.module('ApiExplorer')
 angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
 
     $scope.searchTextChange = function(searchText) {
-        $scope.$parent.setSearchText(searchText);
         apiService.text = searchText;
 
         // if the user typed in a different version, change the dropdown
