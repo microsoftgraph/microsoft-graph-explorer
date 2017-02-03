@@ -17,8 +17,8 @@ hello.init({
 	}, msft_admin_consent: {
 		oauth: {
 			version: 2,
-			auth: 'https://login.microsoftonline.com/organizations/adminconsent',
-			grant: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/token'
+			auth: 'https://login.microsoftonline.com/common/adminconsent',
+			grant: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
 		},
 		scope_delim: ' ',
 
@@ -28,8 +28,8 @@ hello.init({
 	}, msft_token_refresh: {
 		oauth: {
 			version: 2,
-			auth: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
-			grant: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/token'
+			auth: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+			grant: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
 		},
 		scope_delim: ' ',
 
