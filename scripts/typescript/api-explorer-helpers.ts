@@ -92,7 +92,6 @@ function showResults(results, headers, status, responseContentType) {
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
 }
 
-// only need to handle successfull responses on the first query
 function handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse) {
     apiService.performQuery('GET_BINARY')($scope.getSearchText()).then(function(result) {
         let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
@@ -279,8 +278,8 @@ function getEntityFromTypeName(service, typePossiblyWithPrefix:string):GraphEnti
 
 }
 
-function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
-    const urlPathArr = service.text.split("https://graph.microsoft.com/");
+function constructGraphLinksFromFullPath(path:string, service:any):GraphNodeLink[] {
+    const urlPathArr = path.split(GraphBaseUrl+"/");
     if (urlPathArr.length <=1)
         return [];
 
@@ -329,7 +328,7 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
     // concat each urlOption with this prefix
     // return that array
     
-    var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
+    var graphFromServiceUrl = constructGraphLinksFromFullPath(service.text, service);
 
 
     let baseUrl = [];
@@ -354,7 +353,7 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
 
 // just return relative URLs
 function getUrlsFromServiceURL (service):string[] {
-    var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
+    var graphFromServiceUrl = constructGraphLinksFromFullPath(service.text, service);
     if (graphFromServiceUrl.length > 0) {
         let lastNode = graphFromServiceUrl.pop();
 
@@ -416,15 +415,14 @@ function getUrlsFromEntityType(service:any, entity:GraphEntity):string[] {
 }
 
 function parseMetadata(service) {
-    var entitySetData, entityTypeData;
     if(!service.cache.get(service.selectedVersion + "Metadata")) {
         console.log("parsing metadata");
         service.getMetadata().then(function(results) {
-            var metadata = results.data;
+            let metadata = results.data;
             service.cache.put(service.selectedVersion + "Metadata", results);
-            entitySetData = getEntitySets(metadata);
+            let entitySetData = getEntitySets(metadata);
             service.cache.put(service.selectedVersion + "EntitySetData", entitySetData);
-            entityTypeData = getEntityTypes(metadata);
+            let entityTypeData = getEntityTypes(metadata);
             service.cache.put(service.selectedVersion + "EntityTypeData", entityTypeData);
             console.log("metadata successfully parsed");
                 

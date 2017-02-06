@@ -5,7 +5,7 @@
 let s:any;
 declare const angular:any;
 
-const GraphBaseUrl = "https://graph.microsoft.com/"
+const GraphBaseUrl = "https://graph.microsoft.com"
 const GraphVersions = ['beta', 'v1.0']
 
 angular.module('ApiExplorer')
@@ -96,8 +96,6 @@ angular.module('ApiExplorer')
             initializeHeadersEditor(headersVal);
             initializeJsonViewer($scope, apiService);
         });
-
-        parseMetadata(apiService);
 
         $scope.isAuthenticated = function() {
             var session = hello('msft').getAuthResponse();
@@ -248,12 +246,11 @@ angular.module('ApiExplorer')
 }]);
 
 angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
-
-    $scope.searchTextChange = function(searchText) {
+    let searchTextChange = function(searchText) {
         apiService.text = searchText;
 
         // if the user typed in a different version, change the dropdown
-        let graphPathStartingWithVersion = searchText.split(GraphBaseUrl);
+        let graphPathStartingWithVersion = searchText.split(GraphBaseUrl + "/");
         if (graphPathStartingWithVersion.length < 2) {
             return;
         }
@@ -268,8 +265,8 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
             apiService.selectedVersion = possibleVersion;
             parseMetadata(apiService);
         }
-        
     }
+    $scope.searchTextChange = searchTextChange;
 
     $scope.getRequestHistory = function() {
         return requestHistory;
@@ -278,17 +275,49 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
     $scope.$on('updateUrlFromServiceText', function(event, data) {
         $scope.text = apiService.text;
     });
-    
+
     $scope.searchTextChange(apiService.text);
     $scope.searchText = apiService.text; // for init (used in explorer.html)
 
+    function getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
+        return links.map((x) => x.name).join('/');
+    }
+
+    function getFullUrlFromGraphLinks(links:GraphNodeLink[]) {
+        if (typeof links === 'string') { //@todo investigate why a string is sometimes passed
+            links = constructGraphLinksFromFullPath(links, apiService);
+        }
+        return [GraphBaseUrl, apiService.selectedVersion, getRelativeUrlFromGraphNodeLinks(links)];
+    }
+
+    $scope.getFullUrlFromGraphLinks = getFullUrlFromGraphLinks;
+
+    $scope.searchTextChangeFromGraphLinks = function(links:GraphNodeLink[]) {
+        if (links === undefined) return; // when getMatches returns [] links is undefined
+        let fullUrl = getFullUrlFromGraphLinks(links);
+        searchTextChange(fullUrl.join('/'));
+    };
+
+    $scope.constructUrlForAutocompleteItemUI = (links:GraphNodeLink[], serviceTextLength?: number):string => {
+        let useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 64;
+        
+        if (useLastPathSegmentOnly) {
+            return ".../" + links[links.length - 1].name;
+        } else {
+            return getFullUrlFromGraphLinks(links).join('/');
+        }
+    }
+
     $scope.getMatches = function(query) {
+        // @todo need to turn url -> links -> urls?
         var urls = getUrlsFromServiceURL(apiService)
-        return urls.filter(function(option) {
+        return urls.filter((option) => {
             var queryInOption = (option.indexOf(query)>-1);
             // var queryIsEmpty = (getEntityName(query).length == 0);
 
             return queryInOption;
+        }).map((fullUrl) => {
+            return constructGraphLinksFromFullPath(fullUrl, apiService);
         });
     }
 
@@ -351,7 +380,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             $scope.finishAdminConsertFlow();
         })
     }
-        
 
     $scope.submit = function () {
         $scope.requestInProgress = true;

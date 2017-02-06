@@ -33,5 +33,3 @@ fs.readdir("translation_files", function(err, filenames) {
         }); 
     })
 });
-
-
