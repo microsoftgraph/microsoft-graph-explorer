@@ -92,8 +92,9 @@ function showResults(results, headers, status, responseContentType) {
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
 }
 
+// only need to handle successfull responses on the first query
 function handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse) {
-    apiService.performQuery('GET_BINARY')($scope.text).then(function(result) {
+    apiService.performQuery('GET_BINARY')($scope.getSearchText()).then(function(result) {
         let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
         let imageUrl = window.URL.createObjectURL( blob );
 
