@@ -2,6 +2,7 @@
 #### Bug fixes:
 #### New features:
 * Autocomplete options are abbreviated when they get too long.
+![autocomplete wrapping](autocomplete-wrap.png)
 
 ## 1.0.1 (2/8/2017)
 #### Bug fixes:
