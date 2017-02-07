@@ -4,7 +4,7 @@
 declare let define:any;
 declare let require:any;
 
-function initializeJsonViewer($scope, apiService) {
+function initializeJsonViewer($scope) {
     $(document).ready(function () {
     
         let jsonViewer = getJsonViewer();
@@ -188,7 +188,7 @@ function initializeJsonViewer($scope, apiService) {
         let HoverLink = require("hoverlink").HoverLink
         jsonViewer.hoverLink = new HoverLink(jsonViewer);
         jsonViewer.hoverLink.on("open", function (x) {
-            run($scope, x.value, apiService);
+            $scope.$emit('urlChange', x.value);
         })
     });
 }

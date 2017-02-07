@@ -126,9 +126,3 @@ var postTemplates = {
         ]
     }
 }
-
-var templateNames = {
-    messages: 'message',
-    events: 'event',
-    sendMail: 'email'
-}

@@ -16,8 +16,7 @@ function isPostOrPatch(option) {
     return  option == "POST" || option == "PATCH";
 }
 
-function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, body) {
-    var _apiService = apiService;
+function ShareDialogController($scope, $mdDialog, $sce, headers, body) {
     $scope.hide = function() {
         $mdDialog.hide();
     };
@@ -28,13 +27,13 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, bod
     
     $scope.getShareLink = function() {
         var requestUrl = $scope.getSearchText();
-        return createShareLink(requestUrl, _apiService.selectedOption, _apiService.selectedVersion);
+        return createShareLink(requestUrl, apiService.selectedOption, apiService.selectedVersion);
     }
 
     $scope.generateSuperAgentCode = function() {
         var requestUrl = $scope.getSearchText();
 
-        var fullGraphUrl = "https://graph.microsoft.com/" + _apiService.selectedVersion + "/" + extractGraphEndpoint(requestUrl);
+        var fullGraphUrl = "https://graph.microsoft.com/" + apiService.selectedVersion + "/" + extractGraphEndpoint(requestUrl);
 
         var tab = function() {
             return "<span style='padding-left:15px'></span>";
@@ -45,13 +44,13 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, bod
         }
 
         var str = "request";
-        str += line() + tab() + "." + _apiService.selectedOption.toLocaleLowerCase() + "(\"" + fullGraphUrl + "\")"
+        str += line() + tab() + "." + apiService.selectedOption.toLocaleLowerCase() + "(\"" + fullGraphUrl + "\")"
 
         if (Object.keys(headers).length > 0) {
             str += line() + tab() + ".set(" + JSON.stringify(headers) + ")";
         }
 
-        if (isPostOrPatch( _apiService.selectedOption)) {
+        if (isPostOrPatch( apiService.selectedOption)) {
             try {
                 var bodyObj = JSON.parse(body);
                 if (bodyObj) {

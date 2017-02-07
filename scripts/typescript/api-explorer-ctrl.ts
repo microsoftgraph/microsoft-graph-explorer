@@ -9,7 +9,8 @@ const GraphBaseUrl = "https://graph.microsoft.com"
 const GraphVersions = ['beta', 'v1.0']
 
 angular.module('ApiExplorer')
-    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', 'ApiExplorerSvc', '$timeout', '$templateCache', '$mdDialog', '$sce', function ($scope, $http, $location, apiService, $timeout, $templateCache, $mdDialog, $sce ) {
+    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', '$timeout', '$templateCache', '$mdDialog', '$sce', '$cacheFactory', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce, $cacheFactory ) {
+        apiService.init($http, $cacheFactory);
 
         s = $scope;
         $scope.userInfo = {};
@@ -52,7 +53,6 @@ angular.module('ApiExplorer')
 
             if (accessToken) {
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-           
                 apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me")
                     .then(function (result) {
                         let resultBody = result.data;
@@ -90,11 +90,11 @@ angular.module('ApiExplorer')
         let headersVal = $location.search().headers;
         
 
-        handleQueryString(apiService, actionVal, versionVal, requestVal);
+        handleQueryString(actionVal, versionVal, requestVal);
         
         $timeout(function() {
             initializeHeadersEditor(headersVal);
-            initializeJsonViewer($scope, apiService);
+            initializeJsonViewer($scope);
         });
 
         $scope.isAuthenticated = function() {
@@ -199,7 +199,7 @@ angular.module('ApiExplorer')
 }]);
 
 angular.module('ApiExplorer')
-    .controller('DropdownCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
+    .controller('DropdownCtrl', ['$scope', function ($scope) {
 
         $scope.onItemClick = function(choice) {
             if (choice != apiService.selectedOption) {
@@ -228,7 +228,7 @@ angular.module('ApiExplorer')
     }]);
 
 angular.module('ApiExplorer')
-    .controller('VersionCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
+    .controller('VersionCtrl', ['$scope', function ($scope) {
         $scope.items = GraphVersions;
 
         $scope.getServiceVersion = function() {
@@ -245,7 +245,7 @@ angular.module('ApiExplorer')
         }
 }]);
 
-angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
+angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', function ($scope) {
     let searchTextChange = function(searchText) {
         apiService.text = searchText;
 
@@ -327,7 +327,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
 }]);
 
 
-angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
+angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope) {
     $scope.requestInProgress = false;
     $scope.insufficientPrivileges = false;
 
@@ -417,7 +417,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', 'ApiExplorerSvc'
             let resultBody = result.data;
 
             if (isImageResponse(headers)) {
-                handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse);
+                handleImageResponse($scope, startTime, headers, status, handleUnsuccessfulQueryResponse);
             } else if (isHtmlResponse(headers)) {
                 handleHtmlResponse($scope, startTime, resultBody, headers, status);
             } else if (isXmlResponse(result)) {

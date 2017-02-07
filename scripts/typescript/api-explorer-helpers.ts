@@ -9,10 +9,6 @@ declare const jQuery:any;
 declare const $:any;
 declare const hello:any;
 
-function run ($scope, url, apiService) {
-    $scope.$emit('urlChange', url);
-}
-
 function formatXml(xml) {
     var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
     var wsexp = / *(.*) +\n/g;
@@ -92,7 +88,7 @@ function showResults(results, headers, status, responseContentType) {
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
 }
 
-function handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse) {
+function handleImageResponse($scope, startTime, headers, status, handleUnsuccessfulQueryResponse) {
     apiService.performQuery('GET_BINARY')($scope.getSearchText()).then(function(result) {
         let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
         let imageUrl = window.URL.createObjectURL( blob );
@@ -389,20 +385,20 @@ function setSelectedTab (num) {
     s.tabConfig.previousSelected = s.tabConfig.selected;
 }
 
-function handleQueryString(service, actionValue, versionValue, requestValue) {
+function handleQueryString(actionValue, versionValue, requestValue) {
     if(actionValue){
-        service.selectedOption = actionValue.toUpperCase();
-        if(service.selectedOption === 'POST' || service.selectedOption === 'PATCH') {
+        apiService.selectedOption = actionValue.toUpperCase();
+        if(apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH') {
             if(hello('msft').getAuthResponse() != null)
                 showRequestBodyEditor();
         }
    }
         
    if (versionValue) {
-        service.selectedVersion = versionValue;
+        apiService.selectedVersion = versionValue;
    }
    if (requestValue) {
-        service.text = "https://graph.microsoft.com/" + service.selectedVersion + "/" + requestValue;
+        apiService.text = "https://graph.microsoft.com/" + apiService.selectedVersion + "/" + requestValue;
    }
 }
 
