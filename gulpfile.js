@@ -18,6 +18,7 @@ const paths = {
       "scripts/typescript/api-explorer-jsviewer.js",
       "scripts/typescript/api-explorer-msgraph.js",
       "scripts/typescript/auth.js",
+      "scripts/typescript/visualizer.js",
       "scripts/typescript/*.js"
     ],
     stylesheets: [

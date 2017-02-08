@@ -424,6 +424,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
                 handleXmlResponse($scope, startTime, resultBody, headers, status);
             } else {
                 handleJsonResponse($scope, startTime, resultBody, headers, status);
+                startSimFromGraphResponse(resultBody);
             }
 
             historyObj.duration = (new Date()).getTime()- startTime.getTime();

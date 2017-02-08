@@ -152,3 +152,14 @@ code {
     padding: 15px;
     color: black;
 }
+
+/* visualizer*/
+.links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+}
+
+.nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}

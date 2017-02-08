@@ -274,7 +274,7 @@ function getEntityFromTypeName(service, typePossiblyWithPrefix:string):GraphEnti
 
 }
 
-function constructGraphLinksFromFullPath(path:string, service:any):GraphNodeLink[] {
+function constructGraphLinksFromFullPath(path:string):GraphNodeLink[] {
     const urlPathArr = path.split(GraphBaseUrl+"/");
     if (urlPathArr.length <=1)
         return [];
@@ -285,7 +285,7 @@ function constructGraphLinksFromFullPath(path:string, service:any):GraphNodeLink
     var graph:GraphNodeLink[] = [];
 
     // singletons and entitysets
-    let entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
+    let entityContainerData = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
     if (entityContainerData === undefined) return [];
     while (segments.length > 0) {
         let segment = segments.shift();
@@ -296,7 +296,7 @@ function constructGraphLinksFromFullPath(path:string, service:any):GraphNodeLink
             }
         } else {
             let lastGraphItem = graph[graph.length - 1];
-            let lastGraphItemEntity = getEntityFromTypeName(service, lastGraphItem.type);
+            let lastGraphItemEntity = getEntityFromTypeName(apiService, lastGraphItem.type);
 
             if (lastGraphItemEntity === undefined) {
                 continue;
@@ -324,7 +324,7 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
     // concat each urlOption with this prefix
     // return that array
     
-    var graphFromServiceUrl = constructGraphLinksFromFullPath(service.text, service);
+    var graphFromServiceUrl = constructGraphLinksFromFullPath(service.text);
 
 
     let baseUrl = [];
@@ -348,22 +348,22 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
 }
 
 // just return relative URLs
-function getUrlsFromServiceURL (service):string[] {
-    var graphFromServiceUrl = constructGraphLinksFromFullPath(service.text, service);
+function getUrlsFromServiceURL ():string[] {
+    var graphFromServiceUrl = constructGraphLinksFromFullPath(apiService.text);
     if (graphFromServiceUrl.length > 0) {
         let lastNode = graphFromServiceUrl.pop();
 
         if (lastNode.isACollection) return [];
 
-        let entity = getEntityFromTypeName(service, lastNode.type);
+        let entity = getEntityFromTypeName(apiService, lastNode.type);
         if (!entity) return [];
-        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entity.links));
+        return combineUrlOptionsWithCurrentUrl(apiService, Object.keys(entity.links));
     } else {
-        let entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
+        let entityContainerData = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
         if (entityContainerData === undefined) {
             return [];
         }
-        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entityContainerData));
+        return combineUrlOptionsWithCurrentUrl(apiService, Object.keys(entityContainerData));
     }
 }
 
