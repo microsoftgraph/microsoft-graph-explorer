@@ -13,59 +13,79 @@ let simOptions:SimulationContainer = {};
 let link, node;
 
 interface VisualNode {
-    type: "entity" | "property",
+    type: "entity" | "property" | "NAVIGATIONPROPERTY",
     id: string,
     label: string
-}
-
-function isUser(data) {
-    return data["@odata.type"] == "#microsoft.graph.user" || data['@odata.context'] == 'https://graph.microsoft.com/v1.0/$metadata#users/$entity'
 }
 
 function startSimFromGraphResponse(data:any) {
     let nodes:VisualNode[] = [];
     let links = [];
-    if (isUser(data)) {
-        const userId = "user-" + data['id'];
+    
+    // from the autocomplete
+    let lastGraphNode = constructGraphLinksFromFullPath(apiService.text).pop()
+    
+
+    const entityId = data['id'];
+    nodes.push({
+        id: entityId,
+        type: "entity",
+        label: data['displayName']
+    });
+
+    for (let key in data) {
+        if (key.indexOf("odata") != -1)
+            continue;
+        if (data[key] === null)
+            continue;
+
         nodes.push({
-            id: userId,
-            type: "entity",
-            label: "User"
+            id: entityId+key,
+            type: "property",
+            label: key + ": " + JSON.stringify(data[key])
         });
+        links.push({
+            source: entityId,
+            target: entityId+key
+        })
+    }
 
-        delete data['@odata.context'];
-        delete data["@odata.type"];
-
-        for (let key in data) {
-            if (data[key] === null) continue;
+    // get navigation properties
+    let entityLinks = getEntityFromTypeName(lastGraphNode.type).links;
+    for (let entityLink in entityLinks) {
+        let link = entityLinks[entityLink];
+        if (link.tagName == "NAVIGATIONPROPERTY") {
+            let nodeId = `$nav_property_${entityId}_${link.name}`
             nodes.push({
-                id: userId+key,
-                type: "property",
-                label: JSON.stringify(data[key])
+                id: nodeId,
+                label: link.name,
+                type: "NAVIGATIONPROPERTY"
             });
+
             links.push({
-                source: userId,
-                target: userId+key
+                source: entityId,
+                target: nodeId
             })
         }
-
-    } else {
-
     }
+
+
     startSim(nodes, links);
 }
 
 function startSim(nodes:VisualNode[], links) {
-    simOptions.svg = d3.select("#visual-explorer");
+    simOptions.svg = d3.select("#visual-explorer");    simOptions.svg.selectAll("*").remove();
+
     simOptions.width = simOptions.svg.attr("width");
     simOptions.height = simOptions.svg.attr("height");
 
     simOptions.nodes = nodes;
     simOptions.links = links;
 
+    const manyBodyForce = d3.forceManyBody().strength([-500]);
     
     simOptions.simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().id((d) => d.id).distance((d) => 125))
+        .force("link", d3.forceLink().id((d) => d.id).distance((link) => link.target.type == "NAVIGATIONPROPERTY"? 200 : 125))
         .force("charge", manyBodyForce)
         .force("center", d3.forceCenter(simOptions.width / 2, simOptions.height / 2));
 
@@ -75,16 +95,13 @@ function startSim(nodes:VisualNode[], links) {
     resetSimulation();
 }
 
-let color = d3.scaleOrdinal(d3.schemeCategory20);
 
-let manyBodyForce = d3.forceManyBody();
-manyBodyForce.strength([-500])
 
 function initLinks() {
-    link = commonLinkSetup(simOptions.svg.append("g")
+    link = simOptions.svg.append("g")
         .attr("class", "links")
         .selectAll("line")
-        .enter().append("line"));
+        .enter().append("line");
 }
 
 function initNodes() {
@@ -100,7 +117,7 @@ function commonLinkSetup(l) {
 }
 
 function resetLinks() {
-    link = link.data(simOptions.links);//, function(d) { return d.id;});
+    link = link.data(simOptions.links);
     link.exit().remove();    
     link = commonLinkSetup(link.enter().append("line")).merge(link);
 
@@ -108,8 +125,11 @@ function resetLinks() {
 }
 
 function commonNodeSetup(n) {
+    let color = d3.scaleOrdinal(d3.schemeCategory20);
     return n.attr("r", 30)
-        .attr("fill", (d) => color(d.id))
+        .attr("fill", (d) => color(d.type))
+        .attr("stroke", "#757575")
+        .attr("stroke-width", 0)
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
@@ -129,18 +149,16 @@ function resetSvgNodes() {
             .append("circle")
             .attr("class", "node"));
 
-    
+    let circles = baseEl.selectAll("circle");
+
+    circles.on("mouseover",function(){ d3.select(this).transition().attr("stroke-width","3").style("cursor", "pointer") });
+    circles.on("mouseout",function(){ d3.select(this).transition().attr("stroke-width","0").style("cursor", "default") });
 
     baseEl.append("text")
-        .attr("dx", 12)
-        .attr("dy", ".35em")
+        // .attr("dx", 12)
+        // .attr("dy", ".35em")
         .text((d) => d.label);
     return baseEl;
-}
-
-function addNode() {
-    simOptions.links.push({source:"a", target: "Napoleon"})
-    resetSimulation();
 }
 
 function resetSimulation() {

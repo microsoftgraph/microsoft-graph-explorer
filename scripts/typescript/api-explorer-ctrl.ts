@@ -240,7 +240,7 @@ angular.module('ApiExplorer')
                 apiService.selectedVersion = choice;
                 apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
                 $scope.$parent.$broadcast('updateUrlFromServiceText');                    
-                parseMetadata(apiService);
+                parseMetadata();
             }
         }
 }]);
@@ -263,7 +263,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', function ($s
         if (GraphVersions.indexOf(possibleVersion) != -1) {
             // possibleVersion is a valid version
             apiService.selectedVersion = possibleVersion;
-            parseMetadata(apiService);
+            parseMetadata();
         }
     }
     $scope.searchTextChange = searchTextChange;
@@ -285,7 +285,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', function ($s
 
     function getFullUrlFromGraphLinks(links:GraphNodeLink[]) {
         if (typeof links === 'string') { //@todo investigate why a string is sometimes passed
-            links = constructGraphLinksFromFullPath(links, apiService);
+            links = constructGraphLinksFromFullPath(links);
         }
         return [GraphBaseUrl, apiService.selectedVersion, getRelativeUrlFromGraphNodeLinks(links)];
     }
@@ -310,14 +310,14 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', function ($s
 
     $scope.getMatches = function(query) {
         // @todo need to turn url -> links -> urls?
-        var urls = getUrlsFromServiceURL(apiService)
+        var urls = getUrlsFromServiceURL()
         return urls.filter((option) => {
             var queryInOption = (option.indexOf(query)>-1);
             // var queryIsEmpty = (getEntityName(query).length == 0);
 
             return queryInOption;
         }).map((fullUrl) => {
-            return constructGraphLinksFromFullPath(fullUrl, apiService);
+            return constructGraphLinksFromFullPath(fullUrl);
         });
     }
 
@@ -349,7 +349,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
         $scope.$broadcast('updateUrlFromServiceText');
         apiService.selectedVersion = historyItem.selectedVersion;
         apiService.selectedOption = historyItem.htmlOption;
-        parseMetadata(apiService); // if clicked on beta or other version that we haven't fetched metadata for, download so autocomplete works
+        parseMetadata(); // if clicked on beta or other version that we haven't fetched metadata for, download so autocomplete works
 
         if (historyItem.htmlOption == 'POST' || historyItem.htmlOption == 'PATCH') {
             if (getJsonViewer()) {
