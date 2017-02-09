@@ -2,10 +2,12 @@
 #### Bug fixes:
 #### New features:
 * Autocomplete options are abbreviated when they get too long.
+![autocomplete wrapping](autocomplete-wrap.png)
 
 ## 1.0.1 (2/8/2017)
 #### Bug fixes:
 * Fixed an issue with the admin consent flow not working with Hello.js when it's configured for only AAD
+* Image responses aren't rendering because of error in handleImageResponse()
 
 #### New features:
 * Tooltip on the button that launches the share dialog for accessibility and UX
