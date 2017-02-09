@@ -17,5 +17,6 @@
   "request body": "request body",
   "response": "response",
   "login_to_send_requests": "Login to change the request type",
-  "ShareQuery": "Share Query"
+  "ShareQuery": "Share Query",
+  "Share this link to let people try your current query in the Graph Explorer.": "Share this link to let people try your current query in the Graph Explorer."
 }
