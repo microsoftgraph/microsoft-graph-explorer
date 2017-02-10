@@ -185,10 +185,12 @@ function initializeJsonViewer($scope, apiService) {
 
         });
 
-        let HoverLink = require("hoverlink").HoverLink
-        jsonViewer.hoverLink = new HoverLink(jsonViewer);
-        jsonViewer.hoverLink.on("open", function (x) {
-            run($scope, x.value, apiService);
-        })
-    });
+        require(['hoverlink'], function (hoverlink) {
+            const HoverLink = require("hoverlink").HoverLink;
+            jsonViewer.hoverLink = new HoverLink(jsonViewer);
+            jsonViewer.hoverLink.on("open", function (x) {
+                run($scope, x.value, apiService);
+            });
+        });
+   });
 }
