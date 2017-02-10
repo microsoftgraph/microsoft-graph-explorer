@@ -13,7 +13,7 @@ let simOptions:SimulationContainer = {};
 let link, node;
 
 interface VisualNode {
-    type: "entity" | "property" | "NAVIGATIONPROPERTY",
+    type: "entity" | "PROPERTY_VALUE" | "NAVIGATIONPROPERTY" | "PROPERTY_KEY",
     id: string,
     label: string
 }
@@ -38,14 +38,27 @@ function startSimFromGraphResponse(data:any) {
             continue;
         if (data[key] === null)
             continue;
-
+        
+        // property label node
         nodes.push({
             id: entityId+key,
-            type: "property",
-            label: key + ": " + JSON.stringify(data[key])
+            type: "PROPERTY_KEY",
+            label: key
         });
         links.push({
             source: entityId,
+            target: entityId+key
+        })
+
+        // property value node
+        const propertyValueNodeId = "value-"+entityId+key;
+        nodes.push({
+            id: propertyValueNodeId,
+            type: "PROPERTY_VALUE",
+            label: JSON.stringify(data[key])
+        });
+        links.push({
+            source: propertyValueNodeId,
             target: entityId+key
         })
     }
@@ -74,7 +87,8 @@ function startSimFromGraphResponse(data:any) {
 }
 
 function startSim(nodes:VisualNode[], links) {
-    simOptions.svg = d3.select("#visual-explorer");    simOptions.svg.selectAll("*").remove();
+    simOptions.svg = d3.select("#visual-explorer");
+    simOptions.svg.selectAll("*").remove();
 
     simOptions.width = simOptions.svg.attr("width");
     simOptions.height = simOptions.svg.attr("height");
@@ -85,7 +99,7 @@ function startSim(nodes:VisualNode[], links) {
     const manyBodyForce = d3.forceManyBody().strength([-500]);
     
     simOptions.simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().id((d) => d.id).distance((link) => link.target.type == "NAVIGATIONPROPERTY"? 200 : 125))
+        .force("link", d3.forceLink().id((d) => d.id).distance((link) => link.target.type == "NAVIGATIONPROPERTY"? 400 : 100))
         .force("charge", manyBodyForce)
         .force("center", d3.forceCenter(simOptions.width / 2, simOptions.height / 2));
 
@@ -126,7 +140,7 @@ function resetLinks() {
 
 function commonNodeSetup(n) {
     let color = d3.scaleOrdinal(d3.schemeCategory20);
-    return n.attr("r", 30)
+    return n.attr("r", 50)
         .attr("fill", (d) => color(d.type))
         .attr("stroke", "#757575")
         .attr("stroke-width", 0)
