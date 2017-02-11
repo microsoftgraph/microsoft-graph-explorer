@@ -146,3 +146,7 @@ code {
     padding: 15px;
     color: black;
 }
+
+md-autocomplete .md-show-clear-button button {
+    min-width: inherit;
+}
