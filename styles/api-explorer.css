@@ -147,6 +147,7 @@ code {
     color: black;
 }
 
-md-autocomplete .md-show-clear-button button {
+/* Frontdoor css changes */
+md-autocomplete button {
     min-width: inherit;
 }

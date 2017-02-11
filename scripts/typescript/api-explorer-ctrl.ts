@@ -117,7 +117,7 @@ angular.module('ApiExplorer')
                 display: 'page',
                 response_type: "id_token token",
                 nonce: 'graph_explorer',
-                prompt: 'login',
+                prompt: 'select_account',
                 msafed: 0
             }, function(res) {
 

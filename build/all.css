@@ -152,3 +152,8 @@ code {
     padding: 15px;
     color: black;
 }
+
+/* Frontdoor css changes */
+md-autocomplete button {
+    min-width: inherit;
+}
