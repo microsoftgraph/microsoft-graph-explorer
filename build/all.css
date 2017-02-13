@@ -161,3 +161,7 @@ md-autocomplete button {
 .historyRow {
     cursor: pointer;
 }
+
+md-autocomplete-wrap input:focus {
+    background-color: transparent !important;
+}
