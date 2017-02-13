@@ -151,3 +151,7 @@ code {
 md-autocomplete button {
     min-width: inherit;
 }
+
+.historyRow {
+    cursor: pointer;
+}
