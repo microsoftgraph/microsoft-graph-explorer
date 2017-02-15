@@ -8,6 +8,14 @@ const src = scripts[scripts.length-1].src;
 const pathToBuildDir = src.split('/').slice(0, -2).join('/');
 
 angular.module('ApiExplorer')
+     .config(function($sceDelegateProvider, $httpProvider) {
+            $sceDelegateProvider.resourceUrlWhitelist([
+                'self',
+                pathToBuildDir + '/**'
+            ]);
+	        $httpProvider.defaults.useXDomain = true;
+	        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        })
     .directive('apiExplorer', function() {
         return {
             scope: {
