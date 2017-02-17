@@ -10,7 +10,6 @@ interface SimulationContainer {
 }
 
 let simOptions:SimulationContainer = {};
-let link, node;
 
 interface VisualNode {
     type: "entity" | "PROPERTY_VALUE" | "NAVIGATIONPROPERTY" | "PROPERTY_KEY",
@@ -18,12 +17,17 @@ interface VisualNode {
     label: string
 }
 
+interface VisualLinks {
+    source: string,
+    target: string
+}
+
 function startSimFromGraphResponse(data:any) {
     if ($("#visual-explorer").length != 1) {
         return;
     }
     let nodes:VisualNode[] = [];
-    let links = [];
+    let links:VisualLinks[] = [];
     
     // from the autocomplete
     let lastGraphNode = constructGraphLinksFromFullPath(apiService.text).pop()
@@ -107,25 +111,24 @@ function startSim(nodes:VisualNode[], links) {
         .force("center", d3.forceCenter(simOptions.width / 2, simOptions.height / 2));
 
 
-    initLinks();
-    initNodes();
-    resetSimulation();
+    let link = initLinks();
+    let node = initNodes();
+    resetSimulation(node, link);
 }
 
 
 
 function initLinks() {
-    link = simOptions.svg.append("g")
+    return simOptions.svg.append("g")
         .attr("class", "links")
         .selectAll("line")
         .enter().append("line");
 }
 
 function initNodes() {
-    node = simOptions.svg.selectAll(".node")
+    return simOptions.svg.selectAll(".node")
         .enter().append("g")
         .attr("class", "node");
-   return node;
 }
 
 function commonLinkSetup(l) {
@@ -133,7 +136,7 @@ function commonLinkSetup(l) {
         .attr("stroke-width", (d) => { return 5; });
 }
 
-function resetLinks() {
+function resetLinks(link) {
     link = link.data(simOptions.links);
     link.exit().remove();    
     link = commonLinkSetup(link.enter().append("line")).merge(link);
@@ -154,7 +157,7 @@ function commonNodeSetup(n) {
 }
 
     
-function resetSvgNodes() {    
+function resetSvgNodes(node) {    
     node = node.data(simOptions.nodes, (d) => d.id);
     node.exit().remove();
     
@@ -178,9 +181,9 @@ function resetSvgNodes() {
     return baseEl;
 }
 
-function resetSimulation() {
-    let nodeBaseElements = resetSvgNodes();
-    let links = resetLinks();
+function resetSimulation(node, link) {
+    let nodeBaseElements = resetSvgNodes(node);
+    let links = resetLinks(link);
 
     simOptions.simulation
         .nodes(simOptions.nodes)

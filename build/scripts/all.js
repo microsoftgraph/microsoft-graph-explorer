@@ -714,8 +714,8 @@ function constructGraphLinksFromFullPath(path) {
         var segment = segments.shift();
         if (graph.length == 0) {
             if (segment in entityContainerData) {
-                var node_1 = entityContainerData[segment];
-                graph.push(node_1);
+                var node = entityContainerData[segment];
+                graph.push(node);
             }
         }
         else {
@@ -1401,7 +1401,6 @@ function ShareDialogController($scope, $mdDialog, $sce, headers, body) {
 }
 
 var simOptions = {};
-var link, node;
 function startSimFromGraphResponse(data) {
     if ($("#visual-explorer").length != 1) {
         return;
@@ -1446,12 +1445,12 @@ function startSimFromGraphResponse(data) {
     // get navigation properties
     var entityLinks = getEntityFromTypeName(lastGraphNode.type).links;
     for (var entityLink in entityLinks) {
-        var link_1 = entityLinks[entityLink];
-        if (link_1.tagName == "NAVIGATIONPROPERTY") {
-            var nodeId = "$nav_property_" + entityId + "_" + link_1.name;
+        var link = entityLinks[entityLink];
+        if (link.tagName == "NAVIGATIONPROPERTY") {
+            var nodeId = "$nav_property_" + entityId + "_" + link.name;
             nodes.push({
                 id: nodeId,
-                label: link_1.name,
+                label: link.name,
                 type: "NAVIGATIONPROPERTY"
             });
             links.push({
@@ -1474,27 +1473,26 @@ function startSim(nodes, links) {
         .force("link", d3.forceLink().id(function (d) { return d.id; }).distance(function (link) { return link.target.type == "NAVIGATIONPROPERTY" ? 400 : 100; }))
         .force("charge", manyBodyForce)
         .force("center", d3.forceCenter(simOptions.width / 2, simOptions.height / 2));
-    initLinks();
-    initNodes();
-    resetSimulation();
+    var link = initLinks();
+    var node = initNodes();
+    resetSimulation(node, link);
 }
 function initLinks() {
-    link = simOptions.svg.append("g")
+    return simOptions.svg.append("g")
         .attr("class", "links")
         .selectAll("line")
         .enter().append("line");
 }
 function initNodes() {
-    node = simOptions.svg.selectAll(".node")
+    return simOptions.svg.selectAll(".node")
         .enter().append("g")
         .attr("class", "node");
-    return node;
 }
 function commonLinkSetup(l) {
     return l
         .attr("stroke-width", function (d) { return 5; });
 }
-function resetLinks() {
+function resetLinks(link) {
     link = link.data(simOptions.links);
     link.exit().remove();
     link = commonLinkSetup(link.enter().append("line")).merge(link);
@@ -1511,7 +1509,7 @@ function commonNodeSetup(n) {
         .on("drag", dragged)
         .on("end", dragended));
 }
-function resetSvgNodes() {
+function resetSvgNodes(node) {
     node = node.data(simOptions.nodes, function (d) { return d.id; });
     node.exit().remove();
     var baseEl = node
@@ -1526,9 +1524,9 @@ function resetSvgNodes() {
         .text(function (d) { return d.label; });
     return baseEl;
 }
-function resetSimulation() {
-    var nodeBaseElements = resetSvgNodes();
-    var links = resetLinks();
+function resetSimulation(node, link) {
+    var nodeBaseElements = resetSvgNodes(node);
+    var links = resetLinks(link);
     simOptions.simulation
         .nodes(simOptions.nodes)
         .on("tick", function () {
