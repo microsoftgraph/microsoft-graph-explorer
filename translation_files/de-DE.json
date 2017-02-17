@@ -15,5 +15,8 @@
   "NO": "NEIN",
   "request header": "Anforderungsheader",
   "request body": "Anforderungstextkörper",
-  "response": "Antwort"
+  "response": "Antwort",
+  "login to send requests": "Melden Sie an, um den Anforderungstyp zu ändern",
+  "Share Query": "Abfrage freigeben",
+  "Share this link to let people try your current query in the Graph Explorer.": "Teilen Sie diesen Link, damit Benutzer Ihre aktuelle Abfrage im Graph-Tester testen können."
 }

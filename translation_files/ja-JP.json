@@ -15,5 +15,8 @@
   "NO": "いいえ",
   "request header": "要求ヘッダー",
   "request body": "要求本文",
-  "response": "応答"
+  "response": "応答",
+  "login to send requests": "要求の種類を変更するにはログインしてください",
+  "Share Query": "クエリの共有",
+  "Share this link to let people try your current query in the Graph Explorer.": "Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。"
 }

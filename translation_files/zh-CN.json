@@ -15,5 +15,8 @@
   "NO": "否",
   "request header": "请求标题",
   "request body": "请求正文",
-  "response": "响应"
+  "response": "响应",
+  "login to send requests": "登录以更改请求类型",
+  "Share Query": "共享查询",
+  "Share this link to let people try your current query in the Graph Explorer.": "共享此链接可让其他人在 Graph 浏览器中尝试执行当前查询。"
 }
