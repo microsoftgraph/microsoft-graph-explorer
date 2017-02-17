@@ -280,7 +280,7 @@ function getEntityFromTypeName(service, typePossiblyWithPrefix:string):GraphEnti
 }
 
 function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
-    const urlPathArr = service.text.split("https://graph.microsoft.com/");
+    const urlPathArr = service.text.split(GraphExplorerOptions.GraphUrl);
     if (urlPathArr.length <=1)
         return [];
 
@@ -338,7 +338,7 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
         baseUrl.push(lastSegment.name);
     }
 
-    let baseUrlFinal = "https://graph.microsoft.com/"+service.selectedVersion;
+    let baseUrlFinal = GraphExplorerOptions.GraphUrl + service.selectedVersion;
     
     if (baseUrl.length > 0) {
         baseUrlFinal += "/" + baseUrl.join('/');
@@ -403,7 +403,7 @@ function handleQueryString(service, actionValue, versionValue, requestValue) {
         service.selectedVersion = versionValue;
    }
    if (requestValue) {
-        service.text = "https://graph.microsoft.com/" + service.selectedVersion + "/" + requestValue;
+        service.text = GraphExplorerOptions.GraphUrl + service.selectedVersion + "/" + requestValue;
    }
 }
 

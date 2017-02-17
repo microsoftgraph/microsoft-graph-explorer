@@ -7,7 +7,7 @@
 angular.module('ApiExplorer')
     .factory('ApiExplorerSvc', ['$http', '$cacheFactory', function ($http, $cacheFactory) {
         return {
-            text: 'https://graph.microsoft.com/v1.0/me/',
+            text: GraphExplorerOptions.GraphUrl + 'v1.0/me/',
 
             selectedVersion: "v1.0",
 
@@ -64,7 +64,7 @@ angular.module('ApiExplorer')
             },
             
             getMetadata: function() {
-                return this.performAnonymousQuery("GET")("https://graph.microsoft.com/" + this.selectedVersion + "/$metadata");
+                return this.performAnonymousQuery("GET")(GraphExplorerOptions.GraphUrl + this.selectedVersion + "/$metadata");
             }
         }
     }]);

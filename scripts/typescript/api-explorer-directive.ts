@@ -7,6 +7,22 @@ const scripts = document.getElementsByTagName("script")
 const src = scripts[scripts.length-1].src;
 const pathToBuildDir = src.split('/').slice(0, -2).join('/');
 
+interface ExplorerOptions {
+    AuthUrl?: string,
+    GraphUrl?: string,
+    ClientId?: string,
+    Language?: string,
+    AdminScopes?: string,
+    RedirectUrl?: string,
+    UserScopes?: string
+}
+
+const GraphExplorerOptions:ExplorerOptions = {
+    AuthUrl: "https://login.microsoftonline.com",
+    GraphUrl: "https://graph.microsoft.com/",
+    Language: "en-US"
+};
+
 angular.module('ApiExplorer')
      .config(function($sceDelegateProvider, $httpProvider) {
             $sceDelegateProvider.resourceUrlWhitelist([
@@ -19,39 +35,28 @@ angular.module('ApiExplorer')
     .directive('apiExplorer', function() {
         return {
             scope: {
-                strings: '=',
-                language: '=',
-                scopes: '=',
-                adminScopes: '=',
-                clientId: '=',
-                redirectUrl: '='
+                options: '='
             },
             templateUrl: pathToBuildDir+'/assets/views/explorer.html',
             controller: function ($scope) {
                 $scope.pathToBuildDir = pathToBuildDir;
 
-                // default strings
-                $scope.str = loc_strings['en_us'];
+                angular.extend(GraphExplorerOptions, $scope.options);
 
-                // if the user specified a language, use that instead
-                if ($scope.language) {
-                    $scope.str = loc_strings[$scope.language];
-                }
+                initAuth(GraphExplorerOptions.AuthUrl);
 
-                // merge $scope.strings into $scope.str
-                angular.extend($scope.str, $scope.strings);
-
+                $scope.str = loc_strings[GraphExplorerOptions.Language];
 
                 hello.init( {
-                    msft: $scope.clientId
+                    msft: GraphExplorerOptions.ClientId
                 }, {
-                    scope: $scope.scopes,
+                    scope: GraphExplorerOptions.UserScopes,
                     redirect_uri: window.location.pathname //required to remove extra url params that make URLs not match
                 });
 
                 hello.init( {
-                    msft_admin_consent: $scope.clientId,
-                    msft_token_refresh: $scope.clientId,
+                    msft_admin_consent: GraphExplorerOptions.ClientId,
+                    msft_token_refresh: GraphExplorerOptions.ClientId,
                 }, {
                     redirect_uri: window.location.pathname
                 });

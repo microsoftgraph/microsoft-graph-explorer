@@ -8,3 +8,5 @@ debug.log
 scripts/typescript/*.js
 scripts/typescript/*.js.map
 scripts/typescript/*.d.ts
+
+scripts/typescript/gen/

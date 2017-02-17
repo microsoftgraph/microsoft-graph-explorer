@@ -3,6 +3,7 @@ const concat = require('gulp-concat');
 const del = require('del');
 const sourcemaps = require('gulp-sourcemaps');
 const minify = require('gulp-minify');
+const typescript = require('gulp-tsc');
 
 const paths = {
   scripts: [
@@ -28,6 +29,9 @@ const paths = {
     ],
     assets: [
       './assets/**/*'
+    ],
+    typescript: [
+      'scripts/typescript/*.ts'
     ]
 };
 
@@ -35,7 +39,16 @@ gulp.task('clean', function() {
   return del(['build']);
 });
 
-gulp.task('scripts', ['clean'], function() {
+gulp.task('compile', function(){
+  gulp.src(paths.typescript)
+    .pipe(typescript({
+      target: 'ES5',
+      declaration: true
+    }))
+    .pipe(gulp.dest('scripts/typescript/gen'))
+});
+
+gulp.task('scripts', ['clean', 'compile'], function() {
   return gulp.src(paths.scripts)
     .pipe(sourcemaps.init())
     .pipe(concat('all.js'))

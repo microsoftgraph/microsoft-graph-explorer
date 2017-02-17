@@ -5,7 +5,6 @@
 let s:any;
 declare const angular:any;
 
-const GraphBaseUrl = "https://graph.microsoft.com/"
 const GraphVersions = ['beta', 'v1.0']
 
 angular.module('ApiExplorer')
@@ -23,8 +22,8 @@ angular.module('ApiExplorer')
             hello('msft_token_refresh').login({
                 display: 'popup',
                 response_type: "token",
-                redirect_uri: $scope.redirectUrl,
-                scope: $scope.scopes + " " + $scope.adminScopes,
+                redirect_uri: GraphExplorerOptions.RedirectUrl,
+                scope: GraphExplorerOptions.UserScopes + " " + GraphExplorerOptions.AdminScopes,
                 response_mode: 'fragment',
                 prompt: 'none',
                 domain_hint: 'organizations',
@@ -53,7 +52,7 @@ angular.module('ApiExplorer')
             if (accessToken) {
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
            
-                apiService.performQuery("GET")("https://graph.microsoft.com/v1.0/me")
+                apiService.performQuery("GET")(`${GraphExplorerOptions.GraphUrl}v1.0/me`)
                     .then(function (result) {
                         let resultBody = result.data;
 
@@ -191,11 +190,6 @@ angular.module('ApiExplorer')
                     body: getJsonViewer().getSession().getValue()
                 },
             })
-            .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
-            });
         };
 
 }]);
@@ -206,7 +200,7 @@ angular.module('ApiExplorer')
         $scope.onItemClick = function(choice) {
             if (choice != apiService.selectedOption) {
                 apiService.selectedOption = choice;
-                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
+                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + apiService.selectedVersion + "/"));
                 if (choice == 'POST' || choice == 'PATCH') {
                     showRequestBodyEditor();
                 } else if (choice == 'GET' || choice == 'DELETE') {
@@ -240,7 +234,7 @@ angular.module('ApiExplorer')
         $scope.onItemClick = function(choice) {
             if (apiService.selectedVersion !== choice) {
                 apiService.selectedVersion = choice;
-                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, ("https://graph.microsoft.com/" + apiService.selectedVersion + "/"));
+                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + apiService.selectedVersion + "/"));
                 $scope.$parent.$broadcast('updateUrlFromServiceText');                    
                 parseMetadata(apiService);
             }
@@ -253,7 +247,8 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
         apiService.text = searchText;
 
         // if the user typed in a different version, change the dropdown
-        let graphPathStartingWithVersion = searchText.split(GraphBaseUrl);
+        if (!searchText) return;
+        let graphPathStartingWithVersion = searchText.split(GraphExplorerOptions.GraphUrl);
         if (graphPathStartingWithVersion.length < 2) {
             return;
         }
@@ -291,10 +286,6 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorer
             return queryInOption;
         });
     }
-
-    if (window['runTests'])
-         runAutoCompleteTests(apiService);
-
 }]);
 
 

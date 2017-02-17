@@ -34,7 +34,7 @@ function ShareDialogController($scope, $mdDialog, apiService, $sce, headers, bod
     $scope.generateSuperAgentCode = function() {
         var requestUrl = $scope.getSearchText();
 
-        var fullGraphUrl = "https://graph.microsoft.com/" + _apiService.selectedVersion + "/" + extractGraphEndpoint(requestUrl);
+        var fullGraphUrl = GraphExplorerOptions.GraphUrl + _apiService.selectedVersion + "/" + extractGraphEndpoint(requestUrl);
 
         var tab = function() {
             return "<span style='padding-left:15px'></span>";
