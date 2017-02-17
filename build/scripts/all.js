@@ -1403,6 +1403,9 @@ function ShareDialogController($scope, $mdDialog, $sce, headers, body) {
 var simOptions = {};
 var link, node;
 function startSimFromGraphResponse(data) {
+    if ($("#visual-explorer").length != 1) {
+        return;
+    }
     var nodes = [];
     var links = [];
     // from the autocomplete

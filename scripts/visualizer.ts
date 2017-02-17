@@ -19,6 +19,9 @@ interface VisualNode {
 }
 
 function startSimFromGraphResponse(data:any) {
+    if ($("#visual-explorer").length != 1) {
+        return;
+    }
     let nodes:VisualNode[] = [];
     let links = [];
     

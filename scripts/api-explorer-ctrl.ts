@@ -51,7 +51,7 @@ angular.module('ApiExplorer')
 
             if (accessToken) {
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-           
+
                 apiService.performQuery("GET")(`${GraphExplorerOptions.GraphUrl}/v1.0/me`)
 
                     .then(function (result) {
