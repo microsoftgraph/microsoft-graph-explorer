@@ -48,3 +48,18 @@ angular.module('ApiExplorer', ['ngAnimate', 'ngMaterial'])
     $mdThemingProvider.theme('default').primaryPalette('O365PrimaryPalette');
     $mdThemingProvider.theme('default').accentPalette('O365AccentPalette');
 }]);
+
+
+angular.module('ApiExplorer')
+.config(function($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false,
+        rewriteLinks: false
+    });
+    
+})
+.factory('ApiExplorerSvc', [function () {
+    var apiExplorerService = {};
+    return apiExplorerService;
+}]);

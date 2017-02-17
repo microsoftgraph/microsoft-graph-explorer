@@ -42,7 +42,7 @@ function msGraphLinkResolution ($scope, body, args, service) {
     if (service.text && endsWithSlash(service.text)) {
                 service.text += '/';
     }
-    
+
     $scope.$broadcast('updateUrlFromServiceText');
     $scope.submit();
 }

@@ -4,25 +4,9 @@ const del = require('del');
 const sourcemaps = require('gulp-sourcemaps');
 const minify = require('gulp-minify');
 const typescript = require('gulp-tsc');
+const addsrc = require('gulp-add-src');
 
 const paths = {
-  scripts: [
-      "bower_components/hello/dist/hello.all.min.js",
-      "scripts/api-explorer-init.js",
-      "scripts/typescript/api-explorer-helpers.js",
-      "scripts/api-explorer-app.js",
-      "scripts/api-explorer-svc.js",
-      "scripts/loc_strings.js",
-      "scripts/typescript/api-explorer-ctrl.js",
-      "scripts/typescript/api-explorer-directive.js",
-      "scripts/typescript/api-explorer-jseditor.js",
-      "scripts/api-explorer-jsviewer.js",
-      "scripts/typescript/api-explorer-msgraph.js",
-      "scripts/typescript/auth.js",
-      "scripts/*.js",
-      "scripts/typescript/*.js"
-
-    ],
     stylesheets: [
       "bower_components/angular-material/angular-material.min.css",
       "styles/api-explorer.css"
@@ -31,7 +15,7 @@ const paths = {
       './assets/**/*'
     ],
     typescript: [
-      'scripts/typescript/*.ts'
+      "scripts/*.ts"
     ]
 };
 
@@ -39,48 +23,49 @@ gulp.task('clean', function() {
   return del(['build']);
 });
 
-gulp.task('compile', function(){
-  gulp.src(paths.typescript)
-    .pipe(typescript({
-      target: 'ES5',
-      declaration: true
-    }))
-    .pipe(gulp.dest('scripts/typescript/gen'))
+gulp.task('clean-assets', function() {
+  return del(['build/assets']);
 });
 
-gulp.task('scripts', ['clean', 'compile'], function() {
-  return gulp.src(paths.scripts)
-    .pipe(sourcemaps.init())
+gulp.task('clean-stylesheets', function() {
+  return del(['build/stylesheets']);
+});
+
+gulp.task('scripts', [], function() {
+  return gulp.src(paths.typescript)
+    .pipe(typescript({
+      target: 'ES5'
+    }))
+    .pipe(addsrc("bower_components/hello/dist/hello.all.min.js"))
     .pipe(concat('all.js'))
-    .pipe(sourcemaps.write())
+    // .pipe(sourcemaps.init())
     .pipe(minify({
-      mangle: false,
       ext:{
           src:'.js',
           min:'.min.js'
       }}))
+    // .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/scripts'));
 });
 
 
-gulp.task('assets', ['clean'], function() {
+gulp.task('assets', ['clean-assets'], function() {
   return gulp.src(paths.assets)
     .pipe(gulp.dest('build/assets'));
 });
 
-gulp.task('stylesheets', ['clean'], function() {
+gulp.task('stylesheets', ['clean-stylesheets'], function() {
   return gulp.src(paths.stylesheets)
     .pipe(concat('all.css'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest('build/stylesheets'));
 });
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-  gulp.watch(paths.assets, ['scripts', 'stylesheets', 'assets'])
-  gulp.watch(paths.scripts, ['scripts', 'stylesheets', 'assets']);
-  gulp.watch(paths.stylesheets, ['scripts', 'stylesheets', 'assets']);
+  gulp.watch(paths.assets, ['assets'])
+  gulp.watch(paths.typescript, ['scripts']);
+  gulp.watch(paths.stylesheets, ['stylesheets']);
 });
 
 // The default task (called when you run `gulp` from cli) 
-gulp.task('default', ['watch', 'scripts', 'stylesheets', 'assets']);
+gulp.task('default', ['clean', 'watch', 'scripts', 'stylesheets', 'assets']);

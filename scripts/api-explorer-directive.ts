@@ -14,13 +14,15 @@ interface ExplorerOptions {
     Language?: string,
     AdminScopes?: string,
     RedirectUrl?: string,
-    UserScopes?: string
+    UserScopes?: string,
+    GraphVersions?: string[]
 }
 
 const GraphExplorerOptions:ExplorerOptions = {
     AuthUrl: "https://login.microsoftonline.com",
-    GraphUrl: "https://graph.microsoft.com/",
-    Language: "en-US"
+    GraphUrl: "https://graph.microsoft.com",
+    Language: "en-US",
+    GraphVersions: ["v1.0", "beta"]
 };
 
 angular.module('ApiExplorer')

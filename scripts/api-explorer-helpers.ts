@@ -9,10 +9,6 @@ declare const jQuery:any;
 declare const $:any;
 declare const hello:any;
 
-function run ($scope, url, apiService) {
-    $scope.$emit('urlChange', url);
-}
-
 function formatXml(xml) {
     var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
     var wsexp = / *(.*) +\n/g;
@@ -92,8 +88,7 @@ function showResults(results, headers, status, responseContentType) {
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
 }
 
-// only need to handle successfull responses on the first query
-function handleImageResponse($scope, apiService, startTime, headers, status, handleUnsuccessfulQueryResponse) {
+function handleImageResponse($scope, startTime, headers, status, handleUnsuccessfulQueryResponse) {
     apiService.performQuery('GET_BINARY')($scope.getSearchText()).then(function(result) {
         let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
         let imageUrl = window.URL.createObjectURL( blob );
@@ -157,9 +152,9 @@ function getContentType(headers) {
 
 interface GraphNodeLink {
     isACollection: boolean
-    isEntitySet: boolean
     type: string // corresponds to a possible name of a Graph Entity
-    name: string
+    name: string,
+    tagName?: "PROPERTY" | "NAVIGATIONPROPERTY"
 }
 
 // entitysets in EntityContainer
@@ -181,17 +176,17 @@ function getEntitySets(metadata) {
         if (set.tagName == "ENTITYSET") {
             entitySetOrSingleton = {
                 name: set.getAttribute("name"),
-                isEntitySet: true,
                 type: set.getAttribute("entitytype"),
-                isACollection: true
+                isACollection: true,
+                tagName: set.tagName
             };
         } else if (set.tagName == "SINGLETON") { 
         // singletons like "me" have "Type" instead of "EntityType"
             entitySetOrSingleton = {
                 name: set.getAttribute("name"),
-                isEntitySet: false,
                 type: set.getAttribute("type"),
-                isACollection: false
+                isACollection: false,
+                tagName: set.tagName
             };
         } else {
             console.error("Found unexpected type in metadata under EntityContainer")
@@ -235,8 +230,8 @@ function createEntityTypeObject (DOMarray) {
                     let urlObject:GraphNodeLink = {
                         isACollection: false,
                         name: childName,
-                        isEntitySet: false,
-                        type: type
+                        type: type,
+                        tagName: children[j].tagName
                     };
 
                     if (type.indexOf("Collection(") == 0) {
@@ -272,15 +267,15 @@ function getEntityTypes(metadata) {
 
 
 
-function getEntityFromTypeName(service, typePossiblyWithPrefix:string):GraphEntity {
-    const entityTypeData = service.cache.get(service.selectedVersion + "EntityTypeData");
+function getEntityFromTypeName(typePossiblyWithPrefix:string):GraphEntity {
+    const entityTypeData = apiService.cache.get(apiService.selectedVersion + "EntityTypeData");
     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
     return entityTypeData[type];
 
 }
 
-function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
-    const urlPathArr = service.text.split(GraphExplorerOptions.GraphUrl);
+function constructGraphLinksFromFullPath(path:string):GraphNodeLink[] {
+    const urlPathArr = path.split(GraphExplorerOptions.GraphUrl+"/");
     if (urlPathArr.length <=1)
         return [];
 
@@ -290,7 +285,7 @@ function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
     var graph:GraphNodeLink[] = [];
 
     // singletons and entitysets
-    let entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
+    let entityContainerData = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
     if (entityContainerData === undefined) return [];
     while (segments.length > 0) {
         let segment = segments.shift();
@@ -301,7 +296,7 @@ function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
             }
         } else {
             let lastGraphItem = graph[graph.length - 1];
-            let lastGraphItemEntity = getEntityFromTypeName(service, lastGraphItem.type);
+            let lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type);
 
             if (lastGraphItemEntity === undefined) {
                 continue;
@@ -313,7 +308,6 @@ function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
                 // previous link was a collection, current is an id
                 graph.push({
                     isACollection: false,
-                    isEntitySet: false,
                     name: segment,
                     type: lastGraphItem.type
                 });
@@ -324,12 +318,12 @@ function constructGraphLinksFromServicePath(service):GraphNodeLink[] {
 }
 
 // urlOptions are like ["driveType", "quota"]
-function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] {
+function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):string[] {
     // truncate the service string back to the last known good entity (could be an id if prev was a collection)
     // concat each urlOption with this prefix
     // return that array
     
-    var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
+    var graphFromServiceUrl = constructGraphLinksFromFullPath(apiService.text);
 
 
     let baseUrl = [];
@@ -338,7 +332,7 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
         baseUrl.push(lastSegment.name);
     }
 
-    let baseUrlFinal = GraphExplorerOptions.GraphUrl + service.selectedVersion;
+    let baseUrlFinal = GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion;
     
     if (baseUrl.length > 0) {
         baseUrlFinal += "/" + baseUrl.join('/');
@@ -353,22 +347,22 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions:string[]):string[] 
 }
 
 // just return relative URLs
-function getUrlsFromServiceURL (service):string[] {
-    var graphFromServiceUrl = constructGraphLinksFromServicePath(service);
+function getUrlsFromServiceURL ():string[] {
+    var graphFromServiceUrl = constructGraphLinksFromFullPath(apiService.text);
     if (graphFromServiceUrl.length > 0) {
         let lastNode = graphFromServiceUrl.pop();
 
         if (lastNode.isACollection) return [];
 
-        let entity = getEntityFromTypeName(service, lastNode.type);
+        let entity = getEntityFromTypeName(lastNode.type);
         if (!entity) return [];
-        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entity.links));
+        return combineUrlOptionsWithCurrentUrl(Object.keys(entity.links));
     } else {
-        let entityContainerData = service.cache.get(service.selectedVersion + "EntitySetData");
+        let entityContainerData = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
         if (entityContainerData === undefined) {
             return [];
         }
-        return combineUrlOptionsWithCurrentUrl(service, Object.keys(entityContainerData));
+        return combineUrlOptionsWithCurrentUrl(Object.keys(entityContainerData));
     }
 }
 
@@ -390,42 +384,41 @@ function setSelectedTab (num) {
     s.tabConfig.previousSelected = s.tabConfig.selected;
 }
 
-function handleQueryString(service, actionValue, versionValue, requestValue) {
+function handleQueryString(actionValue, versionValue, requestValue) {
     if(actionValue){
-        service.selectedOption = actionValue.toUpperCase();
-        if(service.selectedOption === 'POST' || service.selectedOption === 'PATCH') {
+        apiService.selectedOption = actionValue.toUpperCase();
+        if(apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH') {
             if(hello('msft').getAuthResponse() != null)
                 showRequestBodyEditor();
         }
    }
         
    if (versionValue) {
-        service.selectedVersion = versionValue;
+        apiService.selectedVersion = versionValue;
    }
    if (requestValue) {
-        service.text = GraphExplorerOptions.GraphUrl + service.selectedVersion + "/" + requestValue;
+        apiService.text = GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/" + requestValue;
    }
 }
 
-function getUrlsFromEntityType(service:any, entity:GraphEntity):string[] {
+function getUrlsFromEntityType(entity:GraphEntity):string[] {
     const entityTypes: { [Name: string] : GraphEntity; }
-                    = service.cache.get(service.selectedVersion + "EntityTypeData");
+                    = apiService.cache.get(apiService.selectedVersion + "EntityTypeData");
 
     var type:GraphEntity = entityTypes[entity.name];
-    return combineUrlOptionsWithCurrentUrl(service, Object.keys(type.links));
+    return combineUrlOptionsWithCurrentUrl(Object.keys(type.links));
 }
 
-function parseMetadata(service) {
-    var entitySetData, entityTypeData;
-    if(!service.cache.get(service.selectedVersion + "Metadata")) {
+function parseMetadata() {
+    if(!apiService.cache.get(apiService.selectedVersion + "Metadata")) {
         console.log("parsing metadata");
-        service.getMetadata().then(function(results) {
-            var metadata = results.data;
-            service.cache.put(service.selectedVersion + "Metadata", results);
-            entitySetData = getEntitySets(metadata);
-            service.cache.put(service.selectedVersion + "EntitySetData", entitySetData);
-            entityTypeData = getEntityTypes(metadata);
-            service.cache.put(service.selectedVersion + "EntityTypeData", entityTypeData);
+        apiService.getMetadata().then(function(results) {
+            let metadata = results.data;
+            apiService.cache.put(apiService.selectedVersion + "Metadata", results);
+            let entitySetData = getEntitySets(metadata);
+            apiService.cache.put(apiService.selectedVersion + "EntitySetData", entitySetData);
+            let entityTypeData = getEntityTypes(metadata);
+            apiService.cache.put(apiService.selectedVersion + "EntityTypeData", entityTypeData);
             console.log("metadata successfully parsed");
                 
          }, function(err, status){

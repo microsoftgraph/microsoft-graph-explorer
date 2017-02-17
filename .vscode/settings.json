@@ -6,8 +6,8 @@
         "**/all.min.js":true
     },
     "files.exclude": {
-        "scripts/typescript/*.js": true,
-        "scripts/typescript/*.js.map": true,
-        "scripts/typescript/*.d.ts": true
+        "scripts/*.js": true,
+        "scripts/*.js.map": true,
+        "scripts/*.d.ts": true
     }
 }

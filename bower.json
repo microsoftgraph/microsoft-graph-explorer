@@ -14,9 +14,9 @@
     "tests"
   ],
   "dependencies": {
-    "hello": "^1.14.0"
   },
   "devDependencies": {
+    "hello": "^1.14.0",
     "mocha":"latest",
     "chai": "latest",
     "jQuery": "latest",

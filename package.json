@@ -1,6 +1,6 @@
 {
   "name": "microsoft-graph-explorer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.14",
     "gulp-order": "^1.1.1",
