@@ -8,7 +8,7 @@ The Microsoft Graph explorer lets developers quickly navigate and test API endpo
 * `npm install`
 * `bower install`
 * `npm run serve`
-* Visit `http://localhost:3000/sample.html`
+* Visit [http://localhost:3000/sample.html](http://localhost:3000/sample.html)
 
 ## Options
 See `sample.html` for an example app that includes the Graph Explorer in a basic web page.
