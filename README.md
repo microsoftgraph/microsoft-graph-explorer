@@ -9,7 +9,7 @@ Want to see what's new? Check the [changelog](changelog.md)!
 * `npm install`
 * `bower install`
 * `npm run serve`
-* Visit `http://localhost:3000/sample.html`
+* Visit [http://localhost:3000/sample.html](http://localhost:3000/sample.html)
 
 ## Options
 See `sample.html` for an example app that includes the Graph Explorer in a basic web page.
@@ -60,8 +60,9 @@ $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite
 
 
 ## Development
-* `npm run gulp` starts gulp
-* `node .\bundleLocFiles.js` combines all the loc files in `translation_files/` to `scripts/loc_strings.js`
+* `npm run gulp` starts gulp which watches for changes in scripts, styles and other assets. 
+* `node .\bundleLocFiles.js` combines all the loc files in `translation_files/` to `scripts/loc_strings.ts`
+* `npm run serve` starts the development server and the sample page can be viewed at [http://localhost:3000/sample.html](http://localhost:3000/sample.html)
 
 ## Tests
 * `npm test` to run tests from the command line
