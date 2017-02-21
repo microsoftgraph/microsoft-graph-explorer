@@ -265,8 +265,6 @@ function getEntityTypes(metadata) {
     return entities;
 }
 
-
-
 function getEntityFromTypeName(typePossiblyWithPrefix:string):GraphEntity {
     const entityTypeData = apiService.cache.get(apiService.selectedVersion + "EntityTypeData");
     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
@@ -412,7 +410,7 @@ function getUrlsFromEntityType(entity:GraphEntity):string[] {
 function parseMetadata() {
     if(!apiService.cache.get(apiService.selectedVersion + "Metadata")) {
         console.log("parsing metadata");
-        apiService.getMetadata().then(function(results) {
+        apiService.getMetadata().then((results) => {
             let metadata = results.data;
             apiService.cache.put(apiService.selectedVersion + "Metadata", results);
             let entitySetData = getEntitySets(metadata);
@@ -421,7 +419,7 @@ function parseMetadata() {
             apiService.cache.put(apiService.selectedVersion + "EntityTypeData", entityTypeData);
             console.log("metadata successfully parsed");
                 
-         }, function(err, status){
+         }, (err, status) => {
             console.error("metadata could not be parsed");
          });
      }

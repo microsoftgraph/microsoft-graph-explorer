@@ -2,18 +2,19 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 function getRequestBodyEditor() {
-    let requestBodyEditorElement = document.getElementById("jsonEditor");
-    return ace.edit(requestBodyEditorElement);
+    return getAceEditorFromElId("jsonEditor");
 }
 
 function getHeadersEditor() {
-    let requestHeaderEditorElement = document.getElementById("jsonEditorHeaders");
-    return ace.edit(requestHeaderEditorElement);
+    return getAceEditorFromElId("jsonEditorHeaders");
 }
 
 function getJsonViewer() {
-    let jsonViewerElement = document.getElementById("jsonViewer");
-    return ace.edit(jsonViewerElement);
+    return getAceEditorFromElId("jsonViewer");
+}
+
+function getAceEditorFromElId(id:string) {
+    return ace.edit(document.getElementById("jsonViewer"));
 }
 
 function initializeJsonEditor(bodyVal?) {
@@ -25,7 +26,6 @@ function initializeJsonEditor(bodyVal?) {
         editor.getSession().insert({row:0, column:0}, bodyVal);
     }
 }
-
 
 function initializeHeadersEditor(headersVal) {
     let editor = getHeadersEditor();
