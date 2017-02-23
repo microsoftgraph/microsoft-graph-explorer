@@ -14,7 +14,7 @@ function getJsonViewer() {
 }
 
 function getAceEditorFromElId(id:string) {
-    return ace.edit(document.getElementById("jsonViewer"));
+    return ace.edit(document.getElementById(id));
 }
 
 function initializeJsonEditor(bodyVal?) {

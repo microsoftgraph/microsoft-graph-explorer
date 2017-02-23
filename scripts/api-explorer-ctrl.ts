@@ -2,19 +2,28 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-let s:any;
 declare const angular:any;
+interface TabConfig {
+    disableRequestBodyEditor: boolean
+    hideContent: boolean
+    selected: number
+    previousSelected?: number
+}
 
+let tabConfig:TabConfig = {
+    disableRequestBodyEditor: true,
+    hideContent: true,
+    selected: 0,
+}
 
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', '$timeout', '$templateCache', '$mdDialog', '$sce', '$cacheFactory', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce, $cacheFactory ) {
         apiService.init($http, $cacheFactory);
 
-        s = $scope;
         $scope.userInfo = {};
 
         $scope.getAssetPath = function(relPath) {
-            return s.pathToBuildDir + "/"+ relPath;
+            return $scope.pathToBuildDir + "/"+ relPath;
         }
   
         $scope.finishAdminConsertFlow = function() {
@@ -66,20 +75,14 @@ angular.module('ApiExplorer')
             }
 
         });
-        
-        $scope.tabConfig = {
-            disableRequestBodyEditor: true,
-            hideContent: true,
-            selected: 0
-        }
         $scope.showImage = false;
-
-        $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
+        $scope.tabConfig = tabConfig;
+        tabConfig.previousSelected = tabConfig.selected;
         $scope.processTabClick = function() {
-            const switchingTabs = $scope.tabConfig.previousSelected != $scope.tabConfig.selected;
+            const switchingTabs = tabConfig.previousSelected != tabConfig.selected;
             if (!switchingTabs)
-                $scope.tabConfig.hideContent = !$scope.tabConfig.hideContent;
-            $scope.tabConfig.previousSelected = $scope.tabConfig.selected;
+                tabConfig.hideContent = !tabConfig.hideContent;
+            tabConfig.previousSelected = tabConfig.selected;
         }
 
         // For deep linking into the Graph Explorer
@@ -105,10 +108,6 @@ angular.module('ApiExplorer')
             return session && session.access_token && session.expires > currentTime;
         };
 
-        $scope.$watch("getEditor()", function(event, args) {
-            initializeJsonEditor(bodyVal);
-        });
-
         // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
         $scope.login = function () {
             hello('msft').login({
@@ -127,7 +126,7 @@ angular.module('ApiExplorer')
         $scope.logout = function () {
             // change to GET and show request header tab
             apiService.selectedOption = "GET";
-            $scope.tabConfig.disableRequestBodyEditor = true;
+            tabConfig.disableRequestBodyEditor = true;
             setSelectedTab(0);
 
             hello('msft').logout(null, {force:true});
@@ -167,7 +166,7 @@ angular.module('ApiExplorer')
             initializeJsonEditor(strToInsert);
         }
 
-        function checkCanInsertTemplate(URL) {s
+        function checkCanInsertTemplate(URL) {
             // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
             let entity = $scope.getCurrentEntityName()
             let canInsertTemplate = entity in postTemplates;
@@ -203,7 +202,7 @@ angular.module('ApiExplorer')
                 if (choice == 'POST' || choice == 'PATCH') {
                     showRequestBodyEditor();
                 } else if (choice == 'GET' || choice == 'DELETE') {
-                    s.tabConfig.disableRequestBodyEditor = true;
+                    tabConfig.disableRequestBodyEditor = true;
                     setSelectedTab(0);
                 }
             }

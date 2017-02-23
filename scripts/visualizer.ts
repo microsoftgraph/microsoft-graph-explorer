@@ -104,7 +104,7 @@ function startSim(nodes:VisualNode[], links) {
     simOptions.links = links;
 
     const manyBodyForce = d3.forceManyBody().strength([-500]);
-    
+
     simOptions.simulation = d3.forceSimulation()
         .force("link", d3.forceLink().id((d) => d.id).distance((link) => link.target.type == "NavigationProperty" ? 400 : 100))
         .force("charge", manyBodyForce)

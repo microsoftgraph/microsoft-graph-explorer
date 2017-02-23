@@ -155,11 +155,8 @@ interface GraphNodeLink {
     tagName?: GraphNodeLinkTagName
 }
 
-// entitysets in EntityContainer
-// entitytypes
 interface GraphEntity {
     name: string
-    //URLS: string[] // can be generated now
     links: { [Name: string] : GraphNodeLink; };
 }
 
@@ -181,7 +178,6 @@ function getEntitySets(metadata:JQuery) {
         // singletons like "me" have "Type" instead of "EntityType"
             entitySetOrSingleton.isACollection = false;
         } else {
-            console.log(set)
             console.error("Found unexpected type in metadata under EntityContainer")
         }
 
@@ -240,7 +236,7 @@ function createEntityTypeObject (DOMarray) {
     return entityTypes;
 }
 
-function showRequestHeaders($scope) {
+function showRequestHeaders() {
     getHeadersEditor().getSession().setValue("");
     var requestHeaders = "Content-Type: application/json";
     getHeadersEditor().getSession().insert(0, requestHeaders);
@@ -262,7 +258,6 @@ function getEntityFromTypeName(typePossiblyWithPrefix:string):GraphEntity {
     const entityTypeData = apiService.cache.get(apiService.selectedVersion + "EntityTypeData");
     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
     return entityTypeData[type];
-
 }
 
 function constructGraphLinksFromFullPath(path:string):GraphNodeLink[] {
@@ -357,10 +352,10 @@ function getUrlsFromServiceURL ():string[] {
     }
 }
 
-function showRequestBodyEditor () {
-    s.tabConfig.disableRequestBodyEditor = false;
-    s.tabConfig.hideContent = false;
-    showRequestHeaders(s);
+function showRequestBodyEditor() {
+    tabConfig.disableRequestBodyEditor = false;
+    tabConfig.hideContent = false;
+    showRequestHeaders();
     $(function() {
         initializeJsonEditor();
         setSelectedTab(1);
@@ -371,8 +366,8 @@ function setSelectedTab (num) {
     if (num >= 2 || num < 0) {
         return;
     }
-    s.tabConfig.selected = num;
-    s.tabConfig.previousSelected = s.tabConfig.selected;
+    tabConfig.selected = num;
+    tabConfig.previousSelected = tabConfig.selected;
 }
 
 function handleQueryString(actionValue, versionValue, requestValue) {
