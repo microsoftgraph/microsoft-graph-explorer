@@ -96,7 +96,8 @@ angular.module('ApiExplorer')
         handleQueryString(actionVal, versionVal, requestVal);
         
         $timeout(function() {
-            initializeHeadersEditor(headersVal);
+            let editor = getHeadersEditor();
+            initializeAceEditor(editor, headersVal);
             initializeJsonViewer($scope);
         });
 
@@ -163,7 +164,9 @@ angular.module('ApiExplorer')
             strToInsert = strToInsert.replace(/FULL_USER_EMAIL/g, fullUserEmail);
             
 
-            initializeJsonEditor(strToInsert);
+            const editor = getRequestBodyEditor();
+            initializeAceEditor(editor, strToInsert);
+            editor.getSession().setMode("ace/mode/javascript");
         }
 
         function checkCanInsertTemplate(URL) {

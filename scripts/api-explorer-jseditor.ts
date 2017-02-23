@@ -17,22 +17,11 @@ function getAceEditorFromElId(id:string) {
     return ace.edit(document.getElementById(id));
 }
 
-function initializeJsonEditor(bodyVal?) {
-    let editor = getRequestBodyEditor();
-    commonAceSetup(editor);
-    editor.getSession().setMode("ace/mode/javascript");
-    
-    if (bodyVal) {
-        editor.getSession().insert({row:0, column:0}, bodyVal);
-    }
-}
-
-function initializeHeadersEditor(headersVal) {
-    let editor = getHeadersEditor();
+function initializeAceEditor(editor, text?) {
     commonAceSetup(editor);
 
-    if (headersVal) {
-        editor.getSession().insert(0, headersVal);
+    if (text) {
+        editor.getSession().insert(0, text);
     }
 
     editor.moveCursorTo(1, 0);

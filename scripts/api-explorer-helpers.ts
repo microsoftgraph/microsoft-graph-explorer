@@ -356,8 +356,10 @@ function showRequestBodyEditor() {
     tabConfig.disableRequestBodyEditor = false;
     tabConfig.hideContent = false;
     showRequestHeaders();
-    $(function() {
-        initializeJsonEditor();
+    $(() => {
+        const editor = getRequestBodyEditor();
+        initializeAceEditor(editor);
+        editor.getSession().setMode("ace/mode/javascript");
         setSelectedTab(1);
     })
 }
