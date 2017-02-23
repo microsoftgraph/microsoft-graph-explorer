@@ -5,8 +5,6 @@
 'use strict';
 
 declare const ace:any;
-declare const jQuery:any;
-declare const $:any;
 declare const hello:any;
 
 function formatXml(xml) {
@@ -154,7 +152,7 @@ interface GraphNodeLink {
     isACollection: boolean
     type: string // corresponds to a possible name of a Graph Entity
     name: string,
-    tagName?: "PROPERTY" | "NAVIGATIONPROPERTY"
+    tagName?: "PROPERTY" | "NAVIGATIONPROPERTY" | "ENTITYSET" | "SINGLETON"
 }
 
 // entitysets in EntityContainer
