@@ -10,3 +10,5 @@ scripts/typescript/*.js.map
 scripts/typescript/*.d.ts
 
 scripts/typescript/gen/
+
+**/*gulp-tsc-tmp*

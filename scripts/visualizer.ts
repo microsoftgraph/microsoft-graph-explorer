@@ -12,7 +12,7 @@ interface SimulationContainer {
 let simOptions:SimulationContainer = {};
 
 interface VisualNode {
-    type: "entity" | "PROPERTY_VALUE" | "NAVIGATIONPROPERTY" | "PROPERTY_KEY",
+    type: "entity" | "PROPERTY_VALUE" | "NavigationProperty" | "PROPERTY_KEY",
     id: string,
     label: string
 }
@@ -71,15 +71,16 @@ function startSimFromGraphResponse(data:any) {
     }
 
     // get navigation properties
+    debugger;
     let entityLinks = getEntityFromTypeName(lastGraphNode.type).links;
     for (let entityLink in entityLinks) {
         let link = entityLinks[entityLink];
-        if (link.tagName == "NAVIGATIONPROPERTY") {
+        if (link.tagName == "NavigationProperty") {
             let nodeId = `$nav_property_${entityId}_${link.name}`
             nodes.push({
                 id: nodeId,
                 label: link.name,
-                type: "NAVIGATIONPROPERTY"
+                type: "NavigationProperty"
             });
 
             links.push({
@@ -106,7 +107,7 @@ function startSim(nodes:VisualNode[], links) {
     const manyBodyForce = d3.forceManyBody().strength([-500]);
     
     simOptions.simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().id((d) => d.id).distance((link) => link.target.type == "NAVIGATIONPROPERTY"? 400 : 100))
+        .force("link", d3.forceLink().id((d) => d.id).distance((link) => link.target.type == "NavigationProperty" ? 400 : 100))
         .force("charge", manyBodyForce)
         .force("center", d3.forceCenter(simOptions.width / 2, simOptions.height / 2));
 

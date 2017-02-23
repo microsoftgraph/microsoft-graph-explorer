@@ -146,13 +146,13 @@ function getContentType(headers) {
     }
 }
 
-// let Graph: { [EntityName: string] : GraphNodeLink; } = {};
+type GraphNodeLinkTagName = "Property" | "NavigationProperty" | "EntitySet" | "Singleton"
 
 interface GraphNodeLink {
-    isACollection: boolean
+    isACollection?: boolean
     type: string // corresponds to a possible name of a Graph Entity
     name: string,
-    tagName?: "PROPERTY" | "NAVIGATIONPROPERTY" | "ENTITYSET" | "SINGLETON"
+    tagName?: GraphNodeLinkTagName
 }
 
 // entitysets in EntityContainer
@@ -163,30 +163,25 @@ interface GraphEntity {
     links: { [Name: string] : GraphNodeLink; };
 }
 
-function getEntitySets(metadata) {
+function getEntitySets(metadata:JQuery) {
     let entitySetsObj = {};
-    let entitySetsAndSingletons = $(($.parseHTML(metadata))[1]).find("EntityContainer")[0].children;
+    let entitySetsAndSingletons = metadata.find("EntityContainer")[0].children;
     for(var i=0; i<entitySetsAndSingletons.length; i++){
         var set = entitySetsAndSingletons[i];
-        
-        var entitySetOrSingleton:GraphNodeLink = null;
 
-        if (set.tagName == "ENTITYSET") {
-            entitySetOrSingleton = {
-                name: set.getAttribute("name"),
-                type: set.getAttribute("entitytype"),
-                isACollection: true,
-                tagName: set.tagName
-            };
-        } else if (set.tagName == "SINGLETON") { 
+        let entitySetOrSingleton:GraphNodeLink = {
+            name: set.getAttribute("Name"),
+            type: set.getAttribute("EntityType") || set.getAttribute("Type"),
+            tagName: set.tagName as GraphNodeLinkTagName
+        };
+
+        if (set.tagName == "EntitySet") {
+            entitySetOrSingleton.isACollection = true;
+        } else if (set.tagName == "Singleton") { 
         // singletons like "me" have "Type" instead of "EntityType"
-            entitySetOrSingleton = {
-                name: set.getAttribute("name"),
-                type: set.getAttribute("type"),
-                isACollection: false,
-                tagName: set.tagName
-            };
+            entitySetOrSingleton.isACollection = false;
         } else {
+            console.log(set)
             console.error("Found unexpected type in metadata under EntityContainer")
         }
 
@@ -213,7 +208,7 @@ function createEntityTypeObject (DOMarray) {
     let entityTypes = {}
     for(let i=0; i<DOMarray.length; i++){
            let EntityType:GraphEntity = {
-                name: DOMarray[i].getAttribute("name"),
+                name: DOMarray[i].getAttribute("Name"),
                 links: {}
            };
 
@@ -221,8 +216,8 @@ function createEntityTypeObject (DOMarray) {
            for (var j=0; j<children.length; j++) {
                 if (children[j].attributes.length > 0) {
 
-                    let childName = children[j].getAttribute("name");
-                    let type = children[j].getAttribute("type");
+                    let childName = children[j].getAttribute("Name");
+                    let type = children[j].getAttribute("Type");
 
 
                     let urlObject:GraphNodeLink = {
@@ -252,12 +247,12 @@ function showRequestHeaders($scope) {
 }
 
 function getEntityTypes(metadata) {
-    var entities = {};
+    let entities = {};
 
-    var entityTypes = $(($.parseHTML(metadata))[1]).find("EntityType");
+    let entityTypes = metadata.find("EntityType");
     jQuery.extend(entities, createEntityTypeObject(entityTypes));
     
-    var complexTypes = $(($.parseHTML(metadata))[1]).find("ComplexType");
+    let complexTypes = metadata.find("ComplexType");
     jQuery.extend(entities, createEntityTypeObject(complexTypes));
     
     return entities;
@@ -409,7 +404,8 @@ function parseMetadata() {
     if(!apiService.cache.get(apiService.selectedVersion + "Metadata")) {
         console.log("parsing metadata");
         apiService.getMetadata().then((results) => {
-            let metadata = results.data;
+            const metadata = $($.parseXML(results.data));
+
             apiService.cache.put(apiService.selectedVersion + "Metadata", results);
             let entitySetData = getEntitySets(metadata);
             apiService.cache.put(apiService.selectedVersion + "EntitySetData", entitySetData);
