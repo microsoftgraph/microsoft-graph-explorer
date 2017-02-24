@@ -17,12 +17,12 @@ let tabConfig:TabConfig = {
 }
 
 angular.module('ApiExplorer')
-    .controller('ApiExplorerCtrl', ['$scope', '$http', '$location', '$timeout', '$templateCache', '$mdDialog', '$sce', '$cacheFactory', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce, $cacheFactory ) {
+    .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce, $cacheFactory ) {
         apiService.init($http, $cacheFactory);
 
         $scope.userInfo = {};
 
-        $scope.getAssetPath = function(relPath) {
+        $scope.getAssetPath = (relPath) => {
             return $scope.pathToBuildDir + "/"+ relPath;
         }
   
@@ -193,7 +193,7 @@ angular.module('ApiExplorer')
             })
         };
 
-}]);
+});
 
 angular.module('ApiExplorer')
     .controller('DropdownCtrl', ['$scope', function ($scope) {
