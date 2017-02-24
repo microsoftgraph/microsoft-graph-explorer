@@ -30,67 +30,70 @@ function startSimFromGraphResponse(data:any) {
     let links:VisualLinks[] = [];
     
     // from the autocomplete
-    let lastGraphNode = constructGraphLinksFromFullPath(apiService.text).pop()
+     constructGraphLinksFromFullPath(apiService.text).then((graph) => {
+         let lastGraphNode = graph.pop();
+    
     
 
-    const entityId = data['id'];
-    nodes.push({
-        id: entityId,
-        type: "entity",
-        label: data['displayName']
-    });
-
-    for (let key in data) {
-        if (key.indexOf("odata") != -1)
-            continue;
-        if (data[key] === null)
-            continue;
-        
-        // property label node
+        const entityId = data['id'];
         nodes.push({
-            id: entityId+key,
-            type: "PROPERTY_KEY",
-            label: key
+            id: entityId,
+            type: "entity",
+            label: data['displayName']
         });
-        links.push({
-            source: entityId,
-            target: entityId+key
-        })
 
-        // property value node
-        const propertyValueNodeId = "value-"+entityId+key;
-        nodes.push({
-            id: propertyValueNodeId,
-            type: "PROPERTY_VALUE",
-            label: JSON.stringify(data[key])
-        });
-        links.push({
-            source: propertyValueNodeId,
-            target: entityId+key
-        })
-    }
-
-    // get navigation properties
-    let entityLinks = getEntityFromTypeName(lastGraphNode.type).links;
-    for (let entityLink in entityLinks) {
-        let link = entityLinks[entityLink];
-        if (link.tagName == "NavigationProperty") {
-            let nodeId = `$nav_property_${entityId}_${link.name}`
+        for (let key in data) {
+            if (key.indexOf("odata") != -1)
+                continue;
+            if (data[key] === null)
+                continue;
+            
+            // property label node
             nodes.push({
-                id: nodeId,
-                label: link.name,
-                type: "NavigationProperty"
+                id: entityId+key,
+                type: "PROPERTY_KEY",
+                label: key
             });
-
             links.push({
                 source: entityId,
-                target: nodeId
+                target: entityId+key
+            })
+
+            // property value node
+            const propertyValueNodeId = "value-"+entityId+key;
+            nodes.push({
+                id: propertyValueNodeId,
+                type: "PROPERTY_VALUE",
+                label: JSON.stringify(data[key])
+            });
+            links.push({
+                source: propertyValueNodeId,
+                target: entityId+key
             })
         }
-    }
+
+        // get navigation properties
+        let entityLinks = getEntityFromTypeName(lastGraphNode.type).links;
+        for (let entityLink in entityLinks) {
+            let link = entityLinks[entityLink];
+            if (link.tagName == "NavigationProperty") {
+                let nodeId = `$nav_property_${entityId}_${link.name}`
+                nodes.push({
+                    id: nodeId,
+                    label: link.name,
+                    type: "NavigationProperty"
+                });
+
+                links.push({
+                    source: entityId,
+                    target: nodeId
+                })
+            }
+        }
 
 
-    startSim(nodes, links);
+        startSim(nodes, links);
+     });
 }
 
 function startSim(nodes:VisualNode[], links) {

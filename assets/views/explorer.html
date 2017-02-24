@@ -89,12 +89,12 @@
                     md-no-cache="true"
                     md-search-text="searchText"
                     md-search-text-change="searchTextChange(searchText)"
-                    md-selected-item-change="searchTextChangeFromGraphLinks(graphLinks)"
+                    md-selected-item-change="searchTextChangeFromGraphLinks(graphItemUrl)"
                     md-selected-item="text"
-                    md-items="graphLinks in getMatches(searchText)"
-                    md-item-text="getFullUrlFromGraphLinks(graphLinks).join('/')"
+                    md-items="graphItemUrl in getMatches(searchText)"
+                    md-item-text="graphItemUrl"
                     md-min-length="0">
-                    <span id="autocompleteText" title="{{getFullUrlFromGraphLinks(graphLinks).join('/')}}">{{constructUrlForAutocompleteItemUI(graphLinks, searchText.length)}}</span>
+                    <span id="autocompleteText">{{graphItemUrl}}</span>
                 </md-autocomplete>
 
                 <md-button class="md-raised " type="submit" ng-click="submit(searchText)" ng-cloak>

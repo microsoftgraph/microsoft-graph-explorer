@@ -70,7 +70,7 @@ namespace apiService {
             }
         };
     }
-    
+
     export function getMetadata() {
         return this.performAnonymousQuery("GET")(GraphExplorerOptions.GraphUrl + "/" + this.selectedVersion + "/$metadata");
     }

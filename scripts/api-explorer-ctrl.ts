@@ -242,7 +242,7 @@ angular.module('ApiExplorer')
         }
 }]);
 
-angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', function ($scope) {
+angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', function ($scope, $q) {
     let searchTextChange = function(searchText) {
         apiService.text = searchText;
 
@@ -281,42 +281,53 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', function ($s
         return links.map((x) => x.name).join('/');
     }
 
-    function getFullUrlFromGraphLinks(links:GraphNodeLink[]) {
-        if (typeof links === 'string') { //@todo investigate why a string is sometimes passed
-            links = constructGraphLinksFromFullPath(links);
-        }
-        return [GraphExplorerOptions.GraphUrl, apiService.selectedVersion, getRelativeUrlFromGraphNodeLinks(links)];
+    function getFullUrlFromGraphLinks(links:GraphNodeLink[]):Promise<any[]> {
+        return new Promise((resolve, reject) => {
+            if (typeof links === 'string') { //@todo investigate why a string is sometimes passed
+                resolve(constructGraphLinksFromFullPath(links));
+            }
+            resolve(links)
+        }).then((_links:GraphNodeLink[]) => {
+            return [GraphExplorerOptions.GraphUrl, apiService.selectedVersion, getRelativeUrlFromGraphNodeLinks(_links)];    
+        });
     }
 
     $scope.getFullUrlFromGraphLinks = getFullUrlFromGraphLinks;
 
-    $scope.searchTextChangeFromGraphLinks = function(links:GraphNodeLink[]) {
-        if (links === undefined) return; // when getMatches returns [] links is undefined
-        let fullUrl = getFullUrlFromGraphLinks(links);
-        searchTextChange(fullUrl.join('/'));
+    $scope.searchTextChangeFromGraphLinks = function(graphItemUrl) {
+        constructGraphLinksFromFullPath(graphItemUrl)
+            .then((links) => {
+                getFullUrlFromGraphLinks(links).then((fullUrl) => {
+                    searchTextChange(fullUrl.join('/'));
+                });        
+            });
+
+        // if (links === undefined) return; // when getMatches returns [] links is undefined
+
     };
 
-    $scope.constructUrlForAutocompleteItemUI = (links:GraphNodeLink[], serviceTextLength?: number):string => {
-        let useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 64;
-        
-        if (useLastPathSegmentOnly) {
-            return ".../" + links[links.length - 1].name;
-        } else {
-            return getFullUrlFromGraphLinks(links).join('/');
-        }
-    }
-
     $scope.getMatches = function(query) {
-        // @todo need to turn url -> links -> urls?
         return getUrlsFromServiceURL().then((urls) => {
             return urls.filter((option) => {
                 var queryInOption = (option.indexOf(query)>-1);
                 // var queryIsEmpty = (getEntityName(query).length == 0);
 
                 return queryInOption;
-            }).map((fullUrl) => {
-                return constructGraphLinksFromFullPath(fullUrl);
             });
+        }).then((urls) => {
+            const serviceTextLength = apiService.text.length;
+            const useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 64;
+
+            return Promise.all(urls.map((url) => {
+                return constructGraphLinksFromFullPath(url).then((links) => {
+                    console.log(useLastPathSegmentOnly);
+                    if (useLastPathSegmentOnly) {
+                        return ".../" + links[links.length - 1].name;
+                    } else {
+                        return url;
+                    }
+                });
+            }));
         });
     }
 
