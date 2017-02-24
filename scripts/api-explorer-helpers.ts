@@ -162,7 +162,7 @@ interface GraphEntity {
 
 function getEntitySets(metadata:JQuery) {
     let entitySetsObj = {};
-    let entitySetsAndSingletons = metadata.find("EntityContainer")[0].children;
+    let entitySetsAndSingletons = metadata.find("EntitySet,SingleTon");
     for(var i=0; i<entitySetsAndSingletons.length; i++){
         var set = entitySetsAndSingletons[i];
 
@@ -208,7 +208,7 @@ function createEntityTypeObject (DOMarray) {
                 links: {}
            };
 
-           const children = DOMarray[i].children;
+           const children = $(DOMarray[i]).children(); // must use $() otherwise in IE .children is undefined
            for (var j=0; j<children.length; j++) {
                 if (children[j].attributes.length > 0) {
 
@@ -220,7 +220,7 @@ function createEntityTypeObject (DOMarray) {
                         isACollection: false,
                         name: childName,
                         type: type,
-                        tagName: children[j].tagName
+                        tagName: children[j].tagName as GraphNodeLinkTagName
                     };
 
                     if (type.indexOf("Collection(") == 0) {
@@ -243,6 +243,7 @@ function showRequestHeaders() {
 }
 
 function getEntityTypes(metadata) {
+    debugger;
     let entities = {};
 
     let entityTypes = metadata.find("EntityType");
@@ -389,14 +390,6 @@ function handleQueryString(actionValue, versionValue, requestValue) {
    }
 }
 
-function getUrlsFromEntityType(entity:GraphEntity):string[] {
-    const entityTypes: { [Name: string] : GraphEntity; }
-                    = apiService.cache.get(apiService.selectedVersion + "EntityTypeData");
-
-    var type:GraphEntity = entityTypes[entity.name];
-    return combineUrlOptionsWithCurrentUrl(Object.keys(type.links));
-}
-
 function parseMetadata(version?:string):Promise<any> {
     return new Promise((resolve, reject) => {
         if (!version) {
@@ -406,6 +399,7 @@ function parseMetadata(version?:string):Promise<any> {
         if(!apiService.cache.get(version + "Metadata")) {
             console.log("parsing metadata");
             apiService.getMetadata().then((results) => {
+                debugger;
                 const metadata = $($.parseXML(results.data));
 
                 apiService.cache.put(version + "Metadata", results);
@@ -414,7 +408,7 @@ function parseMetadata(version?:string):Promise<any> {
                 let entityTypeData = getEntityTypes(metadata);
                 apiService.cache.put(version + "EntityTypeData", entityTypeData);
                 console.log("metadata successfully parsed");
-                resolve();
+                return resolve();
             }, reject);
         } else {
             // metadata already cached

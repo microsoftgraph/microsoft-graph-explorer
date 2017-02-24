@@ -14,9 +14,10 @@
     "tests"
   ],
   "dependencies": {
+    "hello": "^1.14.0",
+    "es6-promise": "latest"
   },
   "devDependencies": {
-    "hello": "^1.14.0",
     "mocha":"latest",
     "chai": "latest",
     "jQuery": "latest",

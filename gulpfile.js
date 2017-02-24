@@ -37,6 +37,7 @@ gulp.task('scripts', [], function() {
       target: 'ES5'
     }))
     .pipe(addsrc("bower_components/hello/dist/hello.all.min.js"))
+    .pipe(addsrc("bower_components/es6-promise/es6-promise.auto.min.js"))
     .pipe(concat('all.js'))
     // .pipe(sourcemaps.init())
     .pipe(minify({
