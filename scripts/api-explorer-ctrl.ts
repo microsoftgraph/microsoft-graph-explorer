@@ -294,8 +294,8 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
 
     $scope.getFullUrlFromGraphLinks = getFullUrlFromGraphLinks;
 
-    $scope.searchTextChangeFromGraphLinks = function(graphItemUrl) {
-        constructGraphLinksFromFullPath(graphItemUrl)
+    $scope.searchTextChangeFromGraphLinks = function(graphItemUrl:AutoCompleteItem) {
+        constructGraphLinksFromFullPath(graphItemUrl.fullUrl)
             .then((links) => {
                 getFullUrlFromGraphLinks(links).then((fullUrl) => {
                     searchTextChange(fullUrl.join('/'));
@@ -306,7 +306,14 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
 
     };
 
-    $scope.getMatches = function(query) {
+    interface AutoCompleteItem {
+        url: string
+        fullUrl: string
+    }
+
+    $scope.getMatches = getMatches;
+
+    function getMatches(query):Promise<AutoCompleteItem[]> {
         return getUrlsFromServiceURL().then((urls) => {
             return urls.filter((option) => {
                 var queryInOption = (option.indexOf(query)>-1);
@@ -319,12 +326,16 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
             const useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 64;
 
             return Promise.all(urls.map((url) => {
+                if (!useLastPathSegmentOnly) {
+                    return {
+                        fullUrl: url,
+                        url: url
+                    };
+                }
                 return constructGraphLinksFromFullPath(url).then((links) => {
-                    console.log(useLastPathSegmentOnly);
-                    if (useLastPathSegmentOnly) {
-                        return ".../" + links[links.length - 1].name;
-                    } else {
-                        return url;
+                    return {
+                        url: ".../" + links[links.length - 1].name,
+                        fullUrl: url
                     }
                 });
             }));
