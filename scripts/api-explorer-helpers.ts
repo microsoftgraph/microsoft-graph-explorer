@@ -333,23 +333,23 @@ function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):string[] {
 }
 
 // just return relative URLs
-function getUrlsFromServiceURL ():string[] {
-    var graphFromServiceUrl = constructGraphLinksFromFullPath(apiService.text);
-    if (graphFromServiceUrl.length > 0) {
-        let lastNode = graphFromServiceUrl.pop();
+function getUrlsFromServiceURL():Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        var graphFromServiceUrl = constructGraphLinksFromFullPath(apiService.text);
+        if (graphFromServiceUrl.length > 0) {
+            let lastNode = graphFromServiceUrl.pop();
 
-        if (lastNode.isACollection) return [];
+            if (lastNode.isACollection) return resolve([]);
 
-        let entity = getEntityFromTypeName(lastNode.type);
-        if (!entity) return [];
-        return combineUrlOptionsWithCurrentUrl(Object.keys(entity.links));
-    } else {
-        let entityContainerData = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
-        if (entityContainerData === undefined) {
-            return [];
+            let entity = getEntityFromTypeName(lastNode.type);
+            if (!entity) return resolve([]);
+            return resolve((entity.links));
+        } else {
+            return resolve(loadEntitySets());
         }
-        return combineUrlOptionsWithCurrentUrl(Object.keys(entityContainerData));
-    }
+    }).then((x) => {
+        return combineUrlOptionsWithCurrentUrl(Object.keys(x));
+    });
 }
 
 function showRequestBodyEditor() {
@@ -397,21 +397,38 @@ function getUrlsFromEntityType(entity:GraphEntity):string[] {
     return combineUrlOptionsWithCurrentUrl(Object.keys(type.links));
 }
 
-function parseMetadata() {
-    if(!apiService.cache.get(apiService.selectedVersion + "Metadata")) {
-        console.log("parsing metadata");
-        apiService.getMetadata().then((results) => {
-            const metadata = $($.parseXML(results.data));
+function parseMetadata(version?:string):Promise<any> {
+    return new Promise((resolve, reject) => {
+        if (!version) {
+            version = apiService.selectedVersion;
+        }
 
-            apiService.cache.put(apiService.selectedVersion + "Metadata", results);
-            let entitySetData = getEntitySets(metadata);
-            apiService.cache.put(apiService.selectedVersion + "EntitySetData", entitySetData);
-            let entityTypeData = getEntityTypes(metadata);
-            apiService.cache.put(apiService.selectedVersion + "EntityTypeData", entityTypeData);
-            console.log("metadata successfully parsed");
-                
-         }, (err, status) => {
-            console.error("metadata could not be parsed");
-         });
-     }
+        if(!apiService.cache.get(version + "Metadata")) {
+            console.log("parsing metadata");
+            apiService.getMetadata().then((results) => {
+                const metadata = $($.parseXML(results.data));
+
+                apiService.cache.put(version + "Metadata", results);
+                let entitySetData = getEntitySets(metadata);
+                apiService.cache.put(version + "EntitySetData", entitySetData);
+                let entityTypeData = getEntityTypes(metadata);
+                apiService.cache.put(version + "EntityTypeData", entityTypeData);
+                console.log("metadata successfully parsed");
+                resolve();
+            }, reject);
+        } else {
+            // metadata already cached
+            resolve();
+        }
+    });
+}
+
+function loadEntitySets():Promise<any> {
+    return parseMetadata().then(() => {
+        let entitySetData = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
+        if (entitySetData === undefined) {
+            return Promise.reject(null);
+        }
+        return Promise.resolve(entitySetData);
+    })
 }

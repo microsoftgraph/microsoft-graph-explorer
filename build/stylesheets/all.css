@@ -153,6 +153,12 @@ code {
     color: black;
 }
 
+/* Hide md-autocomplete progress bar*/
+/* https://github.com/angular/material/issues/5428 */
+md-autocomplete > md-autocomplete-wrap > md-progress-linear {
+    display: none;
+}
+
 /* Frontdoor css changes */
 md-autocomplete button {
     min-width: inherit;

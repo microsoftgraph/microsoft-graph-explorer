@@ -308,16 +308,18 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', function ($s
 
     $scope.getMatches = function(query) {
         // @todo need to turn url -> links -> urls?
-        var urls = getUrlsFromServiceURL()
-        return urls.filter((option) => {
-            var queryInOption = (option.indexOf(query)>-1);
-            // var queryIsEmpty = (getEntityName(query).length == 0);
+        return getUrlsFromServiceURL().then((urls) => {
+            return urls.filter((option) => {
+                var queryInOption = (option.indexOf(query)>-1);
+                // var queryIsEmpty = (getEntityName(query).length == 0);
 
-            return queryInOption;
-        }).map((fullUrl) => {
-            return constructGraphLinksFromFullPath(fullUrl);
+                return queryInOption;
+            }).map((fullUrl) => {
+                return constructGraphLinksFromFullPath(fullUrl);
+            });
         });
     }
+
 }]);
 
 
