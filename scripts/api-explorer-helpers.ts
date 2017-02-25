@@ -395,7 +395,7 @@ function parseMetadata(version?:string):Promise<any> {
         }
 
         if(!apiService.cache.get(version + "Metadata")) {
-            console.log("parsing metadata");
+            console.log(`parsing ${version} metadata`);
             return apiService.getMetadata().then((results) => {
                 const metadata = $($.parseXML(results.data));
 
@@ -404,7 +404,7 @@ function parseMetadata(version?:string):Promise<any> {
                 apiService.cache.put(version + "EntitySetData", entitySetData);
                 let entityTypeData = getEntityTypes(metadata);
                 apiService.cache.put(version + "EntityTypeData", entityTypeData);
-                console.log("metadata successfully parsed");
+                console.log(`${version} metadata successfully parsed`);
             });
         } else {
             // metadata already cached

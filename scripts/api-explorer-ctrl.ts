@@ -294,16 +294,8 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
 
     $scope.getFullUrlFromGraphLinks = getFullUrlFromGraphLinks;
 
-    $scope.searchTextChangeFromGraphLinks = function(graphItemUrl:AutoCompleteItem) {
-        constructGraphLinksFromFullPath(graphItemUrl.fullUrl)
-            .then((links) => {
-                getFullUrlFromGraphLinks(links).then((fullUrl) => {
-                    searchTextChange(fullUrl.join('/'));
-                });        
-            });
-
-        // if (links === undefined) return; // when getMatches returns [] links is undefined
-
+    $scope.searchTextChangeFromAutoCompleteItem = function(item:AutoCompleteItem) {
+        searchTextChange(item.fullUrl);
     };
 
     interface AutoCompleteItem {
