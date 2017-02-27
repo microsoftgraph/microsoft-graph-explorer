@@ -310,7 +310,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
             return constructGraphLinksFromFullPath(query).then((graph) => {
                 // if query ends with odata query param, don't return any URLs
                 const lastNode = graph.pop();
-                if (lastNode.name.startsWith("?")) {
+                if (lastNode && lastNode.name.startsWith("?")) {
                     return [];
                 }
 
