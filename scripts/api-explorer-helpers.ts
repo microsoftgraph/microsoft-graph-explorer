@@ -168,6 +168,7 @@ function getEntitySets(metadata:JQuery) {
 
         let entitySetOrSingleton:GraphNodeLink = {
             name: set.getAttribute("Name"),
+            // singletons like "me" have "Type" instead of "EntityType"
             type: set.getAttribute("EntityType") || set.getAttribute("Type"),
             tagName: set.tagName as GraphNodeLinkTagName
         };
@@ -175,7 +176,6 @@ function getEntitySets(metadata:JQuery) {
         if (set.tagName == "EntitySet") {
             entitySetOrSingleton.isACollection = true;
         } else if (set.tagName == "Singleton") { 
-        // singletons like "me" have "Type" instead of "EntityType"
             entitySetOrSingleton.isACollection = false;
         } else {
             console.error("Found unexpected type in metadata under EntityContainer")
@@ -186,7 +186,7 @@ function getEntitySets(metadata:JQuery) {
     return entitySetsObj;
 }
 
-function formatRequestHeaders(headers){
+function formatRequestHeaders(headers) {
     let obj = {};
     let parts = headers.replace(/^\s+|,\s*$/g, '').split('\n');
     
@@ -309,10 +309,10 @@ function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):Promise<string[]> 
     // truncate the service string back to the last known good entity (could be an id if prev was a collection)
     // concat each urlOption with this prefix
     // return that array
-    return constructGraphLinksFromFullPath(apiService.text).then((graphFromServiceUrl) => {
+    return constructGraphLinksFromFullPath(apiService.text).then((graphLinks) => {
         let baseUrl = [];
-        while(graphFromServiceUrl.length > 0) {
-            let lastSegment = graphFromServiceUrl.shift();
+        while(graphLinks.length > 0) {
+            let lastSegment = graphLinks.shift();
             baseUrl.push(lastSegment.name);
         }
 
@@ -322,11 +322,7 @@ function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):Promise<string[]> 
             baseUrlFinal += "/" + baseUrl.join('/');
         }
 
-        let autocompleteUrls = [];
-        for (let urlAutoCompleteSuffix in urlOptions) {
-            autocompleteUrls.push(baseUrlFinal + '/' + urlOptions[urlAutoCompleteSuffix]);
-        }
-        return autocompleteUrls;
+        return urlOptions.map((url) => baseUrlFinal + '/' + url);
     });
 }
 

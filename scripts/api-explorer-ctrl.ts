@@ -307,11 +307,17 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
 
     function getMatches(query):Promise<AutoCompleteItem[]> {
         return getUrlsFromServiceURL().then((urls) => {
-            return urls.filter((option) => {
-                var queryInOption = (option.indexOf(query)>-1);
-                // var queryIsEmpty = (getEntityName(query).length == 0);
+            return constructGraphLinksFromFullPath(query).then((graph) => {
+                // if query ends with odata query param, don't return any URLs
+                const lastNode = graph.pop();
+                if (lastNode.name.startsWith("?")) {
+                    return [];
+                }
 
-                return queryInOption;
+                return urls.filter((option) => {
+                    const queryInOption = (option.indexOf(query)>-1);
+                    return queryInOption;
+                });
             });
         }).then((urls) => {
             const serviceTextLength = apiService.text.length;

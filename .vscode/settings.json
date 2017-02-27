@@ -8,6 +8,7 @@
     "files.exclude": {
         "scripts/*.js": true,
         "scripts/*.js.map": true,
-        "scripts/*.d.ts": true
+        "scripts/*.d.ts": true,
+        "**/*gulp-tsc*": true
     }
 }
