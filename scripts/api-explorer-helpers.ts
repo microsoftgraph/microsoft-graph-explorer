@@ -255,7 +255,7 @@ function getEntityTypes(metadata) {
 }
 
 function getEntityFromTypeName(typePossiblyWithPrefix:string):GraphEntity {
-    const entityTypeData = apiService.cache.get(apiService.selectedVersion + "EntityTypeData");
+    const entityTypeData = loadEntityTypeData();
     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
     return entityTypeData[type];
 }
@@ -384,37 +384,64 @@ function handleQueryString(actionValue, versionValue, requestValue) {
    }
 }
 
+class GraphStructureCache {
+    contents: {
+        [version: string] : {
+            [content: string] : any
+        }
+    } = {};
+
+    add(version:string, key:string, content:any) {
+        this.contents[version] = this.contents[version] || {};
+        this.contents[version][key] = content;
+    }
+
+    contains(version:string, key:string) {
+        return this.contents[version] && this.contents[version][key];
+    }
+
+    get(version:string, key:string) {
+        if (this.contains(version, key))
+            return this.contents[version][key];
+    }
+};
+
+const graphStructureCache = new GraphStructureCache();
+
 function parseMetadata(version?:string):Promise<any> {
     return new Promise((resolve, reject) => {
         if (!version) {
             version = apiService.selectedVersion;
         }
 
-        if(!apiService.cache.get(version + "Metadata")) {
+        if (!graphStructureCache.contains(version, "Metadata")) {
             console.log(`parsing ${version} metadata`);
-            return apiService.getMetadata().then((results) => {
+            apiService.getMetadata().then((results) => {
                 const metadata = $($.parseXML(results.data));
 
-                apiService.cache.put(version + "Metadata", results);
+                graphStructureCache.add(version, "Metadata", results);
                 let entitySetData = getEntitySets(metadata);
-                apiService.cache.put(version + "EntitySetData", entitySetData);
+                graphStructureCache.add(version, "EntitySetData", entitySetData);
                 let entityTypeData = getEntityTypes(metadata);
-                apiService.cache.put(version + "EntityTypeData", entityTypeData);
+                graphStructureCache.add(version, "EntityTypeData", entityTypeData);
                 console.log(`${version} metadata successfully parsed`);
+                return resolve();
             });
         } else {
             // metadata already cached
-            resolve();
+            return resolve();
         }
     });
 }
 
-function loadEntitySets():Promise<any> {
+function loadEntitySets(version = apiService.selectedVersion):Promise<any> {
     return parseMetadata().then(() => {
-        let entitySetData = apiService.cache.get(apiService.selectedVersion + "EntitySetData");
-        if (entitySetData === undefined) {
-            return Promise.reject(null);
-        }
-        return Promise.resolve(entitySetData);
+        return graphStructureCache.get(version, "EntitySetData");
     })
+}
+
+// EntityType and ComplexType
+// @todo use promises
+function loadEntityTypeData(version = apiService.selectedVersion) {
+    return graphStructureCache.get(version, "EntityTypeData");
 }

@@ -19,6 +19,7 @@
   "dependencies": {
     "@types/es6-shim": "^0.31.32",
     "@types/jquery": "~2.0.40",
+    "@types/mocha": "^2.2.39",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",

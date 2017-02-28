@@ -12,7 +12,6 @@ namespace apiService {
 
     export function init(http, cacheFactory) {
         apiService.$http = http;
-        apiService.cache = cacheFactory('myCache');
         text = GraphExplorerOptions.GraphUrl + '/v1.0/me/';
         
     }
@@ -21,7 +20,6 @@ namespace apiService {
 
     export let selectedOption:RequestType = "GET";
 
-    export let cache;
     
     export let performAnonymousQuery = function (queryType:RequestType) {
         return function (query, postString?, requestHeaders?) {
