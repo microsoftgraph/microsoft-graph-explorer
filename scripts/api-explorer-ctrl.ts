@@ -310,14 +310,11 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
             return constructGraphLinksFromFullPath(query).then((graph) => {
                 // if query ends with odata query param, don't return any URLs
                 const lastNode = graph.pop();
-                if (lastNode && lastNode.name.startsWith("?")) {
+                if (lastNode && lastNode.name.indexOf("?") != -1) {
                     return [];
                 }
 
-                return urls.filter((option) => {
-                    const queryInOption = (option.indexOf(query)>-1);
-                    return queryInOption;
-                });
+                return urls.filter((option) => option.indexOf(query)>-1);
             });
         }).then((urls) => {
             const serviceTextLength = apiService.text.length;

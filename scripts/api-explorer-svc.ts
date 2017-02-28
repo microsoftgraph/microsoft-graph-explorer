@@ -8,7 +8,7 @@ type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
 
 namespace apiService {
 
-    export let $http, text;
+    export let $http, text:string;
 
     export function init(http, cacheFactory) {
         apiService.$http = http;
@@ -24,7 +24,7 @@ namespace apiService {
     export let cache;
     
     export let performAnonymousQuery = function (queryType:RequestType) {
-        return function (query, postString, requestHeaders) {
+        return function (query, postString?, requestHeaders?) {
             let headersObj = {
                 "Authorization": "Bearer {token:https://graph.microsoft.com/}",
                 "Accept": "application/json"
@@ -72,6 +72,6 @@ namespace apiService {
     }
 
     export function getMetadata() {
-        return this.performAnonymousQuery("GET")(GraphExplorerOptions.GraphUrl + "/" + this.selectedVersion + "/$metadata");
+        return performAnonymousQuery("GET")(GraphExplorerOptions.GraphUrl + "/" + this.selectedVersion + "/$metadata");
     }
 };

@@ -49,19 +49,30 @@ angular.module('ApiExplorer')
 
                 $scope.str = loc_strings[GraphExplorerOptions.Language];
 
-                hello.init( {
+                hello.init({
                     msft: GraphExplorerOptions.ClientId
                 }, {
                     scope: GraphExplorerOptions.UserScopes,
                     redirect_uri: window.location.pathname //required to remove extra url params that make URLs not match
                 });
 
-                hello.init( {
+                hello.init({
                     msft_admin_consent: GraphExplorerOptions.ClientId,
                     msft_token_refresh: GraphExplorerOptions.ClientId,
                 }, {
                     redirect_uri: window.location.pathname
                 });
+
+                setTimeout(() => {
+                    const disableSpellchecks = {
+                        autocomplete:"off",
+                        autocorrect:"off",
+                        autocapitalize:"off",
+                        spellcheck:"false"
+                    };
+
+                    $("md-autocomplete-wrap input").attr(disableSpellchecks);
+                }, 0);
             }
         };
     });
