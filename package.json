@@ -13,7 +13,10 @@
   "author": "",
   "devDependencies": {
     "@types/es6-shim": "^0.31.32",
-    "@types/jquery": "~2.0.40"
+    "@types/jquery": "~2.0.40",
+    "mocha-phantomjs": "^4.1.0",
+    "phantomjs-prebuilt": "^2.1.14",
+    "static-server": "^2.0.3"
   },
   "dependencies": {
     "del": "^2.2.2",
@@ -24,9 +27,6 @@
     "gulp-order": "^1.1.1",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-tsc": "^1.2.6",
-    "mocha-phantomjs": "^4.1.0",
-    "phantomjs-prebuilt": "^2.1.14",
-    "static-server": "^2.0.3",
     "typescript": "~2.2.1"
   }
 }
