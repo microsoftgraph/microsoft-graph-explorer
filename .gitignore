@@ -10,3 +10,4 @@ scripts/*.js.map
 scripts/*.d.ts
 
 **/*gulp-tsc-tmp*
+build/
