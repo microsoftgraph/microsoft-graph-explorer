@@ -7,12 +7,15 @@
     "test": "mocha-phantomjs --ignore-ssl-errors=true --ssl-protocol=any http://localhost:3000/spec/GraphExplorerBrowserTests.html ",
     "gulp": "gulp",
     "build": "gulp build",
-    "serve": "static-server -p 3000"
+    "serve": "static-server -p 3000",
+    "postinstall": "bower install && npm run build"
   },
   "author": "",
   "devDependencies": {
     "@types/es6-shim": "^0.31.32",
-    "@types/jquery": "~2.0.40",
+    "@types/jquery": "~2.0.40"
+  },
+  "dependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
