@@ -2,23 +2,23 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-declare const angular:any;
-interface TabConfig {
-    disableRequestBodyEditor: boolean
-    hideContent: boolean
-    selected: number
-    previousSelected?: number
-}
+import {GraphExplorerOptions, pathToBuildDir} from './api-explorer-directive'
+import {isHtmlResponse, isImageResponse, isXmlResponse, handleHtmlResponse, handleImageResponse, handleXmlResponse, handleJsonResponse} from './response-handlers'
+import {apiService} from "./api-explorer-svc"
+import {tabConfig, handleQueryString, setSelectedTab, formatRequestHeaders, showRequestBodyEditor} from './api-explorer-helpers'
+import {parseMetadata, GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL} from './graph-structure'
+import {requestHistory, saveHistoryObject, HistoryRecord} from "./history"
+import {ShareDialogController} from './share-dialog'
+import {getJsonViewer, getHeadersEditor, getRequestBodyEditor, initializeAceEditor} from './api-explorer-jseditor'
+import {initializeJsonViewer} from "./api-explorer-jsviewer"
 
-let tabConfig:TabConfig = {
-    disableRequestBodyEditor: true,
-    hideContent: true,
-    selected: 0,
-}
+import {postTemplates} from "./postTemplates"
+
+declare const angular, hello;
 
 angular.module('ApiExplorer')
-    .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce, $cacheFactory ) {
-        apiService.init($http, $cacheFactory);
+    .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce) {
+        apiService.init($http);
 
         $scope.userInfo = {};
 
@@ -236,14 +236,13 @@ angular.module('ApiExplorer')
             if (apiService.selectedVersion !== choice) {
                 apiService.selectedVersion = choice;
                 apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
-                $scope.$parent.$broadcast('updateUrlFromServiceText');                    
-                parseMetadata();
+                $scope.$parent.$broadcast('updateUrlFromServiceText');
             }
         }
 }]);
 
 angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', function ($scope, $q) {
-    let searchTextChange = function(searchText) {
+    function searchTextChange(searchText) {
         apiService.text = searchText;
 
         // if the user typed in a different version, change the dropdown
@@ -266,12 +265,12 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
     }
     $scope.searchTextChange = searchTextChange;
 
-    $scope.getRequestHistory = function() {
+    $scope.getRequestHistory = () => {
         return requestHistory;
     }
 
-    $scope.$on('updateUrlFromServiceText', function(event, data) {
-        $scope.text = apiService.text;
+    $scope.$on('updateUrlFromServiceText', (event, data) => {
+        $scope.searchText = apiService.text;
     });
 
     $scope.searchTextChange(apiService.text);
@@ -295,6 +294,9 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
     $scope.getFullUrlFromGraphLinks = getFullUrlFromGraphLinks;
 
     $scope.searchTextChangeFromAutoCompleteItem = function(item:AutoCompleteItem) {
+        // if (typeof item === 'string' || !item) {
+        //     return;
+        // }
         searchTextChange(item.fullUrl);
     };
 
@@ -334,6 +336,10 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
                     }
                 });
             }));
+        }).catch((e) => {
+            debugger;
+        }).then((a) => {
+            return a;
         });
     }
 
@@ -362,7 +368,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
         $scope.$broadcast('updateUrlFromServiceText');
         apiService.selectedVersion = historyItem.selectedVersion;
         apiService.selectedOption = historyItem.htmlOption;
-        parseMetadata(); // if clicked on beta or other version that we haven't fetched metadata for, download so autocomplete works
 
         if (historyItem.htmlOption == 'POST' || historyItem.htmlOption == 'PATCH') {
             if (getJsonViewer()) {
@@ -437,7 +442,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
                 handleXmlResponse($scope, startTime, resultBody, headers, status);
             } else {
                 handleJsonResponse($scope, startTime, resultBody, headers, status);
-                startSimFromGraphResponse(resultBody);
+                // startSimFromGraphResponse(resultBody);
             }
 
             historyObj.duration = (new Date()).getTime()- startTime.getTime();

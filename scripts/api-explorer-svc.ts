@@ -4,13 +4,18 @@
 
 'use strict';
 
-type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
+import { GraphExplorerOptions } from './api-explorer-directive'
+import { runInTestMode } from './base'
 
-namespace apiService {
+import * as fetch from "isomorphic-fetch"
+
+export type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
+
+export namespace apiService {
 
     export let $http, text:string;
 
-    export function init(http, cacheFactory) {
+    export function init(http) {
         apiService.$http = http;
         text = GraphExplorerOptions.GraphUrl + '/v1.0/me/';
         
@@ -47,13 +52,17 @@ namespace apiService {
             }
 
             if (queryType == "GET_BINARY" || queryType == "GET") {
-                return apiService.$http(request);
+                if (runInTestMode) {
+                    return fetch(request.url, {headers: request.headers})
+                } else {
+                    return apiService.$http(request);
+                }
             }
         };
     }
 
     export function performQuery (queryType:RequestType) {
-        return function (query, postString?, requestHeaders?) {
+        return (query, postString?, requestHeaders?) => {
             switch(queryType) {
                 case "GET":
                     return apiService.$http.get(query, {headers : requestHeaders});

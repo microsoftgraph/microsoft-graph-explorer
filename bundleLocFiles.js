@@ -13,7 +13,7 @@ fs.readdir("translation_files", function(err, filenames) {
         onError(err);
         return;
     }
-    var fileStr = '// This is a generated file from bundleLocFiles.js \n\nvar loc_strings = {};'
+    var fileStr = '// This is a generated file from bundleLocFiles.js \n\nexport const loc_strings = {};'
     var languageRead = [];
     filenames.forEach(function(filename) {
         languageRead.push(new Promise(function(resolve) {

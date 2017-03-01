@@ -2,9 +2,10 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 declare let define:any;
-declare let require:any;
 
-function initializeJsonViewer($scope) {
+import {commonAceSetup, getJsonViewer} from "./api-explorer-jseditor"
+
+export function initializeJsonViewer($scope) {
     $(document).ready(function () {
     
         let jsonViewer = getJsonViewer();
@@ -22,12 +23,12 @@ function initializeJsonViewer($scope) {
         jsonViewer.renderer.$cursorLayer.element.style.opacity = 0;
 
 
-        define("hoverlink", ["require", "exports"], function (require, exports, module) {
+        define("hoverlink", ["require", "exports"], function (acerequire, exports, module) {
             "use strict";
-            var oop = require("ace/lib/oop");
-            var event = require("ace/lib/event");
-            var Range = require("ace/range").Range;
-            var EventEmitter = require("ace/lib/event_emitter").EventEmitter;
+            var oop = acerequire("ace/lib/oop");
+            var event = acerequire("ace/lib/event");
+            var Range = acerequire("ace/range").Range;
+            var EventEmitter = acerequire("ace/lib/event_emitter").EventEmitter;
 
             var HoverLink = function (jsonViewer) {
                 if (jsonViewer.hoverLink)
@@ -182,16 +183,15 @@ function initializeJsonViewer($scope) {
             }).call(HoverLink.prototype);
 
             exports.HoverLink = HoverLink;
-
-        });
-
-
-        require(['hoverlink'], function (hoverlink) {
-            const HoverLink = require("hoverlink").HoverLink;
             jsonViewer.hoverLink = new HoverLink(jsonViewer);
             jsonViewer.hoverLink.on("open", function (x) {
                 $scope.$emit('urlChange', x.value);
             });
         });
+
+
+        // require(['hoverlink'], function (hoverlink) {
+            
+        // });
    });
 }

@@ -2,12 +2,22 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-// get the path to this script
-const scripts = document.getElementsByTagName("script")
-const src = scripts[scripts.length-1].src;
-const pathToBuildDir = src.split('/').slice(0, -2).join('/');
+import { initAuth } from './auth'
+import { loc_strings } from './loc_strings'
+import { runInTestMode } from './base'
 
-interface ExplorerOptions {
+// get the path to this script
+export let pathToBuildDir;
+
+declare const angular, hello;
+
+if (!runInTestMode) {
+    const scripts = document.getElementsByTagName("script")
+    const src = scripts[scripts.length-1].src;
+    pathToBuildDir = src.split('/').slice(0, -2).join('/');
+}
+
+export interface ExplorerOptions {
     AuthUrl?: string,
     GraphUrl?: string,
     ClientId?: string,
@@ -18,14 +28,15 @@ interface ExplorerOptions {
     GraphVersions?: string[]
 }
 
-const GraphExplorerOptions:ExplorerOptions = {
+export const GraphExplorerOptions:ExplorerOptions = {
     AuthUrl: "https://login.microsoftonline.com",
     GraphUrl: "https://graph.microsoft.com",
     Language: "en-US",
     GraphVersions: ["v1.0", "beta"]
 };
 
-angular.module('ApiExplorer')
+if (!runInTestMode) {
+    angular.module('ApiExplorer')
      .config(function($sceDelegateProvider, $httpProvider) {
             $sceDelegateProvider.resourceUrlWhitelist([
                 'self',
@@ -76,3 +87,4 @@ angular.module('ApiExplorer')
             }
         };
     });
+}

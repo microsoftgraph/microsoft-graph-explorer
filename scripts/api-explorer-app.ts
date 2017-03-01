@@ -4,6 +4,8 @@
 
 'use strict';
 
+declare const angular:any;
+
 angular.module('ApiExplorer', ['ngAnimate', 'ngMaterial'])
     .config(['$mdThemingProvider', function ($mdThemingProvider) {
 

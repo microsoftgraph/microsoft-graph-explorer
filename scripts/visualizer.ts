@@ -1,3 +1,6 @@
+import {constructGraphLinksFromFullPath, getEntityFromTypeName} from './graph-structure'
+import {apiService} from "./api-explorer-svc"
+
 declare const d3:any;
 
 interface SimulationContainer {

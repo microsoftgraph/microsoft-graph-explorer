@@ -1,0 +1,1 @@
+export const runInTestMode = typeof document === "undefined";

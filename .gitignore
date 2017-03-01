@@ -11,3 +11,6 @@ scripts/*.d.ts
 
 **/*gulp-tsc-tmp*
 build/
+
+spec/*.js
+spec/*.js.map

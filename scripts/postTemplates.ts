@@ -1,4 +1,4 @@
-var postTemplates = {
+export const postTemplates = {
     messages: {
         "subject": "Meet for lunch?",
         "body": {

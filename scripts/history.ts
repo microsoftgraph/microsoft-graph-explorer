@@ -1,6 +1,6 @@
-let requestHistory:HistoryRecord[] = [];
+export let requestHistory:HistoryRecord[] = [];
 
-interface HistoryRecord {
+export interface HistoryRecord {
     successful?: boolean,
     statusCode?: number,
     duration?: number,
@@ -27,7 +27,7 @@ function loadHistoryFromLocalStorage() {
     requestHistory = JSON.parse(possibleHistory);
 }
 
-function saveHistoryObject(historyObject:HistoryRecord, statusCode: number) {
+export function saveHistoryObject(historyObject:HistoryRecord, statusCode: number) {
     historyObject.successful = statusCode >= 200 && statusCode < 300;
     historyObject.statusCode = statusCode;
     historyObject.requestId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
@@ -37,7 +37,7 @@ function saveHistoryObject(historyObject:HistoryRecord, statusCode: number) {
     saveHistoryToLocalStorage();
 }
 
-function fetchRequestHistory() {
+export function fetchRequestHistory() {
     return requestHistory;
 }
 

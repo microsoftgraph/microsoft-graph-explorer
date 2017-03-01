@@ -1,3 +1,6 @@
+import {apiService} from "./api-explorer-svc"
+import {GraphExplorerOptions} from './api-explorer-directive'
+
 function createShareLink(fullRequestUrl, action, version) {    
     return window.location.origin + window.location.pathname + "?request=" + extractGraphEndpoint(fullRequestUrl) + "&method=" + action + "&version=" + version;
 }
@@ -16,7 +19,7 @@ function isPostOrPatch(option) {
     return  option == "POST" || option == "PATCH";
 }
 
-function ShareDialogController($scope, $mdDialog, $sce, headers, body) {
+export function ShareDialogController($scope, $mdDialog, $sce, headers, body) {
     $scope.hide = function() {
         $mdDialog.hide();
     };
