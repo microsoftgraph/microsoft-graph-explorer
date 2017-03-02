@@ -60,13 +60,13 @@ $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite
 
 
 ## Development
-* `npm run gulp` starts gulp which watches for changes in scripts, styles and other assets. 
+* `npm run gulp` starts gulp which watches for changes in scripts, styles and other assets. Use `npm run build` for a one time build that terminates the gulp process.
 * `node .\bundleLocFiles.js` combines all the loc files in `translation_files/` to `scripts/loc_strings.ts`
 * `npm run serve` starts the development server and the sample page can be viewed at [http://localhost:3000/sample.html](http://localhost:3000/sample.html)
 
 ## Tests
-* `npm test` to run tests from the command line
-* You can also run the mocha tests by launching [spec/GraphExplorerBrowserTests.html](spec/GraphExplorerBrowserTests.html)
+* `npm test` to run tests from the command line. This uses mocha-phantomjs and runs tests for downloading and parsing metadata in addition to functional explorer tests.
+* You can also run the mocha tests by launching [spec/GraphExplorerBrowserTests.html](spec/GraphExplorerBrowserTests.html) in a browser.
 
 ## Contributing
 Please see the [contributing guidelines](CONTRIBUTING.md).

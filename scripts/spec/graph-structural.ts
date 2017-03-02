@@ -3,8 +3,6 @@ import { apiService } from '../api-explorer-svc'
 import { formatRequestHeaders } from "../api-explorer-helpers";
 import { HistoryRecord, saveHistoryObject, fetchRequestHistory, clearRequestHistory } from "../history";
 
-declare const chai:any;
-
 describe("Graph Structural Tests", function() {
 
   before(function() {
