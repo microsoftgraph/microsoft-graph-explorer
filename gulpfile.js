@@ -39,7 +39,8 @@ gulp.task('clean-scripts', function() {
 gulp.task('tsc', ['clean-scripts'], function() {
   return gulp.src(paths.typescript)
     .pipe(typescript({
-      target: 'ES5'
+      target: 'ES5',
+      noEmitOnError: false
     }))
     .pipe(gulp.dest('build/scripts'));
 });
@@ -60,6 +61,14 @@ gulp.task('scripts', ['tsc'], function() {
     .pipe(gulp.dest('build/scripts/'));
 });
 
+gulp.task('scripts-test', ['tsc'], function() {
+  return gulp.src(["build/scripts/bundle-tests.js"])
+    .pipe(browserify({}))
+    .pipe(addsrc("bower_components/hello/dist/hello.all.min.js"))
+    .pipe(addsrc("bower_components/es6-promise/es6-promise.auto.min.js"))
+    .pipe(concat('all-tests.js'))
+    .pipe(gulp.dest('build/scripts/'));
+});
 
 gulp.task('assets', ['clean-assets'], function() {
   return gulp.src(paths.assets)
@@ -81,4 +90,4 @@ gulp.task('watch', function() {
 
 // The default task (called when you run `gulp` from cli) 
 gulp.task('default', ['clean', 'build', 'watch']);
-gulp.task('build', ['scripts', 'stylesheets', 'assets']);
+gulp.task('build', ['scripts', 'scripts-test', 'stylesheets', 'assets']);

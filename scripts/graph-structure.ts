@@ -28,7 +28,7 @@ export function parseMetadata(version?:string):Promise<any> {
 
         if (!graphStructureCache.containsVersion(version)) {
             console.log(`parsing ${version} metadata`);
-            apiService.getMetadata().then((results) => {
+            apiService.getMetadata(version).then((results) => {
                 const metadata = $($.parseXML(results.data));
 
                 let entitySetData = getEntitySets(metadata);
@@ -37,7 +37,7 @@ export function parseMetadata(version?:string):Promise<any> {
                 graphStructureCache.add(version, "EntityTypeData", entityTypeData);
                 console.log(`${version} metadata successfully parsed`);
                 return resolve();
-            });
+            }).catch(reject);
         } else {
             // metadata already cached
             return resolve();
@@ -149,8 +149,8 @@ function getEntityTypes(metadata) {
     return entities;
 }
 
-export function getEntityFromTypeName(typePossiblyWithPrefix:string):GraphEntity {
-    const entityTypeData = loadEntityTypeData();
+export function getEntityFromTypeName(typePossiblyWithPrefix:string, version:string):GraphEntity {
+    const entityTypeData = loadEntityTypeData(version);
     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
     return entityTypeData[type];
 }
@@ -164,7 +164,7 @@ export function constructGraphLinksFromFullPath(path:string):Promise<GraphNodeLi
     let version = segments.shift();
 
     // singletons and entitysets
-    return loadEntitySets().then((entityContainerData) => {
+    return loadEntitySets(version).then((entityContainerData) => {
         var graph:GraphNodeLink[] = [];
         while (segments.length > 0) {
             let segment = segments.shift();
@@ -175,7 +175,7 @@ export function constructGraphLinksFromFullPath(path:string):Promise<GraphNodeLi
                 }
             } else {
                 let lastGraphItem = graph[graph.length - 1];
-                let lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type);
+                let lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type, version);
 
                 if (lastGraphItemEntity === undefined) {
                     continue;
@@ -222,7 +222,7 @@ function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):Promise<string[]> 
 }
 
 // just return relative URLs
-export function getUrlsFromServiceURL():Promise<string[]> {
+export function getUrlsFromServiceURL(version:string):Promise<string[]> {
     return new Promise((resolve, reject) => {
         return constructGraphLinksFromFullPath(apiService.text).then((graphFromServiceUrl) => {
             if (graphFromServiceUrl.length > 0) {
@@ -230,11 +230,11 @@ export function getUrlsFromServiceURL():Promise<string[]> {
 
                 if (lastNode.isACollection) return resolve([]);
 
-                let entity = getEntityFromTypeName(lastNode.type);
+                let entity = getEntityFromTypeName(lastNode.type, version);
                 if (!entity) return resolve([]);
                 return resolve((entity.links));
             } else {
-                return resolve(loadEntitySets());
+                return resolve(loadEntitySets(version));
             }
         });
     }).then((x) => {
@@ -242,14 +242,14 @@ export function getUrlsFromServiceURL():Promise<string[]> {
     });
 }
 
-export function loadEntitySets(version = apiService.selectedVersion):Promise<any> {
-    return parseMetadata().then(() => {
+export function loadEntitySets(version):Promise<any> {
+    return parseMetadata(version).then(() => {
         return graphStructureCache.get(version, "EntitySetData");
     })
 }
 
 // EntityType and ComplexType
 // @todo use promises
-export function loadEntityTypeData(version = apiService.selectedVersion) {
+export function loadEntityTypeData(version) {
     return graphStructureCache.get(version, "EntityTypeData");
 }

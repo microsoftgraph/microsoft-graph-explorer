@@ -41,6 +41,11 @@ export function fetchRequestHistory() {
     return requestHistory;
 }
 
+export function clearRequestHistory() {
+    requestHistory = [];
+    saveHistoryToLocalStorage();
+}
+
 
 // init scripts
 loadHistoryFromLocalStorage();

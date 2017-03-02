@@ -76,7 +76,7 @@ function startSimFromGraphResponse(data:any) {
         }
 
         // get navigation properties
-        let entityLinks = getEntityFromTypeName(lastGraphNode.type).links;
+        let entityLinks = getEntityFromTypeName(lastGraphNode.type, apiService.selectedVersion).links;
         for (let entityLink in entityLinks) {
             let link = entityLinks[entityLink];
             if (link.tagName == "NavigationProperty") {

@@ -308,7 +308,7 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
     $scope.getMatches = getMatches;
 
     function getMatches(query):Promise<AutoCompleteItem[]> {
-        return getUrlsFromServiceURL().then((urls) => {
+        return getUrlsFromServiceURL(apiService.selectedVersion).then((urls) => {
             return constructGraphLinksFromFullPath(query).then((graph) => {
                 // if query ends with odata query param, don't return any URLs
                 const lastNode = graph.pop();

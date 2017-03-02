@@ -18,7 +18,6 @@ export namespace apiService {
     export function init(http) {
         apiService.$http = http;
         text = GraphExplorerOptions.GraphUrl + '/v1.0/me/';
-        
     }
 
     export let selectedVersion = "v1.0";
@@ -52,11 +51,7 @@ export namespace apiService {
             }
 
             if (queryType == "GET_BINARY" || queryType == "GET") {
-                if (runInTestMode) {
-                    return fetch(request.url, {headers: request.headers})
-                } else {
-                    return apiService.$http(request);
-                }
+                return apiService.$http(request);
             }
         };
     }
@@ -78,7 +73,7 @@ export namespace apiService {
         };
     }
 
-    export function getMetadata() {
-        return performAnonymousQuery("GET")(GraphExplorerOptions.GraphUrl + "/" + this.selectedVersion + "/$metadata");
+    export function getMetadata(version:string) {
+        return performAnonymousQuery("GET")(GraphExplorerOptions.GraphUrl + "/" + version + "/$metadata");
     }
 };
