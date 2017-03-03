@@ -167,10 +167,12 @@ describe("Graph Structural Tests", function() {
 
       it ('A POST to /v2.5/me is saved', function() {
           //create an object to store the api call
-          const historyObj:HistoryRecord = {};
-          historyObj.urlText = "https://graph.microsoft.com/v1.0/me/";
-          historyObj.selectedVersion = "v2.5";
-          historyObj.htmlOption = "POST";
+          const historyObj:HistoryRecord = {
+            urlText: "https://graph.microsoft.com/v1.0/me/",
+            selectedVersion: "v2.5",
+            htmlOption: "POST"
+          };
+
           saveHistoryObject(historyObj, 400);
 
           const savedHistoryObj = fetchRequestHistory().pop();
@@ -182,10 +184,11 @@ describe("Graph Structural Tests", function() {
 
       it ('A GET to /beta/me is saved', function() {
           //create an object to store the api call
-          const historyObj:HistoryRecord = {};
-          historyObj.urlText = "https://graph.microsoft.com/beta/me/";
-          historyObj.selectedVersion = "v2.5";
-          historyObj.htmlOption = "GET";
+          const historyObj:HistoryRecord = {
+            urlText: "https://graph.microsoft.com/beta/me/",
+            selectedVersion: "v2.5",
+            htmlOption: "GET"
+          };
           saveHistoryObject(historyObj, 200);
 
           const savedHistoryObj = fetchRequestHistory().pop();
