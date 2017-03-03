@@ -39,6 +39,23 @@ describe("Graph Structural Tests", function() {
         })
       });
 
+      it("https://graph.microsoft.com/v1.0/me/drive/quota => [user] -> [drive] -> [drive quoata]", function() {
+        return constructGraphLinksFromFullPath("https://graph.microsoft.com/beta/me/drive/quota").then((links) => {
+          chai.assert.equal(links.length, 3)
+
+          chai.assert.equal(links[0].type, "microsoft.graph.user")
+          chai.assert.equal(links[0].isACollection, false)
+
+          chai.assert.equal(links[1].type, "microsoft.graph.drive")
+          chai.assert.equal(links[1].isACollection, false)
+
+          chai.assert.equal(links[2].type, "microsoft.graph.quota")
+          chai.assert.equal(links[2].isACollection, false)
+          chai.assert.equal(links[2].tagName, "Property")
+
+        });
+      });
+
       it("https://graph.microsoft.com/v1.0/users/foobar@contoso.com/calendar => [users] -> [user] -> [calendar]", function() {
         return constructGraphLinksFromFullPath("https://graph.microsoft.com/v1.0/users/foobar@contoso.com/calendar").then((links) => {
           chai.assert.equal(links.length, 3)
@@ -55,6 +72,20 @@ describe("Graph Structural Tests", function() {
 
         });
       });
+
+      it("https://graph.microsoft.com/beta/me/photos/ => [user] -> [profilePhoto collection]", function() {
+        return constructGraphLinksFromFullPath("https://graph.microsoft.com/beta/me/photos/").then((links) => {
+          chai.assert.equal(links.length, 2)
+
+          chai.assert.equal(links[0].type, "microsoft.graph.user")
+          chai.assert.equal(links[0].isACollection, false)
+
+          chai.assert.equal(links[1].type, "microsoft.graph.profilePhoto")
+          chai.assert.equal(links[1].isACollection, true)
+
+        });
+      });
+      
 
       it("https://graph.microsoft.com/beta/me/photos/x/width => [user] -> [profilePhoto collection] -> [profilePhoto] -> [width property]", function() {
         return constructGraphLinksFromFullPath("https://graph.microsoft.com/beta/me/photos/x/width").then((links) => {
@@ -92,6 +123,25 @@ describe("Graph Structural Tests", function() {
           chai.assert.equal(links[1].type, "Edm.String")
         });
       });
+
+      
+      it("https://graph.microsoft.com/beta/me/drive/quota => [user] -> [drive] -> [drive quoata]", function() {
+        return constructGraphLinksFromFullPath("https://graph.microsoft.com/beta/me/drive/quota").then((links) => {
+          chai.assert.equal(links.length, 3)
+
+          chai.assert.equal(links[0].type, "microsoft.graph.user")
+          chai.assert.equal(links[0].isACollection, false)
+
+          chai.assert.equal(links[1].type, "microsoft.graph.drive")
+          chai.assert.equal(links[1].isACollection, false)
+
+          chai.assert.equal(links[2].type, "microsoft.graph.quota")
+          chai.assert.equal(links[2].isACollection, false)
+          chai.assert.equal(links[2].tagName, "Property")
+
+        });
+      });
+
     });
   });
   
