@@ -19,7 +19,6 @@ export interface GraphEntity {
     links: { [Name: string] : GraphNodeLink; };
 }
 
-
 export function parseMetadata(version?:string):Promise<any> {
     return new Promise((resolve, reject) => {
         if (!version) {

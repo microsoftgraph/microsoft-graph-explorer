@@ -5,9 +5,6 @@
 'use strict';
 
 import { GraphExplorerOptions } from './api-explorer-directive'
-import { runInTestMode } from './base'
-
-import * as fetch from "isomorphic-fetch"
 
 export type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
 

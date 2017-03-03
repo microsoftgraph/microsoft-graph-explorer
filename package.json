@@ -19,7 +19,6 @@
   "dependencies": {
     "@types/chai": "^3.4.35",
     "@types/es6-shim": "^0.31.32",
-    "@types/isomorphic-fetch": "0.0.33",
     "@types/jquery": "~2.0.40",
     "@types/mocha": "^2.2.39",
     "del": "^2.2.2",
@@ -31,7 +30,6 @@
     "gulp-order": "^1.1.1",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-tsc": "^1.2.6",
-    "isomorphic-fetch": "^2.2.1",
     "typescript": "~2.2.1"
   }
 }
