@@ -12,52 +12,29 @@ Want to see what's new? Check the [changelog](changelog.md)!
 * Visit [http://localhost:3000/sample.html](http://localhost:3000/sample.html)
 
 ## Options
-See `sample.html` for an example app that includes the Graph Explorer in a basic web page.
-### Scopes
+See `sample.html` for an example app that includes the Graph Explorer in a basic web page.  Use the following options to customize the Graph explorer.
 
 ```javascript
-$scope.explorerScopes = "openid User.Read User.ReadWrite User.ReadBasic.All Mail.ReadWrite";
-```
+$scope.explorerOptions = {
+    // defaults, optional
+    AuthUrl: "https://login.microsoftonline.com",
+    GraphUrl: "https://graph.microsoft.com",
+    Language: "en-US",
+    GraphVersions: ["v1.0", "beta"],
 
-```html
-<api-explorer scopes="explorerScopes"></api-explorer>
-```
-
-### Client Id
-
-```javascript
-$scope.clientId = "b89b88a5-084c-4498-7a7b-efd5cea66cec";
-
-```
-```html
-<api-explorer client-id="clientId"></api-explorer>
-```
-
-
-### Custom strings
-All strings can be replaced including labels like "Sign in" or "Request Body".  To see a list of strings, see `api-explorer-directive.js`.
-
-
-```javascript
-$scope.customStrings = {
-    "using_sample_tenant": "Using sample account"
+    // Required options
+    ClientId: "ea6a39ca-c463-4903-a08b-6ab0be895ebd",
+    AdminScopes: "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All",
+    UserScopes: "openid profile User.ReadWrite",
+    RedirectUrl: "http://localhost:3000/sample.html"
 };
 
 ```
+
+Pass in these options to the ```api-explorer``` directive.
 ```html
-<api-explorer strings="customStrings"></api-explorer>
+    <api-explorer options="explorerOptions"></api-explorer>
 ```
-
-### Administrator Scopes
-
-```javascript
-$scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All"
-```
-```html
-<api-explorer admin-scopes="adminScopes"></api-explorer>
-```
-
-
 
 ## Development
 * `npm run gulp` starts gulp which watches for changes in scripts, styles and other assets. Use `npm run build` for a one time build that terminates the gulp process.
