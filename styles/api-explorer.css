@@ -176,3 +176,129 @@ md-autocomplete-wrap input:focus {
     stroke: #fff;
     stroke-width: 1.5px;
 }
+
+#explorer-sidebar {
+    background: #394146 !important;
+    height: 100%;
+    color: white;
+}
+/*
+#explorer-sidebar .panel-header {
+    font-size: 17px;
+    cursor: pointer;
+}
+
+#explorer-sidebar .panel-header i {
+    float: right;
+}*/
+
+/*end visualizer*/
+
+.explorer-form-row {
+    margin: 10px 5px;
+}
+
+.c-select.f-border {
+    margin-top: 0px;
+    min-width: 50px;
+}
+/*Hide scrollbar on dropdown*/
+
+.c-select-menu.f-border [aria-expanded] {
+    height: inherit;
+}
+
+md-autocomplete-wrap.md-whiteframe-z1 {
+    box-shadow: none;
+    border: 1px solid rgba(0,0,0,.6) !important;
+    height: 35px;
+}
+
+md-autocomplete.ng-isolate-scope.flex {
+    height: 35px;
+}
+
+md-autocomplete-wrap.md-whiteframe-z1 input {
+    height: 35px;
+}
+
+button.c-glyph {
+    color: white;
+}
+
+#explorer-sidebar {
+    font-family: "Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
+}
+
+#explorer-sidebar .panel-header {
+    font-family: "Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
+    display: inline-block;
+    padding: 0px;
+    font-weight: 100;
+}
+
+#explorer-sidebar .panel-content {
+    padding-left: 29px;
+}
+
+#explorer-sidebar .panel-header i.ms-Icon{
+    margin-right: 10px;
+}
+
+/* Remove drawer carrot on auth */
+#auth-drawer-button:after{
+    content:none;
+}
+
+.api-query:hover {
+    background: rgba(0,0,0,.1);
+}
+
+.api-query {
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 16px;
+    display: block;
+    border: 0;
+    background: 0 0;
+    font-weight: 600;
+    padding: 5px 36px 5px 12px;
+    left: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.api-query .request-badge {
+    border: 1px solid gray;
+    min-width: 50px;
+    display: inline-block;
+    padding: 2px;
+    text-align: center;
+    margin-right: 15px;
+}
+.request-badge.GET {
+    background-color: #000fdf  
+}
+
+#getting-started-svg {
+    display: inline-block;
+    width: 29px;
+    margin: -2px 4px 2px -4px;
+}
+
+#ms-signin-button {
+    max-width: 215px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+md-progress-circular path {
+    stroke: #FFF;
+    margin: -5px;
+}
+
+#responseMessage {
+    width: 60%;
+    padding: 17px;
+    margin: 0px auto;
+}

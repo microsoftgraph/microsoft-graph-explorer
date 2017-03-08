@@ -21,7 +21,6 @@
     "mocha":"latest",
     "chai": "latest",
     "jQuery": "latest",
-    "bootstrap": "latest",
     "angular-material": "latest",
     "angular-animate": "latest",
     "angular-messages": "latest",

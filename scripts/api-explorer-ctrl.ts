@@ -4,7 +4,7 @@
 
 import {GraphExplorerOptions, pathToBuildDir} from './api-explorer-directive'
 import {isHtmlResponse, isImageResponse, isXmlResponse, handleHtmlResponse, handleImageResponse, handleXmlResponse, handleJsonResponse} from './response-handlers'
-import {apiService} from "./api-explorer-svc"
+import { apiService, RequestType, Query } from "./api-explorer-svc"
 import {tabConfig, handleQueryString, setSelectedTab, formatRequestHeaders, showRequestBodyEditor} from './api-explorer-helpers'
 import {parseMetadata, GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL} from './graph-structure'
 import {requestHistory, saveHistoryObject, HistoryRecord} from "./history"
@@ -12,15 +12,19 @@ import {ShareDialogController} from './share-dialog'
 import {getJsonViewer, getHeadersEditor, getRequestBodyEditor, initializeAceEditor} from './api-explorer-jseditor'
 import {initializeJsonViewer} from "./api-explorer-jsviewer"
 
-import {postTemplates} from "./postTemplates"
+import { postTemplates } from "./postTemplates"
+import { GettingStartedQueries } from "./getting-started-queries";
 
-declare const angular, hello;
+declare const angular, hello, fabric;
 
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce) {
         apiService.init($http);
 
         $scope.userInfo = {};
+
+        let lastApiResponse:GraphApiResponse;
+        $scope.lastApiResponse = lastApiResponse;
 
         $scope.getAssetPath = (relPath) => {
             return $scope.pathToBuildDir + "/"+ relPath;
@@ -94,11 +98,11 @@ angular.module('ApiExplorer')
         
 
         handleQueryString(actionVal, versionVal, requestVal);
-        
+
         $timeout(function() {
             let editor = getHeadersEditor();
             initializeAceEditor(editor, headersVal);
-            initializeJsonViewer($scope);
+            initializeJsonViewer();
         });
 
         $scope.isAuthenticated = function() {
@@ -195,51 +199,120 @@ angular.module('ApiExplorer')
 
 });
 
-angular.module('ApiExplorer')
-    .controller('DropdownCtrl', ['$scope', function ($scope) {
 
-        $scope.onItemClick = function(choice) {
-            if (choice != apiService.selectedOption) {
-                apiService.selectedOption = choice;
-                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
-                if (choice == 'POST' || choice == 'PATCH') {
-                    showRequestBodyEditor();
-                } else if (choice == 'GET' || choice == 'DELETE') {
-                    tabConfig.disableRequestBodyEditor = true;
-                    setSelectedTab(0);
+angular.module('ApiExplorer')
+    .directive('httpMethodSelect', function() {
+        return function(scope, element, attrs) {
+            setTimeout(() => {
+                scope.apiService = apiService;
+
+                scope.methods = [
+                    'GET',
+                    'POST',
+                    'PATCH',
+                    'DELETE'
+                ];
+
+                element[0].mwfInstances.t.selectMenu.subscribe({
+                    onSelectionChanged: (method) => {
+                        apiService.selectedOption = method.id;
+                        if (apiService.selectedOption == 'POST' || apiService.selectedOption == 'PATCH') {
+                            showRequestBodyEditor();
+                        } else if (apiService.selectedOption == 'GET' || apiService.selectedOption == 'DELETE') {
+                            tabConfig.disableRequestBodyEditor = true;
+                            setSelectedTab(0);
+                        }
+                        scope.$apply();
+                    }
+                })
+                scope.$apply();
+            }, 500)
+        }  
+    });
+
+declare const mwf:any;
+
+angular.module('ApiExplorer')
+    .directive('versionSelect', function() {
+        return function(scope, element, attrs) {
+            setTimeout(() => {
+                scope.apiService = apiService;
+
+                scope.items = GraphExplorerOptions.GraphVersions;
+
+                scope.$watch("apiService.selectedVersion", (newValue, oldValue) => {
+                    debugger;
+                    if (oldValue === newValue) return;
+                    const idx = scope.items.indexOf(newValue);
+                    element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
+                }, true);
+
+// (((window as any).mwf as any).ComponentFactory as any).create([{ c: ((window as any).mwf as any).Select }]);
+                element[0].mwfInstances.t.selectMenu.subscribe({
+                    onSelectionChanged: (version) => {
+                        apiService.selectedVersion = version.id;
+                        apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
+                        scope.$parent.$broadcast('updateUrlFromServiceText');
+                        scope.$apply();
+                    }
+                })
+                scope.$apply();
+            }, 500)
+        }  
+    });
+
+
+angular.module('ApiExplorer')
+    .directive('gettingStarted', function() {
+        return function(scope, element, attrs) {
+               let queries:Query[] = GettingStartedQueries;
+               scope.queries = queries;
+
+               scope.runQuery = function(query:Query) {
+                   apiService.text = query.requestUrl;
+                   apiService.selectedOption = query.method;
+                   scope.$broadcast('updateUrlFromServiceText');
+                   scope.submit();
+               }
+            }
+    });
+
+interface GraphApiResponse {
+    statusCode: number,
+    duration: number
+}
+
+angular.module('ApiExplorer')
+    .directive('responseMessage', function() {
+        return {
+            scope: {
+                apiResponse: '='
+            }, controller: ($scope) => {
+                $scope.createTextSummary = () => {
+                    let apiRes = $scope.apiResponse as GraphApiResponse;
+                    let text = "";
+                    if (apiRes.statusCode >= 200 && apiRes.statusCode <= 300) {
+                        text += "Success"
+                    } else {
+                        text += "Failure"
+                    }
+
+                    text += ` - Status Code ${apiRes.statusCode}`
+                    text += `\t ${apiRes.duration}ms`
+                    return text;
                 }
-            }
+            },transclude: true,
+            template: `<div class="ms-MessageBar-content">
+                <div class="ms-MessageBar-icon">
+                <i class="ms-Icon ms-Icon--Completed"></i>
+                </div>
+                <div class="ms-MessageBar-text">
+                    {{createTextSummary()}}
+                </div>
+            </div>`
         }
-
-        $scope.items = [
-            'GET',
-            'POST',
-            'PATCH',
-            'DELETE'
-        ];
-
-        $scope.getServiceOption = function() {
-            return apiService.selectedOption;
-        }
-
-    }]);
-
-angular.module('ApiExplorer')
-    .controller('VersionCtrl', ['$scope', function ($scope) {
-        $scope.items = GraphExplorerOptions.GraphVersions;
-
-        $scope.getServiceVersion = function() {
-            return apiService.selectedVersion;
-        }
-
-        $scope.onItemClick = function(choice) {
-            if (apiService.selectedVersion !== choice) {
-                apiService.selectedVersion = choice;
-                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
-                $scope.$parent.$broadcast('updateUrlFromServiceText');
-            }
-        }
-}]);
+        
+    });
 
 angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', function ($scope, $q) {
     function searchTextChange(searchText) {
@@ -435,19 +508,25 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
             let resultBody = result.data;
 
             if (isImageResponse(headers)) {
-                handleImageResponse($scope, startTime, headers, status, handleUnsuccessfulQueryResponse);
+                handleImageResponse($scope, headers, status, handleUnsuccessfulQueryResponse);
             } else if (isHtmlResponse(headers)) {
-                handleHtmlResponse($scope, startTime, resultBody, headers, status);
+                handleHtmlResponse(resultBody, headers);
             } else if (isXmlResponse(result)) {
-                handleXmlResponse($scope, startTime, resultBody, headers, status);
+                handleXmlResponse(resultBody, headers);
             } else {
-                handleJsonResponse($scope, startTime, resultBody, headers, status);
+                handleJsonResponse(resultBody, headers);
                 // startSimFromGraphResponse(resultBody);
             }
+
+            $scope.requestInProgress = false;
 
             historyObj.duration = (new Date()).getTime()- startTime.getTime();
             saveHistoryObject(historyObj, status);
 
+            $scope.lastApiResponse = {
+                duration: historyObj.duration,
+                statusCode: status
+            } as GraphApiResponse
 
             $scope.insufficientPrivileges = false;
         }
@@ -455,7 +534,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
         function handleUnsuccessfulQueryResponse(result) {
             let status = result.status;
             let headers = result.headers;
-            handleJsonResponse($scope, startTime, result.data, headers, status);
+            handleJsonResponse(result.data, headers);
             historyObj.duration = (new Date()).getTime()- startTime.getTime();
             saveHistoryObject(historyObj, status);
 

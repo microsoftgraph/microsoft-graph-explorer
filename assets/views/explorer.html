@@ -2,23 +2,62 @@
 
 <div ng-app="ApiExplorer" ng-controller="ApiExplorerCtrl" role="document">
     <form ng-controller="FormCtrl" ng-cloak>
+    <div class="ms-Grid"> 
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl2" id="explorer-sidebar">
+                <div class="c-drawer">
+                    <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
+                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" title="FavoriteList" aria-hidden="true"></i>Authentication</span></button>
+                    <div id="authDrawer" class="panel-content">
+                        <div ng-hide="isAuthenticated()">
+                            <div tabindex=0>{{::str['Using demo tenant']}}</div>
+                            <div tabindex=0>{{::str['To access your own data:']}}</div>
+                            <img id="ms-signin-button" alt="{{::str['sign in']}}" src="{{::getAssetPath('assets/images/MSSignInButton.svg')}}" ng-click="login()"/>
+                        </div>
+                        <div ng-show="isAuthenticated()" ng-cloak>
+                            <span id='userEmail' ng-if="userInfo.preferred_username" tabindex=0>{{userInfo.preferred_username}}</span>
+                            <md-button id="signout" class="" tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="c-drawer">
+                    <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
+                        
+                        <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{::getAssetPath('assets/images/rocket1.svg')}}"/>Getting Started</span></button>
+                    <div id="refineDrawer" class="panel-content">
+                        <div getting-started>
+                            <div ng-repeat="query in queries" class="api-query" ng-click="runQuery(query)">
+                                <span class="request-badge" ng-class="query.method">{{query.method}}</span><span>{{query.humanName}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div ng-hide="isAuthenticated()" layout="row" layout-align="end center">
-            <span tabindex=0>{{::str['Using demo tenant']}}</span>
-            <md-button id="signin" class="" tabindex=0 ng-click="login()">{{::str['sign in']}}</md-button>
-        </div>
-        <div ng-show="isAuthenticated()" layout="row" layout-align="end center" ng-cloak>
-            <span id='userEmail' ng-if="userInfo.preferred_username" tabindex=0>{{userInfo.preferred_username}}</span>
-            <md-button id="signout" class="" tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
-        </div>
+                <div class="c-drawer">
+                    <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
+                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--FavoriteList" title="FavoriteList" aria-hidden="true"></i>My Queries</span></button>
+                    <div id="refineDrawer">
+                    </div>
+                </div>
+
+                <div class="c-drawer">
+                    <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
+                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" title="FavoriteList" aria-hidden="true"></i>History</span></button>
+                    <div id="refineDrawer">
+                    </div>
+                </div>
+
+            </div>
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl10">
+        
         <div ng-controller="datalistCtrl" role="form">
             <div layout="row" layout-align="start center">
                 <!-- History button -->
-                <md-menu md-offset="0 45" ng-cloak>
+                <!--<md-menu md-offset="0 45" ng-cloak>
                     <div>
                         <md-button class="md-icon-button" id="historyButton" ng-click="$mdOpenMenu($event)" ng-disabled="getRequestHistory().length==0" aria-label="history">
-                            <md-icon class="historyIcon" md-svg-icon="{{::getAssetPath('assets/images/history.svg')}}"></md-icon>
+                            <md-icon class="historyIcon" md-svg-icon="{{::getAssetPath('assets/images/rocket.svg')}}"></md-icon>
                         </md-button>
                         <md-tooltip aria-label="history" md-direction="top" ng-cloak>
                             {{::str['History']}}
@@ -48,41 +87,22 @@
                             </tr>
                         </table>
                     </md-menu-content>
-                </md-menu>
+                </md-menu>-->
+
+
+                <!-- HTTP METHOD -->
+                <div class="c-select f-border" http-method-select>
+                    <select ng-model="apiService.selectedOption" ng-disabled="!isAuthenticated()">
+                        <option ng-repeat="choice in methods">{{choice}}</option>
+                    </select>
+                </div>
 
                 <!-- version button -->
-                <md-menu md-offset="0 45" ng-controller="VersionCtrl" ng-cloak>
-                    <md-button class="md-raised " ng-click="$mdOpenMenu($event)" layout-align="space-around center">
-                        {{getServiceVersion()}}
-                        <span> &#9660; </span>
-                    </md-button>
-                    <md-menu-content>
-                        <md-menu-item ng-repeat="choice in items">
-                            <md-button ng-click="onItemClick(choice)">
-                                {{::choice}}
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
-
-                <md-menu md-offset="0 45" ng-controller="DropdownCtrl" ng-cloak>
-                    <div>
-                        <md-button class="md-raised " ng-disabled="!isAuthenticated()" ng-click="$mdOpenMenu($event)" layout-align="space-around center">
-                            {{getServiceOption()}}
-                            <span> &#9660;</span>
-                        </md-button>
-                        <md-tooltip aria-label="history" md-direction="top" ng-if="!isAuthenticated()"  ng-cloak>
-                            {{str.login_to_send_requests}}
-                        </md-tooltip>
-                    </div>
-                    <md-menu-content>
-                        <md-menu-item ng-repeat="choice in items">
-                            <md-button ng-click="onItemClick(choice)">
-                                {{ choice }}
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
+                <div class="c-select f-border" version-select id="version-select">
+                    <select ng-model="apiService.selectedVersion">
+                        <option ng-repeat="choice in items">{{choice}}</option>
+                    </select>
+                </div>
 
                 <!-- autocomplete -->
                 <md-autocomplete flex
@@ -96,24 +116,23 @@
                     <span id="autocompleteText">{{graphAutoCompleteItem.url}}</span>
                 </md-autocomplete>
 
-                <md-button class="md-raised " type="submit" ng-click="submit(searchText)" ng-cloak>
-                    <div layout="row" layout-align="center center">
-                        <span ng-hide="requestInProgress">
-                            {{str.Go}}
-                        </span>
-                        <md-progress-circular md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular>
-                    </div>
-                </md-button>
+
+                <!--Submit button-->                    
+                <!--</button>-->
+                <button name="button" class="c-button explorer-form-row" type="submit" ng-click="submit(searchText)">
+                    <span ng-hide="requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>Run Query</span>
+                    <md-progress-circular md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular>
+                </button>
                 <!-- share button-->
-                <md-button class="md-icon-button" aria-label="Share" ng-click="showShareDialog($event)">
+                <!--<md-button class="md-icon-button" aria-label="Share" ng-click="showShareDialog($event)">
                     <md-icon md-svg-icon="{{::getAssetPath('assets/images/share-square-o.svg')}}"></md-icon>
                     <md-tooltip aria-label="history" md-direction="top" ng-cloak>
                         {{::str['Share Query']}}
                     </md-tooltip>
-                </md-button>
+                </md-button>-->
             </div>
         </div>
-
+        <div id="responseMessage" response-message api-response="lastApiResponse" ng-if="lastApiResponse" class="ms-MessageBar ms-MessageBar--success ms-MessageBar-singleline"></div>
         <!-- admin consent bar -->
         <div id="adminConsent" layout="row" layout-align="start center" ng-show="insufficientPrivileges" ng-cloak>
             <span id="needAdminConsent">
@@ -153,10 +172,14 @@
                     <img id="img" width="250px" height="250px" ng-show="showImage" style="margin-top:10px" ng-cloak />
                     <div id="jsonViewer"></div>
 
-                    <svg id="visual-explorer" width="1200" height="1000"/></svg>
+                    <!--<svg id="visual-explorer" width="1200" height="1000"/></svg>-->
                     
                 </md-tab-body>
             </md-tab>
         </md-tabs>
     </form>
+            </div>
+        </div>
+    </div>
+    
 </div>

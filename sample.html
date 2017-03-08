@@ -1,9 +1,6 @@
 <!-- Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information. -->
 <html>
     <head>
-        <!-- Bootstrap *** is not *** required to embed the Graph explorer. It's just used in sample app for container positioning -->
-        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
-
         <script src="./bower_components/jquery/dist/jquery.min.js"></script>
 
         <!-- Graph explorer depends on ACE editor -->
@@ -19,6 +16,17 @@
 
         <!-- Angular material -->
         <script src="./bower_components/angular-material/angular-material.min.js"></script>
+
+        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.min.css">
+        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/css/fabric.components.min.css">
+        <script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.2.0/js/fabric.min.js"></script>
+
+
+        <!-- MWF -->
+        <link rel="stylesheet"
+                href="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.19.1/css/mwf-west-european-default.min.css">
+        <script src="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.19.1/scripts/mwf-auto-init-main.var.min.js"></script>
+    
 
         <!-- Graph explorer bundled styles -->
         <script src="./build/scripts/all.js"></script>
@@ -42,14 +50,10 @@
                     UserScopes: scopes, //from secrets file
                     RedirectUrl: redirectUrl //from secrets file
                 };
-
-
             }]);
         </script>
     </head>
     <body ng-app="ExplorerSampleApp" ng-controller="SampleAppCtrl">
-        <div class="container">
-            <api-explorer options="explorerOptions"></api-explorer>
-        </div>
+        <api-explorer options="explorerOptions"></api-explorer>
     </body>
 </html>

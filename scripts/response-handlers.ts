@@ -4,21 +4,19 @@
 import {apiService} from "./api-explorer-svc"
 import {getJsonViewer} from "./api-explorer-jseditor"
 
-export function showResults(results, headers, status, responseContentType) {
+export function showResults(results, headers, responseContentType) {
     getJsonViewer().setValue("");
-    insertHeadersIntoResponseViewer(headers, status);
+    insertHeadersIntoResponseViewer(headers);
     getJsonViewer().getSession().insert(0, results);
     if (responseContentType)
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
 }
 
-export function insertHeadersIntoResponseViewer(headers, status) {
+export function insertHeadersIntoResponseViewer(headers) {
     let responseObj = {};
     if (headers != null) {
         responseObj = headers();
     }
-
-    responseObj["Status Code"] = status;
 
     // format headers
     let headersArr = [];
@@ -30,7 +28,7 @@ export function insertHeadersIntoResponseViewer(headers, status) {
     getJsonViewer().getSession().insert(0, headersArr.join("\n"));
 }
 
-export function handleImageResponse($scope, startTime, headers, status, handleUnsuccessfulQueryResponse) {
+export function handleImageResponse($scope, headers, status, handleUnsuccessfulQueryResponse) {
     apiService.performQuery('GET_BINARY')($scope.getSearchText()).then((result) => {
         let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
         let imageUrl = window.URL.createObjectURL( blob );
@@ -38,26 +36,23 @@ export function handleImageResponse($scope, startTime, headers, status, handleUn
         const imageResultViewer = <HTMLImageElement>document.getElementById("img");
         imageResultViewer.src = imageUrl;
         $scope.showImage = true;
-        insertHeadersIntoResponseViewer(result.headers, result.status);
+        insertHeadersIntoResponseViewer(result.headers);
         $scope.requestInProgress = false;
     }, handleUnsuccessfulQueryResponse);
 }
 
-export function handleHtmlResponse($scope, startTime, results, headers, status) {
-    $scope.requestInProgress = false;
-    showResults(results, headers, status, "html");
+export function handleHtmlResponse(results, headers) {
+    showResults(results, headers, "html");
 }
 
-export function handleJsonResponse($scope, startTime, results, headers, status) {
+export function handleJsonResponse(results, headers) {
     results = JSON.stringify(results, null, 4);
-    $scope.requestInProgress = false;
-    showResults(results, headers, status, "json");
+    showResults(results, headers, "json");
 }
 
-export function handleXmlResponse($scope, startTime, results, headers, status) {
+export function handleXmlResponse(results, headers) {
     results = formatXml(results);
-    $scope.requestInProgress = false;
-    showResults(results, headers, status, "xml");
+    showResults(results, headers, "xml");
 }
 
 export function isImageResponse(headers) {
