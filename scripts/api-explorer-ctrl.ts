@@ -168,6 +168,19 @@ angular.module('ApiExplorer')
 
 });
 
+angular.module('ApiExplorer')
+    .directive('autocompleteSubmit', () => {
+        return  (scope, element) => {
+            element.bind("keydown keypress",  (event) => {
+                if(event.which === 13) {
+                    scope.$apply( () => {
+                        scope.submit();
+                    });
+                    event.preventDefault();
+                }
+            });
+        };
+    });
 
 angular.module('ApiExplorer')
     .directive('httpMethodSelect', function() {

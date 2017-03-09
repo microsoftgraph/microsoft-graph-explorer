@@ -378,11 +378,11 @@ md-autocomplete-wrap input:focus {
 md-autocomplete-wrap.md-whiteframe-z1 {
     box-shadow: none;
     border: 1px solid rgba(0,0,0,.6) !important;
-    height: 35px;
+    height: 38px;
 }
 
 md-autocomplete.ng-isolate-scope.flex {
-    height: 35px;
+    margin-top: 4px;
 }
 
 md-autocomplete-wrap.md-whiteframe-z1 input {
@@ -517,4 +517,8 @@ span#duration-label {
 .ace-tm .ace_invalid {
     color: inherit;
     background-color: inherit;
+}
+
+md-autocomplete-wrap.md-menu-showing {
+    border-bottom: none !important;
 }
