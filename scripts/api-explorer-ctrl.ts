@@ -12,7 +12,6 @@ import {ShareDialogController} from './share-dialog'
 import {getJsonViewer, getHeadersEditor, getRequestBodyEditor, initializeAceEditor} from './api-explorer-jseditor'
 import {initializeJsonViewer} from "./api-explorer-jsviewer"
 
-import { postTemplates } from "./postTemplates"
 import { GettingStartedQueries } from "./getting-started-queries";
 
 declare const angular, hello, fabric;
@@ -150,33 +149,6 @@ angular.module('ApiExplorer')
             return pathArr.pop();
         }
 
-        $scope.canInsertTemplate = function() {
-            return apiService.selectedOption == "POST" && checkCanInsertTemplate(apiService.text);
-        }
-
-        $scope.insertPostTemplate = function() {
-            var entity = $scope.getCurrentEntityName();
-            var strToInsert = JSON.stringify(postTemplates[entity], null, 2).trim();
-
-            var fullUserEmail = $scope.userInfo.preferred_username;
-            var domain = fullUserEmail.split("@")[1];
-
-            strToInsert = strToInsert.replace(/AUTHENTICATED_DOMAIN/g, domain);
-            strToInsert = strToInsert.replace(/FULL_USER_EMAIL/g, fullUserEmail);
-            
-
-            const editor = getRequestBodyEditor();
-            initializeAceEditor(editor, strToInsert);
-            editor.getSession().setMode("ace/mode/javascript");
-        }
-
-        function checkCanInsertTemplate(URL) {
-            // get 'messages' from 'https://graph.microsoft.com/v1.0/me/messages'
-            let entity = $scope.getCurrentEntityName()
-            let canInsertTemplate = entity in postTemplates;
-            return canInsertTemplate;
-        }
-
         $scope.showShareDialog = function(ev) {
             $mdDialog.show({
                 controller: ShareDialogController,
@@ -303,7 +275,7 @@ angular.module('ApiExplorer')
                     return text;
                 }
             },transclude: true,
-            template: `<div class="ms-MessageBar ms-MessageBar-singleline" ng-class="{'ms-MessageBar--success': success, 'ms-MessageBar--error': !success}">
+            template: `<div ng-if="apiResponse" class="ms-MessageBar ms-MessageBar-singleline" ng-class="{'ms-MessageBar--success': success, 'ms-MessageBar--error': !success}">
                 <div class="ms-MessageBar-content">
                     <div class="ms-MessageBar-icon">
                         <i class="ms-Icon" ng-class="{'ms-Icon--Completed': success, 'ms-Icon--errorBadge': !success}" ></i>
@@ -491,6 +463,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
 
     $scope.submit = function () {
         $scope.requestInProgress = true;
+        $scope.clearLastApiResponse();
 
         //create an object to store the api call
         let historyObj:HistoryRecord = {

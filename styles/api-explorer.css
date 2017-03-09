@@ -328,8 +328,9 @@ md-autocomplete-wrap input:focus {
 }
 
 #explorer-sidebar {
-    background: #394146 !important;
-    height: 100%;
+    background: #2F2F2F!important;
+    height: 820px;
+    /*height: 100%;*/
     color: white;
 }
 
@@ -337,6 +338,10 @@ md-autocomplete-wrap input:focus {
     #explorer-sidebar {
         height: auto;
         padding-bottom: 30px;
+    }
+    
+    #responseMessage .ms-MessageBar {
+        width: 100% !important;
     }
 }
 
@@ -472,4 +477,23 @@ span#duration-label {
     padding: 6px;
 }
 
+#explorer-main {
+    padding-left: 15px;
+}
 
+
+/* frontdoor style conflicts */
+#auth-drawer-button {
+    background-color: inherit !important;
+    color: white !important;
+}
+
+#api-explorer-app .c-select-menu.f-border [aria-expanded] {
+    min-width: inherit;
+}
+
+@media (min-width: 1400px) {
+    #api-explorer-app ol li,ul li {
+        margin-bottom: inherit;
+    }
+}
