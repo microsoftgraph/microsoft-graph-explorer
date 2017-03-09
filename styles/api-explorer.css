@@ -512,3 +512,9 @@ span#duration-label {
     top: 13px;
     margin-bottom: -45px;
 }
+
+
+.ace-tm .ace_invalid {
+    color: inherit;
+    background-color: inherit;
+}
