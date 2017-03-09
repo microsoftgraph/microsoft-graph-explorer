@@ -23,9 +23,6 @@ angular.module('ApiExplorer')
 
         $scope.userInfo = {};
 
-        let lastApiResponse:GraphApiResponse;
-        $scope.lastApiResponse = lastApiResponse;
-
         $scope.getAssetPath = (relPath) => {
             return $scope.pathToBuildDir + "/"+ relPath;
         }
@@ -230,7 +227,6 @@ angular.module('ApiExplorer')
         }  
     });
 
-declare const mwf:any;
 
 angular.module('ApiExplorer')
     .directive('versionSelect', function() {
@@ -241,13 +237,11 @@ angular.module('ApiExplorer')
                 scope.items = GraphExplorerOptions.GraphVersions;
 
                 scope.$watch("apiService.selectedVersion", (newValue, oldValue) => {
-                    debugger;
                     if (oldValue === newValue) return;
                     const idx = scope.items.indexOf(newValue);
                     element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
                 }, true);
 
-// (((window as any).mwf as any).ComponentFactory as any).create([{ c: ((window as any).mwf as any).Select }]);
                 element[0].mwfInstances.t.selectMenu.subscribe({
                     onSelectionChanged: (version) => {
                         apiService.selectedVersion = version.id;
@@ -258,7 +252,7 @@ angular.module('ApiExplorer')
                 })
                 scope.$apply();
             }, 500)
-        }  
+        }
     });
 
 
@@ -288,26 +282,42 @@ angular.module('ApiExplorer')
             scope: {
                 apiResponse: '='
             }, controller: ($scope) => {
+                $scope.clearLastCallMessage = () => {
+                    $scope.$parent.clearLastApiResponse();
+                };
+
                 $scope.createTextSummary = () => {
                     let apiRes = $scope.apiResponse as GraphApiResponse;
+                    if (!apiRes) return;
+
                     let text = "";
                     if (apiRes.statusCode >= 200 && apiRes.statusCode <= 300) {
+                        $scope.success = true;
                         text += "Success"
                     } else {
+                        $scope.success = false;
                         text += "Failure"
                     }
 
                     text += ` - Status Code ${apiRes.statusCode}`
-                    text += `\t ${apiRes.duration}ms`
                     return text;
                 }
             },transclude: true,
-            template: `<div class="ms-MessageBar-content">
-                <div class="ms-MessageBar-icon">
-                <i class="ms-Icon ms-Icon--Completed"></i>
-                </div>
-                <div class="ms-MessageBar-text">
-                    {{createTextSummary()}}
+            template: `<div class="ms-MessageBar ms-MessageBar-singleline" ng-class="{'ms-MessageBar--success': success, 'ms-MessageBar--error': !success}">
+                <div class="ms-MessageBar-content">
+                    <div class="ms-MessageBar-icon">
+                        <i class="ms-Icon" ng-class="{'ms-Icon--Completed': success, 'ms-Icon--errorBadge': !success}" ></i>
+                    </div>
+                    <div class="ms-MessageBar-actionables">
+                        <div class="ms-MessageBar-text">
+                            {{createTextSummary()}}<span id="duration-label">{{apiResponse.duration}}ms</span>
+                        </div>
+                    </div>
+                    <div class="ms-MessageBar-actionsOneline">
+                        <div id="dismiss-btn" class="ms-MessageBar-icon">
+                            <a href="#" ng-click="clearLastCallMessage()"><i class="ms-Icon ms-Icon--Cancel"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>`
         }
@@ -423,6 +433,13 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
     $scope.requestInProgress = false;
     $scope.insufficientPrivileges = false;
 
+
+    let lastApiResponse:GraphApiResponse;
+    $scope.lastApiResponse = lastApiResponse;
+    $scope.clearLastApiResponse = () => {
+        $scope.lastApiResponse = null;
+    }
+
     if (hello('msft').getAuthResponse() != null && 
         (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH')) {
             showRequestBodyEditor();
@@ -503,6 +520,7 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
         let startTime = new Date();
 
         function handleSuccessfulQueryResponse(result) {
+            $scope.requestInProgress = false;
             let status = result.status;
             let headers = result.headers;
             let resultBody = result.data;
@@ -518,8 +536,6 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
                 // startSimFromGraphResponse(resultBody);
             }
 
-            $scope.requestInProgress = false;
-
             historyObj.duration = (new Date()).getTime()- startTime.getTime();
             saveHistoryObject(historyObj, status);
 
@@ -532,11 +548,17 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
         }
 
         function handleUnsuccessfulQueryResponse(result) {
+            $scope.requestInProgress = false;
             let status = result.status;
             let headers = result.headers;
             handleJsonResponse(result.data, headers);
             historyObj.duration = (new Date()).getTime()- startTime.getTime();
             saveHistoryObject(historyObj, status);
+
+            $scope.lastApiResponse = {
+                duration: historyObj.duration,
+                statusCode: status
+            } as GraphApiResponse
 
             if (status === 401 || status === 403) {
                 $scope.insufficientPrivileges = true;

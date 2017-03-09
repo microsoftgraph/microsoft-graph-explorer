@@ -7,6 +7,7 @@ import {commonAceSetup, getJsonViewer} from "./api-explorer-jseditor"
 
 export function initializeJsonViewer() {
     $(document).ready(() => {
+    
         let jsonViewer = getJsonViewer();
         commonAceSetup(jsonViewer);
         jsonViewer.getSession().setMode("ace/mode/javascript");
@@ -17,5 +18,9 @@ export function initializeJsonViewer() {
             highlightActiveLine: false,
             highlightGutterLine: false,
         });
+
+        jsonViewer.getSession().setUseWorker(false);
+        jsonViewer.renderer.$cursorLayer.element.style.opacity = 0;
+
    });
 }

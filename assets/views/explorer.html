@@ -132,7 +132,7 @@
                 </md-button>-->
             </div>
         </div>
-        <div id="responseMessage" response-message api-response="lastApiResponse" ng-if="lastApiResponse" class="ms-MessageBar ms-MessageBar--success ms-MessageBar-singleline"></div>
+        <div id="responseMessage" response-message api-response="lastApiResponse" ng-show="lastApiResponse != null"></div>
         <!-- admin consent bar -->
         <div id="adminConsent" layout="row" layout-align="start center" ng-show="insufficientPrivileges" ng-cloak>
             <span id="needAdminConsent">
