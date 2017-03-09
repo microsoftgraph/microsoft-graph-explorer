@@ -343,6 +343,10 @@ md-autocomplete-wrap input:focus {
     #responseMessage .ms-MessageBar {
         width: 100% !important;
     }
+    
+    .arrow-left {
+        display: none;
+    }
 }
 
 /*
@@ -492,8 +496,19 @@ span#duration-label {
     min-width: inherit;
 }
 
-@media (min-width: 1400px) {
-    #api-explorer-app ol li,ul li {
-        margin-bottom: inherit;
-    }
+
+#api-explorer-app ol li,ul li {
+    margin-bottom: inherit;
+}
+
+
+
+.arrow-left {
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid white;
+    position: relative;
+    right: -10px;
+    top: 13px;
+    margin-bottom: -45px;
 }

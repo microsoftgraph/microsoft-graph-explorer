@@ -195,7 +195,7 @@ angular.module('ApiExplorer')
                     }
                 })
                 scope.$apply();
-            }, 500)
+            }, 1500)
         }  
     });
 
@@ -223,7 +223,7 @@ angular.module('ApiExplorer')
                     }
                 })
                 scope.$apply();
-            }, 500)
+            }, 1500)
         }
     });
 

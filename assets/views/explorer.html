@@ -5,6 +5,7 @@
     <div class="ms-Grid"> 
         <div class="ms-Grid-row">
             <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl2" id="explorer-sidebar">
+                <div class="arrow-left"></div>
                 <div class="c-drawer">
                     <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
                          <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" title="FavoriteList" aria-hidden="true"></i>Authentication</span></button>
@@ -16,7 +17,8 @@
                         </div>
                         <div ng-show="isAuthenticated()" ng-cloak>
                             <span id='userEmail' ng-if="userInfo.preferred_username" tabindex=0>{{userInfo.preferred_username}}</span>
-                            <md-button id="signout" class="" tabindex=0 ng-click="logout()">{{::str['sign out']}}</md-button>
+                            <br />
+                            <button type="submit" id="signout" class="c-button" tabindex=0 ng-click="logout()">{{::str['sign out']}}</button>
                         </div>
                     </div>
                 </div>
