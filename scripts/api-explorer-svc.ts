@@ -5,14 +5,7 @@
 'use strict';
 
 import { GraphExplorerOptions } from './api-explorer-directive'
-
-export type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
-
-export interface Query {
-    method: RequestType,
-    humanName: string,
-    requestUrl: string
-}
+import { RequestType } from "./base";
 
 export namespace apiService {
 

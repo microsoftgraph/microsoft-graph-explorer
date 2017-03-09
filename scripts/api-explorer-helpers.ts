@@ -38,24 +38,30 @@ export let tabConfig:TabConfig = {
 }
 
 export function showRequestBodyEditor() {
-    tabConfig.disableRequestBodyEditor = false;
-    tabConfig.hideContent = false;
-    showRequestHeaders();
+    // tabConfig.disableRequestBodyEditor = false;
+    // tabConfig.hideContent = false;
+    // showRequestHeaders();
     $(() => {
         const editor = getRequestBodyEditor();
         initializeAceEditor(editor);
         editor.getSession().setMode("ace/mode/javascript");
-        setSelectedTab(1);
+        // setSelectedTab(1);
     })
 }
 
-export function setSelectedTab (num) {
-    if (num >= 2 || num < 0) {
-        return;
-    }
-    tabConfig.selected = num;
-    tabConfig.previousSelected = tabConfig.selected;
-}
+export function initBodyPostEditor() {
+    const editor = getRequestBodyEditor();
+    initializeAceEditor(editor);
+    editor.getSession().setMode("ace/mode/javascript");
+};
+
+// export function setSelectedTab (num) {
+//     if (num >= 2 || num < 0) {
+//         return;
+//     }
+//     tabConfig.selected = num;
+//     tabConfig.previousSelected = tabConfig.selected;
+// }
 
 export function handleQueryString(actionValue, versionValue, requestValue) {
     if(actionValue){

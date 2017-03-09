@@ -4,20 +4,31 @@
 
 import {GraphExplorerOptions, pathToBuildDir} from './api-explorer-directive'
 import {isHtmlResponse, isImageResponse, isXmlResponse, handleHtmlResponse, handleImageResponse, handleXmlResponse, handleJsonResponse} from './response-handlers'
-import { apiService, RequestType, Query } from "./api-explorer-svc"
-import {tabConfig, handleQueryString, setSelectedTab, formatRequestHeaders, showRequestBodyEditor} from './api-explorer-helpers'
+import { apiService } from "./api-explorer-svc"
+import { tabConfig, handleQueryString, formatRequestHeaders, showRequestBodyEditor, initBodyPostEditor } from './api-explorer-helpers'
 import {parseMetadata, GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL} from './graph-structure'
-import {requestHistory, saveHistoryObject, HistoryRecord} from "./history"
+import {requestHistory, saveHistoryObject} from "./history"
 import {ShareDialogController} from './share-dialog'
 import {getJsonViewer, getHeadersEditor, getRequestBodyEditor, initializeAceEditor} from './api-explorer-jseditor'
 import {initializeJsonViewer} from "./api-explorer-jsviewer"
 
 import { GettingStartedQueries } from "./getting-started-queries";
+import { HistoryRecord, GraphApiCall } from "./base";
 
 declare const angular, hello, fabric;
 
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce) {
+        var PivotElements = document.querySelectorAll(".ms-Pivot");
+        for(var i = 0; i < PivotElements.length; i++) {
+            new fabric['Pivot'](PivotElements[i]);
+        }
+
+        initBodyPostEditor();
+
+        $scope.requestInProgress = false;
+        $scope.insufficientPrivileges = false;
+
         apiService.init($http);
 
         $scope.userInfo = {};
@@ -76,14 +87,14 @@ angular.module('ApiExplorer')
 
         });
         $scope.showImage = false;
-        $scope.tabConfig = tabConfig;
-        tabConfig.previousSelected = tabConfig.selected;
-        $scope.processTabClick = function() {
-            const switchingTabs = tabConfig.previousSelected != tabConfig.selected;
-            if (!switchingTabs)
-                tabConfig.hideContent = !tabConfig.hideContent;
-            tabConfig.previousSelected = tabConfig.selected;
-        }
+        // $scope.tabConfig = tabConfig;
+        // tabConfig.previousSelected = tabConfig.selected;
+        // $scope.processTabClick = function() {
+        //     const switchingTabs = tabConfig.previousSelected != tabConfig.selected;
+        //     if (!switchingTabs)
+        //         tabConfig.hideContent = !tabConfig.hideContent;
+        //     tabConfig.previousSelected = tabConfig.selected;
+        // }
 
         // For deep linking into the Graph Explorer
         let requestVal = $location.search().request;
@@ -127,8 +138,8 @@ angular.module('ApiExplorer')
         $scope.logout = function () {
             // change to GET and show request header tab
             apiService.selectedOption = "GET";
-            tabConfig.disableRequestBodyEditor = true;
-            setSelectedTab(0);
+            // tabConfig.disableRequestBodyEditor = true;
+            // setSelectedTab(0);
 
             hello('msft').logout(null, {force:true});
             delete $scope.userInfo;
@@ -166,150 +177,20 @@ angular.module('ApiExplorer')
             })
         };
 
-});
 
-angular.module('ApiExplorer')
-    .directive('autocompleteSubmit', () => {
-        return  (scope, element) => {
-            element.bind("keydown keypress",  (event) => {
-                if(event.which === 13) {
-                    scope.$apply( () => {
-                        scope.submit();
-                    });
-                    event.preventDefault();
-                }
-            });
-        };
-    });
+    let lastApiResponse:GraphApiCall;
+    $scope.lastApiResponse = lastApiResponse;
+    $scope.clearLastApiResponse = () => {
+        $scope.lastApiResponse = null;
+    }
 
-angular.module('ApiExplorer')
-    .directive('httpMethodSelect', function() {
-        return function(scope, element, attrs) {
-            setTimeout(() => {
-                scope.apiService = apiService;
-
-                scope.methods = [
-                    'GET',
-                    'POST',
-                    'PATCH',
-                    'DELETE'
-                ];
-
-                element[0].mwfInstances.t.selectMenu.subscribe({
-                    onSelectionChanged: (method) => {
-                        apiService.selectedOption = method.id;
-                        if (apiService.selectedOption == 'POST' || apiService.selectedOption == 'PATCH') {
-                            showRequestBodyEditor();
-                        } else if (apiService.selectedOption == 'GET' || apiService.selectedOption == 'DELETE') {
-                            tabConfig.disableRequestBodyEditor = true;
-                            setSelectedTab(0);
-                        }
-                        scope.$apply();
-                    }
-                })
-                scope.$apply();
-            }, 1500)
-        }  
-    });
-
-
-angular.module('ApiExplorer')
-    .directive('versionSelect', function() {
-        return function(scope, element, attrs) {
-            setTimeout(() => {
-                scope.apiService = apiService;
-
-                scope.items = GraphExplorerOptions.GraphVersions;
-
-                scope.$watch("apiService.selectedVersion", (newValue, oldValue) => {
-                    if (oldValue === newValue) return;
-                    const idx = scope.items.indexOf(newValue);
-                    element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
-                }, true);
-
-                element[0].mwfInstances.t.selectMenu.subscribe({
-                    onSelectionChanged: (version) => {
-                        apiService.selectedVersion = version.id;
-                        apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
-                        scope.$parent.$broadcast('updateUrlFromServiceText');
-                        scope.$apply();
-                    }
-                })
-                scope.$apply();
-            }, 1500)
-        }
-    });
-
-
-angular.module('ApiExplorer')
-    .directive('gettingStarted', function() {
-        return function(scope, element, attrs) {
-               let queries:Query[] = GettingStartedQueries;
-               scope.queries = queries;
-
-               scope.runQuery = function(query:Query) {
-                   apiService.text = query.requestUrl;
-                   apiService.selectedOption = query.method;
-                   scope.$broadcast('updateUrlFromServiceText');
-                   scope.submit();
-               }
-            }
-    });
-
-interface GraphApiResponse {
-    statusCode: number,
-    duration: number
-}
-
-angular.module('ApiExplorer')
-    .directive('responseMessage', function() {
-        return {
-            scope: {
-                apiResponse: '='
-            }, controller: ($scope) => {
-                $scope.clearLastCallMessage = () => {
-                    $scope.$parent.clearLastApiResponse();
-                };
-
-                $scope.createTextSummary = () => {
-                    let apiRes = $scope.apiResponse as GraphApiResponse;
-                    if (!apiRes) return;
-
-                    let text = "";
-                    if (apiRes.statusCode >= 200 && apiRes.statusCode <= 300) {
-                        $scope.success = true;
-                        text += "Success"
-                    } else {
-                        $scope.success = false;
-                        text += "Failure"
-                    }
-
-                    text += ` - Status Code ${apiRes.statusCode}`
-                    return text;
-                }
-            },transclude: true,
-            template: `<div ng-if="apiResponse" class="ms-MessageBar ms-MessageBar-singleline" ng-class="{'ms-MessageBar--success': success, 'ms-MessageBar--error': !success}">
-                <div class="ms-MessageBar-content">
-                    <div class="ms-MessageBar-icon">
-                        <i class="ms-Icon" ng-class="{'ms-Icon--Completed': success, 'ms-Icon--errorBadge': !success}" ></i>
-                    </div>
-                    <div class="ms-MessageBar-actionables">
-                        <div class="ms-MessageBar-text">
-                            {{createTextSummary()}}<span id="duration-label">{{apiResponse.duration}}ms</span>
-                        </div>
-                    </div>
-                    <div class="ms-MessageBar-actionsOneline">
-                        <div id="dismiss-btn" class="ms-MessageBar-icon">
-                            <a href="#" ng-click="clearLastCallMessage()"><i class="ms-Icon ms-Icon--Cancel"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>`
-        }
-        
-    });
-
-angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', function ($scope, $q) {
+    if (hello('msft').getAuthResponse() != null && 
+        (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH')) {
+            showRequestBodyEditor();
+    } else {
+        // setSelectedTab(0);
+    }
+ 
     function searchTextChange(searchText) {
         apiService.text = searchText;
 
@@ -411,54 +292,10 @@ angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', '$q', functi
         });
     }
 
-}]);
-
-
-angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope) {
-    $scope.requestInProgress = false;
-    $scope.insufficientPrivileges = false;
-
-
-    let lastApiResponse:GraphApiResponse;
-    $scope.lastApiResponse = lastApiResponse;
-    $scope.clearLastApiResponse = () => {
-        $scope.lastApiResponse = null;
-    }
-
-    if (hello('msft').getAuthResponse() != null && 
-        (apiService.selectedOption === 'POST' || apiService.selectedOption === 'PATCH')) {
-            showRequestBodyEditor();
-    } else {
-        setSelectedTab(0);
-    }
- 
     // custom link re-routing logic to resolve links
     $scope.$parent.$on("urlChange", function (event, args) {
         msGraphLinkResolution($scope, getJsonViewer().getSession().getValue(), args, apiService);
     });
-
-    // function called when link in the back button history is clicked
-    $scope.historyOnClick = function(historyItem) {
-        apiService.text = historyItem.urlText;
-        $scope.$broadcast('updateUrlFromServiceText');
-        apiService.selectedVersion = historyItem.selectedVersion;
-        apiService.selectedOption = historyItem.htmlOption;
-
-        if (historyItem.htmlOption == 'POST' || historyItem.htmlOption == 'PATCH') {
-            if (getJsonViewer()) {
-                getJsonViewer().getSession().setValue(historyItem.jsonInput);
-            } else {
-                console.error("json editor watch event not firing");
-            }
-        } else {
-            //clear jsonEditor
-            if (getJsonViewer()) {
-                getJsonViewer().getSession().setValue("");
-            }
-
-        }
-        $scope.submit();
-    }
     
     $scope.closeAdminConsentBar = function() {
         $scope.insufficientPrivileges = false;
@@ -480,13 +317,13 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
 
         //create an object to store the api call
         let historyObj:HistoryRecord = {
-            urlText: apiService.text,
+            requestUrl: apiService.text,
             selectedVersion: apiService.selectedVersion,
-            htmlOption: apiService.selectedOption,
+            method: apiService.selectedOption,
             jsonInput: null
         };
 
-        if (historyObj.htmlOption == 'POST' || historyObj.htmlOption == 'PATCH') {
+        if (historyObj.method == 'POST' || historyObj.method == 'PATCH') {
             historyObj.jsonInput = getRequestBodyEditor().getSession().getValue();
         }
 
@@ -507,9 +344,9 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
 
         function handleSuccessfulQueryResponse(result) {
             $scope.requestInProgress = false;
-            let status = result.status;
-            let headers = result.headers;
-            let resultBody = result.data;
+            const status = result.status;
+            const headers = result.headers;
+            const resultBody = result.data;
 
             if (isImageResponse(headers)) {
                 handleImageResponse($scope, headers, status, handleUnsuccessfulQueryResponse);
@@ -523,28 +360,32 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
             }
 
             historyObj.duration = (new Date()).getTime()- startTime.getTime();
-            saveHistoryObject(historyObj, status);
+            historyObj.statusCode = status;
+            saveHistoryObject(historyObj);
 
             $scope.lastApiResponse = {
                 duration: historyObj.duration,
                 statusCode: status
-            } as GraphApiResponse
+            } as GraphApiCall
 
             $scope.insufficientPrivileges = false;
         }
 
         function handleUnsuccessfulQueryResponse(result) {
             $scope.requestInProgress = false;
-            let status = result.status;
-            let headers = result.headers;
-            handleJsonResponse(result.data, headers);
+            const status = result.status;
+            const headers = result.headers;
+            const resultBody = result.data;
+
+            handleJsonResponse(resultBody, headers);
             historyObj.duration = (new Date()).getTime()- startTime.getTime();
-            saveHistoryObject(historyObj, status);
+            historyObj.statusCode = status;
+            saveHistoryObject(historyObj);
 
             $scope.lastApiResponse = {
                 duration: historyObj.duration,
                 statusCode: status
-            } as GraphApiResponse
+            } as GraphApiCall
 
             if (status === 401 || status === 403) {
                 $scope.insufficientPrivileges = true;
@@ -561,4 +402,168 @@ angular.module('ApiExplorer').controller('FormCtrl', ['$scope', function ($scope
                 .then(handleSuccessfulQueryResponse, handleUnsuccessfulQueryResponse);
         }
     };
-}]);
+});
+
+angular.module('ApiExplorer')
+    .directive('autocompleteSubmit', () => {
+        return  (scope, element) => {
+            element.bind("keydown keypress",  (event) => {
+                if(event.which === 13) {
+                    scope.$apply( () => {
+                        scope.submit();
+                    });
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+
+angular.module('ApiExplorer')
+    .directive('httpMethodSelect', function() {
+        return function(scope, element, attrs) {
+            setTimeout(() => {
+                scope.apiService = apiService;
+
+                scope.methods = [
+                    'GET',
+                    'POST',
+                    'PATCH',
+                    'DELETE'
+                ];
+
+                element[0].mwfInstances.t.selectMenu.subscribe({
+                    onSelectionChanged: (method) => {
+                        apiService.selectedOption = method.id;
+                        if (apiService.selectedOption == 'POST' || apiService.selectedOption == 'PATCH') {
+                            showRequestBodyEditor();
+                        } else if (apiService.selectedOption == 'GET' || apiService.selectedOption == 'DELETE') {
+                            tabConfig.disableRequestBodyEditor = true;
+                            // setSelectedTab(0);
+                        }
+                        scope.$apply();
+                    }
+                })
+                scope.$apply();
+            }, 1500)
+        }  
+    });
+
+
+angular.module('ApiExplorer')
+    .directive('versionSelect', function() {
+        return function(scope, element, attrs) {
+            setTimeout(() => {
+                scope.apiService = apiService;
+
+                scope.items = GraphExplorerOptions.GraphVersions;
+
+                scope.$watch("apiService.selectedVersion", (newValue, oldValue) => {
+                    if (oldValue === newValue) return;
+                    const idx = scope.items.indexOf(newValue);
+                    element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
+                }, true);
+
+                element[0].mwfInstances.t.selectMenu.subscribe({
+                    onSelectionChanged: (version) => {
+                        apiService.selectedVersion = version.id;
+                        apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
+                        scope.$parent.$broadcast('updateUrlFromServiceText');
+                        scope.$apply();
+                    }
+                })
+                scope.$apply();
+            }, 1500)
+        }
+    });
+
+angular.module('ApiExplorer')
+    .directive('queryRow', function() {
+        return {
+            scope: {
+                query: '='
+            }, template: `
+            <div class="api-query" ng-click="runQuery(query)">
+                <span class="request-badge" ng-class="query.method">{{query.method}}</span><span>{{getQueryText()}}</span>
+            </div>`,
+            controller: ($scope) => {
+                const query = $scope.query as GraphApiCall;
+
+                $scope.getQueryText = function() {
+                    if (query.humanName) return query.humanName;
+                    if (query.requestUrl) {
+                        return query.requestUrl.split(GraphExplorerOptions.GraphUrl)[1];
+                    }
+                    return query.humanName || query.requestUrl;
+                }
+            
+                $scope.runQuery = function() {
+                    apiService.text = query.requestUrl;
+                    apiService.selectedOption = query.method;
+                    $scope.$parent.$parent.$broadcast('updateUrlFromServiceText');
+                    $scope.$parent.submit();
+                }
+            }
+    }});
+
+angular.module('ApiExplorer')
+    .directive('gettingStarted', function() {
+        return function(scope, element, attrs) {
+               let queries:GraphApiCall[] = GettingStartedQueries;
+               scope.queries = queries;
+
+               scope.runQuery = function(query:GraphApiCall) {
+                   apiService.text = query.requestUrl;
+                   apiService.selectedOption = query.method;
+                   scope.$broadcast('updateUrlFromServiceText');
+                   scope.submit();
+               }
+            }
+    });
+
+angular.module('ApiExplorer')
+    .directive('responseMessage', function() {
+        return {
+            scope: {
+                apiResponse: '='
+            }, controller: ($scope) => {
+                $scope.clearLastCallMessage = () => {
+                    $scope.$parent.clearLastApiResponse();
+                };
+
+                $scope.createTextSummary = () => {
+                    let apiRes = $scope.apiResponse as GraphApiCall;
+                    if (!apiRes) return;
+
+                    let text = "";
+                    if (apiRes.statusCode >= 200 && apiRes.statusCode <= 300) {
+                        $scope.success = true;
+                        text += "Success"
+                    } else {
+                        $scope.success = false;
+                        text += "Failure"
+                    }
+
+                    text += ` - Status Code ${apiRes.statusCode}`
+                    return text;
+                }
+            },transclude: true,
+            template: `<div ng-if="apiResponse" class="ms-MessageBar ms-MessageBar-singleline" ng-class="{'ms-MessageBar--success': success, 'ms-MessageBar--error': !success}">
+                <div class="ms-MessageBar-content">
+                    <div class="ms-MessageBar-icon">
+                        <i class="ms-Icon" ng-class="{'ms-Icon--Completed': success, 'ms-Icon--errorBadge': !success}" ></i>
+                    </div>
+                    <div class="ms-MessageBar-actionables">
+                        <div class="ms-MessageBar-text">
+                            {{createTextSummary()}}<span id="duration-label">{{apiResponse.duration}}ms</span>
+                        </div>
+                    </div>
+                    <div class="ms-MessageBar-actionsOneline">
+                        <div id="dismiss-btn" class="ms-MessageBar-icon">
+                            <a href="#" ng-click="clearLastCallMessage()"><i class="ms-Icon ms-Icon--Cancel"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        }
+        
+    });

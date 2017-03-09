@@ -1,7 +1,8 @@
 import { parseMetadata, constructGraphLinksFromFullPath } from '../graph-structure'
 import { apiService } from '../api-explorer-svc'
 import { formatRequestHeaders } from "../api-explorer-helpers";
-import { HistoryRecord, saveHistoryObject, fetchRequestHistory, clearRequestHistory } from "../history";
+import { saveHistoryObject, fetchRequestHistory, clearRequestHistory } from "../history";
+import { HistoryRecord } from "../base";
 
 describe("Graph Structural Tests", function() {
 
@@ -168,33 +169,35 @@ describe("Graph Structural Tests", function() {
       it ('A POST to /v2.5/me is saved', function() {
           //create an object to store the api call
           const historyObj:HistoryRecord = {
-            urlText: "https://graph.microsoft.com/v1.0/me/",
+            requestUrl: "https://graph.microsoft.com/v1.0/me/",
             selectedVersion: "v2.5",
-            htmlOption: "POST"
+            method: "POST",
+            statusCode: 400
           };
 
-          saveHistoryObject(historyObj, 400);
+          saveHistoryObject(historyObj);
 
           const savedHistoryObj = fetchRequestHistory().pop();
-          chai.assert.equal(savedHistoryObj.htmlOption, historyObj.htmlOption)
+          chai.assert.equal(savedHistoryObj.method, historyObj.method)
           chai.assert.equal(savedHistoryObj.selectedVersion, historyObj.selectedVersion)
-          chai.assert.equal(savedHistoryObj.urlText, historyObj.urlText)
+          chai.assert.equal(savedHistoryObj.requestUrl, historyObj.requestUrl)
           chai.assert.equal(savedHistoryObj.duration, historyObj.duration)
       });
 
       it ('A GET to /beta/me is saved', function() {
           //create an object to store the api call
           const historyObj:HistoryRecord = {
-            urlText: "https://graph.microsoft.com/beta/me/",
+            requestUrl: "https://graph.microsoft.com/beta/me/",
             selectedVersion: "v2.5",
-            htmlOption: "GET"
+            method: "GET",
+            statusCode: 200
           };
-          saveHistoryObject(historyObj, 200);
+          saveHistoryObject(historyObj);
 
           const savedHistoryObj = fetchRequestHistory().pop();
-          chai.assert.equal(savedHistoryObj.htmlOption, historyObj.htmlOption)
+          chai.assert.equal(savedHistoryObj.method, historyObj.method)
           chai.assert.equal(savedHistoryObj.selectedVersion, historyObj.selectedVersion)
-          chai.assert.equal(savedHistoryObj.urlText, historyObj.urlText)
+          chai.assert.equal(savedHistoryObj.requestUrl, historyObj.requestUrl)
           chai.assert.equal(savedHistoryObj.duration, historyObj.duration)
       });
   });

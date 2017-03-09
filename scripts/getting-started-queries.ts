@@ -1,6 +1,6 @@
-import { Query } from "./api-explorer-svc";
+import { GraphApiCall } from "./base";
 
-export const GettingStartedQueries: Query[] = [
+export const GettingStartedQueries: GraphApiCall[] = [
     {
         humanName: "my profile",
         method: "GET",

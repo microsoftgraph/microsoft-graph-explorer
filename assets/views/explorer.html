@@ -1,10 +1,10 @@
 <!-- Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information. -->
 
 <div ng-app="ApiExplorer" ng-controller="ApiExplorerCtrl" role="document" id="api-explorer-app">
-    <form ng-controller="FormCtrl" ng-cloak>
+    <form>
     <div class="ms-Grid"> 
         <div class="ms-Grid-row">
-            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl2" id="explorer-sidebar">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2" id="explorer-sidebar">
                 <div class="arrow-left"></div>
                 <div class="c-drawer">
                     <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
@@ -29,9 +29,7 @@
                         <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{::getAssetPath('assets/images/rocket1.svg')}}"/>Getting Started</span></button>
                     <div id="refineDrawer" class="panel-content">
                         <div getting-started>
-                            <div ng-repeat="query in queries" class="api-query" ng-click="runQuery(query)">
-                                <span class="request-badge" ng-class="query.method">{{query.method}}</span><span>{{query.humanName}}</span>
-                            </div>
+                            <query-row query="query" ng-repeat="query in queries"></query-row>
                         </div>
                     </div>
                 </div>
@@ -44,16 +42,17 @@
                 </div>
 
                 <div class="c-drawer">
-                    <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
-                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" title="FavoriteList" aria-hidden="true"></i>History</span></button>
-                    <div id="refineDrawer">
+                    <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
+                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>History</span></button>
+                    <div id="historyDrawer" class="panel-content">
+                        <query-row query="query" ng-repeat="query in getRequestHistory() track by query.requestId"></query-row>
                     </div>
                 </div>
 
             </div>
-            <div class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl10" id="explorer-main">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10" id="explorer-main">
         
-        <div ng-controller="datalistCtrl" role="form">
+        <div>
             <div layout="row" layout-align="start center">
                 <!-- History button -->
                 <!--<md-menu md-offset="0 45" ng-cloak>
@@ -152,36 +151,40 @@
         </div>
 
         <!-- request -->
-        <md-tabs md-dynamic-height md-selected="tabConfig.selected" ng-cloak ng-class="{'hideTabContent':tabConfig.hideContent}">
-            <md-tab label="{{::str['request header']}}" md-on-select="onTabSelected(0)" ng-click="processTabClick(tabConfig.selected)">
-                <md-tab-body>
-                    <div id="jsonEditorHeaders"></div>
-                </md-tab-body>
-            </md-tab>
-            <md-tab label="{{::str['request body']}}" md-on-select="onTabSelected(1)" ng-click="processTabClick(tabConfig.selected)" ng-disabled="tabConfig.disableRequestBodyEditor">
-                <md-tab-body>
-                    <div id="requestBodyContainer">
-                        <div id="jsonEditor"></div>
-                    </div>
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
+        <div class="ms-Pivot ">
+            <ul class="ms-Pivot-links">
+                <li class="ms-Pivot-link is-selected" ng-click="onTabSelected(0)" data-content="headers" title="{{::str['request header']}}" tabindex="1">
+                    {{::str['request header']}}
+                </li>
+                <li class="ms-Pivot-link" ng-click="onTabSelected(1)" data-content="body" title="{{::str['request body']}}" tabindex="1">
+                    {{::str['request body']}}
+                </li>
+            </ul>
+            <div class="ms-Pivot-content" data-content="headers">
+                <div id="jsonEditorHeaders"></div>
+            </div>
+            <div class="ms-Pivot-content" data-content="body">
+                <div id="requestBodyContainer">
+                    <div id="jsonEditor"></div>
+                </div>
+            </div>
+        </div>
 
         <!-- response -->
-        <md-tabs md-dynamic-height ng-cloak>
-            <md-tab label="{{::str['response']}}">
-                <md-tab-body>
+        <div class="ms-Pivot" id="response-viewer-labels">
+            <ul class="ms-Pivot-links">
+                <li class="ms-Pivot-link is-selected" data-content="response" title="{{str['Response']}}" tabindex="1">
+                    {{str['Response']}}
+                </li>
+            </ul>
+            <div class="ms-Pivot-content" data-content="response">
+                <div>
                     <img id="img" width="250px" height="250px" ng-show="showImage" style="margin-top:10px" ng-cloak />
                     <div id="jsonViewer"></div>
 
                     <!--<svg id="visual-explorer" width="1200" height="1000"/></svg>-->
-                    
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
-    </form>
+                </div>
             </div>
         </div>
-    </div>
-    
+    </form>
 </div>

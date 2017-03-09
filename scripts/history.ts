@@ -1,15 +1,7 @@
-export let requestHistory:HistoryRecord[] = [];
 
-export interface HistoryRecord {
-    successful?: boolean,
-    statusCode?: number,
-    duration?: number,
-    requestId?: string,
-    urlText?: string,
-    selectedVersion?: string,
-    htmlOption?: string,
-    jsonInput?: string
-}
+import { HistoryRecord } from "./base";
+
+export let requestHistory: HistoryRecord[] = [];
 
 const LocalStorageKeyGraphRequestHistory = "GRAPH_REQUEST_HISTORY";
 
@@ -27,9 +19,8 @@ function loadHistoryFromLocalStorage() {
     requestHistory = JSON.parse(possibleHistory);
 }
 
-export function saveHistoryObject(historyObject:HistoryRecord, statusCode: number) {
-    historyObject.successful = statusCode >= 200 && statusCode < 300;
-    historyObject.statusCode = statusCode;
+export function saveHistoryObject(historyObject:HistoryRecord) {
+    historyObject.successful = historyObject.statusCode >= 200 && historyObject.statusCode < 300;
     historyObject.requestId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
 
     requestHistory.splice(0, 0, historyObject); //add history object to the array

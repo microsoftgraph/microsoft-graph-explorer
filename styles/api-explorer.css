@@ -206,19 +206,14 @@ html[dir=rtl] .ms-MessageBar-innerTextPadding span {
 
 
 #jsonViewer {
-    position: relative;
     height: 60vh;
     background: rgb(230, 230, 230);
     border: 1px solid #ccc;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
-    margin-top: 10px;
 }
 
 #jsonEditor, #jsonEditorHeaders {
-    position: relative;
     height: 20vh;
     border: 1px solid #ccc;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important; 
     margin-top: 10px;
 }
 
@@ -329,7 +324,7 @@ md-autocomplete-wrap input:focus {
 
 #explorer-sidebar {
     background: #2F2F2F!important;
-    height: 820px;
+    height: 1024px;
     /*height: 100%;*/
     color: white;
 }
@@ -438,14 +433,27 @@ button.c-glyph {
 
 .api-query .request-badge {
     border: 1px solid gray;
-    min-width: 50px;
+    min-width: 55px;
     display: inline-block;
     padding: 2px;
     text-align: center;
     margin-right: 15px;
 }
+
 .request-badge.GET {
-    background-color: #000fdf  
+    background-color: #000fdf
+}
+
+.request-badge.POST {
+    background-color: #008412
+}
+
+.request-badge.PATCH {
+    background-color: #be8b00
+}
+
+.request-badge.DELETE {
+    background-color: #a10000  
 }
 
 #getting-started-svg {
@@ -521,4 +529,22 @@ span#duration-label {
 
 md-autocomplete-wrap.md-menu-showing {
     border-bottom: none !important;
+}
+
+.ms-Pivot *:focus {
+    outline: none;
+}
+
+.ace_editor {
+    box-shadow: none !important;
+    position: relative;
+}
+
+
+#response-viewer-labels {
+    margin-top: 20px;
+}
+
+#response-viewer-labels .ms-Pivot-link.is-selected:before {
+    background: none;
 }
