@@ -334,6 +334,10 @@ md-autocomplete-wrap input:focus {
         height: auto;
         padding-bottom: 30px;
     }
+
+    #explorer-main {
+        padding-top: 20px;
+    }
     
     #responseMessage .ms-MessageBar {
         width: 100% !important;
@@ -547,4 +551,27 @@ md-autocomplete-wrap.md-menu-showing {
 
 #response-viewer-labels .ms-Pivot-link.is-selected:before {
     background: none;
+}
+
+
+
+/* make url bar responsive*/
+#request-bar-row-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+#request-bar-row-form::after {
+  content: '';
+  width: 100%;
+}
+
+
+@media (max-width: 639px) {
+    .bump-flex-row-mobile {
+        order: 1;
+        margin: 0px auto;
+    }
+    md-autocomplete {
+        min-width: 100% !important;
+    }
 }
