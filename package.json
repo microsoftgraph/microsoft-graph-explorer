@@ -8,7 +8,7 @@
     "build": "gulp build",
     "serve": "node static-server.js",
     "test": "mocha-phantomjs --ignore-ssl-errors=true --ssl-protocol=any http://localhost:3000/spec/GraphExplorerBrowserTests.html",
-    "postinstall": "bower install && npm run build"
+    "postinstall": "bower install"
   },
   "author": "",
   "devDependencies": {
