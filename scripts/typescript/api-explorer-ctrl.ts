@@ -250,6 +250,8 @@ angular.module('ApiExplorer')
 angular.module('ApiExplorer').controller('datalistCtrl', ['$scope', 'ApiExplorerSvc', function ($scope, apiService) {
 
     $scope.searchTextChange = function(searchText) {
+        if (typeof searchText === 'undefined')
+            return;
         apiService.text = searchText;
 
         // if the user typed in a different version, change the dropdown
