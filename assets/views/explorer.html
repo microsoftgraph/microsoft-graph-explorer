@@ -10,15 +10,26 @@
                     <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
                          <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" title="FavoriteList" aria-hidden="true"></i>Authentication</span></button>
                     <div id="authDrawer" class="panel-content">
-                        <div ng-hide="isAuthenticated()">
+                        <div ng-show="authenticationStatus == 'anonymous'">
                             <div tabindex=0>{{::str['Using demo tenant']}}</div>
                             <div tabindex=0>{{::str['To access your own data:']}}</div>
                             <img id="ms-signin-button" alt="{{::str['sign in']}}" src="{{::getAssetPath('assets/images/MSSignInButton.svg')}}" ng-click="login()"/>
                         </div>
-                        <div ng-show="isAuthenticated()" ng-cloak>
-                            <span id='userEmail' ng-if="userInfo.preferred_username" tabindex=0>{{userInfo.preferred_username}}</span>
+                        <div ng-show="authenticationStatus == 'authenticating'" class="ms-Spinner ms-Spinner--large"></div>
+                        <div ng-show="authenticationStatus == 'authenticated'" ng-cloak>
+                            <div class="ms-Persona">
+                                <div class="ms-Persona-imageArea">
+                                    <img class="ms-Persona-image" ng-src="{{userInfo.profileImageUrl}}">
+                                </div>
+                                <div class="ms-Persona-details">
+                                    <div class="ms-Persona-primaryText" id='userDisplayName' ng-if="userInfo.displayName">{{userInfo.displayName}}</div>
+                                    <div class="ms-Persona-secondaryText" id='userMail' ng-if="userInfo.mail">{{userInfo.mail}}</div>
+                                </div>
+                            </div>
                             <br />
                             <button type="submit" id="signout" class="c-button" tabindex=0 ng-click="logout()">{{::str['sign out']}}</button>
+                            
+                            <!--<a href="#" role="button" id="signout" class="c-button f-lightweight" tabindex=0 ng-click="logout()">{{::str['sign out']}}</a>-->
                         </div>
                     </div>
                 </div>
@@ -34,18 +45,18 @@
                     </div>
                 </div>
 
-                <div class="c-drawer">
+                <!--<div class="c-drawer">
                     <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
                          <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--FavoriteList" title="FavoriteList" aria-hidden="true"></i>My Queries</span></button>
                     <div id="refineDrawer">
                     </div>
-                </div>
+                </div>-->
 
                 <div class="c-drawer">
                     <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
                          <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>History</span></button>
                     <div id="historyDrawer" class="panel-content">
-                        <query-row query="query" ng-repeat="query in getRequestHistory() track by query.requestId"></query-row>
+                        <query-row query="query" ng-repeat="query in getRequestHistory(5) track by query.requestId"></query-row>
                     </div>
                 </div>
 
@@ -55,7 +66,7 @@
         <div>
             <div id="request-bar-row-form" layout="row" layout-align="start center">
                 <!-- HTTP METHOD -->
-                <div class="c-select f-border first-row-mobile bump-flex-row-mobile" http-method-select>
+                <div title="{{isAuthenticated() ? null : str['login to send requests']}}" class="c-select f-border first-row-mobile bump-flex-row-mobile" http-method-select>
                     <select ng-model="apiService.selectedOption" ng-disabled="!isAuthenticated()">
                         <option ng-repeat="choice in methods">{{choice}}</option>
                     </select>

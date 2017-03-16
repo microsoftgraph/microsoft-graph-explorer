@@ -9,8 +9,8 @@ export function initAuth(authUrl) {
 		msft: {
 			oauth: {
 				version: 2,
-				auth: authUrl + '/organizations/oauth2/v2.0/authorize',
-				grant: authUrl + '/organizations/oauth2/v2.0/token'
+				auth: authUrl + '/common/oauth2/v2.0/authorize',
+				grant: authUrl + '/common/oauth2/v2.0/token'
 			},
 			scope_delim: ' ',
 

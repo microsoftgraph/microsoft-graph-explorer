@@ -3,7 +3,7 @@ import { HistoryRecord } from "./base";
 
 export let requestHistory: HistoryRecord[] = [];
 
-const LocalStorageKeyGraphRequestHistory = "GRAPH_REQUEST_HISTORY";
+const LocalStorageKeyGraphRequestHistory = "GRAPH_V3_REQUEST_HISTORY";
 
 function saveHistoryToLocalStorage() {
     localStorage.setItem(LocalStorageKeyGraphRequestHistory, JSON.stringify(requestHistory));

@@ -575,3 +575,13 @@ md-autocomplete-wrap.md-menu-showing {
         min-width: 100% !important;
     }
 }
+
+
+/*auth area*/
+#userDisplayName {
+    color: white
+}
+
+#userMail {
+    color: #c7c7c7;
+}

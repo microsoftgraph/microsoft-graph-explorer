@@ -17,11 +17,24 @@ import { HistoryRecord, GraphApiCall } from "./base";
 
 declare const angular, hello, fabric;
 
+type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
+
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce) {
         var PivotElements = document.querySelectorAll(".ms-Pivot");
         for(var i = 0; i < PivotElements.length; i++) {
             new fabric['Pivot'](PivotElements[i]);
+        }
+
+        if (typeof fabric !== "undefined") {
+            if ('Spinner' in fabric) {
+                var elements = document.querySelectorAll('.ms-Spinner');
+                var i = elements.length;
+                var component;
+                while(i--) {
+                    component = new fabric['Spinner'](elements[i]);
+                }
+            }
         }
 
         initBodyPostEditor();
@@ -32,6 +45,7 @@ angular.module('ApiExplorer')
         apiService.init($http);
 
         $scope.userInfo = {};
+        $scope.authenticationStatus = "anonymous"
 
         $scope.getAssetPath = (relPath) => {
             return $scope.pathToBuildDir + "/"+ relPath;
@@ -58,6 +72,12 @@ angular.module('ApiExplorer')
             });
         }
 
+
+        hello.on('auth.logout', function (auth) {
+            $scope.authenticationStatus = "anonymous"
+            $scope.$apply();
+        });
+
         hello.on('auth.login', function (auth) {
             let accessToken;
 
@@ -70,19 +90,31 @@ angular.module('ApiExplorer')
             }
 
             if (accessToken) {
+                $scope.authenticationStatus = "authenticating"
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
 
-                apiService.performQuery("GET")(`${GraphExplorerOptions.GraphUrl}/v1.0/me`)
+                let promisesGetUserInfo = [];
+                $scope.userInfo = {}
 
-                    .then(function (result) {
-                        let resultBody = result.data;
+                // get displayName and email
+                promisesGetUserInfo.push(apiService.performQuery("GET")(`${GraphExplorerOptions.GraphUrl}/v1.0/me`).then((result) => {
+                    let resultBody = result.data;
 
-                        $scope.userInfo = {
-                            preferred_username: resultBody.mail
-                        }
-                    }, function(res) {
-                        console.error(res);
-                    });
+                    $scope.userInfo.displayName = resultBody.displayName;
+                    $scope.userInfo.mail = resultBody.mail;
+                }));
+
+                // get profile image
+                promisesGetUserInfo.push(apiService.performQuery('GET_BINARY')(`${GraphExplorerOptions.GraphUrl}/beta/me/photo/$value`).then((result) => {
+                        let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
+                        let imageUrl = window.URL.createObjectURL( blob );
+                        $scope.userInfo.profileImageUrl = imageUrl;
+                }));
+
+                Promise.all(promisesGetUserInfo).then(() => {
+                    $scope.authenticationStatus = "authenticated"
+                    $scope.$apply();
+                })
             }
 
         });
@@ -126,8 +158,7 @@ angular.module('ApiExplorer')
                 display: 'page',
                 response_type: "id_token token",
                 nonce: 'graph_explorer',
-                prompt: 'select_account',
-                msafed: 0
+                prompt: 'select_account'
             }, function(res) {
 
             }, function() {
@@ -214,7 +245,8 @@ angular.module('ApiExplorer')
     }
     $scope.searchTextChange = searchTextChange;
 
-    $scope.getRequestHistory = () => {
+    $scope.getRequestHistory = (limit?) => {
+        if (limit) return requestHistory.slice(0, limit);
         return requestHistory;
     }
 
