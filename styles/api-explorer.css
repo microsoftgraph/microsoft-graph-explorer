@@ -433,6 +433,9 @@ button.c-glyph {
     left: 0;
     text-align: left;
     width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .api-query .request-badge {
@@ -585,3 +588,8 @@ md-autocomplete-wrap.md-menu-showing {
 #userMail {
     color: #c7c7c7;
 }
+
+#authenticating-progress-bar {
+    margin: 0px auto;
+}
+

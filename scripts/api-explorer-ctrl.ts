@@ -14,6 +14,7 @@ import {initializeJsonViewer} from "./api-explorer-jsviewer"
 
 import { GettingStartedQueries } from "./getting-started-queries";
 import { HistoryRecord, GraphApiCall } from "./base";
+import { isAuthenticated } from "./auth";
 
 declare const angular, hello, fabric;
 
@@ -45,7 +46,7 @@ angular.module('ApiExplorer')
         apiService.init($http);
 
         $scope.userInfo = {};
-        $scope.authenticationStatus = "anonymous"
+        $scope.authenticationStatus = isAuthenticated() ? "authenticating" : "anonymous"
 
         $scope.getAssetPath = (relPath) => {
             return $scope.pathToBuildDir + "/"+ relPath;
@@ -144,13 +145,7 @@ angular.module('ApiExplorer')
             initializeJsonViewer();
         });
 
-        $scope.isAuthenticated = function() {
-            var session = hello('msft').getAuthResponse();
-
-            if (session === null) return false;
-            var currentTime = (new Date()).getTime() / 1000;
-            return session && session.access_token && session.expires > currentTime;
-        };
+        $scope.isAuthenticated = isAuthenticated;
 
         // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
         $scope.login = function () {
@@ -495,6 +490,7 @@ angular.module('ApiExplorer')
                     element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
                 }, true);
 
+                debugger;
                 element[0].mwfInstances.t.selectMenu.subscribe({
                     onSelectionChanged: (version) => {
                         apiService.selectedVersion = version.id;
@@ -515,7 +511,7 @@ angular.module('ApiExplorer')
                 query: '='
             }, template: `
             <div class="api-query" ng-click="runQuery(query)">
-                <span class="request-badge" ng-class="query.method">{{query.method}}</span><span>{{getQueryText()}}</span>
+                <span class="request-badge" ng-class="query.method">{{query.method}}</span><span ng-attr-title="{{::getQueryText()}}" class="query">{{::getQueryText()}}</span>
             </div>`,
             controller: ($scope) => {
                 const query = $scope.query as GraphApiCall;

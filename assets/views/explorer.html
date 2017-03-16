@@ -15,7 +15,15 @@
                             <div tabindex=0>{{::str['To access your own data:']}}</div>
                             <img id="ms-signin-button" alt="{{::str['sign in']}}" src="{{::getAssetPath('assets/images/MSSignInButton.svg')}}" ng-click="login()"/>
                         </div>
-                        <div ng-show="authenticationStatus == 'authenticating'" class="ms-Spinner ms-Spinner--large"></div>
+                        <div ng-show="authenticationStatus == 'authenticating'">
+                            <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
                         <div ng-show="authenticationStatus == 'authenticated'" ng-cloak>
                             <div class="ms-Persona">
                                 <div class="ms-Persona-imageArea">

@@ -42,3 +42,11 @@ export function initAuth(authUrl) {
 		}
 	});
 }
+
+export function isAuthenticated():boolean {
+	var session = hello('msft').getAuthResponse();
+
+	if (session === null) return false;
+	var currentTime = (new Date()).getTime() / 1000;
+	return session && session.access_token && session.expires > currentTime;
+};
