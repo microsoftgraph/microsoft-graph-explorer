@@ -490,7 +490,6 @@ angular.module('ApiExplorer')
                     element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
                 }, true);
 
-                debugger;
                 element[0].mwfInstances.t.selectMenu.subscribe({
                     onSelectionChanged: (version) => {
                         apiService.selectedVersion = version.id;

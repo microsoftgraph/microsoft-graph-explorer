@@ -325,6 +325,7 @@ md-autocomplete-wrap input:focus {
 #explorer-sidebar {
     background: #2F2F2F!important;
     height: 1024px;
+    padding: 0px;
     /*height: 100%;*/
     color: white;
 }
@@ -400,12 +401,13 @@ button.c-glyph {
     font-family: "Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
     display: inline-block;
     padding: 0px;
+    padding-left: 6px;
     font-weight: 100;
 }
 
 #explorer-sidebar .panel-content {
-    padding-left: 29px;
-    font-size: 14px;
+    padding-left: 46px;
+    font-size: 13px;
 }
 
 #explorer-sidebar .panel-header i.ms-Icon{
@@ -417,8 +419,8 @@ button.c-glyph {
     content:none;
 }
 
-.api-query:hover {
-    background: rgba(0,0,0,.1);
+.api-query:hover, .c-drawer>button:hover {
+    background: rgba(0,0,0,0.25);
 }
 
 .api-query {
@@ -428,14 +430,15 @@ button.c-glyph {
     display: block;
     border: 0;
     background: 0 0;
-    font-weight: 600;
-    padding: 5px 36px 5px 12px;
+    font-weight: 500;
+    padding: 5px 5px 5px 12px;
     left: 0;
     text-align: left;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    margin-left: -26px;
 }
 
 .api-query .request-badge {
@@ -445,6 +448,7 @@ button.c-glyph {
     padding: 2px;
     text-align: center;
     margin-right: 15px;
+    font-weight: 600;
 }
 
 .request-badge.GET {
@@ -471,7 +475,7 @@ button.c-glyph {
 
 #ms-signin-button {
     max-width: 215px;
-    margin: 20px 0;
+    margin: 20px 0 0px 0px;
     cursor: pointer;
 }
 
@@ -582,14 +586,23 @@ md-autocomplete-wrap.md-menu-showing {
 
 /*auth area*/
 #userDisplayName {
-    color: white
+    color: #e2e2e2
 }
 
 #userMail {
-    color: #c7c7c7;
+    color: #a0a0a0;
 }
 
 #authenticating-progress-bar {
     margin: 0px auto;
 }
 
+
+span#explorer-title {
+    margin-left: 40px;
+    margin-top: 14px;
+}
+
+.c-drawer {
+    padding-bottom: 5px;
+}
