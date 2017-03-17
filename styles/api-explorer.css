@@ -606,3 +606,28 @@ span#explorer-title {
 .c-drawer {
     padding-bottom: 5px;
 }
+
+.c-progress.f-indeterminate-local span:after {
+    background: white;
+}
+
+.api-query .status-code.success {
+    color: #05f505;
+}
+
+.api-query .status-code.error {
+    color: #ef0000;
+}
+
+.api-query .date {
+    display: none;
+}
+
+
+.history-row-2 {
+    margin-left: 69px;
+}
+
+.api-query .duration {
+    float: right;
+}

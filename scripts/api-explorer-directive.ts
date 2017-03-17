@@ -60,6 +60,12 @@ if (!runInTestMode) {
 
                 $scope.str = loc_strings[GraphExplorerOptions.Language];
 
+                $scope.getStr = (label:string):string => {
+                    if (label in loc_strings[GraphExplorerOptions.Language])
+                        return loc_strings[GraphExplorerOptions.Language][label];
+                    return loc_strings["en-US"][label];
+                }
+
                 hello.init({
                     msft: GraphExplorerOptions.ClientId
                 }, {

@@ -14,5 +14,6 @@ export interface HistoryRecord extends GraphApiCall {
     successful?: boolean,
     requestId?: string,
     selectedVersion?: string,
-    jsonInput?: string
+    jsonInput?: string,
+    requestSentAt?: Date
 }

@@ -508,9 +508,14 @@ angular.module('ApiExplorer')
         return {
             scope: {
                 query: '='
-            }, template: `
+            }, 
+            transclude: true,
+            template: `
             <div class="api-query" ng-click="runQuery(query)">
-                <span class="request-badge" ng-class="query.method">{{query.method}}</span><span ng-attr-title="{{::getQueryText()}}" class="query">{{::getQueryText()}}</span>
+                <div class="row-1">
+                    <span class="request-badge" ng-class="query.method">{{query.method}}</span><span ng-attr-title="{{::getQueryText()}}" class="query">{{::getQueryText()}}</span>
+                </div>
+                <ng-transclude></ng-transclude>
             </div>`,
             controller: ($scope) => {
                 const query = $scope.query as GraphApiCall;

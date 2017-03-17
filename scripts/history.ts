@@ -20,6 +20,7 @@ function loadHistoryFromLocalStorage() {
 }
 
 export function saveHistoryObject(historyObject:HistoryRecord) {
+    historyObject.requestSentAt = new Date();
     historyObject.successful = historyObject.statusCode >= 200 && historyObject.statusCode < 300;
     historyObject.requestId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
 

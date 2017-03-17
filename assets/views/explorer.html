@@ -7,16 +7,16 @@
             <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2" id="explorer-sidebar">
                 <div class="arrow-left"></div>
                 <div>
-                    <span id="explorer-title" class="c-heading-3 panel-header">Graph Explorer</span>
+                    <span id="explorer-title" class="c-heading-3 panel-header">{{::getStr(['Graph Explorer'])}}</span>
                 </div>
                 <div class="c-drawer">
                     <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
-                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" title="FavoriteList" aria-hidden="true"></i>Authentication</span></button>
+                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" title="FavoriteList" aria-hidden="true"></i>{{::getStr(['Authentication'])}}</span></button>
                     <div id="authDrawer" class="panel-content">
                         <div ng-show="authenticationStatus == 'anonymous'">
-                            <div tabindex=0>{{::str['Using demo tenant']}}</div>
-                            <div tabindex=0>{{::str['To access your own data:']}}</div>
-                            <img id="ms-signin-button" alt="{{::str['sign in']}}" src="{{::getAssetPath('assets/images/MSSignInButton.svg')}}" ng-click="login()"/>
+                            <div tabindex=0>{{::getStr(['Using demo tenant'])}}</div>
+                            <div tabindex=0>{{::getStr(['To access your own data:'])}}</div>
+                            <img id="ms-signin-button" alt="{{::getStr(['sign in'])}}" src="{{::getAssetPath('assets/images/MSSignInButton.svg')}}" ng-click="login()"/>
                         </div>
                         <div ng-show="authenticationStatus == 'authenticating'">
                             <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
@@ -38,9 +38,9 @@
                                 </div>
                             </div>
                             <br />
-                            <button type="submit" id="signout" class="c-button" tabindex=0 ng-click="logout()">{{::str['sign out']}}</button>
+                            <button type="submit" id="signout" class="c-button" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</button>
                             
-                            <!--<a href="#" role="button" id="signout" class="c-button f-lightweight" tabindex=0 ng-click="logout()">{{::str['sign out']}}</a>-->
+                            <!--<a href="#" role="button" id="signout" class="c-button f-lightweight" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</a>-->
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="c-drawer">
                     <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
                         
-                        <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{::getAssetPath('assets/images/rocket1.svg')}}"/>Getting Started</span></button>
+                        <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{::getAssetPath('assets/images/rocket1.svg')}}"/>{{::getStr(['Getting Started'])}}</span></button>
                     <div id="refineDrawer" class="panel-content">
                         <div getting-started>
                             <query-row query="query" ng-repeat="query in queries"></query-row>
@@ -65,9 +65,15 @@
 
                 <div class="c-drawer">
                     <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
-                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>History</span></button>
+                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{::getStr(['History'])}}</span></button>
                     <div id="historyDrawer" class="panel-content">
-                        <query-row query="query" ng-repeat="query in getRequestHistory(5) track by query.requestId"></query-row>
+                        <query-row query="query" ng-repeat="query in getRequestHistory(5) track by query.requestId">
+                            <div class="history-row-2">
+                                <span class="date">{{::query.requestSentAt}} ms</span>
+                                <span class="status-code"  ng-class="{'success': query.successful, 'error': !query.successful}">{{::query.statusCode}}</span>
+                                <span class="duration">{{::query.duration}} ms</span>
+                            </div>
+                        </query-row>
                     </div>
                 </div>
 
@@ -77,7 +83,7 @@
         <div>
             <div id="request-bar-row-form" layout="row" layout-align="start center">
                 <!-- HTTP METHOD -->
-                <div title="{{isAuthenticated() ? null : str['login to send requests']}}" class="c-select f-border first-row-mobile bump-flex-row-mobile" http-method-select>
+                <div title="{{isAuthenticated() ? null : getStr(['login to send requests'])}}" class="c-select f-border first-row-mobile bump-flex-row-mobile" http-method-select>
                     <select ng-model="apiService.selectedOption" ng-disabled="!isAuthenticated()">
                         <option ng-repeat="choice in methods">{{choice}}</option>
                     </select>
@@ -106,7 +112,7 @@
                 <!--Submit button-->                    
                 <!--</button>-->
                 <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" ng-click="submit(searchText)">
-                    <span ng-hide="requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>Run Query</span>
+                    <span ng-hide="requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>{{::getStr(['Run Query'])}}</span>
                     <md-progress-circular md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular>
                 </button>
             
@@ -114,7 +120,7 @@
                 <!--<md-button class="md-icon-button" aria-label="Share" ng-click="showShareDialog($event)">
                     <md-icon md-svg-icon="{{::getAssetPath('assets/images/share-square-o.svg')}}"></md-icon>
                     <md-tooltip aria-label="history" md-direction="top" ng-cloak>
-                        {{::str['Share Query']}}
+                        {{::getStr(['Share Query'])}}
                     </md-tooltip>
                 </md-button>-->
             </div>
@@ -138,11 +144,11 @@
         <!-- request -->
         <div class="ms-Pivot ">
             <ul class="ms-Pivot-links">
-                <li class="ms-Pivot-link is-selected" ng-click="onTabSelected(0)" data-content="headers" title="{{::str['request header']}}" tabindex="1">
-                    {{::str['request header']}}
+                <li class="ms-Pivot-link is-selected" ng-click="onTabSelected(0)" data-content="headers" title="{{::getStr(['request header'])}}" tabindex="1">
+                    {{::getStr(['request header'])}}
                 </li>
-                <li class="ms-Pivot-link" ng-click="onTabSelected(1)" data-content="body" title="{{::str['request body']}}" tabindex="1">
-                    {{::str['request body']}}
+                <li class="ms-Pivot-link" ng-click="onTabSelected(1)" data-content="body" title="{{::getStr(['request body'])}}" tabindex="1">
+                    {{::getStr(['request body'])}}
                 </li>
             </ul>
             <div class="ms-Pivot-content" data-content="headers">
@@ -158,8 +164,8 @@
         <!-- response -->
         <div class="ms-Pivot" id="response-viewer-labels">
             <ul class="ms-Pivot-links">
-                <li class="ms-Pivot-link is-selected" data-content="response" title="{{str['Response']}}" tabindex="1">
-                    {{str['Response']}}
+                <li class="ms-Pivot-link is-selected" data-content="response" title="{{getStr(['Response'])}}" tabindex="1">
+                    {{getStr(['Response'])}}
                 </li>
             </ul>
             <div class="ms-Pivot-content" data-content="response">
