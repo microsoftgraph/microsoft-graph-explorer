@@ -504,6 +504,9 @@ span#duration-label {
     padding-left: 15px;
 }
 
+#authDrawer {
+    min-height: 96px;
+}
 
 /* frontdoor style conflicts */
 #auth-drawer-button {
