@@ -470,6 +470,7 @@ button.c-glyph {
 #getting-started-svg {
     display: inline-block;
     width: 29px;
+    height: 29px;
     margin: -2px 4px 2px -4px;
 }
 
@@ -647,5 +648,9 @@ span#explorer-title {
 }
 
 .c-select:after {
+    display: none;
+}
+
+md-autocomplete button:after {
     display: none;
 }
