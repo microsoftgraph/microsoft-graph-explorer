@@ -620,7 +620,7 @@ span#explorer-title {
 }
 
 .api-query .status-code.error {
-    color: #ef0000;
+    color: #f7688d;
 }
 
 .api-query .date {
@@ -641,6 +641,7 @@ span#explorer-title {
     max-width: 100%;
     display: block;
     text-align: right;
+    color: #00bcf2;
 }
 
 .user-no-image .ms-Persona-details {
