@@ -16,7 +16,7 @@ import { GettingStartedQueries } from "./getting-started-queries";
 import { HistoryRecord, GraphApiCall } from "./base";
 import { isAuthenticated } from "./auth";
 
-declare const angular, hello, fabric;
+declare const angular, hello, fabric, mwf;
 
 type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
@@ -48,6 +48,23 @@ angular.module('ApiExplorer')
                     DialogComponents[i] = new fabric['Dialog'](DialogElements[i]);
                 }());
             }
+            $timeout(() => {
+                var PanelExampleButton = document.querySelector("#show-full-history");
+                var PanelExamplePanel = document.querySelector("#history-panel");
+                PanelExampleButton.addEventListener("click", (i) => {
+                    new fabric['Panel'](PanelExamplePanel);
+                    (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
+                });
+
+                $scope.closeHistoryPanel = () => {
+                    $("#history-panel .ms-Panel-closeButton").trigger("click");
+                };
+
+            }, 0);
+            var TableElements = document.querySelectorAll(".ms-Table");
+    for(var i = 0; i < TableElements.length; i++) {
+        new fabric['Table'](TableElements[i]);
+    }
         }
         
 
@@ -452,7 +469,7 @@ angular.module('ApiExplorer')
             });
         };
     });
-declare const mwf:any;
+
 angular.module('ApiExplorer')
     .directive('httpMethodSelect', function($timeout) {
         return function(scope, element, attrs) {
@@ -464,6 +481,12 @@ angular.module('ApiExplorer')
                 'PATCH',
                 'DELETE'
             ];
+
+            scope.$watch("apiService.selectedOption", (newValue, oldValue) => {
+                if (oldValue === newValue) return;
+                const idx = scope.methods.indexOf(newValue);
+                element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
+            }, true);
 
             $timeout(() => {
                 mwf.ComponentFactory.create([{

@@ -330,6 +330,10 @@ md-autocomplete-wrap input:focus {
     color: white;
 }
 
+#explorer-sidebar .c-hyperlink {
+    color: #00bcf2;
+}
+
 @media (max-width: 639px) {
     #explorer-sidebar {
         height: auto;
@@ -641,8 +645,9 @@ span#explorer-title {
     max-width: 100%;
     display: block;
     text-align: right;
-    color: #00bcf2;
 }
+
+
 
 .user-no-image .ms-Persona-details {
     padding-left: 0;
@@ -674,4 +679,13 @@ div#share-link-dialog {
 
 .api-query .row-1 {
     display: inline;
+}
+
+a#show-full-history {
+    float: right;
+    margin-right: 27px;
+}
+
+.ms-Table-row.is-selected, .ms-Table tr.is-selected {
+    background-color: inherit;
 }
