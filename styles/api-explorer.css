@@ -670,3 +670,7 @@ md-autocomplete button:after {
 div#share-link-dialog {
     min-width: 35%;
 }
+
+.api-query .row-1 {
+    display: inline;
+}
