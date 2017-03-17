@@ -5,7 +5,8 @@
 'use strict';
 import {GraphExplorerOptions} from './api-explorer-directive'
 import {apiService} from "./api-explorer-svc"
-import {showRequestHeaders, getRequestBodyEditor, initializeAceEditor} from './api-explorer-jseditor'
+import { showRequestHeaders, getRequestBodyEditor, initializeAceEditor } from './api-explorer-jseditor'
+import { loc_strings } from "./loc_strings";
 
 
 declare const hello;
@@ -78,4 +79,10 @@ export function handleQueryString(actionValue, versionValue, requestValue) {
    if (requestValue) {
         apiService.text = GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/" + requestValue;
    }
+}
+
+export function getStr(label:string) {
+    if (label in loc_strings[GraphExplorerOptions.Language])
+        return loc_strings[GraphExplorerOptions.Language][label];
+    return loc_strings["en-US"][label];
 }

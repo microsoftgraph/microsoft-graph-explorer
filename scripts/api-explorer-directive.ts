@@ -5,6 +5,7 @@
 import { initAuth } from './auth'
 import { loc_strings } from './loc_strings'
 import { runInTestMode } from './base'
+import { getStr } from "./api-explorer-helpers";
 
 // get the path to this script
 export let pathToBuildDir;
@@ -60,11 +61,7 @@ if (!runInTestMode) {
 
                 $scope.str = loc_strings[GraphExplorerOptions.Language];
 
-                $scope.getStr = (label:string):string => {
-                    if (label in loc_strings[GraphExplorerOptions.Language])
-                        return loc_strings[GraphExplorerOptions.Language][label];
-                    return loc_strings["en-US"][label];
-                }
+                $scope.getStr = getStr;
 
                 hello.init({
                     msft: GraphExplorerOptions.ClientId

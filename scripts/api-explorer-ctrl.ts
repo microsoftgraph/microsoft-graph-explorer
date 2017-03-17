@@ -5,7 +5,7 @@
 import {GraphExplorerOptions, pathToBuildDir} from './api-explorer-directive'
 import {isHtmlResponse, isImageResponse, isXmlResponse, handleHtmlResponse, handleImageResponse, handleXmlResponse, handleJsonResponse} from './response-handlers'
 import { apiService } from "./api-explorer-svc"
-import { tabConfig, handleQueryString, formatRequestHeaders, showRequestBodyEditor, initBodyPostEditor } from './api-explorer-helpers'
+import { tabConfig, handleQueryString, formatRequestHeaders, showRequestBodyEditor, initBodyPostEditor, getStr } from './api-explorer-helpers'
 import {parseMetadata, GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL} from './graph-structure'
 import {requestHistory, saveHistoryObject} from "./history"
 import { createShareLink } from './share-dialog'
@@ -575,11 +575,15 @@ angular.module('ApiExplorer')
                 }
 
                 $scope.getQueryText = function() {
-                    if (query.humanName) return query.humanName;
+                    let shortQueryUrl;
                     if (query.requestUrl) {
-                        return query.requestUrl.split(GraphExplorerOptions.GraphUrl)[1];
+                        shortQueryUrl = query.requestUrl.split(GraphExplorerOptions.GraphUrl)[1];
                     }
-                    return query.humanName || query.requestUrl;
+                    
+                    let queryText = query.humanName || shortQueryUrl;
+
+                    debugger;
+                    return (getStr(queryText)) || queryText;
                 }
             
                 $scope.runQuery = function() {

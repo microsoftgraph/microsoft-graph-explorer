@@ -12,9 +12,12 @@
   "Status Code": "Status Code",
   "Duration": "Duration",
   "Go": "Go",
+  "ms": "ms",
   "YES": "YES",
   "Show More": "Show More",
   "Graph Explorer": "Graph Explorer",
+  "Failure": "Failure",
+  "Success": "Success",
   "Authentication": "Authentication",
   "NO": "NO",
   "request header": "Request Headers",
@@ -25,5 +28,13 @@
   "Response": "Response",
   "login to send requests": "Login to change the request type",
   "Share Query": "Share Query",
-  "Share this link to let people try your current query in the Graph Explorer.": "Share this link to let people try your current query in the Graph Explorer."
+  "Share this link to let people try your current query in the Graph Explorer.": "Share this link to let people try your current query in the Graph Explorer.",
+
+  "my profile": "my profile",
+  "my files": "my files",
+  "my photo": "my photo",
+  "my mail": "my mail",
+  "my high importance mail": "my high importance mail",
+  "my calendar": "my calendar",
+  "my manager": "my manager"
 }
