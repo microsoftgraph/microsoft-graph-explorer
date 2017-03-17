@@ -654,3 +654,19 @@ span#explorer-title {
 md-autocomplete button:after {
     display: none;
 }
+
+#response-action-bar {
+    float: right;
+    margin-top: 32px;
+    font-size: 20px;
+    margin-right: 5px;
+    color: rgb(186, 186, 186);
+}
+
+#response-action-bar i {
+    cursor: pointer;
+}
+
+div#share-link-dialog {
+    min-width: 35%;
+}

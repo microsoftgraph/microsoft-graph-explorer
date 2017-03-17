@@ -8,7 +8,7 @@ import { apiService } from "./api-explorer-svc"
 import { tabConfig, handleQueryString, formatRequestHeaders, showRequestBodyEditor, initBodyPostEditor } from './api-explorer-helpers'
 import {parseMetadata, GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL} from './graph-structure'
 import {requestHistory, saveHistoryObject} from "./history"
-import {ShareDialogController} from './share-dialog'
+import { createShareLink } from './share-dialog'
 import {getJsonViewer, getHeadersEditor, getRequestBodyEditor, initializeAceEditor} from './api-explorer-jseditor'
 import {initializeJsonViewer} from "./api-explorer-jsviewer"
 
@@ -40,7 +40,16 @@ angular.module('ApiExplorer')
                     component = new fabric['Spinner'](elements[i]);
                 }
             }
+            
+            var DialogElements = document.querySelectorAll(".ms-Dialog");
+            var DialogComponents = [];
+            for (var i = 0; i < DialogElements.length; i++) {
+                (function(){
+                    DialogComponents[i] = new fabric['Dialog'](DialogElements[i]);
+                }());
+            }
         }
+        
 
         initBodyPostEditor();
 
@@ -191,20 +200,13 @@ angular.module('ApiExplorer')
         }
 
         $scope.showShareDialog = function(ev) {
-            $mdDialog.show({
-                controller: ShareDialogController,
-                templateUrl: pathToBuildDir + '/assets/views/shareDialog.tmpl.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose:true,
-                scope: $scope.$new(),
-                locals: {
-                    apiService: apiService,
-                    $sce: $sce,
-                    headers: formatRequestHeaders(getHeadersEditor().getSession().getValue()),
-                    body: getJsonViewer().getSession().getValue()
-                },
-            })
+            const el = document.querySelector(".ms-Dialog")
+            const fabricDialog = new fabric['Dialog'](el);
+            fabricDialog.open();
+            $scope.getShareLink = () => {
+                debugger;
+                return createShareLink(apiService.text, apiService.selectedOption, apiService.selectedVersion);
+            }
         };
 
 

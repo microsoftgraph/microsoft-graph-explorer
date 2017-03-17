@@ -1,6 +1,19 @@
 <!-- Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information. -->
-
 <div ng-app="ApiExplorer" ng-controller="ApiExplorerCtrl" role="document" id="api-explorer-app">
+    <div class="ms-Dialog " id="share-link-dialog">
+        <div class="ms-Dialog-title">{{::getStr(['Share Query'])}}</div>
+        <div class="ms-Dialog-content">
+            <p class="ms-Dialog-subText">{{::getStr(['Share this link to let people try your current query in the Graph Explorer.'])}}</p>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <input onClick="this.select();" value="{{getShareLink()}}">
+                </md-input-container>
+        </div>
+      <div class="ms-Dialog-actions">
+            <button class="ms-Button ms-Dialog-action">
+                <span class="ms-Button-label">{{::getStr(['Close'])}}</span>
+            </button>
+        </div>
+    </div>
     <form>
     <div class="ms-Grid"> 
         <div class="ms-Grid-row">
@@ -159,7 +172,11 @@
                 </div>
             </div>
         </div>
-
+   
+        <div id="response-action-bar">
+            <i class="ms-Icon ms-Icon--Share" title="FavoriteList" aria-hidden="true" aria-label="Share" ng-click="showShareDialog($event)"></i>
+        </div>
+ 
         <!-- response -->
         <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
             <ul class="ms-Pivot-links">
