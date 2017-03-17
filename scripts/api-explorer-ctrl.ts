@@ -110,7 +110,7 @@ angular.module('ApiExplorer')
                         let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
                         let imageUrl = window.URL.createObjectURL( blob );
                         $scope.userInfo.profileImageUrl = imageUrl;
-                }));
+                }).catch((e) => console.log(e)));
 
                 Promise.all(promisesGetUserInfo).then(() => {
                     $scope.authenticationStatus = "authenticated"
@@ -513,12 +513,16 @@ angular.module('ApiExplorer')
             template: `
             <div class="api-query" ng-click="runQuery(query)">
                 <div class="row-1">
-                    <span class="request-badge" ng-class="query.method">{{query.method}}</span><span ng-attr-title="{{::getQueryText()}}" class="query">{{::getQueryText()}}</span>
+                    <span class="request-badge" ng-class="query.method">{{query.method}}</span><span ng-attr-title="{{::getTitle()}}" class="query">{{::getQueryText()}}</span>
                 </div>
                 <ng-transclude></ng-transclude>
             </div>`,
             controller: ($scope) => {
                 const query = $scope.query as GraphApiCall;
+
+                $scope.getTitle = function() {
+                    return query.requestUrl;
+                }
 
                 $scope.getQueryText = function() {
                     if (query.humanName) return query.humanName;

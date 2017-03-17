@@ -28,8 +28,8 @@
                             </div>
                         </div>
                         <div ng-show="authenticationStatus == 'authenticated'" ng-cloak>
-                            <div class="ms-Persona">
-                                <div class="ms-Persona-imageArea">
+                            <div class="ms-Persona" ng-class="{'user-no-image': !userInfo.profileImageUrl}">
+                                <div class="ms-Persona-imageArea" ng-if="userInfo.profileImageUrl">
                                     <img class="ms-Persona-image" ng-src="{{userInfo.profileImageUrl}}">
                                 </div>
                                 <div class="ms-Persona-details">
@@ -37,8 +37,7 @@
                                     <div class="ms-Persona-secondaryText" id='userMail' ng-if="userInfo.mail">{{userInfo.mail}}</div>
                                 </div>
                             </div>
-                            <br />
-                            <button type="submit" id="signout" class="c-button" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</button>
+                            <a href="#" id="signout" class="c-hyperlink" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</a>
                             
                             <!--<a href="#" role="button" id="signout" class="c-button f-lightweight" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</a>-->
                         </div>

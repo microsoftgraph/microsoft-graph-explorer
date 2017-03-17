@@ -631,3 +631,14 @@ span#explorer-title {
 .api-query .duration {
     float: right;
 }
+
+#signout {
+    margin-right: 32px;
+    max-width: 100%;
+    display: block;
+    text-align: right;
+}
+
+.user-no-image .ms-Persona-details {
+    padding-left: 0;
+}
