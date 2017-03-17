@@ -22,6 +22,10 @@ type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce) {
+
+        mwf.ComponentFactory.create([{
+                    'component': mwf.Drawer,
+        }])
         var PivotElements = document.querySelectorAll(".ms-Pivot");
         for(var i = 0; i < PivotElements.length; i++) {
             new fabric['Pivot'](PivotElements[i]);
