@@ -14,8 +14,8 @@
                          <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" title="FavoriteList" aria-hidden="true"></i>{{::getStr(['Authentication'])}}</span></button>
                     <div id="authDrawer" class="panel-content">
                         <div ng-show="authenticationStatus == 'anonymous'">
-                            <div tabindex=0>{{::getStr(['Using demo tenant'])}}</div>
-                            <div tabindex=0>{{::getStr(['To access your own data:'])}}</div>
+                            <div tabindex="-1">{{::getStr(['Using demo tenant'])}}</div>
+                            <div tabindex="-1">{{::getStr(['To access your own data:'])}}</div>
                             <img id="ms-signin-button" alt="{{::getStr(['sign in'])}}" src="{{::getAssetPath('assets/images/MSSignInButton.svg')}}" ng-click="login()"/>
                         </div>
                         <div ng-show="authenticationStatus == 'authenticating'">
@@ -161,7 +161,7 @@
         </div>
 
         <!-- response -->
-        <div class="ms-Pivot" id="response-viewer-labels">
+        <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
             <ul class="ms-Pivot-links">
                 <li class="ms-Pivot-link is-selected" data-content="response" title="{{getStr(['Response'])}}" tabindex="1">
                     {{getStr(['Response'])}}

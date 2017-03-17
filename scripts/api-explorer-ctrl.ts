@@ -511,9 +511,9 @@ angular.module('ApiExplorer')
             }, 
             transclude: true,
             template: `
-            <div class="api-query" ng-click="runQuery(query)">
+            <div class="api-query" ng-click="runQuery(query)" ng-attr-title="{{::getTitle()}}">
                 <div class="row-1">
-                    <span class="request-badge" ng-class="query.method">{{query.method}}</span><span ng-attr-title="{{::getTitle()}}" class="query">{{::getQueryText()}}</span>
+                    <span class="request-badge" ng-class="query.method">{{query.method}}</span><span class="query">{{::getQueryText()}}</span>
                 </div>
                 <ng-transclude></ng-transclude>
             </div>`,

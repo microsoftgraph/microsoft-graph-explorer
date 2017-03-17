@@ -44,4 +44,5 @@ export function commonAceSetup(editor) {
 
     //accessibility - keyboard dependant users must be able to "tab out" of session
     editor.commands.bindKey("Tab", null);
+    editor.commands.bindKey("Shift-Tab", null)
 }
