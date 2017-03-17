@@ -231,12 +231,13 @@ angular.module('ApiExplorer')
             return;
         }
 
+        
         let possibleVersion = possibleGraphPathArr[0];
         if (GraphExplorerOptions.GraphVersions.indexOf(possibleVersion) != -1) {
             // possibleVersion is a valid version
             apiService.selectedVersion = possibleVersion;
-            parseMetadata();
         }
+        parseMetadata();
     }
     $scope.searchTextChange = searchTextChange;
 
@@ -444,42 +445,48 @@ angular.module('ApiExplorer')
             });
         };
     });
-
+declare const mwf:any;
 angular.module('ApiExplorer')
-    .directive('httpMethodSelect', function() {
+    .directive('httpMethodSelect', function($timeout) {
         return function(scope, element, attrs) {
-            setTimeout(() => {
-                scope.apiService = apiService;
+            scope.apiService = apiService;
 
-                scope.methods = [
-                    'GET',
-                    'POST',
-                    'PATCH',
-                    'DELETE'
-                ];
+            scope.methods = [
+                'GET',
+                'POST',
+                'PATCH',
+                'DELETE'
+            ];
 
-                element[0].mwfInstances.t.selectMenu.subscribe({
-                    onSelectionChanged: (method) => {
-                        apiService.selectedOption = method.id;
-                        if (apiService.selectedOption == 'POST' || apiService.selectedOption == 'PATCH') {
-                            showRequestBodyEditor();
-                        } else if (apiService.selectedOption == 'GET' || apiService.selectedOption == 'DELETE') {
-                            tabConfig.disableRequestBodyEditor = true;
-                            // setSelectedTab(0);
-                        }
-                        scope.$apply();
-                    }
-                })
+            $timeout(() => {
+                mwf.ComponentFactory.create([{
+                    'component': mwf.Select,
+                    selector: "#http-method-select",
+                    callback: (event) => {
+                        event[0].selectMenu.subscribe({
+                            onSelectionChanged: (method) => {
+                                apiService.selectedOption = method.id;
+                                if (apiService.selectedOption == 'POST' || apiService.selectedOption == 'PATCH') {
+                                    showRequestBodyEditor();
+                                } else if (apiService.selectedOption == 'GET' || apiService.selectedOption == 'DELETE') {
+                                    tabConfig.disableRequestBodyEditor = true;
+                                    // setSelectedTab(0);
+                                }
+                                scope.$apply();
+                            }
+                        })
+                    }}
+                ]);
+                
                 scope.$apply();
-            }, 1500)
+            }, 0)
         }  
     });
 
 
 angular.module('ApiExplorer')
-    .directive('versionSelect', function() {
+    .directive('versionSelect', function($timeout) {
         return function(scope, element, attrs) {
-            setTimeout(() => {
                 scope.apiService = apiService;
 
                 scope.items = GraphExplorerOptions.GraphVersions;
@@ -490,16 +497,25 @@ angular.module('ApiExplorer')
                     element[0].mwfInstances.t.selectMenu.onItemSelected(element[0].mwfInstances.t.selectMenu.items[idx])
                 }, true);
 
-                element[0].mwfInstances.t.selectMenu.subscribe({
-                    onSelectionChanged: (version) => {
-                        apiService.selectedVersion = version.id;
-                        apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
-                        scope.$parent.$broadcast('updateUrlFromServiceText');
-                        scope.$apply();
-                    }
-                })
+            $timeout(() => {
+                mwf.ComponentFactory.create([{
+                    'component': mwf.Select,
+                    selector: "#version-select",
+                    callback: (event) => {
+                        event[0].selectMenu.subscribe({
+                            onSelectionChanged: (version) => {
+                                apiService.selectedVersion = version.id;
+                                apiService.text = apiService.text.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion + "/"));
+                                scope.$parent.$broadcast('updateUrlFromServiceText');
+                                scope.$apply();
+                            }
+                        })
+                    }}
+                ]);
+
+                
                 scope.$apply();
-            }, 1500)
+            }, 0)
         }
     });
 

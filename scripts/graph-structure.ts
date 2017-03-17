@@ -20,6 +20,11 @@ export interface GraphEntity {
 }
 
 export function parseMetadata(version?:string):Promise<any> {
+    // don't try to download invalid metadata
+    if (version && GraphExplorerOptions.GraphVersions.indexOf(version) == -1) {
+        return Promise.reject(`invalid version: ${version}`);
+    }
+
     return new Promise((resolve, reject) => {
         if (!version) {
             version = apiService.selectedVersion;

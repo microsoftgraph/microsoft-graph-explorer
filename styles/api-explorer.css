@@ -645,3 +645,7 @@ span#explorer-title {
 .user-no-image .ms-Persona-details {
     padding-left: 0;
 }
+
+.c-select:after {
+    display: none;
+}

@@ -82,7 +82,7 @@
         <div>
             <div id="request-bar-row-form" layout="row" layout-align="start center">
                 <!-- HTTP METHOD -->
-                <div title="{{isAuthenticated() ? null : getStr(['login to send requests'])}}" class="c-select f-border first-row-mobile bump-flex-row-mobile" http-method-select>
+                <div title="{{isAuthenticated() ? null : getStr(['login to send requests'])}}" id="http-method-select" class="c-select f-border first-row-mobile bump-flex-row-mobile" http-method-select>
                     <select ng-model="apiService.selectedOption" ng-disabled="!isAuthenticated()">
                         <option ng-repeat="choice in methods">{{choice}}</option>
                     </select>
