@@ -54,6 +54,10 @@ angular.module('ApiExplorer')
                 PanelExampleButton.addEventListener("click", (i) => {
                     new fabric['Panel'](PanelExamplePanel);
                     (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
+                    $(document).keyup(function(e) {
+                        if (e.keyCode === 27)  // esc
+                            $scope.closeHistoryPanel();
+                    });
                 });
 
                 $scope.closeHistoryPanel = () => {
