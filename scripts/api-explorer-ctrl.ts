@@ -226,7 +226,6 @@ angular.module('ApiExplorer')
             const fabricDialog = new fabric['Dialog'](el);
             fabricDialog.open();
             $scope.getShareLink = () => {
-                debugger;
                 return createShareLink(apiService.text, apiService.selectedOption, apiService.selectedVersion);
             }
         };
@@ -582,7 +581,6 @@ angular.module('ApiExplorer')
                     
                     let queryText = query.humanName || shortQueryUrl;
 
-                    debugger;
                     return (getStr(queryText)) || queryText;
                 }
             

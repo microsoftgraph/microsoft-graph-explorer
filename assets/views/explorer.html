@@ -24,7 +24,7 @@
                 </div>
                 <div class="c-drawer">
                     <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
-                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" title="FavoriteList" aria-hidden="true"></i>{{::getStr(['Authentication'])}}</span></button>
+                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" aria-hidden="true"></i>{{::getStr(['Authentication'])}}</span></button>
                     <div id="authDrawer" class="panel-content">
                         <div ng-show="authenticationStatus == 'anonymous'">
                             <div tabindex="-1">{{::getStr(['Using demo tenant'])}}</div>
@@ -52,7 +52,6 @@
                             </div>
                             <a href="#" id="signout" class="c-hyperlink" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</a>
                             
-                            <!--<a href="#" role="button" id="signout" class="c-button f-lightweight" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</a>-->
                         </div>
                     </div>
                 </div>
@@ -67,13 +66,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--<div class="c-drawer">
-                    <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
-                         <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--FavoriteList" title="FavoriteList" aria-hidden="true"></i>My Queries</span></button>
-                    <div id="refineDrawer">
-                    </div>
-                </div>-->
 
                 <div class="c-drawer">
                     <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
