@@ -40,6 +40,8 @@ gulp.task('tsc', ['clean-scripts'], function() {
   return gulp.src(paths.typescript)
     .pipe(typescript({
       target: 'ES5',
+      sourceMap: true,
+      declaration: true,
       noEmitOnError: false
     }))
     .pipe(gulp.dest('build/scripts'));

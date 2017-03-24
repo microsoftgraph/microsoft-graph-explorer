@@ -212,7 +212,7 @@ html[dir=rtl] .ms-MessageBar-innerTextPadding span {
 }
 
 #jsonEditor, #jsonEditorHeaders {
-    height: 20vh;
+    height: 188px;
     border: 1px solid #ccc;
     margin-top: 10px;
 }
