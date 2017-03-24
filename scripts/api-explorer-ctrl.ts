@@ -13,63 +13,27 @@ import {getJsonViewer, getHeadersEditor, getRequestBodyEditor, initializeAceEdit
 import {initializeJsonViewer} from "./api-explorer-jsviewer"
 
 import { GettingStartedQueries } from "./getting-started-queries";
-import { HistoryRecord, GraphApiCall } from "./base";
+import { HistoryRecord, GraphApiCall, AuthenticationStatus } from "./base";
 import { isAuthenticated } from "./auth";
+
+import { initFabricComponents } from "./fabric-components"
 
 declare const angular, hello, fabric, mwf;
 
-type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
+let authenticationStatus:AuthenticationStatus;
 
 angular.module('ApiExplorer')
     .controller('ApiExplorerCtrl', function ($scope, $http, $location, $timeout, $templateCache, $mdDialog, $sce) {
+        $scope.getAuthenticationStatus = () => authenticationStatus;
+
+        authenticationStatus = isAuthenticated() ? "authenticating" : "anonymous";
 
         mwf.ComponentFactory.create([{
-                    'component': mwf.Drawer,
+            'component': mwf.Drawer,
         }])
-        var PivotElements = document.querySelectorAll(".ms-Pivot");
-        for(var i = 0; i < PivotElements.length; i++) {
-            new fabric['Pivot'](PivotElements[i]);
-        }
 
-        if (typeof fabric !== "undefined") {
-            if ('Spinner' in fabric) {
-                var elements = document.querySelectorAll('.ms-Spinner');
-                var i = elements.length;
-                var component;
-                while(i--) {
-                    component = new fabric['Spinner'](elements[i]);
-                }
-            }
-            
-            var DialogElements = document.querySelectorAll(".ms-Dialog");
-            var DialogComponents = [];
-            for (var i = 0; i < DialogElements.length; i++) {
-                (function(){
-                    DialogComponents[i] = new fabric['Dialog'](DialogElements[i]);
-                }());
-            }
-            $timeout(() => {
-                var PanelExampleButton = document.querySelector("#show-full-history");
-                var PanelExamplePanel = document.querySelector("#history-panel");
-                PanelExampleButton.addEventListener("click", (i) => {
-                    new fabric['Panel'](PanelExamplePanel);
-                    (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
-                    $(document).keyup(function(e) {
-                        if (e.keyCode === 27)  // esc
-                            $scope.closeHistoryPanel();
-                    });
-                });
 
-                $scope.closeHistoryPanel = () => {
-                    $("#history-panel .ms-Panel-closeButton").trigger("click");
-                };
-
-            }, 0);
-            var TableElements = document.querySelectorAll(".ms-Table");
-    for(var i = 0; i < TableElements.length; i++) {
-        new fabric['Table'](TableElements[i]);
-    }
-        }
+        initFabricComponents(fabric, $scope, $timeout);
         
 
         initBodyPostEditor();
@@ -80,7 +44,6 @@ angular.module('ApiExplorer')
         apiService.init($http);
 
         $scope.userInfo = {};
-        $scope.authenticationStatus = isAuthenticated() ? "authenticating" : "anonymous"
 
         $scope.getAssetPath = (relPath) => {
             return $scope.pathToBuildDir + "/"+ relPath;
@@ -109,7 +72,7 @@ angular.module('ApiExplorer')
 
 
         hello.on('auth.logout', function (auth) {
-            $scope.authenticationStatus = "anonymous"
+            authenticationStatus = "anonymous"
             $scope.$apply();
         });
 
@@ -125,7 +88,7 @@ angular.module('ApiExplorer')
             }
 
             if (accessToken) {
-                $scope.authenticationStatus = "authenticating"
+                authenticationStatus = "authenticating"
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
 
                 let promisesGetUserInfo = [];
@@ -147,7 +110,7 @@ angular.module('ApiExplorer')
                 }).catch((e) => console.log(e)));
 
                 Promise.all(promisesGetUserInfo).then(() => {
-                    $scope.authenticationStatus = "authenticated"
+                    authenticationStatus = "authenticated"
                     $scope.$apply();
                 })
             }
@@ -374,8 +337,7 @@ angular.module('ApiExplorer')
         let historyObj:HistoryRecord = {
             requestUrl: apiService.text,
             selectedVersion: apiService.selectedVersion,
-            method: apiService.selectedOption,
-            jsonInput: null
+            method: apiService.selectedOption
         };
 
         if (historyObj.method == 'POST' || historyObj.method == 'PATCH') {

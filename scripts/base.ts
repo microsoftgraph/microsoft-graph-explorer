@@ -1,5 +1,7 @@
 export const runInTestMode = typeof document === "undefined";
 
+export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
+
 export type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
 
 export interface GraphApiCall {

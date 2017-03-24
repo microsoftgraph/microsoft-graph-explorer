@@ -26,12 +26,12 @@
                     <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
                          <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" aria-hidden="true"></i>{{::getStr(['Authentication'])}}</span></button>
                     <div id="authDrawer" class="panel-content">
-                        <div ng-show="authenticationStatus == 'anonymous'">
+                        <div ng-show="getAuthenticationStatus() == 'anonymous'">
                             <div tabindex="-1">{{::getStr(['Using demo tenant'])}}</div>
                             <div tabindex="-1">{{::getStr(['To access your own data:'])}}</div>
                             <img id="ms-signin-button" alt="{{::getStr(['sign in'])}}" ng-src="{{::getAssetPath('assets/images/MSSignInButton.svg')}}" ng-click="login()"/>
                         </div>
-                        <div ng-show="authenticationStatus == 'authenticating'">
+                        <div ng-show="getAuthenticationStatus() == 'authenticating'">
                             <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
                                 <span></span>
                                 <span></span>
@@ -40,7 +40,7 @@
                                 <span></span>
                             </div>
                         </div>
-                        <div ng-show="authenticationStatus == 'authenticated'" ng-cloak>
+                        <div ng-show="getAuthenticationStatus() == 'authenticated'" ng-cloak>
                             <div class="ms-Persona" ng-class="{'user-no-image': !userInfo.profileImageUrl}">
                                 <div class="ms-Persona-imageArea" ng-if="userInfo.profileImageUrl">
                                     <img class="ms-Persona-image" ng-src="{{userInfo.profileImageUrl}}">
