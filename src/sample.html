@@ -1,0 +1,52 @@
+<!-- Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information. -->
+<html>
+    <head>
+        <!--<script src="./bower_components/jquery/dist/jquery.min.js"></script>-->
+
+        <!-- Graph explorer depends on ACE editor -->
+        <!-- Must be inclued separetely -->
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>-->
+
+
+        <!--hello.js-->
+        <script src="../bower_components/hello/dist/hello.all.min.js"></script>
+
+        <!--Fabric-->
+        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.min.css">
+        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.components.min.css">
+        <script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/js/fabric.min.js"></script>
+
+        <!-- MWF -->
+        <link rel="stylesheet" href="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.19.1/css/mwf-west-european-default.min.css">
+        <script src="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.19.1/scripts/mwf-main.var.min.js"></script>
+
+        <style>
+            body {
+                margin: 0px;
+                padding: 0px;
+            }
+        </style>
+
+
+        <!-- Graph explorer bundled styles -->
+        <!--<script src="./build/scripts/all.js"></script>-->
+
+        <!-- clientId, scopes, redirectUrl -->
+        <script src="./secrets.js"></script>
+
+        <!-- Polyfill(s) for older browsers -->
+        <script src="../node_modules/core-js/client/shim.min.js"></script>
+
+        <script src="../node_modules/zone.js/dist/zone.js"></script>
+        <script src="../node_modules/systemjs/dist/system.src.js"></script>
+
+        <script src="systemjs.config.js"></script>
+        <script>
+        System.import('main.js').catch(function(err){ console.error(err); });
+        </script>
+
+    </head>
+    <body>
+        <api-explorer [options]="explorerOptions"></api-explorer>
+    </body>
+</html>

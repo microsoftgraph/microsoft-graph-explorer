@@ -5,22 +5,35 @@
   "main": "index.js",
   "scripts": {
     "gulp": "gulp",
-    "build": "gulp build",
+    "build": "tsc -p src/",
+    "build:watch": "tsc -p src/ -w",
+    "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
     "serve": "node static-server.js",
     "test": "mocha-phantomjs --ignore-ssl-errors=true --ssl-protocol=any http://localhost:3000/spec/GraphExplorerBrowserTests.html",
     "postinstall": "bower install"
   },
   "author": "",
   "devDependencies": {
+    "concurrently": "^3.2.0",
     "static-server": "^2.0.3",
-    "phantomjs-prebuilt": "^2.1.14",
     "mocha-phantomjs": "^4.1.0"
   },
   "dependencies": {
+    "@angular/common": "~4.0.0",
+    "@angular/compiler": "~4.0.0",
+    "@angular/core": "~4.0.0",
+    "@angular/forms": "~4.0.0",
+    "@angular/http": "~4.0.0",
+    "@angular/platform-browser": "~4.0.0",
+    "@angular/platform-browser-dynamic": "~4.0.0",
+    "@angular/router": "~4.0.0",
     "@types/chai": "^3.4.35",
-    "@types/es6-shim": "^0.31.32",
+    "@types/hellojs": "^0.2.31",
     "@types/jquery": "~2.0.40",
     "@types/mocha": "^2.2.39",
+    "angular-in-memory-web-api": "~0.3.0",
+    "bower": "^1.8.0",
+    "core-js": "^2.4.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
@@ -30,7 +43,9 @@
     "gulp-order": "^1.1.1",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-tsc": "^1.2.6",
-    "typescript": "~2.2.1",
-    "bower": "^1.8.0"
+    "rxjs": "5.0.1",
+    "systemjs": "~0.19.47",
+    "typescript": "^2.2.1",
+    "zone.js": "^0.8.4"
   }
 }

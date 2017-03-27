@@ -278,19 +278,6 @@ md-autocomplete-wrap {
     display: none;
 }
 
-#insertTemplateButton {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    padding: 5px;
-}
-
-code {
-    display: block;
-    background: #ececec;
-    padding: 15px;
-    color: black;
-}
 
 /* Hide md-autocomplete progress bar*/
 /* https://github.com/angular/material/issues/5428 */
@@ -303,9 +290,6 @@ md-autocomplete button {
     min-width: inherit;
 }
 
-.historyRow {
-    cursor: pointer;
-}
 
 md-autocomplete-wrap input:focus {
     background-color: transparent !important;
@@ -322,17 +306,6 @@ md-autocomplete-wrap input:focus {
     stroke-width: 1.5px;
 }
 
-#explorer-sidebar {
-    background: #2F2F2F!important;
-    height: 1024px;
-    padding: 0px;
-    /*height: 100%;*/
-    color: white;
-}
-
-#explorer-sidebar .c-hyperlink {
-    color: #00bcf2;
-}
 
 @media (max-width: 639px) {
     #explorer-sidebar {
@@ -393,96 +366,12 @@ md-autocomplete-wrap.md-whiteframe-z1 input {
     height: 35px;
 }
 
-button.c-glyph {
-    color: white;
-}
 
-#explorer-sidebar {
-    font-family: "Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
-}
 
-#explorer-sidebar .panel-header {
-    font-family: "Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
-    display: inline-block;
-    padding: 0px;
-    padding-left: 6px;
-    font-weight: 100;
-}
 
-#explorer-sidebar .panel-content {
-    padding-left: 46px;
-    font-size: 13px;
-}
 
-#explorer-sidebar .panel-header i.ms-Icon{
-    margin-right: 10px;
-}
 
-/* Remove drawer carrot on auth */
-#auth-drawer-button:after{
-    content:none;
-}
 
-.api-query:hover, .c-drawer>button:hover {
-    background: rgba(0,0,0,0.25);
-}
-
-.api-query {
-    cursor: pointer;
-    font-size: 13px;
-    line-height: 16px;
-    display: block;
-    border: 0;
-    background: 0 0;
-    font-weight: 500;
-    padding: 5px 5px 5px 12px;
-    left: 0;
-    text-align: left;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    margin-left: -26px;
-}
-
-.api-query .request-badge {
-    border: 1px solid gray;
-    min-width: 55px;
-    display: inline-block;
-    padding: 2px;
-    text-align: center;
-    margin-right: 15px;
-    font-weight: 600;
-}
-
-.request-badge.GET {
-    background-color: #000fdf
-}
-
-.request-badge.POST {
-    background-color: #008412
-}
-
-.request-badge.PATCH {
-    background-color: #be8b00
-}
-
-.request-badge.DELETE {
-    background-color: #a10000  
-}
-
-#getting-started-svg {
-    display: inline-block;
-    width: 29px;
-    height: 29px;
-    margin: -2px 4px 2px -4px;
-}
-
-#ms-signin-button {
-    max-width: 215px;
-    margin: 20px 0 0px 0px;
-    cursor: pointer;
-}
 
 md-progress-circular path {
     stroke: #FFF;
@@ -509,10 +398,6 @@ span#duration-label {
     padding-left: 15px;
 }
 
-#authDrawer {
-    min-height: 96px;
-}
-
 /* frontdoor style conflicts */
 #auth-drawer-button {
     background-color: inherit !important;
@@ -530,15 +415,6 @@ span#duration-label {
 
 
 
-.arrow-left {
-    border-top: 18px solid transparent;
-    border-bottom: 18px solid transparent;
-    border-right: 18px solid white;
-    position: relative;
-    right: -10px;
-    top: 13px;
-    margin-bottom: -45px;
-}
 
 
 .ace-tm .ace_invalid {
@@ -592,28 +468,7 @@ md-autocomplete-wrap.md-menu-showing {
 }
 
 
-/*auth area*/
-#userDisplayName {
-    color: #e2e2e2
-}
 
-#userMail {
-    color: #a0a0a0;
-}
-
-#authenticating-progress-bar {
-    margin: 0px auto;
-}
-
-
-span#explorer-title {
-    margin-left: 40px;
-    margin-top: 14px;
-}
-
-.c-drawer {
-    padding-bottom: 5px;
-}
 
 .c-progress.f-indeterminate-local span:after {
     background: white;
@@ -640,12 +495,6 @@ span#explorer-title {
     float: right;
 }
 
-#signout {
-    margin-right: 32px;
-    max-width: 100%;
-    display: block;
-    text-align: right;
-}
 
 
 
@@ -677,14 +526,6 @@ div#share-link-dialog {
     min-width: 35%;
 }
 
-.api-query .row-1 {
-    display: inline;
-}
-
-a#show-full-history {
-    float: right;
-    margin-right: 27px;
-}
 
 .ms-Table-row.is-selected, .ms-Table tr.is-selected {
     background-color: inherit;
