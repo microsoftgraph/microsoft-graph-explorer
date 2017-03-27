@@ -13,6 +13,7 @@ var login_component_1 = require("./login.component");
 var forms_1 = require("@angular/forms");
 var sidebar_component_1 = require("./sidebar.component");
 var queryrow_component_1 = require("./queryrow.component");
+var http_1 = require("@angular/http");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -20,7 +21,7 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule],
+        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule],
         declarations: [app_component_1.AppComponent, login_component_1.AuthenticationComponent, sidebar_component_1.SidebarComponent, queryrow_component_1.QueryRowComponent],
         bootstrap: [app_component_1.AppComponent]
     })

@@ -2,9 +2,8 @@
 // //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // // ------------------------------------------------------------------------------
 
-// import {GraphExplorerOptions} from './api-explorer-directive'
-// import {apiService} from "./api-explorer-svc"
 // import { runInTestMode } from "./base"
+// import { AppComponent } from "./app.component";
 // export type GraphNodeLinkTagName = "Property" | "NavigationProperty" | "EntitySet" | "Singleton"
 
 // export interface GraphNodeLink {
@@ -21,7 +20,7 @@
 
 // export function parseMetadata(version?:string):Promise<any> {
 //     // don't try to download invalid metadata
-//     if (version && GraphExplorerOptions.GraphVersions.indexOf(version) == -1) {
+//     if (version && AppComponent.options.GraphVersions.indexOf(version) == -1) {
 //         return Promise.reject(`invalid version: ${version}`);
 //     }
 
@@ -32,7 +31,7 @@
 
 //         if (!graphStructureCache.containsVersion(version)) {
 //             console.log(`parsing ${version} metadata`);
-//             apiService.getMetadata(version).then((results) => {
+//             apiService.getMetadata(version).then((results:any) => {
 //                 const metadata = $($.parseXML(results.data));
 
 //                 let entitySetData = getEntitySets(metadata);
@@ -104,7 +103,7 @@
 // }
 
 
-// function createEntityTypeObject (DOMarray) {
+// function createEntityTypeObject (DOMarray:Element[]) {
 //     let entityTypes = {}
 //     for(let i=0; i<DOMarray.length; i++){
 //            let EntityType:GraphEntity = {
@@ -141,7 +140,7 @@
 // }
 
 
-// function getEntityTypes(metadata) {
+// function getEntityTypes(metadata:any) {
 //     let entities = {};
 
 //     let entityTypes = metadata.find("EntityType");
@@ -160,7 +159,7 @@
 // }
 
 // export function constructGraphLinksFromFullPath(path:string):Promise<GraphNodeLink[]> {
-//     const urlPathArr = path.split(GraphExplorerOptions.GraphUrl+"/");
+//     const urlPathArr = path.split(AppComponent.options.GraphUrl+"/");
 //     if (urlPathArr.length <=1)
 //         return Promise.resolve([]);
 
@@ -215,7 +214,7 @@
 //             baseUrl.push(lastSegment.name);
 //         }
 
-//         let baseUrlFinal = GraphExplorerOptions.GraphUrl + "/" + apiService.selectedVersion;
+//         let baseUrlFinal = AppComponent.options.GraphUrl + "/" + apiService.selectedVersion;
         
 //         if (baseUrl.length > 0) {
 //             baseUrlFinal += "/" + baseUrl.join('/');
@@ -246,7 +245,7 @@
 //     });
 // }
 
-// export function loadEntitySets(version):Promise<any> {
+// export function loadEntitySets(version:string):Promise<any> {
 //     return parseMetadata(version).then(() => {
 //         return graphStructureCache.get(version, "EntitySetData");
 //     })
@@ -254,6 +253,6 @@
 
 // // EntityType and ComplexType
 // // @todo use promises
-// export function loadEntityTypeData(version) {
+// export function loadEntityTypeData(version:string) {
 //     return graphStructureCache.get(version, "EntityTypeData");
 // }

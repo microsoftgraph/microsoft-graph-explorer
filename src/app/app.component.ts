@@ -1,14 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ExplorerOptions } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
+import { GraphService } from "./api-explorer-svc";
 
 declare let mwf:any;
 
+
 @Component({
   selector: 'api-explorer',
+  providers: [GraphService],
   template: `
     <div class="ms-Grid"> 
       <div class="ms-Grid-row">
@@ -21,13 +24,18 @@ declare let mwf:any;
     
 `]
 })
-export class AppComponent extends GraphExplorerComponent implements OnInit{
+export class AppComponent extends GraphExplorerComponent implements OnInit {
+
+  constructor(private GraphService: GraphService) {
+    super();
+  }
+
   ngOnInit() {
     for (let key in AppComponent.options) {
       if (key in window)
         AppComponent.options[key] = window[key]; 
     }
-
+    
     initAuth(AppComponent.options);
 
     initFabricComponents();
@@ -48,4 +56,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit{
       GraphVersions: ["v1.0", "beta"]
   };
 
+  static explorerValues:ExplorerValues = {
+    endpointUrl: AppComponent.options.GraphUrl + '/v1.0/me/',
+    selectedOption: "GET",
+    selectedVersion: "v1.0"
+  };
  }

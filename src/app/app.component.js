@@ -15,15 +15,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var auth_1 = require("./auth");
 var fabric_components_1 = require("./fabric-components");
+var api_explorer_svc_1 = require("./api-explorer-svc");
 var AppComponent = AppComponent_1 = (function (_super) {
     __extends(AppComponent, _super);
-    function AppComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function AppComponent(GraphService) {
+        var _this = _super.call(this) || this;
+        _this.GraphService = GraphService;
+        return _this;
     }
     AppComponent.prototype.ngOnInit = function () {
         for (var key in AppComponent_1.options) {
@@ -47,12 +53,19 @@ AppComponent.options = {
     GraphUrl: "https://graph.microsoft.com",
     GraphVersions: ["v1.0", "beta"]
 };
+AppComponent.explorerValues = {
+    endpointUrl: AppComponent_1.options.GraphUrl + '/v1.0/me/',
+    selectedOption: "GET",
+    selectedVersion: "v1.0"
+};
 AppComponent = AppComponent_1 = __decorate([
     core_1.Component({
         selector: 'api-explorer',
+        providers: [api_explorer_svc_1.GraphService],
         template: "\n    <div class=\"ms-Grid\"> \n      <div class=\"ms-Grid-row\">\n        <sidebar class=\"ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2\"></sidebar>\n      </div>\n    </div>\n    ",
         styles: ["\n    \n    \n"]
-    })
+    }),
+    __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 var AppComponent_1;

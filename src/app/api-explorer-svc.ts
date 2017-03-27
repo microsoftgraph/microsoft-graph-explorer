@@ -1,75 +1,72 @@
-// // ------------------------------------------------------------------------------
-// //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-// // ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
 
-// 'use strict';
+import { Injectable }              from '@angular/core';
+import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 
-// import { GraphExplorerOptions } from './api-explorer-directive'
-// import { RequestType } from "./base";
+import { RequestType } from "./base";
+import { AppComponent } from "./app.component";
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/operator/toPromise';
 
-// export namespace apiService {
+@Injectable()
+export class GraphService {
 
-//     export let $http, text:string;
-
-//     export function init(http) {
-//         apiService.$http = http;
-//         text = GraphExplorerOptions.GraphUrl + '/v1.0/me/';
-//     }
-
-//     export let selectedVersion = "v1.0";
-
-//     export let selectedOption:RequestType = "GET";
+  constructor (private http: Http) { }
 
     
-//     export let performAnonymousQuery = function (queryType:RequestType) {
-//         return function (query, postString?, requestHeaders?) {
-//             let headersObj = {
-//                 "Authorization": "Bearer {token:https://graph.microsoft.com/}",
-//                 "Accept": "application/json"
-//             };
+  performAnonymousQuery = (queryType:RequestType) => {
+        let _http = this.http;
+        return function (query:string, requestHeaders?:any) {
+            let headersObj = {
+                "Authorization": "Bearer {token:https://graph.microsoft.com/}",
+                "Accept": "application/json"
+            };
 
-//             if (requestHeaders && requestHeaders["Authorization"]){
-//                 headersObj["Authorization"] = requestHeaders["Authorization"];
-//             }
+            if (requestHeaders && requestHeaders["Authorization"]){
+                headersObj["Authorization"] = requestHeaders["Authorization"];
+            }
 
-//             if (requestHeaders && requestHeaders["Accept"]){
-//                 headersObj["Accept"] = requestHeaders["Accept"];
-//             }
+            if (requestHeaders && requestHeaders["Accept"]){
+                headersObj["Accept"] = requestHeaders["Accept"];
+            }
 
-//             let request = {
-//                 url: 'https://proxy.apisandbox.msdn.microsoft.com/svc?url=' + encodeURIComponent(query),
-//                 method: 'GET',
-//                 headers: headersObj
-//             }
+            let request = {
+                url: 'https://proxy.apisandbox.msdn.microsoft.com/svc?url=' + encodeURIComponent(query),
+                method: 'GET',
+                headers: headersObj
+            }
 
-//             if (queryType == "GET_BINARY") {
-//                 request["responseType"] = "arraybuffer";
-//             }
+            if (queryType == "GET_BINARY") {
+                request["responseType"] = "arraybuffer";
+            }
 
-//             if (queryType == "GET_BINARY" || queryType == "GET") {
-//                 return apiService.$http(request);
-//             }
-//         };
-//     }
+            if (queryType == "GET_BINARY" || queryType == "GET") {
+                return _http.get(query).toPromise();
+            }
+        };
+    }
 
-//     export function performQuery (queryType:RequestType) {
-//         return (query, postString?, requestHeaders?) => {
-//             switch(queryType) {
-//                 case "GET":
-//                     return apiService.$http.get(query, {headers : requestHeaders});
-//                 case "GET_BINARY":
-//                     return apiService.$http.get(query, {responseType:"arraybuffer"}, {headers : requestHeaders});
-//                 case "POST":
-//                     return apiService.$http.post(query, postString, {headers : requestHeaders});
-//                 case "PATCH":
-//                     return apiService.$http.patch(query, postString, {headers : requestHeaders});
-//                 case "DELETE":
-//                     return apiService.$http.delete(query, {headers : requestHeaders});
-//             }
-//         };
-//     }
+    performQuery = (queryType:RequestType) => {
+        let _http = this.http;
+        return (query:string, postBody?:any, requestHeaders?:Headers) => {
+            switch(queryType) {
+                case "GET":
+                    return _http.get(query, {headers : requestHeaders}).toPromise();
+                case "GET_BINARY":
+                    return _http.get(query, {responseType:ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
+                case "POST":
+                    return _http.post(query, postBody, {headers : requestHeaders});
+                case "PATCH":
+                    return _http.patch(query, postBody, {headers : requestHeaders});
+                case "DELETE":
+                    return _http.delete(query, {headers : requestHeaders});
+            }
+        };
+    }
 
-//     export function getMetadata(version:string) {
-//         return performAnonymousQuery("GET")(GraphExplorerOptions.GraphUrl + "/" + version + "/$metadata");
-//     }
-// };
+    getMetadata = (version:string) => {
+        return this.performAnonymousQuery("GET")(`${AppComponent.options.GraphUrl}/${version}/$metadata`);
+    }
+};

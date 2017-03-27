@@ -11,10 +11,10 @@ import { FormsModule } from '@angular/forms'
 import { SidebarComponent } from "./sidebar.component";
 import { QueryRowComponent } from "./queryrow.component";
 import { ExplorerOptions } from "./base";
-
+import { HttpModule } from '@angular/http';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule ],
+  imports:      [ BrowserModule, FormsModule, HttpModule ],
   declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent ],
   bootstrap:    [ AppComponent ]
 })

@@ -25,3 +25,8 @@ export interface HistoryRecord extends GraphApiCall {
     jsonInput?: string;
     requestSentAt?: Date;
 }
+export interface ExplorerValues {
+    selectedOption: RequestType;
+    selectedVersion: string;
+    endpointUrl: string;
+}
