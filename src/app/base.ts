@@ -11,6 +11,12 @@ export interface ExplorerOptions {
     GraphVersions?: string[]
 }
 
+export let Methods = [
+    'GET',
+    'POST',
+    'PATCH',
+    'DELETE'
+];
 
 export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
@@ -36,4 +42,12 @@ export interface ExplorerValues {
     selectedOption: RequestType
     selectedVersion: string
     endpointUrl: string
+    authentication: {
+        status: AuthenticationStatus
+        user: {
+            displayName?: string
+            emailAddress?: string
+            profileImageUrl?: string
+        }
+    }
 }

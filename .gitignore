@@ -14,3 +14,9 @@ build/
 
 spec/*.js
 spec/*.js.map
+
+src/secrets*
+
+src/**/*.d.ts
+src/**/*.js
+src/**/*.js.map

@@ -14,17 +14,11 @@
     "tests"
   ],
   "dependencies": {
-    "hello": "^1.14.0",
-    "es6-promise": "latest"
+    "hello": "^1.14.0"
   },
   "devDependencies": {
     "mocha":"latest",
     "chai": "latest",
-    "jQuery": "latest",
-    "angular-material": "latest",
-    "angular-animate": "latest",
-    "angular-messages": "latest",
-    "angular-route": "latest",
-    "angular-aria": "latest"
+    "jQuery": "latest"
   }
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { ExplorerOptions, RequestType, ExplorerValues } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { initAuth } from "./auth";
+import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./api-explorer-svc";
@@ -16,17 +16,21 @@ declare let mwf:any;
     <div class="ms-Grid"> 
       <div class="ms-Grid-row">
         <sidebar class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2"></sidebar>
-      </div>
+        <main-column class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10" id="explorer-main"></main-column>
     </div>
     `,
   styles: [`
     
+  #explorer-main {
+      padding-left: 15px;
+  }
+
     
 `]
 })
 export class AppComponent extends GraphExplorerComponent implements OnInit {
 
-  constructor(private GraphService: GraphService) {
+  constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
     super();
   }
 
@@ -36,7 +40,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
         AppComponent.options[key] = window[key]; 
     }
     
-    initAuth(AppComponent.options);
+    initAuth(AppComponent.options, this.GraphService, this.chRef);
 
     initFabricComponents();
 
@@ -53,12 +57,16 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
       UserScopes: "openid profile User.Read User.ReadWrite User.ReadBasic.All Mail.ReadWrite Mail.Send Mail.Send.Shared Calendars.ReadWrite Calendars.ReadWrite.Shared Contacts.ReadWrite MailboxSettings.ReadWrite Files.ReadWrite Files.ReadWrite.All Files.ReadWrite.AppFolder Notes.Create Notes.ReadWrite.All People.Read Sites.ReadWrite.All Tasks.ReadWrite",
       AuthUrl: "https://login.microsoftonline.com",
       GraphUrl: "https://graph.microsoft.com",
-      GraphVersions: ["v1.0", "beta"]
+      GraphVersions: ["v1.0", "beta"],
   };
 
   static explorerValues:ExplorerValues = {
     endpointUrl: AppComponent.options.GraphUrl + '/v1.0/me/',
     selectedOption: "GET",
-    selectedVersion: "v1.0"
+    selectedVersion: "v1.0",
+    authentication: {
+      status:  isAuthenticated() ? "authenticating" : "anonymous",
+      user: null
+    }
   };
  }

@@ -8,7 +8,7 @@ import { AppModule } from "./app.module";
 @Component({
   selector: 'query-row',
   template: `
-    <div class="api-query" (click)="runQuery(query)" title="{{getTitle()}}">
+    <div class="api-query" (click)="runQuery(query)" [attr.title]="getTitle()" tabindex="0">
         <div class="row-1">
             <span class="request-badge" [ngClass]="query.method">{{query.method}}</span><span class="query">{{getQueryText()}}</span>
         </div>
@@ -68,6 +68,28 @@ import { AppModule } from "./app.module";
           display: inline;
       }
 
+      .history-row-2 {
+          margin-left: 69px;
+      }
+
+        .api-query .status-code.success {
+            color: #05f505;
+        }
+
+        .api-query .status-code.error {
+            color: #f7688d;
+        }
+
+        .api-query .date {
+            display: none;
+        }
+
+
+        .api-query .duration {
+            float: right;
+        }
+
+
 `]
 })
 export class QueryRowComponent extends GraphExplorerComponent {
@@ -92,23 +114,5 @@ export class QueryRowComponent extends GraphExplorerComponent {
     runQuery = function() {
         // apiService.text = query.requestUrl;
         // apiService.selectedOption = query.method;
-        // $scope.$parent.$parent.$broadcast('updateUrlFromServiceText');
-        // $scope.$parent.submit();
     }
 }
-
-
-
-// angular.module('ApiExplorer')
-//     .directive('queryRow', function() {
-//         return {
-//             scope: {
-//                 query: '='
-//             }, 
-//             transclude: true,
-//             template: `
-//             controller: ($scope) => {
-//                 const query = $scope.query as GraphApiCall;
-
-//             }
-//     }});

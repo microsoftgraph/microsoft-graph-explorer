@@ -6,6 +6,7 @@ import { NgModule, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent }  from './app.component';
+import { MainColumnComponent } from './main-column.component'
 import { AuthenticationComponent } from './login.component'
 import { FormsModule } from '@angular/forms'
 import { SidebarComponent } from "./sidebar.component";
@@ -15,7 +16,7 @@ import { HttpModule } from '@angular/http';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpModule ],
-  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent ],
+  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

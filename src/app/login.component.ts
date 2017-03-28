@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 import { AuthenticationStatus } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 
@@ -43,38 +45,38 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
         <div tabindex="-1">{{getStr('To access your own data:')}}</div>
         <img id="ms-signin-button" alt="{{getStr('sign in')}}" src="{{getAssetPath('assets/images/MSSignInButton.svg')}}" (click)="login()"/>
     </div>
-    `
-    // <div ng-show="getAuthenticationStatus() == 'authenticating'">
-    //     <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
-    //         <span></span>
-    //         <span></span>
-    //         <span></span>
-    //         <span></span>
-    //         <span></span>
-    //     </div>
-    // </div>
-    // <div ng-show="getAuthenticationStatus() == 'authenticated'" ng-cloak>
-    //     <div class="ms-Persona" ng-class="{'user-no-image': !userInfo.profileImageUrl}">
-    //         <div class="ms-Persona-imageArea" ng-if="userInfo.profileImageUrl">
-    //             <img class="ms-Persona-image" ng-src="{{userInfo.profileImageUrl}}">
-    //         </div>
-    //         <div class="ms-Persona-details">
-    //             <div class="ms-Persona-primaryText" id='userDisplayName' ng-if="userInfo.displayName">{{userInfo.displayName}}</div>
-    //             <div class="ms-Persona-secondaryText" id='userMail' ng-if="userInfo.mail">{{userInfo.mail}}</div>
-    //         </div>
-    //     </div>
-    //     <a href="#" id="signout" class="c-hyperlink" tabindex=0 ng-click="logout()">{{::getStr(['sign out'])}}</a>
+    <div *ngIf="getAuthenticationStatus() == 'authenticating'">
+        <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div *ngIf="getAuthenticationStatus() == 'authenticated'">
+         <div class="ms-Persona" [ngClass]="{'user-no-image': !userInfo().profileImageUrl}">
+             <div class="ms-Persona-imageArea" *ngIf="userInfo().profileImageUrl">
+                 <img class="ms-Persona-image" [src]="sanitize(userInfo().profileImageUrl)">
+             </div>
+             <div class="ms-Persona-details">
+                 <div class="ms-Persona-primaryText" id='userDisplayName' *ngIf="userInfo().displayName">{{userInfo().displayName}}</div>
+                 <div class="ms-Persona-secondaryText" id='userMail' *ngIf="userInfo().emailAddress">{{userInfo().emailAddress}}</div>
+             </div>
+         </div>
+         <a href="#" id="signout" class="c-hyperlink" tabindex=0 (click)="logout()">{{getStr('sign out')}}</a>
         
-    // </div>
-    // `,
+     </div>
+     `,
 })
-export class AuthenticationComponent extends GraphExplorerComponent{
-  title = 'Tour of Heroes!!';
+export class AuthenticationComponent extends GraphExplorerComponent {
+    constructor(private sanitizer: DomSanitizer) {
+        super();
+    }
 
-
-  getAuthenticationStatus = ():AuthenticationStatus => {
-    return "anonymous"
-  }
+    sanitize(url:string):SafeUrl {
+        return this.sanitizer.bypassSecurityTrustUrl(url);
+    }
 
   // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
   login = function () {
@@ -90,5 +92,25 @@ export class AuthenticationComponent extends GraphExplorerComponent{
         debugger;
       });
   };
+
+  logout = () => {
+    // anonymous users can only GET
+
+    this.explorerValues.selectedOption = "GET";
+
+
+    (hello as any)('msft').logout(null, {force:true});
+    this.explorerValues.authentication.status = "anonymous"
+    delete this.explorerValues.authentication.user;
+
+  }
+
+  userInfo = () => {
+      return this.explorerValues.authentication.user;
+  }
+
+  getAuthenticationStatus = () => {
+      return this.explorerValues.authentication.status;
+  }
 
 }

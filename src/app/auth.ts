@@ -4,10 +4,13 @@
 
 import { AppModule } from "./app.module";
 import { ExplorerOptions } from "./base";
+import { AppComponent } from "./app.component";
+import { GraphService } from "./api-explorer-svc";
+import { ChangeDetectorRef } from "@angular/core";
 
 declare const hello: any;
 
-export function initAuth(options:ExplorerOptions) {
+export function initAuth(options:ExplorerOptions, apiService:GraphService, changeDetectorRef: ChangeDetectorRef) {
 	hello.init({
 		msft: {
 			oauth: {
@@ -57,6 +60,47 @@ export function initAuth(options:ExplorerOptions) {
 			msft_token_refresh: options.ClientId,
 	}, {
 			redirect_uri: window.location.pathname
+	});
+
+	hello.on('auth.login', (auth) => {
+		let accessToken;
+
+		if (auth.network == "msft_token_refresh") {
+			accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
+		} else if (auth.network == "msft") {
+			let authResponse = hello('msft').getAuthResponse()
+
+			accessToken = authResponse.access_token;
+		}
+
+		if (accessToken) {
+			AppComponent.explorerValues.authentication.status = "authenticating"
+
+			let promisesGetUserInfo = [];
+			AppComponent.explorerValues.authentication.user = {}
+
+			// get displayName and email
+			promisesGetUserInfo.push(apiService.performQuery("GET")(`${AppComponent.options.GraphUrl}/v1.0/me`).then((result) => {
+				let resultBody = result.json();
+
+				AppComponent.explorerValues.authentication.user = {
+					displayName: resultBody.displayName,
+					emailAddress: resultBody.mail	
+				}
+			}));
+
+			// get profile image
+			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY')(`${AppComponent.options.GraphUrl}/v1.0/me/photo/$value`).then((result) => {
+				let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
+				let imageUrl = window.URL.createObjectURL( blob );
+				AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
+			}).catch((e) => console.log(e)));
+
+			Promise.all(promisesGetUserInfo).then(() => {
+				AppComponent.explorerValues.authentication.status = "authenticated"
+				changeDetectorRef.detectChanges();
+			});
+		}
 	});
 
 }

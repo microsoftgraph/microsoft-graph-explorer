@@ -348,9 +348,6 @@ md-autocomplete-wrap input:focus {
 }
 /*Hide scrollbar on dropdown*/
 
-.c-select-menu.f-border [aria-expanded] {
-    height: inherit;
-}
 
 md-autocomplete-wrap.md-whiteframe-z1 {
     box-shadow: none;
@@ -392,10 +389,6 @@ span#duration-label {
 
 .ms-MessageBar-content {
     padding: 6px;
-}
-
-#explorer-main {
-    padding-left: 15px;
 }
 
 /* frontdoor style conflicts */
@@ -446,53 +439,12 @@ md-autocomplete-wrap.md-menu-showing {
 
 
 
-/* make url bar responsive*/
-#request-bar-row-form {
-  display: flex;
-  flex-wrap: wrap;
-}
-#request-bar-row-form::after {
-  content: '';
-  width: 100%;
-}
-
-
-@media (max-width: 639px) {
-    .bump-flex-row-mobile {
-        order: 1;
-        margin: 0px auto;
-    }
-    md-autocomplete {
-        min-width: 100% !important;
-    }
-}
 
 
 
 
 .c-progress.f-indeterminate-local span:after {
     background: white;
-}
-
-.api-query .status-code.success {
-    color: #05f505;
-}
-
-.api-query .status-code.error {
-    color: #f7688d;
-}
-
-.api-query .date {
-    display: none;
-}
-
-
-.history-row-2 {
-    margin-left: 69px;
-}
-
-.api-query .duration {
-    float: right;
 }
 
 
@@ -502,9 +454,6 @@ md-autocomplete-wrap.md-menu-showing {
     padding-left: 0;
 }
 
-.c-select:after {
-    display: none;
-}
 
 md-autocomplete button:after {
     display: none;

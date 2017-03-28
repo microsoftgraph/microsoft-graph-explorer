@@ -51,17 +51,24 @@ export class GraphService {
     performQuery = (queryType:RequestType) => {
         let _http = this.http;
         return (query:string, postBody?:any, requestHeaders?:Headers) => {
+
+            if (typeof requestHeaders == "undefined") {
+                requestHeaders = new Headers();
+            }
+
+            requestHeaders.append("Authorization", `Bearer ${hello.getAuthResponse('msft').access_token}`)
+
             switch(queryType) {
                 case "GET":
-                    return _http.get(query, {headers : requestHeaders}).toPromise();
+                    return _http.get(query, {headers: requestHeaders}).toPromise();
                 case "GET_BINARY":
-                    return _http.get(query, {responseType:ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
+                    return _http.get(query, {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
                 case "POST":
-                    return _http.post(query, postBody, {headers : requestHeaders});
+                    return _http.post(query, postBody, {headers : requestHeaders}).toPromise();
                 case "PATCH":
-                    return _http.patch(query, postBody, {headers : requestHeaders});
+                    return _http.patch(query, postBody, {headers : requestHeaders}).toPromise();
                 case "DELETE":
-                    return _http.delete(query, {headers : requestHeaders});
+                    return _http.delete(query, {headers : requestHeaders}).toPromise();
             }
         };
     }

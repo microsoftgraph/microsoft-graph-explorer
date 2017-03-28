@@ -71,44 +71,7 @@
 //             $scope.$apply();
 //         });
 
-//         hello.on('auth.login', function (auth) {
-//             let accessToken;
 
-//             if (auth.network == "msft_token_refresh") {
-//                 accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
-//             } else if (auth.network == "msft") {
-//                 let authResponse = hello('msft').getAuthResponse()
-
-//                 accessToken = authResponse.access_token;
-//             }
-
-//             if (accessToken) {
-//                 authenticationStatus = "authenticating"
-//                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-
-//                 let promisesGetUserInfo = [];
-//                 $scope.userInfo = {}
-
-//                 // get displayName and email
-//                 promisesGetUserInfo.push(apiService.performQuery("GET")(`${GraphExplorerOptions.GraphUrl}/v1.0/me`).then((result) => {
-//                     let resultBody = result.data;
-
-//                     $scope.userInfo.displayName = resultBody.displayName;
-//                     $scope.userInfo.mail = resultBody.mail;
-//                 }));
-
-//                 // get profile image
-//                 promisesGetUserInfo.push(apiService.performQuery('GET_BINARY')(`${GraphExplorerOptions.GraphUrl}/beta/me/photo/$value`).then((result) => {
-//                         let blob = new Blob( [ result.data ], { type: "image/jpeg" } );
-//                         let imageUrl = window.URL.createObjectURL( blob );
-//                         $scope.userInfo.profileImageUrl = imageUrl;
-//                 }).catch((e) => console.log(e)));
-
-//                 Promise.all(promisesGetUserInfo).then(() => {
-//                     authenticationStatus = "authenticated"
-//                     $scope.$apply();
-//                 })
-//             }
 
 //         });
 //         $scope.showImage = false;
