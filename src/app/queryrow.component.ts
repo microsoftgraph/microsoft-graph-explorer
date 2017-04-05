@@ -103,12 +103,12 @@ export class QueryRowComponent extends GraphExplorerComponent {
     getQueryText = function() {
         let shortQueryUrl;
         if (this.query.requestUrl) {
-            shortQueryUrl = this.query.requestUrl.split(AppComponent.options.GraphUrl)[1];
+            shortQueryUrl = this.query.requestUrl.split(AppComponent.Options.GraphUrl)[1];
         }
         
         let queryText = this.query.humanName || shortQueryUrl;
 
-        return (getString(AppComponent.options, queryText)) || queryText;
+        return (getString(AppComponent.Options, queryText)) || queryText;
     }
 
     runQuery = function() {

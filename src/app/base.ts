@@ -23,18 +23,18 @@ export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticat
 export type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
 
 export interface GraphApiCall {
-    statusCode?: number,
-    duration?: number,
+    statusCode?: number
+    duration?: number
     method?: RequestType
     humanName?: string
     requestUrl?: string
 }
 
 export interface HistoryRecord extends GraphApiCall {
-    successful?: boolean,
-    requestId?: string,
-    selectedVersion?: string,
-    jsonInput?: string,
+    requestId?: string
+    // selectedVersion?: string // take from requestUrl
+    requestBody?: string
+    requestHeaders?: string
     requestSentAt?: Date
 }
 
@@ -43,8 +43,8 @@ export interface ExplorerValues {
     selectedVersion: string
     endpointUrl: string
     authentication: {
-        status: AuthenticationStatus
-        user: {
+        status?: AuthenticationStatus
+        user?: {
             displayName?: string
             emailAddress?: string
             profileImageUrl?: string

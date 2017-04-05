@@ -4,18 +4,21 @@
 
 import { NgModule, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { AppComponent }  from './app.component';
 import { MainColumnComponent } from './main-column.component'
-import { AuthenticationComponent } from './login.component'
+import { AuthenticationComponent } from './authentication.component'
 import { FormsModule } from '@angular/forms'
 import { SidebarComponent } from "./sidebar.component";
 import { QueryRowComponent } from "./queryrow.component";
 import { ExplorerOptions } from "./base";
+import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, HttpModule ],
+  imports:      [ BrowserModule, FormsModule, HttpModule, BrowserAnimationsModule, MaterialModule ],
   declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent ],
   bootstrap:    [ AppComponent ]
 })

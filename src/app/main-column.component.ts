@@ -25,6 +25,19 @@ declare let mwf:any;
             </select>
         </div>
 
+                
+        <md-input-container>
+            <input type="text" mdInput [mdAutocomplete]="auto">
+        </md-input-container>
+
+        <md-autocomplete #auto="mdAutocomplete">
+            <md-option *ngFor="let option of methods" [value]="option">
+                {{ option }}
+            </md-option>
+        </md-autocomplete>
+
+    </div>
+
 
   `,
   styles: [`
@@ -36,6 +49,10 @@ declare let mwf:any;
     #request-bar-row-form::after {
         content: '';
         width: 100%;
+    }
+
+    .c-select.f-border {
+        min-width: inherit;
     }
 
 
@@ -57,12 +74,15 @@ declare let mwf:any;
   `]
 })
 
+
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
+    static httpMethodEl;
     ngAfterViewInit(): void {
+        MainColumnComponent.httpMethodEl = this._httpMethodEl;
         // Init httpMethod
         mwf.ComponentFactory.create([{
             component: mwf.Select,
-            elements: [this.httpMethodEl.element.nativeElement],
+            elements: [this._httpMethodEl.element.nativeElement],
             callback: (event:any) => {
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
@@ -72,15 +92,13 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             }
         }]);
 
-        const httpMethodSelectMenu = this.httpMethodEl.element.nativeElement.mwfInstances.t.selectMenu;
+        updateHttpMethod();
 
-        let elementIdxToSelect = httpMethodSelectMenu.items[this.methods.indexOf(this.explorerValues.selectedOption)];
-        httpMethodSelectMenu.onItemSelected(elementIdxToSelect);
 
         // init Graph version selector
         mwf.ComponentFactory.create([{
             component: mwf.Select,
-            elements: [this.graphVersionEl.element.nativeElement],
+            elements: [this._graphVersionEl.element.nativeElement],
             callback: (event:any) => {
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
@@ -90,17 +108,24 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             }
         }]);
 
-        const graphVersionSelectMenu = this.graphVersionEl.element.nativeElement.mwfInstances.t.selectMenu;
+        const graphVersionSelectMenu = this._graphVersionEl.element.nativeElement.mwfInstances.t.selectMenu;
 
-        let graphVersionIdx = graphVersionSelectMenu.items[this.GraphVersions.indexOf(this.explorerValues.selectedVersion)];
+        const graphVersionIdx = graphVersionSelectMenu.items[this.GraphVersions.indexOf(this.explorerValues.selectedVersion)];
         graphVersionSelectMenu.onItemSelected(graphVersionIdx);
     }
 
     ngOnInit(): void { }
 
-    @ViewChild('httpMethod', {read: ViewContainerRef}) httpMethodEl;
-    @ViewChild('graphVersion', {read: ViewContainerRef}) graphVersionEl;
+    @ViewChild('httpMethod', {read: ViewContainerRef}) _httpMethodEl;
+    @ViewChild('graphVersion', {read: ViewContainerRef}) _graphVersionEl;
 
     methods = Methods;
-    GraphVersions = AppComponent.options.GraphVersions;
+    GraphVersions = AppComponent.Options.GraphVersions;
+}
+
+export function updateHttpMethod() {
+    const httpMethodSelectMenu = MainColumnComponent.httpMethodEl.element.nativeElement.mwfInstances.t.selectMenu;
+
+    const elementIdxToSelect = httpMethodSelectMenu.items[Methods.indexOf(AppComponent.explorerValues.selectedOption)];
+    httpMethodSelectMenu.onItemSelected(elementIdxToSelect);
 }

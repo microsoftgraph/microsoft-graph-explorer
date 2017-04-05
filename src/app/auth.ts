@@ -49,17 +49,11 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 	});
 
 	hello.init({
-			msft: options.ClientId
-	}, {
-			scope: options.UserScopes,
-			redirect_uri: window.location.pathname //required to remove extra url params that make URLs not match
-	});
-
-	hello.init({
+			msft: options.ClientId,
 			msft_admin_consent: options.ClientId,
 			msft_token_refresh: options.ClientId,
 	}, {
-			redirect_uri: window.location.pathname
+			redirect_uri: window.location.pathname //required to remove extra url params that make URLs not match
 	});
 
 	hello.on('auth.login', (auth) => {
@@ -68,19 +62,20 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 		if (auth.network == "msft_token_refresh") {
 			accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
 		} else if (auth.network == "msft") {
-			let authResponse = hello('msft').getAuthResponse()
+			let authResponse = hello('msft').getAuthResponse();
 
 			accessToken = authResponse.access_token;
 		}
 
 		if (accessToken) {
 			AppComponent.explorerValues.authentication.status = "authenticating"
+			changeDetectorRef.detectChanges();
 
 			let promisesGetUserInfo = [];
 			AppComponent.explorerValues.authentication.user = {}
 
 			// get displayName and email
-			promisesGetUserInfo.push(apiService.performQuery("GET")(`${AppComponent.options.GraphUrl}/v1.0/me`).then((result) => {
+			promisesGetUserInfo.push(apiService.performQuery("GET")(`${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
 				let resultBody = result.json();
 
 				AppComponent.explorerValues.authentication.user = {
@@ -90,7 +85,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			}));
 
 			// get profile image
-			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY')(`${AppComponent.options.GraphUrl}/v1.0/me/photo/$value`).then((result) => {
+			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY')(`${AppComponent.Options.GraphUrl}/v1.0/me/photo/$value`).then((result) => {
 				let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
 				let imageUrl = window.URL.createObjectURL( blob );
 				AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
@@ -102,13 +97,14 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			});
 		}
 	});
-
+	AppComponent.explorerValues.authentication.status = isAuthenticated() ? "authenticating" : "anonymous"
 }
 
 export function isAuthenticated():boolean {
-	var session = hello('msft').getAuthResponse();
+	let session = hello('msft').getAuthResponse();
+	
 
 	if (session === null) return false;
-	var currentTime = (new Date()).getTime() / 1000;
+	let currentTime = (new Date()).getTime() / 1000;
 	return session && session.access_token && session.expires > currentTime;
 };

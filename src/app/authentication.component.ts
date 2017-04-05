@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
+
 import { AuthenticationStatus } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
+import { AppComponent } from "./app.component";
+import { updateHttpMethod } from "./main-column.component";
 
 @Component({
   selector: 'authentication',
@@ -85,7 +88,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         response_type: "id_token token",
         nonce: 'graph_explorer',
         prompt: 'select_account',
-        msafed: 0
+        msafed: 0,
+        scope: AppComponent.Options.UserScopes
       }
 
       hello('msft').login(loginProperties, () => {
@@ -95,8 +99,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   logout = () => {
     // anonymous users can only GET
-
     this.explorerValues.selectedOption = "GET";
+    updateHttpMethod();
+    
     (hello as any)('msft').logout(null, {force:true});
     this.explorerValues.authentication.status = "anonymous"
     delete this.explorerValues.authentication.user;

@@ -397,9 +397,6 @@ span#duration-label {
     color: white !important;
 }
 
-#api-explorer-app .c-select-menu.f-border [aria-expanded] {
-    min-width: inherit;
-}
 
 
 #api-explorer-app ol li,ul li {

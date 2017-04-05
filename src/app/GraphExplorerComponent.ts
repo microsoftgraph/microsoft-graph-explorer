@@ -15,7 +15,7 @@ export class GraphExplorerComponent {
   explorerValues = AppComponent.explorerValues;
 
   getStr(label:string):string {
-    return getString(AppComponent.options, label);
+    return getString(AppComponent.Options, label);
   }
   getAssetPath(relPath:string):string {
     return pathToBuildDir + "/"+ relPath;

@@ -74,6 +74,6 @@ export class GraphService {
     }
 
     getMetadata = (version:string) => {
-        return this.performAnonymousQuery("GET")(`${AppComponent.options.GraphUrl}/${version}/$metadata`);
+        return this.performAnonymousQuery("GET")(`${AppComponent.Options.GraphUrl}/${version}/$metadata`);
     }
 };

@@ -35,12 +35,12 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
   }
 
   ngOnInit() {
-    for (let key in AppComponent.options) {
+    for (let key in AppComponent.Options) {
       if (key in window)
-        AppComponent.options[key] = window[key]; 
+        AppComponent.Options[key] = window[key]; 
     }
-    
-    initAuth(AppComponent.options, this.GraphService, this.chRef);
+
+    initAuth(AppComponent.Options, this.GraphService, this.chRef);
 
     initFabricComponents();
 
@@ -48,9 +48,10 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
         'component': mwf.Drawer,
     }])
 
+
   }
 
-  static options: ExplorerOptions = {
+  static Options: ExplorerOptions = {
       ClientId: "",
       Language: "en-US",
       AdminScopes: "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All",
@@ -61,12 +62,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
   };
 
   static explorerValues:ExplorerValues = {
-    endpointUrl: AppComponent.options.GraphUrl + '/v1.0/me/',
-    selectedOption: "GET",
-    selectedVersion: "v1.0",
-    authentication: {
-      status:  isAuthenticated() ? "authenticating" : "anonymous",
-      user: null
-    }
-  };
+      endpointUrl: AppComponent.Options.GraphUrl + '/v1.0/me/',
+      selectedOption: "GET",
+      selectedVersion: "v1.0",
+      authentication: {}
+    };
  }
