@@ -97,8 +97,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     // anonymous users can only GET
 
     this.explorerValues.selectedOption = "GET";
-
-
     (hello as any)('msft').logout(null, {force:true});
     this.explorerValues.authentication.status = "anonymous"
     delete this.explorerValues.authentication.user;

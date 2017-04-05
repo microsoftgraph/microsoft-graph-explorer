@@ -11,7 +11,7 @@ declare let mwf:any;
     <div id="request-bar-row-form" layout="row" layout-align="start center">
 
         <!-- HTTP METHOD -->
-        <div title="{{isAuthenticated() ? null : getStr('login to send requests')}}" #httpMethod class="c-select f-border first-row-mobile bump-flex-row-mobile">
+        <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod class="c-select f-border first-row-mobile bump-flex-row-mobile">
             <select [disabled]="!isAuthenticated()">
                 <option *ngFor="let choice of methods">{{choice}}</option>
             </select>

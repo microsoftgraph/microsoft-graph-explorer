@@ -117,16 +117,6 @@
 //             });
 //         };
 
-//         $scope.logout = function () {
-//             // change to GET and show request header tab
-//             apiService.selectedOption = "GET";
-//             // tabConfig.disableRequestBodyEditor = true;
-//             // setSelectedTab(0);
-
-//             hello('msft').logout(null, {force:true});
-//             delete $scope.userInfo;
-//         };
-
 
 //         $scope.getSearchText = function() {
 //             return apiService.text;
