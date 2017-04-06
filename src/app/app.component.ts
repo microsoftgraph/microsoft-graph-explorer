@@ -15,6 +15,7 @@ declare let mwf:any;
   template: `
     <div class="ms-Grid"> 
       <div class="ms-Grid-row">
+        {{explorerValues.endpointUrl}}
         <sidebar class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2"></sidebar>
         <main-column class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10" id="explorer-main"></main-column>
     </div>
@@ -23,6 +24,10 @@ declare let mwf:any;
     
   #explorer-main {
       padding-left: 15px;
+  }
+  
+  sidebar {
+      padding: 0px;
   }
 
     
@@ -66,5 +71,5 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
       selectedOption: "GET",
       selectedVersion: "v1.0",
       authentication: {}
-    };
+  };
  }

@@ -3,256 +3,257 @@
 // // ------------------------------------------------------------------------------
 
 // import { runInTestMode } from "./base"
-// import { AppComponent } from "./app.component";
-// export type GraphNodeLinkTagName = "Property" | "NavigationProperty" | "EntitySet" | "Singleton"
+import { AppComponent } from "./app.component";
+import { GraphService } from "./api-explorer-svc";
+export type GraphNodeLinkTagName = "Property" | "NavigationProperty" | "EntitySet" | "Singleton"
 
-// export interface GraphNodeLink {
-//     isACollection?: boolean
-//     type: string // corresponds to a possible name of a Graph Entity
-//     name: string,
-//     tagName?: GraphNodeLinkTagName
-// }
+export interface GraphNodeLink {
+    isACollection?: boolean
+    type: string // corresponds to a possible name of a Graph Entity
+    name: string,
+    tagName?: GraphNodeLinkTagName
+}
 
-// export interface GraphEntity {
-//     name: string
-//     links: { [Name: string] : GraphNodeLink; };
-// }
+export interface GraphEntity {
+    name: string
+    links: { [Name: string] : GraphNodeLink; };
+}
 
-// export function parseMetadata(version?:string):Promise<any> {
-//     // don't try to download invalid metadata
-//     if (version && AppComponent.options.GraphVersions.indexOf(version) == -1) {
-//         return Promise.reject(`invalid version: ${version}`);
-//     }
+export function parseMetadata(apiService:GraphService, version?:string):Promise<any> {
+    // don't try to download invalid metadata
+    if (version && AppComponent.Options.GraphVersions.indexOf(version) == -1) {
+        return Promise.reject(`invalid version: ${version}`);
+    }
 
-//     return new Promise((resolve, reject) => {
-//         if (!version) {
-//             version = apiService.selectedVersion;
-//         }
+    return new Promise((resolve, reject) => {
+        if (!version) {
+            version = AppComponent.explorerValues.selectedVersion;
+        }
 
-//         if (!graphStructureCache.containsVersion(version)) {
-//             console.log(`parsing ${version} metadata`);
-//             apiService.getMetadata(version).then((results:any) => {
-//                 const metadata = $($.parseXML(results.data));
+        if (!graphStructureCache.containsVersion(version)) {
+            console.log(`parsing ${version} metadata`);
+            apiService.getMetadata(version).then((results:any) => {
+                const metadata = $($.parseXML(results.data));
 
-//                 let entitySetData = getEntitySets(metadata);
-//                 graphStructureCache.add(version, "EntitySetData", entitySetData);
-//                 let entityTypeData = getEntityTypes(metadata);
-//                 graphStructureCache.add(version, "EntityTypeData", entityTypeData);
-//                 console.log(`${version} metadata successfully parsed`);
-//                 return resolve();
-//             }).catch(reject);
-//         } else {
-//             // metadata already cached
-//             return resolve();
-//         }
-//     });
-// }
+                let entitySetData = getEntitySets(metadata);
+                graphStructureCache.add(version, "EntitySetData", entitySetData);
+                let entityTypeData = getEntityTypes(metadata);
+                graphStructureCache.add(version, "EntityTypeData", entityTypeData);
+                console.log(`${version} metadata successfully parsed`);
+                return resolve();
+            }).catch(reject);
+        } else {
+            // metadata already cached
+            return resolve();
+        }
+    });
+}
 
-// class GraphStructureCache {
-//     contents: {
-//         [version: string] : {
-//             [content: string] : any
-//         }
-//     } = {};
+class GraphStructureCache {
+    contents: {
+        [version: string] : {
+            [content: string] : any
+        }
+    } = {};
 
-//     add(version:string, key:string, content:any) {
-//         this.contents[version] = this.contents[version] || {};
-//         this.contents[version][key] = content;
-//     }
+    add(version:string, key:string, content:any) {
+        this.contents[version] = this.contents[version] || {};
+        this.contents[version][key] = content;
+    }
 
-//     containsVersion(version:string) {
-//         return version in this.contents
-//     }
+    containsVersion(version:string) {
+        return version in this.contents
+    }
 
-//     contains(version:string, key:string) {
-//         return this.contents[version] && this.contents[version][key];
-//     }
+    contains(version:string, key:string) {
+        return this.contents[version] && this.contents[version][key];
+    }
 
-//     get(version:string, key:string) {
-//         if (this.contains(version, key))
-//             return this.contents[version][key];
-//     }
-// };
+    get(version:string, key:string) {
+        if (this.contains(version, key))
+            return this.contents[version][key];
+    }
+};
 
-// const graphStructureCache = new GraphStructureCache();
+const graphStructureCache = new GraphStructureCache();
 
-// function getEntitySets(metadata:JQuery) {
-//     let entitySetsObj = {};
-//     let entitySetsAndSingletons = metadata.find("EntitySet,SingleTon");
-//     for(var i=0; i<entitySetsAndSingletons.length; i++){
-//         var set = entitySetsAndSingletons[i];
+function getEntitySets(metadata:JQuery) {
+    let entitySetsObj = {};
+    let entitySetsAndSingletons = metadata.find("EntitySet,SingleTon");
+    for(var i=0; i<entitySetsAndSingletons.length; i++){
+        var set = entitySetsAndSingletons[i];
 
-//         let entitySetOrSingleton:GraphNodeLink = {
-//             name: set.getAttribute("Name"),
-//             // singletons like "me" have "Type" instead of "EntityType"
-//             type: set.getAttribute("EntityType") || set.getAttribute("Type"),
-//             tagName: set.tagName as GraphNodeLinkTagName
-//         };
+        let entitySetOrSingleton:GraphNodeLink = {
+            name: set.getAttribute("Name"),
+            // singletons like "me" have "Type" instead of "EntityType"
+            type: set.getAttribute("EntityType") || set.getAttribute("Type"),
+            tagName: set.tagName as GraphNodeLinkTagName
+        };
 
-//         if (set.tagName == "EntitySet") {
-//             entitySetOrSingleton.isACollection = true;
-//         } else if (set.tagName == "Singleton") { 
-//             entitySetOrSingleton.isACollection = false;
-//         } else {
-//             console.error("Found unexpected type in metadata under EntityContainer")
-//         }
+        if (set.tagName == "EntitySet") {
+            entitySetOrSingleton.isACollection = true;
+        } else if (set.tagName == "Singleton") { 
+            entitySetOrSingleton.isACollection = false;
+        } else {
+            console.error("Found unexpected type in metadata under EntityContainer")
+        }
 
-//         entitySetsObj[entitySetOrSingleton.name] = entitySetOrSingleton;
-//     }
-//     return entitySetsObj;
-// }
-
-
-// function createEntityTypeObject (DOMarray:Element[]) {
-//     let entityTypes = {}
-//     for(let i=0; i<DOMarray.length; i++){
-//            let EntityType:GraphEntity = {
-//                 name: DOMarray[i].getAttribute("Name"),
-//                 links: {}
-//            };
-
-//            const children = $(DOMarray[i]).children(); // must use $() otherwise in IE .children is undefined
-//            for (var j=0; j<children.length; j++) {
-//                 if (children[j].attributes.length > 0) {
-
-//                     let childName = children[j].getAttribute("Name");
-//                     let type = children[j].getAttribute("Type");
+        entitySetsObj[entitySetOrSingleton.name] = entitySetOrSingleton;
+    }
+    return entitySetsObj;
+}
 
 
-//                     let urlObject:GraphNodeLink = {
-//                         isACollection: false,
-//                         name: childName,
-//                         type: type,
-//                         tagName: children[j].tagName as GraphNodeLinkTagName
-//                     };
+function createEntityTypeObject (DOMarray:Element[]) {
+    let entityTypes = {}
+    for(let i=0; i<DOMarray.length; i++){
+           let EntityType:GraphEntity = {
+                name: DOMarray[i].getAttribute("Name"),
+                links: {}
+           };
 
-//                     if (type.indexOf("Collection(") == 0) {
-//                         urlObject.isACollection = true;
-//                         urlObject.type = type.split("(")[1].split(")")[0]; // Collection("A") => A
-//                     }
+           const children = $(DOMarray[i]).children(); // must use $() otherwise in IE .children is undefined
+           for (var j=0; j<children.length; j++) {
+                if (children[j].attributes.length > 0) {
 
-//                     EntityType.links[childName] = urlObject;
-//                 }
-//            }
-//            entityTypes[EntityType.name] = EntityType;
-//     }    
-//     return entityTypes;
-// }
+                    let childName = children[j].getAttribute("Name");
+                    let type = children[j].getAttribute("Type");
 
 
-// function getEntityTypes(metadata:any) {
-//     let entities = {};
+                    let urlObject:GraphNodeLink = {
+                        isACollection: false,
+                        name: childName,
+                        type: type,
+                        tagName: children[j].tagName as GraphNodeLinkTagName
+                    };
 
-//     let entityTypes = metadata.find("EntityType");
-//     jQuery.extend(entities, createEntityTypeObject(entityTypes));
+                    if (type.indexOf("Collection(") == 0) {
+                        urlObject.isACollection = true;
+                        urlObject.type = type.split("(")[1].split(")")[0]; // Collection("A") => A
+                    }
 
-//     let complexTypes = metadata.find("ComplexType");
-//     jQuery.extend(entities, createEntityTypeObject(complexTypes));
+                    EntityType.links[childName] = urlObject;
+                }
+           }
+           entityTypes[EntityType.name] = EntityType;
+    }    
+    return entityTypes;
+}
 
-//     return entities;
-// }
 
-// export function getEntityFromTypeName(typePossiblyWithPrefix:string, version:string):GraphEntity {
-//     const entityTypeData = loadEntityTypeData(version);
-//     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
-//     return entityTypeData[type];
-// }
+function getEntityTypes(metadata:any) {
+    let entities = {};
 
-// export function constructGraphLinksFromFullPath(path:string):Promise<GraphNodeLink[]> {
-//     const urlPathArr = path.split(AppComponent.options.GraphUrl+"/");
-//     if (urlPathArr.length <=1)
-//         return Promise.resolve([]);
+    let entityTypes = metadata.find("EntityType");
+    jQuery.extend(entities, createEntityTypeObject(entityTypes));
 
-//     let segments:string[] = urlPathArr[1].split("/");
-//     let version = segments.shift();
+    let complexTypes = metadata.find("ComplexType");
+    jQuery.extend(entities, createEntityTypeObject(complexTypes));
 
-//     // singletons and entitysets
-//     return loadEntitySets(version).then((entityContainerData) => {
-//         var graph:GraphNodeLink[] = [];
-//         while (segments.length > 0) {
-//             let segment = segments.shift();
-//             if (graph.length == 0) {
-//                 if (segment in entityContainerData) {
-//                     let node:GraphNodeLink = entityContainerData[segment];
-//                     graph.push(node);
-//                 }
-//             } else {
-//                 let lastGraphItem = graph[graph.length - 1];
-//                 let lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type, version);
+    return entities;
+}
 
-//                 if (lastGraphItemEntity === undefined) {
-//                     continue;
-//                 }
+export function getEntityFromTypeName(typePossiblyWithPrefix:string, version:string):GraphEntity {
+    const entityTypeData = loadEntityTypeData(version);
+    let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
+    return entityTypeData[type];
+}
 
-//                 if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) { // me/drive/root
-//                     graph.push(lastGraphItemEntity.links[segment]);
-//                 } else if (lastGraphItem.isACollection && segment != "") {
-//                     // previous link was a collection, current is an id
-//                     graph.push({
-//                         isACollection: false,
-//                         name: segment,
-//                         type: lastGraphItem.type
-//                     });
-//                 }
-//             }
-//         }
-//         return graph;
-//     }).catch(() => {
-//         return [];
-//     });
-// }
+export function constructGraphLinksFromFullPath(service:GraphService, path:string):Promise<GraphNodeLink[]> {
+    const urlPathArr = path.split(AppComponent.Options.GraphUrl+"/");
+    if (urlPathArr.length <=1)
+        return Promise.resolve([]);
 
-// // urlOptions are like ["driveType", "quota"]
-// function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):Promise<string[]> {
-//     // truncate the service string back to the last known good entity (could be an id if prev was a collection)
-//     // concat each urlOption with this prefix
-//     // return that array
-//     return constructGraphLinksFromFullPath(apiService.text).then((graphLinks) => {
-//         let baseUrl = [];
-//         while(graphLinks.length > 0) {
-//             let lastSegment = graphLinks.shift();
-//             baseUrl.push(lastSegment.name);
-//         }
+    let segments:string[] = urlPathArr[1].split("/");
+    let version = segments.shift();
 
-//         let baseUrlFinal = AppComponent.options.GraphUrl + "/" + apiService.selectedVersion;
+    // singletons and entitysets
+    return loadEntitySets(service, version).then((entityContainerData) => {
+        var graph:GraphNodeLink[] = [];
+        while (segments.length > 0) {
+            let segment = segments.shift();
+            if (graph.length == 0) {
+                if (segment in entityContainerData) {
+                    let node:GraphNodeLink = entityContainerData[segment];
+                    graph.push(node);
+                }
+            } else {
+                let lastGraphItem = graph[graph.length - 1];
+                let lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type, version);
+
+                if (lastGraphItemEntity === undefined) {
+                    continue;
+                }
+
+                if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) { // me/drive/root
+                    graph.push(lastGraphItemEntity.links[segment]);
+                } else if (lastGraphItem.isACollection && segment != "") {
+                    // previous link was a collection, current is an id
+                    graph.push({
+                        isACollection: false,
+                        name: segment,
+                        type: lastGraphItem.type
+                    });
+                }
+            }
+        }
+        return graph;
+    }).catch(() => {
+        return [];
+    });
+}
+
+// urlOptions are like ["driveType", "quota"]
+function combineUrlOptionsWithCurrentUrl(service:GraphService, urlOptions:string[]):Promise<string[]> {
+    // truncate the service string back to the last known good entity (could be an id if prev was a collection)
+    // concat each urlOption with this prefix
+    // return that array
+    return constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl).then((graphLinks) => {
+        let baseUrl = [];
+        while(graphLinks.length > 0) {
+            let lastSegment = graphLinks.shift();
+            baseUrl.push(lastSegment.name);
+        }
+
+        let baseUrlFinal = AppComponent.Options.GraphUrl + "/" + AppComponent.explorerValues.selectedVersion;
         
-//         if (baseUrl.length > 0) {
-//             baseUrlFinal += "/" + baseUrl.join('/');
-//         }
+        if (baseUrl.length > 0) {
+            baseUrlFinal += "/" + baseUrl.join('/');
+        }
 
-//         return urlOptions.map((url) => baseUrlFinal + '/' + url);
-//     });
-// }
+        return urlOptions.map((url) => baseUrlFinal + '/' + url);
+    });
+}
 
-// // just return relative URLs
-// export function getUrlsFromServiceURL(version:string):Promise<string[]> {
-//     return new Promise((resolve, reject) => {
-//         return constructGraphLinksFromFullPath(apiService.text).then((graphFromServiceUrl) => {
-//             if (graphFromServiceUrl.length > 0) {
-//                 let lastNode = graphFromServiceUrl.pop();
+// just return relative URLs
+export function getUrlsFromServiceURL(service:GraphService, version:string):Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        return constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl).then((graphFromServiceUrl) => {
+            if (graphFromServiceUrl.length > 0) {
+                let lastNode = graphFromServiceUrl.pop();
 
-//                 if (lastNode.isACollection) return resolve([]);
+                if (lastNode.isACollection) return resolve([]);
 
-//                 let entity = getEntityFromTypeName(lastNode.type, version);
-//                 if (!entity) return resolve([]);
-//                 return resolve((entity.links));
-//             } else {
-//                 return resolve(loadEntitySets(version));
-//             }
-//         });
-//     }).then((x) => {
-//         return combineUrlOptionsWithCurrentUrl(Object.keys(x));
-//     });
-// }
+                let entity = getEntityFromTypeName(lastNode.type, version);
+                if (!entity) return resolve([]);
+                return resolve((entity.links));
+            } else {
+                return resolve(loadEntitySets(service, version));
+            }
+        });
+    }).then((x) => {
+        return combineUrlOptionsWithCurrentUrl(service, Object.keys(x));
+    });
+}
 
-// export function loadEntitySets(version:string):Promise<any> {
-//     return parseMetadata(version).then(() => {
-//         return graphStructureCache.get(version, "EntitySetData");
-//     })
-// }
+export function loadEntitySets(service:GraphService, version:string):Promise<any> {
+    return parseMetadata(service, version).then(() => {
+        return graphStructureCache.get(version, "EntitySetData");
+    })
+}
 
-// // EntityType and ComplexType
-// // @todo use promises
-// export function loadEntityTypeData(version:string) {
-//     return graphStructureCache.get(version, "EntityTypeData");
-// }
+// EntityType and ComplexType
+// @todo use promises
+export function loadEntityTypeData(version:string) {
+    return graphStructureCache.get(version, "EntityTypeData");
+}

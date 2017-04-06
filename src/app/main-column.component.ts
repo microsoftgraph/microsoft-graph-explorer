@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ContentChildren, ViewConta
 import { AuthenticationStatus, GraphApiCall, HistoryRecord, Methods, ExplorerValues } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
+import { FormControl } from "@angular/forms";
 
 declare let mwf:any;
 
@@ -27,7 +28,7 @@ declare let mwf:any;
 
                 
         <md-input-container>
-            <input type="text" mdInput [mdAutocomplete]="auto">
+            <input type="text" mdInput [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto">
         </md-input-container>
 
         <md-autocomplete #auto="mdAutocomplete">
@@ -41,6 +42,7 @@ declare let mwf:any;
 
   `,
   styles: [`
+
     /* make url bar responsive*/
     #request-bar-row-form {
         display: flex;
@@ -77,6 +79,7 @@ declare let mwf:any;
 
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
     static httpMethodEl;
+    myControl = new FormControl();
     ngAfterViewInit(): void {
         MainColumnComponent.httpMethodEl = this._httpMethodEl;
         // Init httpMethod
