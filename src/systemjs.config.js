@@ -30,6 +30,7 @@
 
       // other libraries
       'rxjs':                      'npm:rxjs',
+      'moment':                    'npm:moment/min/moment-with-locales.min.js',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
@@ -43,6 +44,9 @@
         }
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      moment: {
         defaultExtension: 'js'
       }
     }

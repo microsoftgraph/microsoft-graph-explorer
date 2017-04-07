@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AuthenticationStatus, ExplorerOptions, GraphApiCall } from "./base";
+import { AuthenticationStatus, ExplorerOptions, GraphApiCall, HistoryRecord } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { getString } from "./api-explorer-helpers";
@@ -68,26 +68,18 @@ import { AppModule } from "./app.module";
           display: inline;
       }
 
-      .history-row-2 {
-          margin-left: 69px;
-      }
 
-        .api-query .status-code.success {
-            color: #05f505;
-        }
+    .api-query .status-code.success {
+        color: #05f505;
+    }
 
-        .api-query .status-code.error {
-            color: #f7688d;
-        }
-
-        .api-query .date {
-            display: none;
-        }
-
+    .api-query .status-code.error {
+        color: #f7688d;
+    }
 
         .api-query .duration {
-            float: right;
-        }
+        float: right;
+    }
 
 
 `]
@@ -96,11 +88,11 @@ export class QueryRowComponent extends GraphExplorerComponent {
     @Input() query: GraphApiCall;
 
 
-    getTitle = function() {
+    getTitle() {
         return this.query.requestUrl;
     }
 
-    getQueryText = function() {
+    getQueryText() {
         let shortQueryUrl;
         if (this.query.requestUrl) {
             shortQueryUrl = this.query.requestUrl.split(AppComponent.Options.GraphUrl)[1];
@@ -111,7 +103,7 @@ export class QueryRowComponent extends GraphExplorerComponent {
         return (getString(AppComponent.Options, queryText)) || queryText;
     }
 
-    runQuery = function() {
+    runQuery() {
         // apiService.text = query.requestUrl;
         // apiService.selectedOption = query.method;
     }

@@ -3,10 +3,12 @@ import { AuthenticationStatus, GraphApiCall, HistoryRecord, Methods, ExplorerVal
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
+import { GraphService } from "./api-explorer-svc";
 
 declare let mwf:any;
 
 @Component({
+  providers: [GraphService],
   selector: 'main-column',
   template: `
     <div id="request-bar-row-form" layout="row" layout-align="start center">
@@ -36,6 +38,11 @@ declare let mwf:any;
                 {{ option }}
             </md-option>
         </md-autocomplete>
+
+        <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" (click)="submit()">
+            <span ng-hide="requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
+            <!-- <md-progress-circular md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular> -->
+        </button>
 
     </div>
 
@@ -106,6 +113,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedVersion = method.id;
+                        this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion + "/"));
                     }
                 })
             }
@@ -124,6 +132,13 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     methods = Methods;
     GraphVersions = AppComponent.Options.GraphVersions;
+    constructor(private GraphService: GraphService) {
+        super();
+    }
+
+    submit = () => {
+        AppComponent.executeExplorerQuery(this.GraphService);
+    }
 }
 
 export function updateHttpMethod() {

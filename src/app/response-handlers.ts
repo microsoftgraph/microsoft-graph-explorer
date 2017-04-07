@@ -55,35 +55,35 @@
 //     showResults(results, headers, "xml");
 // }
 
-// export function isImageResponse(headers) {
-//     var contentType = getContentType(headers);
-//     return contentType === "application/octet-stream" || contentType.substr(0, 6) === "image/";
-// }
+export function isImageResponse(headers) {
+    var contentType = getContentType(headers);
+    return contentType === "application/octet-stream" || contentType.substr(0, 6) === "image/";
+}
 
-// export function isHtmlResponse(headers) {
-//     var contentType = getContentType(headers);
-//     return contentType === "text/html" || contentType === "application/xhtml+xml";
-// }
+export function isHtmlResponse(headers) {
+    var contentType = getContentType(headers);
+    return contentType === "text/html" || contentType === "application/xhtml+xml";
+}
 
-// export function isXmlResponse(results) {
-//     // Don't use headers since xml could be of a million content types.
-//     return JSON.stringify(results, null, 4).indexOf("<?xml") != -1;
-// }
+export function isXmlResponse(results) {
+    // Don't use headers since xml could be of a million content types.
+    return JSON.stringify(results, null, 4).indexOf("<?xml") != -1;
+}
 
-// export function isJsonResponse(headers) {
-//     var contentType = getContentType(headers);
-//     return contentType === "application/json";
-// }
+export function isJsonResponse(headers) {
+    var contentType = getContentType(headers);
+    return contentType === "application/json";
+}
 
-// export function getContentType(headers) {
-//     var full = headers("content-type");
-//     var delimiterPos = full.indexOf(";");
-//     if (delimiterPos != -1) {
-//         return full.substr(0, delimiterPos);
-//     } else {
-//         return full;
-//     }
-// }
+export function getContentType(headers) {
+    var full = headers("content-type");
+    var delimiterPos = full.indexOf(";");
+    if (delimiterPos != -1) {
+        return full.substr(0, delimiterPos);
+    } else {
+        return full;
+    }
+}
 
 
 // export function formatXml(xml) {

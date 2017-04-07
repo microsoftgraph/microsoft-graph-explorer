@@ -16,10 +16,11 @@ import { QueryRowComponent } from "./queryrow.component";
 import { ExplorerOptions } from "./base";
 import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
+import {HistoryRowComponent} from './history-query.component'
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, MaterialModule ],
-  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent ],
+  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

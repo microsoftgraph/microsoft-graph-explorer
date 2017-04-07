@@ -1,10 +1,13 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { ExplorerOptions, RequestType, ExplorerValues } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./api-explorer-svc";
+import { Response } from '@angular/http';
+import { isImageResponse, isHtmlResponse, isXmlResponse } from "./response-handlers";
+import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
 
 declare let mwf:any;
 
@@ -72,4 +75,61 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
       selectedVersion: "v1.0",
       authentication: {}
   };
+
+  static requestHistory: HistoryRecord[] = loadHistoryFromLocalStorage();
+  
+  static addRequestToHistory(request:HistoryRecord) {
+        AppComponent.requestHistory.splice(0, 0, request); //add history object to the array
+        saveHistoryToLocalStorage(AppComponent.requestHistory);
+  }
+
+  static executeExplorerQuery(service:GraphService) {
+    let query:HistoryRecord = {
+        requestUrl: AppComponent.explorerValues.endpointUrl,
+        method: AppComponent.explorerValues.selectedOption,
+        requestSentAt: new Date()
+    };
+
+
+    if (query.method == 'POST' || query.method == 'PATCH') {
+        // historyObj.requestBody = getRequestBodyEditor().getSession().getValue();
+    }
+
+
+    let graphRequest:Promise<Response>;
+    if (isAuthenticated()) {
+      graphRequest = service.performQuery(query.method, query.requestUrl);
+    } else {
+      graphRequest = service.performAnonymousQuery(query.method, query.requestUrl);
+    }
+    graphRequest.then((res) => {handleSuccessfulQueryResponse(res, query)}).catch((res) => {handleUnsuccessfulQueryResponse(res, query)});
+  }
+
  }
+
+function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
+  let {status, headers, text} = res;
+  query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
+  query.statusCode = status;
+  AppComponent.addRequestToHistory(query);
+
+
+  // if (isImageResponse(headers)) {
+  //     handleImageResponse($scope, headers, status, handleUnsuccessfulQueryResponse);
+  // } else if (isHtmlResponse(headers)) {
+  //     handleHtmlResponse(resultBody, headers);
+  // } else if (isXmlResponse(result)) {
+  //     handleXmlResponse(resultBody, headers);
+  // } else {
+  //     handleJsonResponse(resultBody, headers);
+  // }
+
+}
+
+function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
+  let {status, headers, text} = res;
+  query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
+  query.statusCode = status;
+  AppComponent.addRequestToHistory(query);
+
+}

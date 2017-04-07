@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { AuthenticationStatus, GraphApiCall, HistoryRecord } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { GettingStartedQueries } from "./getting-started-queries";
-import { safeGetRequestHistory } from "./history";
+import * as moment from 'moment'
+import { AppComponent } from "./app.component";
 
 @Component({
   selector: 'sidebar',
@@ -10,7 +11,7 @@ import { safeGetRequestHistory } from "./history";
       <div id="explorer-sidebar">
         <div class="arrow-left"></div>
         <div>
-            <span id="explorer-title" class="c-heading-3 panel-header">{{getStr(['Graph Explorer'])}}</span>
+            <span id="explorer-title" class="c-heading-3 panel-header">{{getStr('Graph Explorer')}}</span>
         </div>
         <div class="c-drawer">
             <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
@@ -36,13 +37,7 @@ import { safeGetRequestHistory } from "./history";
             <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
                   <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span></button>
             <div id="historyDrawer" class="panel-content">
-                <query-row [query]="query" *ngFor="let query of getRequestHistory(5)">
-                    <div class="history-row-2">
-                        <span class="date">{{query.requestSentAt}} ms</span>
-                        <span class="status-code"  ng-class="{'success': query.successful, 'error': !query.successful}">{{query.statusCode}}</span>
-                        <span class="duration">{{query.duration}} ms</span>
-                    </div>
-                </query-row>
+                <history-query-row  *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
                 <a href="#" id="show-full-history" *ngIf="getRequestHistory().length > 0" class="c-hyperlink" tabindex=0 (click)="logout()">{{getStr('Show More')}}</a>
             </div>
         </div>
@@ -126,18 +121,15 @@ import { safeGetRequestHistory } from "./history";
     button.c-glyph {
         color: white;
     }
-
-
   `]
 })
 export class SidebarComponent extends GraphExplorerComponent {
   queries:GraphApiCall[] = GettingStartedQueries
 
-  // @todo move to init on load so not querying localstorage multiple times?
   getRequestHistory = (limit?:number):HistoryRecord[] => {
-      if (limit) return safeGetRequestHistory().slice(0, limit);
+      if (limit) return AppComponent.requestHistory.slice(0, limit);
 
-
-      return safeGetRequestHistory();
+      return AppComponent.requestHistory;
   }
+
 }
