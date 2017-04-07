@@ -191,20 +191,6 @@
 //     $scope.searchTextChange(apiService.text);
 //     $scope.searchText = apiService.text; // for init (used in explorer.html)
 
-//     function getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
-//         return links.map((x) => x.name).join('/');
-//     }
-
-//     function getFullUrlFromGraphLinks(links:GraphNodeLink[]):Promise<any[]> {
-//         return new Promise((resolve, reject) => {
-//             if (typeof links === 'string') { //@todo investigate why a string is sometimes passed
-//                 resolve(constructGraphLinksFromFullPath(links));
-//             }
-//             resolve(links)
-//         }).then((_links:GraphNodeLink[]) => {
-//             return [GraphExplorerOptions.GraphUrl, apiService.selectedVersion, getRelativeUrlFromGraphNodeLinks(_links)];    
-//         });
-//     }
 
 //     $scope.getFullUrlFromGraphLinks = getFullUrlFromGraphLinks;
 

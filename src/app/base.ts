@@ -51,3 +51,8 @@ export interface ExplorerValues {
         }
     }
 }
+
+export interface AutoCompleteItem {
+    url: string
+    fullUrl: string
+}
