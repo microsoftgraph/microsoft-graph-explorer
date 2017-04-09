@@ -205,23 +205,6 @@ html[dir=rtl] .ms-MessageBar-innerTextPadding span {
 
 
 
-#jsonViewer {
-    height: 60vh;
-    background: rgb(230, 230, 230);
-    border: 1px solid #ccc;
-}
-
-#jsonEditor, #jsonEditorHeaders {
-    height: 188px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-}
-
-.ace_link_marker {
-    position: absolute;
-    border-bottom: 1px solid blue;
-}
-
 #adminConsent {
     font-size: 85%;
     background-color: #ECECEC;
@@ -407,10 +390,6 @@ span#duration-label {
 
 
 
-.ace-tm .ace_invalid {
-    color: inherit;
-    background-color: inherit;
-}
 
 md-autocomplete-wrap.md-menu-showing {
     border-bottom: none !important;
@@ -420,19 +399,6 @@ md-autocomplete-wrap.md-menu-showing {
     outline: none;
 }
 
-.ace_editor {
-    box-shadow: none !important;
-    position: relative;
-}
-
-
-#response-viewer-labels {
-    margin-top: 20px;
-}
-
-#response-viewer-labels .ms-Pivot-link.is-selected:before {
-    background: none;
-}
 
 
 

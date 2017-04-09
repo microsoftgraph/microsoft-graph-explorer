@@ -1,26 +1,23 @@
-// // ------------------------------------------------------------------------------
-// //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-// // ------------------------------------------------------------------------------
-// declare let define:any;
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
 
-// import {commonAceSetup, getJsonViewer} from "./api-explorer-jseditor"
+import { commonAceSetup, getJsonViewer } from "./api-explorer-jseditor"
 
-// export function initializeJsonViewer() {
-//     $(document).ready(() => {
+export function initializeJsonViewer() {
+
+    let jsonViewer = getJsonViewer();
+    commonAceSetup(jsonViewer);
+    jsonViewer.getSession().setMode("ace/mode/javascript");
     
-//         let jsonViewer = getJsonViewer();
-//         commonAceSetup(jsonViewer);
-//         jsonViewer.getSession().setMode("ace/mode/javascript");
-        
-        
-//         jsonViewer.setOptions({
-//             readOnly: true,
-//             highlightActiveLine: false,
-//             highlightGutterLine: false,
-//         });
+    
+    jsonViewer.setOptions({
+        readOnly: true,
+        highlightActiveLine: false,
+        highlightGutterLine: false,
+    });
 
-//         jsonViewer.getSession().setUseWorker(false);
-//         jsonViewer.renderer.$cursorLayer.element.style.opacity = 0;
+    jsonViewer.getSession().setUseWorker(false);
+    jsonViewer.renderer.$cursorLayer.element.style.opacity = 0;
 
-//    });
-// }
+}

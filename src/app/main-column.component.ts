@@ -1,10 +1,11 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ContentChildren, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ContentChildren, ViewContainerRef, Input, OnChanges, DoCheck } from '@angular/core';
 import { AuthenticationStatus, GraphApiCall, HistoryRecord, Methods, ExplorerValues, AutoCompleteItem } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
 import { GraphService } from "./api-explorer-svc";
 import { GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL } from "./graph-structure";
+import { initializeJsonViewer } from "./api-explorer-jsviewer";
 
 declare let mwf:any;
 
@@ -47,6 +48,23 @@ declare let mwf:any;
 
     </div>
 
+    <!-- response -->
+    <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
+        <ul class="ms-Pivot-links">
+            <li class="ms-Pivot-link is-selected" data-content="response" title="{{getStr('Response')}}" tabindex="1">
+                {{getStr('Response')}}
+            </li>
+        </ul>
+        <div class="ms-Pivot-content" data-content="response">
+            <div>
+                <img id="responseImg" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak />
+                <div id="jsonViewer"></div>
+
+                <!--<svg id="visual-explorer" width="1200" height="1000"/></svg>-->
+            </div>
+        </div>
+    </div>
+
 
   `,
   styles: [`
@@ -81,12 +99,26 @@ declare let mwf:any;
         display: none;
     }
 
+    #responseImg {    
+        max-width: 300px;
+    }
 
   `]
 })
 
 
-export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
+export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
+
+    oldEndpointUrl:string;
+    ngDoCheck() {
+        if (this.explorerValues && this.oldEndpointUrl != JSON.stringify(this.explorerValues)) {
+            this.updateVersionFromEndpointUrl();
+            this.updateGraphVersionSelect();
+
+            this.oldEndpointUrl = JSON.stringify(this.explorerValues);
+        }
+    }
+
     static httpMethodEl;
     myControl = new FormControl();
     ngAfterViewInit(): void {
@@ -115,16 +147,15 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedVersion = method.id;
-                        this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion + "/"));
+                        this.updateEndpointURLVersionFromVersion();
                     }
                 })
             }
         }]);
+        this.updateGraphVersionSelect();
 
-        const graphVersionSelectMenu = this._graphVersionEl.element.nativeElement.mwfInstances.t.selectMenu;
-
-        const graphVersionIdx = graphVersionSelectMenu.items[this.GraphVersions.indexOf(this.explorerValues.selectedVersion)];
-        graphVersionSelectMenu.onItemSelected(graphVersionIdx);
+        
+        initializeJsonViewer();
     }
 
     ngOnInit(): void { }
@@ -149,6 +180,27 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
         return links.map((x) => x.name).join('/');
+    }
+
+    updateVersionFromEndpointUrl() {
+        // if the user typed in a different version, change the dropdown
+        let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl+"/");
+        if (graphPathStartingWithVersion.length < 2) {
+            return;
+        }
+        let possibleGraphPathArr = graphPathStartingWithVersion[1].split('/');
+        if (possibleGraphPathArr.length == 0) {
+            return;
+        }
+
+        
+        let possibleVersion = possibleGraphPathArr[0];
+        if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
+            // possibleVersion is a valid version
+            this.explorerValues.selectedVersion = possibleVersion;
+        }
+        // parseMetadata();
+
     }
 
     // getFullUrlFromGraphLinks(links:GraphNodeLink[]):Promise<any[]> {
@@ -197,6 +249,27 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             debugger;
             return a;
         });
+    }
+
+    updateGraphVersionSelect() {
+        // update version select from explorerValues
+        let graphVersionSelectEl = this._graphVersionEl.element.nativeElement;
+        
+        if (!graphVersionSelectEl.mwfInstances) {
+            return;
+        };
+
+        const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.t.selectMenu;
+
+        const graphVersionIdx = graphVersionSelectMenu.items[this.GraphVersions.indexOf(this.explorerValues.selectedVersion)];
+        graphVersionSelectMenu.onItemSelected(graphVersionIdx);
+
+        this.updateEndpointURLVersionFromVersion();
+
+    }
+
+    updateEndpointURLVersionFromVersion() {
+        this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion + "/"));
     }
 
 }

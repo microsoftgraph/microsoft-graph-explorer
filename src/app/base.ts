@@ -50,6 +50,7 @@ export interface ExplorerValues {
             profileImageUrl?: string
         }
     }
+    showImage: boolean
 }
 
 export interface AutoCompleteItem {

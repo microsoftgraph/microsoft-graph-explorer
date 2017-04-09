@@ -18,3 +18,39 @@ api-explorer .c-select-menu.f-border button {
 .mat-input-underline, .mat-input-ripple {
     display: none;
 }
+
+.ace_editor {
+    box-shadow: none !important;
+    position: relative;
+}
+
+
+#response-viewer-labels {
+    margin-top: 20px;
+}
+
+#response-viewer-labels .ms-Pivot-link.is-selected:before {
+    background: none;
+}
+
+#jsonViewer {
+    height: 60vh;
+    background: rgb(230, 230, 230);
+    border: 1px solid #ccc;
+}
+
+#jsonEditor, #jsonEditorHeaders {
+    height: 188px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.ace_link_marker {
+    position: absolute;
+    border-bottom: 1px solid blue;
+}
+
+.ace-tm .ace_invalid {
+    color: inherit;
+    background-color: inherit;
+}

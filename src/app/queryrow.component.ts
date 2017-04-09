@@ -4,9 +4,11 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { getString } from "./api-explorer-helpers";
 import { AppModule } from "./app.module";
+import { GraphService } from "./api-explorer-svc";
 
 @Component({
   selector: 'query-row',
+  providers: [GraphService],
   template: `
     <div class="api-query" (click)="runQuery(query)" [attr.title]="getTitle()" tabindex="0">
         <div class="row-1">
@@ -37,7 +39,7 @@ import { AppModule } from "./app.module";
           margin-left: -26px;
       }
 
-      .api-query .request-badge {
+      .request-badge {
           border: 1px solid gray;
           min-width: 55px;
           display: inline-block;
@@ -64,13 +66,11 @@ import { AppModule } from "./app.module";
       }
 
 
-      .api-query .row-1 {
+      .row-1 {
           display: inline;
       }
 
-
-
-    .api-query .duration {
+    .duration {
         float: right;
     }
 
@@ -96,11 +96,14 @@ export class QueryRowComponent extends GraphExplorerComponent {
         return (getString(AppComponent.Options, queryText)) || queryText;
     }
 
+    constructor(private GraphService: GraphService) {
+        super();
+    }
+
     runQuery() {
         AppComponent.explorerValues.endpointUrl = this.query.requestUrl;
         AppComponent.explorerValues.selectedOption = this.query.method;
 
-        // apiService.text = query.requestUrl;
-        // apiService.selectedOption = query.method;
+        AppComponent.executeExplorerQuery(this.GraphService);
     }
 }
