@@ -24,10 +24,12 @@ declare let mwf:any;
 
         <!-- version button -->
 
-        <div class="c-select f-border bump-flex-row-mobile graph-version" #graphVersion>
-            <select>
-                <option *ngFor="let version of GraphVersions">{{version}}</option>
-            </select>
+        <div id="graph-version-select">
+            <div class="c-select f-border bump-flex-row-mobile graph-version" #graphVersion>
+                <select>
+                    <option *ngFor="let version of GraphVersions">{{version}}</option>
+                </select>
+            </div>
         </div>
 
                 
@@ -102,6 +104,7 @@ declare let mwf:any;
     #responseImg {    
         max-width: 300px;
     }
+
 
   `]
 })

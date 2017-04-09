@@ -54,3 +54,7 @@ api-explorer .c-select-menu.f-border button {
     color: inherit;
     background-color: inherit;
 }
+
+#graph-version-select #-Other {
+    display:none
+}
