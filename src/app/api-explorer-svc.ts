@@ -17,31 +17,21 @@ export class GraphService {
 
     
   performAnonymousQuery = (queryType:RequestType, query:string, requestHeaders?:any) => {
-        let headersObj = {
-            "Authorization": "Bearer {token:https://graph.microsoft.com/}",
-            "Accept": "application/json"
-        };
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
 
         if (requestHeaders && requestHeaders["Authorization"]){
-            headersObj["Authorization"] = requestHeaders["Authorization"];
+            headers["Authorization"] = requestHeaders["Authorization"];
         }
 
         if (requestHeaders && requestHeaders["Accept"]){
-            headersObj["Accept"] = requestHeaders["Accept"];
+            headers["Accept"] = requestHeaders["Accept"];
         }
 
-        let request = {
-            url: 'https://proxy.apisandbox.msdn.microsoft.com/svc?url=' + encodeURIComponent(query),
-            method: 'GET',
-            headers: headersObj
-        }
-
-        if (queryType == "GET_BINARY") {
-            request["responseType"] = "arraybuffer";
-        }
-
-        if (queryType == "GET_BINARY" || queryType == "GET") {
-            return this.http.get(query).toPromise();
+        if (queryType == "GET") {
+            return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
+        } else if (queryType == "GET_BINARY") {
+            return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
 
@@ -67,6 +57,6 @@ export class GraphService {
     }
 
     getMetadata = (version:string) => {
-        return this.performAnonymousQuery("GET")(`${AppComponent.Options.GraphUrl}/${version}/$metadata`);
+        return this.performAnonymousQuery("GET", `${AppComponent.Options.GraphUrl}/${version}/$metadata`);
     }
 };

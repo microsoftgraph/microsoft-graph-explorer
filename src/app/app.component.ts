@@ -97,6 +97,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
 
 
     let graphRequest:Promise<Response>;
+    debugger;
     if (isAuthenticated()) {
       graphRequest = service.performQuery(query.method, query.requestUrl);
     } else {

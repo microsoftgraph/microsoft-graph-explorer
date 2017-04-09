@@ -69,15 +69,8 @@ import { AppModule } from "./app.module";
       }
 
 
-    .api-query .status-code.success {
-        color: #05f505;
-    }
 
-    .api-query .status-code.error {
-        color: #f7688d;
-    }
-
-        .api-query .duration {
+    .api-query .duration {
         float: right;
     }
 
@@ -104,6 +97,9 @@ export class QueryRowComponent extends GraphExplorerComponent {
     }
 
     runQuery() {
+        AppComponent.explorerValues.endpointUrl = this.query.requestUrl;
+        AppComponent.explorerValues.selectedOption = this.query.method;
+
         // apiService.text = query.requestUrl;
         // apiService.selectedOption = query.method;
     }

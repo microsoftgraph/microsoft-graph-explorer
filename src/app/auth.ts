@@ -75,7 +75,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			AppComponent.explorerValues.authentication.user = {}
 
 			// get displayName and email
-			promisesGetUserInfo.push(apiService.performQuery("GET")(`${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
+			promisesGetUserInfo.push(apiService.performQuery("GET", `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
 				let resultBody = result.json();
 
 				AppComponent.explorerValues.authentication.user = {
@@ -85,7 +85,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			}));
 
 			// get profile image
-			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY')(`${AppComponent.Options.GraphUrl}/v1.0/me/photo/$value`).then((result) => {
+			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/v1.0/me/photo/$value`).then((result) => {
 				let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
 				let imageUrl = window.URL.createObjectURL( blob );
 				AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
