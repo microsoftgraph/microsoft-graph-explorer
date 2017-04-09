@@ -27,17 +27,3 @@ export class AppModule { }
 
 
 // enableProdMode()
-
-// angular.module('ApiExplorer')
-// .config(function($locationProvider) {
-//     $locationProvider.html5Mode({
-//         enabled: true,
-//         requireBase: false,
-//         rewriteLinks: false
-//     });
-    
-// })
-// .factory('ApiExplorerSvc', [function () {
-//     var apiExplorerService = {};
-//     return apiExplorerService;
-// }]);

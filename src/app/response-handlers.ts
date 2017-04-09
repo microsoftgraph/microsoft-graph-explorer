@@ -1,7 +1,6 @@
-// // ------------------------------------------------------------------------------
-// //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-// // ------------------------------------------------------------------------------
-// import {apiService} from "./api-explorer-svc"
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
 import { getJsonViewer } from "./api-explorer-jseditor"
 import { GraphService } from "./api-explorer-svc";
 import { AppComponent } from "./app.component";
@@ -18,7 +17,6 @@ export function showResults(results, headers:Headers, responseContentType) {
 export function insertHeadersIntoResponseViewer(headers:Headers) {
     // format headers
     let headersArr = [];
-    debugger;
     headers.forEach((headerValue, headerKey) => {
         headersArr.push(headerKey + ": " + headerValue);
     })

@@ -49,6 +49,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
         AppComponent.Options[key] = window[key]; 
     }
 
+    AppComponent.Options.GraphVersions.push("Other");
+
     initAuth(AppComponent.Options, this.GraphService, this.chRef);
 
     initFabricComponents();
@@ -119,7 +121,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
 
     let resultBody = res.text();
 
-
     AppComponent.explorerValues.showImage = false;
     if (isImageResponse(headers)) {
       let method = isAuthenticated() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
@@ -131,7 +132,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
     } else {
         handleJsonResponse(res.json(), headers);
     }
-
   }
 
 
@@ -142,4 +142,5 @@ function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   query.statusCode = status;
   AppComponent.addRequestToHistory(query);
 
+  handleJsonResponse(res.json(), headers);
 }

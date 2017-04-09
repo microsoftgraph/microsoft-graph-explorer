@@ -24,7 +24,7 @@ declare let mwf:any;
 
         <!-- version button -->
 
-        <div class="c-select f-border bump-flex-row-mobile" #graphVersion>
+        <div class="c-select f-border bump-flex-row-mobile graph-version" #graphVersion>
             <select>
                 <option *ngFor="let version of GraphVersions">{{version}}</option>
             </select>
@@ -146,7 +146,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             callback: (event:any) => {
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
-                        this.explorerValues.selectedVersion = method.id;
+                        this.explorerValues.selectedVersion = document.getElementById("-"+method.id).children[0].textContent;
                         this.updateEndpointURLVersionFromVersion();
                     }
                 })
@@ -185,9 +185,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     updateVersionFromEndpointUrl() {
         // if the user typed in a different version, change the dropdown
         let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl+"/");
-        if (graphPathStartingWithVersion.length < 2) {
-            return;
-        }
         let possibleGraphPathArr = graphPathStartingWithVersion[1].split('/');
         if (possibleGraphPathArr.length == 0) {
             return;
@@ -195,10 +192,11 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
         
         let possibleVersion = possibleGraphPathArr[0];
-        if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
+
+        // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
             // possibleVersion is a valid version
-            this.explorerValues.selectedVersion = possibleVersion;
-        }
+        this.explorerValues.selectedVersion = possibleVersion;
+        // }
         // parseMetadata();
 
     }
@@ -261,8 +259,19 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
         const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.t.selectMenu;
 
-        const graphVersionIdx = graphVersionSelectMenu.items[this.GraphVersions.indexOf(this.explorerValues.selectedVersion)];
-        graphVersionSelectMenu.onItemSelected(graphVersionIdx);
+        let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
+        //debugger;
+        if (graphVersionIdx == -1) {
+            document.getElementById("-Other").children[0].textContent = this.explorerValues.selectedVersion;
+            graphVersionIdx = this.GraphVersions.indexOf("Other");
+
+            // if we're selecting the other twice, the button text won't update automatically
+            document.querySelector(".graph-version.c-select button").textContent = this.explorerValues.selectedVersion;
+        }
+
+        graphVersionSelectMenu.onItemSelected(graphVersionSelectMenu.items[graphVersionIdx]);
+
+
 
         this.updateEndpointURLVersionFromVersion();
 
