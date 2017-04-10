@@ -40,6 +40,10 @@ import { updateHttpMethod } from "./main-column.component";
           margin: 0px auto;
       }
 
+      #signout {
+          color: #00bcf2;
+      }
+
 
 `],
   template: `
@@ -58,13 +62,13 @@ import { updateHttpMethod } from "./main-column.component";
         </div>
     </div>
     <div *ngIf="getAuthenticationStatus() == 'authenticated'">
-         <div class="ms-Persona" [ngClass]="{'user-no-image': !userInfo().profileImageUrl}">
-             <div class="ms-Persona-imageArea" *ngIf="userInfo().profileImageUrl">
-                 <img class="ms-Persona-image" [src]="sanitize(userInfo().profileImageUrl)">
+         <div class="ms-Persona">
+             <div class="ms-Persona-imageArea">
+                 <img class="ms-Persona-image" [src]="sanitize(authInfo.user.profileImageUrl)">
              </div>
              <div class="ms-Persona-details">
-                 <div class="ms-Persona-primaryText" id='userDisplayName' *ngIf="userInfo().displayName">{{userInfo().displayName}}</div>
-                 <div class="ms-Persona-secondaryText" id='userMail' *ngIf="userInfo().emailAddress">{{userInfo().emailAddress}}</div>
+                 <div class="ms-Persona-primaryText" id='userDisplayName' *ngIf="authInfo.user.displayName">{{authInfo.user.displayName}}</div>
+                 <div class="ms-Persona-secondaryText" id='userMail' *ngIf="authInfo.user.emailAddress">{{authInfo.user.emailAddress}}</div>
              </div>
          </div>
          <a href="#" id="signout" class="c-hyperlink" tabindex=0 (click)="logout()">{{getStr('sign out')}}</a>
@@ -101,16 +105,15 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     // anonymous users can only GET
     this.explorerValues.selectedOption = "GET";
     updateHttpMethod();
-    
+
     (hello as any)('msft').logout(null, {force:true});
     this.explorerValues.authentication.status = "anonymous"
     delete this.explorerValues.authentication.user;
 
   }
 
-  userInfo = () => {
-      return this.explorerValues.authentication.user;
-  }
+  authInfo = this.explorerValues.authentication;
+  
 
   getAuthenticationStatus = () => {
       return this.explorerValues.authentication.status;

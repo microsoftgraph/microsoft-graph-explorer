@@ -12,66 +12,8 @@ declare let mwf:any;
 @Component({
   providers: [GraphService],
   selector: 'main-column',
-  template: `
-    <div id="request-bar-row-form" layout="row" layout-align="start center">
-
-        <!-- HTTP METHOD -->
-        <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod class="c-select f-border first-row-mobile bump-flex-row-mobile">
-            <select [disabled]="!isAuthenticated()">
-                <option *ngFor="let choice of methods">{{choice}}</option>
-            </select>
-        </div>
-
-        <!-- version button -->
-
-        <div id="graph-version-select">
-            <div class="c-select f-border bump-flex-row-mobile graph-version" #graphVersion>
-                <select>
-                    <option *ngFor="let version of GraphVersions">{{version}}</option>
-                </select>
-            </div>
-        </div>
-
-                
-        <md-input-container>
-            <input type="text" mdInput [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto">
-        </md-input-container>
-
-        <md-autocomplete #auto="mdAutocomplete">
-            <md-option *ngFor="let option of methods" [value]="option">
-                {{ option }}
-            </md-option>
-        </md-autocomplete>
-
-        <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" (click)="submit()">
-            <span ng-hide="requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
-            <!-- <md-progress-circular md-diameter="20px" aria-label="response loading" md-mode="indeterminate" ng-show="requestInProgress" ng-cloak></md-progress-circular> -->
-        </button>
-
-    </div>
-
-    <!-- response -->
-    <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
-        <ul class="ms-Pivot-links">
-            <li class="ms-Pivot-link is-selected" data-content="response" title="{{getStr('Response')}}" tabindex="1">
-                {{getStr('Response')}}
-            </li>
-        </ul>
-        <div class="ms-Pivot-content" data-content="response">
-            <div>
-                <img id="responseImg" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak />
-                <div id="jsonViewer"></div>
-
-                <!--<svg id="visual-explorer" width="1200" height="1000"/></svg>-->
-            </div>
-        </div>
-    </div>
-
-
-  `,
+  templateUrl: "app/templates/main-col.tmpl.html",
   styles: [`
-
-    /* make url bar responsive*/
     #request-bar-row-form {
         display: flex;
         flex-wrap: wrap;
@@ -107,8 +49,13 @@ declare let mwf:any;
 
     md-input-container {
         flex: 1;
+        margin-right: 8px;
     }
 
+    #submitBtn {
+        height: 37px;
+        margin-top: 20px;
+    }
 
   `]
 })
@@ -177,7 +124,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     }
 
     submit = () => {
-        AppComponent.executeExplorerQuery(this.GraphService);
+        AppComponent.executeExplorerQuery();
     }
 
 

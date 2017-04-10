@@ -10,9 +10,10 @@ api-explorer .c-select-menu.f-border button {
 .mat-input-wrapper {
     border: 1px solid black;
     padding: 9px;
-    margin-top: 20px;
 
     width: 100%;
+    margin-top: 20px !important;
+    height: 37px;
 }
 
 .mat-input-underline, .mat-input-ripple {

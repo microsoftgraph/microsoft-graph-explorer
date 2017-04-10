@@ -10,7 +10,7 @@ import { GraphService } from "./api-explorer-svc";
   selector: 'query-row',
   providers: [GraphService],
   template: `
-    <div class="api-query" (click)="runQuery(query)" [attr.title]="getTitle()" tabindex="0">
+    <div class="api-query" (click)="runQuery(this.query)" [attr.title]="getTitle()" tabindex="0">
         <div class="row-1">
             <span class="request-badge" [ngClass]="query.method">{{query.method}}</span><span class="query">{{getQueryText()}}</span>
         </div>
@@ -98,12 +98,5 @@ export class QueryRowComponent extends GraphExplorerComponent {
 
     constructor(private GraphService: GraphService) {
         super();
-    }
-
-    runQuery() {
-        AppComponent.explorerValues.endpointUrl = this.query.requestUrl;
-        AppComponent.explorerValues.selectedOption = this.query.method;
-
-        AppComponent.executeExplorerQuery(this.GraphService);
     }
 }

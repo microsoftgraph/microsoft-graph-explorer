@@ -439,6 +439,3 @@ div#share-link-dialog {
 }
 
 
-.ms-Table-row.is-selected, .ms-Table tr.is-selected {
-    background-color: inherit;
-}

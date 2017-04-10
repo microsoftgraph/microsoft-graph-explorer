@@ -1,7 +1,7 @@
 import { getString } from "./api-explorer-helpers";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
-import { ExplorerValues } from "./base";
+import { ExplorerValues, HistoryRecord, GraphApiCall } from "./base";
 
 
 export let pathToBuildDir:string;
@@ -23,5 +23,21 @@ export class GraphExplorerComponent {
 
   isAuthenticated = () => {
     return isAuthenticated();
+  }
+
+  // used in sidebar and panel
+  getRequestHistory = (limit?:number):HistoryRecord[] => {
+      if (limit) return AppComponent.requestHistory.slice(0, limit);
+
+      return AppComponent.requestHistory;
+  }
+
+  
+  
+  runQuery(query:GraphApiCall) {
+      AppComponent.explorerValues.endpointUrl = query.requestUrl;
+      AppComponent.explorerValues.selectedOption = query.method;
+
+      AppComponent.executeExplorerQuery();
   }
 }

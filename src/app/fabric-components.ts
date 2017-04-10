@@ -34,7 +34,7 @@ export function initFabricComponents() {
             });
 
             let closeHistoryPanel = () => {
-                $("#history-panel .ms-Panel-closeButton").trigger("click");
+                (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
             };
 
         }, 0);

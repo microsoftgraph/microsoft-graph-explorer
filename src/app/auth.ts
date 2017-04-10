@@ -78,10 +78,8 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			promisesGetUserInfo.push(apiService.performQuery("GET", `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
 				let resultBody = result.json();
 
-				AppComponent.explorerValues.authentication.user = {
-					displayName: resultBody.displayName,
-					emailAddress: resultBody.mail	
-				}
+				AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
+				AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
 			}));
 
 			// get profile image

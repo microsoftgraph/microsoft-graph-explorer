@@ -20,6 +20,7 @@ declare let mwf:any;
         <sidebar class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2"></sidebar>
         <main-column class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10" id="explorer-main"></main-column>
     </div>
+    <history-panel></history-panel>
     `,
   styles: [`
     
@@ -87,7 +88,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
         saveHistoryToLocalStorage(AppComponent.requestHistory);
   }
 
-  static executeExplorerQuery(service:GraphService) {
+  static executeExplorerQuery() {
     let query:HistoryRecord = {
         requestUrl: AppComponent.explorerValues.endpointUrl,
         method: AppComponent.explorerValues.selectedOption,
@@ -102,9 +103,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
 
     let graphRequest:Promise<Response>;
     if (isAuthenticated()) {
-      graphRequest = service.performQuery(query.method, query.requestUrl);
+      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl);
     } else {
-      graphRequest = service.performAnonymousQuery(query.method, query.requestUrl);
+      graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl);
     }
 
     graphRequest.then((res) => {handleSuccessfulQueryResponse(res, query)}).catch((res) => {handleUnsuccessfulQueryResponse(res, query)});

@@ -11,7 +11,7 @@ export interface ExplorerOptions {
     GraphVersions?: string[]
 }
 
-export let Methods = [
+export let Methods:RequestType[] = [
     'GET',
     'POST',
     'PATCH',
