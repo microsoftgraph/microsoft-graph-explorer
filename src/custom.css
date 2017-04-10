@@ -12,7 +12,7 @@ api-explorer .c-select-menu.f-border button {
     padding: 9px;
     margin-top: 20px;
 
-    width: 400px;
+    width: 100%;
 }
 
 .mat-input-underline, .mat-input-ripple {
@@ -23,7 +23,6 @@ api-explorer .c-select-menu.f-border button {
     box-shadow: none !important;
     position: relative;
 }
-
 
 #response-viewer-labels {
     margin-top: 20px;

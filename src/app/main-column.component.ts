@@ -105,6 +105,10 @@ declare let mwf:any;
         max-width: 300px;
     }
 
+    md-input-container {
+        flex: 1;
+    }
+
 
   `]
 })
