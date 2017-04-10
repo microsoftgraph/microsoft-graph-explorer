@@ -23,11 +23,6 @@ import { updateHttpMethod } from "./main-column.component";
           text-align: right;
       }
 
-
-      #authDrawer {
-          min-height: 96px;
-      }
-
       #userDisplayName {
           color: #e2e2e2
       }

@@ -121,6 +121,10 @@ import { AppComponent } from "./app.component";
     button.c-glyph {
         color: white;
     }
+
+    #authDrawer {
+        min-height: 96px;
+    }
   `]
 })
 export class SidebarComponent extends GraphExplorerComponent {
