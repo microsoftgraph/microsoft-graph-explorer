@@ -6,6 +6,7 @@ import { FormControl } from "@angular/forms";
 import { GraphService } from "./api-explorer-svc";
 import { GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL } from "./graph-structure";
 import { initializeJsonViewer } from "./api-explorer-jsviewer";
+import { Observable } from "rxjs/Observable";
 
 declare let mwf:any;
 
@@ -112,7 +113,21 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         initializeJsonViewer();
     }
 
-    ngOnInit(): void { }
+//    filteredOptions: Observable<string[]>;
+    ngOnInit(): void {
+//         this.myControl.valueChanges
+//          .startWith(null)
+//          .map(val => this.filter(val))
+//          .toPromise(() => {
+//              this.filteredOptions;
+//          });
+    }
+
+//    filter(val: string): Promise<string[]>{
+//       return this.getMatches(val).then((a) => {
+//         return a.map(x => x.fullUrl)
+//     });
+//    }
 
     @ViewChild('httpMethod', {read: ViewContainerRef}) _httpMethodEl;
     @ViewChild('graphVersion', {read: ViewContainerRef}) _graphVersionEl;
@@ -166,7 +181,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     //     });
     // }
     
-    getMatches(query):Promise<AutoCompleteItem[]> {
+    getMatches(query:string):Promise<AutoCompleteItem[]> {
         return getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion).then((urls) => {
             return constructGraphLinksFromFullPath(this.GraphService, query).then((graph) => {
                 // if query ends with odata query param, don't return any URLs

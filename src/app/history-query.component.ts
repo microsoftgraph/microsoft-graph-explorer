@@ -20,16 +20,24 @@ import * as moment from "moment"
     </query-row>
     `,
     styles: [`
-    .duration {
-        float: right;
-    }
-    
     .status-code.success {
         color: #05f505;
     }
 
     .status-code.error {
         color: #f7688d;
+    }
+
+    .date {
+        float: left;
+    }
+
+    .duration {
+        float: right;
+    }
+
+    .history-row-2 {
+        text-align: center;
     }
 `]
 })

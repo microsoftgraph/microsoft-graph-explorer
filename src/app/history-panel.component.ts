@@ -33,7 +33,7 @@ import { AppComponent } from "./app.component";
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let query of getRequestHistory()" (click)="runQuery(query); closeHistoryPanel();">
+                    <tr *ngFor="let query of getRequestHistory()" (click)="loadQueryIntoEditor(query); closeHistoryPanel();">
                         <td>{{query.method}}</td>
                         <td>{{query.requestUrl}}</td>
                         <td>{{query.statusCode}}</td>

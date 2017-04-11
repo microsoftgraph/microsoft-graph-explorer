@@ -10,7 +10,7 @@ import { GraphService } from "./api-explorer-svc";
   selector: 'query-row',
   providers: [GraphService],
   template: `
-    <div class="api-query" (click)="runQuery(this.query)" [attr.title]="getTitle()" tabindex="0">
+    <div class="api-query" (click)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" tabindex="0">
         <div class="row-1">
             <span class="request-badge" [ngClass]="query.method">{{query.method}}</span><span class="query">{{getQueryText()}}</span>
         </div>

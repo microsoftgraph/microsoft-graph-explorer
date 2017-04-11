@@ -15,7 +15,7 @@ import { AppComponent } from "./app.component";
         </div>
         <div class="c-drawer">
             <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
-                  <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" aria-hidden="true"></i>{{getStr(['Authentication'])}}</span></button>
+                  <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--Permissions" aria-hidden="true"></i>{{getStr('Authentication')}}</span></button>
             <div id="authDrawer" class="panel-content">
 
               <authentication></authentication>
@@ -25,7 +25,7 @@ import { AppComponent } from "./app.component";
         <div class="c-drawer">
             <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
                 
-                <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr(['Getting Started'])}}</span></button>
+                <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr('Getting Started')}}</span></button>
             <div id="refineDrawer" class="panel-content">
                 <div getting-started>
                     <query-row [query]="query" *ngFor="let query of queries"></query-row>

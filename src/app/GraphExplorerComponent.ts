@@ -34,10 +34,8 @@ export class GraphExplorerComponent {
 
   
   
-  runQuery(query:GraphApiCall) {
+  loadQueryIntoEditor(query:GraphApiCall) {
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
-
-      AppComponent.executeExplorerQuery();
   }
 }
