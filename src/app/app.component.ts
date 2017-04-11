@@ -78,14 +78,26 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
       selectedOption: "GET",
       selectedVersion: "v1.0",
       authentication: {},
-      showImage: false
+      showImage: false,
+      requestInProgress: false
   };
 
   static requestHistory: HistoryRecord[] = loadHistoryFromLocalStorage();
   
   static addRequestToHistory(request:HistoryRecord) {
-        AppComponent.requestHistory.splice(0, 0, request); //add history object to the array
-        saveHistoryToLocalStorage(AppComponent.requestHistory);
+      AppComponent.requestHistory.splice(0, 0, request); //add history object to the array
+      saveHistoryToLocalStorage(AppComponent.requestHistory);
+  }
+
+  static removeRequestFromHistory(request:HistoryRecord) {
+      const idx = AppComponent.requestHistory.indexOf(request);
+
+      if (idx > -1) {
+        AppComponent.requestHistory.splice(idx, 1);
+      } else {
+        console.error("Trying to remove history item that doesn't exist")
+      }
+      saveHistoryToLocalStorage(AppComponent.requestHistory);
   }
 
   static executeExplorerQuery() {
@@ -107,6 +119,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
     } else {
       graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl);
     }
+    this.explorerValues.requestInProgress = true;
 
     graphRequest.then((res) => {handleSuccessfulQueryResponse(res, query)}).catch((res) => {handleUnsuccessfulQueryResponse(res, query)});
   }
@@ -114,30 +127,31 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
 
   
  }
-  function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
-    let {status, headers} = res;
-    query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
-    query.statusCode = status;
-    AppComponent.addRequestToHistory(query);
+function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
+  AppComponent.explorerValues.requestInProgress = false;
+  let {status, headers} = res;
+  query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
+  query.statusCode = status;
+  AppComponent.addRequestToHistory(query);
 
-    let resultBody = res.text();
+  let resultBody = res.text();
 
-    AppComponent.explorerValues.showImage = false;
-    if (isImageResponse(headers)) {
-      let method = isAuthenticated() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
-        handleImageResponse(method, headers, status, handleUnsuccessfulQueryResponse);
-    } else if (isHtmlResponse(headers)) {
-        handleHtmlResponse(resultBody, headers);
-    } else if (isXmlResponse(resultBody)) {
-        handleXmlResponse(resultBody, headers);
-    } else {
-        handleJsonResponse(res.json(), headers);
-    }
+  AppComponent.explorerValues.showImage = false;
+  if (isImageResponse(headers)) {
+    let method = isAuthenticated() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
+    handleImageResponse(method, headers, status, handleUnsuccessfulQueryResponse);
+  } else if (isHtmlResponse(headers)) {
+    handleHtmlResponse(resultBody, headers);
+  } else if (isXmlResponse(resultBody)) {
+    handleXmlResponse(resultBody, headers);
+  } else {
+    handleJsonResponse(res.json(), headers);
   }
-
+}
 
 
 function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
+  AppComponent.explorerValues.requestInProgress = false;
   let {status, headers, text} = res;
   query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
   query.statusCode = status;

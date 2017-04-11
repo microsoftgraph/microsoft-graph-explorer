@@ -30,6 +30,8 @@ import * as moment from "moment"
 
     .date {
         float: left;
+        font-weight: normal;
+        color: #a0a0a0;
     }
 
     .duration {
@@ -55,12 +57,8 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
         this.query.relativeDate = moment(this.query.requestSentAt).fromNow();
     }
 
-    @Input() query: ExtendedHistoryRecord;
+    @Input() query: HistoryRecord;
     
     successClass:string;
     
-}
-
-export interface ExtendedHistoryRecord extends HistoryRecord {
-    relativeDate: string
 }

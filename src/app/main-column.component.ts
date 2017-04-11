@@ -139,6 +139,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     }
 
     submit = () => {
+        if (this.explorerValues.requestInProgress) return;
         AppComponent.executeExplorerQuery();
     }
 

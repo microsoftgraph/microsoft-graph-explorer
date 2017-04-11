@@ -18,13 +18,14 @@ import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
 import { HistoryRowComponent } from './history-query.component'
 import { HistoryPanelComponent } from "./history-panel.component";
+import { MethodBadgeComponent } from "./method-badge.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, MaterialModule ],
-  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent ],
+  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
 
 
-// enableProdMode()
+enableProdMode()

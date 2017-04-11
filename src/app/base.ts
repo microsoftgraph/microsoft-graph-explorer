@@ -36,6 +36,7 @@ export interface HistoryRecord extends GraphApiCall {
     requestBody?: string
     requestHeaders?: string
     requestSentAt?: Date
+    relativeDate?: string
 }
 
 export interface ExplorerValues {
@@ -51,6 +52,7 @@ export interface ExplorerValues {
         }
     }
     showImage: boolean
+    requestInProgress: boolean
 }
 
 export interface AutoCompleteItem {

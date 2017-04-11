@@ -58,3 +58,11 @@ api-explorer .c-select-menu.f-border button {
 #graph-version-select #-Other {
     display:none
 }
+
+.ms-Spinner-circle {
+    background-color: white !important;
+}
+
+.ms-Spinner {
+    margin-left: 38px
+}

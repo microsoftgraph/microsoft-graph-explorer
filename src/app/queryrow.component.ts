@@ -5,14 +5,14 @@ import { AppComponent } from "./app.component";
 import { getString } from "./api-explorer-helpers";
 import { AppModule } from "./app.module";
 import { GraphService } from "./api-explorer-svc";
+import { getShortQueryText } from "./ApiCallDisplayHelpers";
 
 @Component({
   selector: 'query-row',
-  providers: [GraphService],
   template: `
     <div class="api-query" (click)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" tabindex="0">
         <div class="row-1">
-            <span class="request-badge" [ngClass]="query.method">{{query.method}}</span><span class="query">{{getQueryText()}}</span>
+            <method-badge [query]="query"></method-badge><span class="query">{{getQueryText()}}</span>
         </div>
       <ng-content></ng-content>
     </div>`,
@@ -39,32 +39,6 @@ import { GraphService } from "./api-explorer-svc";
           margin-left: -26px;
       }
 
-      .request-badge {
-          border: 1px solid gray;
-          min-width: 55px;
-          display: inline-block;
-          padding: 2px;
-          text-align: center;
-          margin-right: 15px;
-          font-weight: 600;
-      }
-
-      .request-badge.GET {
-          background-color: #000fdf
-      }
-
-      .request-badge.POST {
-          background-color: #008412
-      }
-
-      .request-badge.PATCH {
-          background-color: #be8b00
-      }
-
-      .request-badge.DELETE {
-          background-color: #a10000  
-      }
-
 
       .row-1 {
           display: inline;
@@ -86,17 +60,6 @@ export class QueryRowComponent extends GraphExplorerComponent {
     }
 
     getQueryText() {
-        let shortQueryUrl;
-        if (this.query.requestUrl) {
-            shortQueryUrl = this.query.requestUrl.split(AppComponent.Options.GraphUrl)[1];
-        }
-        
-        let queryText = this.query.humanName || shortQueryUrl;
-
-        return (getString(AppComponent.Options, queryText)) || queryText;
-    }
-
-    constructor(private GraphService: GraphService) {
-        super();
+        return getShortQueryText(this.query);
     }
 }

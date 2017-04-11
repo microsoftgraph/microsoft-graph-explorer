@@ -24,7 +24,6 @@ import { AppComponent } from "./app.component";
 
         <div class="c-drawer">
             <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
-                
                 <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr('Getting Started')}}</span></button>
             <div id="refineDrawer" class="panel-content">
                 <div getting-started>
@@ -38,7 +37,7 @@ import { AppComponent } from "./app.component";
                   <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span></button>
             <div id="historyDrawer" class="panel-content">
                 <history-query-row  *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
-                <a href="#" id="show-full-history" *ngIf="getRequestHistory().length > 0" class="c-hyperlink" tabindex=0>{{getStr('Show More')}}</a>
+                <a href="#" id="show-full-history" [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0>{{getStr('Show More')}}</a>
             </div>
         </div>
 
