@@ -7,10 +7,10 @@ import { AppComponent } from "./app.component";
 @Component({
   selector: 'response-status-bar',
   template: `
-    <div class="ms-MessageBar ms-MessageBar-singleline" [ngClass]="{'ms-MessageBar--success': success, 'ms-MessageBar--error': !success, 'hide-action-bar':!query()}">
+    <div class="ms-MessageBar ms-MessageBar-singleline" [ngClass]="{'ms-MessageBar--success': isSuccessful(query()), 'ms-MessageBar--error': !isSuccessful(query()), 'hide-action-bar':!query()}">
         <div class="ms-MessageBar-content">
             <div class="ms-MessageBar-icon">
-                <i class="ms-Icon" [ngClass]="{'ms-Icon--Completed': success, 'ms-Icon--errorBadge': !success}" ></i>
+                <i class="ms-Icon" [ngClass]="{'ms-Icon--Completed': isSuccessful(query()), 'ms-Icon--errorBadge': !isSuccessful(query())}" ></i>
             </div>
             <div class="ms-MessageBar-actionables">
                 <div class="ms-MessageBar-text" *ngIf="query()">
@@ -55,22 +55,27 @@ import { AppComponent } from "./app.component";
 `]
 })
 export class ResponseStatusBarComponent extends GraphExplorerComponent {
-    success:boolean;
+    isSuccessful(query:GraphApiCall) {
+        if (!query) return false;
+        return query.statusCode >= 200 && query.statusCode < 300;
+    }
 
     query() {
         return AppComponent.lastApiCall;
     }
 
     createTextSummary() {
-        this.success = AppComponent.lastApiCall.statusCode >= 200 && AppComponent.lastApiCall.statusCode < 300;
+        const query = this.query();
+
+        
         let text = "";
-        if (this.success) {
+        if (this.isSuccessful(query)) {
             text += this.getStr("Success");
         } else {
             text += this.getStr("Failure");
         }
 
-        text += ` - ${this.getStr("Status Code")} ${AppComponent.lastApiCall.statusCode}`
+        text += ` - ${this.getStr("Status Code")} ${query.statusCode}`
         return text;
     }
 

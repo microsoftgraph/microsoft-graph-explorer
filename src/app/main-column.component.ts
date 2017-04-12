@@ -114,6 +114,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         
         initializeJsonViewer();
         initializeResponseHeadersViewer();
+
     }
 
 //    filteredOptions: Observable<string[]>;
@@ -145,7 +146,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         if (this.explorerValues.requestInProgress) return;
         AppComponent.executeExplorerQuery();
     }
-
 
     getAutocompleteOptions():Promise<any> {
         return getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion);
@@ -260,4 +260,6 @@ export function updateHttpMethod() {
 
     const elementIdxToSelect = httpMethodSelectMenu.items[Methods.indexOf(AppComponent.explorerValues.selectedOption)];
     httpMethodSelectMenu.onItemSelected(elementIdxToSelect);
+
+
 }

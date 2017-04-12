@@ -49,7 +49,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
     }
     updateMomentRef: number;
     ngOnInit(): void {
-        setInterval(() => {
+        this.updateMomentRef = setInterval(() => {
             this.setRelativeDate();
         }, 1000);
         this.setRelativeDate();

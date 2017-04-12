@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { HistoryRecord, GraphApiCall } from "./base";
 import { AppComponent } from "./app.component";
@@ -73,7 +73,7 @@ import { saveHistoryToLocalStorage } from "./history";
                         <tr *ngFor="let query of getRequestHistory()" class="request-history-query">
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();"><method-badge [query]="query"></method-badge></td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{getQueryText(query)}}</td>
-                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{getRelativeDate(query)}}</td>
+                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.relativeDate}}</td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();"><span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span></td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.duration}} ms</td>
                             <td class="remove-query"><i (click)="removeQueryFromHistory(query)" class="ms-Icon ms-Icon--Cancel"></i></td>
@@ -91,10 +91,21 @@ import { saveHistoryToLocalStorage } from "./history";
     </div>
      `,
 })
-export class HistoryPanelComponent extends GraphExplorerComponent {
-    getRelativeDate(query:HistoryRecord) {
-        return moment(query.requestSentAt).fromNow();
+export class HistoryPanelComponent extends GraphExplorerComponent implements OnInit {
+    constructor(private _changeDetectionRef : ChangeDetectorRef) {
+        super();
     }
+
+    ngOnInit(): void {
+        setInterval(() => {
+            console.log("updating rel dates")
+            for (let historyRecord of AppComponent.requestHistory) {
+                historyRecord.relativeDate = moment(historyRecord.requestSentAt).fromNow();
+            }
+            this._changeDetectionRef.detectChanges();
+        }, 5000);
+    }
+
 
     closeHistoryPanel = () => {
         (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()

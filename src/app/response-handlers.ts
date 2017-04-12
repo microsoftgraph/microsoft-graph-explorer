@@ -20,7 +20,7 @@ export function insertHeadersIntoResponseViewer(headers:Headers) {
     headers.forEach((headerValue, headerKey) => {
         headersArr.push(headerKey + ": " + headerValue);
     })
-    
+
     getAceEditorFromElId("response-header-viewer").getSession().setValue("");
     getAceEditorFromElId("response-header-viewer").getSession().insert(0, headersArr.join("\n"));
 }

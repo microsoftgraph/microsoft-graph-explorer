@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef, DoCheck } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord, GraphApiCall } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
@@ -6,7 +6,7 @@ import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./api-explorer-svc";
 import { Response } from '@angular/http';
-import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse } from "./response-handlers";
+import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
 
 declare let mwf:any;
@@ -35,15 +35,25 @@ declare let mwf:any;
     
 `]
 })
-export class AppComponent extends GraphExplorerComponent implements OnInit {
+export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
+    ngAfterViewInit(): void {
+      // Headers aren't updated when that tab is hidden, so when clicking on any tab reinsert the headers
+      $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
+          insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
+      });
+    }
+
 
   static svc:GraphService;
   static lastApiCall:GraphApiCall;
+  static lastApiCallHeaders: Headers;
+  static _changeDetectionRef:ChangeDetectorRef;
 
 
   constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
     super();
     AppComponent.svc = GraphService;
+    AppComponent._changeDetectionRef = chRef;
   }
 
   ngOnInit() {
@@ -61,7 +71,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
     mwf.ComponentFactory.create([{
         'component': mwf.Drawer,
     }])
-
   }
   
 
@@ -109,11 +118,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
         requestSentAt: new Date()
     };
 
-
     if (query.method == 'POST' || query.method == 'PATCH') {
         // historyObj.requestBody = getRequestBodyEditor().getSession().getValue();
     }
-
 
     let graphRequest:Promise<Response>;
     if (isAuthenticated()) {
@@ -123,15 +130,18 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
     }
     this.explorerValues.requestInProgress = true;
 
-    graphRequest.then((res) => {handleSuccessfulQueryResponse(res, query)}).catch((res) => {handleUnsuccessfulQueryResponse(res, query)});
+    graphRequest.then((res) => {
+      handleSuccessfulQueryResponse(res, query);
+    }).catch((res) => {
+      handleUnsuccessfulQueryResponse(res, query);
+    });
   }
 
-
-  
  }
 function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   AppComponent.explorerValues.requestInProgress = false;
   AppComponent.lastApiCall = query;
+  AppComponent.lastApiCallHeaders = res.headers;
 
   let {status, headers} = res;
   query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
@@ -156,6 +166,7 @@ function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
 function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   AppComponent.explorerValues.requestInProgress = false;
   AppComponent.lastApiCall = query;
+  AppComponent.lastApiCallHeaders = res.headers;
 
   let {status, headers, text} = res;
   query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
