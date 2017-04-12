@@ -37,5 +37,9 @@
   "my mail": "my mail",
   "my high importance mail": "my high importance mail",
   "my calendar": "my calendar",
-  "my manager": "my manager"
+  "my manager": "my manager",
+
+  "Response Headers": "Response Headers",
+  "Response Preview": "Response Preview"
+  
 }

@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
-import { getJsonViewer } from "./api-explorer-jseditor"
+import { getJsonViewer, getAceEditorFromElId } from "./api-explorer-jseditor"
 import { GraphService } from "./api-explorer-svc";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
@@ -21,8 +21,8 @@ export function insertHeadersIntoResponseViewer(headers:Headers) {
         headersArr.push(headerKey + ": " + headerValue);
     })
     
-    getJsonViewer().getSession().setValue("");
-    getJsonViewer().getSession().insert(0, headersArr.join("\n"));
+    getAceEditorFromElId("response-header-viewer").getSession().setValue("");
+    getAceEditorFromElId("response-header-viewer").getSession().insert(0, headersArr.join("\n"));
 }
 
 export function handleImageResponse(method:any, headers, status, handleUnsuccessfulQueryResponse) {

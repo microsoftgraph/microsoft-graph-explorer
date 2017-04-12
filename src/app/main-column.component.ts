@@ -5,7 +5,7 @@ import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
 import { GraphService } from "./api-explorer-svc";
 import { GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL } from "./graph-structure";
-import { initializeJsonViewer } from "./api-explorer-jsviewer";
+import { initializeJsonViewer, initializeResponseHeadersViewer } from "./api-explorer-jsviewer";
 import { Observable } from "rxjs/Observable";
 
 declare let mwf:any;
@@ -56,6 +56,10 @@ declare let mwf:any;
     #submitBtn {
         height: 37px;
         margin-top: 20px;
+    }
+    
+    .ms-Spinner {
+        margin-left: 38px
     }
 
   `]
@@ -111,6 +115,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
         
         initializeJsonViewer();
+        initializeResponseHeadersViewer();
     }
 
 //    filteredOptions: Observable<string[]>;
