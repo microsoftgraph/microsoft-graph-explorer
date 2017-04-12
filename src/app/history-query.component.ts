@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationStatus, ExplorerOptions, GraphApiCall, HistoryRecord } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
@@ -44,6 +44,10 @@ import * as moment from "moment"
 `]
 })
 export class HistoryRowComponent extends QueryRowComponent implements OnInit {
+    constructor(private _changeDetectionRef : ChangeDetectorRef) {
+        super();
+    }
+    updateMomentRef: number;
     ngOnInit(): void {
         setInterval(() => {
             this.setRelativeDate();
@@ -55,10 +59,14 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
 
     setRelativeDate() {
         this.query.relativeDate = moment(this.query.requestSentAt).fromNow();
+        this._changeDetectionRef.detectChanges();
     }
 
     @Input() query: HistoryRecord;
     
     successClass:string;
-    
+    ngOnDestroy() {
+      clearInterval(this.updateMomentRef);
+      this._changeDetectionRef.detach();
+    }
 }

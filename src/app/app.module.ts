@@ -29,4 +29,4 @@ import { ResponseStatusBarComponent } from "./response-status-bar.component";
 export class AppModule { }
 
 
-enableProdMode()
+// enableProdMode()
