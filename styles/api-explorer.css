@@ -352,12 +352,6 @@ md-autocomplete-wrap.md-whiteframe-z1 input {
 
 
 
-
-md-progress-circular path {
-    stroke: #FFF;
-    margin: -5px;
-}
-
 #responseMessage .ms-MessageBar {
     width: 60%;
     margin: 0px auto;
@@ -386,11 +380,6 @@ span#duration-label {
     margin-bottom: inherit;
 }
 
-
-
-
-
-
 md-autocomplete-wrap.md-menu-showing {
     border-bottom: none !important;
 }
@@ -398,19 +387,6 @@ md-autocomplete-wrap.md-menu-showing {
 .ms-Pivot *:focus {
     outline: none;
 }
-
-
-
-
-
-
-
-
-.c-progress.f-indeterminate-local span:after {
-    background: white;
-}
-
-
 
 
 .user-no-image .ms-Persona-details {
@@ -423,11 +399,7 @@ md-autocomplete button:after {
 }
 
 #response-action-bar {
-    float: right;
-    margin-top: 32px;
-    font-size: 20px;
-    margin-right: 5px;
-    color: rgb(186, 186, 186);
+    
 }
 
 #response-action-bar i {
@@ -437,5 +409,3 @@ md-autocomplete button:after {
 div#share-link-dialog {
     min-width: 35%;
 }
-
-

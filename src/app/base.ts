@@ -30,6 +30,12 @@ export interface GraphApiCall {
     requestUrl?: string
 }
 
+export interface SampleQueryCategory {
+    title: string
+    enabled: boolean
+    queries: GraphApiCall[]
+}
+
 export interface HistoryRecord extends GraphApiCall {
     requestId?: string
     // selectedVersion?: string // take from requestUrl

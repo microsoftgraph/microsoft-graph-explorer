@@ -65,9 +65,7 @@ declare let mwf:any;
   `]
 })
 
-
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
-
     oldEndpointUrl:string;
     ngDoCheck() {
         if (this.explorerValues && this.oldEndpointUrl != JSON.stringify(this.explorerValues)) {
@@ -235,7 +233,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.t.selectMenu;
 
         let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
-        //debugger;
         if (graphVersionIdx == -1) {
             document.getElementById("-Other").children[0].textContent = this.explorerValues.selectedVersion;
             graphVersionIdx = this.GraphVersions.indexOf("Other");

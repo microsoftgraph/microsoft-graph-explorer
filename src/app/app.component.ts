@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck } from '@angular/core';
-import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord, GraphApiCall } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
@@ -38,6 +38,8 @@ declare let mwf:any;
 export class AppComponent extends GraphExplorerComponent implements OnInit {
 
   static svc:GraphService;
+  static lastApiCall:GraphApiCall;
+
 
   constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
     super();
@@ -129,6 +131,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit {
  }
 function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   AppComponent.explorerValues.requestInProgress = false;
+  AppComponent.lastApiCall = query;
+
   let {status, headers} = res;
   query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
   query.statusCode = status;
@@ -149,9 +153,10 @@ function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   }
 }
 
-
 function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   AppComponent.explorerValues.requestInProgress = false;
+  AppComponent.lastApiCall = query;
+
   let {status, headers, text} = res;
   query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
   query.statusCode = status;

@@ -51,7 +51,6 @@ import { saveHistoryToLocalStorage } from "./history";
     }
 `],
   template: `
-  <b>test</b>
     <div id="history-panel" class="ms-Panel ms-Panel--xl">
         <button class="ms-Panel-closeButton ms-PanelAction-close" tabindex="1">
             <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>

@@ -35,6 +35,7 @@
     </div>
 
     <!-- response -->
+    <response-status-bar></response-status-bar>
     <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
         <ul class="ms-Pivot-links">
             <li class="ms-Pivot-link is-selected" data-content="response" tabindex="1">
@@ -47,7 +48,7 @@
         <div class="ms-Pivot-content" data-content="response">
             <div>
                 <img id="responseImg" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak />
-                <div id="jsonViewer"></div>
+                <div id="jsonViewer" [hidden]="explorerValues.showImage"></div>
 
                 <!--<svg id="visual-explorer" width="1200" height="1000"/></svg>-->
             </div>
