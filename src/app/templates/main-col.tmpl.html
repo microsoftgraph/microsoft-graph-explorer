@@ -18,7 +18,7 @@
         </div>
 
         <md-input-container>
-            <input type="text" mdInput [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <input type="text" mdInput (keydown)="keyDownFunction($event)" [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         </md-input-container>
 
         <md-autocomplete #auto="mdAutocomplete">

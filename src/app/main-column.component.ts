@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, AfterViewInit, ViewChild, ContentChildren, ViewContainerRef, Input, OnChanges, DoCheck } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck } from '@angular/core';
 import { AuthenticationStatus, GraphApiCall, HistoryRecord, Methods, ExplorerValues, AutoCompleteItem } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
@@ -32,7 +32,6 @@ declare let mwf:any;
     .c-select.f-border {
         min-width: inherit;
     }
-
 
     @media (max-width: 639px) {
         .bump-flex-row-mobile {
@@ -150,6 +149,12 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     submit = () => {
         if (this.explorerValues.requestInProgress) return;
         AppComponent.executeExplorerQuery();
+    }
+
+    keyDownFunction(event) {
+        if (event.keyCode == 13) {
+            this.submit();
+        }
     }
 
     getAutocompleteOptions():Promise<any> {

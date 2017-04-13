@@ -16,6 +16,8 @@ export function showResults(results, headers:Headers, responseContentType) {
 }
 
 export function insertHeadersIntoResponseViewer(headers:Headers) {
+    if (!headers) return; // prevents foreach of undefined error
+
     // format headers
     let headersArr = [];
     headers.forEach((headerValue, headerKey) => {

@@ -14,7 +14,7 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 @Component({
   selector: 'query-row',
   template: `
-    <div class="api-query" (click)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" tabindex="0">
+    <div class="api-query" (click)="loadQueryIntoEditor(this.query)" (keydown)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" tabindex="0">
         <div class="row-1">
             <method-badge [query]="query"></method-badge><span class="query">{{getQueryText()}}</span>
         </div>
