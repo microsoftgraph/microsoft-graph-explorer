@@ -12,6 +12,7 @@ import { GraphService } from "./api-explorer-svc";
 import { Response } from '@angular/http';
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
+import * as moment from "moment"
 
 declare let mwf:any;
 
@@ -78,6 +79,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         'component': mwf.Drawer,
       }
     ])
+
+    moment.locale(AppComponent.Options.Language);
   }
   
 

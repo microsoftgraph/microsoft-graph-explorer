@@ -42,7 +42,7 @@ declare let fabric, mwf:any;
                     <div class="category-switch">
                         <div class="c-toggle" (click)="toggleCategory(category)">
                             <button id="example-1" name="example-1" role="checkbox" aria-checked="true" aria-labelledby="c-label c-state-label-1"></button>
-                            <span [attr.data-on-string]="'On'" data-off-string="Off" id="c-state-label-1">On</span>
+                            <span [attr.data-on-string]="getStr('On')" [attr.data-off-string]="getStr('Off')" id="c-state-label-1">On</span>
                         </div>
                     </div>
                 </div>

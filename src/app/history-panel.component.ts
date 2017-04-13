@@ -79,14 +79,14 @@ import { saveHistoryToLocalStorage } from "./history";
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{getQueryText(query)}}</td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.relativeDate}}</td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();"><span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span></td>
-                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.duration}} ms</td>
+                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.duration}} {{getStr('milliseconds')}}</td>
                             <td class="remove-query"><i (click)="removeQueryFromHistory(query)" class="ms-Icon ms-Icon--Cancel"></i></td>
                         </tr>
                     </tbody>
                 </table>
                 <div id="panel-actions">
                     <button name="button" class="c-button" type="submit" (click)="clearHistory()">
-                        Remove All
+                        {{getStr('Remove All')}}
                     </button>
                 </div>
 

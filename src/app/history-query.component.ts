@@ -19,7 +19,7 @@ import * as moment from "moment"
         <div class="history-row-2">
             <span class="date">{{query.relativeDate}}</span>
             <span class="status-code" [ngClass]="successClass">{{query.statusCode}}</span>
-            <span class="duration">{{query.duration}} ms</span>
+            <span class="duration">{{query.duration}} {{getStr('milliseconds')}}</span>
         </div>
     </query-row>
     `,
