@@ -42,9 +42,8 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
-          margin-left: -26px;
+          margin-left: -12px;
       }
-
 
       .row-1 {
           display: inline;

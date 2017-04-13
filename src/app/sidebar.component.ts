@@ -33,7 +33,7 @@ declare let fabric;
             <div id="refineDrawer" class="panel-content">
                 <div>
                     <div *ngFor="let category of categories">
-                        <div><span class="c-heading-6">{{category.title}}</span></div>
+                        <div><span class="category-heading">{{category.title}}</span></div>
                         <query-row [query]="query" *ngFor="let query of category.queries"></query-row>
                     </div>
                     <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more groups')}}</a>
@@ -55,19 +55,16 @@ declare let fabric;
   `,
   styles: [`
     #explorer-sidebar {
-        background: #2F2F2F!important;
+        background: #2F2F2F !important;
         height: 1024px;
         padding: 0px;
-        /*height: 100%;*/
         color: white;
       	font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-
     }
 
     #explorer-sidebar .c-hyperlink {
         color: #00bcf2;
     }
-
 
     #getting-started-svg {
         display: inline-block;
@@ -80,7 +77,6 @@ declare let fabric;
         float: right;
         margin-right: 27px;
     }
-
 
     span#explorer-title {
         margin-left: 40px;
@@ -101,7 +97,7 @@ declare let fabric;
     }
 
     #explorer-sidebar .panel-content {
-        padding-left: 46px;
+        padding-left: 28px;
         font-size: 13px;
     }
 
@@ -109,12 +105,10 @@ declare let fabric;
         margin-right: 10px;
     }
 
-
     /* Remove drawer carrot on auth */
     #auth-drawer-button:after{
         content:none;
     }
-
 
     .arrow-left {
         border-top: 18px solid transparent;
@@ -137,43 +131,53 @@ declare let fabric;
     .c-hyperlink {
         color: #00bcf2;
     }
+
+    .category-heading {
+        font-size: 17px;
+        font-weight: 300;
+    }
   `]
 })
 export class SidebarComponent extends GraphExplorerComponent implements AfterViewInit {
-    ngAfterViewInit(): void {
-        var PanelExampleButton = document.querySelector("#show-full-history");
-        var PanelExamplePanel = document.querySelector("#history-panel");
-        PanelExampleButton.addEventListener("click", (i) => {
-            new fabric['Panel'](PanelExamplePanel);
-            (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
-            $(document).keyup(function(e) {
-                if (e.keyCode === 27)  // esc
-                    closeHistoryPanel();
-            });
-        });
+    sampleCategoryPanel: Element;
+    historyPanel: Element;
 
-        let closeHistoryPanel = () => {
-            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
-        };
+    ngAfterViewInit(): void {
+        this.historyPanel = document.querySelector("#history-panel");
+        this.sampleCategoryPanel = document.querySelector("#sample-categories-panel");
+
+        $(document).keyup((e) => {
+            if (e.keyCode === 27) // esc
+                this.closePanels();
+        });
 
     }
 
-  categories:SampleQueryCategory[] = SampleCategories
+    categories:SampleQueryCategory[] = SampleCategories
 
-  manageCategories() {
-    SampleCategoriesPanelComponent.OpenPanel();
-  }
+    manageCategories() {
+        // open sample category panel
+        new fabric['Panel'](this.sampleCategoryPanel);
 
-  manageHistory() {
-    // new fabric['Panel'](document.querySelector("#history-panel"));
-    // (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
-    // $(document).keyup((e) => {
-    //     if (e.keyCode === 27)  // esc
-    //         closeHistoryPanel();
-    // });
+    }
 
-    // let closeHistoryPanel = () => {
-    //     (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
-    // };
-  }
+    manageHistory() {
+        // open history panel
+        new fabric['Panel'](this.historyPanel);
+        (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
+    }
+
+    closePanels() {
+        try {
+            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
+        } catch(e) {
+
+        }
+
+        try {
+            (document.querySelector("#sample-categories-panel .ms-Panel-closeButton") as any).click()
+        } catch(e) {
+
+        }
+    };
 }

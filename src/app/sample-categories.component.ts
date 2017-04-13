@@ -19,7 +19,6 @@ declare let fabric:any;
 
 `],
   template: `
-  test
     <div id="sample-categories-panel" class="ms-Panel ms-Panel--xl">
         <button class="ms-Panel-closeButton ms-PanelAction-close" tabindex="1">
             <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
@@ -34,20 +33,5 @@ declare let fabric:any;
      `,
 })
 export class SampleCategoriesPanelComponent extends GraphExplorerComponent {
-    static OpenPanel(): void {
-        let PanelExamplePanel = document.querySelector("#sample-categories-panel");
-        new fabric['Panel'](PanelExamplePanel);
 
-            // (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
-            // $(document).keyup(function(e) {
-            //     if (e.keyCode === 27)  // esc
-            //         closeHistoryPanel();
-            // });
-        // });
-    }
-
-
-    // closePanel = () => {
-    //     (document.querySelector("#sample-categories-panel .ms-Panel-closeButton") as any).click()
-    // };
 }

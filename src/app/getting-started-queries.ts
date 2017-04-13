@@ -4,67 +4,76 @@
 
 import { SampleQueryCategory, SampleQuery } from "./base";
 
-const GettingStartedQueries: SampleQuery[] = [
+const queries: SampleQuery[] = [
     {
         humanName: "my profile",
         method: "GET",
         requestUrl: "https://graph.microsoft.com/v1.0/me/",
         docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users",
         AAD: true,
-        MSA: true
+        MSA: true,
+        category: "Getting Started"
     },
     {
         humanName: "my files",
         method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/drive/root/children"
+        requestUrl: "https://graph.microsoft.com/v1.0/me/drive/root/children",
+        category: "Getting Started"
     },
     {
         humanName: "my photo",
         method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/photo/$value"
+        requestUrl: "https://graph.microsoft.com/v1.0/me/photo/$value",
+        category: "Getting Started"
     },
     {
         humanName: "my mail",
         method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/messages"
+        requestUrl: "https://graph.microsoft.com/v1.0/me/messages",
+        category: "Getting Started"
     },
     {
         humanName: "my high importance mail",
         method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high'"
+        requestUrl: "https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high'",
+        category: "Getting Started"
     },
     {
         humanName: "my calendar",
         method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/calendar"
+        requestUrl: "https://graph.microsoft.com/v1.0/me/calendar",
+        category: "Getting Started"
     },
     {
         humanName: "my manager",
         method: "GET",
         requestUrl: "https://graph.microsoft.com/v1.0/me/manager",
-        docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager"
+        docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager",
+        category: "Getting Started"
     }
 ];
 
-export const SampleCategories:SampleQueryCategory[] = [
-    {
-        title: "Getting Started",
-        queries: GettingStartedQueries,
-        enabled: true
-    },
-    {
-        title: "OneDrive",
-        queries: [],
-        enabled: true
-    },
-    {
-        title: "Sharepoint",
-        queries: [],
-        enabled: true
-    },
-    {
-        title: "Excel",
-        queries: [],
-        enabled: true
+
+interface QueryCategoriesMap {
+    [CategoryTitle: string]: SampleQueryCategory;
+}
+
+let categories:QueryCategoriesMap = {};
+
+for (let query of queries) {
+    if (query.category in categories) {
+        categories[query.category].queries.push(query);
+    } else {
+        categories[query.category] = {
+            enabled: true,
+            queries: [query],
+            title: query.category
+        }
     }
-]
+}
+
+export let SampleCategories:SampleQueryCategory[] = [];
+
+for (let category in categories) {
+    SampleCategories.push(categories[category]);
+}

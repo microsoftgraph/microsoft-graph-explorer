@@ -38,13 +38,13 @@ export interface SampleQuery extends GraphApiCall {
     docLink?: string
     AAD?: boolean
     MSA?: boolean
-    // category: SampleQueryCategory
+    category: string
 }
 
 export interface SampleQueryCategory {
     title: string
-    enabled: boolean
-    queries: SampleQuery[]
+    enabled?: boolean
+    queries?: SampleQuery[]
 }
 
 export interface HistoryRecord extends GraphApiCall {
