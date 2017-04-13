@@ -45,7 +45,7 @@ declare let fabric;
             <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
                   <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span></button>
             <div id="historyDrawer" class="panel-content">
-                <history-query-row  *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
+                <history-query-row *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
                 <a href="#" id="show-full-history" (click)="manageHistory()" [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0>{{getStr('Show More')}}</a>
             </div>
         </div>
@@ -74,8 +74,10 @@ declare let fabric;
     }
 
     a#show-full-history, a#manage-categories {
-        float: right;
-        margin-right: 27px;
+        text-align: right;
+        padding-right: 16px;
+        width: 100%;
+        display: block;
     }
 
     span#explorer-title {
@@ -98,6 +100,7 @@ declare let fabric;
 
     #explorer-sidebar .panel-content {
         padding-left: 28px;
+        padding-right: 13px;
         font-size: 13px;
     }
 
@@ -139,6 +142,10 @@ declare let fabric;
 
     .sample-category {
         margin-bottom: 15px;
+    }
+
+    a#show-full-history[hidden] {
+        display: none;
     }
   `]
 })

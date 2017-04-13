@@ -35,6 +35,7 @@ import { AppComponent } from "./app.component";
         width: 100%;
         margin: 0px auto;
         font-size: 15px;
+        margin-top: 15px;
     }
 
     span#duration-label {

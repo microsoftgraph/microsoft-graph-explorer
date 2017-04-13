@@ -2,6 +2,8 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
+import {Headers} from "@angular/http"
+
 export const runInTestMode = typeof document === "undefined";
 
 export interface ExplorerOptions {
@@ -51,7 +53,7 @@ export interface HistoryRecord extends GraphApiCall {
     requestId?: string
     // selectedVersion?: string // take from requestUrl
     requestBody?: string
-    requestHeaders?: string
+    requestHeaders?: Headers
     requestSentAt?: Date
     relativeDate?: string
 }
@@ -69,7 +71,15 @@ export interface ExplorerValues {
         }
     }
     showImage: boolean
-    requestInProgress: boolean
+    requestInProgress: boolean,
+    headers: GraphRequestHeader[]
+}
+
+export interface GraphRequestHeader {
+    name: string
+    value: string
+    enabled?: boolean
+    readonly: boolean
 }
 
 export interface AutoCompleteItem {

@@ -80,7 +80,7 @@ import { saveHistoryToLocalStorage } from "./history";
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.relativeDate}}</td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();"><span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span></td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.duration}} {{getStr('milliseconds')}}</td>
-                            <td class="remove-query"><i (click)="removeQueryFromHistory(query)" class="ms-Icon ms-Icon--Cancel"></i></td>
+                            <td class="remove-query" (click)="removeQueryFromHistory(query)"><i class="ms-Icon ms-Icon--Cancel"></i></td>
                         </tr>
                     </tbody>
                 </table>

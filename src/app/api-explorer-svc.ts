@@ -16,17 +16,9 @@ export class GraphService {
   constructor (private http: Http) { }
 
     
-  performAnonymousQuery = (queryType:RequestType, query:string, requestHeaders?:any) => {
-        let headers = new Headers();
+  performAnonymousQuery = (queryType:RequestType, query:string, headers?:Headers) => {
+        if (!headers) headers = new Headers();
         headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
-
-        if (requestHeaders && requestHeaders["Authorization"]){
-            headers["Authorization"] = requestHeaders["Authorization"];
-        }
-
-        if (requestHeaders && requestHeaders["Accept"]){
-            headers["Accept"] = requestHeaders["Accept"];
-        }
 
         if (queryType == "GET") {
             return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();

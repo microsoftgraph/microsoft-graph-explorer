@@ -3,16 +3,17 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
-import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord, GraphApiCall } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord, GraphApiCall, GraphRequestHeader } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./api-explorer-svc";
-import { Response } from '@angular/http';
+import { Response, Headers } from '@angular/http';
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
 import * as moment from "moment"
+import { createHeaders } from "./util";
 
 declare let mwf:any;
 
@@ -100,7 +101,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       selectedVersion: "v1.0",
       authentication: {},
       showImage: false,
-      requestInProgress: false
+      requestInProgress: false,
+      headers: []
   };
 
   static requestHistory: HistoryRecord[] = loadHistoryFromLocalStorage();
@@ -125,7 +127,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     let query:HistoryRecord = {
         requestUrl: AppComponent.explorerValues.endpointUrl,
         method: AppComponent.explorerValues.selectedOption,
-        requestSentAt: new Date()
+        requestSentAt: new Date(),
+        requestHeaders: createHeaders(AppComponent.explorerValues.headers)
     };
 
     if (query.method == 'POST' || query.method == 'PATCH') {
@@ -134,9 +137,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     let graphRequest:Promise<Response>;
     if (isAuthenticated()) {
-      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl);
+      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, null, query.requestHeaders);
     } else {
-      graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl);
+      graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl, query.requestHeaders);
     }
     this.explorerValues.requestInProgress = true;
 

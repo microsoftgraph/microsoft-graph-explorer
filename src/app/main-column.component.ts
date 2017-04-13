@@ -65,6 +65,10 @@ declare let mwf:any;
         margin-left: 38px
     }
 
+    #spacer-1 {
+        margin-bottom: 50px;
+    }
+
   `]
 })
 

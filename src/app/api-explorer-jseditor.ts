@@ -5,11 +5,7 @@
 declare const ace;
 
 export function getRequestBodyEditor() {
-    return getAceEditorFromElId("jsonEditor");
-}
-
-export function getHeadersEditor() {
-    return getAceEditorFromElId("jsonEditorHeaders");
+    return getAceEditorFromElId("post-body-editor");
 }
 
 export function getJsonViewer() {
@@ -30,11 +26,11 @@ export function initializeAceEditor(editor, text?) {
     editor.moveCursorTo(1, 0);
 }
 
-export function showRequestHeaders() {
-    getHeadersEditor().getSession().setValue("");
-    const requestHeaders = "Content-Type: application/json";
-    getHeadersEditor().getSession().insert(0, requestHeaders);
-}
+// export function showRequestHeaders() {
+//     getHeadersEditor().getSession().setValue("");
+//     const requestHeaders = "Content-Type: application/json";
+//     getHeadersEditor().getSession().insert(0, requestHeaders);
+// }
 
 // standard ace editor setup and customizations
 export function commonAceSetup(editor) {
