@@ -1,14 +1,11 @@
-// // ------------------------------------------------------------------------------
-// //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-// // ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
 
 // import {apiService} from "./api-explorer-svc"
 // import { showRequestHeaders, getRequestBodyEditor, initializeAceEditor } from './api-explorer-jseditor'
 import { loc_strings } from "./loc_strings";
 import { ExplorerOptions } from "./base";
-
-
-// declare const hello;
 
 // export function formatRequestHeaders(headers) {
 //     let obj = {};
@@ -54,14 +51,6 @@ import { ExplorerOptions } from "./base";
 //     initializeAceEditor(editor);
 //     editor.getSession().setMode("ace/mode/javascript");
 // };
-
-// // export function setSelectedTab (num) {
-// //     if (num >= 2 || num < 0) {
-// //         return;
-// //     }
-// //     tabConfig.selected = num;
-// //     tabConfig.previousSelected = tabConfig.selected;
-// // }
 
 // export function handleQueryString(actionValue, versionValue, requestValue) {
 //     if(actionValue){

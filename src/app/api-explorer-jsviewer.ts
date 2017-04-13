@@ -25,8 +25,6 @@ export function initializeJsonViewer() {
 export function initializeResponseHeadersViewer() {
     let jsonViewer = getAceEditorFromElId("response-header-viewer");
     commonAceSetup(jsonViewer);
-    // jsonViewer.getSession().setMode("ace/mode/javascript");
-    
     
     jsonViewer.setOptions({
         readOnly: true,

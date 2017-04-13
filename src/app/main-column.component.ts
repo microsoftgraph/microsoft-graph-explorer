@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
 import { Component, OnInit, AfterViewInit, ViewChild, ContentChildren, ViewContainerRef, Input, OnChanges, DoCheck } from '@angular/core';
 import { AuthenticationStatus, GraphApiCall, HistoryRecord, Methods, ExplorerValues, AutoCompleteItem } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
@@ -66,20 +70,22 @@ declare let mwf:any;
 })
 
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
-    oldEndpointUrl:string;
+    oldExplorerValues:string;
     ngDoCheck() {
-        if (this.explorerValues && this.oldEndpointUrl != JSON.stringify(this.explorerValues)) {
+        if (this.explorerValues && this.oldExplorerValues != JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();
             this.updateGraphVersionSelect();
 
-            this.oldEndpointUrl = JSON.stringify(this.explorerValues);
+            this.updateHttpMethod();
+            
+
+            this.oldExplorerValues = JSON.stringify(this.explorerValues);
         }
     }
 
-    static httpMethodEl;
+
     myControl = new FormControl();
     ngAfterViewInit(): void {
-        MainColumnComponent.httpMethodEl = this._httpMethodEl;
         // Init httpMethod
         mwf.ComponentFactory.create([{
             component: mwf.Select,
@@ -93,7 +99,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             }
         }]);
 
-        updateHttpMethod();
+        this.updateHttpMethod();
 
 
         // init Graph version selector
@@ -111,7 +117,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         }]);
         this.updateGraphVersionSelect();
 
-        
         initializeJsonViewer();
         initializeResponseHeadersViewer();
 
@@ -253,13 +258,18 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion + "/"));
     }
 
-}
+    
+    updateHttpMethod() {
+        const httpMethodSelectMenuEl = this._httpMethodEl.element.nativeElement;
+        
+        if (!httpMethodSelectMenuEl.mwfInstances) {
+            return;
+        };
 
-export function updateHttpMethod() {
-    const httpMethodSelectMenu = MainColumnComponent.httpMethodEl.element.nativeElement.mwfInstances.t.selectMenu;
+        const httpMethodSelectMenu = httpMethodSelectMenuEl.mwfInstances.t.selectMenu;
 
-    const elementIdxToSelect = httpMethodSelectMenu.items[Methods.indexOf(AppComponent.explorerValues.selectedOption)];
-    httpMethodSelectMenu.onItemSelected(elementIdxToSelect);
-
+        const elementIdxToSelect = httpMethodSelectMenu.items[Methods.indexOf(this.explorerValues.selectedOption)];
+        httpMethodSelectMenu.onItemSelected(elementIdxToSelect);
+    }
 
 }

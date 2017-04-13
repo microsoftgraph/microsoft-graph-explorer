@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord, GraphApiCall } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
