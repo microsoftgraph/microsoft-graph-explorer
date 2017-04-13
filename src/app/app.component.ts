@@ -73,9 +73,11 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     initFabricComponents();
 
-    mwf.ComponentFactory.create([{
+    mwf.ComponentFactory.create([
+      {
         'component': mwf.Drawer,
-    }])
+      }
+    ])
   }
   
 

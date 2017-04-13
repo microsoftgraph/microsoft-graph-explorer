@@ -32,7 +32,7 @@ declare let fabric;
                 <span class="c-heading-5 panel-header"><img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr('Sample Queries')}}</span></button>
             <div id="refineDrawer" class="panel-content">
                 <div>
-                    <div *ngFor="let category of categories">
+                    <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
                         <div><span class="category-heading">{{category.title}}</span></div>
                         <query-row [query]="query" *ngFor="let query of category.queries"></query-row>
                     </div>
@@ -135,6 +135,10 @@ declare let fabric;
     .category-heading {
         font-size: 17px;
         font-weight: 300;
+    }
+
+    .sample-category {
+        margin-bottom: 15px;
     }
   `]
 })

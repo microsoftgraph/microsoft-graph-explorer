@@ -18,7 +18,7 @@ const queries: SampleQuery[] = [
         humanName: "my files",
         method: "GET",
         requestUrl: "https://graph.microsoft.com/v1.0/me/drive/root/children",
-        category: "Getting Started"
+        category: "OneDrive"
     },
     {
         humanName: "my photo",
@@ -28,15 +28,15 @@ const queries: SampleQuery[] = [
     },
     {
         humanName: "my mail",
-        method: "GET",
+        method: "POST",
         requestUrl: "https://graph.microsoft.com/v1.0/me/messages",
-        category: "Getting Started"
+        category: "Outlook"
     },
     {
         humanName: "my high importance mail",
         method: "GET",
         requestUrl: "https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high'",
-        category: "Getting Started"
+        category: "Outlook"
     },
     {
         humanName: "my calendar",
@@ -45,11 +45,17 @@ const queries: SampleQuery[] = [
         category: "Getting Started"
     },
     {
+        humanName: "my next meeting",
+        method: "DELETE",
+        requestUrl: "https://graph.microsoft.com/v1.0/me/calendar/foobar",
+        category: "Getting Started"
+    },
+    {
         humanName: "my manager",
-        method: "GET",
+        method: "PATCH",
         requestUrl: "https://graph.microsoft.com/v1.0/me/manager",
         docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager",
-        category: "Getting Started"
+        category: "Users"
     }
 ];
 

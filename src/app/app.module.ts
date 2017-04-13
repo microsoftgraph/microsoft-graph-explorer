@@ -20,7 +20,7 @@ import { HistoryRowComponent } from './history-query.component'
 import { HistoryPanelComponent } from "./history-panel.component";
 import { MethodBadgeComponent } from "./method-badge.component";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
-import { SampleCategoriesPanelComponent } from "./sample-categories.component";
+import { SampleCategoriesPanelComponent } from "./sample-categories-panel.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, MaterialModule ],
