@@ -34,10 +34,17 @@ export interface GraphApiCall {
     requestUrl?: string
 }
 
+export interface SampleQuery extends GraphApiCall {
+    docLink?: string
+    AAD?: boolean
+    MSA?: boolean
+    // category: SampleQueryCategory
+}
+
 export interface SampleQueryCategory {
     title: string
     enabled: boolean
-    queries: GraphApiCall[]
+    queries: SampleQuery[]
 }
 
 export interface HistoryRecord extends GraphApiCall {

@@ -2,13 +2,14 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, HistoryRecord } from "./base";
+import { Component, AfterViewInit } from '@angular/core';
+import { AuthenticationStatus, GraphApiCall, HistoryRecord, SampleQueryCategory } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { GettingStartedQueries } from "./getting-started-queries";
+import { SampleCategories } from "./getting-started-queries";
 import * as moment from 'moment'
 import { AppComponent } from "./app.component";
-
+import { SampleCategoriesPanelComponent } from "./sample-categories.component";
+declare let fabric;
 @Component({
   selector: 'sidebar',
   template: `
@@ -28,10 +29,14 @@ import { AppComponent } from "./app.component";
 
         <div class="c-drawer">
             <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
-                <span class="c-heading-5 panel-header"><img  id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr('Getting Started')}}</span></button>
+                <span class="c-heading-5 panel-header"><img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr('Sample Queries')}}</span></button>
             <div id="refineDrawer" class="panel-content">
-                <div getting-started>
-                    <query-row [query]="query" *ngFor="let query of queries"></query-row>
+                <div>
+                    <div *ngFor="let category of categories">
+                        <div><span class="c-heading-6">{{category.title}}</span></div>
+                        <query-row [query]="query" *ngFor="let query of category.queries"></query-row>
+                    </div>
+                    <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more groups')}}</a>
                 </div>
             </div>
         </div>
@@ -41,7 +46,7 @@ import { AppComponent } from "./app.component";
                   <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span></button>
             <div id="historyDrawer" class="panel-content">
                 <history-query-row  *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
-                <a href="#" id="show-full-history" [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0>{{getStr('Show More')}}</a>
+                <a href="#" id="show-full-history" (click)="manageHistory()" [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0>{{getStr('Show More')}}</a>
             </div>
         </div>
 
@@ -71,7 +76,7 @@ import { AppComponent } from "./app.component";
         margin: -2px 4px 2px -4px;
     }
 
-    a#show-full-history {
+    a#show-full-history, a#manage-categories {
         float: right;
         margin-right: 27px;
     }
@@ -128,8 +133,47 @@ import { AppComponent } from "./app.component";
     #authDrawer {
         min-height: 96px;
     }
+
+    .c-hyperlink {
+        color: #00bcf2;
+    }
   `]
 })
-export class SidebarComponent extends GraphExplorerComponent {
-  queries:GraphApiCall[] = GettingStartedQueries
+export class SidebarComponent extends GraphExplorerComponent implements AfterViewInit {
+    ngAfterViewInit(): void {
+        var PanelExampleButton = document.querySelector("#show-full-history");
+        var PanelExamplePanel = document.querySelector("#history-panel");
+        PanelExampleButton.addEventListener("click", (i) => {
+            new fabric['Panel'](PanelExamplePanel);
+            (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
+            $(document).keyup(function(e) {
+                if (e.keyCode === 27)  // esc
+                    closeHistoryPanel();
+            });
+        });
+
+        let closeHistoryPanel = () => {
+            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
+        };
+
+    }
+
+  categories:SampleQueryCategory[] = SampleCategories
+
+  manageCategories() {
+    SampleCategoriesPanelComponent.OpenPanel();
+  }
+
+  manageHistory() {
+    // new fabric['Panel'](document.querySelector("#history-panel"));
+    // (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
+    // $(document).keyup((e) => {
+    //     if (e.keyCode === 27)  // esc
+    //         closeHistoryPanel();
+    // });
+
+    // let closeHistoryPanel = () => {
+    //     (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
+    // };
+  }
 }

@@ -21,6 +21,7 @@ export class GraphExplorerComponent {
   getStr(label:string):string {
     return getString(AppComponent.Options, label);
   }
+
   getAssetPath(relPath:string):string {
     return pathToBuildDir + "/"+ relPath;
   }

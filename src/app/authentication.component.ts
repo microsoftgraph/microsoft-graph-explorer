@@ -9,7 +9,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthenticationStatus } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
-import { updateHttpMethod } from "./main-column.component";
 
 @Component({
   selector: 'authentication',
@@ -103,7 +102,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   logout = () => {
     // anonymous users can only GET
     this.explorerValues.selectedOption = "GET";
-    updateHttpMethod();
 
     (hello as any)('msft').logout(null, {force:true});
     this.explorerValues.authentication.status = "anonymous"

@@ -20,10 +20,11 @@ import { HistoryRowComponent } from './history-query.component'
 import { HistoryPanelComponent } from "./history-panel.component";
 import { MethodBadgeComponent } from "./method-badge.component";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
+import { SampleCategoriesPanelComponent } from "./sample-categories.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, MaterialModule ],
-  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent ],
+  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent, SampleCategoriesPanelComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

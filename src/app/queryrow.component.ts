@@ -16,7 +16,9 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
   template: `
     <div class="api-query" (click)="loadQueryIntoEditor(this.query)" (keydown)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" tabindex="0">
         <div class="row-1">
-            <method-badge [query]="query"></method-badge><span class="query">{{getQueryText()}}</span>
+            <method-badge [query]="query"></method-badge>
+            <span class="query">{{getQueryText()}}</span>
+            <a *ngIf="query.docLink" href="{{query.docLink}}" target="_blank"><i class="ms-Icon ms-Icon--Page"></i></a>
         </div>
       <ng-content></ng-content>
     </div>`,
@@ -50,6 +52,11 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 
     .duration {
         float: right;
+    }
+
+    i.ms-Icon.ms-Icon--Page {
+        float: right;
+        padding-top: 5px;
     }
 
 

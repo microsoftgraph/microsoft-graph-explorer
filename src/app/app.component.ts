@@ -25,6 +25,7 @@ declare let mwf:any;
         <main-column class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10" id="explorer-main"></main-column>
     </div>
     <history-panel></history-panel>
+    <sample-categories-panel></sample-categories-panel>
     `,
   styles: [`
     

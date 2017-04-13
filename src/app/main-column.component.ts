@@ -76,7 +76,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             this.updateGraphVersionSelect();
 
             this.updateHttpMethod();
-            
 
             this.oldExplorerValues = JSON.stringify(this.explorerValues);
         }
@@ -263,7 +262,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion + "/"));
     }
 
-    
     updateHttpMethod() {
         const httpMethodSelectMenuEl = this._httpMethodEl.element.nativeElement;
         
