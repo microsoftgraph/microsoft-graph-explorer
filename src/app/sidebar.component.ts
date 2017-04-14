@@ -8,7 +8,7 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { SampleCategories } from "./getting-started-queries";
 import * as moment from 'moment'
 import { AppComponent } from "./app.component";
-import { SampleCategoriesPanelComponent } from "./sample-categories.component";
+import { SampleCategoriesPanelComponent } from "./sample-categories-panel.component";
 declare let fabric;
 @Component({
   selector: 'sidebar',
