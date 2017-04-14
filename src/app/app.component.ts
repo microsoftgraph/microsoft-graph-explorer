@@ -67,7 +67,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   ngOnInit() {
     for (let key in AppComponent.Options) {
       if (key in window)
-        AppComponent.Options[key] = window[key]; 
+        AppComponent.Options[key] = window[key];
     }
 
     AppComponent.Options.GraphVersions.push("Other");
@@ -94,6 +94,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       AuthUrl: "https://login.microsoftonline.com",
       GraphUrl: "https://graph.microsoft.com",
       GraphVersions: ["v1.0", "beta"],
+      PathToBuildDir: ""
   };
 
   static explorerValues:ExplorerValues = {

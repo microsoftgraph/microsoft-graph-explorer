@@ -7,14 +7,15 @@ import {Headers} from "@angular/http"
 export const runInTestMode = typeof document === "undefined";
 
 export interface ExplorerOptions {
-    AuthUrl?: string,
-    GraphUrl?: string,
-    ClientId?: string,
-    Language?: string,
-    AdminScopes?: string,
-    RedirectUrl?: string,
-    UserScopes?: string,
+    AuthUrl?: string
+    GraphUrl?: string
+    ClientId?: string
+    Language?: string
+    AdminScopes?: string
+    RedirectUrl?: string
+    UserScopes?: string
     GraphVersions?: string[]
+    PathToBuildDir: string
 }
 
 export let Methods:RequestType[] = [

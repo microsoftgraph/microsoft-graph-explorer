@@ -10,11 +10,6 @@ import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 
 
-export let pathToBuildDir:string;
-
-const scripts = document.getElementsByTagName("script")
-const src = scripts[scripts.length-1].src;
-pathToBuildDir = src.split('/').slice(0, -2).join('/');
 
 export class GraphExplorerComponent {
 
@@ -24,9 +19,9 @@ export class GraphExplorerComponent {
     return getString(AppComponent.Options, label);
   }
 
-  // getAssetPath(relPath:string):string {
-  //   return pathToBuildDir + "/"+ relPath;
-  // }
+  getAssetPath(relPath:string):string {
+    return AppComponent.Options.PathToBuildDir + "/" + relPath;
+  }
 
   isAuthenticated = () => {
     return isAuthenticated();

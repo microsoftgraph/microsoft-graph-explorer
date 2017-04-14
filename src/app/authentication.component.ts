@@ -43,7 +43,7 @@ import { AppComponent } from "./app.component";
     <div *ngIf="getAuthenticationStatus() == 'anonymous'">
         <div tabindex="-1">{{getStr('Using demo tenant')}}</div>
         <div tabindex="-1">{{getStr('To access your own data:')}}</div>
-        <img id="ms-signin-button" alt="{{getStr('sign in')}}" src="assets/images/MSSignInButton.svg" (click)="login()"/>
+        <img id="ms-signin-button" alt="{{getStr('sign in')}}" src="{{getAssetPath('assets/images/MSSignInButton.svg')}}" (click)="login()"/>
     </div>
     <div *ngIf="getAuthenticationStatus() == 'authenticating'">
         <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
