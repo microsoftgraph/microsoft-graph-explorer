@@ -29,7 +29,7 @@ declare let fabric;
 
         <div class="c-drawer">
             <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
-                <span class="c-heading-5 panel-header"><img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr('Sample Queries')}}</span></button>
+                <span class="c-heading-5 panel-header"><img id="getting-started-svg" src="assets/images/rocket1.svg"/>{{getStr('Sample Queries')}}</span></button>
             <div id="refineDrawer" class="panel-content">
                 <div>
                     <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">

@@ -24,9 +24,9 @@ export class GraphExplorerComponent {
     return getString(AppComponent.Options, label);
   }
 
-  getAssetPath(relPath:string):string {
-    return pathToBuildDir + "/"+ relPath;
-  }
+  // getAssetPath(relPath:string):string {
+  //   return pathToBuildDir + "/"+ relPath;
+  // }
 
   isAuthenticated = () => {
     return isAuthenticated();
