@@ -398,13 +398,6 @@ md-autocomplete button:after {
     display: none;
 }
 
-#response-action-bar {
-    
-}
-
-#response-action-bar i {
-    cursor: pointer;
-}
 
 div#share-link-dialog {
     min-width: 35%;

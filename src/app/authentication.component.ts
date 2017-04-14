@@ -5,7 +5,6 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-
 import { AuthenticationStatus } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
@@ -20,10 +19,11 @@ import { AppComponent } from "./app.component";
       }
 
       #signout {
-          margin-right: 32px;
-          max-width: 100%;
-          display: block;
-          text-align: right;
+        text-align: right;
+        padding-right: 16px;
+        width: 100%;
+        display: block;
+        color: #00bcf2;
       }
 
       #userDisplayName {
@@ -37,12 +37,6 @@ import { AppComponent } from "./app.component";
       #authenticating-progress-bar {
           margin: 0px auto;
       }
-
-      #signout {
-          color: #00bcf2;
-      }
-
-
 `],
   template: `
     <div *ngIf="getAuthenticationStatus() == 'anonymous'">
