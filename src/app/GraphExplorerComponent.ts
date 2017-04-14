@@ -5,7 +5,9 @@
 import { getString } from "./api-explorer-helpers";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
-import { ExplorerValues, HistoryRecord, GraphApiCall } from "./base";
+import { ExplorerValues, HistoryRecord, GraphApiCall, SampleQuery } from "./base";
+import { getRequestBodyEditor } from "./api-explorer-jseditor";
+import { RequestEditorsComponent } from "./request-editors.component";
 
 
 export let pathToBuildDir:string;
@@ -36,11 +38,32 @@ export class GraphExplorerComponent {
 
       return AppComponent.requestHistory;
   }
+  
+  loadQueryIntoEditor(originalQuery:SampleQuery) {
+      // copy the sample query or history item so we're not changing history/samples
+      let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
 
-  
-  
-  loadQueryIntoEditor(query:GraphApiCall) {
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
+      
+      if (query.headers) {
+        AppComponent.explorerValues.headers = query.headers;
+      } else {
+        AppComponent.explorerValues.headers = []
+      }
+      // @todo call RequestEditorsComponent.addEmptyHeader()
+      AppComponent.explorerValues.headers.push({
+          name: "",
+          value: ""
+      });
+
+      AppComponent.explorerValues.postBody = "";
+      let postBodyEditorSession = getRequestBodyEditor().getSession();
+      if (query.postBodyTemplateName) {
+        AppComponent.explorerValues.postBody = JSON.stringify(query.postBodyTemplateContents, null, 4);
+      }
+
+      postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
+
   }
 }

@@ -23,8 +23,9 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
       <ng-content></ng-content>
     </div>`,
     styles: [`
-      .api-query:hover, .c-drawer>button:hover {
+      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus {
           background: rgba(0,0,0,0.25);
+          outline: none;
       }
 
       .api-query {

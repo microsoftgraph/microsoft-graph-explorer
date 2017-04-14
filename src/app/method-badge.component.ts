@@ -12,7 +12,6 @@ import { GraphApiCall } from "./base";
     `,
     styles: [`
       .request-badge {
-          border: 1px solid gray;
           min-width: 55px;
           display: inline-block;
           padding: 2px;
@@ -21,6 +20,7 @@ import { GraphApiCall } from "./base";
           font-weight: 600;
           color: white;
           line-height: normal;
+          padding-bottom: 3px;
       }
 
       .request-badge.GET {

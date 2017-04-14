@@ -22,6 +22,7 @@ declare let mwf:any;
     #request-bar-row-form {
         display: flex;
         flex-wrap: wrap;
+        margin-top: -8px;
     }
 
     #request-bar-row-form::after {
@@ -67,6 +68,11 @@ declare let mwf:any;
 
     #spacer-1 {
         margin-bottom: 50px;
+    }
+
+
+    button.c-button[type=submit]:focus:not(.x-hidden-focus) {
+        outline: #000 solid 1px !important;
     }
 
   `]

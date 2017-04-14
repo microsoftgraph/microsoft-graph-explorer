@@ -16,7 +16,7 @@ export class GraphService {
   constructor (private http: Http) { }
 
     
-  performAnonymousQuery = (queryType:RequestType, query:string, headers?:Headers) => {
+  performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
         if (!headers) headers = new Headers();
         headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
 

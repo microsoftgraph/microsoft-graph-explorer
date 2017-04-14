@@ -7,10 +7,19 @@ import { Component, AfterViewInit } from '@angular/core';
 import { AuthenticationStatus, GraphRequestHeader } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
+import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jseditor";
 
 @Component({
   selector: 'request-editors',
   styles: [`
+
+  #post-body-editor {
+        position: relative;
+        height: 20vh;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+    }
+
   .header-row input {
     width: 95%;
     margin-top: 5px;
@@ -41,10 +50,10 @@ import { AppComponent } from "./app.component";
   template: `
     <div class="ms-Pivot">
         <ul class="ms-Pivot-links">
-            <li class="ms-Pivot-link is-selected" ng-click="onTabSelected(0)" data-content="headers" [attr.title]="getStr('request header')" tabindex="1">
+            <li class="ms-Pivot-link is-selected" data-content="headers" [attr.title]="getStr('request header')" tabindex="1">
                 {{getStr('request header')}}
             </li>
-            <li class="ms-Pivot-link" data-content="body" [attr.title]="getStr('request body')" tabindex="1">
+            <li class="ms-Pivot-link" data-content="body" [attr.title]="getStr('request body')" (click)="initPostBodyEditor()" tabindex="1">
                 {{getStr('request body')}}
             </li>
         </ul>
@@ -79,13 +88,18 @@ import { AppComponent } from "./app.component";
 })
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
     ngAfterViewInit(): void {
-        this.addEmptyHeader()
+        RequestEditorsComponent.addEmptyHeader()
     }
 
-    addEmptyHeader() {
-        this.explorerValues.headers.push({
+    initPostBodyEditor() {
+        const postBodyEditor = getRequestBodyEditor()
+        initializeAceEditor(postBodyEditor);
+        postBodyEditor.getSession().setMode("ace/mode/javascript");
+    }
+
+    static addEmptyHeader() {
+        AppComponent.explorerValues.headers.push({
             name: "",
-            readonly: false,
             value: ""
         })
     }
@@ -96,7 +110,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
 
     getPlaceholder(header:GraphRequestHeader) {
         if (this.getLastHeader() == header) {
-            return this.getStr("New header");
+            return this.getStr("Enter new header");
         }
     }
 
@@ -112,7 +126,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
 
     createNewHeaderField() {
         if (this.getLastHeader().name != "") {
-            this.addEmptyHeader();
+            RequestEditorsComponent.addEmptyHeader()
         }
     }
 }

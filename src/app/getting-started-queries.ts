@@ -2,8 +2,8 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { SampleQueryCategory, SampleQuery } from "./base";
-
+import { SampleQueryCategory, SampleQuery, GraphRequestHeader } from "./base";
+import * as PostBodyTemplates from './postBodyTemplates/queries'
 const queries: SampleQuery[] = [
     {
         humanName: "my profile",
@@ -27,10 +27,12 @@ const queries: SampleQuery[] = [
         category: "Getting Started"
     },
     {
-        humanName: "my mail",
+        humanName: "send mail",
         method: "POST",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/messages",
-        category: "Outlook"
+        requestUrl: "https://graph.microsoft.com/v1.0/me/sendMail",
+        category: "Outlook",
+        headers: [{name: "Content-Type", value: "application/json"}],
+        postBodyTemplateName: 'sendMail'
     },
     {
         humanName: "my high importance mail",
@@ -67,6 +69,13 @@ interface QueryCategoriesMap {
 let categories:QueryCategoriesMap = {};
 
 for (let query of queries) {
+    
+    // load tempalte if exists
+    if (query.postBodyTemplateName) {
+        query.postBodyTemplateContents = PostBodyTemplates[query.postBodyTemplateName];
+    }
+    
+    // insert query into category (create or add to)
     if (query.category in categories) {
         categories[query.category].queries.push(query);
     } else {

@@ -17,8 +17,8 @@ import * as moment from "moment"
   template: `
     <query-row [query]="query">
         <div class="history-row-2">
-            <span class="date">{{query.relativeDate}}</span>
             <span class="status-code" [ngClass]="successClass">{{query.statusCode}}</span>
+            <span class="date">{{query.relativeDate}}</span>
             <span class="duration">{{query.duration}} {{getStr('milliseconds')}}</span>
         </div>
     </query-row>
@@ -32,18 +32,23 @@ import * as moment from "moment"
         color: #f7688d;
     }
 
-    .date {
+    .status-code {
         float: left;
+    }
+
+    .date {
         font-weight: normal;
         color: #a0a0a0;
     }
 
     .duration {
         float: right;
+        color: #a0a0a0;
     }
 
     .history-row-2 {
         text-align: center;
+        margin-left: 70px;
     }
 `]
 })

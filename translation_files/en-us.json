@@ -5,7 +5,7 @@
   "Submit": "Submit",
   "Using demo tenant": "You are currently using a sample account.",
   "To access your own data:": "To access your own data:",
-  "sign out": "Sign Out",
+  "sign out": "sign out",
   "History": "History",
   "Method": "Method",
   "Query": "Query",
@@ -14,7 +14,7 @@
   "Go": "Go",
   "milliseconds": "ms",
   "YES": "YES",
-  "Show More": "Show More",
+  "Show More": "show more",
   "Graph Explorer": "Graph Explorer",
   "Failure": "Failure",
   "Success": "Success",
@@ -50,5 +50,5 @@
   "Off": "Off",
   "Remove All": "Remove All",
 
-  "New header": "New header"
+  "Enter new header": "Enter new header"
 }

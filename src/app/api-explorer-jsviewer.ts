@@ -10,7 +10,6 @@ export function initializeJsonViewer() {
     commonAceSetup(jsonViewer);
     jsonViewer.getSession().setMode("ace/mode/javascript");
     
-    
     jsonViewer.setOptions({
         readOnly: true,
         highlightActiveLine: false,

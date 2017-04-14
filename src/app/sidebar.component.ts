@@ -138,12 +138,18 @@ declare let fabric;
     .category-heading {
         font-size: 17px;
         font-weight: 300;
+        padding-bottom: 5px;
+        display: block;
     }
 
     .sample-category {
         margin-bottom: 15px;
     }
 
+
+    a#show-full-history {
+        margin-top: 15px;
+    }
     a#show-full-history[hidden] {
         display: none;
     }

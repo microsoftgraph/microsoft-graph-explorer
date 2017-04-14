@@ -34,6 +34,8 @@ export interface GraphApiCall {
     method?: RequestType
     humanName?: string
     requestUrl?: string
+    postBody?: string
+    headers?: GraphRequestHeader[]
 }
 
 export interface SampleQuery extends GraphApiCall {
@@ -41,6 +43,8 @@ export interface SampleQuery extends GraphApiCall {
     AAD?: boolean
     MSA?: boolean
     category: string
+    postBodyTemplateName?: string
+    postBodyTemplateContents?: string
 }
 
 export interface SampleQueryCategory {
@@ -52,7 +56,6 @@ export interface SampleQueryCategory {
 export interface HistoryRecord extends GraphApiCall {
     requestId?: string
     // selectedVersion?: string // take from requestUrl
-    requestBody?: string
     requestHeaders?: Headers
     requestSentAt?: Date
     relativeDate?: string
@@ -73,13 +76,14 @@ export interface ExplorerValues {
     showImage: boolean
     requestInProgress: boolean,
     headers: GraphRequestHeader[]
+    postBody: string
 }
 
 export interface GraphRequestHeader {
     name: string
     value: string
     enabled?: boolean
-    readonly: boolean
+    readonly?: boolean
 }
 
 export interface AutoCompleteItem {

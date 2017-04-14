@@ -27,15 +27,9 @@
 }
 
 #jsonViewer, #response-header-viewer {
-    height: 60vh;
+    height: 50vh;
     background: rgb(230, 230, 230);
     border: 1px solid #ccc;
-}
-
-#jsonEditor, #jsonEditorHeaders {
-    height: 188px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
 }
 
 .ace_link_marker {
@@ -72,6 +66,8 @@
 
 #httpMethodSelect button {
     color: white;
+    width: 85px;
+    text-align: center;
 }
 
 #httpMethodSelect.GET .c-select-menu.f-border button {
@@ -88,4 +84,17 @@
 
 #httpMethodSelect.DELETE .c-select-menu.f-border button {
     background-color: #a10000  
+}
+
+
+/* @todo move to authentication component */
+#persona-holder {
+    margin-top: 15px;
+    margin-bottom: -15px;
+}
+
+
+/*override mwf*/
+ul.c-menu {
+    width: 100px !important;
 }

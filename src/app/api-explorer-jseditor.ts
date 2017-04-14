@@ -26,12 +26,6 @@ export function initializeAceEditor(editor, text?) {
     editor.moveCursorTo(1, 0);
 }
 
-// export function showRequestHeaders() {
-//     getHeadersEditor().getSession().setValue("");
-//     const requestHeaders = "Content-Type: application/json";
-//     getHeadersEditor().getSession().insert(0, requestHeaders);
-// }
-
 // standard ace editor setup and customizations
 export function commonAceSetup(editor) {
     editor.setShowPrintMargin(false);

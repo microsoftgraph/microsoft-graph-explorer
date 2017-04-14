@@ -37,6 +37,7 @@ import { AppComponent } from "./app.component";
       #authenticating-progress-bar {
           margin: 0px auto;
       }
+
 `],
   template: `
     <div *ngIf="getAuthenticationStatus() == 'anonymous'">
@@ -53,7 +54,7 @@ import { AppComponent } from "./app.component";
             <span></span>
         </div>
     </div>
-    <div *ngIf="getAuthenticationStatus() == 'authenticated'">
+    <div *ngIf="getAuthenticationStatus() == 'authenticated'" id="persona-holder">
          <div class="ms-Persona">
              <div class="ms-Persona-imageArea">
                  <img class="ms-Persona-image" [src]="sanitize(authInfo.user.profileImageUrl)">

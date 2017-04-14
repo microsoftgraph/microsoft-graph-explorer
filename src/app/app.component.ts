@@ -14,6 +14,7 @@ import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, han
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
 import * as moment from "moment"
 import { createHeaders } from "./util";
+import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
 
 declare let mwf:any;
 
@@ -32,7 +33,7 @@ declare let mwf:any;
   styles: [`
     
   #explorer-main {
-      padding-left: 15px;
+      padding-left: 12px;
   }
   
   sidebar {
@@ -102,7 +103,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       authentication: {},
       showImage: false,
       requestInProgress: false,
-      headers: []
+      headers: [],
+      postBody: ""
   };
 
   static requestHistory: HistoryRecord[] = loadHistoryFromLocalStorage();
@@ -128,22 +130,36 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         requestUrl: AppComponent.explorerValues.endpointUrl,
         method: AppComponent.explorerValues.selectedOption,
         requestSentAt: new Date(),
-        requestHeaders: createHeaders(AppComponent.explorerValues.headers)
+        requestHeaders: createHeaders(AppComponent.explorerValues.headers),
+        postBody: getRequestBodyEditor().getSession().getValue()
     };
-
-    if (query.method == 'POST' || query.method == 'PATCH') {
-        // historyObj.requestBody = getRequestBodyEditor().getSession().getValue();
-    }
 
     let graphRequest:Promise<Response>;
     if (isAuthenticated()) {
-      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, null, query.requestHeaders);
+      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, query.postBody, query.requestHeaders);
     } else {
       graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl, query.requestHeaders);
     }
     this.explorerValues.requestInProgress = true;
 
     graphRequest.then((res) => {
+      // common ops for successful and unsuccessful
+      AppComponent.explorerValues.requestInProgress = false;
+      AppComponent.lastApiCall = query;
+      AppComponent.lastApiCallHeaders = res.headers;
+
+      let {status, headers} = res;
+      query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
+      query.statusCode = status;
+      AppComponent.addRequestToHistory(query);
+
+
+      // clear response preview and headers
+      getAceEditorFromElId("response-header-viewer").getSession().setValue("");
+      getJsonViewer().getSession().setValue("")
+
+      return res;
+    }).then((res) => {
       handleSuccessfulQueryResponse(res, query);
     }).catch((res) => {
       handleUnsuccessfulQueryResponse(res, query);
@@ -152,14 +168,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
  }
 function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
-  AppComponent.explorerValues.requestInProgress = false;
-  AppComponent.lastApiCall = query;
-  AppComponent.lastApiCallHeaders = res.headers;
 
   let {status, headers} = res;
-  query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
-  query.statusCode = status;
-  AppComponent.addRequestToHistory(query);
+
 
   let resultBody = res.text();
 
@@ -167,24 +178,23 @@ function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   if (isImageResponse(headers)) {
     let method = isAuthenticated() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
     handleImageResponse(method, headers, status, handleUnsuccessfulQueryResponse);
-  } else if (isHtmlResponse(headers)) {
-    handleHtmlResponse(resultBody, headers);
+  } else if (isHtmlResponse(headers)) {  
+    insertHeadersIntoResponseViewer(headers);
+    handleHtmlResponse(resultBody);
   } else if (isXmlResponse(resultBody)) {
-    handleXmlResponse(resultBody, headers);
+    insertHeadersIntoResponseViewer(headers);
+    handleXmlResponse(resultBody);
   } else {
-    handleJsonResponse(res.json(), headers);
+    insertHeadersIntoResponseViewer(headers);
+    if (res.text() != "")
+      handleJsonResponse(res.json());
   }
 }
 
 function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
-  AppComponent.explorerValues.requestInProgress = false;
-  AppComponent.lastApiCall = query;
-  AppComponent.lastApiCallHeaders = res.headers;
 
-  let {status, headers, text} = res;
-  query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
-  query.statusCode = status;
-  AppComponent.addRequestToHistory(query);
-
-  handleJsonResponse(res.json(), headers);
+  if (res.json)
+    handleJsonResponse(res.json());
+  
+  insertHeadersIntoResponseViewer(res.headers);
 }

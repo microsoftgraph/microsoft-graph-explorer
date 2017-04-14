@@ -7,9 +7,8 @@ import { GraphService } from "./api-explorer-svc";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
 
-export function showResults(results, headers:Headers, responseContentType) {
-    getJsonViewer().setValue("");
-    insertHeadersIntoResponseViewer(headers);
+export function showResults(results, responseContentType) {
+    getJsonViewer().setValue("");    
     getJsonViewer().getSession().insert(0, results);
     if (responseContentType)
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
@@ -41,18 +40,18 @@ export function handleImageResponse(method:any, headers, status, handleUnsuccess
     }, handleUnsuccessfulQueryResponse);
 }
 
-export function handleHtmlResponse(results, headers:Headers) {
-    showResults(results, headers, "html");
+export function handleHtmlResponse(results) {
+    showResults(results, "html");
 }
 
-export function handleJsonResponse(results, headers:Headers) {
+export function handleJsonResponse(results) {
     results = JSON.stringify(results, null, 4);
-    showResults(results, headers, "json");
+    showResults(results, "json");
 }
 
-export function handleXmlResponse(results, headers) {
+export function handleXmlResponse(results) {
     results = formatXml(results);
-    showResults(results, headers, "xml");
+    showResults(results, "xml");
 }
 
 export function isImageResponse(headers:Headers) {
