@@ -17,7 +17,70 @@ declare let mwf:any;
 @Component({
   providers: [GraphService],
   selector: 'main-column',
-  templateUrl: "app/templates/main-col.tmpl.html",
+  template: `
+  <div id="request-bar-row-form" layout="row" layout-align="start center">
+
+        <!-- HTTP METHOD -->
+        <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption" class="c-select f-border first-row-mobile bump-flex-row-mobile">
+            <select [disabled]="!isAuthenticated()">
+                <option *ngFor="let choice of methods">{{choice}}</option>
+            </select>
+        </div>
+
+        <!-- version button -->
+
+        <div id="graph-version-select">
+            <div class="c-select f-border bump-flex-row-mobile graph-version" #graphVersion>
+                <select>
+                    <option *ngFor="let version of GraphVersions">{{version}}</option>
+                </select>
+            </div>
+        </div>
+
+        <md-input-container>
+            <input type="text" mdInput (keydown)="keyDownFunction($event)" [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </md-input-container>
+
+        <md-autocomplete #auto="mdAutocomplete">
+            <md-option *ngFor="let option of methods" [value]="option">
+                {{ option }}
+            </md-option>
+        </md-autocomplete>
+
+        <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" id="submitBtn" (click)="submit()">
+            <span [hidden]="explorerValues.requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
+            <div class="ms-Spinner" [hidden]="!explorerValues.requestInProgress"></div>
+        </button>
+
+    </div>
+    <request-editors></request-editors>
+    <div id="spacer-1"></div>
+
+    <!-- response -->
+    <response-status-bar></response-status-bar>
+    <share-link-btn></share-link-btn>
+    <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
+        <ul class="ms-Pivot-links">
+            <li class="ms-Pivot-link is-selected" data-content="response" tabindex="1">
+                {{getStr('Response Preview')}}
+            </li>
+            <li class="ms-Pivot-link" data-content="response-headers" tabindex="1">
+                {{getStr('Response Headers')}}
+            </li>
+        </ul>
+        <div class="ms-Pivot-content" data-content="response">
+            <div>
+                <img id="responseImg" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak />
+                <div id="jsonViewer" [hidden]="explorerValues.showImage"></div>
+
+                <!--<svg id="visual-explorer" width="1200" height="1000"/></svg>-->
+            </div>
+        </div>
+        <div class="ms-Pivot-content" data-content="response-headers">
+            <div id="response-header-viewer"></div>
+        </div>
+    </div>
+`,
   styles: [`
     #request-bar-row-form {
         display: flex;

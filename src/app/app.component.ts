@@ -143,23 +143,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     this.explorerValues.requestInProgress = true;
 
     graphRequest.then((res) => {
-      // common ops for successful and unsuccessful
-      AppComponent.explorerValues.requestInProgress = false;
-      AppComponent.lastApiCall = query;
-      AppComponent.lastApiCallHeaders = res.headers;
-
-      let {status, headers} = res;
-      query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
-      query.statusCode = status;
-      AppComponent.addRequestToHistory(query);
-
-
-      // clear response preview and headers
-      getAceEditorFromElId("response-header-viewer").getSession().setValue("");
-      getJsonViewer().getSession().setValue("")
-
-      return res;
-    }).then((res) => {
       handleSuccessfulQueryResponse(res, query);
     }).catch((res) => {
       handleUnsuccessfulQueryResponse(res, query);
@@ -167,10 +150,27 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   }
 
  }
+
+ function commonResponseHandler(res:Response, query:HistoryRecord) {
+      // common ops for successful and unsuccessful
+    AppComponent.explorerValues.requestInProgress = false;
+    AppComponent.lastApiCall = query;
+    AppComponent.lastApiCallHeaders = res.headers;
+
+    let {status, headers} = res;
+    query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
+    query.statusCode = status;
+    AppComponent.addRequestToHistory(query);
+
+
+    // clear response preview and headers
+    getAceEditorFromElId("response-header-viewer").getSession().setValue("");
+    getJsonViewer().getSession().setValue("")
+
+ }
 function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
-
+  commonResponseHandler(res, query);
   let {status, headers} = res;
-
 
   let resultBody = res.text();
 
@@ -192,6 +192,7 @@ function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
 }
 
 function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
+  commonResponseHandler(res, query);
 
   if (res.json)
     handleJsonResponse(res.json());
