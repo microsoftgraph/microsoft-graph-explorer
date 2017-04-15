@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { AuthenticationStatus, ExplorerOptions, GraphApiCall, HistoryRecord } from "./base";
+import { AuthenticationStatus, ExplorerOptions, GraphApiCall, HistoryRecord, SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { getString } from "./api-explorer-helpers";
@@ -14,7 +14,7 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 @Component({
   selector: 'query-row',
   template: `
-    <div class="api-query" (click)="loadQueryIntoEditor(this.query)" (keydown)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
+    <div class="api-query" (click)="loadQueryIntoEditor(this.query)" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <span class="query">{{getQueryText()}}</span>
@@ -85,7 +85,12 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 `]
 })
 export class QueryRowComponent extends GraphExplorerComponent {
-    @Input() query: GraphApiCall;
+    @Input() query: SampleQuery;
+
+    queryKeyDown(event) {
+        if (event.keyCode == 13)
+            this.loadQueryIntoEditor(this.query)
+    }
 
     getTitle() {
         return this.query.requestUrl;
