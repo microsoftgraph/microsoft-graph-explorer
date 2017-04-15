@@ -46,6 +46,10 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
         font-size: 20px;
    }
 
+   .hide {
+       opacity: 0;
+   }
+
 `],
   template: `
     <div class="ms-Pivot">
@@ -69,9 +73,9 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
                             <input id="default" class="c-text-field header-name" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly" type="text" name="default" (ngModelChange)="createNewHeaderField()">
                         </td>
                         <td>
-                            <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default">
+                            <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [ngClass]="{hide: isLastHeader(header)}">
                         </td>
-                        <td class="remove-header-btn">
+                        <td class="remove-header-btn" [hidden]="isLastHeader(header)">
                             <i (click)="removeHeader(header)" class="ms-Icon ms-Icon--Cancel"></i>
                         </td>
                     </tr>
@@ -89,6 +93,7 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         RequestEditorsComponent.addEmptyHeader()
+        RequestEditorsComponent.addEmptyHeader()
     }
 
     initPostBodyEditor() {
@@ -102,6 +107,10 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
             name: "",
             value: ""
         })
+    }
+
+    isLastHeader(header:GraphRequestHeader) {
+        return header == this.getLastHeader();
     }
 
     getLastHeader() {

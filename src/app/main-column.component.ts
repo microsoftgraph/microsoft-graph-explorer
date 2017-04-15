@@ -42,7 +42,7 @@ declare let mwf:any;
         </md-input-container>
 
         <md-autocomplete #auto="mdAutocomplete">
-            <md-option *ngFor="let option of methods" [value]="option">
+            <md-option *ngFor="let option of []" [value]="option">
                 {{ option }}
             </md-option>
         </md-autocomplete>

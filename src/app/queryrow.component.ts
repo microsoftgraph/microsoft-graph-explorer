@@ -18,14 +18,32 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <span class="query">{{getQueryText()}}</span>
-            <a *ngIf="query.docLink" href="{{query.docLink}}" target="_blank"><i class="ms-Icon ms-Icon--Page"></i></a>
         </div>
       <ng-content></ng-content>
-    </div>`,
+    </div>
+    <a class="doc-link" *ngIf="query.docLink" href="{{query.docLink}}" target="_blank"><i class="ms-Icon ms-Icon--Page"></i></a>
+    `,
     styles: [`
-      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus {
+      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .doc-link:focus {
           background: rgba(0,0,0,0.25);
           outline: none;
+      }
+
+      .doc-link {
+          display: inline-block;
+          float: right;
+          position: relative;
+          top: -35px;
+          background: #2F2F2F;
+          line-height: 16px;
+          padding: 5px 11px 9px 12px;
+          margin-bottom: -35px;    
+          right: 12px;
+      }
+
+      .doc-link:hover {
+          background: rgba(0,0,0,0.25);
+          cursor: pointer;
       }
 
       .restrict:hover {

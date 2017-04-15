@@ -12,8 +12,11 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class GraphService {
+    static _http:Http;
 
-  constructor (private http: Http) { }
+  constructor (private http: Http) { 
+      GraphService._http = http;
+  }
 
     
   performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
@@ -21,9 +24,9 @@ export class GraphService {
         headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
 
         if (queryType == "GET") {
-            return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
+            return GraphService._http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
         } else if (queryType == "GET_BINARY") {
-            return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
+            return GraphService._http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
 
@@ -36,15 +39,15 @@ export class GraphService {
 
         switch(queryType) {
             case "GET":
-                return this.http.get(query, {headers: requestHeaders}).toPromise();
+                return GraphService._http.get(query, {headers: requestHeaders}).toPromise();
             case "GET_BINARY":
-                return this.http.get(query, {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
+                return GraphService._http.get(query, {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
             case "POST":
-                return this.http.post(query, postBody, {headers : requestHeaders}).toPromise();
+                return GraphService._http.post(query, postBody, {headers : requestHeaders}).toPromise();
             case "PATCH":
-                return this.http.patch(query, postBody, {headers : requestHeaders}).toPromise();
+                return GraphService._http.patch(query, postBody, {headers : requestHeaders}).toPromise();
             case "DELETE":
-                return this.http.delete(query, {headers : requestHeaders}).toPromise();
+                return GraphService._http.delete(query, {headers : requestHeaders}).toPromise();
         }
     }
 

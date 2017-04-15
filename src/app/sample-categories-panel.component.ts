@@ -14,7 +14,7 @@ declare let fabric, mwf:any;
   selector: 'sample-categories-panel',
   styles: [`
     .category-row {
-        margin-bottom: 29px;
+        margin-bottom: 15px;
         padding: 0 50px;
     }
 
@@ -28,9 +28,22 @@ declare let fabric, mwf:any;
         margin-top: 0px;
     }
 
+    .ms-Panel-headerText {
+        margin-top: 0px;
+        margin-bottom: 35px;
+    }
+
+    .ms-Panel.ms-Panel--lg {
+        max-width: 544px;
+    }
+
+    div.c-toggle button:focus {
+        outline: none;
+    }
+
 `],
   template: `
-    <div id="sample-categories-panel" class="ms-Panel ms-Panel--xl">
+    <div id="sample-categories-panel" class="ms-Panel ms-Panel--lg">
         <button class="ms-Panel-closeButton ms-PanelAction-close" tabindex="1">
             <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
         </button>

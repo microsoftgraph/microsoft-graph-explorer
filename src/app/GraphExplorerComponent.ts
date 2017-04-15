@@ -49,6 +49,11 @@ export class GraphExplorerComponent {
         AppComponent.explorerValues.headers = query.headers;
       } else {
         AppComponent.explorerValues.headers = []
+        AppComponent.explorerValues.headers.push({
+            name: "",
+            value: ""
+        });
+
       }
       // @todo call RequestEditorsComponent.addEmptyHeader()
       AppComponent.explorerValues.headers.push({

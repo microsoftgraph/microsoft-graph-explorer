@@ -36,10 +36,15 @@ import { saveHistoryToLocalStorage } from "./history";
         opacity: 1;
     }
 
+    td.duration {
+        text-align: right;
+    }
+
     tr.request-history-query:hover td.remove-query {
         cursor: pointer;
         text-align: center;
     }
+
     td.remove-query:hover {
         background-color: #e4e4e4;
     }
@@ -69,7 +74,7 @@ import { saveHistoryToLocalStorage } from "./history";
                             <th>{{getStr('Query')}}</th>
                             <th>{{getStr('Date')}}</th>
                             <th>{{getStr('Status Code')}}</th>
-                            <th>{{getStr('Duration')}}</th>
+                            <th style="text-align:right">{{getStr('Duration')}}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -79,7 +84,7 @@ import { saveHistoryToLocalStorage } from "./history";
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{getQueryText(query)}}</td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.relativeDate}}</td>
                             <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();"><span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span></td>
-                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.duration}} {{getStr('milliseconds')}}</td>
+                            <td class="duration" (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.duration}} {{getStr('milliseconds')}}</td>
                             <td class="remove-query" (click)="removeQueryFromHistory(query)"><i class="ms-Icon ms-Icon--Cancel"></i></td>
                         </tr>
                     </tbody>
