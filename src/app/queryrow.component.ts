@@ -14,7 +14,7 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 @Component({
   selector: 'query-row',
   template: `
-    <div class="api-query" (click)="loadQueryIntoEditor(this.query)" (keydown)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" tabindex="0">
+    <div class="api-query" (click)="loadQueryIntoEditor(this.query)" (keydown)="loadQueryIntoEditor(this.query)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <span class="query">{{getQueryText()}}</span>
@@ -26,6 +26,10 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
       .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus {
           background: rgba(0,0,0,0.25);
           outline: none;
+      }
+
+      .restrict:hover {
+        cursor: not-allowed;
       }
 
       .api-query {
@@ -64,7 +68,6 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 })
 export class QueryRowComponent extends GraphExplorerComponent {
     @Input() query: GraphApiCall;
-
 
     getTitle() {
         return this.query.requestUrl;

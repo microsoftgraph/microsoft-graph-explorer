@@ -48,7 +48,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       // Headers aren't updated when that tab is hidden, so when clicking on any tab reinsert the headers
       $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
           insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
-      });
+      });     
     }
 
 

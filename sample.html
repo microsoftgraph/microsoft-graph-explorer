@@ -30,10 +30,6 @@
         <!-- jQuery -->
         <script src="bower_components/jQuery/dist/jQuery.min.js"></script>
 
-
-        <!-- Graph explorer bundled styles -->
-        <!--<script src="./build/scripts/all.js"></script>-->
-
         <!-- clientId, scopes, redirectUrl -->
         <script src="./src/secrets.js"></script>
 
@@ -41,16 +37,15 @@
         <script src="node_modules/core-js/client/shim.min.js"></script>
 
         <script src="node_modules/zone.js/dist/zone.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>
-        
-
-        <script src="./src/systemjs.config.js"></script>
-        <script>
-            System.import('src/main.js').catch(function(err){ console.error(err); });
-        </script>
+        <!--<script src="node_modules/systemjs/dist/system.src.js"></script>-->
 
     </head>
     <body>
         <api-explorer></api-explorer>
+        <!--<script src="./src/systemjs.config.js"></script>
+        <script>
+            System.import('src/main.js').catch(function(err){ console.error(err); });
+        </script>-->
+        <script src="dist/bundle.min.js"></script>
     </body>
 </html>

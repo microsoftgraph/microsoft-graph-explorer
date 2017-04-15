@@ -7,8 +7,10 @@
     "build:watch": "tsc -p src/ -w",
     "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
     "serve": "static-server -p 3000",
-    "postinstall": "bower install"
-  },
+    "postinstall": "bower install",
+    "build_prod": "npm run build && browserify -s main src/main.js > dist/bundle.js && npm run minify",
+    "minify": "uglifyjs dist/bundle.js --screw-ie8 --compress --mangle --output dist/bundle.min.js"
+   },
   "author": "",
   "devDependencies": {
     "concurrently": "^3.2.0",
@@ -16,7 +18,9 @@
     "@types/chai": "^3.4.35",
     "@types/hellojs": "^0.2.31",
     "@types/jquery": "^2.0.40",
-    "@types/mocha": "^2.2.39"
+    "@types/mocha": "^2.2.39",
+    "browserify": "^14.3.0",
+    "uglifyjs": "^2.4.10"
   },
   "dependencies": {
     "@angular/animations": "^4.0.1",

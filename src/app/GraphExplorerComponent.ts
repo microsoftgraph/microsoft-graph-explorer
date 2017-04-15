@@ -35,6 +35,10 @@ export class GraphExplorerComponent {
   }
   
   loadQueryIntoEditor(originalQuery:SampleQuery) {
+    // prevent logged out users from POSTing/others
+    if (!isAuthenticated() && originalQuery.method != 'GET') {
+      return;
+    }
       // copy the sample query or history item so we're not changing history/samples
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
 

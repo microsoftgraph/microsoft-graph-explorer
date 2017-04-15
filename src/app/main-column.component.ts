@@ -161,7 +161,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         mwf.ComponentFactory.create([{
             component: mwf.Select,
             elements: [this._httpMethodEl.element.nativeElement],
-            callback: (event:any) => {
+            callback: (event:any) => {            
+                this.updateHttpMethod();
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedOption = method.id;
@@ -170,14 +171,12 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             }
         }]);
 
-        this.updateHttpMethod();
-
-
         // init Graph version selector
         mwf.ComponentFactory.create([{
             component: mwf.Select,
             elements: [this._graphVersionEl.element.nativeElement],
             callback: (event:any) => {
+                this.updateGraphVersionSelect();
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedVersion = document.getElementById("-"+method.id).children[0].textContent;
@@ -186,7 +185,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                 })
             }
         }]);
-        this.updateGraphVersionSelect();
 
         initializeJsonViewer();
         initializeResponseHeadersViewer();
