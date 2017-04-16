@@ -56,7 +56,7 @@ declare let fabric;
   styles: [`
     #explorer-sidebar {
         background: #2F2F2F !important;
-        height: 1024px;
+        min-height: 1024px;
         padding: 0px;
         color: white;
       	font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
