@@ -5,7 +5,7 @@
 import { getString } from "./api-explorer-helpers";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
-import { ExplorerValues, HistoryRecord, GraphApiCall, SampleQuery } from "./base";
+import { ExplorerValues, GraphApiCall, SampleQuery } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 
@@ -28,13 +28,13 @@ export class GraphExplorerComponent {
   }
 
   // used in sidebar and panel
-  getRequestHistory = (limit?:number):HistoryRecord[] => {
+  getRequestHistory = (limit?:number):GraphApiCall[] => {
       if (limit) return AppComponent.requestHistory.slice(0, limit);
 
       return AppComponent.requestHistory;
   }
   
-  loadQueryIntoEditor(originalQuery:SampleQuery) {
+  loadQueryIntoEditor(originalQuery:GraphApiCall) {
     // prevent logged out users from POSTing/others
     if (!isAuthenticated() && originalQuery.method != 'GET') {
       return;

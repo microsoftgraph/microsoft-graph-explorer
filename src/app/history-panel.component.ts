@@ -4,7 +4,7 @@
 
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { HistoryRecord, GraphApiCall } from "./base";
+import { GraphApiCall } from "./base";
 import { AppComponent } from "./app.component";
 import * as moment from "moment"
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
@@ -127,7 +127,7 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
         return query.statusCode >= 200 && query.statusCode < 300 ? "success" : "error";
     }
 
-    removeQueryFromHistory(query:HistoryRecord) {
+    removeQueryFromHistory(query:GraphApiCall) {
         AppComponent.removeRequestFromHistory(query);
     }
 

@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, AfterViewInit } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, HistoryRecord, SampleQueryCategory } from "./base";
+import { AuthenticationStatus, GraphApiCall, SampleQueryCategory } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { SampleCategories } from "./getting-started-queries";
 import * as moment from 'moment'

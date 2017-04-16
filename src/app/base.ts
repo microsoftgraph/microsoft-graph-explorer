@@ -37,6 +37,10 @@ export interface GraphApiCall {
     requestUrl?: string
     postBody?: string
     headers?: GraphRequestHeader[]
+
+    requestSentAt?: Date
+    relativeDate?: string
+
 }
 
 export interface SampleQuery extends GraphApiCall {
@@ -52,14 +56,6 @@ export interface SampleQueryCategory {
     title: string
     enabled?: boolean
     queries?: SampleQuery[]
-}
-
-export interface HistoryRecord extends GraphApiCall {
-    requestId?: string
-    // selectedVersion?: string // take from requestUrl
-    requestHeaders?: Headers
-    requestSentAt?: Date
-    relativeDate?: string
 }
 
 export interface ExplorerValues {

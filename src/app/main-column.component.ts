@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, HistoryRecord, Methods, ExplorerValues, AutoCompleteItem } from "./base";
+import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoCompleteItem } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";

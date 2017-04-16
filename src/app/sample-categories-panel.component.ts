@@ -4,7 +4,7 @@
 
 import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { HistoryRecord, GraphApiCall, SampleQueryCategory } from "./base";
+import { GraphApiCall, SampleQueryCategory } from "./base";
 import { AppComponent } from "./app.component";
 import { SampleCategories } from "./getting-started-queries";
 

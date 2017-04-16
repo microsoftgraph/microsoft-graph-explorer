@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { AuthenticationStatus, ExplorerOptions, GraphApiCall, HistoryRecord, SampleQuery } from "./base";
+import { AuthenticationStatus, ExplorerOptions, GraphApiCall, SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { getString } from "./api-explorer-helpers";
@@ -85,7 +85,7 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 `]
 })
 export class QueryRowComponent extends GraphExplorerComponent {
-    @Input() query: SampleQuery;
+    @Input() query: GraphApiCall;
 
     queryKeyDown(event) {
         if (event.keyCode == 13)

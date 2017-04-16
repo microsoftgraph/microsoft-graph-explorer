@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
-import { ExplorerOptions, RequestType, ExplorerValues, HistoryRecord, GraphApiCall, GraphRequestHeader } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
@@ -108,14 +108,14 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       postBody: ""
   };
 
-  static requestHistory: HistoryRecord[] = loadHistoryFromLocalStorage();
+  static requestHistory: GraphApiCall[] = loadHistoryFromLocalStorage();
   
-  static addRequestToHistory(request:HistoryRecord) {
+  static addRequestToHistory(request:GraphApiCall) {
       AppComponent.requestHistory.splice(0, 0, request); //add history object to the array
       saveHistoryToLocalStorage(AppComponent.requestHistory);
   }
 
-  static removeRequestFromHistory(request:HistoryRecord) {
+  static removeRequestFromHistory(request:GraphApiCall) {
       const idx = AppComponent.requestHistory.indexOf(request);
 
       if (idx > -1) {
@@ -127,19 +127,19 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   }
 
   static executeExplorerQuery() {
-    let query:HistoryRecord = {
+    let query:GraphApiCall = {
         requestUrl: AppComponent.explorerValues.endpointUrl,
         method: AppComponent.explorerValues.selectedOption,
         requestSentAt: new Date(),
-        requestHeaders: createHeaders(AppComponent.explorerValues.headers),
+        headers: AppComponent.explorerValues.headers,
         postBody: getRequestBodyEditor().getSession().getValue()
     };
 
     let graphRequest:Promise<Response>;
     if (isAuthenticated()) {
-      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, query.postBody, query.requestHeaders);
+      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, query.postBody, createHeaders(query.headers));
     } else {
-      graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl, query.requestHeaders);
+      graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl, createHeaders(query.headers));
     }
     this.explorerValues.requestInProgress = true;
 
@@ -152,7 +152,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
  }
 
- function commonResponseHandler(res:Response, query:HistoryRecord) {
+ function commonResponseHandler(res:Response, query:GraphApiCall) {
       // common ops for successful and unsuccessful
     AppComponent.explorerValues.requestInProgress = false;
     AppComponent.lastApiCall = query;
@@ -169,7 +169,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     getJsonViewer().getSession().setValue("")
 
  }
-function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
+function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
   commonResponseHandler(res, query);
   let {status, headers} = res;
 
@@ -192,7 +192,7 @@ function handleSuccessfulQueryResponse(res:Response, query:HistoryRecord) {
   }
 }
 
-function handleUnsuccessfulQueryResponse(res:Response, query:HistoryRecord) {
+function handleUnsuccessfulQueryResponse(res:Response, query:GraphApiCall) {
   commonResponseHandler(res, query);
 
   if (res.json)
