@@ -31,16 +31,15 @@ declare let fabric;
             <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
                 <span class="c-heading-5 panel-header"><img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"/>{{getStr('Sample Queries')}}</span></button>
             <div id="refineDrawer" class="panel-content">
-                <div>
+                <div id="sample-queries-scroll">
                     <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
                         <div><span class="category-heading">{{category.title}}</span></div>
                         <query-row [query]="query" *ngFor="let query of category.queries"></query-row>
                     </div>
-                    <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more groups')}}</a>
                 </div>
+                <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more groups')}}</a>
             </div>
         </div>
-
         <div class="c-drawer">
             <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
                   <span class="c-heading-5 panel-header"><i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span></button>
@@ -64,6 +63,12 @@ declare let fabric;
 
     #explorer-sidebar .c-hyperlink {
         color: #00bcf2;
+    }
+
+    #sample-queries-scroll {
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     #getting-started-svg {
