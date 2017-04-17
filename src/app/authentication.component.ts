@@ -38,6 +38,11 @@ import { AppComponent } from "./app.component";
           margin: 0px auto;
       }
 
+      .noPicture .ms-Persona-details {
+          padding-left: 20px;
+      }
+
+
 `],
   template: `
     <div *ngIf="getAuthenticationStatus() == 'anonymous'">
@@ -55,8 +60,8 @@ import { AppComponent } from "./app.component";
         </div>
     </div>
     <div *ngIf="getAuthenticationStatus() == 'authenticated'" id="persona-holder">
-         <div class="ms-Persona">
-             <div class="ms-Persona-imageArea">
+         <div class="ms-Persona" [ngClass]="{noPicture: !authInfo.user.profileImageUrl}">
+             <div class="ms-Persona-imageArea" *ngIf="authInfo.user.profileImageUrl">
                  <img class="ms-Persona-image" [src]="sanitize(authInfo.user.profileImageUrl)">
              </div>
              <div class="ms-Persona-details">

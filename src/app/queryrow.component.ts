@@ -37,8 +37,7 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
           background: #2F2F2F;
           line-height: 16px;
           padding: 5px 11px 9px 12px;
-          margin-bottom: -35px;    
-          right: 12px;
+          margin-bottom: -35px;
       }
 
       .doc-link:hover {
