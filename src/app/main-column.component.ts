@@ -213,10 +213,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         }
     }
 
-    // getAutocompleteOptions():Promise<any> {
-    //     return getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion);
-    // }
-
     getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
         return links.map((x) => x.name).join('/');
     }
@@ -229,8 +225,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             return;
         }
 
-        
-        let possibleVersion = possibleGraphPathArr[0];
+        let possibleVersion = possibleGraphPathArr[0] || "v1.0";
 
         // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
             // possibleVersion is a valid version
@@ -243,7 +238,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     getAutoCompleteOptions() {
         return this.getMatches(AppComponent.explorerValues.endpointUrl);
     }
-    
+
     getMatches(query:string):string[] {
         let urls = getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion);
         let currentGraphLinks = constructGraphLinksFromFullPath(this.GraphService, query);
