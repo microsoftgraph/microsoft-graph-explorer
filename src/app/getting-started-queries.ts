@@ -18,13 +18,13 @@ for (let query of SampleQueries) {
     if (query.postBodyTemplateName) {
         query.postBodyTemplateContents = PostBodyTemplates[query.postBodyTemplateName];
     }
-    
+
     // insert query into category (create or add to)
     if (query.category in categories) {
         categories[query.category].queries.push(query);
     } else {
         categories[query.category] = {
-            enabled: true,
+            enabled: query.category == "Getting Started",
             queries: [query],
             title: query.category
         }
