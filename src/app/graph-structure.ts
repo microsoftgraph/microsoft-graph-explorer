@@ -32,7 +32,7 @@ export function parseMetadata(apiService:GraphService, version?:string):Promise<
         if (!graphStructureCache.containsVersion(version)) {
             console.log(`parsing ${version} metadata`);
             apiService.getMetadata(version).then((results:any) => {
-                const metadata = $($.parseXML(results.data));
+                const metadata = $($.parseXML(results._body));
 
                 let entitySetData = getEntitySets(metadata);
                 graphStructureCache.add(version, "EntitySetData", entitySetData);
@@ -154,105 +154,103 @@ function getEntityTypes(metadata:any) {
 
 export function getEntityFromTypeName(typePossiblyWithPrefix:string, version:string):GraphEntity {
     const entityTypeData = loadEntityTypeData(version);
+    if (!entityTypeData) return null;
     let type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
     return entityTypeData[type];
 }
 
-export function constructGraphLinksFromFullPath(service:GraphService, path:string):Promise<GraphNodeLink[]> {
+export function constructGraphLinksFromFullPath(service:GraphService, path:string):GraphNodeLink[] {
     const urlPathArr = path.split(AppComponent.Options.GraphUrl+"/");
     if (urlPathArr.length <=1)
-        return Promise.resolve([]);
+        return [];
 
     let segments:string[] = urlPathArr[1].split("/");
     let version = segments.shift();
 
     // singletons and entitysets
-    return loadEntitySets(service, version).then((entityContainerData) => {
-        var graph:GraphNodeLink[] = [];
-        while (segments.length > 0) {
-            let segment = segments.shift();
-            if (graph.length == 0) {
-                if (segment in entityContainerData) {
-                    let node:GraphNodeLink = entityContainerData[segment];
-                    graph.push(node);
-                }
-            } else {
-                let lastGraphItem = graph[graph.length - 1];
-                let lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type, version);
+    let entityContainerData = loadEntitySets(service, version);
 
-                if (lastGraphItemEntity === undefined) {
-                    continue;
-                }
+    if (!entityContainerData) return;
+    var graph:GraphNodeLink[] = [];
+    while (segments.length > 0) {
+        let segment = segments.shift();
+        if (graph.length == 0) {
+            if (segment in entityContainerData) {
+                let node:GraphNodeLink = entityContainerData[segment];
+                graph.push(node);
+            }
+        } else {
+            let lastGraphItem = graph[graph.length - 1];
+            let lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type, version);
 
-                if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) { // me/drive/root
-                    graph.push(lastGraphItemEntity.links[segment]);
-                } else if (lastGraphItem.isACollection && segment != "") {
-                    // previous link was a collection, current is an id
-                    graph.push({
-                        isACollection: false,
-                        name: segment,
-                        type: lastGraphItem.type
-                    });
-                }
+            if (lastGraphItemEntity === undefined) {
+                continue;
+            }
+
+            if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) { // me/drive/root
+                graph.push(lastGraphItemEntity.links[segment]);
+            } else if (lastGraphItem.isACollection && segment != "") {
+                // previous link was a collection, current is an id
+                graph.push({
+                    isACollection: false,
+                    name: segment,
+                    type: lastGraphItem.type
+                });
             }
         }
-        return graph;
-    }).catch(() => {
-        return [];
-    });
+    }
+    return graph;
 }
 
 // urlOptions are like ["driveType", "quota"]
-function combineUrlOptionsWithCurrentUrl(service:GraphService, urlOptions:string[]):Promise<string[]> {
+function combineUrlOptionsWithCurrentUrl(service:GraphService, urlOptions:string[]):string[] {
     // truncate the service string back to the last known good entity (could be an id if prev was a collection)
     // concat each urlOption with this prefix
     // return that array
-    return constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl).then((graphLinks) => {
-        let baseUrl = [];
-        while(graphLinks.length > 0) {
-            let lastSegment = graphLinks.shift();
-            baseUrl.push(lastSegment.name);
-        }
+    let graphLinks = constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl);
+    let baseUrl = [];
+    while(graphLinks.length > 0) {
+        let lastSegment = graphLinks.shift();
+        baseUrl.push(lastSegment.name);
+    }
 
-        let baseUrlFinal = AppComponent.Options.GraphUrl + "/" + AppComponent.explorerValues.selectedVersion;
-        
-        if (baseUrl.length > 0) {
-            baseUrlFinal += "/" + baseUrl.join('/');
-        }
+    let baseUrlFinal = AppComponent.Options.GraphUrl + "/" + AppComponent.explorerValues.selectedVersion;
+    
+    if (baseUrl.length > 0) {
+        baseUrlFinal += "/" + baseUrl.join('/');
+    }
 
-        return urlOptions.map((url) => baseUrlFinal + '/' + url);
-    });
+    return urlOptions.map((url) => baseUrlFinal + '/' + url);
 }
 
 // just return relative URLs
-export function getUrlsFromServiceURL(service:GraphService, version:string):Promise<string[]> {
-    return new Promise((resolve, reject) => {
-        return constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl).then((graphFromServiceUrl) => {
-            if (graphFromServiceUrl.length > 0) {
-                let lastNode = graphFromServiceUrl.pop();
+// based on the last node, get the possible URLs
+export function getUrlsFromServiceURL(service:GraphService, version:string):string[] {
+    let graphLinks = constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl);
+    if (!graphLinks) return [];
+    let urls;
+    if (graphLinks.length > 0) {
+        let lastNode = graphLinks.pop();
 
-                if (lastNode.isACollection) return resolve([]);
+        if (lastNode.isACollection) return [];
 
-                let entity = getEntityFromTypeName(lastNode.type, version);
-                if (!entity) return resolve([]);
-                return resolve((entity.links));
-            } else {
-                return resolve(loadEntitySets(service, version));
-            }
-        });
-    }).then((x) => {
-        return combineUrlOptionsWithCurrentUrl(service, Object.keys(x));
-    });
+        let entity = getEntityFromTypeName(lastNode.type, version);
+        if (!entity) {
+            return [];
+        }
+        urls = entity.links;
+    } else {
+        urls = loadEntitySets(service, version);
+    }
+
+    return combineUrlOptionsWithCurrentUrl(service, Object.keys(urls));
 }
 
-export function loadEntitySets(service:GraphService, version:string):Promise<any> {
-    return parseMetadata(service, version).then(() => {
-        return graphStructureCache.get(version, "EntitySetData");
-    })
+export function loadEntitySets(service:GraphService, version:string) {
+    return graphStructureCache.get(version, "EntitySetData");
 }
 
 // EntityType and ComplexType
-// @todo use promises
 export function loadEntityTypeData(version:string) {
     return graphStructureCache.get(version, "EntityTypeData");
 }

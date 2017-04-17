@@ -15,6 +15,7 @@ import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./histor
 import * as moment from "moment"
 import { createHeaders } from "./util";
 import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
+import { parseMetadata } from "./graph-structure";
 
 declare let mwf:any;
 
@@ -48,7 +49,10 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       // Headers aren't updated when that tab is hidden, so when clicking on any tab reinsert the headers
       $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
           insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
-      });     
+      });
+
+      parseMetadata(this.GraphService, "v1.0");
+      parseMetadata(this.GraphService, "beta");
     }
 
 

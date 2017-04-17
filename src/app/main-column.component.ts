@@ -42,8 +42,8 @@ declare let mwf:any;
         </md-input-container>
 
         <md-autocomplete #auto="mdAutocomplete">
-            <md-option *ngFor="let option of []" [value]="option">
-                {{ option }}
+            <md-option *ngFor="let option of getAutoCompleteOptions()" [value]="option">
+                {{ getShortUrl(option) }}
             </md-option>
         </md-autocomplete>
 
@@ -191,21 +191,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     }
 
-//    filteredOptions: Observable<string[]>;
-    ngOnInit(): void {
-//         this.myControl.valueChanges
-//          .startWith(null)
-//          .map(val => this.filter(val))
-//          .toPromise(() => {
-//              this.filteredOptions;
-//          });
-    }
-
-//    filter(val: string): Promise<string[]>{
-//       return this.getMatches(val).then((a) => {
-//         return a.map(x => x.fullUrl)
-//     });
-//    }
+    ngOnInit() {}
 
     @ViewChild('httpMethod', {read: ViewContainerRef}) _httpMethodEl;
     @ViewChild('graphVersion', {read: ViewContainerRef}) _graphVersionEl;
@@ -227,9 +213,9 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         }
     }
 
-    getAutocompleteOptions():Promise<any> {
-        return getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion);
-    }
+    // getAutocompleteOptions():Promise<any> {
+    //     return getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion);
+    // }
 
     getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
         return links.map((x) => x.name).join('/');
@@ -254,52 +240,33 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     }
 
-    // getFullUrlFromGraphLinks(links:GraphNodeLink[]):Promise<any[]> {
-    //     return new Promise((resolve, reject) => {
-    //         if (typeof links === 'string') {
-    //             resolve(constructGraphLinksFromFullPath(links));
-    //         }
-    //         resolve(links)
-    //     }).then((_links:GraphNodeLink[]) => {
-    //         return [AppComponent.Options.GraphUrl, this.explorerValues.selectedVersion, getRelativeUrlFromGraphNodeLinks(_links)];    
-    //     });
-    // }
+    getAutoCompleteOptions() {
+        return this.getMatches(AppComponent.explorerValues.endpointUrl);
+    }
     
-    getMatches(query:string):Promise<AutoCompleteItem[]> {
-        return getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion).then((urls) => {
-            return constructGraphLinksFromFullPath(this.GraphService, query).then((graph) => {
-                // if query ends with odata query param, don't return any URLs
-                const lastNode = graph.pop();
-                if (lastNode && lastNode.name.indexOf("?") != -1) {
-                    return [];
-                }
+    getMatches(query:string):string[] {
+        let urls = getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion);
+        let currentGraphLinks = constructGraphLinksFromFullPath(this.GraphService, query);
 
-                return urls.filter((option) => option.indexOf(query)>-1);
-            });
-        }).then((urls) => {
-            const serviceTextLength = AppComponent.explorerValues.endpointUrl.length;
-            const useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 64;
+        if (!currentGraphLinks) return [];
+        // if query ends with odata query param, don't return any URLs
+        const lastNode = currentGraphLinks.pop();
+        if (lastNode && lastNode.name.indexOf("?") != -1) {
+            return [];
+        }
 
-            return Promise.all(urls.map((url) => {
-                if (!useLastPathSegmentOnly) {
-                    return {
-                        fullUrl: url,
-                        url: url
-                    };
-                }
-                return constructGraphLinksFromFullPath(this.GraphService, url).then((links) => {
-                    return {
-                        url: "/" + links[links.length - 1].name,
-                        fullUrl: url
-                    }
-                });
-            }));
-        }).catch((e) => {
-            debugger;
-        }).then((a) => {
-            debugger;
-            return a;
-        });
+        return urls.filter((option) => option.indexOf(query)>-1);
+    }
+
+    getShortUrl(url:string) {
+        const serviceTextLength = AppComponent.explorerValues.endpointUrl.length;
+        const useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 50;
+
+        if (!useLastPathSegmentOnly) {
+            return url;
+        }
+        let links = constructGraphLinksFromFullPath(this.GraphService, url);
+        return "/" + links[links.length - 1].name;
     }
 
     updateGraphVersionSelect() {
