@@ -4,63 +4,7 @@
 
 import { SampleQueryCategory, SampleQuery, GraphRequestHeader } from "./base";
 import * as PostBodyTemplates from './postBodyTemplates/queries'
-const queries: SampleQuery[] = [
-    {
-        humanName: "my profile",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/",
-        docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users",
-        AAD: true,
-        MSA: true,
-        category: "Getting Started"
-    },
-    {
-        humanName: "my files",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/drive/root/children",
-        category: "OneDrive"
-    },
-    {
-        humanName: "my photo",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/photo/$value",
-        category: "Getting Started"
-    },
-    {
-        humanName: "send mail",
-        method: "POST",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/sendMail",
-        category: "Outlook",
-        headers: [{name: "Content-Type", value: "application/json"}],
-        postBodyTemplateName: 'sendMail'
-    },
-    {
-        humanName: "my high importance mail",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high'",
-        category: "Outlook"
-    },
-    {
-        humanName: "my calendar",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/calendar",
-        category: "Getting Started"
-    },
-    {
-        humanName: "my next meeting",
-        method: "DELETE",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/calendar/foobar",
-        category: "Getting Started"
-    },
-    {
-        humanName: "my manager",
-        method: "PATCH",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/manager",
-        docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager",
-        category: "Users"
-    }
-];
-
+import { SampleQueries } from "./gen-queries";
 
 interface QueryCategoriesMap {
     [CategoryTitle: string]: SampleQueryCategory;
@@ -68,7 +12,7 @@ interface QueryCategoriesMap {
 
 let categories:QueryCategoriesMap = {};
 
-for (let query of queries) {
+for (let query of SampleQueries) {
     
     // load tempalte if exists
     if (query.postBodyTemplateName) {
