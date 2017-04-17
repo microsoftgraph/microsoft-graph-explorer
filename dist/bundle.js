@@ -88880,7 +88880,7 @@ function getString(options, label) {
 }
 exports.getString = getString;
 
-},{"./loc_strings":105}],91:[function(require,module,exports){
+},{"./loc_strings":106}],91:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function getRequestBodyEditor() {
@@ -89038,6 +89038,7 @@ var history_1 = require("./history");
 var moment = require("moment");
 var util_1 = require("./util");
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
+var graph_structure_1 = require("./graph-structure");
 var AppComponent = AppComponent_1 = (function (_super) {
     __extends(AppComponent, _super);
     function AppComponent(GraphService, chRef) {
@@ -89052,6 +89053,8 @@ var AppComponent = AppComponent_1 = (function (_super) {
         $("#response-viewer-labels .ms-Pivot-link").on('click', function () {
             response_handlers_1.insertHeadersIntoResponseViewer(AppComponent_1.lastApiCallHeaders);
         });
+        graph_structure_1.parseMetadata(this.GraphService, "v1.0");
+        graph_structure_1.parseMetadata(this.GraphService, "beta");
     };
     AppComponent.prototype.ngOnInit = function () {
         for (var key in AppComponent_1.Options) {
@@ -89087,15 +89090,15 @@ var AppComponent = AppComponent_1 = (function (_super) {
             requestUrl: AppComponent_1.explorerValues.endpointUrl,
             method: AppComponent_1.explorerValues.selectedOption,
             requestSentAt: new Date(),
-            requestHeaders: util_1.createHeaders(AppComponent_1.explorerValues.headers),
+            headers: AppComponent_1.explorerValues.headers,
             postBody: api_explorer_jseditor_1.getRequestBodyEditor().getSession().getValue()
         };
         var graphRequest;
         if (auth_1.isAuthenticated()) {
-            graphRequest = AppComponent_1.svc.performQuery(query.method, query.requestUrl, query.postBody, query.requestHeaders);
+            graphRequest = AppComponent_1.svc.performQuery(query.method, query.requestUrl, query.postBody, util_1.createHeaders(query.headers));
         }
         else {
-            graphRequest = AppComponent_1.svc.performAnonymousQuery(query.method, query.requestUrl, query.requestHeaders);
+            graphRequest = AppComponent_1.svc.performAnonymousQuery(query.method, query.requestUrl, util_1.createHeaders(query.headers));
         }
         this.explorerValues.requestInProgress = true;
         graphRequest.then(function (res) {
@@ -89180,7 +89183,7 @@ function handleUnsuccessfulQueryResponse(res, query) {
 }
 var AppComponent_1;
 
-},{"./GraphExplorerComponent":89,"./api-explorer-jseditor":91,"./api-explorer-svc":93,"./auth":96,"./fabric-components":99,"./history":104,"./response-handlers":111,"./util":116,"@angular/core":5,"moment":12}],95:[function(require,module,exports){
+},{"./GraphExplorerComponent":89,"./api-explorer-jseditor":91,"./api-explorer-svc":93,"./auth":96,"./fabric-components":99,"./graph-structure":102,"./history":105,"./response-handlers":112,"./util":117,"@angular/core":5,"moment":12}],95:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -89221,7 +89224,7 @@ AppModule = __decorate([
 ], AppModule);
 exports.AppModule = AppModule;
 
-},{"./app.component":94,"./authentication.component":97,"./history-panel.component":102,"./history-query.component":103,"./main-column.component":106,"./method-badge.component":107,"./queryrow.component":109,"./request-editors.component":110,"./response-status-bar.component":112,"./sample-categories-panel.component":113,"./share-link-btn.component":114,"./sidebar.component":115,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/material":8,"@angular/platform-browser":11,"@angular/platform-browser/animations":10}],96:[function(require,module,exports){
+},{"./app.component":94,"./authentication.component":97,"./history-panel.component":103,"./history-query.component":104,"./main-column.component":107,"./method-badge.component":108,"./queryrow.component":110,"./request-editors.component":111,"./response-status-bar.component":113,"./sample-categories-panel.component":114,"./share-link-btn.component":115,"./sidebar.component":116,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/material":8,"@angular/platform-browser":11,"@angular/platform-browser/animations":10}],96:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -89418,66 +89421,165 @@ exports.initFabricComponents = initFabricComponents;
 },{}],100:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var PostBodyTemplates = require("./postBodyTemplates/queries");
-var queries = [
+exports.SampleQueries = [
     {
-        humanName: "my profile",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/",
-        docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users",
-        AAD: true,
-        MSA: true,
-        category: "Getting Started"
-    },
-    {
-        humanName: "my files",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/drive/root/children",
-        category: "OneDrive"
-    },
-    {
-        humanName: "my photo",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/photo/$value",
-        category: "Getting Started"
-    },
-    {
-        humanName: "send mail",
-        method: "POST",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/sendMail",
-        category: "Outlook",
-        headers: [{ name: "Content-Type", value: "application/json" }],
-        postBodyTemplateName: 'sendMail'
-    },
-    {
-        humanName: "my high importance mail",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high'",
-        category: "Outlook"
-    },
-    {
-        humanName: "my calendar",
-        method: "GET",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/calendar",
-        category: "Getting Started"
-    },
-    {
-        humanName: "my next meeting",
-        method: "DELETE",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/calendar/foobar",
-        category: "Getting Started"
-    },
-    {
-        humanName: "my manager",
-        method: "PATCH",
-        requestUrl: "https://graph.microsoft.com/v1.0/me/manager",
-        docLink: "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager",
-        category: "Users"
+        "category": "Getting Started",
+        "method": "GET",
+        "humanName": "my profile",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users"
+    }, {
+        "category": "Getting Started",
+        "method": "GET",
+        "humanName": "my files",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/photo/$value",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get"
+    }, {
+        "category": "Getting Started",
+        "method": "GET",
+        "humanName": "my photo",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/manager",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager"
+    }, {
+        "category": "Getting Started",
+        "method": "GET",
+        "humanName": "my mail",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages"
+    }, {
+        "category": "Getting Started",
+        "method": "GET",
+        "humanName": "items trending around me",
+        "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending"
+    }, {
+        "category": "Users",
+        "method": "GET",
+        "humanName": "my manager",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/manager",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager"
+    }, {
+        "category": "Users",
+        "method": "GET",
+        "humanName": "my direct reports",
+        "requestUrl": "https://graph.microsoft.com/v1.0/directReports",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports"
+    }, {
+        "category": "Outlook",
+        "method": "GET",
+        "humanName": "my high importance mail",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$filter=importance%20eq%20'high'",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
+    }, {
+        "category": "Outlook",
+        "method": "GET",
+        "humanName": "my mail that has 'Hello World'",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$search=%22hello%20world%22"
+    }, {
+        "category": "Outlook",
+        "method": "GET",
+        "humanName": "my events for the next week",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime=2017-04-16T00:00:00Z&enddatetime=2017-04-23T00:00:00Z"
+    }, {
+        "category": "Outlook",
+        "method": "GET",
+        "humanName": "my contacts",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/contacts"
+    }, {
+        "category": "Outlook",
+        "method": "POST",
+        "humanName": "Send an email",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail"
+    }, {
+        "category": "OneDrive",
+        "method": "GET",
+        "humanName": "my recent files",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
+    }, {
+        "category": "OneDrive",
+        "method": "GET",
+        "humanName": "all the items in my drive",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/children",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children"
+    }, {
+        "category": "OneDrive",
+        "method": "GET",
+        "humanName": "all of my excel files",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='xlsx')?select=name",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
+    }, {
+        "category": "OneDrive",
+        "method": "POST",
+        "humanName": "create a folder",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/children"
+    }, {
+        "category": "OneDrive",
+        "method": "GET",
+        "humanName": "Get Files Shared with Me",
+        "requestUrl": "https://graph.microsoft.com/v1.0/drive/sharedWithMe"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "groups I belong to",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/memberOf"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "group members",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{id}/members"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "a group's conversations",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{id}/conversations"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "files in a group drive",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children"
+    }, {
+        "category": "Excel",
+        "method": "GET",
+        "humanName": "Sheets in a workbook",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{id}/workbook/worksheets"
+    }, {
+        "category": "Planner (beta)",
+        "method": "GET",
+        "humanName": "all Planner plans associated with a group",
+        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
+    }, {
+        "category": "SharePoint (beta)",
+        "method": "GET",
+        "humanName": "my organization's default SharePoint site",
+        "requestUrl": "https://graph.microsoft.com/beta/sharePoint/site",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/sharepoint"
+    }, {
+        "category": "OneNote (beta)",
+        "method": "GET",
+        "humanName": "my notes",
+        "requestUrl": "https://graph.microsoft.com/beta/me/notes/notebooks"
+    }, {
+        "category": "Trending",
+        "method": "GET",
+        "humanName": "items trending around me",
+        "requestUrl": "https://graph.microsoft.com/beta/me/trendingAround"
+    }, {
+        "category": "Trending",
+        "method": "GET",
+        "humanName": "people I work with",
+        "requestUrl": "https://graph.microsoft.com/beta/me/people"
     }
 ];
+
+},{}],101:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var PostBodyTemplates = require("./postBodyTemplates/queries");
+var gen_queries_1 = require("./gen-queries");
 var categories = {};
-for (var _i = 0, queries_1 = queries; _i < queries_1.length; _i++) {
-    var query = queries_1[_i];
+for (var _i = 0, SampleQueries_1 = gen_queries_1.SampleQueries; _i < SampleQueries_1.length; _i++) {
+    var query = SampleQueries_1[_i];
     if (query.postBodyTemplateName) {
         query.postBodyTemplateContents = PostBodyTemplates[query.postBodyTemplateName];
     }
@@ -89486,7 +89588,7 @@ for (var _i = 0, queries_1 = queries; _i < queries_1.length; _i++) {
     }
     else {
         categories[query.category] = {
-            enabled: true,
+            enabled: query.category == "Getting Started",
             queries: [query],
             title: query.category
         };
@@ -89497,7 +89599,7 @@ for (var category in categories) {
     exports.SampleCategories.push(categories[category]);
 }
 
-},{"./postBodyTemplates/queries":108}],101:[function(require,module,exports){
+},{"./gen-queries":100,"./postBodyTemplates/queries":109}],102:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -89512,7 +89614,7 @@ function parseMetadata(apiService, version) {
         if (!graphStructureCache.containsVersion(version)) {
             console.log("parsing " + version + " metadata");
             apiService.getMetadata(version).then(function (results) {
-                var metadata = $($.parseXML(results.data));
+                var metadata = $($.parseXML(results._body));
                 var entitySetData = getEntitySets(metadata);
                 graphStructureCache.add(version, "EntitySetData", entitySetData);
                 var entityTypeData = getEntityTypes(metadata);
@@ -89611,6 +89713,8 @@ function getEntityTypes(metadata) {
 }
 function getEntityFromTypeName(typePossiblyWithPrefix, version) {
     var entityTypeData = loadEntityTypeData(version);
+    if (!entityTypeData)
+        return null;
     var type = typePossiblyWithPrefix.split("microsoft.graph.").pop();
     return entityTypeData[type];
 }
@@ -89618,82 +89722,78 @@ exports.getEntityFromTypeName = getEntityFromTypeName;
 function constructGraphLinksFromFullPath(service, path) {
     var urlPathArr = path.split(app_component_1.AppComponent.Options.GraphUrl + "/");
     if (urlPathArr.length <= 1)
-        return Promise.resolve([]);
+        return [];
     var segments = urlPathArr[1].split("/");
     var version = segments.shift();
-    return loadEntitySets(service, version).then(function (entityContainerData) {
-        var graph = [];
-        while (segments.length > 0) {
-            var segment = segments.shift();
-            if (graph.length == 0) {
-                if (segment in entityContainerData) {
-                    var node = entityContainerData[segment];
-                    graph.push(node);
-                }
-            }
-            else {
-                var lastGraphItem = graph[graph.length - 1];
-                var lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type, version);
-                if (lastGraphItemEntity === undefined) {
-                    continue;
-                }
-                if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) {
-                    graph.push(lastGraphItemEntity.links[segment]);
-                }
-                else if (lastGraphItem.isACollection && segment != "") {
-                    graph.push({
-                        isACollection: false,
-                        name: segment,
-                        type: lastGraphItem.type
-                    });
-                }
+    var entityContainerData = loadEntitySets(service, version);
+    if (!entityContainerData)
+        return;
+    var graph = [];
+    while (segments.length > 0) {
+        var segment = segments.shift();
+        if (graph.length == 0) {
+            if (segment in entityContainerData) {
+                var node = entityContainerData[segment];
+                graph.push(node);
             }
         }
-        return graph;
-    }).catch(function () {
-        return [];
-    });
+        else {
+            var lastGraphItem = graph[graph.length - 1];
+            var lastGraphItemEntity = getEntityFromTypeName(lastGraphItem.type, version);
+            if (lastGraphItemEntity === undefined) {
+                continue;
+            }
+            if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) {
+                graph.push(lastGraphItemEntity.links[segment]);
+            }
+            else if (lastGraphItem.isACollection && segment != "") {
+                graph.push({
+                    isACollection: false,
+                    name: segment,
+                    type: lastGraphItem.type
+                });
+            }
+        }
+    }
+    return graph;
 }
 exports.constructGraphLinksFromFullPath = constructGraphLinksFromFullPath;
 function combineUrlOptionsWithCurrentUrl(service, urlOptions) {
-    return constructGraphLinksFromFullPath(service, app_component_1.AppComponent.explorerValues.endpointUrl).then(function (graphLinks) {
-        var baseUrl = [];
-        while (graphLinks.length > 0) {
-            var lastSegment = graphLinks.shift();
-            baseUrl.push(lastSegment.name);
-        }
-        var baseUrlFinal = app_component_1.AppComponent.Options.GraphUrl + "/" + app_component_1.AppComponent.explorerValues.selectedVersion;
-        if (baseUrl.length > 0) {
-            baseUrlFinal += "/" + baseUrl.join('/');
-        }
-        return urlOptions.map(function (url) { return baseUrlFinal + '/' + url; });
-    });
+    var graphLinks = constructGraphLinksFromFullPath(service, app_component_1.AppComponent.explorerValues.endpointUrl);
+    var baseUrl = [];
+    while (graphLinks.length > 0) {
+        var lastSegment = graphLinks.shift();
+        baseUrl.push(lastSegment.name);
+    }
+    var baseUrlFinal = app_component_1.AppComponent.Options.GraphUrl + "/" + app_component_1.AppComponent.explorerValues.selectedVersion;
+    if (baseUrl.length > 0) {
+        baseUrlFinal += "/" + baseUrl.join('/');
+    }
+    return urlOptions.map(function (url) { return baseUrlFinal + '/' + url; });
 }
 function getUrlsFromServiceURL(service, version) {
-    return new Promise(function (resolve, reject) {
-        return constructGraphLinksFromFullPath(service, app_component_1.AppComponent.explorerValues.endpointUrl).then(function (graphFromServiceUrl) {
-            if (graphFromServiceUrl.length > 0) {
-                var lastNode = graphFromServiceUrl.pop();
-                if (lastNode.isACollection)
-                    return resolve([]);
-                var entity = getEntityFromTypeName(lastNode.type, version);
-                if (!entity)
-                    return resolve([]);
-                return resolve((entity.links));
-            }
-            else {
-                return resolve(loadEntitySets(service, version));
-            }
-        });
-    }).then(function (x) {
-        return combineUrlOptionsWithCurrentUrl(service, Object.keys(x));
-    });
+    var graphLinks = constructGraphLinksFromFullPath(service, app_component_1.AppComponent.explorerValues.endpointUrl);
+    if (!graphLinks)
+        return [];
+    var urls;
+    if (graphLinks.length > 0) {
+        var lastNode = graphLinks.pop();
+        if (lastNode.isACollection)
+            return [];
+        var entity = getEntityFromTypeName(lastNode.type, version);
+        if (!entity) {
+            return [];
+        }
+        urls = entity.links;
+    }
+    else {
+        urls = loadEntitySets(service, version);
+    }
+    return combineUrlOptionsWithCurrentUrl(service, Object.keys(urls));
 }
 exports.getUrlsFromServiceURL = getUrlsFromServiceURL;
 function loadEntitySets(service, version) {
-    return parseMetadata(service, version).then(function () {
-        return graphStructureCache.get(version, "EntitySetData");
-    });
+    return graphStructureCache.get(version, "EntitySetData");
 }
 exports.loadEntitySets = loadEntitySets;
 function loadEntityTypeData(version) {
@@ -89701,7 +89801,7 @@ function loadEntityTypeData(version) {
 }
 exports.loadEntityTypeData = loadEntityTypeData;
 
-},{"./app.component":94}],102:[function(require,module,exports){
+},{"./app.component":94}],103:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -89774,7 +89874,7 @@ HistoryPanelComponent = __decorate([
 ], HistoryPanelComponent);
 exports.HistoryPanelComponent = HistoryPanelComponent;
 
-},{"./ApiCallDisplayHelpers":88,"./GraphExplorerComponent":89,"./app.component":94,"./history":104,"@angular/core":5,"moment":12}],103:[function(require,module,exports){
+},{"./ApiCallDisplayHelpers":88,"./GraphExplorerComponent":89,"./app.component":94,"./history":105,"@angular/core":5,"moment":12}],104:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -89838,7 +89938,7 @@ HistoryRowComponent = __decorate([
 ], HistoryRowComponent);
 exports.HistoryRowComponent = HistoryRowComponent;
 
-},{"./queryrow.component":109,"@angular/core":5,"moment":12}],104:[function(require,module,exports){
+},{"./queryrow.component":110,"@angular/core":5,"moment":12}],105:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var LocalStorageKeyGraphRequestHistory = "GRAPH_V4_REQUEST_HISTORY";
@@ -89855,7 +89955,7 @@ function loadHistoryFromLocalStorage() {
 }
 exports.loadHistoryFromLocalStorage = loadHistoryFromLocalStorage;
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loc_strings = {};
@@ -89868,7 +89968,7 @@ exports.loc_strings['ru-RU'] = { "To try the explorer, please ": "Чтобы о�
 exports.loc_strings['pt-BR'] = { "To try the explorer, please ": "Para experimentar o Explorador, ", "sign in": "entrar", " with your work or school account from Microsoft.": " com a sua conta corporativa ou de estudante da Microsoft.", "Submit": "Enviar", "Using demo tenant": "Usando o Locatário de Demonstração", "sign out": "sair", "History": "Histórico", "Method": "Método", "Query": "Consulta", "Status Code": "Código de Status", "Duration": "Duração", "Go": "Ir", "YES": "SIM", "NO": "NÃO", "request header": "cabeçalho da solicitação", "request body": "corpo da solicitação", "response": "resposta" };
 exports.loc_strings['zh-CN'] = { "To try the explorer, please ": "若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户", "sign in": "登录", " with your work or school account from Microsoft.": "。", "Submit": "提交", "Using demo tenant": "使用演示租户", "sign out": "注销", "History": "历史记录", "Method": "方法", "Query": "查询", "Status Code": "状态代码", "Duration": "持续时间", "Go": "转到", "YES": "是", "NO": "否", "request header": "请求标题", "request body": "请求正文", "response": "响应", "login to send requests": "登录以更改请求类型", "Share Query": "共享查询", "Share this link to let people try your current query in the Graph Explorer.": "共享此链接可让其他人在 Graph 浏览器中尝试执行当前查询。" };
 
-},{}],106:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -89951,15 +90051,11 @@ var MainColumnComponent = (function (_super) {
         api_explorer_jsviewer_1.initializeJsonViewer();
         api_explorer_jsviewer_1.initializeResponseHeadersViewer();
     };
-    MainColumnComponent.prototype.ngOnInit = function () {
-    };
+    MainColumnComponent.prototype.ngOnInit = function () { };
     MainColumnComponent.prototype.keyDownFunction = function (event) {
         if (event.keyCode == 13) {
             this.submit();
         }
-    };
-    MainColumnComponent.prototype.getAutocompleteOptions = function () {
-        return graph_structure_1.getUrlsFromServiceURL(this.GraphService, app_component_1.AppComponent.explorerValues.selectedVersion);
     };
     MainColumnComponent.prototype.getRelativeUrlFromGraphNodeLinks = function (links) {
         return links.map(function (x) { return x.name; }).join('/');
@@ -89970,42 +90066,31 @@ var MainColumnComponent = (function (_super) {
         if (possibleGraphPathArr.length == 0) {
             return;
         }
-        var possibleVersion = possibleGraphPathArr[0];
+        var possibleVersion = possibleGraphPathArr[0] || "v1.0";
         this.explorerValues.selectedVersion = possibleVersion;
     };
+    MainColumnComponent.prototype.getAutoCompleteOptions = function () {
+        return this.getMatches(app_component_1.AppComponent.explorerValues.endpointUrl);
+    };
     MainColumnComponent.prototype.getMatches = function (query) {
-        var _this = this;
-        return graph_structure_1.getUrlsFromServiceURL(this.GraphService, app_component_1.AppComponent.explorerValues.selectedVersion).then(function (urls) {
-            return graph_structure_1.constructGraphLinksFromFullPath(_this.GraphService, query).then(function (graph) {
-                var lastNode = graph.pop();
-                if (lastNode && lastNode.name.indexOf("?") != -1) {
-                    return [];
-                }
-                return urls.filter(function (option) { return option.indexOf(query) > -1; });
-            });
-        }).then(function (urls) {
-            var serviceTextLength = app_component_1.AppComponent.explorerValues.endpointUrl.length;
-            var useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 64;
-            return Promise.all(urls.map(function (url) {
-                if (!useLastPathSegmentOnly) {
-                    return {
-                        fullUrl: url,
-                        url: url
-                    };
-                }
-                return graph_structure_1.constructGraphLinksFromFullPath(_this.GraphService, url).then(function (links) {
-                    return {
-                        url: "/" + links[links.length - 1].name,
-                        fullUrl: url
-                    };
-                });
-            }));
-        }).catch(function (e) {
-            debugger;
-        }).then(function (a) {
-            debugger;
-            return a;
-        });
+        var urls = graph_structure_1.getUrlsFromServiceURL(this.GraphService, app_component_1.AppComponent.explorerValues.selectedVersion);
+        var currentGraphLinks = graph_structure_1.constructGraphLinksFromFullPath(this.GraphService, query);
+        if (!currentGraphLinks)
+            return [];
+        var lastNode = currentGraphLinks.pop();
+        if (lastNode && lastNode.name.indexOf("?") != -1) {
+            return [];
+        }
+        return urls.filter(function (option) { return option.indexOf(query) > -1; });
+    };
+    MainColumnComponent.prototype.getShortUrl = function (url) {
+        var serviceTextLength = app_component_1.AppComponent.explorerValues.endpointUrl.length;
+        var useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 50;
+        if (!useLastPathSegmentOnly) {
+            return url;
+        }
+        var links = graph_structure_1.constructGraphLinksFromFullPath(this.GraphService, url);
+        return "/" + links[links.length - 1].name;
     };
     MainColumnComponent.prototype.updateGraphVersionSelect = function () {
         var graphVersionSelectEl = this._graphVersionEl.element.nativeElement;
@@ -90050,14 +90135,14 @@ MainColumnComponent = __decorate([
     core_1.Component({
         providers: [api_explorer_svc_1.GraphService],
         selector: 'main-column',
-        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <md-input-container>\n            <input type=\"text\" mdInput (keydown)=\"keyDownFunction($event)\" [formControl]=\"myControl\" [(ngModel)]=\"explorerValues.endpointUrl\" [mdAutocomplete]=\"auto\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n        </md-input-container>\n\n        <md-autocomplete #auto=\"mdAutocomplete\">\n            <md-option *ngFor=\"let option of []\" [value]=\"option\">\n                {{ option }}\n            </md-option>\n        </md-autocomplete>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" title=\"LightningBolt\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
+        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <md-input-container>\n            <input type=\"text\" mdInput (keydown)=\"keyDownFunction($event)\" [formControl]=\"myControl\" [(ngModel)]=\"explorerValues.endpointUrl\" [mdAutocomplete]=\"auto\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n        </md-input-container>\n\n        <md-autocomplete #auto=\"mdAutocomplete\">\n            <md-option *ngFor=\"let option of getAutoCompleteOptions()\" [value]=\"option\">\n                {{ getShortUrl(option) }}\n            </md-option>\n        </md-autocomplete>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" title=\"LightningBolt\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
         styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -8px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n        }\n        md-autocomplete {\n            min-width: 100% !important;\n        }\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    md-input-container {\n        flex: 1;\n        margin-right: 8px;\n    }\n\n    #submitBtn {\n        height: 37px;\n        margin-top: 20px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n  "]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
 ], MainColumnComponent);
 exports.MainColumnComponent = MainColumnComponent;
 
-},{"./GraphExplorerComponent":89,"./api-explorer-jsviewer":92,"./api-explorer-svc":93,"./app.component":94,"./base":98,"./graph-structure":101,"@angular/core":5,"@angular/forms":6}],107:[function(require,module,exports){
+},{"./GraphExplorerComponent":89,"./api-explorer-jsviewer":92,"./api-explorer-svc":93,"./app.component":94,"./base":98,"./graph-structure":102,"@angular/core":5,"@angular/forms":6}],108:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -90088,7 +90173,7 @@ MethodBadgeComponent = __decorate([
 ], MethodBadgeComponent);
 exports.MethodBadgeComponent = MethodBadgeComponent;
 
-},{"@angular/core":5}],108:[function(require,module,exports){
+},{"@angular/core":5}],109:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendMail = {
@@ -90116,7 +90201,7 @@ exports.sendMail = {
     "saveToSentItems": "false"
 };
 
-},{}],109:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -90146,6 +90231,10 @@ var QueryRowComponent = (function (_super) {
     function QueryRowComponent() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    QueryRowComponent.prototype.queryKeyDown = function (event) {
+        if (event.keyCode == 13)
+            this.loadQueryIntoEditor(this.query);
+    };
     QueryRowComponent.prototype.getTitle = function () {
         return this.query.requestUrl;
     };
@@ -90161,13 +90250,13 @@ __decorate([
 QueryRowComponent = __decorate([
     core_1.Component({
         selector: 'query-row',
-        template: "\n    <div class=\"api-query\" (click)=\"loadQueryIntoEditor(this.query)\" (keydown)=\"loadQueryIntoEditor(this.query)\" [attr.title]=\"getTitle()\" [ngClass]=\"{restrict: (!isAuthenticated() && query.method != 'GET')}\" tabindex=\"0\">\n        <div class=\"row-1\">\n            <method-badge [query]=\"query\"></method-badge>\n            <span class=\"query\">{{getQueryText()}}</span>\n        </div>\n      <ng-content></ng-content>\n    </div>\n    <a class=\"doc-link\" *ngIf=\"query.docLink\" href=\"{{query.docLink}}\" target=\"_blank\"><i class=\"ms-Icon ms-Icon--Page\"></i></a>\n    ",
+        template: "\n    <div class=\"api-query\" (click)=\"loadQueryIntoEditor(this.query)\" (keydown)=\"queryKeyDown($event)\" [attr.title]=\"getTitle()\" [ngClass]=\"{restrict: (!isAuthenticated() && query.method != 'GET')}\" tabindex=\"0\">\n        <div class=\"row-1\">\n            <method-badge [query]=\"query\"></method-badge>\n            <span class=\"query\">{{getQueryText()}}</span>\n        </div>\n      <ng-content></ng-content>\n    </div>\n    <a class=\"doc-link\" *ngIf=\"query.docLink\" href=\"{{query.docLink}}\" target=\"_blank\"><i class=\"ms-Icon ms-Icon--Page\"></i></a>\n    ",
         styles: ["\n      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .doc-link:focus {\n          background: rgba(0,0,0,0.25);\n          outline: none;\n      }\n\n      .doc-link {\n          display: inline-block;\n          float: right;\n          position: relative;\n          top: -35px;\n          background: #2F2F2F;\n          line-height: 16px;\n          padding: 5px 11px 9px 12px;\n          margin-bottom: -35px;    \n          right: 12px;\n      }\n\n      .doc-link:hover {\n          background: rgba(0,0,0,0.25);\n          cursor: pointer;\n      }\n\n      .restrict:hover {\n        cursor: not-allowed;\n      }\n\n      .api-query {\n          cursor: pointer;\n          font-size: 13px;\n          line-height: 16px;\n          display: block;\n          border: 0;\n          background: 0 0;\n          font-weight: 500;\n          padding: 5px 5px 5px 12px;\n          left: 0;\n          text-align: left;\n          width: 100%;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis;\n          margin-left: -12px;\n      }\n\n      .row-1 {\n          display: inline;\n      }\n\n    .duration {\n        float: right;\n    }\n\n    i.ms-Icon.ms-Icon--Page {\n        float: right;\n        padding-top: 5px;\n    }\n\n\n"]
     })
 ], QueryRowComponent);
 exports.QueryRowComponent = QueryRowComponent;
 
-},{"./ApiCallDisplayHelpers":88,"./GraphExplorerComponent":89,"@angular/core":5}],110:[function(require,module,exports){
+},{"./ApiCallDisplayHelpers":88,"./GraphExplorerComponent":89,"@angular/core":5}],111:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -90247,7 +90336,7 @@ RequestEditorsComponent = RequestEditorsComponent_1 = __decorate([
 exports.RequestEditorsComponent = RequestEditorsComponent;
 var RequestEditorsComponent_1;
 
-},{"./GraphExplorerComponent":89,"./api-explorer-jseditor":91,"./app.component":94,"@angular/core":5}],111:[function(require,module,exports){
+},{"./GraphExplorerComponent":89,"./api-explorer-jseditor":91,"./app.component":94,"@angular/core":5}],112:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
@@ -90376,7 +90465,7 @@ function formatXml(xml) {
 exports.formatXml = formatXml;
 ;
 
-},{"./api-explorer-jseditor":91,"./app.component":94}],112:[function(require,module,exports){
+},{"./api-explorer-jseditor":91,"./app.component":94}],113:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -90437,7 +90526,7 @@ ResponseStatusBarComponent = __decorate([
 ], ResponseStatusBarComponent);
 exports.ResponseStatusBarComponent = ResponseStatusBarComponent;
 
-},{"./GraphExplorerComponent":89,"./app.component":94,"@angular/core":5}],113:[function(require,module,exports){
+},{"./GraphExplorerComponent":89,"./app.component":94,"@angular/core":5}],114:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -90480,12 +90569,12 @@ SampleCategoriesPanelComponent = __decorate([
     core_1.Component({
         selector: 'sample-categories-panel',
         styles: ["\n    .category-row {\n        margin-bottom: 15px;\n        padding: 0 50px;\n    }\n\n    .category-switch {\n        display: inline-block;\n        float: right;\n        width: 100px;\n    }\n\n    div.c-toggle button {\n        margin-top: 0px;\n    }\n\n    .ms-Panel-headerText {\n        margin-top: 0px;\n        margin-bottom: 35px;\n    }\n\n    .ms-Panel.ms-Panel--lg {\n        max-width: 544px;\n    }\n\n    div.c-toggle button:focus {\n        outline: none;\n    }\n\n"],
-        template: "\n    <div id=\"sample-categories-panel\" class=\"ms-Panel ms-Panel--lg\">\n        <button class=\"ms-Panel-closeButton ms-PanelAction-close\" tabindex=\"1\">\n            <i class=\"ms-Panel-closeIcon ms-Icon ms-Icon--Cancel\"></i>\n        </button>\n        <div class=\"ms-Panel-contentInner\">\n            <p class=\"ms-Panel-headerText\">{{getStr('Edit Sample Categories')}}</p>\n            <div class=\"ms-Panel-content\">\n                <div *ngFor=\"let category of categories\" class=\"category-row\">\n                    {{category.title}} ({{category.queries.length}})\n                    <div class=\"category-switch\">\n                        <div class=\"c-toggle\" (click)=\"toggleCategory(category)\">\n                            <button id=\"example-1\" name=\"example-1\" role=\"checkbox\" aria-checked=\"true\" aria-labelledby=\"c-label c-state-label-1\"></button>\n                            <span [attr.data-on-string]=\"getStr('On')\" [attr.data-off-string]=\"getStr('Off')\" id=\"c-state-label-1\">On</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n     ",
+        template: "\n    <div id=\"sample-categories-panel\" class=\"ms-Panel ms-Panel--lg\">\n        <button class=\"ms-Panel-closeButton ms-PanelAction-close\" tabindex=\"1\">\n            <i class=\"ms-Panel-closeIcon ms-Icon ms-Icon--Cancel\"></i>\n        </button>\n        <div class=\"ms-Panel-contentInner\">\n            <p class=\"ms-Panel-headerText\">{{getStr('Edit Sample Categories')}}</p>\n            <div class=\"ms-Panel-content\">\n                <div *ngFor=\"let category of categories\" class=\"category-row\">\n                    {{category.title}} ({{category.queries.length}})\n                    <div class=\"category-switch\">\n                        <div class=\"c-toggle\" (click)=\"toggleCategory(category)\">\n                            <button id=\"example-1\" name=\"example-1\" role=\"checkbox\" [attr.aria-checked]=\"category.enabled\" aria-labelledby=\"c-label c-state-label-1\"></button>\n                            <span [attr.data-on-string]=\"getStr('On')\" [attr.data-off-string]=\"getStr('Off')\" id=\"c-state-label-1\">On</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n     ",
     })
 ], SampleCategoriesPanelComponent);
 exports.SampleCategoriesPanelComponent = SampleCategoriesPanelComponent;
 
-},{"./GraphExplorerComponent":89,"./getting-started-queries":100,"@angular/core":5}],114:[function(require,module,exports){
+},{"./GraphExplorerComponent":89,"./getting-started-queries":101,"@angular/core":5}],115:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -90550,7 +90639,7 @@ ShareLinkBtnComponent = __decorate([
 ], ShareLinkBtnComponent);
 exports.ShareLinkBtnComponent = ShareLinkBtnComponent;
 
-},{"./GraphExplorerComponent":89,"@angular/core":5}],115:[function(require,module,exports){
+},{"./GraphExplorerComponent":89,"@angular/core":5}],116:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -90614,12 +90703,12 @@ SidebarComponent = __decorate([
     core_1.Component({
         selector: 'sidebar',
         template: "\n      <div id=\"explorer-sidebar\">\n        <div class=\"arrow-left\"></div>\n        <div>\n            <span id=\"explorer-title\" class=\"c-heading-3 panel-header\">{{getStr('Graph Explorer')}}</span>\n        </div>\n        <div class=\"c-drawer\">\n            <button id=\"auth-drawer-button\" class=\"c-glyph\" aria-expanded=\"true\" disabled=\"true\" aria-controls=\"authDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--Permissions\" aria-hidden=\"true\"></i>{{getStr('Authentication')}}</span></button>\n            <div id=\"authDrawer\" class=\"panel-content\">\n\n              <authentication></authentication>\n            </div>\n        </div>\n\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"refineDrawer\">\n                <span class=\"c-heading-5 panel-header\"><img id=\"getting-started-svg\" src=\"{{getAssetPath('assets/images/rocket1.svg')}}\"/>{{getStr('Sample Queries')}}</span></button>\n            <div id=\"refineDrawer\" class=\"panel-content\">\n                <div>\n                    <div *ngFor=\"let category of categories\" class=\"sample-category\" [hidden]=\"!category.enabled\">\n                        <div><span class=\"category-heading\">{{category.title}}</span></div>\n                        <query-row [query]=\"query\" *ngFor=\"let query of category.queries\"></query-row>\n                    </div>\n                    <a href=\"#\" id=\"manage-categories\" class=\"c-hyperlink\" tabindex=0 (click)=\"manageCategories()\">{{getStr('show more groups')}}</a>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"historyDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--History\" aria-hidden=\"true\"></i>{{getStr('History')}}</span></button>\n            <div id=\"historyDrawer\" class=\"panel-content\">\n                <history-query-row *ngFor=\"let query of getRequestHistory(5)\" [query]=\"query\"></history-query-row>\n                <a href=\"#\" id=\"show-full-history\" (click)=\"manageHistory()\" [hidden]=\"getRequestHistory().length == 0\" class=\"c-hyperlink\" tabindex=0>{{getStr('Show More')}}</a>\n            </div>\n        </div>\n\n  </div>\n\n  ",
-        styles: ["\n    #explorer-sidebar {\n        background: #2F2F2F !important;\n        height: 1024px;\n        padding: 0px;\n        color: white;\n      \tfont-family: \"Segoe UI\", Frutiger, \"Frutiger Linotype\", \"Dejavu Sans\", \"Helvetica Neue\", Arial, sans-serif;\n    }\n\n    #explorer-sidebar .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    #getting-started-svg {\n        display: inline-block;\n        width: 29px;\n        height: 29px;\n        margin: -2px 4px 2px -4px;\n    }\n\n    a#show-full-history, a#manage-categories {\n        text-align: right;\n        padding-right: 16px;\n        width: 100%;\n        display: block;\n    }\n\n    span#explorer-title {\n        margin-left: 40px;\n        margin-top: 14px;\n    }\n\n    .c-drawer {\n        padding-bottom: 5px;\n    }\n\n    #explorer-sidebar .panel-header {\n        font-family: \"Segoe UI\",\"wf_segoe-ui_normal\",\"Arial\",sans-serif;\n        display: inline-block;\n        padding: 0px;\n        padding-left: 6px;\n        font-weight: 100;\n        color: white;\n    }\n\n    #explorer-sidebar .panel-content {\n        padding-left: 28px;\n        padding-right: 13px;\n        font-size: 13px;\n    }\n\n    #explorer-sidebar .panel-header i.ms-Icon{\n        margin-right: 10px;\n    }\n\n    /* Remove drawer carrot on auth */\n    #auth-drawer-button:after{\n        content:none;\n    }\n\n    .arrow-left {\n        border-top: 18px solid transparent;\n        border-bottom: 18px solid transparent;\n        border-right: 18px solid white;\n        position: relative;\n        right: -10px;\n        top: 13px;\n        margin-bottom: -45px;\n    }\n\n    button.c-glyph {\n        color: white;\n    }\n\n    #authDrawer {\n        min-height: 96px;\n    }\n\n    .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    .category-heading {\n        font-size: 17px;\n        font-weight: 300;\n        padding-bottom: 5px;\n        display: block;\n    }\n\n    .sample-category {\n        margin-bottom: 15px;\n    }\n\n\n    a#show-full-history {\n        margin-top: 15px;\n    }\n    a#show-full-history[hidden] {\n        display: none;\n    }\n  "]
+        styles: ["\n    #explorer-sidebar {\n        background: #2F2F2F !important;\n        min-height: 1024px;\n        padding: 0px;\n        color: white;\n      \tfont-family: \"Segoe UI\", Frutiger, \"Frutiger Linotype\", \"Dejavu Sans\", \"Helvetica Neue\", Arial, sans-serif;\n    }\n\n    #explorer-sidebar .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    #getting-started-svg {\n        display: inline-block;\n        width: 29px;\n        height: 29px;\n        margin: -2px 4px 2px -4px;\n    }\n\n    a#show-full-history, a#manage-categories {\n        text-align: right;\n        padding-right: 16px;\n        width: 100%;\n        display: block;\n    }\n\n    span#explorer-title {\n        margin-left: 40px;\n        margin-top: 14px;\n    }\n\n    .c-drawer {\n        padding-bottom: 5px;\n    }\n\n    #explorer-sidebar .panel-header {\n        font-family: \"Segoe UI\",\"wf_segoe-ui_normal\",\"Arial\",sans-serif;\n        display: inline-block;\n        padding: 0px;\n        padding-left: 6px;\n        font-weight: 100;\n        color: white;\n    }\n\n    #explorer-sidebar .panel-content {\n        padding-left: 28px;\n        padding-right: 13px;\n        font-size: 13px;\n    }\n\n    #explorer-sidebar .panel-header i.ms-Icon{\n        margin-right: 10px;\n    }\n\n    /* Remove drawer carrot on auth */\n    #auth-drawer-button:after{\n        content:none;\n    }\n\n    .arrow-left {\n        border-top: 18px solid transparent;\n        border-bottom: 18px solid transparent;\n        border-right: 18px solid white;\n        position: relative;\n        right: -10px;\n        top: 13px;\n        margin-bottom: -45px;\n    }\n\n    button.c-glyph {\n        color: white;\n    }\n\n    #authDrawer {\n        min-height: 96px;\n    }\n\n    .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    .category-heading {\n        font-size: 17px;\n        font-weight: 300;\n        padding-bottom: 5px;\n        display: block;\n    }\n\n    .sample-category {\n        margin-bottom: 15px;\n    }\n\n\n    a#show-full-history {\n        margin-top: 15px;\n    }\n    a#show-full-history[hidden] {\n        display: none;\n    }\n  "]
     })
 ], SidebarComponent);
 exports.SidebarComponent = SidebarComponent;
 
-},{"./GraphExplorerComponent":89,"./getting-started-queries":100,"@angular/core":5}],116:[function(require,module,exports){
+},{"./GraphExplorerComponent":89,"./getting-started-queries":101,"@angular/core":5}],117:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
@@ -90635,7 +90724,7 @@ function createHeaders(explorerHeaders) {
 }
 exports.createHeaders = createHeaders;
 
-},{"@angular/http":7}],117:[function(require,module,exports){
+},{"@angular/http":7}],118:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
@@ -90644,5 +90733,5 @@ var core_1 = require("@angular/core");
 core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
-},{"./app/app.module":95,"@angular/core":5,"@angular/platform-browser-dynamic":9}]},{},[117])(117)
+},{"./app/app.module":95,"@angular/core":5,"@angular/platform-browser-dynamic":9}]},{},[118])(118)
 });
