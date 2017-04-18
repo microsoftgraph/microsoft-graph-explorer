@@ -27,10 +27,12 @@ declare let mwf:any;
         </div>
 
         <!-- version button -->
-        <div id="graph-version-select" class="c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu" #graphVersion>
-            <select>
-                <option *ngFor="let version of GraphVersions">{{version}}</option>
-            </select>
+        <div id="graph-version-select">
+            <div class="c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu" #graphVersion>
+                <select>
+                    <option *ngFor="let version of GraphVersions">{{version}}</option>
+                </select>
+            </div>
         </div>
 
         <div id="graph-request-url" class="c-search" autocomplete="off" name="form1">
@@ -247,6 +249,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     updateVersionFromEndpointUrl() {
         // if the user typed in a different version, change the dropdown
         let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl+"/");
+        if (graphPathStartingWithVersion.length < 2) return;
         let possibleGraphPathArr = graphPathStartingWithVersion[1].split('/');
         if (possibleGraphPathArr.length == 0) {
             return;

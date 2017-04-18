@@ -68,9 +68,11 @@ export class ShareLinkBtnComponent extends GraphExplorerComponent implements Aft
     }
 
     extractGraphEndpoint(fullRequestUrl) {
+        if (!fullRequestUrl) return;
         let requestUrl = fullRequestUrl.split('.com')
         requestUrl.shift();
         
+        if (requestUrl.length == 0) return;
         var requestUrlComponents = requestUrl[0].split('/');
         requestUrlComponents.shift(); //remove empty item
         requestUrlComponents.shift(); //remove version

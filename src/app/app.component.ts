@@ -13,7 +13,7 @@ import { Response, Headers } from '@angular/http';
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
 import * as moment from "moment"
-import { createHeaders } from "./util";
+import { createHeaders, getParameterByName } from "./util";
 import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
 import { parseMetadata } from "./graph-structure";
 
@@ -101,9 +101,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   };
 
   static explorerValues:ExplorerValues = {
-      endpointUrl: AppComponent.Options.GraphUrl + '/v1.0/me/',
-      selectedOption: "GET",
-      selectedVersion: "v1.0",
+      endpointUrl: getParameterByName("request") || AppComponent.Options.GraphUrl + '/v1.0/me/',
+      selectedOption: getParameterByName("method") as RequestType || "GET",
+      selectedVersion: getParameterByName("version") || "v1.0",
       authentication: {},
       showImage: false,
       requestInProgress: false,
