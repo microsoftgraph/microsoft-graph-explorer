@@ -3,12 +3,10 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { AuthenticationStatus, ExplorerOptions, GraphApiCall, SampleQuery } from "./base";
+import { GraphApiCall } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AppComponent } from "./app.component";
 import { getString } from "./api-explorer-helpers";
 import { AppModule } from "./app.module";
-import { GraphService } from "./api-explorer-svc";
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
 
 @Component({
@@ -18,28 +16,32 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <span class="query">{{getQueryText()}}</span>
+            <a onclick="this.blur();" class="query-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank">
+                <i class="ms-Icon ms-Icon--Page"></i>
+            </a>
+            <div onclick="this.blur();" class="query-link restrict" *ngIf="query.method != 'GET' && !isAuthenticated()" [attr.title]="getStr('Login to try this request')">
+                <i class="ms-Icon ms-Icon--Permissions"></i>
+            </div>
+
         </div>
       <ng-content></ng-content>
     </button>
-    <a onclick="this.blur();" class="doc-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank"><i class="ms-Icon ms-Icon--Page"></i></a>
     `,
     styles: [`
-      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .doc-link:focus {
+      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {
           background: rgba(0,0,0,0.25);
           outline: none;
       }
 
-      .doc-link {
-          display: inline-block;
-          float: right;
-          position: relative;
-          top: -32px;
-          background: #2F2F2F;
-          padding: 5px 11px 9px 12px;
-          margin-bottom: -35px;
+      .query-link {
+            background: #2F2F2F;
+            padding: 8px 11px 7px 12px;
+            float: right;
+            margin: -5px;
+            margin-left: 5px;
       }
 
-      .doc-link:hover {
+      .query-link:hover {
           background: rgba(0,0,0,0.25);
           cursor: pointer;
       }
@@ -75,8 +77,6 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
     }
 
     i.ms-Icon.ms-Icon--Page {
-        float: right;
-        padding-top: 5px;
     }
 
 
