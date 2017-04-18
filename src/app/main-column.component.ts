@@ -19,7 +19,6 @@ declare let mwf:any;
   selector: 'main-column',
   template: `
   <div id="request-bar-row-form" layout="row" layout-align="start center">
-
         <!-- HTTP METHOD -->
         <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption" class="c-select f-border first-row-mobile bump-flex-row-mobile">
             <select [disabled]="!isAuthenticated()">
@@ -38,7 +37,7 @@ declare let mwf:any;
         </div>
 
         <md-input-container>
-            <input type="text" mdInput (keydown)="keyDownFunction($event)" [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <input type="text" mdInput [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         </md-input-container>
 
         <md-autocomplete #auto="mdAutocomplete">
@@ -51,7 +50,6 @@ declare let mwf:any;
             <span [hidden]="explorerValues.requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
             <div class="ms-Spinner" [hidden]="!explorerValues.requestInProgress"></div>
         </button>
-
     </div>
     <request-editors></request-editors>
     <div id="spacer-1"></div>
@@ -208,9 +206,13 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     }
 
     keyDownFunction(event) {
-        if (event.keyCode == 13) {
-            this.submit();
-        }
+        // debugger
+        // if (event.target.type !== 'textarea') {
+        //     event.preventDefault();
+        // }
+        // if (event.keyCode == 13) { // "enter" == 13
+        //     this.submit();
+        // }
     }
 
     getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
