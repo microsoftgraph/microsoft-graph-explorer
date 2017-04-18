@@ -65,8 +65,8 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
             <div id="headers-editor">
                 <table>
                     <tr>
-                        <th>Key</th>
-                        <th>Value</th>
+                        <th>{{getStr('Key')}}</th>
+                        <th>{{getStr('Value')}}</th>
                     </tr>
                     <tr *ngFor="let header of explorerValues.headers" class="header-row">
                         <td>

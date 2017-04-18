@@ -50,5 +50,8 @@
   "Off": "Off",
   "Remove All": "Remove All",
 
-  "Enter new header": "Enter new header"
+  "Enter new header": "Enter new header",
+
+  "Key": "Key",
+  "Value": "Value"
 }

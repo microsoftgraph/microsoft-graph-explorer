@@ -39,10 +39,8 @@ import { AppComponent } from "./app.component";
       }
 
       .noPicture .ms-Persona-details {
-          padding-left: 20px;
+          padding-left: 17px;
       }
-
-
 `],
   template: `
     <div *ngIf="getAuthenticationStatus() == 'anonymous'">
