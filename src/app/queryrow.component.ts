@@ -41,6 +41,10 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
             margin-left: 5px;
       }
 
+      .query-link:hover + .query-link {
+          background-color: rgb(35, 35, 35);
+      }
+
       .query-link:hover {
           background: rgba(0,0,0,0.25);
           cursor: pointer;

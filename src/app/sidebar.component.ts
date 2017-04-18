@@ -105,7 +105,6 @@ declare let fabric;
 
     #explorer-sidebar .panel-content {
         padding-left: 28px;
-        padding-right: 13px;
         font-size: 13px;
     }
 
