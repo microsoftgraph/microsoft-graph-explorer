@@ -4,7 +4,7 @@
 
 import { GraphApiCall } from "./base";
 
-const LocalStorageKeyGraphRequestHistory = "GRAPH_V4_REQUEST_HISTORY";
+const LocalStorageKeyGraphRequestHistory = "GRAPH_V4.1_REQUEST_HISTORY";
 
 export function saveHistoryToLocalStorage(requestHistory:GraphApiCall[]) {
     localStorage.setItem(LocalStorageKeyGraphRequestHistory, JSON.stringify(requestHistory));

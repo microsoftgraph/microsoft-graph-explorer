@@ -5,7 +5,7 @@
 import { getString } from "./api-explorer-helpers";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
-import { ExplorerValues, GraphApiCall, SampleQuery } from "./base";
+import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 
@@ -49,25 +49,39 @@ export class GraphExplorerComponent {
         AppComponent.explorerValues.headers = query.headers;
       } else {
         AppComponent.explorerValues.headers = []
-        AppComponent.explorerValues.headers.push({
-            name: "",
-            value: ""
-        });
-
       }
-      // @todo call RequestEditorsComponent.addEmptyHeader()
-      AppComponent.explorerValues.headers.push({
-          name: "",
-          value: ""
-      });
+
+      this.shouldEndWithOneEmptyHeader();
 
       AppComponent.explorerValues.postBody = "";
       let postBodyEditorSession = getRequestBodyEditor().getSession();
       if (query.postBodyTemplateName) {
         AppComponent.explorerValues.postBody = JSON.stringify(query.postBodyTemplateContents, null, 4);
+      } else if (query.postBody) {
+        AppComponent.explorerValues.postBody = query.postBody;
       }
 
       postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
 
   }
+  shouldEndWithOneEmptyHeader() {
+    let lastHeader = this.getLastHeader();
+    if (lastHeader && lastHeader.name == "" && lastHeader.value == "") {
+      return;
+    } else {
+      this.addEmptyHeader();
+    }
+  }
+
+  addEmptyHeader() {
+      AppComponent.explorerValues.headers.push({
+          name: "",
+          value: ""
+      })
+  }
+
+  getLastHeader():GraphRequestHeader {
+      return this.explorerValues.headers[this.explorerValues.headers.length - 1]
+  }
+
 }

@@ -18,19 +18,19 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Getting Started",
     "method": "GET",
     "humanName": "my files",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/photo/$value",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get"
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/photo/$value"
 },{
     "category": "Getting Started",
     "method": "GET",
     "humanName": "my photo",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/manager",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get"
 },{
     "category": "Getting Started",
     "method": "GET",
     "humanName": "my mail",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/messages"
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/messages",
+    "docLink": "https://graph.microsoft.com/v1.0/me/messages"
 },{
     "category": "Getting Started",
     "method": "GET",
@@ -41,12 +41,12 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "my manager",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/manager",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager"
+    "docLink": "https://graph.microsoft.com/v1.0/me/manager"
 },{
     "category": "Users",
     "method": "GET",
     "humanName": "my direct reports",
-    "requestUrl": "https://graph.microsoft.com/v1.0/directReports",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/directReports",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports"
 },{
     "category": "Outlook",
@@ -74,7 +74,14 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "Send an email",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/sendMail",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail",
+    "postBodyTemplateName": "sendMail",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ]
 },{
     "category": "OneDrive",
     "method": "GET",

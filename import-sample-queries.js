@@ -1,6 +1,6 @@
-var fs = require('fs');
+let fs = require('fs');
 
-var lineReader = require('readline').createInterface({
+let lineReader = require('readline').createInterface({
   input: fs.createReadStream('sample-queries.csv')
 });
 
@@ -10,7 +10,8 @@ let knownHeaders = {
   "Query title (max length: 64 chars)": "humanName",
   "Query URL": "requestUrl",
   "Doc Link": "docLink",
-  "Post template file name": "postBodyTemplateName"
+  "Post template name": "postBodyTemplateName",
+  "Headers": 'headers'
 }
 
 let schema, queries = [];
@@ -100,9 +101,29 @@ function cleanupSampleQuery(sampleQuery) {
 
   // remove quotes on URL
 
-  if (sampleQuery.requestUrl && sampleQuery.requestUrl[0] == '"')
-    sampleQuery.requestUrl = JSON.parse(sampleQuery.requestUrl)
+  if (sampleQuery.requestUrl && sampleQuery.requestUrl[0] == '"') {
+    try {
+      sampleQuery.requestUrl = JSON.parse(sampleQuery.requestUrl);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   if (sampleQuery.docLink && sampleQuery.docLink[0] == '"')
     sampleQuery.docLink = JSON.parse(sampleQuery.docLink)
+
+
+  if (sampleQuery.headers) {
+    let headers = sampleQuery.headers.split(";");
+    sampleQuery.headers = [];
+    for (let header of headers) {
+      if (!header) continue;
+      let name = header.split(":")[0].trim();
+      let value = header.split(":")[1].trim();
+      sampleQuery.headers.push({
+        name: name,
+        value: value
+      })
+    }
+  }
 }

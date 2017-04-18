@@ -66,9 +66,9 @@ declare let fabric;
     }
 
     #sample-queries-scroll {
-        max-height: 400px;
-        overflow-y: auto;
-        overflow-x: hidden;
+        // max-height: 400px;
+        // overflow-y: auto;
+        // overflow-x: hidden;
     }
 
     #getting-started-svg {

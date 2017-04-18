@@ -92,8 +92,7 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
 })
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
     ngAfterViewInit(): void {
-        RequestEditorsComponent.addEmptyHeader()
-        RequestEditorsComponent.addEmptyHeader()
+        this.addEmptyHeader();
     }
 
     initPostBodyEditor() {
@@ -102,19 +101,8 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
         postBodyEditor.getSession().setMode("ace/mode/javascript");
     }
 
-    static addEmptyHeader() {
-        AppComponent.explorerValues.headers.push({
-            name: "",
-            value: ""
-        })
-    }
-
     isLastHeader(header:GraphRequestHeader) {
         return header == this.getLastHeader();
-    }
-
-    getLastHeader() {
-        return this.explorerValues.headers[this.explorerValues.headers.length - 1]
     }
 
     getPlaceholder(header:GraphRequestHeader) {
@@ -135,7 +123,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
 
     createNewHeaderField() {
         if (this.getLastHeader().name != "") {
-            RequestEditorsComponent.addEmptyHeader()
+            this.addEmptyHeader()
         }
     }
 }
