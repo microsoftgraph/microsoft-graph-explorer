@@ -149,6 +149,10 @@ declare let mwf:any;
         display: none;
     }
 
+    .c-menu.f-auto-suggest-scroll {
+        max-height: 300px;
+    }
+
   `]
 })
 
