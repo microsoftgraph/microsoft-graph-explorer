@@ -14,7 +14,6 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms'
 import { SidebarComponent } from "./sidebar.component";
 import { QueryRowComponent } from "./queryrow.component";
 import { ExplorerOptions } from "./base";
-import { MaterialModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
 import { HistoryRowComponent } from './history-query.component'
 import { HistoryPanelComponent } from "./history-panel.component";
@@ -25,7 +24,7 @@ import { RequestEditorsComponent } from "./request-editors.component";
 import { ShareLinkBtnComponent } from "./share-link-btn.component";
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, MaterialModule ],
+  imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule ],
   declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent ],
   bootstrap:    [ AppComponent ]
 })

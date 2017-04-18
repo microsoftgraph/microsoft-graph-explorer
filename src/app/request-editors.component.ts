@@ -4,9 +4,8 @@
 
 import { Component, AfterViewInit } from '@angular/core';
 
-import { AuthenticationStatus, GraphRequestHeader } from "./base";
+import { GraphRequestHeader } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AppComponent } from "./app.component";
 import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jseditor";
 
 @Component({

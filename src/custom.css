@@ -93,8 +93,6 @@
     margin-bottom: -15px;
 }
 
-
-/*override mwf*/
-ul.c-menu {
-    width: 100px !important;
+.m-auto-suggest .c-menu-item strong {
+    font-weight: normal;
 }

@@ -20,7 +20,7 @@ declare let mwf:any;
   template: `
   <div id="request-bar-row-form" layout="row" layout-align="start center">
         <!-- HTTP METHOD -->
-        <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption" class="c-select f-border first-row-mobile bump-flex-row-mobile">
+        <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption" class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu">
             <select [disabled]="!isAuthenticated()">
                 <option *ngFor="let choice of methods">{{choice}}</option>
             </select>
@@ -29,22 +29,25 @@ declare let mwf:any;
         <!-- version button -->
 
         <div id="graph-version-select">
-            <div class="c-select f-border bump-flex-row-mobile graph-version" #graphVersion>
+            <div class="c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu" #graphVersion>
                 <select>
                     <option *ngFor="let version of GraphVersions">{{version}}</option>
                 </select>
             </div>
         </div>
 
-        <md-input-container>
-            <input type="text" mdInput [formControl]="myControl" [(ngModel)]="explorerValues.endpointUrl" [mdAutocomplete]="auto" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-        </md-input-container>
+        <div id="graph-request-url" class="c-search" autocomplete="off" name="form1">
+            <input [(ngModel)]="explorerValues.endpointUrl" role="combobox" aria-controls="auto-suggest-default-2" aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
-        <md-autocomplete #auto="mdAutocomplete">
-            <md-option *ngFor="let option of getAutoCompleteOptions()" [value]="option">
-                {{ getShortUrl(option) }}
-            </md-option>
-        </md-autocomplete>
+            <div class="m-auto-suggest" id="auto-suggest-default-2" role="group">
+                <ul class="c-menu f-auto-suggest-scroll" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox">
+
+                </ul>
+                <ul class="c-menu f-auto-suggest-no-results" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0">
+
+                </ul>
+            </div>
+        </div>
 
         <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" id="submitBtn" (click)="submit()">
             <span [hidden]="explorerValues.requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
@@ -100,9 +103,6 @@ declare let mwf:any;
             order: 1;
             margin: 0px auto;
         }
-        md-autocomplete {
-            min-width: 100% !important;
-        }
     }
 
     .c-select:after {
@@ -113,9 +113,10 @@ declare let mwf:any;
         max-width: 300px;
     }
 
-    md-input-container {
+    #graph-request-url {
         flex: 1;
         margin-right: 8px;
+        max-width: 100%;
     }
 
     #submitBtn {
@@ -134,6 +135,18 @@ declare let mwf:any;
 
     button.c-button[type=submit]:focus:not(.x-hidden-focus) {
         outline: #000 solid 1px !important;
+    }
+
+
+    /*override mwf*/
+    .fixed-with-mwf-menu ul.c-menu {
+        width: 100px !important;
+    }
+    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {
+        max-width: 100%;
+    }
+    .c-menu.f-auto-suggest-no-results {
+        display: none;
     }
 
   `]
@@ -187,6 +200,22 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         initializeJsonViewer();
         initializeResponseHeadersViewer();
 
+        mwf.ComponentFactory.create([{
+            component: mwf.AutoSuggest,
+            callback: (autoSuggests) => {
+                if (autoSuggests && (autoSuggests.length > 0)) {
+                    let autoSuggest = autoSuggests[0];
+                    if (!!autoSuggest) {
+                        autoSuggest.subscribe({
+                            onMatchPatternChanged: (notification) => {
+                                autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: this.getShortUrl(s) }}));
+                            }
+                        });
+                    }
+                }
+            }
+        }]);
+
     }
 
     ngOnInit() {}
@@ -203,16 +232,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     submit = () => {
         if (this.explorerValues.requestInProgress) return;
         AppComponent.executeExplorerQuery();
-    }
-
-    keyDownFunction(event) {
-        // debugger
-        // if (event.target.type !== 'textarea') {
-        //     event.preventDefault();
-        // }
-        // if (event.keyCode == 13) { // "enter" == 13
-        //     this.submit();
-        // }
     }
 
     getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {

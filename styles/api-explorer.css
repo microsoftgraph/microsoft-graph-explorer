@@ -262,22 +262,6 @@ md-autocomplete-wrap {
 }
 
 
-/* Hide md-autocomplete progress bar*/
-/* https://github.com/angular/material/issues/5428 */
-md-autocomplete > md-autocomplete-wrap > md-progress-linear {
-    display: none;
-}
-
-/* Frontdoor css changes */
-md-autocomplete button {
-    min-width: inherit;
-}
-
-
-md-autocomplete-wrap input:focus {
-    background-color: transparent !important;
-}
-
 /* visualizer*/
 .links line {
     stroke: #999;
@@ -331,20 +315,6 @@ md-autocomplete-wrap input:focus {
 }
 /*Hide scrollbar on dropdown*/
 
-
-md-autocomplete-wrap.md-whiteframe-z1 {
-    box-shadow: none;
-    border: 1px solid rgba(0,0,0,.6) !important;
-    height: 38px;
-}
-
-md-autocomplete.ng-isolate-scope.flex {
-    margin-top: 4px;
-}
-
-md-autocomplete-wrap.md-whiteframe-z1 input {
-    height: 35px;
-}
 
 
 
