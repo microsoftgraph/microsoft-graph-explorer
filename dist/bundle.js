@@ -68135,9 +68135,9 @@ AppComponent.Options = {
     PathToBuildDir: ""
 };
 AppComponent.explorerValues = {
-    endpointUrl: AppComponent_1.Options.GraphUrl + '/v1.0/me/',
-    selectedOption: "GET",
-    selectedVersion: "v1.0",
+    endpointUrl: util_1.getParameterByName("request") || AppComponent_1.Options.GraphUrl + '/v1.0/me/',
+    selectedOption: util_1.getParameterByName("method") || "GET",
+    selectedVersion: util_1.getParameterByName("version") || "v1.0",
     authentication: {},
     showImage: false,
     requestInProgress: false,
@@ -69093,6 +69093,8 @@ var MainColumnComponent = (function (_super) {
     };
     MainColumnComponent.prototype.updateVersionFromEndpointUrl = function () {
         var graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(app_component_1.AppComponent.Options.GraphUrl + "/");
+        if (graphPathStartingWithVersion.length < 2)
+            return;
         var possibleGraphPathArr = graphPathStartingWithVersion[1].split('/');
         if (possibleGraphPathArr.length == 0) {
             return;
@@ -69166,7 +69168,7 @@ MainColumnComponent = __decorate([
     core_1.Component({
         providers: [api_explorer_svc_1.GraphService],
         selector: 'main-column',
-        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\" class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n            <select>\n                <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n            </select>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\">\n\n                </ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" title=\"LightningBolt\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
+        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\">\n\n                </ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" title=\"LightningBolt\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
         styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -8px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 37px;\n        margin-top: 20px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    /*override mwf*/\n    .fixed-with-mwf-menu ul.c-menu {\n        width: 100px !important;\n    }\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n\n\n  "]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
@@ -69640,8 +69642,12 @@ var ShareLinkBtnComponent = (function (_super) {
         return window.location.origin + window.location.pathname + "?request=" + this.extractGraphEndpoint(fullRequestUrl) + "&method=" + action + "&version=" + version;
     };
     ShareLinkBtnComponent.prototype.extractGraphEndpoint = function (fullRequestUrl) {
+        if (!fullRequestUrl)
+            return;
         var requestUrl = fullRequestUrl.split('.com');
         requestUrl.shift();
+        if (requestUrl.length == 0)
+            return;
         var requestUrlComponents = requestUrl[0].split('/');
         requestUrlComponents.shift();
         requestUrlComponents.shift();
@@ -69742,6 +69748,18 @@ function createHeaders(explorerHeaders) {
     return h;
 }
 exports.createHeaders = createHeaders;
+function getParameterByName(name, url) {
+    if (!url)
+        url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
+    if (!results)
+        return null;
+    if (!results[2])
+        return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+exports.getParameterByName = getParameterByName;
 
 },{"@angular/http":7}],82:[function(require,module,exports){
 "use strict";
