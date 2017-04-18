@@ -27,13 +27,10 @@ declare let mwf:any;
         </div>
 
         <!-- version button -->
-
-        <div id="graph-version-select">
-            <div class="c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu" #graphVersion>
-                <select>
-                    <option *ngFor="let version of GraphVersions">{{version}}</option>
-                </select>
-            </div>
+        <div id="graph-version-select" class="c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu" #graphVersion>
+            <select>
+                <option *ngFor="let version of GraphVersions">{{version}}</option>
+            </select>
         </div>
 
         <div id="graph-request-url" class="c-search" autocomplete="off" name="form1">
@@ -98,13 +95,6 @@ declare let mwf:any;
         min-width: inherit;
     }
 
-    @media (max-width: 639px) {
-        .bump-flex-row-mobile {
-            order: 1;
-            margin: 0px auto;
-        }
-    }
-
     .c-select:after {
         display: none;
     }
@@ -132,7 +122,6 @@ declare let mwf:any;
         margin-bottom: 50px;
     }
 
-
     button.c-button[type=submit]:focus:not(.x-hidden-focus) {
         outline: #000 solid 1px !important;
     }
@@ -152,6 +141,19 @@ declare let mwf:any;
     .c-menu.f-auto-suggest-scroll {
         max-height: 300px;
     }
+
+        
+    /*mobile*/
+
+
+    @media (max-width: 639px) {
+        .bump-flex-row-mobile {
+            order: 1;
+            margin: 0px auto;
+            margin-top: 20px;
+        }
+    }
+
 
   `]
 })

@@ -158,6 +158,13 @@ declare let fabric;
     a#show-full-history[hidden] {
         display: none;
     }
+    
+    @media (max-width: 639px) {
+        #explorer-sidebar {
+            min-height: inherit;
+            padding-bottom: 15px;
+        }
+    }
   `]
 })
 export class SidebarComponent extends GraphExplorerComponent implements AfterViewInit {
