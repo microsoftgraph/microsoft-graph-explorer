@@ -58,6 +58,12 @@ import { saveHistoryToLocalStorage } from "./history";
         text-align: right;
         padding-right: 80px;
     }
+
+    
+    tr.request-history-query.restrict:hover td {
+        cursor: not-allowed !important;
+    }
+
 `],
   template: `
     <div id="history-panel" class="ms-Panel ms-Panel--xl">
@@ -79,12 +85,12 @@ import { saveHistoryToLocalStorage } from "./history";
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let query of getRequestHistory()" class="request-history-query">
-                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();"><method-badge [query]="query"></method-badge></td>
-                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{getQueryText(query)}}</td>
-                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.relativeDate}}</td>
-                            <td (click)="loadQueryIntoEditor(query);closeHistoryPanel();"><span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span></td>
-                            <td class="duration" (click)="loadQueryIntoEditor(query);closeHistoryPanel();">{{query.duration}} {{getStr('milliseconds')}}</td>
+                        <tr *ngFor="let query of getRequestHistory()" class="request-history-query" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}">
+                            <td (click)="handleQueryClick(query)"><method-badge [query]="query"></method-badge></td>
+                            <td (click)="handleQueryClick(query)">{{getQueryText(query)}}</td>
+                            <td (click)="handleQueryClick(query)">{{query.relativeDate}}</td>
+                            <td (click)="handleQueryClick(query)"><span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span></td>
+                            <td class="duration" (click)="handleQueryClick(query)">{{query.duration}} {{getStr('milliseconds')}}</td>
                             <td class="remove-query" (click)="removeQueryFromHistory(query)"><i class="ms-Icon ms-Icon--Cancel"></i></td>
                         </tr>
                     </tbody>
@@ -134,5 +140,14 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
     clearHistory() {
         AppComponent.requestHistory = [];
         saveHistoryToLocalStorage(AppComponent.requestHistory)
+    }
+
+    handleQueryClick(query: GraphApiCall) {
+        if (!this.isAuthenticated() && query.method != 'GET') {
+            return;
+        }
+
+        this.loadQueryIntoEditor(query);
+        this.closeHistoryPanel();
     }
 }
