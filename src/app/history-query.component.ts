@@ -15,6 +15,7 @@ import * as moment from "moment"
 @Component({
   selector: 'history-query-row',
   template: `
+  {{displayKeyIcon}}
     <query-row [query]="query">
         <div class="history-row-2">
             <span class="status-code" [ngClass]="successClass">{{query.statusCode}}</span>
@@ -56,6 +57,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
     constructor(private _changeDetectionRef : ChangeDetectorRef) {
         super();
     }
+
     updateMomentRef: number;
     ngOnInit(): void {
         this.updateMomentRef = setInterval(() => {

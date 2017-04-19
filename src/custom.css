@@ -97,3 +97,9 @@
 .m-auto-suggest .c-menu-item strong {
     font-weight: normal;
 }
+
+
+/*override mwf*/
+.fixed-with-mwf-menu ul.c-menu {
+    width: 100px !important;
+}

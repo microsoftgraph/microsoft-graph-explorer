@@ -19,7 +19,7 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
             <a onclick="this.blur();" class="query-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank">
                 <i class="ms-Icon ms-Icon--Page"></i>
             </a>
-            <div onclick="this.blur();" class="query-link restrict" *ngIf="query.method != 'GET' && !isAuthenticated()" [attr.title]="getStr('Login to try this request')">
+            <div onclick="this.blur();" class="query-link restrict" *ngIf="query.method != 'GET' && !isAuthenticated() && query.category" [attr.title]="getStr('Login to try this request')">
                 <i class="ms-Icon ms-Icon--Permissions"></i>
             </div>
 

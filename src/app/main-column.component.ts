@@ -129,10 +129,6 @@ declare let mwf:any;
     }
 
 
-    /*override mwf*/
-    .fixed-with-mwf-menu ul.c-menu {
-        width: 100px !important;
-    }
     .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {
         max-width: 100%;
     }
