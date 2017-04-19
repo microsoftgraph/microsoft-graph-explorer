@@ -29,7 +29,6 @@
 
 #jsonViewer, #response-header-viewer {
     height: 50vh;
-    background: rgb(230, 230, 230);
     border: 1px solid #ccc;
 }
 
