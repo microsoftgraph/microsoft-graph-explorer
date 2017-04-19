@@ -21,13 +21,14 @@ export interface ExplorerOptions {
 export let Methods:RequestType[] = [
     'GET',
     'POST',
+    'PUT',
     'PATCH',
     'DELETE'
 ];
 
 export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
-export type RequestType = "GET" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
+export type RequestType = "GET" | "PUT" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
 
 export interface GraphApiCall {
     statusCode?: number
@@ -87,3 +88,37 @@ export interface AutoCompleteItem {
     url: string
     fullUrl: string
 }
+
+export const CommonHeaders = [
+    "Accept",
+    "Accept-Charset",
+    "Accept-Encoding",
+    "Accept-Language",
+    "Accept-Datetime",
+    "Authorization",
+    "Cache-Control",
+    "Connection",
+    "Cookie",
+    "Content-Length",
+    "Content-MD5",
+    "Content-Type",
+    "Date",
+    "Expect",
+    "Forwarded",
+    "From",
+    "Host",
+    "If-Match",
+    "If-Modified-Since",
+    "If-None-Match",
+    "If-Range",
+    "If-Unmodified-Since",
+    "Max-Forwards",
+    "Origin",
+    "Pragma",
+    "Proxy-Authorization",
+    "Range",
+    "User-Agent",
+    "Upgrade",
+    "Via",
+    "Warning"
+]

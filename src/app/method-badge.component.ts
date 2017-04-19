@@ -31,6 +31,10 @@ import { GraphApiCall } from "./base";
           background-color: #008412
       }
 
+      .request-badge.PUT {
+          background-color: #008412
+      }
+
       .request-badge.PATCH {
           background-color: #be8b00
       }

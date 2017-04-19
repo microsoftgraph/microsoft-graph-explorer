@@ -87,6 +87,11 @@
     background-color: #a10000  
 }
 
+#httpMethodSelect.PUT .c-select-menu.f-border button {
+    background-color: #008412  
+}
+
+
 
 /* @todo move to authentication component */
 #persona-holder {

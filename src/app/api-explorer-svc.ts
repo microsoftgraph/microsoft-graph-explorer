@@ -42,6 +42,8 @@ export class GraphService {
                 return GraphService._http.get(query, {headers: requestHeaders}).toPromise();
             case "GET_BINARY":
                 return GraphService._http.get(query, {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
+            case "PUT":
+                return GraphService._http.put(query, postBody, {headers : requestHeaders}).toPromise();
             case "POST":
                 return GraphService._http.post(query, postBody, {headers : requestHeaders}).toPromise();
             case "PATCH":

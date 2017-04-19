@@ -4,10 +4,10 @@
 
 import { Component, AfterViewInit } from '@angular/core';
 
-import { GraphRequestHeader } from "./base";
+import { GraphRequestHeader, CommonHeaders } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jseditor";
-
+declare let mwf;
 @Component({
   selector: 'request-editors',
   styles: [`
@@ -49,6 +49,16 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
        opacity: 0;
    }
 
+   .header-autocomplete {
+        max-width: inherit;
+        margin: 0px;
+        height: inherit;
+    }
+
+    .c-menu.f-auto-suggest-no-results {
+        display: none;
+    }
+
 `],
   template: `
     <div class="ms-Pivot">
@@ -67,9 +77,16 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
                         <th>{{getStr('Key')}}</th>
                         <th>{{getStr('Value')}}</th>
                     </tr>
-                    <tr *ngFor="let header of explorerValues.headers" class="header-row">
+                    <tr *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
                         <td>
-                            <input id="default" class="c-text-field header-name" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly" type="text" name="default" (ngModelChange)="createNewHeaderField()">
+                        <div class="c-search header-autocomplete" autocomplete="off">
+                            <input role="combobox" class="c-text-field header-name" (ngModelChange)="createNewHeaderField()" [attr.aria-controls]="'headers-autosuggest-'+idx" aria-autocomplete="both" aria-expanded="false" type="text" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly">
+                            <div class="m-auto-suggest" [attr.id]="'headers-autosuggest-'+idx" role="group">
+                                <ul class="c-menu" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
+                                <ul class="c-menu f-auto-suggest-no-results" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0"></ul>
+                            </div>
+                        </div>
+
                         </td>
                         <td>
                             <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [ngClass]="{hide: isLastHeader(header)}">
@@ -87,6 +104,7 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
             </div>
         </div>
     </div>
+
      `,
 })
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
@@ -97,7 +115,6 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
     initPostBodyEditor() {
         const postBodyEditor = getRequestBodyEditor()
         initializeAceEditor(postBodyEditor);
-        postBodyEditor.getSession().setMode("ace/mode/javascript");
     }
 
     isLastHeader(header:GraphRequestHeader) {
@@ -124,5 +141,25 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
         if (this.getLastHeader().name != "") {
             this.addEmptyHeader()
         }
+
+        setTimeout(() => {
+            mwf.ComponentFactory.create([{
+                component: mwf.AutoSuggest,
+                callback: (autoSuggests) => {
+                    if (!autoSuggests)
+                        return;
+
+                    for (let autoSuggest of autoSuggests) {
+                        if (autoSuggests[1].element.parentElement.className.indexOf("header-autocomplete") == -1) continue;
+                        autoSuggest.subscribe({
+                            onMatchPatternChanged: (notification) => {
+                                autoSuggest.updateSuggestions(CommonHeaders.filter((s => s.toLowerCase().indexOf(notification.pattern.toLowerCase()) != -1 )).map((s) => { return { type: 'string', value: s }}));
+                            }
+                        });
+                    }
+
+                }
+            }]);
+        }, 0);
     }
 }
