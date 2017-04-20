@@ -24,23 +24,23 @@ import { GraphApiCall } from "./base";
       }
 
       .request-badge.GET {
-          background-color: #000fdf
+          background-color: #000fdf;
       }
 
       .request-badge.POST {
-          background-color: #008412
+          background-color: #008412;
       }
 
       .request-badge.PUT {
-          background-color: #008412
+          background-color: #5C005C;
       }
 
       .request-badge.PATCH {
-          background-color: #be8b00
+          background-color: #be8b00;
       }
 
       .request-badge.DELETE {
-          background-color: #a10000  
+          background-color: #a10000;
       }
 
 `]

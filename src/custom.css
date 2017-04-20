@@ -58,23 +58,23 @@
 }
 
 #httpMethodSelect.GET .c-select-menu.f-border button {
-    background-color: #000fdf
+    background-color: #000fdf;
 }
 
 #httpMethodSelect.POST .c-select-menu.f-border button {
-    background-color: #008412
+    background-color: #008412;
 }
 
 #httpMethodSelect.PATCH .c-select-menu.f-border button {
-    background-color: #be8b00
+    background-color: #be8b00;
 }
 
 #httpMethodSelect.DELETE .c-select-menu.f-border button {
-    background-color: #a10000  
+    background-color: #a10000;
 }
 
 #httpMethodSelect.PUT .c-select-menu.f-border button {
-    background-color: #008412  
+    background-color: #5C005C;
 }
 
 

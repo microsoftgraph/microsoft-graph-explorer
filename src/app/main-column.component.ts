@@ -39,9 +39,7 @@ declare let mwf:any;
             <input [(ngModel)]="explorerValues.endpointUrl" role="combobox" aria-controls="auto-suggest-default-2" aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
             <div class="m-auto-suggest" id="auto-suggest-default-2" role="group">
-                <ul class="c-menu f-auto-suggest-scroll" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox">
-
-                </ul>
+                <ul class="c-menu f-auto-suggest-scroll" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
                 <ul class="c-menu f-auto-suggest-no-results" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0">
 
                 </ul>
@@ -212,7 +210,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                     if (!!autoSuggest) {
                         autoSuggest.subscribe({
                             onMatchPatternChanged: (notification) => {
-                                autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: this.getShortUrl(s) }}));
+                                autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: s }}));
+                                // autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: this.getShortUrl(s) }}));
                             }
                         });
                     }
@@ -251,7 +250,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             return;
         }
 
-        let possibleVersion = possibleGraphPathArr[0] || "v1.0";
+        let possibleVersion = possibleGraphPathArr[0];
 
         // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
             // possibleVersion is a valid version
