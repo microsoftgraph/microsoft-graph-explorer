@@ -87,10 +87,9 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 
     .query {
         flex: 1;
-        float: left;
-        display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding-top: 2px;
     }
 
 
