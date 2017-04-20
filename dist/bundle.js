@@ -68194,15 +68194,22 @@ function handleSuccessfulQueryResponse(res, query) {
 }
 function handleUnsuccessfulQueryResponse(res, query) {
     commonResponseHandler(res, query);
+    response_handlers_1.insertHeadersIntoResponseViewer(res.headers);
     var errorText;
     try {
         errorText = res.json();
+        response_handlers_1.handleJsonResponse(errorText);
+        return;
     }
     catch (e) {
         errorText = res.text();
     }
-    response_handlers_1.handleJsonResponse(errorText);
-    response_handlers_1.insertHeadersIntoResponseViewer(res.headers);
+    if (errorText.indexOf("<!DOCTYPE html>") != -1) {
+        response_handlers_1.handleHtmlResponse(errorText);
+    }
+    else {
+        response_handlers_1.showResults(errorText, "text");
+    }
 }
 var AppComponent_1;
 
