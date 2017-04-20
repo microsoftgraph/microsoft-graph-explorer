@@ -16,9 +16,9 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <div class="query">{{getQueryText()}}</div>
-            <div onclick="this.blur();" class="query-link restrict" *ngIf="query.method != 'GET' && !isAuthenticated() && query.category" [attr.title]="getStr('Login to try this request')">
+            <a onclick="this.blur();" class="query-link restrict" *ngIf="query.method != 'GET' && !isAuthenticated() && query.category" [attr.title]="getStr('Login to try this request')">
                 <i class="ms-Icon ms-Icon--Permissions"></i>
-            </div>
+            </a>
             <a onclick="this.blur();" class="query-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank">
                 <i class="ms-Icon ms-Icon--Page"></i>
             </a>
@@ -42,12 +42,12 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
             float: right;
       }
 
-      .query-link:hover + .query-link {
-          background-color: rgb(35, 35, 35);
+      .api-query:hover .query-link {
+          background-color: #232323;
       }
 
       .query-link:hover {
-          background: rgba(0,0,0,0.25);
+          background: rgba(0,0,0,0.25) !important;
           cursor: pointer;
       }
 
