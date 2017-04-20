@@ -66,7 +66,8 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Users",
     "method": "GET",
     "humanName": "my skills",
-    "requestUrl": "\"https://graph.microsoft.com/v1.0/me/?$select=displayName"
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user"
 },{
     "category": "Users",
     "method": "GET",
@@ -77,7 +78,8 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Users (preview)",
     "method": "GET",
     "humanName": "track user changes",
-    "requestUrl": "\"https://graph.microsoft.com/beta/users/delta?$select=displayName"
+    "requestUrl": "https://graph.microsoft.com/beta/users/delta?$select=displayName,givenName,surname",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users"
 },{
     "category": "Groups",
     "method": "GET",
@@ -94,7 +96,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Groups",
     "method": "GET",
     "humanName": "unified groups I belong to",
-    "requestUrl": "�https://graph.microsoft.com/v1.0/me/memberOf/$/?$filter=groupTypes/any(a:a eq 'unified')�",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/memberOf/$/?$filter=groupTypes/any(a:a eq 'unified') ",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof"
 },{
     "category": "Groups",
@@ -130,7 +132,8 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Groups (preview)",
     "method": "GET",
     "humanName": "track group changes",
-    "requestUrl": "\"https://graph.microsoft.com/beta/groups/delta?$select=displayName"
+    "requestUrl": "https://graph.microsoft.com/beta/groups/delta?$select=displayName,description",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups"
 },{
     "category": "Outlook Mail",
     "method": "GET",
@@ -141,7 +144,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Mail",
     "method": "GET",
     "humanName": "my mail that has 'Hello World'",
-    "requestUrl": "\"https://graph.microsoft.com/v1.0/me/messages?$search=\"\"hello world\"\"\"",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$search=\"hello world\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
 },{
     "category": "Outlook Mail",
@@ -165,7 +168,8 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Mail (preview)",
     "method": "GET",
     "humanName": "email I'm @ mentioned",
-    "requestUrl": "\"https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned%20eq%20true&$select=subject"
+    "requestUrl": "https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned%20eq%20true&$select=subject,sender,receivedDateTime",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2"
 },{
     "category": "Outlook Calendar",
     "method": "GET",
@@ -176,8 +180,8 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Calendar",
     "method": "GET",
     "humanName": "all events in my calendar",
-    "requestUrl": "\"https://graph.microsoft.com/v1.0/me/events?$select=subject",
-    "docLink": "organizer"
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events"
 },{
     "category": "Outlook Calendar",
     "method": "GET",
@@ -296,7 +300,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Planner (beta)",
     "method": "GET",
     "humanName": "all Planner plans associated with a group",
-    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans�",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans ",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannergroup_list_plans"
 },{
     "category": "Planner (beta)",
@@ -331,7 +335,7 @@ export const SampleQueries: SampleQuery[] = [
 },{
     "category": "SharePoint Lists (beta)",
     "method": "GET",
-    "humanName": "list in a SharePoint site�",
+    "humanName": "list in a SharePoint site ",
     "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}:/lists",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/lists_list"
 },{
@@ -392,6 +396,6 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Insights (preview)",
     "method": "GET",
     "humanName": "people relevant to a topic",
-    "requestUrl": "\"https://graph.microsoft.com/beta/me/people/?$search=\"\"topic: planning\"\"\"",
+    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: planning\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
 }]

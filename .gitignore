@@ -22,3 +22,4 @@ src/**/*.js
 src/**/*.js.map
 
 sample-queries.csv
+./import-sample-queries.js

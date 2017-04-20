@@ -15,7 +15,7 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
     <button class="api-query" (click)="loadQueryIntoEditor(query)" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
-            <span class="query">{{getQueryText()}}</span>
+            <div class="query">{{getQueryText()}}</div>
             <a onclick="this.blur();" class="query-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank">
                 <i class="ms-Icon ms-Icon--Page"></i>
             </a>
@@ -36,9 +36,10 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
       .query-link {
             background: #2F2F2F;
             padding: 8px 11px 7px 12px;
-            float: right;
             margin: -5px;
             margin-left: 5px;
+            display: block;
+            float: right;
       }
 
       .query-link:hover + .query-link {
@@ -73,7 +74,8 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
       }
 
       .row-1 {
-          display: inline;
+          display: flex;
+          flex-wrap: wrap;
       }
 
     .duration {
@@ -81,6 +83,14 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
     }
 
     i.ms-Icon.ms-Icon--Page {
+    }
+
+    .query {
+        flex: 1;
+        float: left;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 
@@ -95,7 +105,7 @@ export class QueryRowComponent extends GraphExplorerComponent {
     }
 
     getTitle() {
-        return this.query.requestUrl;
+        return this.getQueryText() + " | " + this.query.requestUrl;
     }
 
     getQueryText() {
