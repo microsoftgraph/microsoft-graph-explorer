@@ -6,6 +6,24 @@ import { SampleQueryCategory, SampleQuery, GraphRequestHeader } from "./base";
 import * as PostBodyTemplates from './postBodyTemplates/queries'
 import { SampleQueries } from "./gen-queries";
 
+export function getLocalStorageDisplayKey(category:SampleQueryCategory) {
+    return `CATEGORY_DISPLAY_${category.title}`;
+}
+
+export function saveCategoryDisplayState(category:SampleQueryCategory) {
+    localStorage.setItem(getLocalStorageDisplayKey(category), JSON.stringify(category.enabled));
+}
+
+export function getCategoryDisplayState(category:SampleQueryCategory) {
+    let possibleStatus = localStorage.getItem(getLocalStorageDisplayKey(category));
+
+    if (possibleStatus !== undefined) {
+        return JSON.parse(possibleStatus);
+    }
+
+    return null;
+}
+
 interface QueryCategoriesMap {
     [CategoryTitle: string]: SampleQueryCategory;
 }
@@ -33,6 +51,12 @@ for (let query of SampleQueries) {
 
 export let SampleCategories:SampleQueryCategory[] = [];
 
-for (let category in categories) {
-    SampleCategories.push(categories[category]);
+for (let categoryTitle in categories) {
+    let category = categories[categoryTitle];
+    let displayCategory = getCategoryDisplayState(category);
+
+    if (displayCategory != null) {
+        category.enabled = displayCategory;
+    }
+    SampleCategories.push(category);
 }
