@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { SampleQueryCategory, SampleQuery, GraphRequestHeader } from "./base";
+import { SampleQueryCategory, SampleQuery, GraphRequestHeader, substitueTokens } from "./base";
 import * as PostBodyTemplates from './postBodyTemplates/queries'
 import { SampleQueries } from "./gen-queries";
 
@@ -31,6 +31,10 @@ interface QueryCategoriesMap {
 let categories:QueryCategoriesMap = {};
 
 for (let query of SampleQueries) {
+
+    // replace endpoint URL with tokens
+    substitueTokens(query);
+
     
     // load tempalte if exists
     if (query.postBodyTemplateName) {

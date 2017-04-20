@@ -122,3 +122,25 @@ export const CommonHeaders = [
     "Via",
     "Warning"
 ]
+
+let today = new Date();
+let nextWeek = new Date();
+nextWeek.setDate(today.getDate()+7);
+
+const Tokens = {
+    "{group-id}": "8f4e3cfd-432d-4b9a-b801-f424aaf08ca1",
+    "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
+    "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
+    "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
+    "{site-path}": "/Operations/Manufacturing/",
+    "{today}": today.toISOString(),
+    "{next-week}": nextWeek.toISOString()
+}
+
+export function substitueTokens(query:SampleQuery) {
+    for (let token in Tokens) {
+        if (query.requestUrl.indexOf(token) != -1) {
+            query.requestUrl = query.requestUrl.replace(token, Tokens[token]);
+        }
+    }
+}
