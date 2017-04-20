@@ -10,7 +10,7 @@
     "postinstall": "bower install",
     "build_prod": "npm run build && browserify -s main src/main.js > dist/bundle.js && npm run minify",
     "minify": "uglifyjs dist/bundle.js --screw-ie8 --compress --mangle --output dist/bundle.min.js"
-   },
+  },
   "author": "",
   "devDependencies": {
     "concurrently": "^3.2.0",
@@ -40,5 +40,13 @@
     "systemjs": "^0.20.12",
     "typescript": "^2.2.1",
     "zone.js": "^0.8.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoftgraph/microsoft-graph-explorer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoftgraph/microsoft-graph-explorer/issues"
+  },
+  "homepage": "https://github.com/microsoftgraph/microsoft-graph-explorer#readme"
 }
