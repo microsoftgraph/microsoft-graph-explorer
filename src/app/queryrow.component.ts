@@ -16,12 +16,12 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <div class="query">{{getQueryText()}}</div>
-            <a onclick="this.blur();" class="query-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank">
-                <i class="ms-Icon ms-Icon--Page"></i>
-            </a>
             <div onclick="this.blur();" class="query-link restrict" *ngIf="query.method != 'GET' && !isAuthenticated() && query.category" [attr.title]="getStr('Login to try this request')">
                 <i class="ms-Icon ms-Icon--Permissions"></i>
             </div>
+            <a onclick="this.blur();" class="query-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank">
+                <i class="ms-Icon ms-Icon--Page"></i>
+            </a>
 
         </div>
       <ng-content></ng-content>
