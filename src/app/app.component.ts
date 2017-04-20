@@ -10,7 +10,7 @@ import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./api-explorer-svc";
 import { Response, Headers } from '@angular/http';
-import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer } from "./response-handlers";
+import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer, showResults } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
 import * as moment from "moment"
 import { createHeaders, getParameterByName } from "./util";
@@ -197,14 +197,21 @@ function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
 
 function handleUnsuccessfulQueryResponse(res:Response, query:GraphApiCall) {
   commonResponseHandler(res, query);
+  insertHeadersIntoResponseViewer(res.headers);
   let errorText;
   
   try {
     errorText = res.json();
+    handleJsonResponse(errorText);
+    return;
   } catch(e) {
     errorText = res.text();
   }
-  handleJsonResponse(errorText);
+
+  if (errorText.indexOf("<!DOCTYPE html>") != -1) {
+    handleHtmlResponse(errorText);
+  } else {
+    showResults(errorText, "text")
+  }
   
-  insertHeadersIntoResponseViewer(res.headers);
 }
