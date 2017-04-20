@@ -197,9 +197,14 @@ function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
 
 function handleUnsuccessfulQueryResponse(res:Response, query:GraphApiCall) {
   commonResponseHandler(res, query);
-
-  if (res.json)
-    handleJsonResponse(res.json());
+  let errorText;
+  
+  try {
+    errorText = res.json();
+  } catch(e) {
+    errorText = res.text();
+  }
+  handleJsonResponse(errorText);
   
   insertHeadersIntoResponseViewer(res.headers);
 }
