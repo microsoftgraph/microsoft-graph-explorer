@@ -12,7 +12,8 @@ export function getShortQueryText(query:GraphApiCall) {
         shortQueryUrl = query.requestUrl.split(AppComponent.Options.GraphUrl)[1];
     }
     
-    let queryText = query.humanName || shortQueryUrl;   
+    let queryText = query.humanName || shortQueryUrl;
+
     
     return (getString(AppComponent.Options, queryText)) || queryText;
 }

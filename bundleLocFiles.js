@@ -18,7 +18,7 @@ fs.readdir("translation_files", function(err, filenames) {
     filenames.forEach(function(filename) {
         languageRead.push(new Promise(function(resolve) {
             fs.readFile("translation_files/" + filename, 'utf-8', function(err, content) {
-                fileStr += '\n\n' + 'loc_strings[\'' + filename.split(".")[0] + '\'] = ' + JSON.stringify(JSON.parse(content));
+                fileStr += '\n\n' + 'loc_strings[\'' + filename.split(".")[0] + '\'] = ' + content;
                 resolve();
             });
         }))
