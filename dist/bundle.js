@@ -67987,6 +67987,8 @@ var GraphService = GraphService_1 = (function () {
                     return GraphService_1._http.get(query, { headers: requestHeaders }).toPromise();
                 case "GET_BINARY":
                     return GraphService_1._http.get(query, { responseType: http_1.ResponseContentType.ArrayBuffer, headers: requestHeaders }).toPromise();
+                case "PUT":
+                    return GraphService_1._http.put(query, postBody, { headers: requestHeaders }).toPromise();
                 case "POST":
                     return GraphService_1._http.post(query, postBody, { headers: requestHeaders }).toPromise();
                 case "PATCH":
@@ -68192,8 +68194,14 @@ function handleSuccessfulQueryResponse(res, query) {
 }
 function handleUnsuccessfulQueryResponse(res, query) {
     commonResponseHandler(res, query);
-    if (res.json)
-        response_handlers_1.handleJsonResponse(res.json());
+    var errorText;
+    try {
+        errorText = res.json();
+    }
+    catch (e) {
+        errorText = res.text();
+    }
+    response_handlers_1.handleJsonResponse(errorText);
     response_handlers_1.insertHeadersIntoResponseViewer(res.headers);
 }
 var AppComponent_1;
@@ -68398,9 +68406,63 @@ exports.runInTestMode = typeof document === "undefined";
 exports.Methods = [
     'GET',
     'POST',
+    'PUT',
     'PATCH',
     'DELETE'
 ];
+exports.CommonHeaders = [
+    "Accept",
+    "Accept-Charset",
+    "Accept-Encoding",
+    "Accept-Language",
+    "Accept-Datetime",
+    "Authorization",
+    "Cache-Control",
+    "Connection",
+    "Cookie",
+    "Content-Length",
+    "Content-MD5",
+    "Content-Type",
+    "Date",
+    "Expect",
+    "Forwarded",
+    "From",
+    "Host",
+    "If-Match",
+    "If-Modified-Since",
+    "If-None-Match",
+    "If-Range",
+    "If-Unmodified-Since",
+    "Max-Forwards",
+    "Origin",
+    "Pragma",
+    "Proxy-Authorization",
+    "Range",
+    "User-Agent",
+    "Upgrade",
+    "Via",
+    "Warning"
+];
+var today = new Date();
+var nextWeek = new Date();
+nextWeek.setDate(today.getDate() + 7);
+var Tokens = {
+    "{group-id}": "8f4e3cfd-432d-4b9a-b801-f424aaf08ca1",
+    "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
+    "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
+    "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
+    "{site-path}": "/Operations/Manufacturing/",
+    "{today}": today.toISOString(),
+    "{next-week}": nextWeek.toISOString()
+};
+function substitueTokens(query) {
+    for (var token in Tokens) {
+        if (query.requestUrl.indexOf(token) != -1) {
+            query.requestUrl = query.requestUrl.replace(token, Tokens[token]);
+        }
+    }
+}
+exports.substitueTokens = substitueTokens;
 
 },{}],63:[function(require,module,exports){
 "use strict";
@@ -68445,31 +68507,33 @@ exports.SampleQueries = [
     }, {
         "category": "Getting Started",
         "method": "GET",
-        "humanName": "my files",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/photo/$value"
-    }, {
-        "category": "Getting Started",
-        "method": "GET",
         "humanName": "my photo",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/manager",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/photo/$value",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get"
     }, {
         "category": "Getting Started",
         "method": "GET",
         "humanName": "my mail",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/messages",
-        "docLink": "https://graph.microsoft.com/v1.0/me/messages"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
+    }, {
+        "category": "Getting Started",
+        "method": "GET",
+        "humanName": "all the items in my drive",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/children",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children"
     }, {
         "category": "Getting Started",
         "method": "GET",
         "humanName": "items trending around me",
-        "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending"
+        "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
     }, {
-        "category": "Users",
+        "category": "Getting Started",
         "method": "GET",
         "humanName": "my manager",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/manager",
-        "docLink": "https://graph.microsoft.com/v1.0/me/manager"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager"
     }, {
         "category": "Users",
         "method": "GET",
@@ -68477,45 +68541,179 @@ exports.SampleQueries = [
         "requestUrl": "https://graph.microsoft.com/v1.0/me/directReports",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports"
     }, {
-        "category": "Outlook",
+        "category": "Users",
         "method": "GET",
-        "humanName": "my high importance mail",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$filter=importance%20eq%20'high'",
+        "humanName": "all users in the organization",
+        "requestUrl": "https://graph.microsoft.com/v1.0/users",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users"
+    }, {
+        "category": "Users",
+        "method": "GET",
+        "humanName": "all users in the Finance department",
+        "requestUrl": "https://graph.microsoft.com/v1.0/users?$filter=Department eq 'Finance'",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users"
+    }, {
+        "category": "Users",
+        "method": "GET",
+        "humanName": "my skills",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user"
+    }, {
+        "category": "Users",
+        "method": "GET",
+        "humanName": "all my Planner tasks",
+        "requestUrl": "https://graph.microsoft.com/beta/me/planner/tasks",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
+    }, {
+        "category": "Users (preview)",
+        "method": "GET",
+        "humanName": "track user changes",
+        "requestUrl": "https://graph.microsoft.com/beta/users/delta?$select=displayName,givenName,surname",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "all groups in my organization",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/group"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "all groups I belong to",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/memberOf",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "unified groups I belong to",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/memberOf/$/?$filter=groupTypes/any(a:a eq 'unified') ",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "group members",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/members",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_members"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "group's conversations",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/conversations",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_conversations"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "group's events",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/events",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events"
+    }, {
+        "category": "Groups",
+        "method": "POST",
+        "humanName": "add favorite group",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/addFavorite",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite"
+    }, {
+        "category": "Groups",
+        "method": "GET",
+        "humanName": "items in a group drive",
+        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get"
+    }, {
+        "category": "Groups (preview)",
+        "method": "GET",
+        "humanName": "track group changes",
+        "requestUrl": "https://graph.microsoft.com/beta/groups/delta?$select=displayName,description",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups"
+    }, {
+        "category": "Outlook Mail",
+        "method": "GET",
+        "humanName": "my high important mail",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high'",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
     }, {
-        "category": "Outlook",
+        "category": "Outlook Mail",
         "method": "GET",
         "humanName": "my mail that has 'Hello World'",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$search=%22hello%20world%22"
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$search=\"hello world\"",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
     }, {
-        "category": "Outlook",
+        "category": "Outlook Mail",
+        "method": "POST",
+        "humanName": "send an email",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail"
+    }, {
+        "category": "Outlook Mail",
+        "method": "POST",
+        "humanName": "forward mail",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/messages/{message-id}/forward",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward"
+    }, {
+        "category": "Outlook Mail (preview)",
+        "method": "GET",
+        "humanName": "track email changes",
+        "requestUrl": "https://graph.microsoft.com/beta/me/mailFolders/Inbox/messages/delta",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages"
+    }, {
+        "category": "Outlook Mail (preview)",
+        "method": "GET",
+        "humanName": "email I'm @ mentioned",
+        "requestUrl": "https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned%20eq%20true&$select=subject,sender,receivedDateTime",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2"
+    }, {
+        "category": "Outlook Calendar",
         "method": "GET",
         "humanName": "my events for the next week",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime=2017-04-16T00:00:00Z&enddatetime=2017-04-23T00:00:00Z"
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week}",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview"
     }, {
-        "category": "Outlook",
+        "category": "Outlook Calendar",
+        "method": "GET",
+        "humanName": "all events in my calendar",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events"
+    }, {
+        "category": "Outlook Calendar",
+        "method": "GET",
+        "humanName": "all my calendars",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/calendars",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendars"
+    }, {
+        "category": "Outlook Calendar",
+        "method": "GET",
+        "humanName": "all my event reminders for next week",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/reminderView?startdatetime={today}&enddatetime={next-week}",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_reminderview"
+    }, {
+        "category": "Outlook Calendar",
+        "method": "POST",
+        "humanName": "find meeting time",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/me/findMeetingTimes",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes"
+    }, {
+        "category": "Outlook Calendar",
+        "method": "POST",
+        "humanName": "schedule a meeting",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/events",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events"
+    }, {
+        "category": "Outlook Calendar (preview)",
+        "method": "GET",
+        "humanName": "track changes on my events for the next week",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events"
+    }, {
+        "category": "Personal Contacts",
         "method": "GET",
         "humanName": "my contacts",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/contacts"
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/contacts",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_contacts"
     }, {
-        "category": "Outlook",
+        "category": "Personal Contacts",
         "method": "POST",
-        "humanName": "Send an email",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/sendMail",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail",
-        "postBodyTemplateName": "sendMail",
-        "headers": [
-            {
-                "name": "Content-Type",
-                "value": "application/json"
-            }
-        ]
-    }, {
-        "category": "OneDrive",
-        "method": "GET",
-        "humanName": "my recent files",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
+        "humanName": "add contact",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/contacts",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts"
     }, {
         "category": "OneDrive",
         "method": "GET",
@@ -68525,82 +68723,200 @@ exports.SampleQueries = [
     }, {
         "category": "OneDrive",
         "method": "GET",
+        "humanName": "my recent files",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
+    }, {
+        "category": "OneDrive",
+        "method": "GET",
+        "humanName": "files shared with me",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/sharedWithMe",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme"
+    }, {
+        "category": "OneDrive",
+        "method": "GET",
         "humanName": "all of my excel files",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='xlsx')?select=name",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
     }, {
         "category": "OneDrive",
         "method": "POST",
         "humanName": "create a folder",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/children"
-    }, {
-        "category": "OneDrive",
-        "method": "GET",
-        "humanName": "Get Files Shared with Me",
-        "requestUrl": "https://graph.microsoft.com/v1.0/drive/sharedWithMe"
-    }, {
-        "category": "Groups",
-        "method": "GET",
-        "humanName": "groups I belong to",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/memberOf"
-    }, {
-        "category": "Groups",
-        "method": "GET",
-        "humanName": "group members",
-        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{id}/members"
-    }, {
-        "category": "Groups",
-        "method": "GET",
-        "humanName": "a group's conversations",
-        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{id}/conversations"
-    }, {
-        "category": "Groups",
-        "method": "GET",
-        "humanName": "files in a group drive",
-        "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children"
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/children",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children"
     }, {
         "category": "Excel",
         "method": "GET",
-        "humanName": "Sheets in a workbook",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{id}/workbook/worksheets"
+        "humanName": "all of my excel files",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
+    }, {
+        "category": "Excel",
+        "method": "POST",
+        "humanName": "create session",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/createSession",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel"
+    }, {
+        "category": "Excel",
+        "method": "GET",
+        "humanName": "worksheets in a workbook",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets"
+    }, {
+        "category": "Excel",
+        "method": "POST",
+        "humanName": "add a new worksheet",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add"
+    }, {
+        "category": "Excel",
+        "method": "GET",
+        "humanName": "used range in worksheet",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/usedRange",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange"
+    }, {
+        "category": "Excel",
+        "method": "GET",
+        "humanName": "tables in worksheet",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/tables",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables"
+    }, {
+        "category": "Excel",
+        "method": "GET",
+        "humanName": "charts in worksheet",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/charts",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts"
     }, {
         "category": "Planner (beta)",
         "method": "GET",
         "humanName": "all Planner plans associated with a group",
-        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans",
+        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans ",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannergroup_list_plans"
+    }, {
+        "category": "Planner (beta)",
+        "method": "GET",
+        "humanName": "all Planner tasks for a plan",
+        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans/{plan-id}/tasks",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannerplan_list_tasks"
+    }, {
+        "category": "Planner (beta)",
+        "method": "GET",
+        "humanName": "all my Planner tasks",
+        "requestUrl": "https://graph.microsoft.com/beta/me/planner/tasks",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
     }, {
-        "category": "SharePoint (beta)",
+        "category": "SharePoint Sites (beta)",
         "method": "GET",
         "humanName": "my organization's default SharePoint site",
         "requestUrl": "https://graph.microsoft.com/beta/sharePoint/site",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/sharepoint"
     }, {
+        "category": "SharePoint Sites (beta)",
+        "method": "GET",
+        "humanName": "a SharePoint site by URL",
+        "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/baseitem_getbyurl"
+    }, {
+        "category": "SharePoint Sites (beta)",
+        "method": "GET",
+        "humanName": "subsites in a SharePoint site",
+        "requestUrl": "https://graph.microsoft.com/beta/sharepoint/sites:/{site-path}:/sites",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/subsites_list"
+    }, {
+        "category": "SharePoint Lists (beta)",
+        "method": "GET",
+        "humanName": "list in a SharePoint site ",
+        "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}:/lists",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/lists_list"
+    }, {
         "category": "OneNote (beta)",
         "method": "GET",
-        "humanName": "my notes",
-        "requestUrl": "https://graph.microsoft.com/beta/me/notes/notebooks"
+        "humanName": "my notebooks",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks"
     }, {
-        "category": "Trending",
+        "category": "OneNote (beta)",
+        "method": "GET",
+        "humanName": "my sections",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections"
+    }, {
+        "category": "OneNote (beta)",
+        "method": "GET",
+        "humanName": "my pages",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/pages"
+    }, {
+        "category": "OneNote (beta)",
+        "method": "POST",
+        "humanName": "my notebook",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks"
+    }, {
+        "category": "OneNote (beta)",
+        "method": "POST",
+        "humanName": "my section",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections"
+    }, {
+        "category": "OneNote (beta)",
+        "method": "POST",
+        "humanName": "my page",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages"
+    }, {
+        "category": "Insights",
+        "method": "GET",
+        "humanName": "my recent files",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
+    }, {
+        "category": "Insights (preview)",
         "method": "GET",
         "humanName": "items trending around me",
-        "requestUrl": "https://graph.microsoft.com/beta/me/trendingAround"
+        "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
     }, {
-        "category": "Trending",
+        "category": "Insights (preview)",
         "method": "GET",
         "humanName": "people I work with",
-        "requestUrl": "https://graph.microsoft.com/beta/me/people"
+        "requestUrl": "https://graph.microsoft.com/beta/me/people",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
+    }, {
+        "category": "Insights (preview)",
+        "method": "GET",
+        "humanName": "people whos name starts with J",
+        "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=j",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    }, {
+        "category": "Insights (preview)",
+        "method": "GET",
+        "humanName": "people relevant to a topic",
+        "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: planning\"",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
     }
 ];
 
 },{}],65:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var base_1 = require("./base");
 var PostBodyTemplates = require("./postBodyTemplates/queries");
 var gen_queries_1 = require("./gen-queries");
+function getLocalStorageDisplayKey(category) {
+    return "CATEGORY_DISPLAY_" + category.title;
+}
+exports.getLocalStorageDisplayKey = getLocalStorageDisplayKey;
+function saveCategoryDisplayState(category) {
+    localStorage.setItem(getLocalStorageDisplayKey(category), JSON.stringify(category.enabled));
+}
+exports.saveCategoryDisplayState = saveCategoryDisplayState;
+function getCategoryDisplayState(category) {
+    var possibleStatus = localStorage.getItem(getLocalStorageDisplayKey(category));
+    if (possibleStatus !== undefined) {
+        return JSON.parse(possibleStatus);
+    }
+    return null;
+}
+exports.getCategoryDisplayState = getCategoryDisplayState;
 var categories = {};
 for (var _i = 0, SampleQueries_1 = gen_queries_1.SampleQueries; _i < SampleQueries_1.length; _i++) {
     var query = SampleQueries_1[_i];
+    base_1.substitueTokens(query);
     if (query.postBodyTemplateName) {
         query.postBodyTemplateContents = PostBodyTemplates[query.postBodyTemplateName];
     }
@@ -68616,11 +68932,16 @@ for (var _i = 0, SampleQueries_1 = gen_queries_1.SampleQueries; _i < SampleQueri
     }
 }
 exports.SampleCategories = [];
-for (var category in categories) {
-    exports.SampleCategories.push(categories[category]);
+for (var categoryTitle in categories) {
+    var category = categories[categoryTitle];
+    var displayCategory = getCategoryDisplayState(category);
+    if (displayCategory != null) {
+        category.enabled = displayCategory;
+    }
+    exports.SampleCategories.push(category);
 }
 
-},{"./gen-queries":64,"./postBodyTemplates/queries":73}],66:[function(require,module,exports){
+},{"./base":62,"./gen-queries":64,"./postBodyTemplates/queries":73}],66:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -69086,7 +69407,7 @@ var MainColumnComponent = (function (_super) {
                         if (!!autoSuggest_1) {
                             autoSuggest_1.subscribe({
                                 onMatchPatternChanged: function (notification) {
-                                    autoSuggest_1.updateSuggestions(_this.getAutoCompleteOptions().map(function (s) { return { type: 'string', value: _this.getShortUrl(s) }; }));
+                                    autoSuggest_1.updateSuggestions(_this.getAutoCompleteOptions().map(function (s) { return { type: 'string', value: s }; }));
                                 }
                             });
                         }
@@ -69106,7 +69427,7 @@ var MainColumnComponent = (function (_super) {
         if (possibleGraphPathArr.length == 0) {
             return;
         }
-        var possibleVersion = possibleGraphPathArr[0] || "v1.0";
+        var possibleVersion = possibleGraphPathArr[0];
         this.explorerValues.selectedVersion = possibleVersion;
     };
     MainColumnComponent.prototype.getAutoCompleteOptions = function () {
@@ -69175,7 +69496,7 @@ MainColumnComponent = __decorate([
     core_1.Component({
         providers: [api_explorer_svc_1.GraphService],
         selector: 'main-column',
-        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\">\n\n                </ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" title=\"LightningBolt\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
+        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" title=\"LightningBolt\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
         styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -8px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 37px;\n        margin-top: 20px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n\n\n  "]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
@@ -69208,7 +69529,7 @@ MethodBadgeComponent = __decorate([
     core_1.Component({
         selector: 'method-badge',
         template: "\n    <span class=\"request-badge\" [ngClass]=\"query.method\">{{query.method}}</span>\n    ",
-        styles: ["\n      .request-badge {\n          min-width: 55px;\n          display: inline-block;\n          padding: 2px;\n          text-align: center;\n          margin-right: 15px;\n          font-weight: 600;\n          color: white;\n          line-height: normal;\n          padding-bottom: 3px;\n      }\n\n      .request-badge.GET {\n          background-color: #000fdf\n      }\n\n      .request-badge.POST {\n          background-color: #008412\n      }\n\n      .request-badge.PATCH {\n          background-color: #be8b00\n      }\n\n      .request-badge.DELETE {\n          background-color: #a10000  \n      }\n\n"]
+        styles: ["\n      .request-badge {\n          min-width: 55px;\n          display: inline-block;\n          padding: 2px;\n          text-align: center;\n          margin-right: 15px;\n          font-weight: 600;\n          color: white;\n          line-height: normal;\n          padding-bottom: 3px;\n      }\n\n      .request-badge.GET {\n          background-color: #000fdf;\n      }\n\n      .request-badge.POST {\n          background-color: #008412;\n      }\n\n      .request-badge.PUT {\n          background-color: #5C005C;\n      }\n\n      .request-badge.PATCH {\n          background-color: #be8b00;\n      }\n\n      .request-badge.DELETE {\n          background-color: #a10000;\n      }\n\n"]
     })
 ], MethodBadgeComponent);
 exports.MethodBadgeComponent = MethodBadgeComponent;
@@ -69276,7 +69597,7 @@ var QueryRowComponent = (function (_super) {
             this.loadQueryIntoEditor(this.query);
     };
     QueryRowComponent.prototype.getTitle = function () {
-        return this.query.requestUrl;
+        return this.getQueryText() + " | " + this.query.requestUrl;
     };
     QueryRowComponent.prototype.getQueryText = function () {
         return ApiCallDisplayHelpers_1.getShortQueryText(this.query);
@@ -69290,8 +69611,8 @@ __decorate([
 QueryRowComponent = __decorate([
     core_1.Component({
         selector: 'query-row',
-        template: "\n    <button class=\"api-query\" (click)=\"loadQueryIntoEditor(query)\" onclick=\"this.blur();\" (keydown)=\"queryKeyDown($event)\" [attr.title]=\"getTitle()\" [ngClass]=\"{restrict: (!isAuthenticated() && query.method != 'GET')}\" tabindex=\"0\">\n        <div class=\"row-1\">\n            <method-badge [query]=\"query\"></method-badge>\n            <span class=\"query\">{{getQueryText()}}</span>\n            <a onclick=\"this.blur();\" class=\"query-link\" *ngIf=\"query.docLink\" [attr.href]=\"query.docLink\" [attr.title]=\"query.docLink\" target=\"_blank\">\n                <i class=\"ms-Icon ms-Icon--Page\"></i>\n            </a>\n            <div onclick=\"this.blur();\" class=\"query-link restrict\" *ngIf=\"query.method != 'GET' && !isAuthenticated() && query.category\" [attr.title]=\"getStr('Login to try this request')\">\n                <i class=\"ms-Icon ms-Icon--Permissions\"></i>\n            </div>\n\n        </div>\n      <ng-content></ng-content>\n    </button>\n    ",
-        styles: ["\n      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {\n          background: rgba(0,0,0,0.25);\n          outline: none;\n      }\n\n      .query-link {\n            background: #2F2F2F;\n            padding: 8px 11px 7px 12px;\n            float: right;\n            margin: -5px;\n            margin-left: 5px;\n      }\n\n      .query-link:hover + .query-link {\n          background-color: rgb(35, 35, 35);\n      }\n\n      .query-link:hover {\n          background: rgba(0,0,0,0.25);\n          cursor: pointer;\n      }\n\n      .restrict:hover {\n        cursor: not-allowed;\n      }\n\n      .api-query {\n          cursor: pointer;\n          font-size: 13px;\n          line-height: 16px;\n          display: block;\n          border: 0;\n          background: 0 0;\n          font-weight: 500;\n          padding: 5px 5px 5px 12px;\n          left: 0;\n          text-align: left;\n          width: 100%;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis;\n          margin-left: -12px;\n      }\n\n      .row-1 {\n          display: inline;\n      }\n\n    .duration {\n        float: right;\n    }\n\n    i.ms-Icon.ms-Icon--Page {\n    }\n\n\n"]
+        template: "\n    <button class=\"api-query\" (click)=\"loadQueryIntoEditor(query)\" onclick=\"this.blur();\" (keydown)=\"queryKeyDown($event)\" [attr.title]=\"getTitle()\" [ngClass]=\"{restrict: (!isAuthenticated() && query.method != 'GET')}\" tabindex=\"0\">\n        <div class=\"row-1\">\n            <method-badge [query]=\"query\"></method-badge>\n            <div class=\"query\">{{getQueryText()}}</div>\n            <a onclick=\"this.blur();\" class=\"query-link\" *ngIf=\"query.docLink\" [attr.href]=\"query.docLink\" [attr.title]=\"query.docLink\" target=\"_blank\">\n                <i class=\"ms-Icon ms-Icon--Page\"></i>\n            </a>\n            <div onclick=\"this.blur();\" class=\"query-link restrict\" *ngIf=\"query.method != 'GET' && !isAuthenticated() && query.category\" [attr.title]=\"getStr('Login to try this request')\">\n                <i class=\"ms-Icon ms-Icon--Permissions\"></i>\n            </div>\n\n        </div>\n      <ng-content></ng-content>\n    </button>\n    ",
+        styles: ["\n      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {\n          background: rgba(0,0,0,0.25);\n          outline: none;\n      }\n\n      .query-link {\n            background: #2F2F2F;\n            padding: 8px 11px 7px 12px;\n            margin: -5px;\n            margin-left: 5px;\n            display: block;\n            float: right;\n      }\n\n      .query-link:hover + .query-link {\n          background-color: rgb(35, 35, 35);\n      }\n\n      .query-link:hover {\n          background: rgba(0,0,0,0.25);\n          cursor: pointer;\n      }\n\n      .restrict:hover {\n        cursor: not-allowed;\n      }\n\n      .api-query {\n          cursor: pointer;\n          font-size: 13px;\n          line-height: 16px;\n          display: block;\n          border: 0;\n          background: 0 0;\n          font-weight: 500;\n          padding: 5px 5px 5px 12px;\n          left: 0;\n          text-align: left;\n          width: 100%;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis;\n          margin-left: -12px;\n      }\n\n      .row-1 {\n          display: flex;\n          flex-wrap: wrap;\n      }\n\n    .duration {\n        float: right;\n    }\n\n    i.ms-Icon.ms-Icon--Page {\n    }\n\n    .query {\n        flex: 1;\n        float: left;\n        display: inline-block;\n        overflow: hidden;\n        text-overflow: ellipsis;\n    }\n\n\n"]
     })
 ], QueryRowComponent);
 exports.QueryRowComponent = QueryRowComponent;
@@ -69316,6 +69637,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var base_1 = require("./base");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
 var RequestEditorsComponent = (function (_super) {
@@ -69329,7 +69651,6 @@ var RequestEditorsComponent = (function (_super) {
     RequestEditorsComponent.prototype.initPostBodyEditor = function () {
         var postBodyEditor = api_explorer_jseditor_1.getRequestBodyEditor();
         api_explorer_jseditor_1.initializeAceEditor(postBodyEditor);
-        postBodyEditor.getSession().setMode("ace/mode/javascript");
     };
     RequestEditorsComponent.prototype.isLastHeader = function (header) {
         return header == this.getLastHeader();
@@ -69352,19 +69673,41 @@ var RequestEditorsComponent = (function (_super) {
         if (this.getLastHeader().name != "") {
             this.addEmptyHeader();
         }
+        setTimeout(function () {
+            mwf.ComponentFactory.create([{
+                    component: mwf.AutoSuggest,
+                    callback: function (autoSuggests) {
+                        if (!autoSuggests)
+                            return;
+                        var _loop_1 = function (autoSuggest) {
+                            if (autoSuggests[1].element.parentElement.className.indexOf("header-autocomplete") == -1)
+                                return "continue";
+                            autoSuggest.subscribe({
+                                onMatchPatternChanged: function (notification) {
+                                    autoSuggest.updateSuggestions(base_1.CommonHeaders.filter((function (s) { return s.toLowerCase().indexOf(notification.pattern.toLowerCase()) != -1; })).map(function (s) { return { type: 'string', value: s }; }));
+                                }
+                            });
+                        };
+                        for (var _i = 0, autoSuggests_1 = autoSuggests; _i < autoSuggests_1.length; _i++) {
+                            var autoSuggest = autoSuggests_1[_i];
+                            _loop_1(autoSuggest);
+                        }
+                    }
+                }]);
+        }, 0);
     };
     return RequestEditorsComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
 RequestEditorsComponent = __decorate([
     core_1.Component({
         selector: 'request-editors',
-        styles: ["\n\n  #post-body-editor {\n        position: relative;\n        height: 20vh;\n        border: 1px solid #ccc;\n        margin-top: 10px;\n    }\n\n  .header-row input {\n    width: 95%;\n    margin-top: 5px;\n  }\n\n  table {\n      width: 100%;\n  }\n  th {\n      text-align: left;\n      font-weight: 300;\n  }\n\n  td.remove-header-btn {\n    font-size: 20px;\n  }\n\n   td.remove-header-btn:hover {\n        cursor: pointer;\n   }\n\n   td.remove-header-btn i {\n        margin-top: 12px;\n        font-size: 20px;\n   }\n\n   .hide {\n       opacity: 0;\n   }\n\n"],
-        template: "\n    <div class=\"ms-Pivot\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"headers\" [attr.title]=\"getStr('request header')\" tabindex=\"1\">\n                {{getStr('request header')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"body\" [attr.title]=\"getStr('request body')\" (click)=\"initPostBodyEditor()\" tabindex=\"1\">\n                {{getStr('request body')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"headers\">\n            <div id=\"headers-editor\">\n                <table>\n                    <tr>\n                        <th>{{getStr('Key')}}</th>\n                        <th>{{getStr('Value')}}</th>\n                    </tr>\n                    <tr *ngFor=\"let header of explorerValues.headers\" class=\"header-row\">\n                        <td>\n                            <input id=\"default\" class=\"c-text-field header-name\" [attr.placeholder]=\"getPlaceholder(header)\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" (ngModelChange)=\"createNewHeaderField()\">\n                        </td>\n                        <td>\n                            <input id=\"default\" class=\"c-text-field header-value\" [(ngModel)]=\"header.value\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" [ngClass]=\"{hide: isLastHeader(header)}\">\n                        </td>\n                        <td class=\"remove-header-btn\" [hidden]=\"isLastHeader(header)\">\n                            <i (click)=\"removeHeader(header)\" class=\"ms-Icon ms-Icon--Cancel\"></i>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"body\">\n            <div id=\"requestBodyContainer\">\n                <div id=\"post-body-editor\"></div>\n            </div>\n        </div>\n    </div>\n     ",
+        styles: ["\n\n  #post-body-editor {\n        position: relative;\n        height: 20vh;\n        border: 1px solid #ccc;\n        margin-top: 10px;\n    }\n\n  .header-row input {\n    width: 95%;\n    margin-top: 5px;\n  }\n\n  table {\n      width: 100%;\n  }\n  th {\n      text-align: left;\n      font-weight: 300;\n  }\n\n  td.remove-header-btn {\n    font-size: 20px;\n  }\n\n   td.remove-header-btn:hover {\n        cursor: pointer;\n   }\n\n   td.remove-header-btn i {\n        margin-top: 12px;\n        font-size: 20px;\n   }\n\n   .hide {\n       opacity: 0;\n   }\n\n   .header-autocomplete {\n        max-width: inherit;\n        margin: 0px;\n        height: inherit;\n    }\n\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n"],
+        template: "\n    <div class=\"ms-Pivot\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"headers\" [attr.title]=\"getStr('request header')\" tabindex=\"1\">\n                {{getStr('request header')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"body\" [attr.title]=\"getStr('request body')\" (click)=\"initPostBodyEditor()\" tabindex=\"1\">\n                {{getStr('request body')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"headers\">\n            <div id=\"headers-editor\">\n                <table>\n                    <tr>\n                        <th>{{getStr('Key')}}</th>\n                        <th>{{getStr('Value')}}</th>\n                    </tr>\n                    <tr *ngFor=\"let header of explorerValues.headers; let idx = index\" class=\"header-row\">\n                        <td>\n                        <div class=\"c-search header-autocomplete\" autocomplete=\"off\">\n                            <input role=\"combobox\" class=\"c-text-field header-name\" (ngModelChange)=\"createNewHeaderField()\" [attr.aria-controls]=\"'headers-autosuggest-'+idx\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"text\" [attr.placeholder]=\"getPlaceholder(header)\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\">\n                            <div class=\"m-auto-suggest\" [attr.id]=\"'headers-autosuggest-'+idx\" role=\"group\">\n                                <ul class=\"c-menu\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\"></ul>\n                            </div>\n                        </div>\n\n                        </td>\n                        <td>\n                            <input id=\"default\" class=\"c-text-field header-value\" [(ngModel)]=\"header.value\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" [ngClass]=\"{hide: isLastHeader(header)}\">\n                        </td>\n                        <td class=\"remove-header-btn\" [hidden]=\"isLastHeader(header)\">\n                            <i (click)=\"removeHeader(header)\" class=\"ms-Icon ms-Icon--Cancel\"></i>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"body\">\n            <div id=\"requestBodyContainer\">\n                <div id=\"post-body-editor\"></div>\n            </div>\n        </div>\n    </div>\n\n     ",
     })
 ], RequestEditorsComponent);
 exports.RequestEditorsComponent = RequestEditorsComponent;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"@angular/core":5}],76:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./base":62,"@angular/core":5}],76:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
@@ -69590,6 +69933,7 @@ var SampleCategoriesPanelComponent = (function (_super) {
     };
     SampleCategoriesPanelComponent.prototype.toggleCategory = function (category) {
         category.enabled = !category.enabled;
+        getting_started_queries_1.saveCategoryDisplayState(category);
     };
     return SampleCategoriesPanelComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
