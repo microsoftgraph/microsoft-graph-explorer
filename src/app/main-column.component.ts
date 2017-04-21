@@ -36,7 +36,7 @@ declare let mwf:any;
         </div>
 
         <div id="graph-request-url" class="c-search" autocomplete="off" name="form1">
-            <input [(ngModel)]="explorerValues.endpointUrl" role="combobox" aria-controls="auto-suggest-default-2" aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <input [(ngModel)]="explorerValues.endpointUrl" (keydown)="endpointInputKeyDown($event)" role="combobox" aria-controls="auto-suggest-default-2" aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
             <div class="m-auto-suggest" id="auto-suggest-default-2" role="group">
                 <ul class="c-menu f-auto-suggest-scroll" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
@@ -230,6 +230,11 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     GraphVersions = AppComponent.Options.GraphVersions;
     constructor(private GraphService: GraphService) {
         super();
+    }
+
+    endpointInputKeyDown(event) {
+        if (event.keyCode == 13)
+            this.submit()
     }
 
     submit = () => {
