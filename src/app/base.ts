@@ -13,7 +13,7 @@ export interface ExplorerOptions {
     Language?: string
     AdminScopes?: string
     RedirectUrl?: string
-    UserScopes?: string
+    DefaultUserScopes?: string
     GraphVersions?: string[]
     PathToBuildDir: string
 }

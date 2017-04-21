@@ -15,8 +15,8 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 		msft: {
 			oauth: {
 				version: 2,
-				auth: options.AuthUrl + '/organizations/oauth2/v2.0/authorize',
-				grant: options.AuthUrl + '/organizations/oauth2/v2.0/token'
+				auth: options.AuthUrl + '/common/oauth2/v2.0/authorize',
+				grant: options.AuthUrl + '/common/oauth2/v2.0/token'
 			},
 			scope_delim: ' ',
 

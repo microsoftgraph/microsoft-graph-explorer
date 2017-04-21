@@ -98,8 +98,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         response_type: "id_token token",
         nonce: 'graph_explorer',
         prompt: 'select_account',
-        msafed: 0,
-        scope: AppComponent.Options.UserScopes
+        scope: AppComponent.Options.DefaultUserScopes
       }
 
       hello('msft').login(loginProperties, () => {

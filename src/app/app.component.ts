@@ -93,7 +93,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       ClientId: "",
       Language: "en-US",
       AdminScopes: "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All",
-      UserScopes: "openid profile User.Read User.ReadWrite User.ReadBasic.All Mail.ReadWrite Mail.Send Mail.Send.Shared Calendars.ReadWrite Calendars.ReadWrite.Shared Contacts.ReadWrite MailboxSettings.ReadWrite Files.ReadWrite Files.ReadWrite.All Files.ReadWrite.AppFolder Notes.Create Notes.ReadWrite.All People.Read Sites.ReadWrite.All Tasks.ReadWrite",
+      DefaultUserScopes: "openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite People.Read Notes.ReadWrite.All Tasks.ReadWrite  Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite",
       AuthUrl: "https://login.microsoftonline.com",
       GraphUrl: "https://graph.microsoft.com",
       GraphVersions: ["v1.0", "beta"],
