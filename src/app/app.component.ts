@@ -32,15 +32,14 @@ declare let mwf:any;
     <sample-categories-panel></sample-categories-panel>
     `,
   styles: [`
-    
   #explorer-main {
       padding-left: 12px;
   }
-  
+
   sidebar {
       padding: 0px;
   }
-      
+
 `]
 })
 export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
@@ -130,6 +129,10 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   }
 
   static executeExplorerQuery() {
+
+    // #hack.  When clicking on an autocomplete option, the model isn't updated
+    AppComponent.explorerValues.endpointUrl = $("#graph-request-url input").val();
+
     let query:GraphApiCall = {
         requestUrl: AppComponent.explorerValues.endpointUrl,
         method: AppComponent.explorerValues.selectedOption,
