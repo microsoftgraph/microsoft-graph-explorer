@@ -16,6 +16,7 @@ import { AppComponent } from "./app.component";
           max-width: 215px;
           margin: 20px 0 0px 0px;
           cursor: pointer;
+          display: inline-block;
       }
 
       #signout {
@@ -41,12 +42,21 @@ import { AppComponent } from "./app.component";
       .noPicture .ms-Persona-details {
           padding-left: 17px;
       }
+
+      #ms-signin-button-holder {
+          position: absolute;
+          left: 0px;
+          width: 100%;
+          text-align: center;
+      }
 `],
   template: `
     <div *ngIf="getAuthenticationStatus() == 'anonymous'">
         <div tabindex="-1">{{getStr('Using demo tenant')}}</div>
         <div tabindex="-1">{{getStr('To access your own data:')}}</div>
-        <img id="ms-signin-button" alt="{{getStr('sign in')}}" src="{{getAssetPath('assets/images/MSSignInButton.svg')}}" (click)="login()"/>
+        <div id="ms-signin-button-holder">
+            <img id="ms-signin-button" alt="{{getStr('sign in')}}" src="{{getAssetPath('assets/images/MSSignInButton.svg')}}" (click)="login()"/>
+        </div>
     </div>
     <div *ngIf="getAuthenticationStatus() == 'authenticating'">
         <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
