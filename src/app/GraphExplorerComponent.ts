@@ -39,8 +39,13 @@ export class GraphExplorerComponent {
     if (!isAuthenticated() && originalQuery.method != 'GET') {
       return;
     }
+
+    AppComponent.clearResponse();
+
+
       // copy the sample query or history item so we're not changing history/samples
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
+
 
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
@@ -62,6 +67,7 @@ export class GraphExplorerComponent {
       }
 
       postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
+
 
   }
   shouldEndWithOneEmptyHeader() {

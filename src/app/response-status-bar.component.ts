@@ -84,7 +84,7 @@ export class ResponseStatusBarComponent extends GraphExplorerComponent {
         return text;
     }
 
-    clearLastCallMessage() {
+    static clearLastCallMessage() {
         AppComponent.lastApiCall = null;
     }
 }

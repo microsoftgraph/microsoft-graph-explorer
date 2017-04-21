@@ -8,11 +8,12 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { getString } from "./api-explorer-helpers";
 import { AppModule } from "./app.module";
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
+import { AppComponent } from "./app.component";
 
 @Component({
   selector: 'query-row',
   template: `
-    <button class="api-query" (click)="loadQueryIntoEditor(query)" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
+    <button class="api-query" (click)="handleQueryClick()" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <div class="query">{{getQueryText()}}</div>
@@ -109,5 +110,13 @@ export class QueryRowComponent extends GraphExplorerComponent {
 
     getQueryText() {
         return getShortQueryText(this.query);
+    }
+
+    handleQueryClick() {
+        this.loadQueryIntoEditor(this.query);
+
+        if (this.query.method == 'GET') {
+            AppComponent.executeExplorerQuery(true);
+        }
     }
 }

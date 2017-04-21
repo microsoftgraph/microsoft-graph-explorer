@@ -16,6 +16,7 @@ import * as moment from "moment"
 import { createHeaders, getParameterByName } from "./util";
 import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
 import { parseMetadata } from "./graph-structure";
+import { ResponseStatusBarComponent } from "./response-status-bar.component";
 
 declare let mwf:any;
 
@@ -128,10 +129,11 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       saveHistoryToLocalStorage(AppComponent.requestHistory);
   }
 
-  static executeExplorerQuery() {
+  static executeExplorerQuery(fromSample?:boolean) {
 
     // #hack.  When clicking on an autocomplete option, the model isn't updated
-    AppComponent.explorerValues.endpointUrl = $("#graph-request-url input").val();
+    if (fromSample != true)
+      AppComponent.explorerValues.endpointUrl = $("#graph-request-url input").val();
 
     let query:GraphApiCall = {
         requestUrl: AppComponent.explorerValues.endpointUrl,
@@ -156,9 +158,21 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     });
   }
 
+  static clearResponse() {
+    // clear response preview and headers
+    getAceEditorFromElId("response-header-viewer").getSession().setValue("");
+    getJsonViewer().getSession().setValue("")
+
+    ResponseStatusBarComponent.clearLastCallMessage()
+  }
+
+
  }
 
  function commonResponseHandler(res:Response, query:GraphApiCall) {
+
+    AppComponent.clearResponse();
+
       // common ops for successful and unsuccessful
     AppComponent.explorerValues.requestInProgress = false;
     AppComponent.lastApiCall = query;
@@ -170,9 +184,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     AppComponent.addRequestToHistory(query);
 
 
-    // clear response preview and headers
-    getAceEditorFromElId("response-header-viewer").getSession().setValue("");
-    getJsonViewer().getSession().setValue("")
+
 
  }
 function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {

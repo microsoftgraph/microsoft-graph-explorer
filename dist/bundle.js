@@ -67842,6 +67842,7 @@ var GraphExplorerComponent = (function () {
         if (!auth_1.isAuthenticated() && originalQuery.method != 'GET') {
             return;
         }
+        app_component_1.AppComponent.clearResponse();
         var query = jQuery.extend(true, {}, originalQuery);
         app_component_1.AppComponent.explorerValues.endpointUrl = query.requestUrl;
         app_component_1.AppComponent.explorerValues.selectedOption = query.method;
@@ -68056,6 +68057,7 @@ var moment = require("moment");
 var util_1 = require("./util");
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
 var graph_structure_1 = require("./graph-structure");
+var response_status_bar_component_1 = require("./response-status-bar.component");
 var AppComponent = AppComponent_1 = (function (_super) {
     __extends(AppComponent, _super);
     function AppComponent(GraphService, chRef) {
@@ -68102,7 +68104,9 @@ var AppComponent = AppComponent_1 = (function (_super) {
         }
         history_1.saveHistoryToLocalStorage(AppComponent_1.requestHistory);
     };
-    AppComponent.executeExplorerQuery = function () {
+    AppComponent.executeExplorerQuery = function (fromSample) {
+        if (fromSample != true)
+            AppComponent_1.explorerValues.endpointUrl = $("#graph-request-url input").val();
         var query = {
             requestUrl: AppComponent_1.explorerValues.endpointUrl,
             method: AppComponent_1.explorerValues.selectedOption,
@@ -68124,13 +68128,18 @@ var AppComponent = AppComponent_1 = (function (_super) {
             handleUnsuccessfulQueryResponse(res, query);
         });
     };
+    AppComponent.clearResponse = function () {
+        api_explorer_jseditor_1.getAceEditorFromElId("response-header-viewer").getSession().setValue("");
+        api_explorer_jseditor_1.getJsonViewer().getSession().setValue("");
+        response_status_bar_component_1.ResponseStatusBarComponent.clearLastCallMessage();
+    };
     return AppComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
 AppComponent.Options = {
     ClientId: "",
     Language: "en-US",
     AdminScopes: "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All",
-    UserScopes: "openid profile User.Read User.ReadWrite User.ReadBasic.All Mail.ReadWrite Mail.Send Mail.Send.Shared Calendars.ReadWrite Calendars.ReadWrite.Shared Contacts.ReadWrite MailboxSettings.ReadWrite Files.ReadWrite Files.ReadWrite.All Files.ReadWrite.AppFolder Notes.Create Notes.ReadWrite.All People.Read Sites.ReadWrite.All Tasks.ReadWrite",
+    DefaultUserScopes: "openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite People.Read Notes.ReadWrite.All Tasks.ReadWrite  Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite",
     AuthUrl: "https://login.microsoftonline.com",
     GraphUrl: "https://graph.microsoft.com",
     GraphVersions: ["v1.0", "beta"],
@@ -68152,12 +68161,13 @@ AppComponent = AppComponent_1 = __decorate([
         selector: 'api-explorer',
         providers: [api_explorer_svc_1.GraphService],
         template: "\n    <div class=\"ms-Grid\"> \n      <div class=\"ms-Grid-row\">\n        <sidebar class=\"ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2\"></sidebar>\n        <main-column class=\"ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10\" id=\"explorer-main\"></main-column>\n    </div>\n    <history-panel></history-panel>\n    <sample-categories-panel></sample-categories-panel>\n    ",
-        styles: ["\n    \n  #explorer-main {\n      padding-left: 12px;\n  }\n  \n  sidebar {\n      padding: 0px;\n  }\n      \n"]
+        styles: ["\n  #explorer-main {\n      padding-left: 12px;\n  }\n\n  sidebar {\n      padding: 0px;\n  }\n\n"]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService, core_1.ChangeDetectorRef])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 function commonResponseHandler(res, query) {
+    AppComponent.clearResponse();
     AppComponent.explorerValues.requestInProgress = false;
     AppComponent.lastApiCall = query;
     AppComponent.lastApiCallHeaders = res.headers;
@@ -68165,8 +68175,6 @@ function commonResponseHandler(res, query) {
     query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
     query.statusCode = status;
     AppComponent.addRequestToHistory(query);
-    api_explorer_jseditor_1.getAceEditorFromElId("response-header-viewer").getSession().setValue("");
-    api_explorer_jseditor_1.getJsonViewer().getSession().setValue("");
 }
 function handleSuccessfulQueryResponse(res, query) {
     commonResponseHandler(res, query);
@@ -68213,7 +68221,7 @@ function handleUnsuccessfulQueryResponse(res, query) {
 }
 var AppComponent_1;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./graph-structure":66,"./history":69,"./response-handlers":76,"./util":81,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./graph-structure":66,"./history":69,"./response-handlers":76,"./response-status-bar.component":77,"./util":81,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -68262,8 +68270,8 @@ function initAuth(options, apiService, changeDetectorRef) {
         msft: {
             oauth: {
                 version: 2,
-                auth: options.AuthUrl + '/organizations/oauth2/v2.0/authorize',
-                grant: options.AuthUrl + '/organizations/oauth2/v2.0/token'
+                auth: options.AuthUrl + '/common/oauth2/v2.0/authorize',
+                grant: options.AuthUrl + '/common/oauth2/v2.0/token'
             },
             scope_delim: ' ',
             form: false
@@ -68372,8 +68380,7 @@ var AuthenticationComponent = (function (_super) {
                 response_type: "id_token token",
                 nonce: 'graph_explorer',
                 prompt: 'select_account',
-                msafed: 0,
-                scope: app_component_1.AppComponent.Options.UserScopes
+                scope: app_component_1.AppComponent.Options.DefaultUserScopes
             };
             hello('msft').login(loginProperties, function () {
                 debugger;
@@ -69915,6 +69922,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var ApiCallDisplayHelpers_1 = require("./ApiCallDisplayHelpers");
+var app_component_1 = require("./app.component");
 var QueryRowComponent = (function (_super) {
     __extends(QueryRowComponent, _super);
     function QueryRowComponent() {
@@ -69930,6 +69938,12 @@ var QueryRowComponent = (function (_super) {
     QueryRowComponent.prototype.getQueryText = function () {
         return ApiCallDisplayHelpers_1.getShortQueryText(this.query);
     };
+    QueryRowComponent.prototype.handleQueryClick = function () {
+        this.loadQueryIntoEditor(this.query);
+        if (this.query.method == 'GET') {
+            app_component_1.AppComponent.executeExplorerQuery(true);
+        }
+    };
     return QueryRowComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
 __decorate([
@@ -69939,13 +69953,13 @@ __decorate([
 QueryRowComponent = __decorate([
     core_1.Component({
         selector: 'query-row',
-        template: "\n    <button class=\"api-query\" (click)=\"loadQueryIntoEditor(query)\" onclick=\"this.blur();\" (keydown)=\"queryKeyDown($event)\" [attr.title]=\"getTitle()\" [ngClass]=\"{restrict: (!isAuthenticated() && query.method != 'GET')}\" tabindex=\"0\">\n        <div class=\"row-1\">\n            <method-badge [query]=\"query\"></method-badge>\n            <div class=\"query\">{{getQueryText()}}</div>\n            <a onclick=\"this.blur();\" class=\"query-link restrict\" *ngIf=\"query.method != 'GET' && !isAuthenticated() && query.category\" [attr.title]=\"getStr('Login to try this request')\">\n                <i class=\"ms-Icon ms-Icon--Permissions\"></i>\n            </a>\n            <a onclick=\"this.blur();\" class=\"query-link\" *ngIf=\"query.docLink\" [attr.href]=\"query.docLink\" [attr.title]=\"query.docLink\" target=\"_blank\">\n                <i class=\"ms-Icon ms-Icon--Page\"></i>\n            </a>\n\n        </div>\n      <ng-content></ng-content>\n    </button>\n    ",
+        template: "\n    <button class=\"api-query\" (click)=\"handleQueryClick()\" onclick=\"this.blur();\" (keydown)=\"queryKeyDown($event)\" [attr.title]=\"getTitle()\" [ngClass]=\"{restrict: (!isAuthenticated() && query.method != 'GET')}\" tabindex=\"0\">\n        <div class=\"row-1\">\n            <method-badge [query]=\"query\"></method-badge>\n            <div class=\"query\">{{getQueryText()}}</div>\n            <a onclick=\"this.blur();\" class=\"query-link restrict\" *ngIf=\"query.method != 'GET' && !isAuthenticated() && query.category\" [attr.title]=\"getStr('Login to try this request')\">\n                <i class=\"ms-Icon ms-Icon--Permissions\"></i>\n            </a>\n            <a onclick=\"this.blur();\" class=\"query-link\" *ngIf=\"query.docLink\" [attr.href]=\"query.docLink\" [attr.title]=\"query.docLink\" target=\"_blank\">\n                <i class=\"ms-Icon ms-Icon--Page\"></i>\n            </a>\n\n        </div>\n      <ng-content></ng-content>\n    </button>\n    ",
         styles: ["\n      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {\n          background: rgba(0,0,0,0.25);\n          outline: none;\n      }\n\n      .query-link {\n            background: #2F2F2F;\n            padding: 8px 11px 7px 12px;\n            margin: -5px;\n            margin-left: 5px;\n            display: block;\n            float: right;\n      }\n\n      .api-query:hover .query-link {\n          background-color: #232323;\n      }\n\n      .query-link:hover {\n          background: rgba(0,0,0,0.25) !important;\n          cursor: pointer;\n      }\n\n      .restrict:hover {\n        cursor: not-allowed;\n      }\n\n      .api-query {\n          cursor: pointer;\n          font-size: 13px;\n          line-height: 16px;\n          display: block;\n          border: 0;\n          background: 0 0;\n          font-weight: 500;\n          padding: 5px 5px 5px 12px;\n          left: 0;\n          text-align: left;\n          width: 100%;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis;\n          margin-left: -12px;\n      }\n\n      .row-1 {\n          display: flex;\n          flex-wrap: wrap;\n      }\n\n    .duration {\n        float: right;\n    }\n\n    i.ms-Icon.ms-Icon--Page {\n    }\n\n    .query {\n        flex: 1;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        padding-top: 2px;\n    }\n\n\n"]
     })
 ], QueryRowComponent);
 exports.QueryRowComponent = QueryRowComponent;
 
-},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"@angular/core":5}],75:[function(require,module,exports){
+},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],75:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70211,7 +70225,7 @@ var ResponseStatusBarComponent = (function (_super) {
         text += " - " + this.getStr("Status Code") + " " + query.statusCode;
         return text;
     };
-    ResponseStatusBarComponent.prototype.clearLastCallMessage = function () {
+    ResponseStatusBarComponent.clearLastCallMessage = function () {
         app_component_1.AppComponent.lastApiCall = null;
     };
     return ResponseStatusBarComponent;
