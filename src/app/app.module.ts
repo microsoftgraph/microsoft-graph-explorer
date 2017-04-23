@@ -22,10 +22,12 @@ import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { SampleCategoriesPanelComponent } from "./sample-categories-panel.component";
 import { RequestEditorsComponent } from "./request-editors.component";
 import { ShareLinkBtnComponent } from "./share-link-btn.component";
+import { ScopesDialogComponent } from "./scopes-dialog.component";
+import { MessageDialogComponent } from "./message-dialog.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule ],
-  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent ],
+  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, MessageDialogComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

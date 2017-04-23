@@ -8,6 +8,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AuthenticationStatus } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
+import { ScopesDialogComponent } from "./scopes-dialog.component";
 
 @Component({
   selector: 'authentication',
@@ -20,10 +21,8 @@ import { AppComponent } from "./app.component";
       }
 
       #signout {
-        text-align: right;
+        float: right;
         padding-right: 16px;
-        width: 100%;
-        display: block;
         color: #00bcf2;
       }
 
@@ -40,7 +39,7 @@ import { AppComponent } from "./app.component";
       }
 
       .noPicture .ms-Persona-details {
-          padding-left: 17px;
+          padding-left: 0px;
       }
 
       #ms-signin-button-holder {
@@ -48,6 +47,15 @@ import { AppComponent } from "./app.component";
           left: 0px;
           width: 100%;
           text-align: center;
+      }
+
+      #manage-permissions {
+          float: left;
+          color: #00bcf2;
+      }
+
+      #signout, #manage-permissions {
+          margin-top: 9px;
       }
 `],
   template: `
@@ -78,6 +86,7 @@ import { AppComponent } from "./app.component";
              </div>
          </div>
          <a href="#" id="signout" class="c-hyperlink" tabindex=0 (click)="logout()">{{getStr('sign out')}}</a>
+         <a href="#" id="manage-permissions" class="c-hyperlink" tabindex=0 (click)="manageScopes()">{{getStr('manage permissions')}}</a>
         
      </div>
      `,
@@ -92,7 +101,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }
 
   // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
-  login = function () {
+  login() {
       let loginProperties = {
         display: 'page',
         response_type: "id_token token",
@@ -101,12 +110,10 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         scope: AppComponent.Options.DefaultUserScopes
       }
 
-      hello('msft').login(loginProperties, () => {
-        debugger;
-      });
+      hello('msft').login(loginProperties);
   };
 
-  logout = () => {
+  logout() {
     // anonymous users can only GET
     this.explorerValues.selectedOption = "GET";
 
@@ -117,10 +124,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   authInfo = this.explorerValues.authentication;
-  
 
-  getAuthenticationStatus = () => {
+  getAuthenticationStatus() {
       return this.explorerValues.authentication.status;
   }
 
+  manageScopes() {
+    ScopesDialogComponent.showDialog();
+  }
 }

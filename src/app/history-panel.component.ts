@@ -149,5 +149,9 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
 
         this.loadQueryIntoEditor(query);
         this.closeHistoryPanel();
+
+        if (query.method == 'GET') {
+            AppComponent.executeExplorerQuery(true);
+        }
     }
 }

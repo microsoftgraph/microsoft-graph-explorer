@@ -3,10 +3,13 @@
 // ------------------------------------------------------------------------------
 
 import { AppModule } from "./app.module";
-import { ExplorerOptions } from "./base";
+import { ExplorerOptions, AccountType, Message } from "./base";
 import { AppComponent } from "./app.component";
 import { GraphService } from "./api-explorer-svc";
 import { ChangeDetectorRef } from "@angular/core";
+import { PermissionScopes } from "./scopes";
+import { getParameterByName } from "./util";
+import { MessageDialogComponent } from "./message-dialog.component";
 
 declare const hello: any;
 
@@ -59,9 +62,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 	hello.on('auth.login', (auth) => {
 		let accessToken;
 
-		if (auth.network == "msft_token_refresh") {
-			accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
-		} else if (auth.network == "msft") {
+		if (auth.network == "msft") {
 			let authResponse = hello('msft').getAuthResponse();
 
 			accessToken = authResponse.access_token;
@@ -80,10 +81,11 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 
 				AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
 				AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
+				AppComponent.explorerValues.authentication.user.preferred_username = resultBody.preferred_username;
 			}));
 
 			// get profile image
-			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/v1.0/me/photo/$value`).then((result) => {
+			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
 				let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
 				let imageUrl = window.URL.createObjectURL( blob );
 				AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
@@ -93,9 +95,67 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 				AppComponent.explorerValues.authentication.status = "authenticated"
 				changeDetectorRef.detectChanges();
 			});
+
+
+			// set which permissions are checked
+			let accountType = getAccountType();
+      if (accountType == "AAD") {
+				let scopes = getScopesFromJwt();
+				scopes.push("openid")
+				// let obtainedScopeArr = hello('msft').getAuthResponse().scope.toLowerCase().split(",");
+				for (let scope of PermissionScopes) {
+					scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) != -1
+				}
+			} else if (accountType == "MSA") {
+				let defaultMSAScopes = AppComponent.Options.DefaultUserScopes.toLowerCase().split(" ");
+				for (let scope of PermissionScopes) {
+					scope.enabled = scope.enabledTarget = defaultMSAScopes.indexOf(scope.name.toLowerCase()) != -1;
+				}
+			}
 		}
 	});
 	AppComponent.explorerValues.authentication.status = isAuthenticated() ? "authenticating" : "anonymous"
+
+
+	handleAdminConsentResponse();
+}
+
+function handleAdminConsentResponse() {
+	let adminConsentRes = hello('msft_admin_consent').getAuthResponse();
+
+	let successMsg:Message = {
+		body: "You have completed the admin consent flow and can now select permission scopes that require administrator consent.  It may take a few minutes before the consent takes effect.",
+		title: "Admin consent completed"
+	};
+
+
+	if (getParameterByName("admin_consent")) {
+		if (adminConsentRes) {
+			let error = adminConsentRes.error_description;
+			if (error) {
+				// hello('msft_admin_consent').logout()
+
+				MessageDialogComponent.setMessage({
+					body: error,
+					title: "Admin consent error"
+				});
+
+			} else {
+				MessageDialogComponent.setMessage(successMsg);
+			}
+		} else {
+			MessageDialogComponent.setMessage(successMsg);
+		}
+	}
+}
+
+// warning - doesn't include 'openid' scope
+export function getScopesFromJwt() {
+	let session = hello('msft').getAuthResponse();
+	let accessTokenJwt:string = session.access_token;
+
+	let parsedJwt = parseJwt(accessTokenJwt);
+	return parsedJwt.scp.toLowerCase().split(" ")
 }
 
 export function isAuthenticated():boolean {
@@ -106,3 +166,22 @@ export function isAuthenticated():boolean {
 	let currentTime = (new Date()).getTime() / 1000;
 	return session && session.access_token && session.expires > currentTime;
 };
+
+
+function parseJwt(token) {
+		let base64Url = token.split('.')[1];
+		let base64 = base64Url.replace('-', '+').replace('_', '/');
+		return JSON.parse(window.atob(base64));
+};
+
+export function getAccountType():AccountType {
+	try {
+			let session = hello('msft').getAuthResponse();
+			let token = session.access_token;
+			parseJwt(token);
+			return "AAD";
+			
+	} catch(e) {
+		return "MSA";
+	}
+}

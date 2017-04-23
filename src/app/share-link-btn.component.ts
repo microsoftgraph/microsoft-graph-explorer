@@ -16,7 +16,7 @@ declare let fabric:any;
     <div class="ms-Dialog" id="share-link-dialog">
         <div class="ms-Dialog-title">{{getStr('Share Query')}}</div>
         <div class="ms-Dialog-content">
-            <label class="c-label" for="default">{{getStr('Share this link to let people try your current query in the Graph Explorer.')}}</label>
+            <label for="default">{{getStr('Share this link to let people try your current query in the Graph Explorer.')}}</label>
             <input id="default" class="c-text-field" type="text" name="default" (click)="this.select();" value="{{getShareLink()}}">
         </div>
       <div class="ms-Dialog-actions">
@@ -54,7 +54,7 @@ export class ShareLinkBtnComponent extends GraphExplorerComponent implements Aft
     }
 
     showShareDialog() {
-        const el = document.querySelector(".ms-Dialog")
+        const el = document.querySelector("#share-link-dialog")
         const fabricDialog = new fabric['Dialog'](el);
         fabricDialog.open();
     }

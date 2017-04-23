@@ -31,6 +31,8 @@ declare let mwf:any;
     </div>
     <history-panel></history-panel>
     <sample-categories-panel></sample-categories-panel>
+    <scopes-dialog></scopes-dialog>
+    <message-dialog></message-dialog>
     `,
   styles: [`
   #explorer-main {

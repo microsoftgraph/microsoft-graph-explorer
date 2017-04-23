@@ -55,5 +55,7 @@
   "Key": "Key",
   "Value": "Value",
 
-  "Login to try this request": "Login to try this request"
+  "Login to try this request": "Login to try this request",
+
+  "manage permissions": "manage permissions"
 }

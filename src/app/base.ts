@@ -26,9 +26,26 @@ export let Methods:RequestType[] = [
     'DELETE'
 ];
 
+export type AccountType = "MSA" | "AAD";
+
 export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
 export type RequestType = "GET" | "PUT" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
+
+export interface PermissionScope {
+  name: string
+  description: string
+  longDescription: string
+  preview: boolean
+  admin: boolean
+
+  enabled: boolean
+
+  /**
+   * Used in the scopes dialog for checking/unchecking before scope is actually enabled in the token.
+   */
+  enabledTarget: boolean
+}
 
 export interface GraphApiCall {
     statusCode?: number
@@ -69,6 +86,7 @@ export interface ExplorerValues {
             displayName?: string
             emailAddress?: string
             profileImageUrl?: string
+            preferred_username?: string
         }
     }
     showImage: boolean
@@ -143,4 +161,9 @@ export function substitueTokens(query:SampleQuery) {
             query.requestUrl = query.requestUrl.replace(token, Tokens[token]);
         }
     }
+}
+
+export interface Message {
+    title: string
+    body: string
 }
