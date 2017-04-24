@@ -21,6 +21,7 @@ declare let fabric, mwf;
 
   .ms-Dialog {
     max-width: 770px;
+    z-index: 999;
   }
 
   .ms-Dialog-title {
@@ -43,6 +44,7 @@ declare let fabric, mwf;
   .c-checkbox input[type=checkbox]:focus+span:before {
     outline: none !important;
   }
+
 `],
   template: `
 

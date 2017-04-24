@@ -114,3 +114,12 @@
 #deltaUi {
     display: none;
 }
+
+
+.ms-Overlay.is-visible {
+    z-index: 990;
+}
+
+.ms-Dialog-button {
+    min-width: initial;
+}
