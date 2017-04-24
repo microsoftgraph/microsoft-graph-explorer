@@ -30,7 +30,11 @@
 }
 
 #graph-version-select #-Other {
-    display:none
+    display: none;
+}
+
+api-explorer button {
+    min-width: initial;
 }
 
 .ms-Spinner-circle {
@@ -122,4 +126,8 @@
 
 .ms-Dialog-button {
     min-width: initial;
+}
+
+.c-menu-item {
+    margin-bottom: 0px;
 }
