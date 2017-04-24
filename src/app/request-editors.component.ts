@@ -27,6 +27,11 @@ declare let mwf;
   table {
       width: 100%;
   }
+
+  td.half-width-col {
+      width: 45%;
+  }
+
   th {
       text-align: left;
       font-weight: 300;
@@ -78,17 +83,17 @@ declare let mwf;
                         <th>{{getStr('Value')}}</th>
                     </tr>
                     <tr *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
-                        <td>
-                        <div class="c-search header-autocomplete" autocomplete="off">
-                            <input role="combobox" class="c-text-field header-name" (ngModelChange)="createNewHeaderField()" [attr.aria-controls]="'headers-autosuggest-'+idx" aria-autocomplete="both" aria-expanded="false" type="text" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly">
-                            <div class="m-auto-suggest" [attr.id]="'headers-autosuggest-'+idx" role="group">
-                                <ul class="c-menu" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
-                                <ul class="c-menu f-auto-suggest-no-results" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0"></ul>
+                        <td class="half-width-col">
+                            <div class="c-search header-autocomplete" autocomplete="off">
+                                <input role="combobox" class="c-text-field header-name" (ngModelChange)="createNewHeaderField()" [attr.aria-controls]="'headers-autosuggest-'+idx" aria-autocomplete="both" aria-expanded="false" type="text" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly">
+                                <div class="m-auto-suggest" [attr.id]="'headers-autosuggest-'+idx" role="group">
+                                    <ul class="c-menu" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
+                                    <ul class="c-menu f-auto-suggest-no-results" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0"></ul>
+                                </div>
                             </div>
-                        </div>
 
                         </td>
-                        <td>
+                        <td class="half-width-col">
                             <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [ngClass]="{hide: isLastHeader(header)}">
                         </td>
                         <td class="remove-header-btn" [hidden]="isLastHeader(header)">

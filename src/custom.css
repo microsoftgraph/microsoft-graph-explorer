@@ -104,3 +104,13 @@
     transform: none;
     top: 10%;
 }
+
+
+/* frontdoor */
+.ms-PanelHost {
+    z-index: 999;
+}
+
+#deltaUi {
+    display: none;
+}

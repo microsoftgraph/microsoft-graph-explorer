@@ -39,12 +39,12 @@ export interface PermissionScope {
   preview: boolean
   admin: boolean
 
-  enabled: boolean
+  enabled?: boolean
 
   /**
    * Used in the scopes dialog for checking/unchecking before scope is actually enabled in the token.
    */
-  enabledTarget: boolean
+  enabledTarget?: boolean
 }
 
 export interface GraphApiCall {

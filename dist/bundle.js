@@ -67976,7 +67976,6 @@ var app_component_1 = require("./app.component");
 require("rxjs/add/operator/toPromise");
 var GraphService = GraphService_1 = (function () {
     function GraphService(http) {
-        var _this = this;
         this.http = http;
         this.performQuery = function (queryType, query, postBody, requestHeaders) {
             if (typeof requestHeaders == "undefined") {
@@ -67999,7 +67998,7 @@ var GraphService = GraphService_1 = (function () {
             }
         };
         this.getMetadata = function (version) {
-            return _this.performAnonymousQuery("GET", app_component_1.AppComponent.Options.GraphUrl + "/" + version + "/$metadata");
+            return GraphService_1._http.get(app_component_1.AppComponent.Options.GraphUrl + "/" + version + "/$metadata").toPromise();
         };
         GraphService_1._http = http;
     }
@@ -68160,7 +68159,7 @@ AppComponent = AppComponent_1 = __decorate([
     core_1.Component({
         selector: 'api-explorer',
         providers: [api_explorer_svc_1.GraphService],
-        template: "\n    <div class=\"ms-Grid\"> \n      <div class=\"ms-Grid-row\">\n        <sidebar class=\"ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2\"></sidebar>\n        <main-column class=\"ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10\" id=\"explorer-main\"></main-column>\n    </div>\n    <history-panel></history-panel>\n    <sample-categories-panel></sample-categories-panel>\n    ",
+        template: "\n    <div class=\"ms-Grid\"> \n      <div class=\"ms-Grid-row\">\n        <sidebar class=\"ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2\"></sidebar>\n        <main-column class=\"ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10\" id=\"explorer-main\"></main-column>\n    </div>\n    <history-panel></history-panel>\n    <sample-categories-panel></sample-categories-panel>\n    <scopes-dialog></scopes-dialog>\n    <message-dialog></message-dialog>\n    ",
         styles: ["\n  #explorer-main {\n      padding-left: 12px;\n  }\n\n  sidebar {\n      padding: 0px;\n  }\n\n"]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService, core_1.ChangeDetectorRef])
@@ -68221,7 +68220,7 @@ function handleUnsuccessfulQueryResponse(res, query) {
 }
 var AppComponent_1;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./graph-structure":66,"./history":69,"./response-handlers":76,"./response-status-bar.component":77,"./util":81,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./graph-structure":66,"./history":69,"./response-handlers":77,"./response-status-bar.component":78,"./util":84,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -68247,6 +68246,8 @@ var response_status_bar_component_1 = require("./response-status-bar.component")
 var sample_categories_panel_component_1 = require("./sample-categories-panel.component");
 var request_editors_component_1 = require("./request-editors.component");
 var share_link_btn_component_1 = require("./share-link-btn.component");
+var scopes_dialog_component_1 = require("./scopes-dialog.component");
+var message_dialog_component_1 = require("./message-dialog.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -68255,16 +68256,19 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, animations_1.BrowserAnimationsModule],
-        declarations: [app_component_1.AppComponent, authentication_component_1.AuthenticationComponent, sidebar_component_1.SidebarComponent, queryrow_component_1.QueryRowComponent, main_column_component_1.MainColumnComponent, history_query_component_1.HistoryRowComponent, history_panel_component_1.HistoryPanelComponent, method_badge_component_1.MethodBadgeComponent, response_status_bar_component_1.ResponseStatusBarComponent, sample_categories_panel_component_1.SampleCategoriesPanelComponent, request_editors_component_1.RequestEditorsComponent, share_link_btn_component_1.ShareLinkBtnComponent],
+        declarations: [app_component_1.AppComponent, authentication_component_1.AuthenticationComponent, sidebar_component_1.SidebarComponent, queryrow_component_1.QueryRowComponent, main_column_component_1.MainColumnComponent, history_query_component_1.HistoryRowComponent, history_panel_component_1.HistoryPanelComponent, method_badge_component_1.MethodBadgeComponent, response_status_bar_component_1.ResponseStatusBarComponent, sample_categories_panel_component_1.SampleCategoriesPanelComponent, request_editors_component_1.RequestEditorsComponent, share_link_btn_component_1.ShareLinkBtnComponent, scopes_dialog_component_1.ScopesDialogComponent, message_dialog_component_1.MessageDialogComponent],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);
 exports.AppModule = AppModule;
 
-},{"./app.component":58,"./authentication.component":61,"./history-panel.component":67,"./history-query.component":68,"./main-column.component":71,"./method-badge.component":72,"./queryrow.component":74,"./request-editors.component":75,"./response-status-bar.component":77,"./sample-categories-panel.component":78,"./share-link-btn.component":79,"./sidebar.component":80,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],60:[function(require,module,exports){
+},{"./app.component":58,"./authentication.component":61,"./history-panel.component":67,"./history-query.component":68,"./main-column.component":71,"./message-dialog.component":72,"./method-badge.component":73,"./queryrow.component":75,"./request-editors.component":76,"./response-status-bar.component":78,"./sample-categories-panel.component":79,"./scopes-dialog.component":80,"./share-link-btn.component":82,"./sidebar.component":83,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],60:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
+var scopes_1 = require("./scopes");
+var util_1 = require("./util");
+var message_dialog_component_1 = require("./message-dialog.component");
 function initAuth(options, apiService, changeDetectorRef) {
     hello.init({
         msft: {
@@ -68302,10 +68306,7 @@ function initAuth(options, apiService, changeDetectorRef) {
     });
     hello.on('auth.login', function (auth) {
         var accessToken;
-        if (auth.network == "msft_token_refresh") {
-            accessToken = hello('msft_token_refresh').getAuthResponse().access_token;
-        }
-        else if (auth.network == "msft") {
+        if (auth.network == "msft") {
             var authResponse = hello('msft').getAuthResponse();
             accessToken = authResponse.access_token;
         }
@@ -68318,8 +68319,9 @@ function initAuth(options, apiService, changeDetectorRef) {
                 var resultBody = result.json();
                 app_component_1.AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
                 app_component_1.AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
+                app_component_1.AppComponent.explorerValues.authentication.user.preferred_username = resultBody.preferred_username;
             }));
-            promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', app_component_1.AppComponent.Options.GraphUrl + "/v1.0/me/photo/$value").then(function (result) {
+            promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', app_component_1.AppComponent.Options.GraphUrl + "/beta/me/photo/$value").then(function (result) {
                 var blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
                 var imageUrl = window.URL.createObjectURL(blob);
                 app_component_1.AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
@@ -68328,11 +68330,59 @@ function initAuth(options, apiService, changeDetectorRef) {
                 app_component_1.AppComponent.explorerValues.authentication.status = "authenticated";
                 changeDetectorRef.detectChanges();
             });
+            var accountType = getAccountType();
+            if (accountType == "AAD") {
+                var scopes = getScopesFromJwt();
+                scopes.push("openid");
+                for (var _i = 0, PermissionScopes_1 = scopes_1.PermissionScopes; _i < PermissionScopes_1.length; _i++) {
+                    var scope = PermissionScopes_1[_i];
+                    scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) != -1;
+                }
+            }
+            else if (accountType == "MSA") {
+                var defaultMSAScopes = app_component_1.AppComponent.Options.DefaultUserScopes.toLowerCase().split(" ");
+                for (var _a = 0, PermissionScopes_2 = scopes_1.PermissionScopes; _a < PermissionScopes_2.length; _a++) {
+                    var scope = PermissionScopes_2[_a];
+                    scope.enabled = scope.enabledTarget = defaultMSAScopes.indexOf(scope.name.toLowerCase()) != -1;
+                }
+            }
         }
     });
     app_component_1.AppComponent.explorerValues.authentication.status = isAuthenticated() ? "authenticating" : "anonymous";
+    handleAdminConsentResponse();
 }
 exports.initAuth = initAuth;
+function handleAdminConsentResponse() {
+    var adminConsentRes = hello('msft_admin_consent').getAuthResponse();
+    var successMsg = {
+        body: "You have completed the admin consent flow and can now select permission scopes that require administrator consent.  It may take a few minutes before the consent takes effect.",
+        title: "Admin consent completed"
+    };
+    if (util_1.getParameterByName("admin_consent")) {
+        if (adminConsentRes) {
+            var error = adminConsentRes.error_description;
+            if (error) {
+                message_dialog_component_1.MessageDialogComponent.setMessage({
+                    body: error,
+                    title: "Admin consent error"
+                });
+            }
+            else {
+                message_dialog_component_1.MessageDialogComponent.setMessage(successMsg);
+            }
+        }
+        else {
+            message_dialog_component_1.MessageDialogComponent.setMessage(successMsg);
+        }
+    }
+}
+function getScopesFromJwt() {
+    var session = hello('msft').getAuthResponse();
+    var accessTokenJwt = session.access_token;
+    var parsedJwt = parseJwt(accessTokenJwt);
+    return parsedJwt.scp.toLowerCase().split(" ");
+}
+exports.getScopesFromJwt = getScopesFromJwt;
 function isAuthenticated() {
     var session = hello('msft').getAuthResponse();
     if (session === null)
@@ -68342,8 +68392,26 @@ function isAuthenticated() {
 }
 exports.isAuthenticated = isAuthenticated;
 ;
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
+}
+;
+function getAccountType() {
+    try {
+        var session = hello('msft').getAuthResponse();
+        var token = session.access_token;
+        parseJwt(token);
+        return "AAD";
+    }
+    catch (e) {
+        return "MSA";
+    }
+}
+exports.getAccountType = getAccountType;
 
-},{"./app.component":58}],61:[function(require,module,exports){
+},{"./app.component":58,"./message-dialog.component":72,"./scopes":81,"./util":84}],61:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -68369,51 +68437,54 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var app_component_1 = require("./app.component");
+var scopes_dialog_component_1 = require("./scopes-dialog.component");
 var AuthenticationComponent = (function (_super) {
     __extends(AuthenticationComponent, _super);
     function AuthenticationComponent(sanitizer) {
         var _this = _super.call(this) || this;
         _this.sanitizer = sanitizer;
-        _this.login = function () {
-            var loginProperties = {
-                display: 'page',
-                response_type: "id_token token",
-                nonce: 'graph_explorer',
-                prompt: 'select_account',
-                scope: app_component_1.AppComponent.Options.DefaultUserScopes
-            };
-            hello('msft').login(loginProperties, function () {
-                debugger;
-            });
-        };
-        _this.logout = function () {
-            _this.explorerValues.selectedOption = "GET";
-            hello('msft').logout(null, { force: true });
-            _this.explorerValues.authentication.status = "anonymous";
-            delete _this.explorerValues.authentication.user;
-        };
         _this.authInfo = _this.explorerValues.authentication;
-        _this.getAuthenticationStatus = function () {
-            return _this.explorerValues.authentication.status;
-        };
         return _this;
     }
     AuthenticationComponent.prototype.sanitize = function (url) {
         return this.sanitizer.bypassSecurityTrustUrl(url);
+    };
+    AuthenticationComponent.prototype.login = function () {
+        var loginProperties = {
+            display: 'page',
+            response_type: "id_token token",
+            nonce: 'graph_explorer',
+            prompt: 'select_account',
+            scope: app_component_1.AppComponent.Options.DefaultUserScopes
+        };
+        hello('msft').login(loginProperties);
+    };
+    ;
+    AuthenticationComponent.prototype.logout = function () {
+        this.explorerValues.selectedOption = "GET";
+        hello('msft').logout(null, { force: true });
+        this.explorerValues.authentication.status = "anonymous";
+        delete this.explorerValues.authentication.user;
+    };
+    AuthenticationComponent.prototype.getAuthenticationStatus = function () {
+        return this.explorerValues.authentication.status;
+    };
+    AuthenticationComponent.prototype.manageScopes = function () {
+        scopes_dialog_component_1.ScopesDialogComponent.showDialog();
     };
     return AuthenticationComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
 AuthenticationComponent = __decorate([
     core_1.Component({
         selector: 'authentication',
-        styles: ["\n      #ms-signin-button {\n          max-width: 215px;\n          margin: 20px 0 0px 0px;\n          cursor: pointer;\n          display: inline-block;\n      }\n\n      #signout {\n        text-align: right;\n        padding-right: 16px;\n        width: 100%;\n        display: block;\n        color: #00bcf2;\n      }\n\n      #userDisplayName {\n          color: #e2e2e2\n      }\n\n      #userMail {\n          color: #a0a0a0;\n      }\n\n      #authenticating-progress-bar {\n          margin: 0px auto;\n      }\n\n      .noPicture .ms-Persona-details {\n          padding-left: 17px;\n      }\n\n      #ms-signin-button-holder {\n          position: absolute;\n          left: 0px;\n          width: 100%;\n          text-align: center;\n      }\n"],
-        template: "\n    <div *ngIf=\"getAuthenticationStatus() == 'anonymous'\">\n        <div tabindex=\"-1\">{{getStr('Using demo tenant')}}</div>\n        <div tabindex=\"-1\">{{getStr('To access your own data:')}}</div>\n        <div id=\"ms-signin-button-holder\">\n            <img id=\"ms-signin-button\" alt=\"{{getStr('sign in')}}\" src=\"{{getAssetPath('assets/images/MSSignInButton.svg')}}\" (click)=\"login()\"/>\n        </div>\n    </div>\n    <div *ngIf=\"getAuthenticationStatus() == 'authenticating'\">\n        <div class=\"c-progress f-indeterminate-local f-progress-small\" id=\"authenticating-progress-bar\" role=\"progressbar\" aria-valuetext=\"Loading...\" tabindex=\"0\" aria-label=\"indeterminate local small progress bar\">\n            <span></span>\n            <span></span>\n            <span></span>\n            <span></span>\n            <span></span>\n        </div>\n    </div>\n    <div *ngIf=\"getAuthenticationStatus() == 'authenticated'\" id=\"persona-holder\">\n         <div class=\"ms-Persona\" [ngClass]=\"{noPicture: !authInfo.user.profileImageUrl}\">\n             <div class=\"ms-Persona-imageArea\" *ngIf=\"authInfo.user.profileImageUrl\">\n                 <img class=\"ms-Persona-image\" [src]=\"sanitize(authInfo.user.profileImageUrl)\">\n             </div>\n             <div class=\"ms-Persona-details\">\n                 <div class=\"ms-Persona-primaryText\" id='userDisplayName' *ngIf=\"authInfo.user.displayName\">{{authInfo.user.displayName}}</div>\n                 <div class=\"ms-Persona-secondaryText\" id='userMail' *ngIf=\"authInfo.user.emailAddress\">{{authInfo.user.emailAddress}}</div>\n             </div>\n         </div>\n         <a href=\"#\" id=\"signout\" class=\"c-hyperlink\" tabindex=0 (click)=\"logout()\">{{getStr('sign out')}}</a>\n        \n     </div>\n     ",
+        styles: ["\n      #ms-signin-button {\n          max-width: 215px;\n          margin: 20px 0 0px 0px;\n          cursor: pointer;\n          display: inline-block;\n      }\n\n      #signout {\n        float: right;\n        padding-right: 16px;\n        color: #00bcf2;\n      }\n\n      #userDisplayName {\n          color: #e2e2e2\n      }\n\n      #userMail {\n          color: #a0a0a0;\n      }\n\n      #authenticating-progress-bar {\n          margin: 0px auto;\n      }\n\n      .noPicture .ms-Persona-details {\n          padding-left: 0px;\n      }\n\n      #ms-signin-button-holder {\n          position: absolute;\n          left: 0px;\n          width: 100%;\n          text-align: center;\n      }\n\n      #manage-permissions {\n          float: left;\n          color: #00bcf2;\n      }\n\n      #signout, #manage-permissions {\n          margin-top: 9px;\n      }\n"],
+        template: "\n    <div *ngIf=\"getAuthenticationStatus() == 'anonymous'\">\n        <div tabindex=\"-1\">{{getStr('Using demo tenant')}}</div>\n        <div tabindex=\"-1\">{{getStr('To access your own data:')}}</div>\n        <div id=\"ms-signin-button-holder\">\n            <img id=\"ms-signin-button\" alt=\"{{getStr('sign in')}}\" src=\"{{getAssetPath('assets/images/MSSignInButton.svg')}}\" (click)=\"login()\"/>\n        </div>\n    </div>\n    <div *ngIf=\"getAuthenticationStatus() == 'authenticating'\">\n        <div class=\"c-progress f-indeterminate-local f-progress-small\" id=\"authenticating-progress-bar\" role=\"progressbar\" aria-valuetext=\"Loading...\" tabindex=\"0\" aria-label=\"indeterminate local small progress bar\">\n            <span></span>\n            <span></span>\n            <span></span>\n            <span></span>\n            <span></span>\n        </div>\n    </div>\n    <div *ngIf=\"getAuthenticationStatus() == 'authenticated'\" id=\"persona-holder\">\n         <div class=\"ms-Persona\" [ngClass]=\"{noPicture: !authInfo.user.profileImageUrl}\">\n             <div class=\"ms-Persona-imageArea\" *ngIf=\"authInfo.user.profileImageUrl\">\n                 <img class=\"ms-Persona-image\" [src]=\"sanitize(authInfo.user.profileImageUrl)\">\n             </div>\n             <div class=\"ms-Persona-details\">\n                 <div class=\"ms-Persona-primaryText\" id='userDisplayName' *ngIf=\"authInfo.user.displayName\">{{authInfo.user.displayName}}</div>\n                 <div class=\"ms-Persona-secondaryText\" id='userMail' *ngIf=\"authInfo.user.emailAddress\">{{authInfo.user.emailAddress}}</div>\n             </div>\n         </div>\n         <a href=\"#\" id=\"signout\" class=\"c-hyperlink\" tabindex=0 (click)=\"logout()\">{{getStr('sign out')}}</a>\n         <a href=\"#\" id=\"manage-permissions\" class=\"c-hyperlink\" tabindex=0 (click)=\"manageScopes()\">{{getStr('manage permissions')}}</a>\n        \n     </div>\n     ",
     }),
     __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])
 ], AuthenticationComponent);
 exports.AuthenticationComponent = AuthenticationComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5,"@angular/platform-browser":10}],62:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":58,"./scopes-dialog.component":80,"@angular/core":5,"@angular/platform-browser":10}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runInTestMode = typeof document === "undefined";
@@ -68955,7 +69026,7 @@ for (var categoryTitle in categories) {
     exports.SampleCategories.push(category);
 }
 
-},{"./base":62,"./gen-queries":64,"./postBodyTemplates/queries":73}],66:[function(require,module,exports){
+},{"./base":62,"./gen-queries":64,"./postBodyTemplates/queries":74}],66:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -69224,6 +69295,9 @@ var HistoryPanelComponent = (function (_super) {
         }
         this.loadQueryIntoEditor(query);
         this.closeHistoryPanel();
+        if (query.method == 'GET') {
+            app_component_1.AppComponent.executeExplorerQuery(true);
+        }
     };
     return HistoryPanelComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
@@ -69301,7 +69375,7 @@ HistoryRowComponent = __decorate([
 ], HistoryRowComponent);
 exports.HistoryRowComponent = HistoryRowComponent;
 
-},{"./queryrow.component":74,"@angular/core":5,"moment":11}],69:[function(require,module,exports){
+},{"./queryrow.component":75,"@angular/core":5,"moment":11}],69:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var LocalStorageKeyGraphRequestHistory = "GRAPH_V4.1_REQUEST_HISTORY";
@@ -69361,58 +69435,6 @@ exports.loc_strings['de-DE'] = {
     "my calendar": "mein Kalender",
     "my manager": "mein Manager"
 };
-exports.loc_strings['en-US'] = {
-    "To try the explorer, please ": "To try the explorer, please ",
-    "sign in": "sign in",
-    " with your work or school account from Microsoft.": " with your work or school account from Microsoft.",
-    "Submit": "Submit",
-    "Using demo tenant": "You are currently using a sample account.",
-    "To access your own data:": "To access your own data:",
-    "sign out": "sign out",
-    "History": "History",
-    "Method": "Method",
-    "Query": "Query",
-    "Status Code": "Status Code",
-    "Duration": "Duration",
-    "Go": "Go",
-    "milliseconds": "ms",
-    "YES": "YES",
-    "Show More": "show more",
-    "Graph Explorer": "Graph Explorer",
-    "Failure": "Failure",
-    "Success": "Success",
-    "Authentication": "Authentication",
-    "NO": "NO",
-    "request header": "Request Headers",
-    "Run Query": "Run Query",
-    "request body": "Request Body",
-    "Close": "Close",
-    "Getting Started": "Getting Started",
-    "Response": "Response",
-    "login to send requests": "Login to change the request type",
-    "Share Query": "Share Query",
-    "Share this link to let people try your current query in the Graph Explorer.": "Share this link to let people try your current query in the Graph Explorer.",
-    "Date": "Date",
-    "my profile": "my profile",
-    "my files": "my files",
-    "my photo": "my photo",
-    "my mail": "my mail",
-    "my high importance mail": "my high importance mail",
-    "my calendar": "my calendar",
-    "my manager": "my manager",
-    "Response Headers": "Response Headers",
-    "Response Preview": "Response Preview",
-    "Sample Queries": "Sample Queries",
-    "show more groups": "show more groups",
-    "Edit Sample Categories": "Edit Sample Categories",
-    "On": "On",
-    "Off": "Off",
-    "Remove All": "Remove All",
-    "Enter new header": "Enter new header",
-    "Key": "Key",
-    "Value": "Value",
-    "Login to try this request": "Login to try this request"
-};
 exports.loc_strings['es-ES'] = {
     "To try the explorer, please ": "Para utilizar el probador,  ",
     "sign in": "inicie sesión",
@@ -69451,84 +69473,6 @@ exports.loc_strings['es-ES'] = {
     "my high importance mail": "mi correo electrónico de importancia alta",
     "my calendar": "mi calendario",
     "my manager": "mi administrador"
-};
-exports.loc_strings['ru-RU'] = {
-    "To try the explorer, please ": "Чтобы опробовать песочницу, ",
-    "sign in": "войдите",
-    " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.",
-    "Submit": "Отправить",
-    "Using demo tenant": "В настоящее время вы используете пример учетной записи.",
-    "To access your own data:": "Для доступа к собственным данным:",
-    "sign out": "Выход",
-    "History": "Журнал",
-    "Method": "Метод",
-    "Query": "Запрос",
-    "Status Code": "Код состояния",
-    "Duration": "Срок действия",
-    "Go": "Переход",
-    "milliseconds": "мс",
-    "YES": "ДА",
-    "Show More": "Больше",
-    "Graph Explorer": "Песочница Graph",
-    "Failure": "Ошибка",
-    "Success": "Успешно",
-    "Authentication": "Проверка подлинности",
-    "NO": "НЕТ",
-    "request header": "Заголовки запросов",
-    "Run Query": "Выполнить запрос",
-    "request body": "Текст запроса",
-    "Close": "Закрыть",
-    "Getting Started": "Начало работы",
-    "Response": "Отклик",
-    "login to send requests": "Войдите, чтобы изменить тип запроса",
-    "Share Query": "Поделиться запросом",
-    "Share this link to let people try your current query in the Graph Explorer.": "Поделитесь этой ссылкой, чтобы другие пользователи могли попробовать ваш текущий запрос в песочнице Graph.",
-    "my profile": "мой профиль",
-    "my files": "мои файлы",
-    "my photo": "мои фото",
-    "my mail": "моя почта",
-    "my high importance mail": "моя почта высокой важности",
-    "my calendar": "мой календарь",
-    "my manager": "мой руководитель"
-};
-exports.loc_strings['ja-JP'] = {
-    "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
-    "sign in": "サインイン",
-    " with your work or school account from Microsoft.": " します。",
-    "Submit": "送信",
-    "Using demo tenant": "現在、サンプル アカウントを使用しています。",
-    "To access your own data:": "自分のデータにアクセスするには:",
-    "sign out": "サインアウト",
-    "History": "履歴",
-    "Method": "メソッド",
-    "Query": "クエリ",
-    "Status Code": "状態コード",
-    "Duration": "期間",
-    "Go": "実行",
-    "milliseconds": "ミリ秒",
-    "YES": "はい",
-    "Show More": "詳細表示",
-    "Graph Explorer": "Graph エクスプローラー",
-    "Failure": "失敗",
-    "Success": "成功",
-    "Authentication": "認証",
-    "NO": "いいえ",
-    "request header": "要求ヘッダー",
-    "Run Query": "クエリを実行",
-    "request body": "要求本文",
-    "Close": "閉じる",
-    "Getting Started": "はじめに",
-    "Response": "応答",
-    "login to send requests": "要求の種類を変更するにはログインしてください",
-    "Share Query": "クエリの共有",
-    "Share this link to let people try your current query in the Graph Explorer.": "他のユーザーが Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。",
-    "my profile": "自分のプロファイル",
-    "my files": "自分のファイル",
-    "my photo": "自分の写真",
-    "my mail": "自分のメール",
-    "my high importance mail": "重要度の高い自分のメール",
-    "my calendar": "自分の予定表",
-    "my manager": "自分の上司"
 };
 exports.loc_strings['fr-FR'] = {
     "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ",
@@ -69607,6 +69551,137 @@ exports.loc_strings['pt-BR'] = {
     "my high importance mail": "meu email de alta prioridade",
     "my calendar": "meu calendário",
     "my manager": "meu gerente"
+};
+exports.loc_strings['ru-RU'] = {
+    "To try the explorer, please ": "Чтобы опробовать песочницу, ",
+    "sign in": "войдите",
+    " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.",
+    "Submit": "Отправить",
+    "Using demo tenant": "В настоящее время вы используете пример учетной записи.",
+    "To access your own data:": "Для доступа к собственным данным:",
+    "sign out": "Выход",
+    "History": "Журнал",
+    "Method": "Метод",
+    "Query": "Запрос",
+    "Status Code": "Код состояния",
+    "Duration": "Срок действия",
+    "Go": "Переход",
+    "milliseconds": "мс",
+    "YES": "ДА",
+    "Show More": "Больше",
+    "Graph Explorer": "Песочница Graph",
+    "Failure": "Ошибка",
+    "Success": "Успешно",
+    "Authentication": "Проверка подлинности",
+    "NO": "НЕТ",
+    "request header": "Заголовки запросов",
+    "Run Query": "Выполнить запрос",
+    "request body": "Текст запроса",
+    "Close": "Закрыть",
+    "Getting Started": "Начало работы",
+    "Response": "Отклик",
+    "login to send requests": "Войдите, чтобы изменить тип запроса",
+    "Share Query": "Поделиться запросом",
+    "Share this link to let people try your current query in the Graph Explorer.": "Поделитесь этой ссылкой, чтобы другие пользователи могли попробовать ваш текущий запрос в песочнице Graph.",
+    "my profile": "мой профиль",
+    "my files": "мои файлы",
+    "my photo": "мои фото",
+    "my mail": "моя почта",
+    "my high importance mail": "моя почта высокой важности",
+    "my calendar": "мой календарь",
+    "my manager": "мой руководитель"
+};
+exports.loc_strings['en-US'] = {
+    "To try the explorer, please ": "To try the explorer, please ",
+    "sign in": "sign in",
+    " with your work or school account from Microsoft.": " with your work or school account from Microsoft.",
+    "Submit": "Submit",
+    "Using demo tenant": "You are currently using a sample account.",
+    "To access your own data:": "To access your own data:",
+    "sign out": "sign out",
+    "History": "History",
+    "Method": "Method",
+    "Query": "Query",
+    "Status Code": "Status Code",
+    "Duration": "Duration",
+    "Go": "Go",
+    "milliseconds": "ms",
+    "YES": "YES",
+    "Show More": "show more",
+    "Graph Explorer": "Graph Explorer",
+    "Failure": "Failure",
+    "Success": "Success",
+    "Authentication": "Authentication",
+    "NO": "NO",
+    "request header": "Request Headers",
+    "Run Query": "Run Query",
+    "request body": "Request Body",
+    "Close": "Close",
+    "Getting Started": "Getting Started",
+    "Response": "Response",
+    "login to send requests": "Login to change the request type",
+    "Share Query": "Share Query",
+    "Share this link to let people try your current query in the Graph Explorer.": "Share this link to let people try your current query in the Graph Explorer.",
+    "Date": "Date",
+    "my profile": "my profile",
+    "my files": "my files",
+    "my photo": "my photo",
+    "my mail": "my mail",
+    "my high importance mail": "my high importance mail",
+    "my calendar": "my calendar",
+    "my manager": "my manager",
+    "Response Headers": "Response Headers",
+    "Response Preview": "Response Preview",
+    "Sample Queries": "Sample Queries",
+    "show more groups": "show more groups",
+    "Edit Sample Categories": "Edit Sample Categories",
+    "On": "On",
+    "Off": "Off",
+    "Remove All": "Remove All",
+    "Enter new header": "Enter new header",
+    "Key": "Key",
+    "Value": "Value",
+    "Login to try this request": "Login to try this request",
+    "manage permissions": "manage permissions"
+};
+exports.loc_strings['ja-JP'] = {
+    "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
+    "sign in": "サインイン",
+    " with your work or school account from Microsoft.": " します。",
+    "Submit": "送信",
+    "Using demo tenant": "現在、サンプル アカウントを使用しています。",
+    "To access your own data:": "自分のデータにアクセスするには:",
+    "sign out": "サインアウト",
+    "History": "履歴",
+    "Method": "メソッド",
+    "Query": "クエリ",
+    "Status Code": "状態コード",
+    "Duration": "期間",
+    "Go": "実行",
+    "milliseconds": "ミリ秒",
+    "YES": "はい",
+    "Show More": "詳細表示",
+    "Graph Explorer": "Graph エクスプローラー",
+    "Failure": "失敗",
+    "Success": "成功",
+    "Authentication": "認証",
+    "NO": "いいえ",
+    "request header": "要求ヘッダー",
+    "Run Query": "クエリを実行",
+    "request body": "要求本文",
+    "Close": "閉じる",
+    "Getting Started": "はじめに",
+    "Response": "応答",
+    "login to send requests": "要求の種類を変更するにはログインしてください",
+    "Share Query": "クエリの共有",
+    "Share this link to let people try your current query in the Graph Explorer.": "他のユーザーが Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。",
+    "my profile": "自分のプロファイル",
+    "my files": "自分のファイル",
+    "my photo": "自分の写真",
+    "my mail": "自分のメール",
+    "my high importance mail": "重要度の高い自分のメール",
+    "my calendar": "自分の予定表",
+    "my manager": "自分の上司"
 };
 exports.loc_strings['zh-CN'] = {
     "To try the explorer, please ": "若要尝试使用资源管理器，请若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户 ",
@@ -69846,6 +69921,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var MessageDialogComponent = MessageDialogComponent_1 = (function () {
+    function MessageDialogComponent() {
+    }
+    MessageDialogComponent.setMessage = function (message) {
+        MessageDialogComponent_1.message = message;
+        setTimeout(function () { MessageDialogComponent_1.showDialog(); });
+    };
+    MessageDialogComponent.prototype.getMessage = function () {
+        return MessageDialogComponent_1.message;
+    };
+    MessageDialogComponent.showDialog = function () {
+        var el = document.querySelector("#message-dialog");
+        var fabricDialog = new fabric['Dialog'](el);
+        fabricDialog.open();
+    };
+    return MessageDialogComponent;
+}());
+MessageDialogComponent = MessageDialogComponent_1 = __decorate([
+    core_1.Component({
+        selector: 'message-dialog',
+        template: "\n  <div>\n    <div class=\"ms-Dialog\" id=\"message-dialog\">\n      <div class=\"ms-Dialog-title\" *ngIf=\"getMessage()\">{{getMessage().title}}</div>\n      <div class=\"ms-Dialog-content\" *ngIf=\"getMessage()\">\n        {{getMessage().body}}\n      </div>\n      <div class=\"ms-Dialog-actions\">\n        <button class=\"ms-Button ms-Dialog-action\">\n          <span class=\"ms-Button-label\">Close</span> \n        </button>\n      </div>\n    </div>\n  </div>\n    ",
+        styles: ["\n"]
+    })
+], MessageDialogComponent);
+exports.MessageDialogComponent = MessageDialogComponent;
+var MessageDialogComponent_1;
+
+},{"@angular/core":5}],73:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
@@ -69869,7 +69981,7 @@ MethodBadgeComponent = __decorate([
 ], MethodBadgeComponent);
 exports.MethodBadgeComponent = MethodBadgeComponent;
 
-},{"@angular/core":5}],73:[function(require,module,exports){
+},{"@angular/core":5}],74:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendMail = {
@@ -69897,7 +70009,7 @@ exports.sendMail = {
     "saveToSentItems": "false"
 };
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -69959,7 +70071,7 @@ QueryRowComponent = __decorate([
 ], QueryRowComponent);
 exports.QueryRowComponent = QueryRowComponent;
 
-},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],75:[function(require,module,exports){
+},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],76:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70043,13 +70155,13 @@ var RequestEditorsComponent = (function (_super) {
 RequestEditorsComponent = __decorate([
     core_1.Component({
         selector: 'request-editors',
-        styles: ["\n\n  #post-body-editor {\n        position: relative;\n        height: 20vh;\n        border: 1px solid #ccc;\n        margin-top: 10px;\n    }\n\n  .header-row input {\n    width: 95%;\n    margin-top: 5px;\n  }\n\n  table {\n      width: 100%;\n  }\n  th {\n      text-align: left;\n      font-weight: 300;\n  }\n\n  td.remove-header-btn {\n    font-size: 20px;\n  }\n\n   td.remove-header-btn:hover {\n        cursor: pointer;\n   }\n\n   td.remove-header-btn i {\n        margin-top: 12px;\n        font-size: 20px;\n   }\n\n   .hide {\n       opacity: 0;\n   }\n\n   .header-autocomplete {\n        max-width: inherit;\n        margin: 0px;\n        height: inherit;\n    }\n\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n"],
-        template: "\n    <div class=\"ms-Pivot\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"headers\" [attr.title]=\"getStr('request header')\" tabindex=\"1\">\n                {{getStr('request header')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"body\" [attr.title]=\"getStr('request body')\" (click)=\"initPostBodyEditor()\" tabindex=\"1\">\n                {{getStr('request body')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"headers\">\n            <div id=\"headers-editor\">\n                <table>\n                    <tr>\n                        <th>{{getStr('Key')}}</th>\n                        <th>{{getStr('Value')}}</th>\n                    </tr>\n                    <tr *ngFor=\"let header of explorerValues.headers; let idx = index\" class=\"header-row\">\n                        <td>\n                        <div class=\"c-search header-autocomplete\" autocomplete=\"off\">\n                            <input role=\"combobox\" class=\"c-text-field header-name\" (ngModelChange)=\"createNewHeaderField()\" [attr.aria-controls]=\"'headers-autosuggest-'+idx\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"text\" [attr.placeholder]=\"getPlaceholder(header)\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\">\n                            <div class=\"m-auto-suggest\" [attr.id]=\"'headers-autosuggest-'+idx\" role=\"group\">\n                                <ul class=\"c-menu\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\"></ul>\n                            </div>\n                        </div>\n\n                        </td>\n                        <td>\n                            <input id=\"default\" class=\"c-text-field header-value\" [(ngModel)]=\"header.value\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" [ngClass]=\"{hide: isLastHeader(header)}\">\n                        </td>\n                        <td class=\"remove-header-btn\" [hidden]=\"isLastHeader(header)\">\n                            <i (click)=\"removeHeader(header)\" class=\"ms-Icon ms-Icon--Cancel\"></i>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"body\">\n            <div id=\"requestBodyContainer\">\n                <div id=\"post-body-editor\"></div>\n            </div>\n        </div>\n    </div>\n\n     ",
+        styles: ["\n\n  #post-body-editor {\n        position: relative;\n        height: 20vh;\n        border: 1px solid #ccc;\n        margin-top: 10px;\n    }\n\n  .header-row input {\n    width: 95%;\n    margin-top: 5px;\n  }\n\n  table {\n      width: 100%;\n  }\n\n  td.half-width-col {\n      width: 45%;\n  }\n\n  th {\n      text-align: left;\n      font-weight: 300;\n  }\n\n  td.remove-header-btn {\n    font-size: 20px;\n  }\n\n   td.remove-header-btn:hover {\n        cursor: pointer;\n   }\n\n   td.remove-header-btn i {\n        margin-top: 12px;\n        font-size: 20px;\n   }\n\n   .hide {\n       opacity: 0;\n   }\n\n   .header-autocomplete {\n        max-width: inherit;\n        margin: 0px;\n        height: inherit;\n    }\n\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n"],
+        template: "\n    <div class=\"ms-Pivot\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"headers\" [attr.title]=\"getStr('request header')\" tabindex=\"1\">\n                {{getStr('request header')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"body\" [attr.title]=\"getStr('request body')\" (click)=\"initPostBodyEditor()\" tabindex=\"1\">\n                {{getStr('request body')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"headers\">\n            <div id=\"headers-editor\">\n                <table>\n                    <tr>\n                        <th>{{getStr('Key')}}</th>\n                        <th>{{getStr('Value')}}</th>\n                    </tr>\n                    <tr *ngFor=\"let header of explorerValues.headers; let idx = index\" class=\"header-row\">\n                        <td class=\"half-width-col\">\n                            <div class=\"c-search header-autocomplete\" autocomplete=\"off\">\n                                <input role=\"combobox\" class=\"c-text-field header-name\" (ngModelChange)=\"createNewHeaderField()\" [attr.aria-controls]=\"'headers-autosuggest-'+idx\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"text\" [attr.placeholder]=\"getPlaceholder(header)\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\">\n                                <div class=\"m-auto-suggest\" [attr.id]=\"'headers-autosuggest-'+idx\" role=\"group\">\n                                    <ul class=\"c-menu\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                                    <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\"></ul>\n                                </div>\n                            </div>\n\n                        </td>\n                        <td class=\"half-width-col\">\n                            <input id=\"default\" class=\"c-text-field header-value\" [(ngModel)]=\"header.value\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" [ngClass]=\"{hide: isLastHeader(header)}\">\n                        </td>\n                        <td class=\"remove-header-btn\" [hidden]=\"isLastHeader(header)\">\n                            <i (click)=\"removeHeader(header)\" class=\"ms-Icon ms-Icon--Cancel\"></i>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"body\">\n            <div id=\"requestBodyContainer\">\n                <div id=\"post-body-editor\"></div>\n            </div>\n        </div>\n    </div>\n\n     ",
     })
 ], RequestEditorsComponent);
 exports.RequestEditorsComponent = RequestEditorsComponent;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./base":62,"@angular/core":5}],76:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./base":62,"@angular/core":5}],77:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
@@ -70178,7 +70290,7 @@ function formatXml(xml) {
 exports.formatXml = formatXml;
 ;
 
-},{"./api-explorer-jseditor":55,"./app.component":58}],77:[function(require,module,exports){
+},{"./api-explorer-jseditor":55,"./app.component":58}],78:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70225,6 +70337,9 @@ var ResponseStatusBarComponent = (function (_super) {
         text += " - " + this.getStr("Status Code") + " " + query.statusCode;
         return text;
     };
+    ResponseStatusBarComponent.prototype.clearLastCallMessage = function () {
+        app_component_1.AppComponent.lastApiCall = null;
+    };
     ResponseStatusBarComponent.clearLastCallMessage = function () {
         app_component_1.AppComponent.lastApiCall = null;
     };
@@ -70239,7 +70354,7 @@ ResponseStatusBarComponent = __decorate([
 ], ResponseStatusBarComponent);
 exports.ResponseStatusBarComponent = ResponseStatusBarComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],78:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],79:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70288,7 +70403,522 @@ SampleCategoriesPanelComponent = __decorate([
 ], SampleCategoriesPanelComponent);
 exports.SampleCategoriesPanelComponent = SampleCategoriesPanelComponent;
 
-},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],79:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],80:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
+var app_component_1 = require("./app.component");
+var scopes_1 = require("./scopes");
+var auth_1 = require("./auth");
+var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
+    __extends(ScopesDialogComponent, _super);
+    function ScopesDialogComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.scopes = scopes_1.PermissionScopes;
+        return _this;
+    }
+    ScopesDialogComponent.prototype.ngAfterViewInit = function () {
+        ScopesDialogComponent_1.setScopesEnabledTarget();
+    };
+    ScopesDialogComponent.prototype.scopeListIsDirty = function () {
+        return scopes_1.PermissionScopes.filter(function (s) { return s.enabled != s.enabledTarget; }).length > 0;
+    };
+    ScopesDialogComponent.prototype.requestingAdminScopes = function () {
+        return scopes_1.PermissionScopes.filter(function (s) { return s.admin && s.enabledTarget; }).length > 0;
+    };
+    ScopesDialogComponent.prototype.toggleScopeEnabled = function (scope) {
+        scope.enabledTarget = !scope.enabledTarget;
+    };
+    ScopesDialogComponent.prototype.startAdminConsentFlow = function () {
+        var loginProperties = {
+            display: 'page',
+            nonce: 'graph_explorer',
+            prompt: 'select_account'
+        };
+        hello('msft_admin_consent').login(loginProperties).then(function () {
+            alert('You are signed in to Facebook');
+        }, function (e) {
+            alert('Signin error: ' + e.error.message);
+        });
+    };
+    ScopesDialogComponent.prototype.getNewAccessToken = function () {
+        var loginProperties = {
+            display: 'page',
+            response_type: "id_token token",
+            nonce: 'graph_explorer',
+            prompt: 'select_account',
+            login_hint: app_component_1.AppComponent.explorerValues.authentication.user.preferred_username,
+            scope: scopes_1.PermissionScopes.filter(function (scope) { return scope.enabledTarget; }).map(function (scope) { return scope.name; }).join(" ")
+        };
+        hello('msft').login(loginProperties);
+    };
+    ScopesDialogComponent.showDialog = function () {
+        ScopesDialogComponent_1.setScopesEnabledTarget();
+        var el = document.querySelector("#scopes-dialog");
+        var fabricDialog = new fabric['Dialog'](el);
+        fabricDialog.open();
+        mwf.ComponentFactory.create([{
+                'component': mwf.Checkbox
+            }]);
+    };
+    ScopesDialogComponent.setScopesEnabledTarget = function () {
+        for (var _i = 0, PermissionScopes_1 = scopes_1.PermissionScopes; _i < PermissionScopes_1.length; _i++) {
+            var scope = PermissionScopes_1[_i];
+            scope.enabledTarget = scope.enabled;
+        }
+    };
+    ScopesDialogComponent.prototype.canEditFields = function () {
+        return auth_1.getAccountType() == "AAD";
+    };
+    return ScopesDialogComponent;
+}(GraphExplorerComponent_1.GraphExplorerComponent));
+ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
+    core_1.Component({
+        selector: 'scopes-dialog',
+        styles: ["\n  .ms-Dialog-content {\n    max-height: 510px;\n    overflow: auto;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n"],
+        template: "\n\n  <div class=\"ms-Dialog center-dialog\" id=\"scopes-dialog\">\n    <div class=\"ms-Dialog-title\">{{getStr('manage permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <h3 *ngIf=\"!canEditFields()\">We have temporarily disabled selecting permissions for personal Microosft accounts.  Login with a work or school account to unlock this feature.</h3>\n      <div class=\"ms-Dialog-content\">\n        <table class=\"ms-Table\">\n          <tr *ngFor=\"let scope of scopes\">\n            <td>\n              <div class=\"c-checkbox\">\n                  <label class=\"c-label\">\n                      <input type=\"checkbox\" [disabled]=\"(!canEditFields() || scope.name == 'openid')\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                      <span aria-hidden=\"true\">{{scope.name}}<i *ngIf=\"scope.preview\">Preview</i></span>\n                  </label>\n              </div>\n            </td>\n            <td>\n              <span *ngIf=\"scope.admin\">\n                Admin\n              </span>\n            </td>\n          </tr>\n        </table>\n      </div>\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that require admin access. To get access, an administrator must <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">consent on your behalf</a>, or grant access to your entire administration. You will only have to do this one time.\n              <br />\n            </div>\n          </div>\n        </div>\n        \n      </div>\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" *ngIf=\"scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">Login again to save changes</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
+    })
+], ScopesDialogComponent);
+exports.ScopesDialogComponent = ScopesDialogComponent;
+var ScopesDialogComponent_1;
+
+},{"./GraphExplorerComponent":53,"./app.component":58,"./auth":60,"./scopes":81,"@angular/core":5}],81:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PermissionScopes = [
+    {
+        name: "Calendars.Read",
+        description: "Read user calendars",
+        longDescription: "Allows the app to read events in user calendars.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Calendars.Read.Shared",
+        description: "Read user and shared calendars",
+        longDescription: "Allows the app to read events in all calendars that the user can access, including delegate and shared calendars.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Calendars.ReadWrite",
+        description: "Have full access to user calendars",
+        longDescription: "Allows the app to create, read, update, and delete events in user calendars.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Calendars.ReadWrite.Shared",
+        description: "Read and write user and shared calendars",
+        longDescription: "Allows the app to create, read, update and delete events in all calendars the user has permissions to access. This includes delegate and shared calendars.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Contacts.Read",
+        description: "Read user contacts",
+        longDescription: "Allows the app to read user contacts.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Contacts.Read.Shared",
+        description: "Read user and shared contacts",
+        longDescription: "Allows the app to read contacts that the user has permissions to access, including the user's own and shared contacts.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Contacts.ReadWrite",
+        description: "Have full access to user contacts",
+        longDescription: "Allows the app to create, read, update, and delete user contacts.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Contacts.ReadWrite.Shared",
+        description: "Read and write user and shared contacts",
+        longDescription: "Allows the app to create, read, update and delete contacts that the user has permissions to, including the user's own and shared contacts.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Files.Read",
+        description: "Read user files and files shared with user",
+        longDescription: "Allows the app to read the signed-in user's files and files shared with the user.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Files.Read.All",
+        description: "Read all files that user can access",
+        longDescription: "Allows the app to read all files the signed-in user can access.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Files.Read.Selected",
+        description: "Read files that the user selects",
+        longDescription: "Allows the app to read files that the user selects. The app has access for several hours after the user selects a file.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Files.ReadWrite",
+        description: "Have full access to user files and files shared with user",
+        longDescription: "Allows the app to read, create, update and delete the signed-in user's files and files shared with the user.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Files.ReadWrite.All",
+        description: "Have full access to all files user can access",
+        longDescription: "Allows the app to read, create, update and delete all files the signed-in user can access.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Files.ReadWrite.AppFolder",
+        description: "Have full access to the application's folder",
+        longDescription: "Allows the app to read, create, update and delete files in the application's folder.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Files.ReadWrite.Selected",
+        description: "Read and write files that the user selects",
+        longDescription: "Allows the app to read and write files that the user selects. The app has access for several hours after the user selects a file.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Mail.Read",
+        description: "Read user mail",
+        longDescription: "Allows the app to read email in user mailboxes.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Mail.Read.Shared",
+        description: "Read user and shared mail",
+        longDescription: "Allows the app to read mail that the user can access, including the user's own and shared mail.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Mail.ReadWrite",
+        description: "Read and write access to user mail",
+        longDescription: "Allows the app to create, read, update, and delete email in user mailboxes. Does not include permission to send mail.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Mail.ReadWrite.Shared",
+        description: "Read and write user and shared mail",
+        longDescription: "Allows the app to create, read, update, and delete mail that the user has permission to access, including the user's own and shared mail. Does not include permission to send mail.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Mail.Send",
+        description: "Send mail as a user",
+        longDescription: "Allows the app to send mail as users in the organization.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Mail.Send.Shared",
+        description: "Send mail on behalf of others",
+        longDescription: "Allows the app to send mail as the signed-in user, including sending on-behalf of others.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "MailboxSettings.ReadWrite",
+        description: "Read and write user mailbox settings",
+        longDescription: "Allows the app to create, read, update, and delete user's mailbox settings. Does not include permission to send mail.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "offline_access",
+        description: "Access user's data anytime (preview)",
+        longDescription: "Allows the app to read and update user data, even when they are not currently using the app.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "openid",
+        description: "Sign users in (preview)",
+        longDescription: "Allows users to sign in to the app with their work or school accounts and allows the app to see basic user profile information.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "User.Read",
+        description: "Sign-in and read user profile",
+        longDescription: "Allows users to sign-in to the app, and allows the app to read the profile of signed-in users. The full profile includes all of the declared properties of the User entity. The app cannot read navigation properties, such as manager or direct reports. Also allows the app to read the following basic company information of the signed-in user (through the TenantDetail object): tenant ID, tenant display name, and verified domains.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "User.ReadWrite",
+        description: "Read and write access to user profile",
+        longDescription: "Allows the app to read your profile. It also allows the app to update your profile information on your behalf.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "User.ReadBasic.All",
+        description: "Read all user's basic profiles",
+        longDescription: "Allows the app to read the basic profile of all users in the organization on behalf of the signed-in user. The following properties comprise a user’s basic profile: display name, first and last name, photo, and email address. To read the groups that a user is a member of, the app will also require Group.Read.All or Group.ReadWrite.All.",
+        preview: false,
+        admin: false
+    },
+    {
+        name: "Notes.Create",
+        description: "Create pages in users' notebooks (preview)",
+        longDescription: "Allows the app to read the titles of notebooks and sections and create new pages, notebooks and sections on behalf of the signed-in user.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Notes.Read",
+        description: "Read user notebooks (preview)",
+        longDescription: "Allows the app to view the titles of OneNote notebooks and sections and to read all pages on behalf of the signed-in user. It cannot view password protected sections.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Notes.Read.All",
+        description: "Read all notebooks that the user can access (preview)",
+        longDescription: "Allows the app to read the contents of all notebooks and sections that the signed-in user can access. It cannot read password protected sections.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Notes.ReadWrite",
+        description: "Read and write user notebooks (preview)",
+        longDescription: "Allows the app to read the titles of notebooks and sections, read all pages, write all pages and create new pages on behalf of the signed-in user.  It cannot access password protected sections.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Notes.ReadWrite.All",
+        description: "Read and write notebooks that the user can access (preview)",
+        longDescription: "Allows the app to read and write the contents of all notebooks and sections that the signed-in user can access. It cannot access password protected sections.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Notes.ReadWrite.CreatedByApp",
+        description: "Limited notebook access (preview)",
+        longDescription: "Allows the app to read the titles of notebooks and sections, create new pages on behalf of the signed-in user. Also allows the app to read and update pages created by the app.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "People.Read",
+        description: "Read users' relevant people lists (preview)",
+        longDescription: "Allows the app to read a ranked list of relevant people of the signed-in user. The list includes local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Sites.Read.All",
+        description: "Read items in all site collections",
+        longDescription: "Allows the application to read documents and list items in all site collections on behalf of the signed-in user.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Sites.ReadWrite.All",
+        description: "Read and write items in all site collections",
+        longDescription: "Allows the application to edit or delete documents and list items in all site collections on behalf of the signed-in user.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Tasks.Read",
+        description: "Read user tasks",
+        longDescription: "Allows the app to read user tasks.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Tasks.Read.Shared",
+        description: "Read user and shared tasks",
+        longDescription: "Allows the app to read tasks a user has permissions to access, including their own and shared tasks.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Tasks.ReadWrite",
+        description: "Create, read, update and delete user tasks and plans (preview)",
+        longDescription: "Allows the app to create, read, update and delete tasks and plans (and tasks in them), that are assigned to or shared with the signed-in user.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "Tasks.ReadWrite.Shared",
+        description: "Read and write user and shared tasks",
+        longDescription: "Allows the app to create, read, update, and delete tasks a user has permissions to, including their own and shared tasks.",
+        preview: true,
+        admin: false
+    },
+    {
+        name: "IdentityRiskEvent.Read.All",
+        description: "Read identity risk event information (preview)",
+        longDescription: "Allows the app to read identity risk event information for all users in your organization on behalf of the signed-in user.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementServiceConfiguration.Read.All",
+        description: "Read Microsoft Intune configuration (preview)",
+        longDescription: "Allows the app to read Microsoft Intune service properties including device enrollment and third party service connection configuration.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementServiceConfiguration.ReadWrite.All",
+        description: "Read and write Microsoft Intune configuration (preview)",
+        longDescription: "Allows the app to read and write Microsoft Intune service properties including device enrollment and third party service connection configuration.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementConfiguration.Read.All",
+        description: "Read Microsoft Intune device configuration and policies (preview)",
+        longDescription: "Allows the app to read properties of Microsoft Intune-managed device configuration and device compliance policies and their assignment to groups.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementConfiguration.ReadWrite.All",
+        description: "Read and write Microsoft Intune device configuration and policies (preview)",
+        longDescription: "Allows the app to read and write properties of Microsoft Intune-managed device configuration and device compliance policies and their assignment to groups.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementApps.Read.All",
+        description: "Read Microsoft Intune apps (preview)",
+        longDescription: "Allows the app to read the properties, group assignments and status of apps, app configurations and app protection policies managed by Microsoft Intune.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementApps.ReadWrite.All",
+        description: "Read and write Microsoft Intune apps (preview)",
+        longDescription: "Allows the app to read and write the properties, group assignments and status of apps, app configurations and app protection policies managed by Microsoft Intune.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementRBAC.Read.All",
+        description: "Read Microsoft Intune RBAC settings (preview)",
+        longDescription: "Allows the app to read the properties relating to the Microsoft Intune Role-Based Access Control (RBAC) settings.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementRBAC.ReadWrite.All",
+        description: "Read and write Microsoft Intune RBAC settings (preview)",
+        longDescription: "Allows the app to read and write the properties relating to the Microsoft Intune Role-Based Access Control (RBAC) settings.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementManagedDevices.Read.All",
+        description: "Read Microsoft Intune devices (preview)",
+        longDescription: "Allows the app to read the properties of devices managed by Microsoft Intune.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementManagedDevices.ReadWrite.All",
+        description: "Read and write Microsoft Intune devices (preview)",
+        longDescription: "Allows the app to read and write the properties of devices managed by Microsoft Intune. Does not allow high impact operations such as remote wipe and password reset on the device’s owner.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "DeviceManagementManagedDevices.PrivilegedOperations.All",
+        description: "Perform user-impacting remote actions on Microsoft Intune devices (preview)",
+        longDescription: "Allows the app to perform remote high impact actions such as wiping the device or resetting the passcode on devices managed by Microsoft Intune.",
+        preview: true,
+        admin: true
+    },
+    {
+        name: "Directory.AccessAsUser.All",
+        description: "Access directory as the signed-in user",
+        longDescription: "Allows the app to have the same access to information in the directory as the signed-in user.",
+        preview: false,
+        admin: true
+    },
+    {
+        name: "Directory.Read.All",
+        description: "Read directory data",
+        longDescription: "Allows the app to read data in your organization's directory, such as users, groups and apps.",
+        preview: false,
+        admin: true
+    },
+    {
+        name: "Directory.ReadWrite.All",
+        description: "Read and write directory data",
+        longDescription: "Allows the app to read and write data in your organization's directory, such as users, and groups. Does not allow user or group deletion. It does not allow the app to delete users or groups, or reset user passwords.",
+        preview: false,
+        admin: true
+    },
+    {
+        name: "Group.Read.All",
+        description: "Read all groups",
+        longDescription: "Allows the app to list groups, and to read their properties and all group memberships on behalf of the signed-in user. Also allows the app to read calendar, conversations, files, and other group content for all groups the signed-in user can access.",
+        preview: false,
+        admin: true
+    },
+    {
+        name: "Group.ReadWrite.All",
+        description: "Read and write all groups",
+        longDescription: "Allows the app to create groups and read all group properties and memberships on behalf of the signed-in user. Additionally allows group owners to manage their groups and allows group members to update group content.",
+        preview: false,
+        admin: true
+    },
+    {
+        name: "User.Read.All",
+        description: "Read all user's full profiles",
+        longDescription: "Same as User.ReadBasic.All, except that it allows the app to read the full profile of all users in the organization and when reading navigation properties like manager and direct reports. The full profile includes all of the declared properties of the User entity. To read the groups that a user is a member of, the app will also require either Group.Read.All or Group.ReadWrite.All.",
+        preview: false,
+        admin: true
+    },
+    {
+        name: "User.ReadWrite.All",
+        description: "Read and write all user's full profiles",
+        longDescription: "Allows the app to read and write the full set of profile properties, reports, and managers of other users in your organization, on behalf of the signed-in user.",
+        preview: false,
+        admin: true
+    }
+];
+
+},{}],82:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70324,7 +70954,7 @@ var ShareLinkBtnComponent = (function (_super) {
         }
     };
     ShareLinkBtnComponent.prototype.showShareDialog = function () {
-        var el = document.querySelector(".ms-Dialog");
+        var el = document.querySelector("#share-link-dialog");
         var fabricDialog = new fabric['Dialog'](el);
         fabricDialog.open();
     };
@@ -70351,13 +70981,13 @@ var ShareLinkBtnComponent = (function (_super) {
 ShareLinkBtnComponent = __decorate([
     core_1.Component({
         selector: 'share-link-btn',
-        template: "\n    <div id=\"response-action-bar\">\n        <i class=\"ms-Icon ms-Icon--Share\" title=\"{{getStr('Share Query')}}\" aria-hidden=\"true\" aria-label=\"Share\" (click)=\"showShareDialog()\"></i>\n    </div>\n    <div class=\"ms-Dialog\" id=\"share-link-dialog\">\n        <div class=\"ms-Dialog-title\">{{getStr('Share Query')}}</div>\n        <div class=\"ms-Dialog-content\">\n            <label class=\"c-label\" for=\"default\">{{getStr('Share this link to let people try your current query in the Graph Explorer.')}}</label>\n            <input id=\"default\" class=\"c-text-field\" type=\"text\" name=\"default\" (click)=\"this.select();\" value=\"{{getShareLink()}}\">\n        </div>\n      <div class=\"ms-Dialog-actions\">\n            <button class=\"ms-Button ms-Dialog-action\">\n                <span class=\"ms-Button-label\">{{getStr('Close')}}</span>\n            </button>\n        </div>\n    </div>\n    ",
+        template: "\n    <div id=\"response-action-bar\">\n        <i class=\"ms-Icon ms-Icon--Share\" title=\"{{getStr('Share Query')}}\" aria-hidden=\"true\" aria-label=\"Share\" (click)=\"showShareDialog()\"></i>\n    </div>\n    <div class=\"ms-Dialog\" id=\"share-link-dialog\">\n        <div class=\"ms-Dialog-title\">{{getStr('Share Query')}}</div>\n        <div class=\"ms-Dialog-content\">\n            <label for=\"default\">{{getStr('Share this link to let people try your current query in the Graph Explorer.')}}</label>\n            <input id=\"default\" class=\"c-text-field\" type=\"text\" name=\"default\" (click)=\"this.select();\" value=\"{{getShareLink()}}\">\n        </div>\n      <div class=\"ms-Dialog-actions\">\n            <button class=\"ms-Button ms-Dialog-action\">\n                <span class=\"ms-Button-label\">{{getStr('Close')}}</span>\n            </button>\n        </div>\n    </div>\n    ",
         styles: ["\n\n    #response-action-bar i {\n        cursor: pointer;\n    }\n    \n    #response-action-bar {\n        float: right;\n        margin-right: 5px;\n        font-size: 20px;\n        position: relative;\n        bottom: -21px;\n    }\n"]
     })
 ], ShareLinkBtnComponent);
 exports.ShareLinkBtnComponent = ShareLinkBtnComponent;
 
-},{"./GraphExplorerComponent":53,"@angular/core":5}],80:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"@angular/core":5}],83:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70421,12 +71051,12 @@ SidebarComponent = __decorate([
     core_1.Component({
         selector: 'sidebar',
         template: "\n      <div id=\"explorer-sidebar\">\n        <div class=\"arrow-left\"></div>\n        <div>\n            <span id=\"explorer-title\" class=\"c-heading-3 panel-header\">{{getStr('Graph Explorer')}}</span>\n        </div>\n        <div class=\"c-drawer\">\n            <button id=\"auth-drawer-button\" class=\"c-glyph\" aria-expanded=\"true\" disabled=\"true\" aria-controls=\"authDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--Permissions\" aria-hidden=\"true\"></i>{{getStr('Authentication')}}</span></button>\n            <div id=\"authDrawer\" class=\"panel-content\">\n\n              <authentication></authentication>\n            </div>\n        </div>\n\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"refineDrawer\">\n                <span class=\"c-heading-5 panel-header\"><img id=\"getting-started-svg\" src=\"{{getAssetPath('assets/images/rocket1.svg')}}\"/>{{getStr('Sample Queries')}}</span></button>\n            <div id=\"refineDrawer\" class=\"panel-content\">\n                <div id=\"sample-queries-scroll\">\n                    <div *ngFor=\"let category of categories\" class=\"sample-category\" [hidden]=\"!category.enabled\">\n                        <div><span class=\"category-heading\">{{category.title}}</span></div>\n                        <query-row [query]=\"query\" *ngFor=\"let query of category.queries\"></query-row>\n                    </div>\n                </div>\n                <a href=\"#\" id=\"manage-categories\" class=\"c-hyperlink\" tabindex=0 (click)=\"manageCategories()\">{{getStr('show more groups')}}</a>\n            </div>\n        </div>\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"historyDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--History\" aria-hidden=\"true\"></i>{{getStr('History')}}</span></button>\n            <div id=\"historyDrawer\" class=\"panel-content\">\n                <history-query-row *ngFor=\"let query of getRequestHistory(5)\" [query]=\"query\"></history-query-row>\n                <a href=\"#\" id=\"show-full-history\" (click)=\"manageHistory()\" [hidden]=\"getRequestHistory().length == 0\" class=\"c-hyperlink\" tabindex=0>{{getStr('Show More')}}</a>\n            </div>\n        </div>\n\n  </div>\n\n  ",
-        styles: ["\n    #explorer-sidebar {\n        background: #2F2F2F !important;\n        min-height: 1024px;\n        padding: 0px;\n        color: white;\n      \tfont-family: \"Segoe UI\", Frutiger, \"Frutiger Linotype\", \"Dejavu Sans\", \"Helvetica Neue\", Arial, sans-serif;\n    }\n\n    #explorer-sidebar .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    #sample-queries-scroll {\n        // max-height: 400px;\n        // overflow-y: auto;\n        // overflow-x: hidden;\n    }\n\n    #getting-started-svg {\n        display: inline-block;\n        width: 29px;\n        height: 29px;\n        margin: -2px 4px 2px -4px;\n    }\n\n    a#show-full-history, a#manage-categories {\n        text-align: right;\n        padding-right: 16px;\n        width: 100%;\n        display: block;\n    }\n\n    span#explorer-title {\n        margin-left: 40px;\n        margin-top: 14px;\n    }\n\n    .c-drawer {\n        padding-bottom: 5px;\n    }\n\n    #explorer-sidebar .panel-header {\n        font-family: \"Segoe UI\",\"wf_segoe-ui_normal\",\"Arial\",sans-serif;\n        display: inline-block;\n        padding: 0px;\n        padding-left: 6px;\n        font-weight: 100;\n        color: white;\n    }\n\n    #explorer-sidebar .panel-content {\n        padding-left: 28px;\n        font-size: 13px;\n    }\n\n    #explorer-sidebar .panel-header i.ms-Icon{\n        margin-right: 10px;\n    }\n\n    /* Remove drawer carrot on auth */\n    #auth-drawer-button:after{\n        content:none;\n    }\n\n    .arrow-left {\n        border-top: 18px solid transparent;\n        border-bottom: 18px solid transparent;\n        border-right: 18px solid white;\n        position: relative;\n        right: -10px;\n        top: 13px;\n        margin-bottom: -45px;\n    }\n\n    button.c-glyph {\n        color: white;\n    }\n\n    #authDrawer {\n        min-height: 96px;\n    }\n\n    .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    .category-heading {\n        font-size: 17px;\n        font-weight: 300;\n        padding-bottom: 5px;\n        display: block;\n    }\n\n    .sample-category {\n        margin-bottom: 15px;\n    }\n\n\n    a#show-full-history {\n        margin-top: 15px;\n    }\n    a#show-full-history[hidden] {\n        display: none;\n    }\n    \n    @media (max-width: 639px) {\n        #explorer-sidebar {\n            min-height: inherit;\n            padding-bottom: 15px;\n        }\n    }\n  "]
+        styles: ["\n    #explorer-sidebar {\n        background: #2F2F2F !important;\n        min-height: 1024px;\n        padding: 0px;\n        color: white;\n      \tfont-family: \"Segoe UI\", Frutiger, \"Frutiger Linotype\", \"Dejavu Sans\", \"Helvetica Neue\", Arial, sans-serif;\n    }\n\n    #explorer-sidebar .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    #sample-queries-scroll {\n        // max-height: 400px;\n        // overflow-y: auto;\n        // overflow-x: hidden;\n    }\n\n    #getting-started-svg {\n        display: inline-block;\n        width: 29px;\n        height: 29px;\n        margin: -2px 4px 2px -4px;\n    }\n\n    a#show-full-history, a#manage-categories {\n        text-align: right;\n        padding-right: 16px;\n        width: 100%;\n        display: block;\n    }\n\n    span#explorer-title {\n        margin-left: 40px;\n        margin-top: 14px;\n    }\n\n    .c-drawer {\n        padding-bottom: 5px;\n    }\n\n    #explorer-sidebar .panel-header {\n        font-family: \"Segoe UI\",\"wf_segoe-ui_normal\",\"Arial\",sans-serif;\n        display: inline-block;\n        padding: 0px;\n        padding-left: 6px;\n        font-weight: 100;\n        color: white;\n    }\n\n    #explorer-sidebar .panel-content {\n        padding-left: 28px;\n        font-size: 13px;\n    }\n\n    #explorer-sidebar .panel-header i.ms-Icon{\n        margin-right: 10px;\n    }\n\n    /* Remove drawer carrot on auth */\n    #auth-drawer-button:after{\n        content:none;\n    }\n\n    button#auth-drawer-button {\n        background: #2f2f2f !important;\n    }\n\n    .arrow-left {\n        border-top: 18px solid transparent;\n        border-bottom: 18px solid transparent;\n        border-right: 18px solid white;\n        position: relative;\n        right: -10px;\n        top: 13px;\n        margin-bottom: -45px;\n    }\n\n    button.c-glyph {\n        color: white;\n    }\n\n    #authDrawer {\n        min-height: 96px;\n    }\n\n    .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    .category-heading {\n        font-size: 17px;\n        font-weight: 300;\n        padding-bottom: 5px;\n        display: block;\n    }\n\n    .sample-category {\n        margin-bottom: 15px;\n    }\n\n\n    a#show-full-history {\n        margin-top: 15px;\n    }\n    a#show-full-history[hidden] {\n        display: none;\n    }\n    \n    @media (max-width: 639px) {\n        #explorer-sidebar {\n            min-height: inherit;\n            padding-bottom: 15px;\n        }\n    }\n  "]
     })
 ], SidebarComponent);
 exports.SidebarComponent = SidebarComponent;
 
-},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],81:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],84:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
@@ -70454,7 +71084,7 @@ function getParameterByName(name, url) {
 }
 exports.getParameterByName = getParameterByName;
 
-},{"@angular/http":7}],82:[function(require,module,exports){
+},{"@angular/http":7}],85:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
@@ -70463,5 +71093,5 @@ var core_1 = require("@angular/core");
 core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
-},{"./app/app.module":59,"@angular/core":5,"@angular/platform-browser-dynamic":8}]},{},[82])(82)
+},{"./app/app.module":59,"@angular/core":5,"@angular/platform-browser-dynamic":8}]},{},[85])(85)
 });

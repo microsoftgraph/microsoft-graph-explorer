@@ -117,6 +117,10 @@ declare let fabric;
         content:none;
     }
 
+    button#auth-drawer-button {
+        background: #2f2f2f !important;
+    }
+
     .arrow-left {
         border-top: 18px solid transparent;
         border-bottom: 18px solid transparent;
