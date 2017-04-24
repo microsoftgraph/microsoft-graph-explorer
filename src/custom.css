@@ -127,3 +127,7 @@ api-explorer button {
 .c-menu-item {
     margin-bottom: 0px;
 }
+
+.ms-Panel.is-open {
+    z-index: 999;
+}
