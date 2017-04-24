@@ -92,6 +92,7 @@ import { AppComponent } from "./app.component";
         overflow: hidden;
         text-overflow: ellipsis;
         padding-top: 2px;
+        color: white;
     }
 
 

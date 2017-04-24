@@ -135,3 +135,7 @@ api-explorer button {
 .c-search input[type=search] {
     padding: 7px 10px;
 }
+
+.ms-Dialog {
+    z-index: 999;
+}
