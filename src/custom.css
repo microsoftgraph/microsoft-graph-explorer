@@ -124,10 +124,6 @@ api-explorer button {
     z-index: 990;
 }
 
-.ms-Dialog-button {
-    min-width: initial;
-}
-
 .c-menu-item {
     margin-bottom: 0px;
 }
