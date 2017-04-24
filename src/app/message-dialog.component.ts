@@ -23,7 +23,7 @@ declare let fabric:any;
       </div>
       <div class="ms-Dialog-actions">
         <button class="ms-Button ms-Dialog-action">
-          <span class="ms-Button-label">Close</span> 
+          <span class="ms-Button-label">getStr('Close')</span> 
         </button>
       </div>
     </div>

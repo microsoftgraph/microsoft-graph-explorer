@@ -57,5 +57,7 @@
 
   "Login to try this request": "Login to try this request",
 
-  "manage permissions": "manage permissions"
+  "manage permissions": "manage permissions",
+  "Save changes": "Save changes",
+  "To change permissions, you will need to log-in again.": "To change permissions, you will need to log-in again."
 }

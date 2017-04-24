@@ -79,7 +79,7 @@ declare let fabric, mwf;
               <i class="ms-Icon ms-Icon--Info"></i>
             </div>
             <div class="ms-MessageBar-text">
-              To change permissions, you will need to log-in again.
+              {{getStr('To change permissions, you will need to log-in again.')}}
               <br />
             </div>
           </div>
@@ -103,7 +103,7 @@ declare let fabric, mwf;
 
     <div class="ms-Dialog-actions">
       <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="!scopeListIsDirty()" (click)="getNewAccessToken()">
-        <span class="ms-Button-label">Save changes</span> 
+        <span class="ms-Button-label">{{getStr('Save changes')}}</span> 
       </button>
       <button class="ms-Button ms-Dialog-action">
         <span class="ms-Button-label">{{getStr('Close')}}</span> 
