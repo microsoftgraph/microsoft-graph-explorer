@@ -35,6 +35,7 @@ import { AppComponent } from "./app.component";
       }
 
       .query-link {
+            color: white;
             background: #2F2F2F;
             padding: 8px 11px 7px 12px;
             margin: -5px;

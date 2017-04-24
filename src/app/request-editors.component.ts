@@ -28,10 +28,6 @@ declare let mwf;
       width: 100%;
   }
 
-  td.half-width-col {
-      width: 45%;
-  }
-
   th {
       text-align: left;
       font-weight: 300;
@@ -50,7 +46,7 @@ declare let mwf;
         font-size: 20px;
    }
 
-   .hide {
+   .invisible {
        opacity: 0;
    }
 
@@ -94,9 +90,9 @@ declare let mwf;
 
                         </td>
                         <td class="half-width-col">
-                            <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [ngClass]="{hide: isLastHeader(header)}">
+                            <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [ngClass]="{invisible: isLastHeader(header)}">
                         </td>
-                        <td class="remove-header-btn" [hidden]="isLastHeader(header)">
+                        <td class="remove-header-btn" [ngClass]="{invisible: isLastHeader(header)}">
                             <i (click)="removeHeader(header)" class="ms-Icon ms-Icon--Cancel"></i>
                         </td>
                     </tr>

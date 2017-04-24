@@ -41,6 +41,11 @@ declare let fabric, mwf:any;
         outline: none;
     }
 
+    /* core.css frontdoor conflict */
+    .category-switch button {
+        min-width: inherit;
+    }
+
 `],
   template: `
     <div id="sample-categories-panel" class="ms-Panel ms-Panel--lg">
