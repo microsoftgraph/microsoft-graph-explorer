@@ -106,7 +106,7 @@ api-explorer button {
     left: 0;
     right: 0;
     transform: none;
-    top: 10%;
+    top: 8%;
 }
 
 
@@ -130,4 +130,8 @@ api-explorer button {
 
 .ms-Panel.is-open {
     z-index: 999;
+}
+
+.c-search input[type=search] {
+    padding: 7px 10px;
 }

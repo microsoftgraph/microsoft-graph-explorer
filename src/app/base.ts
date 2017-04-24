@@ -2,7 +2,8 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import {Headers} from "@angular/http"
+import { Headers } from "@angular/http"
+import { AppComponent } from "./app.component";
 
 export const runInTestMode = typeof document === "undefined";
 
@@ -66,8 +67,6 @@ export interface SampleQuery extends GraphApiCall {
     AAD?: boolean
     MSA?: boolean
     category: string
-    postBodyTemplateName?: string
-    postBodyTemplateContents?: string
 }
 
 export interface SampleQueryCategory {
@@ -152,7 +151,14 @@ const Tokens = {
     "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{site-path}": "/Operations/Manufacturing/",
     "{today}": today.toISOString(),
-    "{next-week}": nextWeek.toISOString()
+    "{next-week}": nextWeek.toISOString(),
+    "FULL_USER_EMAIL": () => {
+        try {
+            return AppComponent.explorerValues.authentication.user.emailAddress;
+        } catch(e) {
+            return "example@contoso.com"
+        }
+    }
 }
 
 export function substitueTokens(query:SampleQuery) {
@@ -162,6 +168,21 @@ export function substitueTokens(query:SampleQuery) {
         }
     }
 }
+
+export function substituePostBodyTokens(query:SampleQuery) {
+    for (let token in Tokens) {
+        if (query.postBody.indexOf(token) != -1) {
+            let val;
+            if (typeof Tokens[token] == "string") {
+                val = Tokens[token];
+            } else {
+                val = Tokens[token]();
+            }
+            query.postBody = query.postBody.replace(token, val);
+        }
+    }
+}
+
 
 export interface Message {
     title: string

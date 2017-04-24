@@ -67819,6 +67819,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_helpers_1 = require("./api-explorer-helpers");
 var app_component_1 = require("./app.component");
 var auth_1 = require("./auth");
+var base_1 = require("./base");
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
 var GraphExplorerComponent = (function () {
     function GraphExplorerComponent() {
@@ -67833,7 +67834,7 @@ var GraphExplorerComponent = (function () {
         };
     }
     GraphExplorerComponent.prototype.getStr = function (label) {
-        return api_explorer_helpers_1.getString(app_component_1.AppComponent.Options, label);
+        return api_explorer_helpers_1.getString(app_component_1.AppComponent.Options, label) || "*****" + label;
     };
     GraphExplorerComponent.prototype.getAssetPath = function (relPath) {
         return app_component_1.AppComponent.Options.PathToBuildDir + "/" + relPath;
@@ -67855,10 +67856,8 @@ var GraphExplorerComponent = (function () {
         this.shouldEndWithOneEmptyHeader();
         app_component_1.AppComponent.explorerValues.postBody = "";
         var postBodyEditorSession = api_explorer_jseditor_1.getRequestBodyEditor().getSession();
-        if (query.postBodyTemplateName) {
-            app_component_1.AppComponent.explorerValues.postBody = JSON.stringify(query.postBodyTemplateContents, null, 4);
-        }
-        else if (query.postBody) {
+        if (query.postBody) {
+            base_1.substituePostBodyTokens(query);
             app_component_1.AppComponent.explorerValues.postBody = query.postBody;
         }
         postBodyEditorSession.setValue(app_component_1.AppComponent.explorerValues.postBody);
@@ -67885,7 +67884,7 @@ var GraphExplorerComponent = (function () {
 }());
 exports.GraphExplorerComponent = GraphExplorerComponent;
 
-},{"./api-explorer-helpers":54,"./api-explorer-jseditor":55,"./app.component":58,"./auth":60}],54:[function(require,module,exports){
+},{"./api-explorer-helpers":54,"./api-explorer-jseditor":55,"./app.component":58,"./auth":60,"./base":62}],54:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var loc_strings_1 = require("./loc_strings");
@@ -68220,7 +68219,7 @@ function handleUnsuccessfulQueryResponse(res, query) {
 }
 var AppComponent_1;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./graph-structure":66,"./history":69,"./response-handlers":77,"./response-status-bar.component":78,"./util":84,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./graph-structure":66,"./history":69,"./response-handlers":76,"./response-status-bar.component":77,"./util":83,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -68262,7 +68261,7 @@ AppModule = __decorate([
 ], AppModule);
 exports.AppModule = AppModule;
 
-},{"./app.component":58,"./authentication.component":61,"./history-panel.component":67,"./history-query.component":68,"./main-column.component":71,"./message-dialog.component":72,"./method-badge.component":73,"./queryrow.component":75,"./request-editors.component":76,"./response-status-bar.component":78,"./sample-categories-panel.component":79,"./scopes-dialog.component":80,"./share-link-btn.component":82,"./sidebar.component":83,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],60:[function(require,module,exports){
+},{"./app.component":58,"./authentication.component":61,"./history-panel.component":67,"./history-query.component":68,"./main-column.component":71,"./message-dialog.component":72,"./method-badge.component":73,"./queryrow.component":74,"./request-editors.component":75,"./response-status-bar.component":77,"./sample-categories-panel.component":78,"./scopes-dialog.component":79,"./share-link-btn.component":81,"./sidebar.component":82,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],60:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -68411,7 +68410,7 @@ function getAccountType() {
 }
 exports.getAccountType = getAccountType;
 
-},{"./app.component":58,"./message-dialog.component":72,"./scopes":81,"./util":84}],61:[function(require,module,exports){
+},{"./app.component":58,"./message-dialog.component":72,"./scopes":80,"./util":83}],61:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -68484,9 +68483,10 @@ AuthenticationComponent = __decorate([
 ], AuthenticationComponent);
 exports.AuthenticationComponent = AuthenticationComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"./scopes-dialog.component":80,"@angular/core":5,"@angular/platform-browser":10}],62:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":58,"./scopes-dialog.component":79,"@angular/core":5,"@angular/platform-browser":10}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var app_component_1 = require("./app.component");
 exports.runInTestMode = typeof document === "undefined";
 exports.Methods = [
     'GET',
@@ -68538,7 +68538,15 @@ var Tokens = {
     "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{site-path}": "/Operations/Manufacturing/",
     "{today}": today.toISOString(),
-    "{next-week}": nextWeek.toISOString()
+    "{next-week}": nextWeek.toISOString(),
+    "FULL_USER_EMAIL": function () {
+        try {
+            return app_component_1.AppComponent.explorerValues.authentication.user.emailAddress;
+        }
+        catch (e) {
+            return "example@contoso.com";
+        }
+    }
 };
 function substitueTokens(query) {
     for (var token in Tokens) {
@@ -68548,8 +68556,23 @@ function substitueTokens(query) {
     }
 }
 exports.substitueTokens = substitueTokens;
+function substituePostBodyTokens(query) {
+    for (var token in Tokens) {
+        if (query.postBody.indexOf(token) != -1) {
+            var val = void 0;
+            if (typeof Tokens[token] == "string") {
+                val = Tokens[token];
+            }
+            else {
+                val = Tokens[token]();
+            }
+            query.postBody = query.postBody.replace(token, val);
+        }
+    }
+}
+exports.substituePostBodyTokens = substituePostBodyTokens;
 
-},{}],63:[function(require,module,exports){
+},{"./app.component":58}],63:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function initFabricComponents() {
@@ -68696,7 +68719,13 @@ exports.SampleQueries = [
         "method": "POST",
         "humanName": "add favorite group",
         "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/addFavorite",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ]
     }, {
         "category": "Groups",
         "method": "GET",
@@ -68726,13 +68755,27 @@ exports.SampleQueries = [
         "method": "POST",
         "humanName": "send an email",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/sendMail",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n        \"message\": {\r\n            \"subject\": \"Meet for lunch?\",\r\n            \"body\": {\r\n                \"contentType\": \"Text\",\r\n                \"content\": \"The new cafeteria is open.\"\r\n            },\r\n            \"toRecipients\": [\r\n                {\r\n                    \"emailAddress\": {\r\n                    \"address\": \"garthf@contoso.com\"\r\n                    }\r\n                }\r\n            ]\r\n        }}"
     }, {
         "category": "Outlook Mail",
         "method": "POST",
         "humanName": "forward mail",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/messages/{message-id}/forward",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n  \"comment\": \"FYI\",\r\n  \"toRecipients\": [\r\n    {\r\n      \"emailAddress\": {\r\n        \"address\": \"FULL_USER_EMAIL\",\r\n        \"name\": \"Alex Darrow\"\r\n      }\r\n    }\r\n  ]\r\n}"
     }, {
         "category": "Outlook Mail (preview)",
         "method": "GET",
@@ -68774,13 +68817,27 @@ exports.SampleQueries = [
         "method": "POST",
         "humanName": "find meeting time",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/me/findMeetingTimes",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n        \"attendees\": [\r\n            {\r\n            \"emailAddress\": {\r\n                \"address\": \"FULL_USER_EMAIL\",\r\n                \"name\": \"Alex Darrow\"\r\n            },\r\n            \"type\": \"Required\"\r\n            }\r\n        ],\r\n        \"timeConstraint\": {\r\n            \"timeslots\": [\r\n            {\r\n            \"start\": {\r\n                \"dateTime\": \"{today}\",  \r\n                \"timeZone\": \"Pacific Standard Time\" \r\n                },  \r\n                \"end\": { \r\n                \"dateTime\": \"{next-week}\",  \r\n                \"timeZone\": \"Pacific Standard Time\" \r\n                }\r\n            }\r\n            ]\r\n        },\r\n        \"locationConstraint\": {\r\n        \"isRequired\": \"false\",\r\n        \"suggestLocation\": \"true\",\r\n        \"locations\": [\r\n            {\r\n            \"displayName\": \"Conf Room 32/1368\",\r\n            \"locationEmailAddress\": \"conf32room1368@imgeek.onmicrosoft.com\"\r\n            }\r\n        ]\r\n        },\r\n        \"meetingDuration\": \"PT1H\"\r\n        }"
     }, {
         "category": "Outlook Calendar",
         "method": "POST",
         "humanName": "schedule a meeting",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/events",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n        \"subject\": \"My event\",\r\n        \"start\": {\r\n            \"dateTime\": \"{today}\",\r\n            \"timeZone\": \"UTC\"\r\n        },\r\n        \"end\": {\r\n            \"dateTime\": \"{next-week}\",\r\n            \"timeZone\": \"UTC\"\r\n        },\r\n    }"
     }, {
         "category": "Outlook Calendar (preview)",
         "method": "GET",
@@ -68798,7 +68855,14 @@ exports.SampleQueries = [
         "method": "POST",
         "humanName": "add contact",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/contacts",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n    \"givenName\": \"Pavel\",\r\n    \"surname\": \"Bansky\",\r\n    \"emailAddresses\": [\r\n        {\r\n        \"address\": \"pavelb@fabrikam.onmicrosoft.com\",\r\n        \"name\": \"Pavel Bansky\"\r\n        }\r\n    ],\r\n    \"businessPhones\": [\r\n        \"+1 732 555 0102\"\r\n    ]\r\n}"
     }, {
         "category": "OneDrive",
         "method": "GET",
@@ -68828,7 +68892,14 @@ exports.SampleQueries = [
         "method": "POST",
         "humanName": "create a folder",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/children",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n  \"name\": \"New Folder\",\r\n  \"folder\": { }\r\n}"
     }, {
         "category": "Excel",
         "method": "GET",
@@ -68840,7 +68911,14 @@ exports.SampleQueries = [
         "method": "POST",
         "humanName": "create session",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/createSession",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{ \"persistChanges\": true }"
     }, {
         "category": "Excel",
         "method": "GET",
@@ -68852,7 +68930,14 @@ exports.SampleQueries = [
         "method": "POST",
         "humanName": "add a new worksheet",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n  \"name\": \"My New Sheet\"\r\n}"
     }, {
         "category": "Excel",
         "method": "GET",
@@ -68931,48 +69016,37 @@ exports.SampleQueries = [
     }, {
         "category": "OneNote (beta)",
         "method": "POST",
-        "humanName": "my notebook",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks"
+        "humanName": "create notebook",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks",
+        "postBody": "{\r\n  \"name\": \"My Notebook\"\r\n}"
     }, {
         "category": "OneNote (beta)",
         "method": "POST",
-        "humanName": "my section",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections"
+        "humanName": "create section",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/json"
+            }
+        ],
+        "postBody": "{\r\n  \"name\": \"Section 1\"\r\n}"
     }, {
         "category": "OneNote (beta)",
         "method": "POST",
-        "humanName": "my page",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages"
-    }, {
-        "category": "Insights",
-        "method": "GET",
-        "humanName": "my recent files",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
-    }, {
-        "category": "Insights (preview)",
-        "method": "GET",
-        "humanName": "items trending around me",
-        "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
-    }, {
-        "category": "Insights (preview)",
-        "method": "GET",
-        "humanName": "people I work with",
-        "requestUrl": "https://graph.microsoft.com/beta/me/people",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
-    }, {
-        "category": "Insights (preview)",
-        "method": "GET",
-        "humanName": "people whos name starts with J",
-        "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=j",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
-    }, {
-        "category": "Insights (preview)",
-        "method": "GET",
-        "humanName": "people relevant to a topic",
-        "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: planning\"",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+        "humanName": "create page",
+        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages",
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "multipart/form-data"
+            },
+            {
+                "name": "boundary",
+                "value": "MyPartBoundary198374"
+            }
+        ],
+        "postBody": "\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"Presentation\"\r\nContent-Type:text/html\r\n\r\n<!DOCTYPE html>\r\n<html>\r\n  <head>\r\n    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>\r\n    <meta name=\"created\" content=\"2015-07-22T09:00:00-08:00\" />\r\n  </head>\r\n  <body>\r\n    <p>Here's an image from an online source:</p>\r\n    <img src=\"http://...\" alt=\"an image on the page\" width=\"500\" />\r\n    <p>Here's an image uploaded as binary data:</p>\r\n    <img src=\"name:imageBlock1\" alt=\"an image on the page\" width=\"300\" />\r\n    <p>Here's a file attachment:</p>\r\n    <object data-attachment=\"FileName.pdf\" data=\"name:fileBlock1\" type=\"application/pdf\" />\r\n  </body>\r\n</html>\r\n\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"imageBlock1\"\r\nContent-Type:image/jpeg\r\n\r\n... binary image data ...\r\n\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"fileBlock1\"\r\nContent-Type:application/pdf\r\n\r\n... binary file data ...\r\n\r\n--MyPartBoundary198374--"
     }
 ];
 
@@ -68980,7 +69054,6 @@ exports.SampleQueries = [
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_1 = require("./base");
-var PostBodyTemplates = require("./postBodyTemplates/queries");
 var gen_queries_1 = require("./gen-queries");
 function getLocalStorageDisplayKey(category) {
     return "CATEGORY_DISPLAY_" + category.title;
@@ -69002,9 +69075,6 @@ var categories = {};
 for (var _i = 0, SampleQueries_1 = gen_queries_1.SampleQueries; _i < SampleQueries_1.length; _i++) {
     var query = SampleQueries_1[_i];
     base_1.substitueTokens(query);
-    if (query.postBodyTemplateName) {
-        query.postBodyTemplateContents = PostBodyTemplates[query.postBodyTemplateName];
-    }
     if (query.category in categories) {
         categories[query.category].queries.push(query);
     }
@@ -69026,7 +69096,7 @@ for (var categoryTitle in categories) {
     exports.SampleCategories.push(category);
 }
 
-},{"./base":62,"./gen-queries":64,"./postBodyTemplates/queries":74}],66:[function(require,module,exports){
+},{"./base":62,"./gen-queries":64}],66:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -69375,7 +69445,7 @@ HistoryRowComponent = __decorate([
 ], HistoryRowComponent);
 exports.HistoryRowComponent = HistoryRowComponent;
 
-},{"./queryrow.component":75,"@angular/core":5,"moment":11}],69:[function(require,module,exports){
+},{"./queryrow.component":74,"@angular/core":5,"moment":11}],69:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var LocalStorageKeyGraphRequestHistory = "GRAPH_V4.1_REQUEST_HISTORY";
@@ -69471,8 +69541,6 @@ exports.loc_strings['en-US'] = {
     "my files": "my files",
     "my photo": "my photo",
     "my mail": "my mail",
-    "my high importance mail": "my high importance mail",
-    "my calendar": "my calendar",
     "my manager": "my manager",
     "Response Headers": "Response Headers",
     "Response Preview": "Response Preview",
@@ -69488,46 +69556,78 @@ exports.loc_strings['en-US'] = {
     "Login to try this request": "Login to try this request",
     "manage permissions": "manage permissions",
     "Save changes": "Save changes",
-    "To change permissions, you will need to log-in again.": "To change permissions, you will need to log-in again."
-};
-exports.loc_strings['pt-BR'] = {
-    "To try the explorer, please ": "Para experimentar o Explorador, ",
-    "sign in": "entre",
-    " with your work or school account from Microsoft.": " com a sua conta corporativa ou de estudante da Microsoft.",
-    "Submit": "Enviar",
-    "Using demo tenant": "No momento, você está usando uma conta de exemplo.",
-    "To access your own data:": "Para acessar seus dados:",
-    "sign out": "Sair",
-    "History": "Histórico",
-    "Method": "Método",
-    "Query": "Consulta",
-    "Status Code": "Código de Status",
-    "Duration": "Duração",
-    "Go": "Ir",
-    "milliseconds": "ms",
-    "YES": "SIM",
-    "Show More": "Mostrar mais",
-    "Graph Explorer": "Explorador do Graph",
-    "Failure": "Falha",
-    "Success": "Êxito",
-    "Authentication": "Autenticação",
-    "NO": "NÃO",
-    "request header": "Cabeçalhos de solicitação",
-    "Run Query": "Executar Consulta",
-    "request body": "Corpo da Solicitação",
-    "Close": "Fechar",
-    "Getting Started": "Introdução",
-    "Response": "Resposta",
-    "login to send requests": "Entre para alterar o tipo de solicitação",
-    "Share Query": "Compartilhar Consulta",
-    "Share this link to let people try your current query in the Graph Explorer.": "Compartilhe este link para que as pessoas possam experimentar a consulta atual no Explorador do Graph.",
-    "my profile": "meu perfil",
-    "my files": "meus arquivos",
-    "my photo": "minha foto",
-    "my mail": "meu email",
-    "my high importance mail": "meu email de alta prioridade",
-    "my calendar": "meu calendário",
-    "my manager": "meu gerente"
+    "To change permissions, you will need to log-in again.": "To change permissions, you will need to log-in again.",
+    "all the items in my drive": "all the items in my drive",
+    "items trending around me": "items trending around me",
+    "my direct reports": "my direct reports",
+    "all users in the organization": "all users in the organization",
+    "all users in the Finance department": "all users in the Finance department",
+    "my skills": "my skills",
+    "all my Planner tasks": "all my Planner tasks",
+    "track user changes": "track user changes",
+    "all groups in my organization": "all groups in my organization",
+    "all groups I belong to": "all groups I belong to",
+    "unified groups I belong to": "unified groups I belong to",
+    "group members": "group members",
+    "group's conversations": "group's conversations",
+    "group's events": "group's events",
+    "add favorite group": "add favorite group",
+    "items in a group drive": "items in a group drive",
+    "track group changes": "track group changes",
+    "my high important mail": "my high important mail",
+    "my mail that has 'Hello World'": "my mail that has 'Hello World'",
+    "send an email": "send an email",
+    "forward mail": "forward mail",
+    "track email changes": "track email changes",
+    "email I\"m @ mentioned": "email I\"m @ mentioned",
+    "my events for the next week": "my events for the next week",
+    "all events in my calendar": "all events in my calendar",
+    "all my calendars": "all my calendars",
+    "all my event reminders for next week": "all my event reminders for next week",
+    "find meeting time": "find meeting time",
+    "schedule a meeting": "schedule a meeting",
+    "track changes on my events for the next week": "track changes on my events for the next week",
+    "my contacts": "my contacts",
+    "add contact": "add contact",
+    "my recent files": "my recent files",
+    "files shared with me": "files shared with me",
+    "all of my excel files": "all of my excel files",
+    "create a folder": "create a folder",
+    "create session": "create session",
+    "worksheets in a workbook": "worksheets in a workbook",
+    "add a new worksheet": "add a new worksheet",
+    "used range in worksheet": "used range in worksheet",
+    "tables in worksheet": "tables in worksheet",
+    "charts in worksheet": "charts in worksheet",
+    "all Planner plans associated with a group": "all Planner plans associated with a group",
+    "all Planner tasks for a plan": "all Planner tasks for a plan",
+    "my organization's default SharePoint site": "my organization's default SharePoint site",
+    "a SharePoint site by URL": "a SharePoint site by URL",
+    "subsites in a SharePoint site": "subsites in a SharePoint site",
+    "list in a SharePoint site ": "list in a SharePoint site ",
+    "my notebooks": "my notebooks",
+    "my sections": "my sections",
+    "my pages": "my pages",
+    "create notebook": "create notebook",
+    "create section": "create section",
+    "create page": "create page",
+    "Users": "Users",
+    "Users (preview)": "Users (preview)",
+    "Groups": "Groups",
+    "Groups (preview)": "Groups (preview)",
+    "Outlook Mail": "Outlook Mail",
+    "Outlook Mail (preview)": "Outlook Mail (preview)",
+    "Outlook Calendar": "Outlook Calendar",
+    "Outlook Calendar (preview)": "Outlook Calendar (preview)",
+    "Personal Contacts": "Personal Contacts",
+    "OneDrive": "OneDrive",
+    "Excel": "Excel",
+    "Planner (beta)": "Planner (beta)",
+    "SharePoint Sites (beta)": "SharePoint Sites (beta)",
+    "OneNote (beta)": "OneNote (beta)",
+    "SharePoint Lists (beta)": "SharePoint Lists (beta)",
+    "Insights": "Insights",
+    "Insights (preview)": "Insights (preview)"
 };
 exports.loc_strings['es-ES'] = {
     "To try the explorer, please ": "Para utilizar el probador,  ",
@@ -69567,6 +69667,123 @@ exports.loc_strings['es-ES'] = {
     "my high importance mail": "mi correo electrónico de importancia alta",
     "my calendar": "mi calendario",
     "my manager": "mi administrador"
+};
+exports.loc_strings['ru-RU'] = {
+    "To try the explorer, please ": "Чтобы опробовать песочницу, ",
+    "sign in": "войдите",
+    " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.",
+    "Submit": "Отправить",
+    "Using demo tenant": "В настоящее время вы используете пример учетной записи.",
+    "To access your own data:": "Для доступа к собственным данным:",
+    "sign out": "Выход",
+    "History": "Журнал",
+    "Method": "Метод",
+    "Query": "Запрос",
+    "Status Code": "Код состояния",
+    "Duration": "Срок действия",
+    "Go": "Переход",
+    "milliseconds": "мс",
+    "YES": "ДА",
+    "Show More": "Больше",
+    "Graph Explorer": "Песочница Graph",
+    "Failure": "Ошибка",
+    "Success": "Успешно",
+    "Authentication": "Проверка подлинности",
+    "NO": "НЕТ",
+    "request header": "Заголовки запросов",
+    "Run Query": "Выполнить запрос",
+    "request body": "Текст запроса",
+    "Close": "Закрыть",
+    "Getting Started": "Начало работы",
+    "Response": "Отклик",
+    "login to send requests": "Войдите, чтобы изменить тип запроса",
+    "Share Query": "Поделиться запросом",
+    "Share this link to let people try your current query in the Graph Explorer.": "Поделитесь этой ссылкой, чтобы другие пользователи могли попробовать ваш текущий запрос в песочнице Graph.",
+    "my profile": "мой профиль",
+    "my files": "мои файлы",
+    "my photo": "мои фото",
+    "my mail": "моя почта",
+    "my high importance mail": "моя почта высокой важности",
+    "my calendar": "мой календарь",
+    "my manager": "мой руководитель"
+};
+exports.loc_strings['ja-JP'] = {
+    "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
+    "sign in": "サインイン",
+    " with your work or school account from Microsoft.": " します。",
+    "Submit": "送信",
+    "Using demo tenant": "現在、サンプル アカウントを使用しています。",
+    "To access your own data:": "自分のデータにアクセスするには:",
+    "sign out": "サインアウト",
+    "History": "履歴",
+    "Method": "メソッド",
+    "Query": "クエリ",
+    "Status Code": "状態コード",
+    "Duration": "期間",
+    "Go": "実行",
+    "milliseconds": "ミリ秒",
+    "YES": "はい",
+    "Show More": "詳細表示",
+    "Graph Explorer": "Graph エクスプローラー",
+    "Failure": "失敗",
+    "Success": "成功",
+    "Authentication": "認証",
+    "NO": "いいえ",
+    "request header": "要求ヘッダー",
+    "Run Query": "クエリを実行",
+    "request body": "要求本文",
+    "Close": "閉じる",
+    "Getting Started": "はじめに",
+    "Response": "応答",
+    "login to send requests": "要求の種類を変更するにはログインしてください",
+    "Share Query": "クエリの共有",
+    "Share this link to let people try your current query in the Graph Explorer.": "他のユーザーが Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。",
+    "my profile": "自分のプロファイル",
+    "my files": "自分のファイル",
+    "my photo": "自分の写真",
+    "my mail": "自分のメール",
+    "my high importance mail": "重要度の高い自分のメール",
+    "my calendar": "自分の予定表",
+    "my manager": "自分の上司"
+};
+exports.loc_strings['pt-BR'] = {
+    "To try the explorer, please ": "Para experimentar o Explorador, ",
+    "sign in": "entre",
+    " with your work or school account from Microsoft.": " com a sua conta corporativa ou de estudante da Microsoft.",
+    "Submit": "Enviar",
+    "Using demo tenant": "No momento, você está usando uma conta de exemplo.",
+    "To access your own data:": "Para acessar seus dados:",
+    "sign out": "Sair",
+    "History": "Histórico",
+    "Method": "Método",
+    "Query": "Consulta",
+    "Status Code": "Código de Status",
+    "Duration": "Duração",
+    "Go": "Ir",
+    "milliseconds": "ms",
+    "YES": "SIM",
+    "Show More": "Mostrar mais",
+    "Graph Explorer": "Explorador do Graph",
+    "Failure": "Falha",
+    "Success": "Êxito",
+    "Authentication": "Autenticação",
+    "NO": "NÃO",
+    "request header": "Cabeçalhos de solicitação",
+    "Run Query": "Executar Consulta",
+    "request body": "Corpo da Solicitação",
+    "Close": "Fechar",
+    "Getting Started": "Introdução",
+    "Response": "Resposta",
+    "login to send requests": "Entre para alterar o tipo de solicitação",
+    "Share Query": "Compartilhar Consulta",
+    "Share this link to let people try your current query in the Graph Explorer.": "Compartilhe este link para que as pessoas possam experimentar a consulta atual no Explorador do Graph.",
+    "my profile": "meu perfil",
+    "my files": "meus arquivos",
+    "my photo": "minha foto",
+    "my mail": "meu email",
+    "my high importance mail": "meu email de alta prioridade",
+    "my calendar": "meu calendário",
+    "my manager": "meu gerente"
 };
 exports.loc_strings['fr-FR'] = {
     "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ",
@@ -69645,84 +69862,6 @@ exports.loc_strings['zh-CN'] = {
     "my high importance mail": "我的高重要性邮件",
     "my calendar": "我的日历",
     "my manager": "我的管理器"
-};
-exports.loc_strings['ja-JP'] = {
-    "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
-    "sign in": "サインイン",
-    " with your work or school account from Microsoft.": " します。",
-    "Submit": "送信",
-    "Using demo tenant": "現在、サンプル アカウントを使用しています。",
-    "To access your own data:": "自分のデータにアクセスするには:",
-    "sign out": "サインアウト",
-    "History": "履歴",
-    "Method": "メソッド",
-    "Query": "クエリ",
-    "Status Code": "状態コード",
-    "Duration": "期間",
-    "Go": "実行",
-    "milliseconds": "ミリ秒",
-    "YES": "はい",
-    "Show More": "詳細表示",
-    "Graph Explorer": "Graph エクスプローラー",
-    "Failure": "失敗",
-    "Success": "成功",
-    "Authentication": "認証",
-    "NO": "いいえ",
-    "request header": "要求ヘッダー",
-    "Run Query": "クエリを実行",
-    "request body": "要求本文",
-    "Close": "閉じる",
-    "Getting Started": "はじめに",
-    "Response": "応答",
-    "login to send requests": "要求の種類を変更するにはログインしてください",
-    "Share Query": "クエリの共有",
-    "Share this link to let people try your current query in the Graph Explorer.": "他のユーザーが Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。",
-    "my profile": "自分のプロファイル",
-    "my files": "自分のファイル",
-    "my photo": "自分の写真",
-    "my mail": "自分のメール",
-    "my high importance mail": "重要度の高い自分のメール",
-    "my calendar": "自分の予定表",
-    "my manager": "自分の上司"
-};
-exports.loc_strings['ru-RU'] = {
-    "To try the explorer, please ": "Чтобы опробовать песочницу, ",
-    "sign in": "войдите",
-    " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.",
-    "Submit": "Отправить",
-    "Using demo tenant": "В настоящее время вы используете пример учетной записи.",
-    "To access your own data:": "Для доступа к собственным данным:",
-    "sign out": "Выход",
-    "History": "Журнал",
-    "Method": "Метод",
-    "Query": "Запрос",
-    "Status Code": "Код состояния",
-    "Duration": "Срок действия",
-    "Go": "Переход",
-    "milliseconds": "мс",
-    "YES": "ДА",
-    "Show More": "Больше",
-    "Graph Explorer": "Песочница Graph",
-    "Failure": "Ошибка",
-    "Success": "Успешно",
-    "Authentication": "Проверка подлинности",
-    "NO": "НЕТ",
-    "request header": "Заголовки запросов",
-    "Run Query": "Выполнить запрос",
-    "request body": "Текст запроса",
-    "Close": "Закрыть",
-    "Getting Started": "Начало работы",
-    "Response": "Отклик",
-    "login to send requests": "Войдите, чтобы изменить тип запроса",
-    "Share Query": "Поделиться запросом",
-    "Share this link to let people try your current query in the Graph Explorer.": "Поделитесь этой ссылкой, чтобы другие пользователи могли попробовать ваш текущий запрос в песочнице Graph.",
-    "my profile": "мой профиль",
-    "my files": "мои файлы",
-    "my photo": "мои фото",
-    "my mail": "моя почта",
-    "my high importance mail": "моя почта высокой важности",
-    "my calendar": "мой календарь",
-    "my manager": "мой руководитель"
 };
 
 },{}],71:[function(require,module,exports){
@@ -69909,7 +70048,7 @@ MainColumnComponent = __decorate([
         providers: [api_explorer_svc_1.GraphService],
         selector: 'main-column',
         template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" (keydown)=\"endpointInputKeyDown($event)\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" title=\"LightningBolt\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
-        styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -8px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 37px;\n        margin-top: 20px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n\n\n  "]
+        styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -8px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 37px;\n        margin-top: 20px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n    \n  "]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
 ], MainColumnComponent);
@@ -69985,34 +70124,6 @@ exports.MethodBadgeComponent = MethodBadgeComponent;
 
 },{"@angular/core":5}],74:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendMail = {
-    "message": {
-        "subject": "Meet for lunch?",
-        "body": {
-            "contentType": "Text",
-            "content": "The new cafeteria is open."
-        },
-        "toRecipients": [
-            {
-                "emailAddress": {
-                    "address": "fannyd@contoso.onmicrosoft.com"
-                }
-            }
-        ],
-        "ccRecipients": [
-            {
-                "emailAddress": {
-                    "address": "danas@contoso.onmicrosoft.com"
-                }
-            }
-        ]
-    },
-    "saveToSentItems": "false"
-};
-
-},{}],75:[function(require,module,exports){
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -70068,12 +70179,12 @@ QueryRowComponent = __decorate([
     core_1.Component({
         selector: 'query-row',
         template: "\n    <button class=\"api-query\" (click)=\"handleQueryClick()\" onclick=\"this.blur();\" (keydown)=\"queryKeyDown($event)\" [attr.title]=\"getTitle()\" [ngClass]=\"{restrict: (!isAuthenticated() && query.method != 'GET')}\" tabindex=\"0\">\n        <div class=\"row-1\">\n            <method-badge [query]=\"query\"></method-badge>\n            <div class=\"query\">{{getQueryText()}}</div>\n            <a onclick=\"this.blur();\" class=\"query-link restrict\" *ngIf=\"query.method != 'GET' && !isAuthenticated() && query.category\" [attr.title]=\"getStr('Login to try this request')\">\n                <i class=\"ms-Icon ms-Icon--Permissions\"></i>\n            </a>\n            <a onclick=\"this.blur();\" class=\"query-link\" *ngIf=\"query.docLink\" [attr.href]=\"query.docLink\" [attr.title]=\"query.docLink\" target=\"_blank\">\n                <i class=\"ms-Icon ms-Icon--Page\"></i>\n            </a>\n\n        </div>\n      <ng-content></ng-content>\n    </button>\n    ",
-        styles: ["\n      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {\n          background: rgba(0,0,0,0.25);\n          outline: none;\n      }\n\n      .query-link {\n            color: white;\n            background: #2F2F2F;\n            padding: 8px 11px 7px 12px;\n            margin: -5px;\n            margin-left: 5px;\n            display: block;\n            float: right;\n      }\n\n      .api-query:hover .query-link {\n          background-color: #232323;\n      }\n\n      .query-link:hover {\n          background: rgba(0,0,0,0.25) !important;\n          cursor: pointer;\n      }\n\n      .restrict:hover {\n        cursor: not-allowed;\n      }\n\n      .api-query {\n          cursor: pointer;\n          font-size: 13px;\n          line-height: 16px;\n          display: block;\n          border: 0;\n          background: 0 0;\n          font-weight: 500;\n          padding: 5px 5px 5px 12px;\n          left: 0;\n          text-align: left;\n          width: 100%;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis;\n          margin-left: -12px;\n      }\n\n      .row-1 {\n          display: flex;\n          flex-wrap: wrap;\n      }\n\n    .duration {\n        float: right;\n    }\n\n    i.ms-Icon.ms-Icon--Page {\n    }\n\n    .query {\n        flex: 1;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        padding-top: 2px;\n    }\n\n\n"]
+        styles: ["\n      .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {\n          background: rgba(0,0,0,0.25);\n          outline: none;\n      }\n\n      .query-link {\n            color: white;\n            background: #2F2F2F;\n            padding: 8px 11px 7px 12px;\n            margin: -5px;\n            margin-left: 5px;\n            display: block;\n            float: right;\n      }\n\n      .api-query:hover .query-link {\n          background-color: #232323;\n      }\n\n      .query-link:hover {\n          background: rgba(0,0,0,0.4) !important;\n          cursor: pointer;\n      }\n\n      .restrict:hover {\n        cursor: not-allowed;\n      }\n\n      .api-query {\n          cursor: pointer;\n          font-size: 13px;\n          line-height: 16px;\n          display: block;\n          border: 0;\n          background: 0 0;\n          font-weight: 500;\n          padding: 5px 5px 5px 12px;\n          left: 0;\n          text-align: left;\n          width: 100%;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis;\n          margin-left: -12px;\n      }\n\n      .row-1 {\n          display: flex;\n          flex-wrap: wrap;\n      }\n\n    .duration {\n        float: right;\n    }\n\n    i.ms-Icon.ms-Icon--Page {\n    }\n\n    .query {\n        flex: 1;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        padding-top: 2px;\n    }\n\n\n"]
     })
 ], QueryRowComponent);
 exports.QueryRowComponent = QueryRowComponent;
 
-},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],76:[function(require,module,exports){
+},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],75:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70163,7 +70274,7 @@ RequestEditorsComponent = __decorate([
 ], RequestEditorsComponent);
 exports.RequestEditorsComponent = RequestEditorsComponent;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./base":62,"@angular/core":5}],77:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./base":62,"@angular/core":5}],76:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
@@ -70292,7 +70403,7 @@ function formatXml(xml) {
 exports.formatXml = formatXml;
 ;
 
-},{"./api-explorer-jseditor":55,"./app.component":58}],78:[function(require,module,exports){
+},{"./api-explorer-jseditor":55,"./app.component":58}],77:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70356,7 +70467,7 @@ ResponseStatusBarComponent = __decorate([
 ], ResponseStatusBarComponent);
 exports.ResponseStatusBarComponent = ResponseStatusBarComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],79:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],78:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70400,12 +70511,12 @@ SampleCategoriesPanelComponent = __decorate([
     core_1.Component({
         selector: 'sample-categories-panel',
         styles: ["\n    .category-row {\n        margin-bottom: 15px;\n        padding: 0 50px;\n    }\n\n    .category-switch {\n        display: inline-block;\n        float: right;\n        width: 100px;\n    }\n\n    div.c-toggle button {\n        margin-top: 0px;\n    }\n\n    .ms-Panel-headerText {\n        margin-top: 0px;\n        margin-bottom: 35px;\n    }\n\n    .ms-Panel.ms-Panel--lg {\n        max-width: 544px;\n    }\n\n    div.c-toggle button:focus {\n        outline: none;\n    }\n\n    /* core.css frontdoor conflict */\n    .category-switch button {\n        min-width: inherit;\n    }\n\n"],
-        template: "\n    <div id=\"sample-categories-panel\" class=\"ms-Panel ms-Panel--lg\">\n        <button class=\"ms-Panel-closeButton ms-PanelAction-close\" tabindex=\"1\">\n            <i class=\"ms-Panel-closeIcon ms-Icon ms-Icon--Cancel\"></i>\n        </button>\n        <div class=\"ms-Panel-contentInner\">\n            <p class=\"ms-Panel-headerText\">{{getStr('Edit Sample Categories')}}</p>\n            <div class=\"ms-Panel-content\">\n                <div *ngFor=\"let category of categories\" class=\"category-row\">\n                    {{category.title}} ({{category.queries.length}})\n                    <div class=\"category-switch\">\n                        <div class=\"c-toggle\" (click)=\"toggleCategory(category)\">\n                            <button id=\"example-1\" name=\"example-1\" role=\"checkbox\" [attr.aria-checked]=\"category.enabled\" aria-labelledby=\"c-label c-state-label-1\"></button>\n                            <span [attr.data-on-string]=\"getStr('On')\" [attr.data-off-string]=\"getStr('Off')\" id=\"c-state-label-1\">On</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n     ",
+        template: "\n    <div id=\"sample-categories-panel\" class=\"ms-Panel ms-Panel--lg\">\n        <button class=\"ms-Panel-closeButton ms-PanelAction-close\" tabindex=\"1\">\n            <i class=\"ms-Panel-closeIcon ms-Icon ms-Icon--Cancel\"></i>\n        </button>\n        <div class=\"ms-Panel-contentInner\">\n            <p class=\"ms-Panel-headerText\">{{getStr('Edit Sample Categories')}}</p>\n            <div class=\"ms-Panel-content\">\n                <div *ngFor=\"let category of categories\" class=\"category-row\">\n                    {{getStr(category.title)}} ({{category.queries.length}})\n                    <div class=\"category-switch\">\n                        <div class=\"c-toggle\" (click)=\"toggleCategory(category)\">\n                            <button id=\"example-1\" name=\"example-1\" role=\"checkbox\" [attr.aria-checked]=\"category.enabled\" aria-labelledby=\"c-label c-state-label-1\"></button>\n                            <span [attr.data-on-string]=\"getStr('On')\" [attr.data-off-string]=\"getStr('Off')\" id=\"c-state-label-1\">{{getStr('On')}}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n     ",
     })
 ], SampleCategoriesPanelComponent);
 exports.SampleCategoriesPanelComponent = SampleCategoriesPanelComponent;
 
-},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],80:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],79:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70494,14 +70605,14 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
 ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
     core_1.Component({
         selector: 'scopes-dialog',
-        styles: ["\n  .ms-Dialog-content {\n    max-height: 510px;\n    overflow: auto;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n"],
+        styles: ["\n  .ms-Dialog-content {\n    max-height: 451px;\n    overflow: auto;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n"],
         template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('manage permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <h3 *ngIf=\"!canEditFields()\">We have temporarily disabled selecting permissions for personal Microosft accounts.  Login with a work or school account to unlock this feature.</h3>\n      <div class=\"ms-Dialog-content\">\n        <table class=\"ms-Table\">\n          <tr *ngFor=\"let scope of scopes\">\n            <td>\n              <div class=\"c-checkbox\">\n                  <label class=\"c-label\">\n                      <input type=\"checkbox\" [disabled]=\"(!canEditFields() || scope.name == 'openid')\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                      <span aria-hidden=\"true\">{{scope.name}}<i *ngIf=\"scope.preview\">Preview</i></span>\n                  </label>\n              </div>\n            </td>\n            <td>\n              <span *ngIf=\"scope.admin\">\n                Admin\n              </span>\n            </td>\n          </tr>\n        </table>\n      </div>\n      <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
     })
 ], ScopesDialogComponent);
 exports.ScopesDialogComponent = ScopesDialogComponent;
 var ScopesDialogComponent_1;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"./auth":60,"./scopes":81,"@angular/core":5}],81:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":58,"./auth":60,"./scopes":80,"@angular/core":5}],80:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PermissionScopes = [
@@ -70920,7 +71031,7 @@ exports.PermissionScopes = [
     }
 ];
 
-},{}],82:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70989,7 +71100,7 @@ ShareLinkBtnComponent = __decorate([
 ], ShareLinkBtnComponent);
 exports.ShareLinkBtnComponent = ShareLinkBtnComponent;
 
-},{"./GraphExplorerComponent":53,"@angular/core":5}],83:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"@angular/core":5}],82:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -71052,13 +71163,13 @@ var SidebarComponent = (function (_super) {
 SidebarComponent = __decorate([
     core_1.Component({
         selector: 'sidebar',
-        template: "\n      <div id=\"explorer-sidebar\">\n        <div class=\"arrow-left\"></div>\n        <div>\n            <span id=\"explorer-title\" class=\"c-heading-3 panel-header\">{{getStr('Graph Explorer')}}</span>\n        </div>\n        <div class=\"c-drawer\">\n            <button id=\"auth-drawer-button\" class=\"c-glyph\" aria-expanded=\"true\" disabled=\"true\" aria-controls=\"authDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--Permissions\" aria-hidden=\"true\"></i>{{getStr('Authentication')}}</span></button>\n            <div id=\"authDrawer\" class=\"panel-content\">\n\n              <authentication></authentication>\n            </div>\n        </div>\n\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"refineDrawer\">\n                <span class=\"c-heading-5 panel-header\"><img id=\"getting-started-svg\" src=\"{{getAssetPath('assets/images/rocket1.svg')}}\"/>{{getStr('Sample Queries')}}</span></button>\n            <div id=\"refineDrawer\" class=\"panel-content\">\n                <div id=\"sample-queries-scroll\">\n                    <div *ngFor=\"let category of categories\" class=\"sample-category\" [hidden]=\"!category.enabled\">\n                        <div><span class=\"category-heading\">{{category.title}}</span></div>\n                        <query-row [query]=\"query\" *ngFor=\"let query of category.queries\"></query-row>\n                    </div>\n                </div>\n                <a href=\"#\" id=\"manage-categories\" class=\"c-hyperlink\" tabindex=0 (click)=\"manageCategories()\">{{getStr('show more groups')}}</a>\n            </div>\n        </div>\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"historyDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--History\" aria-hidden=\"true\"></i>{{getStr('History')}}</span></button>\n            <div id=\"historyDrawer\" class=\"panel-content\">\n                <history-query-row *ngFor=\"let query of getRequestHistory(5)\" [query]=\"query\"></history-query-row>\n                <a href=\"#\" id=\"show-full-history\" (click)=\"manageHistory()\" [hidden]=\"getRequestHistory().length == 0\" class=\"c-hyperlink\" tabindex=0>{{getStr('Show More')}}</a>\n            </div>\n        </div>\n\n  </div>\n\n  ",
+        template: "\n      <div id=\"explorer-sidebar\">\n        <div class=\"arrow-left\"></div>\n        <div>\n            <span id=\"explorer-title\" class=\"c-heading-3 panel-header\">{{getStr('Graph Explorer')}}</span>\n        </div>\n        <div class=\"c-drawer\">\n            <button id=\"auth-drawer-button\" class=\"c-glyph\" aria-expanded=\"true\" disabled=\"true\" aria-controls=\"authDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--Permissions\" aria-hidden=\"true\"></i>{{getStr('Authentication')}}</span></button>\n            <div id=\"authDrawer\" class=\"panel-content\">\n\n              <authentication></authentication>\n            </div>\n        </div>\n\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"refineDrawer\">\n                <span class=\"c-heading-5 panel-header\"><img id=\"getting-started-svg\" src=\"{{getAssetPath('assets/images/rocket1.svg')}}\"/>{{getStr('Sample Queries')}}</span></button>\n            <div id=\"refineDrawer\" class=\"panel-content\">\n                <div id=\"sample-queries-scroll\">\n                    <div *ngFor=\"let category of categories\" class=\"sample-category\" [hidden]=\"!category.enabled\">\n                        <div><span class=\"category-heading\">{{getStr(category.title)}}</span></div>\n                        <query-row [query]=\"query\" *ngFor=\"let query of category.queries\"></query-row>\n                    </div>\n                </div>\n                <a href=\"#\" id=\"manage-categories\" class=\"c-hyperlink\" tabindex=0 (click)=\"manageCategories()\">{{getStr('show more groups')}}</a>\n            </div>\n        </div>\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"historyDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--History\" aria-hidden=\"true\"></i>{{getStr('History')}}</span></button>\n            <div id=\"historyDrawer\" class=\"panel-content\">\n                <history-query-row *ngFor=\"let query of getRequestHistory(5)\" [query]=\"query\"></history-query-row>\n                <a href=\"#\" id=\"show-full-history\" (click)=\"manageHistory()\" [hidden]=\"getRequestHistory().length == 0\" class=\"c-hyperlink\" tabindex=0>{{getStr('Show More')}}</a>\n            </div>\n        </div>\n\n  </div>\n\n  ",
         styles: ["\n    #explorer-sidebar {\n        background: #2F2F2F !important;\n        min-height: 1024px;\n        padding: 0px;\n        color: white;\n      \tfont-family: \"Segoe UI\", Frutiger, \"Frutiger Linotype\", \"Dejavu Sans\", \"Helvetica Neue\", Arial, sans-serif;\n    }\n\n    #explorer-sidebar .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    #sample-queries-scroll {\n        // max-height: 400px;\n        // overflow-y: auto;\n        // overflow-x: hidden;\n    }\n\n    #getting-started-svg {\n        display: inline-block;\n        width: 29px;\n        height: 29px;\n        margin: -2px 4px 2px -4px;\n    }\n\n    a#show-full-history, a#manage-categories {\n        text-align: right;\n        padding-right: 16px;\n        width: 100%;\n        display: block;\n    }\n\n    span#explorer-title {\n        margin-left: 40px;\n        margin-top: 14px;\n    }\n\n    .c-drawer {\n        padding-bottom: 5px;\n    }\n\n    #explorer-sidebar .panel-header {\n        font-family: \"Segoe UI\",\"wf_segoe-ui_normal\",\"Arial\",sans-serif;\n        display: inline-block;\n        padding: 0px;\n        padding-left: 6px;\n        font-weight: 100;\n        color: white;\n    }\n\n    #explorer-sidebar .panel-content {\n        padding-left: 28px;\n        font-size: 13px;\n    }\n\n    #explorer-sidebar .panel-header i.ms-Icon{\n        margin-right: 10px;\n    }\n\n    /* Remove drawer carrot on auth */\n    #auth-drawer-button:after{\n        content:none;\n    }\n\n    button#auth-drawer-button {\n        background: #2f2f2f !important;\n    }\n\n    .arrow-left {\n        border-top: 18px solid transparent;\n        border-bottom: 18px solid transparent;\n        border-right: 18px solid white;\n        position: relative;\n        right: -10px;\n        top: 13px;\n        margin-bottom: -45px;\n    }\n\n    button.c-glyph {\n        color: white;\n    }\n\n    #authDrawer {\n        min-height: 96px;\n    }\n\n    .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    .category-heading {\n        font-size: 17px;\n        font-weight: 300;\n        padding-bottom: 5px;\n        display: block;\n    }\n\n    .sample-category {\n        margin-bottom: 15px;\n    }\n\n\n    a#show-full-history {\n        margin-top: 15px;\n    }\n    a#show-full-history[hidden] {\n        display: none;\n    }\n    \n    @media (max-width: 639px) {\n        #explorer-sidebar {\n            min-height: inherit;\n            padding-bottom: 15px;\n        }\n    }\n  "]
     })
 ], SidebarComponent);
 exports.SidebarComponent = SidebarComponent;
 
-},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],84:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],83:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
@@ -71086,7 +71197,7 @@ function getParameterByName(name, url) {
 }
 exports.getParameterByName = getParameterByName;
 
-},{"@angular/http":7}],85:[function(require,module,exports){
+},{"@angular/http":7}],84:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
@@ -71095,5 +71206,5 @@ var core_1 = require("@angular/core");
 core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
-},{"./app/app.module":59,"@angular/core":5,"@angular/platform-browser-dynamic":8}]},{},[85])(85)
+},{"./app/app.module":59,"@angular/core":5,"@angular/platform-browser-dynamic":8}]},{},[84])(84)
 });

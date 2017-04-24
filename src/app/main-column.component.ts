@@ -149,8 +149,7 @@ declare let mwf:any;
             margin-top: 20px;
         }
     }
-
-
+    
   `]
 })
 

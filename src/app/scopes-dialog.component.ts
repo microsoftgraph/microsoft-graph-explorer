@@ -15,7 +15,7 @@ declare let fabric, mwf;
   selector: 'scopes-dialog',
   styles: [`
   .ms-Dialog-content {
-    max-height: 510px;
+    max-height: 451px;
     overflow: auto;
   }
 

@@ -121,7 +121,13 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "add favorite group",
     "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/addFavorite",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ]
 },{
     "category": "Groups",
     "method": "GET",
@@ -151,13 +157,27 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "send an email",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/sendMail",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"message\": {\r\n            \"subject\": \"Meet for lunch?\",\r\n            \"body\": {\r\n                \"contentType\": \"Text\",\r\n                \"content\": \"The new cafeteria is open.\"\r\n            },\r\n            \"toRecipients\": [\r\n                {\r\n                    \"emailAddress\": {\r\n                    \"address\": \"garthf@contoso.com\"\r\n                    }\r\n                }\r\n            ]\r\n        }}"
 },{
     "category": "Outlook Mail",
     "method": "POST",
     "humanName": "forward mail",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/messages/{message-id}/forward",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"comment\": \"FYI\",\r\n  \"toRecipients\": [\r\n    {\r\n      \"emailAddress\": {\r\n        \"address\": \"FULL_USER_EMAIL\",\r\n        \"name\": \"Alex Darrow\"\r\n      }\r\n    }\r\n  ]\r\n}"
 },{
     "category": "Outlook Mail (preview)",
     "method": "GET",
@@ -199,13 +219,27 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "find meeting time",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/me/findMeetingTimes",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"attendees\": [\r\n            {\r\n            \"emailAddress\": {\r\n                \"address\": \"FULL_USER_EMAIL\",\r\n                \"name\": \"Alex Darrow\"\r\n            },\r\n            \"type\": \"Required\"\r\n            }\r\n        ],\r\n        \"timeConstraint\": {\r\n            \"timeslots\": [\r\n            {\r\n            \"start\": {\r\n                \"dateTime\": \"{today}\",  \r\n                \"timeZone\": \"Pacific Standard Time\" \r\n                },  \r\n                \"end\": { \r\n                \"dateTime\": \"{next-week}\",  \r\n                \"timeZone\": \"Pacific Standard Time\" \r\n                }\r\n            }\r\n            ]\r\n        },\r\n        \"locationConstraint\": {\r\n        \"isRequired\": \"false\",\r\n        \"suggestLocation\": \"true\",\r\n        \"locations\": [\r\n            {\r\n            \"displayName\": \"Conf Room 32/1368\",\r\n            \"locationEmailAddress\": \"conf32room1368@imgeek.onmicrosoft.com\"\r\n            }\r\n        ]\r\n        },\r\n        \"meetingDuration\": \"PT1H\"\r\n        }"
 },{
     "category": "Outlook Calendar",
     "method": "POST",
     "humanName": "schedule a meeting",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/events",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"subject\": \"My event\",\r\n        \"start\": {\r\n            \"dateTime\": \"{today}\",\r\n            \"timeZone\": \"UTC\"\r\n        },\r\n        \"end\": {\r\n            \"dateTime\": \"{next-week}\",\r\n            \"timeZone\": \"UTC\"\r\n        },\r\n    }"
 },{
     "category": "Outlook Calendar (preview)",
     "method": "GET",
@@ -223,7 +257,14 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "add contact",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/contacts",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n    \"givenName\": \"Pavel\",\r\n    \"surname\": \"Bansky\",\r\n    \"emailAddresses\": [\r\n        {\r\n        \"address\": \"pavelb@fabrikam.onmicrosoft.com\",\r\n        \"name\": \"Pavel Bansky\"\r\n        }\r\n    ],\r\n    \"businessPhones\": [\r\n        \"+1 732 555 0102\"\r\n    ]\r\n}"
 },{
     "category": "OneDrive",
     "method": "GET",
@@ -253,7 +294,14 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "create a folder",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/children",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"name\": \"New Folder\",\r\n  \"folder\": { }\r\n}"
 },{
     "category": "Excel",
     "method": "GET",
@@ -265,7 +313,14 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "create session",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/createSession",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{ \"persistChanges\": true }"
 },{
     "category": "Excel",
     "method": "GET",
@@ -277,7 +332,14 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "add a new worksheet",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"name\": \"My New Sheet\"\r\n}"
 },{
     "category": "Excel",
     "method": "GET",
@@ -356,46 +418,35 @@ export const SampleQueries: SampleQuery[] = [
 },{
     "category": "OneNote (beta)",
     "method": "POST",
-    "humanName": "my notebook",
-    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks"
+    "humanName": "create notebook",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks",
+    "postBody": "{\r\n  \"name\": \"My Notebook\"\r\n}"
 },{
     "category": "OneNote (beta)",
     "method": "POST",
-    "humanName": "my section",
-    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections"
+    "humanName": "create section",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"name\": \"Section 1\"\r\n}"
 },{
     "category": "OneNote (beta)",
     "method": "POST",
-    "humanName": "my page",
-    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages"
-},{
-    "category": "Insights",
-    "method": "GET",
-    "humanName": "my recent files",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
-},{
-    "category": "Insights (preview)",
-    "method": "GET",
-    "humanName": "items trending around me",
-    "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
-},{
-    "category": "Insights (preview)",
-    "method": "GET",
-    "humanName": "people I work with",
-    "requestUrl": "https://graph.microsoft.com/beta/me/people",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
-},{
-    "category": "Insights (preview)",
-    "method": "GET",
-    "humanName": "people whos name starts with J",
-    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=j",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
-},{
-    "category": "Insights (preview)",
-    "method": "GET",
-    "humanName": "people relevant to a topic",
-    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: planning\"",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    "humanName": "create page",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "multipart/form-data"
+        },
+        {
+            "name": "boundary",
+            "value": "MyPartBoundary198374"
+        }
+    ],
+    "postBody": "\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"Presentation\"\r\nContent-Type:text/html\r\n\r\n<!DOCTYPE html>\r\n<html>\r\n  <head>\r\n    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>\r\n    <meta name=\"created\" content=\"2015-07-22T09:00:00-08:00\" />\r\n  </head>\r\n  <body>\r\n    <p>Here's an image from an online source:</p>\r\n    <img src=\"http://...\" alt=\"an image on the page\" width=\"500\" />\r\n    <p>Here's an image uploaded as binary data:</p>\r\n    <img src=\"name:imageBlock1\" alt=\"an image on the page\" width=\"300\" />\r\n    <p>Here's a file attachment:</p>\r\n    <object data-attachment=\"FileName.pdf\" data=\"name:fileBlock1\" type=\"application/pdf\" />\r\n  </body>\r\n</html>\r\n\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"imageBlock1\"\r\nContent-Type:image/jpeg\r\n\r\n... binary image data ...\r\n\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"fileBlock1\"\r\nContent-Type:application/pdf\r\n\r\n... binary file data ...\r\n\r\n--MyPartBoundary198374--"
 }]

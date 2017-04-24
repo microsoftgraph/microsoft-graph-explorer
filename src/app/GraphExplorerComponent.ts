@@ -5,7 +5,7 @@
 import { getString } from "./api-explorer-helpers";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
-import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader } from "./base";
+import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 
@@ -60,9 +60,8 @@ export class GraphExplorerComponent {
 
       AppComponent.explorerValues.postBody = "";
       let postBodyEditorSession = getRequestBodyEditor().getSession();
-      if (query.postBodyTemplateName) {
-        AppComponent.explorerValues.postBody = JSON.stringify(query.postBodyTemplateContents, null, 4);
-      } else if (query.postBody) {
+      if (query.postBody) {
+        substituePostBodyTokens(query);
         AppComponent.explorerValues.postBody = query.postBody;
       }
 

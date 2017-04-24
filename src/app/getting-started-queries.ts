@@ -3,7 +3,6 @@
 // ------------------------------------------------------------------------------
 
 import { SampleQueryCategory, SampleQuery, GraphRequestHeader, substitueTokens } from "./base";
-import * as PostBodyTemplates from './postBodyTemplates/queries'
 import { SampleQueries } from "./gen-queries";
 
 export function getLocalStorageDisplayKey(category:SampleQueryCategory) {
@@ -34,12 +33,6 @@ for (let query of SampleQueries) {
 
     // replace endpoint URL with tokens
     substitueTokens(query);
-
-    
-    // load tempalte if exists
-    if (query.postBodyTemplateName) {
-        query.postBodyTemplateContents = PostBodyTemplates[query.postBodyTemplateName];
-    }
 
     // insert query into category (create or add to)
     if (query.category in categories) {
