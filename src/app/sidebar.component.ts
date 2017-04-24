@@ -33,7 +33,7 @@ declare let fabric;
             <div id="refineDrawer" class="panel-content">
                 <div id="sample-queries-scroll">
                     <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
-                        <div><span class="category-heading">{{category.title}}</span></div>
+                        <div><span class="category-heading">{{getStr(category.title)}}</span></div>
                         <query-row [query]="query" *ngFor="let query of category.queries"></query-row>
                     </div>
                 </div>

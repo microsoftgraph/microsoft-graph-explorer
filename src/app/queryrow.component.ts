@@ -49,7 +49,7 @@ import { AppComponent } from "./app.component";
       }
 
       .query-link:hover {
-          background: rgba(0,0,0,0.25) !important;
+          background: rgba(0,0,0,0.4) !important;
           cursor: pointer;
       }
 
