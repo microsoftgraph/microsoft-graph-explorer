@@ -112,5 +112,22 @@
   "my pages"	:"my pages",
   "create notebook"	:"create notebook",
   "create section"	:"create section",
-  "create page"	:"create page"
+  "create page"	:"create page",
+  "Users":"Users",
+  "Users (preview)":"Users (preview)",
+  "Groups":"Groups",
+  "Groups (preview)":"Groups (preview)",
+  "Outlook Mail":"Outlook Mail",
+  "Outlook Mail (preview)":"Outlook Mail (preview)",
+  "Outlook Calendar":"Outlook Calendar",
+  "Outlook Calendar (preview)":"Outlook Calendar (preview)",
+  "Personal Contacts":"Personal Contacts",
+  "OneDrive":"OneDrive",
+  "Excel":"Excel",
+  "Planner (beta)":"Planner (beta)",
+  "SharePoint Sites (beta)":"SharePoint Sites (beta)",
+  "OneNote (beta)":"OneNote (beta)",
+  "SharePoint Lists (beta)": "SharePoint Lists (beta)",
+  "Insights": "Insights",
+  "Insights (preview)": "Insights (preview)"
 }

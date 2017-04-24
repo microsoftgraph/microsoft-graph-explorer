@@ -16,7 +16,7 @@ export class GraphExplorerComponent {
   explorerValues = AppComponent.explorerValues;
 
   getStr(label:string):string {
-    return getString(AppComponent.Options, label);
+    return getString(AppComponent.Options, label) || "*****" + label ;
   }
 
   getAssetPath(relPath:string):string {
