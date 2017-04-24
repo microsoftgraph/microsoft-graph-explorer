@@ -37,6 +37,7 @@ declare let fabric, mwf;
 
   .ms-MessageBar {
     margin-top: 20px;
+    width: 100%;
   }
 
   .c-checkbox input[type=checkbox]:focus+span:before {
@@ -45,7 +46,10 @@ declare let fabric, mwf;
 `],
   template: `
 
-  <div class="ms-Dialog center-dialog" id="scopes-dialog">
+  <div class="ms-Dialog center-dialog ms-Dialog--close" id="scopes-dialog">
+    <button class="ms-Dialog-button ms-Dialog-buttonClose">
+      <i class="ms-Icon ms-Icon--Cancel"></i>
+    </button>
     <div class="ms-Dialog-title">{{getStr('manage permissions')}}</div>
       <p class="ms-Dialog-subText">Select different <a class="ms-Link" href="https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes" target="_blank">permission scopes</a> to try out Microsoft Graph API endpoints.</p>
       <h3 *ngIf="!canEditFields()">We have temporarily disabled selecting permissions for personal Microosft accounts.  Login with a work or school account to unlock this feature.</h3>
@@ -68,6 +72,20 @@ declare let fabric, mwf;
           </tr>
         </table>
       </div>
+      <div *ngIf="scopeListIsDirty()">
+        <div class="ms-MessageBar">
+          <div class="ms-MessageBar-content">
+            <div class="ms-MessageBar-icon">
+              <i class="ms-Icon ms-Icon--Info"></i>
+            </div>
+            <div class="ms-MessageBar-text">
+              To change permissions, you will need to log-in again.
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div *ngIf="requestingAdminScopes()">
         <div class="ms-MessageBar">
           <div class="ms-MessageBar-content">
@@ -75,16 +93,17 @@ declare let fabric, mwf;
               <i class="ms-Icon ms-Icon--Info"></i>
             </div>
             <div class="ms-MessageBar-text">
-              You have selected permissions that require admin access. To get access, an administrator must <a class="ms-Link" href="#" (click)="startAdminConsentFlow()">consent on your behalf</a>, or grant access to your entire administration. You will only have to do this one time.
+              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class="ms-Link" href="#" (click)="startAdminConsentFlow()">access to your entire administration</a>.
               <br />
             </div>
           </div>
         </div>
-        
       </div>
+
+
     <div class="ms-Dialog-actions">
-      <button class="ms-Button ms-Dialog-action ms-Button--primary" *ngIf="scopeListIsDirty()" (click)="getNewAccessToken()">
-        <span class="ms-Button-label">Login again to save changes</span> 
+      <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="!scopeListIsDirty()" (click)="getNewAccessToken()">
+        <span class="ms-Button-label">Save changes</span> 
       </button>
       <button class="ms-Button ms-Dialog-action">
         <span class="ms-Button-label">{{getStr('Close')}}</span> 

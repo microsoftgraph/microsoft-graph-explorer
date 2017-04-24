@@ -13,7 +13,10 @@ declare let fabric:any;
   selector: 'message-dialog',
   template: `
   <div>
-    <div class="ms-Dialog" id="message-dialog">
+    <div class="ms-Dialog ms-Dialog--close" id="message-dialog">
+      <button class="ms-Dialog-button ms-Dialog-buttonClose">
+        <i class="ms-Icon ms-Icon--Cancel"></i>
+      </button>
       <div class="ms-Dialog-title" *ngIf="getMessage()">{{getMessage().title}}</div>
       <div class="ms-Dialog-content" *ngIf="getMessage()">
         {{getMessage().body}}
