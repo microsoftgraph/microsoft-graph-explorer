@@ -5,7 +5,7 @@
 import { getString } from "./api-explorer-helpers";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
-import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens } from "./base";
+import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens, substitueTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 
@@ -47,8 +47,16 @@ export class GraphExplorerComponent {
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
 
 
+    // replace endpoint URL with tokens
+      if (!isAuthenticated())
+        substitueTokens(query);
+    
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
+
+      if (query.tip) {
+        AppComponent.templateTipQuery = query;
+      }
       
       if (query.headers) {
         AppComponent.explorerValues.headers = query.headers;

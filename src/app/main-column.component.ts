@@ -47,13 +47,14 @@ declare let mwf:any;
         </div>
 
         <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" id="submitBtn" (click)="submit()">
-            <span [hidden]="explorerValues.requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
+            <span [hidden]="explorerValues.requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
             <div class="ms-Spinner" [hidden]="!explorerValues.requestInProgress"></div>
         </button>
     </div>
     <request-editors></request-editors>
     <div id="spacer-1"></div>
 
+    <template-tip></template-tip>
     <!-- response -->
     <response-status-bar></response-status-bar>
     <share-link-btn></share-link-btn>
@@ -154,15 +155,38 @@ declare let mwf:any;
 })
 
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
-    oldExplorerValues:string;
+    oldExplorerValues:ExplorerValues = {};
     ngDoCheck() {
-        if (this.explorerValues && this.oldExplorerValues != JSON.stringify(this.explorerValues)) {
+        if (this.explorerValues && JSON.stringify(this.oldExplorerValues) != JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();
             this.updateGraphVersionSelect();
 
             this.updateHttpMethod();
 
-            this.oldExplorerValues = JSON.stringify(this.explorerValues);
+            // add content-type header when switching to POST
+            if (this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST") {
+                 // if it doesn't already exist
+                 let hasContentTypeHeader = false;
+                 if (this.explorerValues.headers) {
+                     for (let header of this.explorerValues.headers) {
+                         if (header.name.toLowerCase() == "content-type") {
+                             hasContentTypeHeader = true;
+                             break;
+                         }
+                     }
+                     if (!hasContentTypeHeader) {
+                         this.explorerValues.headers.unshift({
+                             enabled: true,
+                             name: "Content-type",
+                             readonly: false,
+                             value: "application/json"
+                         })
+                     }
+                 }
+            }
+            
+
+            this.oldExplorerValues = JSON.parse(JSON.stringify(this.explorerValues));
         }
     }
 

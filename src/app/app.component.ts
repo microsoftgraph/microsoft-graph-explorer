@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
-import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
@@ -18,6 +18,7 @@ import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api
 import { parseMetadata } from "./graph-structure";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
+import { TemplateTipComponent } from "./template-tip.component";
 
 declare let mwf:any;
 
@@ -63,6 +64,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   static lastApiCallHeaders: Headers;
   static _changeDetectionRef:ChangeDetectorRef;
   static message:Message;
+  static templateTipQuery:SampleQuery;
 
   constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
     super();
@@ -173,9 +175,10 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     getAceEditorFromElId("response-header-viewer").getSession().setValue("");
     getJsonViewer().getSession().setValue("")
 
+    TemplateTipComponent.hideTip();
     ResponseStatusBarComponent.clearLastCallMessage()
-  }
 
+  }
 
  }
 

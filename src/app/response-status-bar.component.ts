@@ -5,7 +5,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GraphApiCall } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { getString } from "./api-explorer-helpers";
 import { AppComponent } from "./app.component";
 
 @Component({
@@ -23,7 +22,7 @@ import { AppComponent } from "./app.component";
             </div>
             <div class="ms-MessageBar-actionsOneline">
                 <div id="dismiss-btn" class="ms-MessageBar-icon">
-                    <a href="#" (click)="clearLastCallMessage()"><i class="ms-Icon ms-Icon--Cancel" style="padding-right: 10px;" title="LightningBolt" aria-hidden="true"></i></a>
+                    <a href="#" (click)="clearLastCallMessage()"><i class="ms-Icon ms-Icon--Cancel" style="padding-right: 10px;" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -54,7 +53,7 @@ import { AppComponent } from "./app.component";
         float: right;
     }
     .hide-action-bar {
-        opacity: 0;
+        display: none;
     }
 
 `]

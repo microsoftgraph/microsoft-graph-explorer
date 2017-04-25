@@ -13,6 +13,7 @@ import { getParameterByName } from "./util";
 declare const hello: any;
 
 export function initAuth(options:ExplorerOptions, apiService:GraphService, changeDetectorRef: ChangeDetectorRef) {
+	setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
 	hello.init({
 		msft: {
 			oauth: {
@@ -68,7 +69,6 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 
 				AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
 				AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
-				AppComponent.explorerValues.authentication.user.preferred_username = resultBody.preferred_username;
 			}));
 
 			// get profile image
@@ -82,7 +82,6 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 				AppComponent.explorerValues.authentication.status = "authenticated"
 				changeDetectorRef.detectChanges();
 			});
-
 
 			// set which permissions are checked
 
@@ -98,6 +97,28 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 
 	handleAdminConsentResponse();
 }
+
+export function refreshAccessToken() {
+	if (!AppComponent.explorerValues.authentication.user) return;
+
+	let loginProperties = {
+		display: 'none',
+		response_type: "id_token token",
+		response_mode: "fragment",
+		nonce: 'graph_explorer',
+		prompt: 'none',
+		scope: AppComponent.Options.DefaultUserScopes,
+		login_hint: AppComponent.explorerValues.authentication.user.emailAddress,
+		domain_hint: 'organizations'
+	}
+
+	hello('msft').login(loginProperties).then((a) => {
+		console.log("Successfully refreshed access token.")
+	}, (a) => {
+		console.error("Error refreshing access token", a);
+	});
+}
+
 
 function handleAdminConsentResponse() {
 	let adminConsentRes = hello('msft_admin_consent').getAuthResponse();

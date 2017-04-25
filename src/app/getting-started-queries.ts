@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { SampleQueryCategory, SampleQuery, GraphRequestHeader, substitueTokens } from "./base";
+import { SampleQueryCategory } from "./base";
 import { SampleQueries } from "./gen-queries";
 
 export function getLocalStorageDisplayKey(category:SampleQueryCategory) {
@@ -30,9 +30,6 @@ interface QueryCategoriesMap {
 let categories:QueryCategoriesMap = {};
 
 for (let query of SampleQueries) {
-
-    // replace endpoint URL with tokens
-    substitueTokens(query);
 
     // insert query into category (create or add to)
     if (query.category in categories) {

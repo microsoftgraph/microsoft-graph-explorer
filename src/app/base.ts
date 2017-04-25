@@ -65,6 +65,7 @@ export interface SampleQuery extends GraphApiCall {
     AAD?: boolean
     MSA?: boolean
     category: string
+    tip?: string
 }
 
 export interface SampleQueryCategory {
@@ -74,10 +75,10 @@ export interface SampleQueryCategory {
 }
 
 export interface ExplorerValues {
-    selectedOption: RequestType
-    selectedVersion: string
-    endpointUrl: string
-    authentication: {
+    selectedOption?: RequestType
+    selectedVersion?: string
+    endpointUrl?: string
+    authentication?: {
         status?: AuthenticationStatus
         user?: {
             displayName?: string
@@ -86,10 +87,10 @@ export interface ExplorerValues {
             preferred_username?: string
         }
     }
-    showImage: boolean
-    requestInProgress: boolean,
-    headers: GraphRequestHeader[]
-    postBody: string
+    showImage?: boolean
+    requestInProgress?: boolean,
+    headers?: GraphRequestHeader[]
+    postBody?: string
 }
 
 export interface GraphRequestHeader {
