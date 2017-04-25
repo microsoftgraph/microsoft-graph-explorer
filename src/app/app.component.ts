@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
-import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
@@ -17,6 +17,7 @@ import { createHeaders, getParameterByName } from "./util";
 import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
 import { parseMetadata } from "./graph-structure";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
+import { GenericDialogComponent } from "./generic-message-dialog.component";
 
 declare let mwf:any;
 
@@ -32,7 +33,7 @@ declare let mwf:any;
     <history-panel></history-panel>
     <sample-categories-panel></sample-categories-panel>
     <scopes-dialog></scopes-dialog>
-    <message-dialog></message-dialog>
+    <generic-dialog></generic-dialog>
     `,
   styles: [`
   #explorer-main {
@@ -61,7 +62,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   static lastApiCall:GraphApiCall;
   static lastApiCallHeaders: Headers;
   static _changeDetectionRef:ChangeDetectorRef;
-
+  static message:Message;
 
   constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
     super();
@@ -130,6 +131,13 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       }
       saveHistoryToLocalStorage(AppComponent.requestHistory);
   }
+
+  
+  static setMessage(message:Message) {
+    AppComponent.message = message;
+    setTimeout(() => {GenericDialogComponent.showDialog();});
+  }
+
 
   static executeExplorerQuery(fromSample?:boolean) {
 

@@ -4,14 +4,19 @@
 
 import { Component } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { getString } from "./api-explorer-helpers";
 import { Message } from "./base";
+import { AppComponent } from "./app.component";
 
-declare let fabric:any;
+
+declare let fabric, mwf;
 
 @Component({
-  selector: 'message-dialog',
+  selector: 'generic-dialog',
+  styles: [`
+
+`],
   template: `
+
   <div>
     <div class="ms-Dialog ms-Dialog--close" id="message-dialog">
       <button class="ms-Dialog-button ms-Dialog-buttonClose">
@@ -23,26 +28,17 @@ declare let fabric:any;
       </div>
       <div class="ms-Dialog-actions">
         <button class="ms-Button ms-Dialog-action">
-          <span class="ms-Button-label">getStr('Close')</span> 
+          <span class="ms-Button-label">{{getStr('Close')}}</span>
         </button>
       </div>
     </div>
   </div>
-    `,
-    styles: [`
-`]
+
+     `,
 })
-export class MessageDialogComponent  {
-  // static message:Message;
-  static message:Message;// = MessageDialogComponent.message;
-
-  static setMessage(message:Message) {
-    MessageDialogComponent.message = message;
-    setTimeout(() => {MessageDialogComponent.showDialog();});
-  }
-
+export class GenericDialogComponent extends GraphExplorerComponent {
   getMessage() {
-    return MessageDialogComponent.message;
+    return AppComponent.message;
   }
 
   static showDialog() {
@@ -50,5 +46,4 @@ export class MessageDialogComponent  {
     const fabricDialog = new fabric['Dialog'](el);
     fabricDialog.open();
   }
-
 }

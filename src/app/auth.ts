@@ -9,7 +9,6 @@ import { GraphService } from "./api-explorer-svc";
 import { ChangeDetectorRef } from "@angular/core";
 import { PermissionScopes } from "./scopes";
 import { getParameterByName } from "./util";
-import { MessageDialogComponent } from "./message-dialog.component";
 
 declare const hello: any;
 
@@ -127,16 +126,16 @@ function handleAdminConsentResponse() {
 			if (error) {
 				// hello('msft_admin_consent').logout()
 
-				MessageDialogComponent.setMessage({
+				AppComponent.setMessage({
 					body: error,
 					title: "Admin consent error"
 				});
 
 			} else {
-				MessageDialogComponent.setMessage(successMsg);
+				AppComponent.setMessage(successMsg);
 			}
 		} else {
-			MessageDialogComponent.setMessage(successMsg);
+			AppComponent.setMessage(successMsg);
 		}
 	}
 }
