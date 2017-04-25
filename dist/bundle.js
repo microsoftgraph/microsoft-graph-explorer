@@ -70764,7 +70764,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var base_1 = require("./base");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
 var RequestEditorsComponent = (function (_super) {
@@ -70800,28 +70799,6 @@ var RequestEditorsComponent = (function (_super) {
         if (this.getLastHeader().name != "") {
             this.addEmptyHeader();
         }
-        setTimeout(function () {
-            mwf.ComponentFactory.create([{
-                    component: mwf.AutoSuggest,
-                    callback: function (autoSuggests) {
-                        if (!autoSuggests)
-                            return;
-                        var _loop_1 = function (autoSuggest) {
-                            if (autoSuggests[1].element.parentElement.className.indexOf("header-autocomplete") == -1)
-                                return "continue";
-                            autoSuggest.subscribe({
-                                onMatchPatternChanged: function (notification) {
-                                    autoSuggest.updateSuggestions(base_1.CommonHeaders.filter((function (s) { return s.toLowerCase().indexOf(notification.pattern.toLowerCase()) != -1; })).map(function (s) { return { type: 'string', value: s }; }));
-                                }
-                            });
-                        };
-                        for (var _i = 0, autoSuggests_1 = autoSuggests; _i < autoSuggests_1.length; _i++) {
-                            var autoSuggest = autoSuggests_1[_i];
-                            _loop_1(autoSuggest);
-                        }
-                    }
-                }]);
-        }, 0);
     };
     return RequestEditorsComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
@@ -70829,12 +70806,12 @@ RequestEditorsComponent = __decorate([
     core_1.Component({
         selector: 'request-editors',
         styles: ["\n\n  #post-body-editor {\n        position: relative;\n        height: 20vh;\n        border: 1px solid #ccc;\n        margin-top: 10px;\n    }\n\n  .header-row input {\n    width: 95%;\n    margin-top: 5px;\n  }\n\n  table {\n      width: 100%;\n  }\n\n  th {\n      text-align: left;\n      font-weight: 300;\n  }\n\n  td.remove-header-btn {\n    font-size: 20px;\n  }\n\n   td.remove-header-btn:hover {\n        cursor: pointer;\n   }\n\n   td.remove-header-btn i {\n        margin-top: 12px;\n        font-size: 20px;\n   }\n\n   .invisible {\n       opacity: 0;\n   }\n\n   .header-autocomplete {\n        max-width: inherit;\n        margin: 0px;\n        height: inherit;\n    }\n\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .ms-Pivot-content {\n        margin-top: 10px;\n    }\n\n"],
-        template: "\n    <div class=\"ms-Pivot\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"headers\" [attr.title]=\"getStr('request header')\" tabindex=\"1\">\n                {{getStr('request header')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"body\" [attr.title]=\"getStr('request body')\" (click)=\"initPostBodyEditor()\" tabindex=\"1\">\n                {{getStr('request body')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"headers\">\n            <div id=\"headers-editor\">\n                <table>\n                    <tr>\n                        <th>{{getStr('Key')}}</th>\n                        <th>{{getStr('Value')}}</th>\n                    </tr>\n                    <tr *ngFor=\"let header of explorerValues.headers; let idx = index\" class=\"header-row\">\n                        <td class=\"half-width-col\">\n                            <div class=\"c-search header-autocomplete\" autocomplete=\"off\">\n                                <input role=\"combobox\" class=\"c-text-field header-name\" (ngModelChange)=\"createNewHeaderField()\" [attr.aria-controls]=\"'headers-autosuggest-'+idx\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"text\" [attr.placeholder]=\"getPlaceholder(header)\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\">\n                                <div class=\"m-auto-suggest\" [attr.id]=\"'headers-autosuggest-'+idx\" role=\"group\">\n                                    <ul class=\"c-menu\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                                    <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\"></ul>\n                                </div>\n                            </div>\n\n                        </td>\n                        <td class=\"half-width-col\">\n                            <input id=\"default\" class=\"c-text-field header-value\" [(ngModel)]=\"header.value\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" [ngClass]=\"{invisible: isLastHeader(header)}\">\n                        </td>\n                        <td class=\"remove-header-btn\" [ngClass]=\"{invisible: isLastHeader(header)}\">\n                            <i (click)=\"removeHeader(header)\" class=\"ms-Icon ms-Icon--Cancel\"></i>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"body\">\n            <div id=\"requestBodyContainer\">\n                <div id=\"post-body-editor\"></div>\n            </div>\n        </div>\n    </div>\n\n     ",
+        template: "\n    <div class=\"ms-Pivot\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"headers\" [attr.title]=\"getStr('request header')\" tabindex=\"1\">\n                {{getStr('request header')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"body\" [attr.title]=\"getStr('request body')\" (click)=\"initPostBodyEditor()\" tabindex=\"1\">\n                {{getStr('request body')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"headers\">\n            <div id=\"headers-editor\">\n                <table>\n                    <tr>\n                        <th>{{getStr('Key')}}</th>\n                        <th>{{getStr('Value')}}</th>\n                    </tr>\n                    <tr *ngFor=\"let header of explorerValues.headers; let idx = index\" class=\"header-row\">\n                        <td class=\"half-width-col\">\n                            <input id=\"default\" class=\"c-text-field\" (ngModelChange)=\"createNewHeaderField()\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\" type=\"text\">\n                            <!--<div class=\"c-search header-autocomplete\" autocomplete=\"off\">\n                                <input role=\"combobox\" class=\"c-text-field header-name\" (ngModelChange)=\"createNewHeaderField()\" [attr.aria-controls]=\"'headers-autosuggest-'+idx\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"text\" [attr.placeholder]=\"getPlaceholder(header)\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\">\n                                <div class=\"m-auto-suggest\" [attr.id]=\"'headers-autosuggest-'+idx\" role=\"group\">\n                                    <ul class=\"c-menu\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                                    <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\"></ul>\n                                </div>\n                            </div>-->\n\n                        </td>\n                        <td class=\"half-width-col\">\n                            <input id=\"default\" class=\"c-text-field header-value\" [(ngModel)]=\"header.value\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" [ngClass]=\"{invisible: isLastHeader(header)}\">\n                        </td>\n                        <td class=\"remove-header-btn\" [ngClass]=\"{invisible: isLastHeader(header)}\">\n                            <i (click)=\"removeHeader(header)\" class=\"ms-Icon ms-Icon--Cancel\"></i>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"body\">\n            <div id=\"requestBodyContainer\">\n                <div id=\"post-body-editor\"></div>\n            </div>\n        </div>\n    </div>\n\n     ",
     })
 ], RequestEditorsComponent);
 exports.RequestEditorsComponent = RequestEditorsComponent;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./base":62,"@angular/core":5}],76:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"@angular/core":5}],76:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
@@ -71762,7 +71739,9 @@ exports.getParameterByName = getParameterByName;
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
 var app_module_1 = require("./app/app.module");
+var core_1 = require("@angular/core");
+core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
-},{"./app/app.module":59,"@angular/platform-browser-dynamic":8}]},{},[84])(84)
+},{"./app/app.module":59,"@angular/core":5,"@angular/platform-browser-dynamic":8}]},{},[84])(84)
 });
