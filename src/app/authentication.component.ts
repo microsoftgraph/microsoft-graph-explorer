@@ -105,6 +105,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       let loginProperties = {
         display: 'page',
         response_type: "id_token token",
+        response_mode: "fragment",
         nonce: 'graph_explorer',
         prompt: 'select_account',
         scope: AppComponent.Options.DefaultUserScopes

@@ -68329,21 +68329,11 @@ function initAuth(options, apiService, changeDetectorRef) {
                 app_component_1.AppComponent.explorerValues.authentication.status = "authenticated";
                 changeDetectorRef.detectChanges();
             });
-            var accountType = getAccountType();
-            if (accountType == "AAD") {
-                var scopes = getScopesFromJwt();
-                scopes.push("openid");
-                for (var _i = 0, PermissionScopes_1 = scopes_1.PermissionScopes; _i < PermissionScopes_1.length; _i++) {
-                    var scope = PermissionScopes_1[_i];
-                    scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) != -1;
-                }
-            }
-            else if (accountType == "MSA") {
-                var defaultMSAScopes = app_component_1.AppComponent.Options.DefaultUserScopes.toLowerCase().split(" ");
-                for (var _a = 0, PermissionScopes_2 = scopes_1.PermissionScopes; _a < PermissionScopes_2.length; _a++) {
-                    var scope = PermissionScopes_2[_a];
-                    scope.enabled = scope.enabledTarget = defaultMSAScopes.indexOf(scope.name.toLowerCase()) != -1;
-                }
+            var scopes = getScopes();
+            scopes.push("openid");
+            for (var _i = 0, PermissionScopes_1 = scopes_1.PermissionScopes; _i < PermissionScopes_1.length; _i++) {
+                var scope = PermissionScopes_1[_i];
+                scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) != -1;
             }
         }
     });
@@ -68375,13 +68365,17 @@ function handleAdminConsentResponse() {
         }
     }
 }
-function getScopesFromJwt() {
-    var session = hello('msft').getAuthResponse();
-    var accessTokenJwt = session.access_token;
-    var parsedJwt = parseJwt(accessTokenJwt);
-    return parsedJwt.scp.toLowerCase().split(" ");
+function getScopes() {
+    var scopesStr = hello('msft').getAuthResponse().scope;
+    if (!scopesStr)
+        return;
+    scopesStr = scopesStr.toLowerCase();
+    if (scopesStr.indexOf("+") != -1)
+        return scopesStr.split("+");
+    if (scopesStr.indexOf(",") != -1)
+        return scopesStr.split(",");
 }
-exports.getScopesFromJwt = getScopesFromJwt;
+exports.getScopes = getScopes;
 function isAuthenticated() {
     var session = hello('msft').getAuthResponse();
     if (session === null)
@@ -68391,24 +68385,6 @@ function isAuthenticated() {
 }
 exports.isAuthenticated = isAuthenticated;
 ;
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(window.atob(base64));
-}
-;
-function getAccountType() {
-    try {
-        var session = hello('msft').getAuthResponse();
-        var token = session.access_token;
-        parseJwt(token);
-        return "AAD";
-    }
-    catch (e) {
-        return "MSA";
-    }
-}
-exports.getAccountType = getAccountType;
 
 },{"./app.component":58,"./message-dialog.component":72,"./scopes":80,"./util":83}],61:[function(require,module,exports){
 "use strict";
@@ -68452,6 +68428,7 @@ var AuthenticationComponent = (function (_super) {
         var loginProperties = {
             display: 'page',
             response_type: "id_token token",
+            response_mode: "fragment",
             nonce: 'graph_explorer',
             prompt: 'select_account',
             scope: app_component_1.AppComponent.Options.DefaultUserScopes
@@ -70539,7 +70516,6 @@ var core_1 = require("@angular/core");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var app_component_1 = require("./app.component");
 var scopes_1 = require("./scopes");
-var auth_1 = require("./auth");
 var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
     __extends(ScopesDialogComponent, _super);
     function ScopesDialogComponent() {
@@ -70597,22 +70573,19 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
             scope.enabledTarget = scope.enabled;
         }
     };
-    ScopesDialogComponent.prototype.canEditFields = function () {
-        return auth_1.getAccountType() == "AAD";
-    };
     return ScopesDialogComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
 ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
     core_1.Component({
         selector: 'scopes-dialog',
         styles: ["\n  .ms-Dialog-content {\n    max-height: 451px;\n    overflow: auto;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n"],
-        template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('manage permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <h3 *ngIf=\"!canEditFields()\">We have temporarily disabled selecting permissions for personal Microosft accounts.  Login with a work or school account to unlock this feature.</h3>\n      <div class=\"ms-Dialog-content\">\n        <table class=\"ms-Table\">\n          <tr *ngFor=\"let scope of scopes\">\n            <td>\n              <div class=\"c-checkbox\">\n                  <label class=\"c-label\">\n                      <input type=\"checkbox\" [disabled]=\"(!canEditFields() || scope.name == 'openid')\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                      <span aria-hidden=\"true\">{{scope.name}}<i *ngIf=\"scope.preview\">Preview</i></span>\n                  </label>\n              </div>\n            </td>\n            <td>\n              <span *ngIf=\"scope.admin\">\n                Admin\n              </span>\n            </td>\n          </tr>\n        </table>\n      </div>\n      <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
+        template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('manage permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <div class=\"ms-Dialog-content\">\n        <table class=\"ms-Table\">\n          <tr *ngFor=\"let scope of scopes\">\n            <td>\n              <div class=\"c-checkbox\">\n                  <label class=\"c-label\">\n                      <input type=\"checkbox\" [disabled]=\"scope.name == 'openid'\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                      <span aria-hidden=\"true\">{{scope.name}}<i *ngIf=\"scope.preview\">Preview</i></span>\n                  </label>\n              </div>\n            </td>\n            <td>\n              <span *ngIf=\"scope.admin\">\n                Admin\n              </span>\n            </td>\n          </tr>\n        </table>\n      </div>\n      <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
     })
 ], ScopesDialogComponent);
 exports.ScopesDialogComponent = ScopesDialogComponent;
 var ScopesDialogComponent_1;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"./auth":60,"./scopes":80,"@angular/core":5}],80:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":58,"./scopes":80,"@angular/core":5}],80:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PermissionScopes = [

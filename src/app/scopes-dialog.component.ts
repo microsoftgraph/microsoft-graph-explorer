@@ -7,7 +7,7 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { PermissionScopes } from "./scopes";
 import { PermissionScope } from "./base";
-import { getAccountType, getScopesFromJwt } from "./auth";
+import { getScopes } from "./auth";
 
 declare let fabric, mwf;
 
@@ -54,14 +54,13 @@ declare let fabric, mwf;
     </button>
     <div class="ms-Dialog-title">{{getStr('manage permissions')}}</div>
       <p class="ms-Dialog-subText">Select different <a class="ms-Link" href="https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes" target="_blank">permission scopes</a> to try out Microsoft Graph API endpoints.</p>
-      <h3 *ngIf="!canEditFields()">We have temporarily disabled selecting permissions for personal Microosft accounts.  Login with a work or school account to unlock this feature.</h3>
       <div class="ms-Dialog-content">
         <table class="ms-Table">
           <tr *ngFor="let scope of scopes">
             <td>
               <div class="c-checkbox">
                   <label class="c-label">
-                      <input type="checkbox" [disabled]="(!canEditFields() || scope.name == 'openid')" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1" [checked]="scope.enabledTarget">
+                      <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1" [checked]="scope.enabledTarget">
                       <span aria-hidden="true">{{scope.name}}<i *ngIf="scope.preview">Preview</i></span>
                   </label>
               </div>
@@ -183,10 +182,4 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     }
 
     scopes:PermissionScope[] = PermissionScopes;
-
-
-    canEditFields():boolean {
-        return getAccountType() == "AAD";
-    }
-
 }

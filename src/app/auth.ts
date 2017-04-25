@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { AppModule } from "./app.module";
-import { ExplorerOptions, AccountType, Message } from "./base";
+import { ExplorerOptions, Message } from "./base";
 import { AppComponent } from "./app.component";
 import { GraphService } from "./api-explorer-svc";
 import { ChangeDetectorRef } from "@angular/core";
@@ -98,19 +98,11 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 
 
 			// set which permissions are checked
-			let accountType = getAccountType();
-      if (accountType == "AAD") {
-				let scopes = getScopesFromJwt();
-				scopes.push("openid")
-				// let obtainedScopeArr = hello('msft').getAuthResponse().scope.toLowerCase().split(",");
-				for (let scope of PermissionScopes) {
-					scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) != -1
-				}
-			} else if (accountType == "MSA") {
-				let defaultMSAScopes = AppComponent.Options.DefaultUserScopes.toLowerCase().split(" ");
-				for (let scope of PermissionScopes) {
-					scope.enabled = scope.enabledTarget = defaultMSAScopes.indexOf(scope.name.toLowerCase()) != -1;
-				}
+
+			let scopes = getScopes();
+			scopes.push("openid")
+			for (let scope of PermissionScopes) {
+				scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) != -1
 			}
 		}
 	});
@@ -150,12 +142,14 @@ function handleAdminConsentResponse() {
 }
 
 // warning - doesn't include 'openid' scope
-export function getScopesFromJwt() {
-	let session = hello('msft').getAuthResponse();
-	let accessTokenJwt:string = session.access_token;
+export function getScopes() {
+	let scopesStr = hello('msft').getAuthResponse().scope;
+	if (!scopesStr) return;
 
-	let parsedJwt = parseJwt(accessTokenJwt);
-	return parsedJwt.scp.toLowerCase().split(" ")
+	scopesStr = scopesStr.toLowerCase();
+
+	if (scopesStr.indexOf("+") != -1) return scopesStr.split("+");
+	if (scopesStr.indexOf(",") != -1) return scopesStr.split(",");
 }
 
 export function isAuthenticated():boolean {
@@ -166,22 +160,3 @@ export function isAuthenticated():boolean {
 	let currentTime = (new Date()).getTime() / 1000;
 	return session && session.access_token && session.expires > currentTime;
 };
-
-
-function parseJwt(token) {
-		let base64Url = token.split('.')[1];
-		let base64 = base64Url.replace('-', '+').replace('_', '/');
-		return JSON.parse(window.atob(base64));
-};
-
-export function getAccountType():AccountType {
-	try {
-			let session = hello('msft').getAuthResponse();
-			let token = session.access_token;
-			parseJwt(token);
-			return "AAD";
-			
-	} catch(e) {
-		return "MSA";
-	}
-}

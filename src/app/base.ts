@@ -27,8 +27,6 @@ export let Methods:RequestType[] = [
     'DELETE'
 ];
 
-export type AccountType = "MSA" | "AAD";
-
 export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
 export type RequestType = "GET" | "PUT" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
