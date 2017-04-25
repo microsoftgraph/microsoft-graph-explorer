@@ -12,9 +12,9 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class GraphService {
-    static _http:Http;
+  static _http:Http;
 
-  constructor (private http: Http) { 
+  constructor (private http: Http) {
       GraphService._http = http;
   }
 

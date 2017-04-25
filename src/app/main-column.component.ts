@@ -321,7 +321,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     }
 
     updateEndpointURLVersionFromVersion() {
-        this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|\/))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion + "/"));
+        this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion));
     }
 
     updateHttpMethod() {
