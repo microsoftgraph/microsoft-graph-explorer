@@ -60,6 +60,10 @@ declare let mwf;
         display: none;
     }
 
+    .ms-Pivot-content {
+        margin-top: 10px;
+    }
+
 `],
   template: `
     <div class="ms-Pivot">

@@ -17,6 +17,7 @@ declare let fabric, mwf;
   .ms-Dialog-content {
     max-height: 451px;
     overflow: auto;
+    margin-top: 20px;
   }
 
   .ms-Dialog {
@@ -45,6 +46,10 @@ declare let fabric, mwf;
     outline: none !important;
   }
 
+  label.c-label {
+      margin-top: 0px;
+      margin-bottom: 20px;
+  }
 `],
   template: `
 

@@ -53,7 +53,7 @@ declare let fabric, mwf:any;
             <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
         </button>
         <div class="ms-Panel-contentInner">
-            <p class="ms-Panel-headerText">{{getStr('Edit Sample Categories')}}</p>
+            <p class="ms-Panel-headerText">{{getStr('Sample Categories')}}</p>
             <div class="ms-Panel-content">
                 <div *ngFor="let category of categories" class="category-row">
                     {{getStr(category.title)}} ({{category.queries.length}})

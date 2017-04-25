@@ -47,7 +47,7 @@ declare let mwf:any;
         </div>
 
         <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" id="submitBtn" (click)="submit()">
-            <span [hidden]="explorerValues.requestInProgress"><i class="ms-Icon ms-Icon--LightningBolt"  style="padding-right: 10px;" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
+            <span [hidden]="explorerValues.requestInProgress"><i id="go-lightning-icon" class="ms-Icon ms-Icon--LightningBolt" style="padding-right: 10px;" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
             <div class="ms-Spinner" [hidden]="!explorerValues.requestInProgress"></div>
         </button>
     </div>
@@ -84,7 +84,7 @@ declare let mwf:any;
     #request-bar-row-form {
         display: flex;
         flex-wrap: wrap;
-        margin-top: -8px;
+        margin-top: -5px;
     }
 
     #request-bar-row-form::after {
@@ -111,12 +111,15 @@ declare let mwf:any;
     }
 
     #submitBtn {
-        height: 37px;
+        height: 32px;
         margin-top: 20px;
+        padding-top: 6px;
     }
     
     .ms-Spinner {
-        margin-left: 38px
+        margin-left: 38px;
+        position: relative;
+        top: -1px;
     }
 
     #spacer-1 {
@@ -137,6 +140,11 @@ declare let mwf:any;
 
     .c-menu.f-auto-suggest-scroll {
         max-height: 300px;
+    }
+
+    #go-lightning-icon {
+        position: relative;
+        top: 2px;
     }
 
         

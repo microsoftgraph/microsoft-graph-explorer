@@ -10,7 +10,7 @@ import { AppComponent } from "./app.component";
 @Component({
   selector: 'template-tip',
   template: `
-    <div class="ms-MessageBar ms-MessageBar-singleline" *ngIf="getQuery()">
+    <div class="ms-MessageBar ms-MessageBar--warning ms-MessageBar-singleline" *ngIf="getQuery()">
         <div class="ms-MessageBar-content">
             <table>
                 <tr>
@@ -53,6 +53,10 @@ import { AppComponent } from "./app.component";
 
     .ms-MessageBar-content {
         padding: 6px;
+    }
+
+    .ms-MessageBar-text {
+        font-size: 14px;
     }
 
     .ms-MessageBar-content div {

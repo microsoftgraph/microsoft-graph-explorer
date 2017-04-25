@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { AuthenticationStatus, ExplorerOptions, GraphApiCall } from "./base";
+import { AuthenticationStatus, ExplorerOptions, GraphApiCall, SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { getString } from "./api-explorer-helpers";
@@ -73,7 +73,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
         this._changeDetectionRef.detectChanges();
     }
 
-    @Input() query: GraphApiCall;
+    @Input() query: SampleQuery;
     
     successClass:string;
     ngOnDestroy() {

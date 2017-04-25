@@ -13,7 +13,7 @@ import { getParameterByName } from "./util";
 declare const hello: any;
 
 export function initAuth(options:ExplorerOptions, apiService:GraphService, changeDetectorRef: ChangeDetectorRef) {
-	setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
+	// setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
 	hello.init({
 		msft: {
 			oauth: {
@@ -119,7 +119,6 @@ export function refreshAccessToken() {
 	});
 }
 
-
 function handleAdminConsentResponse() {
 	let adminConsentRes = hello('msft_admin_consent').getAuthResponse();
 
@@ -127,7 +126,6 @@ function handleAdminConsentResponse() {
 		body: "You have completed the admin consent flow and can now select permission scopes that require administrator consent.  It may take a few minutes before the consent takes effect.",
 		title: "Admin consent completed"
 	};
-
 
 	if (getParameterByName("admin_consent")) {
 		if (adminConsentRes) {

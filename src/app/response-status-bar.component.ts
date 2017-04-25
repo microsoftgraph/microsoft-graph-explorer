@@ -10,7 +10,7 @@ import { AppComponent } from "./app.component";
 @Component({
   selector: 'response-status-bar',
   template: `
-    <div class="ms-MessageBar ms-MessageBar-singleline" [ngClass]="{'ms-MessageBar--success': isSuccessful(query()), 'ms-MessageBar--error': !isSuccessful(query()), 'hide-action-bar':!query()}">
+    <div class="ms-MessageBar ms-MessageBar-singleline " [ngClass]="{'ms-MessageBar--success': isSuccessful(query()), 'ms-MessageBar--error': !isSuccessful(query()), 'hide-action-bar':!query()}">
         <div class="ms-MessageBar-content">
             <div class="ms-MessageBar-icon">
                 <i class="ms-Icon" [ngClass]="{'ms-Icon--Completed': isSuccessful(query()), 'ms-Icon--errorBadge': !isSuccessful(query())}" ></i>

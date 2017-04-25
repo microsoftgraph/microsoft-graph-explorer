@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { GraphApiCall } from "./base";
+import { GraphApiCall, SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { getString } from "./api-explorer-helpers";
 import { AppModule } from "./app.module";
@@ -99,7 +99,7 @@ import { AppComponent } from "./app.component";
 `]
 })
 export class QueryRowComponent extends GraphExplorerComponent {
-    @Input() query: GraphApiCall;
+    @Input() query: SampleQuery;
 
     queryKeyDown(event) {
         if (event.keyCode == 13)
@@ -115,10 +115,17 @@ export class QueryRowComponent extends GraphExplorerComponent {
     }
 
     handleQueryClick() {
+
         this.loadQueryIntoEditor(this.query);
 
         if (this.query.method == 'GET') {
-            AppComponent.executeExplorerQuery(true);
+            if (this.query.tip == null || !this.isAuthenticated()) {
+                AppComponent.executeExplorerQuery(true);
+            } else if (this.query.tip) {
+                AppComponent.templateTipQuery = this.query;
+            }
+        } else if (this.query.tip && this.isAuthenticated()) {
+            AppComponent.templateTipQuery = this.query;
         }
     }
 }
