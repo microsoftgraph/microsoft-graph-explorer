@@ -13,7 +13,7 @@ import { AppComponent } from "./app.component";
 @Component({
   selector: 'query-row',
   template: `
-    <button class="api-query" (click)="handleQueryClick()" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
+    <div class="api-query" (click)="handleQueryClick()" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
         <div class="row-1">
             <method-badge [query]="query"></method-badge>
             <div class="query">{{getQueryText()}}</div>
@@ -26,7 +26,7 @@ import { AppComponent } from "./app.component";
 
         </div>
       <ng-content></ng-content>
-    </button>
+    </div>
     `,
     styles: [`
       .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {
