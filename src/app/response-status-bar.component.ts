@@ -53,7 +53,7 @@ import { AppComponent } from "./app.component";
         float: right;
     }
     .hide-action-bar {
-        display: none;
+        opacity: 0;
     }
 
 `]

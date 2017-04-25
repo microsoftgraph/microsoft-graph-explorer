@@ -68270,9 +68270,6 @@ var GraphExplorerComponent = (function () {
             base_1.substitueTokens(query);
         app_component_1.AppComponent.explorerValues.endpointUrl = query.requestUrl;
         app_component_1.AppComponent.explorerValues.selectedOption = query.method;
-        if (query.tip) {
-            app_component_1.AppComponent.templateTipQuery = query;
-        }
         if (query.headers) {
             app_component_1.AppComponent.explorerValues.headers = query.headers;
         }
@@ -68561,6 +68558,7 @@ var AppComponent = AppComponent_1 = (function (_super) {
     AppComponent.clearResponse = function () {
         api_explorer_jseditor_1.getAceEditorFromElId("response-header-viewer").getSession().setValue("");
         api_explorer_jseditor_1.getJsonViewer().getSession().setValue("");
+        this.explorerValues.showImage = false;
         template_tip_component_1.TemplateTipComponent.hideTip();
         response_status_bar_component_1.ResponseStatusBarComponent.clearLastCallMessage();
     };
@@ -68742,7 +68740,6 @@ function initAuth(options, apiService, changeDetectorRef) {
                 var resultBody = result.json();
                 app_component_1.AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
                 app_component_1.AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
-                app_component_1.AppComponent.explorerValues.authentication.user.preferred_username = resultBody.preferred_username;
             }));
             promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', app_component_1.AppComponent.Options.GraphUrl + "/beta/me/photo/$value").then(function (result) {
                 var blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
@@ -68765,6 +68762,26 @@ function initAuth(options, apiService, changeDetectorRef) {
     handleAdminConsentResponse();
 }
 exports.initAuth = initAuth;
+function refreshAccessToken() {
+    if (!app_component_1.AppComponent.explorerValues.authentication.user)
+        return;
+    var loginProperties = {
+        display: 'none',
+        response_type: "id_token token",
+        response_mode: "fragment",
+        nonce: 'graph_explorer',
+        prompt: 'none',
+        scope: app_component_1.AppComponent.Options.DefaultUserScopes,
+        login_hint: app_component_1.AppComponent.explorerValues.authentication.user.emailAddress,
+        domain_hint: 'organizations'
+    };
+    hello('msft').login(loginProperties).then(function (a) {
+        console.log("Successfully refreshed access token.");
+    }, function (a) {
+        console.error("Error refreshing access token", a);
+    });
+}
+exports.refreshAccessToken = refreshAccessToken;
 function handleAdminConsentResponse() {
     var adminConsentRes = hello('msft_admin_consent').getAuthResponse();
     var successMsg = {
@@ -70032,6 +70049,84 @@ exports.loc_strings['de-DE'] = {
     "my calendar": "mein Kalender",
     "my manager": "mein Manager"
 };
+exports.loc_strings['fr-FR'] = {
+    "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ",
+    "sign in": "vous connecter",
+    " with your work or school account from Microsoft.": " avec votre compte scolaire ou professionnel de Microsoft.",
+    "Submit": "Submit",
+    "Using demo tenant": "Vous utilisez actuellement un compte exemple.",
+    "To access your own data:": "Pour accéder à vos données :",
+    "sign out": "Se déconnecter",
+    "History": "Historique",
+    "Method": "Méthode",
+    "Query": "Requête",
+    "Status Code": "Code d'état",
+    "Duration": "Durée",
+    "Go": "OK",
+    "milliseconds": "ms",
+    "YES": "OUI",
+    "Show More": "Afficher plus",
+    "Graph Explorer": "Afficheur Graph",
+    "Failure": "Échec",
+    "Success": "Opération réussie",
+    "Authentication": "Authentification",
+    "NO": "NON",
+    "request header": "En-têtes de demande",
+    "Run Query": "Exécuter la requête",
+    "request body": "Corps de la requête",
+    "Close": "Fermer",
+    "Getting Started": "Mise en route",
+    "Response": "Réponse",
+    "login to send requests": "Connectez-vous pour modifier le type de requête",
+    "Share Query": "Partager la requête",
+    "Share this link to let people try your current query in the Graph Explorer.": "Partagez ce lien pour permettre aux utilisateurs d’essayer votre requête actuelle dans l’Afficheur Graph.",
+    "my profile": "mon profil",
+    "my files": "mes fichiers",
+    "my photo": "ma photo",
+    "my mail": "mon courrier électronique",
+    "my high importance mail": "mon courrier électronique de haute importance",
+    "my calendar": "mon calendrier",
+    "my manager": "mon responsable"
+};
+exports.loc_strings['ru-RU'] = {
+    "To try the explorer, please ": "Чтобы опробовать песочницу, ",
+    "sign in": "войдите",
+    " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.",
+    "Submit": "Отправить",
+    "Using demo tenant": "В настоящее время вы используете пример учетной записи.",
+    "To access your own data:": "Для доступа к собственным данным:",
+    "sign out": "Выход",
+    "History": "Журнал",
+    "Method": "Метод",
+    "Query": "Запрос",
+    "Status Code": "Код состояния",
+    "Duration": "Срок действия",
+    "Go": "Переход",
+    "milliseconds": "мс",
+    "YES": "ДА",
+    "Show More": "Больше",
+    "Graph Explorer": "Песочница Graph",
+    "Failure": "Ошибка",
+    "Success": "Успешно",
+    "Authentication": "Проверка подлинности",
+    "NO": "НЕТ",
+    "request header": "Заголовки запросов",
+    "Run Query": "Выполнить запрос",
+    "request body": "Текст запроса",
+    "Close": "Закрыть",
+    "Getting Started": "Начало работы",
+    "Response": "Отклик",
+    "login to send requests": "Войдите, чтобы изменить тип запроса",
+    "Share Query": "Поделиться запросом",
+    "Share this link to let people try your current query in the Graph Explorer.": "Поделитесь этой ссылкой, чтобы другие пользователи могли попробовать ваш текущий запрос в песочнице Graph.",
+    "my profile": "мой профиль",
+    "my files": "мои файлы",
+    "my photo": "мои фото",
+    "my mail": "моя почта",
+    "my high importance mail": "моя почта высокой важности",
+    "my calendar": "мой календарь",
+    "my manager": "мой руководитель"
+};
 exports.loc_strings['en-US'] = {
     "To try the explorer, please ": "To try the explorer, please ",
     "sign in": "sign in",
@@ -70073,7 +70168,7 @@ exports.loc_strings['en-US'] = {
     "Response Preview": "Response Preview",
     "Sample Queries": "Sample Queries",
     "show more groups": "show more groups",
-    "Edit Sample Categories": "Edit Sample Categories",
+    "Sample Categories": "Sample Categories",
     "On": "On",
     "Off": "Off",
     "Remove All": "Remove All",
@@ -70106,7 +70201,7 @@ exports.loc_strings['en-US'] = {
     "send an email": "send an email",
     "forward mail": "forward mail",
     "track email changes": "track email changes",
-    "email I\"m @ mentioned": "email I\"m @ mentioned",
+    "email I'm @ mentioned": "email I'm @ mentioned",
     "my events for the next week": "my events for the next week",
     "all events in my calendar": "all events in my calendar",
     "all my calendars": "all my calendars",
@@ -70156,84 +70251,6 @@ exports.loc_strings['en-US'] = {
     "Insights": "Insights",
     "Insights (preview)": "Insights (preview)"
 };
-exports.loc_strings['es-ES'] = {
-    "To try the explorer, please ": "Para utilizar el probador,  ",
-    "sign in": "inicie sesión",
-    " with your work or school account from Microsoft.": " con su cuenta profesional o educativa de Microsoft.",
-    "Submit": "Enviar",
-    "Using demo tenant": "Actualmente está utilizando una cuenta de muestra.",
-    "To access your own data:": "Para tener acceso a sus propios datos:",
-    "sign out": "Cierre de sesión",
-    "History": "Historial",
-    "Method": "Método",
-    "Query": "Consulta",
-    "Status Code": "Código de estado",
-    "Duration": "Duración",
-    "Go": "Ir",
-    "milliseconds": "ms",
-    "YES": "SÍ",
-    "Show More": "Mostrar más",
-    "Graph Explorer": "Probador de Graph",
-    "Failure": "Erróneo",
-    "Success": "Correcto",
-    "Authentication": "Autenticación",
-    "NO": "NO",
-    "request header": "Encabezados de solicitud",
-    "Run Query": "Ejecutar consulta",
-    "request body": "Cuerpo de la solicitud",
-    "Close": "Cerrar",
-    "Getting Started": "Introducción",
-    "Response": "Respuesta",
-    "login to send requests": "Inicio de sesión para cambiar el tipo de solicitud",
-    "Share Query": "Compartir consulta",
-    "Share this link to let people try your current query in the Graph Explorer.": "Comparta este vínculo para permitir que la gente intente la consulta actual en el Probador de Graph.",
-    "my profile": "mi perfil",
-    "my files": "mis archivos",
-    "my photo": "mi foto",
-    "my mail": "mi correo",
-    "my high importance mail": "mi correo electrónico de importancia alta",
-    "my calendar": "mi calendario",
-    "my manager": "mi administrador"
-};
-exports.loc_strings['fr-FR'] = {
-    "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ",
-    "sign in": "vous connecter",
-    " with your work or school account from Microsoft.": " avec votre compte scolaire ou professionnel de Microsoft.",
-    "Submit": "Submit",
-    "Using demo tenant": "Vous utilisez actuellement un compte exemple.",
-    "To access your own data:": "Pour accéder à vos données :",
-    "sign out": "Se déconnecter",
-    "History": "Historique",
-    "Method": "Méthode",
-    "Query": "Requête",
-    "Status Code": "Code d'état",
-    "Duration": "Durée",
-    "Go": "OK",
-    "milliseconds": "ms",
-    "YES": "OUI",
-    "Show More": "Afficher plus",
-    "Graph Explorer": "Afficheur Graph",
-    "Failure": "Échec",
-    "Success": "Opération réussie",
-    "Authentication": "Authentification",
-    "NO": "NON",
-    "request header": "En-têtes de demande",
-    "Run Query": "Exécuter la requête",
-    "request body": "Corps de la requête",
-    "Close": "Fermer",
-    "Getting Started": "Mise en route",
-    "Response": "Réponse",
-    "login to send requests": "Connectez-vous pour modifier le type de requête",
-    "Share Query": "Partager la requête",
-    "Share this link to let people try your current query in the Graph Explorer.": "Partagez ce lien pour permettre aux utilisateurs d’essayer votre requête actuelle dans l’Afficheur Graph.",
-    "my profile": "mon profil",
-    "my files": "mes fichiers",
-    "my photo": "ma photo",
-    "my mail": "mon courrier électronique",
-    "my high importance mail": "mon courrier électronique de haute importance",
-    "my calendar": "mon calendrier",
-    "my manager": "mon responsable"
-};
 exports.loc_strings['zh-CN'] = {
     "To try the explorer, please ": "若要尝试使用资源管理器，请若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户 ",
     "sign in": "登录",
@@ -70273,45 +70290,6 @@ exports.loc_strings['zh-CN'] = {
     "my calendar": "我的日历",
     "my manager": "我的管理器"
 };
-exports.loc_strings['ru-RU'] = {
-    "To try the explorer, please ": "Чтобы опробовать песочницу, ",
-    "sign in": "войдите",
-    " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.",
-    "Submit": "Отправить",
-    "Using demo tenant": "В настоящее время вы используете пример учетной записи.",
-    "To access your own data:": "Для доступа к собственным данным:",
-    "sign out": "Выход",
-    "History": "Журнал",
-    "Method": "Метод",
-    "Query": "Запрос",
-    "Status Code": "Код состояния",
-    "Duration": "Срок действия",
-    "Go": "Переход",
-    "milliseconds": "мс",
-    "YES": "ДА",
-    "Show More": "Больше",
-    "Graph Explorer": "Песочница Graph",
-    "Failure": "Ошибка",
-    "Success": "Успешно",
-    "Authentication": "Проверка подлинности",
-    "NO": "НЕТ",
-    "request header": "Заголовки запросов",
-    "Run Query": "Выполнить запрос",
-    "request body": "Текст запроса",
-    "Close": "Закрыть",
-    "Getting Started": "Начало работы",
-    "Response": "Отклик",
-    "login to send requests": "Войдите, чтобы изменить тип запроса",
-    "Share Query": "Поделиться запросом",
-    "Share this link to let people try your current query in the Graph Explorer.": "Поделитесь этой ссылкой, чтобы другие пользователи могли попробовать ваш текущий запрос в песочнице Graph.",
-    "my profile": "мой профиль",
-    "my files": "мои файлы",
-    "my photo": "мои фото",
-    "my mail": "моя почта",
-    "my high importance mail": "моя почта высокой важности",
-    "my calendar": "мой календарь",
-    "my manager": "мой руководитель"
-};
 exports.loc_strings['ja-JP'] = {
     "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
     "sign in": "サインイン",
@@ -70350,6 +70328,45 @@ exports.loc_strings['ja-JP'] = {
     "my high importance mail": "重要度の高い自分のメール",
     "my calendar": "自分の予定表",
     "my manager": "自分の上司"
+};
+exports.loc_strings['es-ES'] = {
+    "To try the explorer, please ": "Para utilizar el probador,  ",
+    "sign in": "inicie sesión",
+    " with your work or school account from Microsoft.": " con su cuenta profesional o educativa de Microsoft.",
+    "Submit": "Enviar",
+    "Using demo tenant": "Actualmente está utilizando una cuenta de muestra.",
+    "To access your own data:": "Para tener acceso a sus propios datos:",
+    "sign out": "Cierre de sesión",
+    "History": "Historial",
+    "Method": "Método",
+    "Query": "Consulta",
+    "Status Code": "Código de estado",
+    "Duration": "Duración",
+    "Go": "Ir",
+    "milliseconds": "ms",
+    "YES": "SÍ",
+    "Show More": "Mostrar más",
+    "Graph Explorer": "Probador de Graph",
+    "Failure": "Erróneo",
+    "Success": "Correcto",
+    "Authentication": "Autenticación",
+    "NO": "NO",
+    "request header": "Encabezados de solicitud",
+    "Run Query": "Ejecutar consulta",
+    "request body": "Cuerpo de la solicitud",
+    "Close": "Cerrar",
+    "Getting Started": "Introducción",
+    "Response": "Respuesta",
+    "login to send requests": "Inicio de sesión para cambiar el tipo de solicitud",
+    "Share Query": "Compartir consulta",
+    "Share this link to let people try your current query in the Graph Explorer.": "Comparta este vínculo para permitir que la gente intente la consulta actual en el Probador de Graph.",
+    "my profile": "mi perfil",
+    "my files": "mis archivos",
+    "my photo": "mi foto",
+    "my mail": "mi correo",
+    "my high importance mail": "mi correo electrónico de importancia alta",
+    "my calendar": "mi calendario",
+    "my manager": "mi administrador"
 };
 exports.loc_strings['pt-BR'] = {
     "To try the explorer, please ": "Para experimentar o Explorador, ",
@@ -70426,6 +70443,7 @@ var MainColumnComponent = (function (_super) {
     function MainColumnComponent(GraphService) {
         var _this = _super.call(this) || this;
         _this.GraphService = GraphService;
+        _this.oldExplorerValues = {};
         _this.myControl = new forms_1.FormControl();
         _this.methods = base_1.Methods;
         _this.GraphVersions = app_component_1.AppComponent.Options.GraphVersions;
@@ -70437,11 +70455,31 @@ var MainColumnComponent = (function (_super) {
         return _this;
     }
     MainColumnComponent.prototype.ngDoCheck = function () {
-        if (this.explorerValues && this.oldExplorerValues != JSON.stringify(this.explorerValues)) {
+        if (this.explorerValues && JSON.stringify(this.oldExplorerValues) != JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();
             this.updateGraphVersionSelect();
             this.updateHttpMethod();
-            this.oldExplorerValues = JSON.stringify(this.explorerValues);
+            if (this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST") {
+                var hasContentTypeHeader = false;
+                if (this.explorerValues.headers) {
+                    for (var _i = 0, _a = this.explorerValues.headers; _i < _a.length; _i++) {
+                        var header = _a[_i];
+                        if (header.name.toLowerCase() == "content-type") {
+                            hasContentTypeHeader = true;
+                            break;
+                        }
+                    }
+                    if (!hasContentTypeHeader) {
+                        this.explorerValues.headers.unshift({
+                            enabled: true,
+                            name: "Content-type",
+                            readonly: false,
+                            value: "application/json"
+                        });
+                    }
+                }
+            }
+            this.oldExplorerValues = JSON.parse(JSON.stringify(this.explorerValues));
         }
     };
     MainColumnComponent.prototype.ngAfterViewInit = function () {
@@ -70574,8 +70612,8 @@ MainColumnComponent = __decorate([
     core_1.Component({
         providers: [api_explorer_svc_1.GraphService],
         selector: 'main-column',
-        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" (keydown)=\"endpointInputKeyDown($event)\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i class=\"ms-Icon ms-Icon--LightningBolt\"  style=\"padding-right: 10px;\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <template-tip></template-tip>\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
-        styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -8px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 37px;\n        margin-top: 20px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n    \n  "]
+        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" (keydown)=\"endpointInputKeyDown($event)\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i id=\"go-lightning-icon\" class=\"ms-Icon ms-Icon--LightningBolt\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <template-tip></template-tip>\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
+        styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -5px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 32px;\n        margin-top: 20px;\n        padding-top: 6px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px;\n        position: relative;\n        top: -1px;\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n    #go-lightning-icon {\n        position: relative;\n        top: 2px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n    \n  "]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
 ], MainColumnComponent);
@@ -70656,7 +70694,15 @@ var QueryRowComponent = (function (_super) {
     QueryRowComponent.prototype.handleQueryClick = function () {
         this.loadQueryIntoEditor(this.query);
         if (this.query.method == 'GET') {
-            app_component_1.AppComponent.executeExplorerQuery(true);
+            if (this.query.tip == null || !this.isAuthenticated()) {
+                app_component_1.AppComponent.executeExplorerQuery(true);
+            }
+            else if (this.query.tip) {
+                app_component_1.AppComponent.templateTipQuery = this.query;
+            }
+        }
+        else if (this.query.tip && this.isAuthenticated()) {
+            app_component_1.AppComponent.templateTipQuery = this.query;
         }
     };
     return QueryRowComponent;
@@ -70758,7 +70804,7 @@ var RequestEditorsComponent = (function (_super) {
 RequestEditorsComponent = __decorate([
     core_1.Component({
         selector: 'request-editors',
-        styles: ["\n\n  #post-body-editor {\n        position: relative;\n        height: 20vh;\n        border: 1px solid #ccc;\n        margin-top: 10px;\n    }\n\n  .header-row input {\n    width: 95%;\n    margin-top: 5px;\n  }\n\n  table {\n      width: 100%;\n  }\n\n  th {\n      text-align: left;\n      font-weight: 300;\n  }\n\n  td.remove-header-btn {\n    font-size: 20px;\n  }\n\n   td.remove-header-btn:hover {\n        cursor: pointer;\n   }\n\n   td.remove-header-btn i {\n        margin-top: 12px;\n        font-size: 20px;\n   }\n\n   .invisible {\n       opacity: 0;\n   }\n\n   .header-autocomplete {\n        max-width: inherit;\n        margin: 0px;\n        height: inherit;\n    }\n\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n"],
+        styles: ["\n\n  #post-body-editor {\n        position: relative;\n        height: 20vh;\n        border: 1px solid #ccc;\n        margin-top: 10px;\n    }\n\n  .header-row input {\n    width: 95%;\n    margin-top: 5px;\n  }\n\n  table {\n      width: 100%;\n  }\n\n  th {\n      text-align: left;\n      font-weight: 300;\n  }\n\n  td.remove-header-btn {\n    font-size: 20px;\n  }\n\n   td.remove-header-btn:hover {\n        cursor: pointer;\n   }\n\n   td.remove-header-btn i {\n        margin-top: 12px;\n        font-size: 20px;\n   }\n\n   .invisible {\n       opacity: 0;\n   }\n\n   .header-autocomplete {\n        max-width: inherit;\n        margin: 0px;\n        height: inherit;\n    }\n\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .ms-Pivot-content {\n        margin-top: 10px;\n    }\n\n"],
         template: "\n    <div class=\"ms-Pivot\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"headers\" [attr.title]=\"getStr('request header')\" tabindex=\"1\">\n                {{getStr('request header')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"body\" [attr.title]=\"getStr('request body')\" (click)=\"initPostBodyEditor()\" tabindex=\"1\">\n                {{getStr('request body')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"headers\">\n            <div id=\"headers-editor\">\n                <table>\n                    <tr>\n                        <th>{{getStr('Key')}}</th>\n                        <th>{{getStr('Value')}}</th>\n                    </tr>\n                    <tr *ngFor=\"let header of explorerValues.headers; let idx = index\" class=\"header-row\">\n                        <td class=\"half-width-col\">\n                            <div class=\"c-search header-autocomplete\" autocomplete=\"off\">\n                                <input role=\"combobox\" class=\"c-text-field header-name\" (ngModelChange)=\"createNewHeaderField()\" [attr.aria-controls]=\"'headers-autosuggest-'+idx\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"text\" [attr.placeholder]=\"getPlaceholder(header)\" [(ngModel)]=\"header.name\" [disabled]=\"header.readonly\">\n                                <div class=\"m-auto-suggest\" [attr.id]=\"'headers-autosuggest-'+idx\" role=\"group\">\n                                    <ul class=\"c-menu\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                                    <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\"></ul>\n                                </div>\n                            </div>\n\n                        </td>\n                        <td class=\"half-width-col\">\n                            <input id=\"default\" class=\"c-text-field header-value\" [(ngModel)]=\"header.value\" [disabled]=\"header.readonly\" type=\"text\" name=\"default\" [ngClass]=\"{invisible: isLastHeader(header)}\">\n                        </td>\n                        <td class=\"remove-header-btn\" [ngClass]=\"{invisible: isLastHeader(header)}\">\n                            <i (click)=\"removeHeader(header)\" class=\"ms-Icon ms-Icon--Cancel\"></i>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"body\">\n            <div id=\"requestBodyContainer\">\n                <div id=\"post-body-editor\"></div>\n            </div>\n        </div>\n    </div>\n\n     ",
     })
 ], RequestEditorsComponent);
@@ -70951,8 +70997,8 @@ var ResponseStatusBarComponent = (function (_super) {
 ResponseStatusBarComponent = __decorate([
     core_1.Component({
         selector: 'response-status-bar',
-        template: "\n    <div class=\"ms-MessageBar ms-MessageBar-singleline\" [ngClass]=\"{'ms-MessageBar--success': isSuccessful(query()), 'ms-MessageBar--error': !isSuccessful(query()), 'hide-action-bar':!query()}\">\n        <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n                <i class=\"ms-Icon\" [ngClass]=\"{'ms-Icon--Completed': isSuccessful(query()), 'ms-Icon--errorBadge': !isSuccessful(query())}\" ></i>\n            </div>\n            <div class=\"ms-MessageBar-actionables\">\n                <div class=\"ms-MessageBar-text\" *ngIf=\"query()\">\n                    {{createTextSummary()}}<span id=\"duration-label\">{{query().duration}}ms</span>\n                </div>\n            </div>\n            <div class=\"ms-MessageBar-actionsOneline\">\n                <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                    <a href=\"#\" (click)=\"clearLastCallMessage()\"><i class=\"ms-Icon ms-Icon--Cancel\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i></a>\n                </div>\n            </div>\n        </div>\n    </div>\n    ",
-        styles: ["\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    span#duration-label {\n        font-weight: 800;\n        margin-left: 40px;\n    }\n\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n    .ms-MessageBar-content div {\n        float: left;\n    }\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n    .hide-action-bar {\n        display: none;\n    }\n\n"]
+        template: "\n    <div class=\"ms-MessageBar ms-MessageBar-singleline \" [ngClass]=\"{'ms-MessageBar--success': isSuccessful(query()), 'ms-MessageBar--error': !isSuccessful(query()), 'hide-action-bar':!query()}\">\n        <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n                <i class=\"ms-Icon\" [ngClass]=\"{'ms-Icon--Completed': isSuccessful(query()), 'ms-Icon--errorBadge': !isSuccessful(query())}\" ></i>\n            </div>\n            <div class=\"ms-MessageBar-actionables\">\n                <div class=\"ms-MessageBar-text\" *ngIf=\"query()\">\n                    {{createTextSummary()}}<span id=\"duration-label\">{{query().duration}}ms</span>\n                </div>\n            </div>\n            <div class=\"ms-MessageBar-actionsOneline\">\n                <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                    <a href=\"#\" (click)=\"clearLastCallMessage()\"><i class=\"ms-Icon ms-Icon--Cancel\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i></a>\n                </div>\n            </div>\n        </div>\n    </div>\n    ",
+        styles: ["\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    span#duration-label {\n        font-weight: 800;\n        margin-left: 40px;\n    }\n\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n    .ms-MessageBar-content div {\n        float: left;\n    }\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n    .hide-action-bar {\n        opacity: 0;\n    }\n\n"]
     })
 ], ResponseStatusBarComponent);
 exports.ResponseStatusBarComponent = ResponseStatusBarComponent;
@@ -71001,7 +71047,7 @@ SampleCategoriesPanelComponent = __decorate([
     core_1.Component({
         selector: 'sample-categories-panel',
         styles: ["\n    .category-row {\n        margin-bottom: 15px;\n        padding: 0 50px;\n    }\n\n    .category-switch {\n        display: inline-block;\n        float: right;\n        width: 100px;\n    }\n\n    div.c-toggle button {\n        margin-top: 0px;\n    }\n\n    .ms-Panel-headerText {\n        margin-top: 0px;\n        margin-bottom: 35px;\n    }\n\n    .ms-Panel.ms-Panel--lg {\n        max-width: 544px;\n    }\n\n    div.c-toggle button:focus {\n        outline: none;\n    }\n\n    /* core.css frontdoor conflict */\n    .category-switch button {\n        min-width: inherit;\n    }\n\n"],
-        template: "\n    <div id=\"sample-categories-panel\" class=\"ms-Panel ms-Panel--lg\">\n        <button class=\"ms-Panel-closeButton ms-PanelAction-close\" tabindex=\"1\">\n            <i class=\"ms-Panel-closeIcon ms-Icon ms-Icon--Cancel\"></i>\n        </button>\n        <div class=\"ms-Panel-contentInner\">\n            <p class=\"ms-Panel-headerText\">{{getStr('Edit Sample Categories')}}</p>\n            <div class=\"ms-Panel-content\">\n                <div *ngFor=\"let category of categories\" class=\"category-row\">\n                    {{getStr(category.title)}} ({{category.queries.length}})\n                    <div class=\"category-switch\">\n                        <div class=\"c-toggle\" (click)=\"toggleCategory(category)\">\n                            <button id=\"example-1\" name=\"example-1\" role=\"checkbox\" [attr.aria-checked]=\"category.enabled\" aria-labelledby=\"c-label c-state-label-1\"></button>\n                            <span [attr.data-on-string]=\"getStr('On')\" [attr.data-off-string]=\"getStr('Off')\" id=\"c-state-label-1\">{{getStr('On')}}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n     ",
+        template: "\n    <div id=\"sample-categories-panel\" class=\"ms-Panel ms-Panel--lg\">\n        <button class=\"ms-Panel-closeButton ms-PanelAction-close\" tabindex=\"1\">\n            <i class=\"ms-Panel-closeIcon ms-Icon ms-Icon--Cancel\"></i>\n        </button>\n        <div class=\"ms-Panel-contentInner\">\n            <p class=\"ms-Panel-headerText\">{{getStr('Sample Categories')}}</p>\n            <div class=\"ms-Panel-content\">\n                <div *ngFor=\"let category of categories\" class=\"category-row\">\n                    {{getStr(category.title)}} ({{category.queries.length}})\n                    <div class=\"category-switch\">\n                        <div class=\"c-toggle\" (click)=\"toggleCategory(category)\">\n                            <button id=\"example-1\" name=\"example-1\" role=\"checkbox\" [attr.aria-checked]=\"category.enabled\" aria-labelledby=\"c-label c-state-label-1\"></button>\n                            <span [attr.data-on-string]=\"getStr('On')\" [attr.data-off-string]=\"getStr('Off')\" id=\"c-state-label-1\">{{getStr('On')}}</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n     ",
     })
 ], SampleCategoriesPanelComponent);
 exports.SampleCategoriesPanelComponent = SampleCategoriesPanelComponent;
@@ -71091,7 +71137,7 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
 ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
     core_1.Component({
         selector: 'scopes-dialog',
-        styles: ["\n  .ms-Dialog-content {\n    max-height: 451px;\n    overflow: auto;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n"],
+        styles: ["\n  .ms-Dialog-content {\n    max-height: 451px;\n    overflow: auto;\n    margin-top: 20px;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n  label.c-label {\n      margin-top: 0px;\n      margin-bottom: 20px;\n  }\n"],
         template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('modify permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <div class=\"ms-Dialog-content\">\n        <table class=\"ms-Table\">\n          <tr *ngFor=\"let scope of scopes\">\n            <td>\n              <div class=\"c-checkbox\">\n                  <label class=\"c-label\">\n                      <input type=\"checkbox\" [disabled]=\"scope.name == 'openid'\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                      <span aria-hidden=\"true\">{{scope.name}}<i *ngIf=\"scope.preview\">Preview</i></span>\n                  </label>\n              </div>\n            </td>\n            <td>\n              <span *ngIf=\"scope.admin\">\n                Admin\n              </span>\n            </td>\n          </tr>\n        </table>\n      </div>\n      <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
     })
 ], ScopesDialogComponent);
@@ -71696,8 +71742,8 @@ var TemplateTipComponent = (function (_super) {
 TemplateTipComponent = __decorate([
     core_1.Component({
         selector: 'template-tip',
-        template: "\n    <div class=\"ms-MessageBar ms-MessageBar-singleline\" *ngIf=\"getQuery()\">\n        <div class=\"ms-MessageBar-content\">\n            <table>\n                <tr>\n                    <td>\n                        <div class=\"ms-MessageBar-icon\">\n                            <i class=\"ms-Icon ms-Icon--Info\"></i>\n                        </div>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionables\">\n                            <div class=\"ms-MessageBar-text\">\n                                {{getQuery().tip}}\n                            </div>\n                        </div>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionsOneline\">\n                            <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                                <a href=\"#\" (click)=\"hideTip()\"><i class=\"ms-Icon ms-Icon--Cancel\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i></a>\n                            </div>\n                        </div>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n    ",
-        styles: ["\n\n    table {\n        width: 100%;\n    }\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n\n    .ms-MessageBar-content div {\n        float: left;\n    }\n\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n\n    .hide-action-bar {\n        opacity: 0;\n    }\n\n"]
+        template: "\n    <div class=\"ms-MessageBar ms-MessageBar--warning ms-MessageBar-singleline\" *ngIf=\"getQuery()\">\n        <div class=\"ms-MessageBar-content\">\n            <table>\n                <tr>\n                    <td>\n                        <div class=\"ms-MessageBar-icon\">\n                            <i class=\"ms-Icon ms-Icon--Info\"></i>\n                        </div>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionables\">\n                            <div class=\"ms-MessageBar-text\">\n                                {{getQuery().tip}}\n                            </div>\n                        </div>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionsOneline\">\n                            <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                                <a href=\"#\" (click)=\"hideTip()\"><i class=\"ms-Icon ms-Icon--Cancel\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i></a>\n                            </div>\n                        </div>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n    ",
+        styles: ["\n\n    table {\n        width: 100%;\n    }\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n\n    .ms-MessageBar-text {\n        font-size: 14px;\n    }\n\n    .ms-MessageBar-content div {\n        float: left;\n    }\n\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n\n    .hide-action-bar {\n        opacity: 0;\n    }\n\n"]
     })
 ], TemplateTipComponent);
 exports.TemplateTipComponent = TemplateTipComponent;

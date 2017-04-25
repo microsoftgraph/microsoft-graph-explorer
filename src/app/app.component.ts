@@ -175,6 +175,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     getAceEditorFromElId("response-header-viewer").getSession().setValue("");
     getJsonViewer().getSession().setValue("")
 
+    this.explorerValues.showImage = false;
+
     TemplateTipComponent.hideTip();
     ResponseStatusBarComponent.clearLastCallMessage()
 
