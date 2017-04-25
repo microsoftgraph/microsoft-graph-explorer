@@ -86,7 +86,7 @@ import { ScopesDialogComponent } from "./scopes-dialog.component";
              </div>
          </div>
          <a href="#" id="signout" class="c-hyperlink" tabindex=0 (click)="logout()">{{getStr('sign out')}}</a>
-         <a href="#" id="manage-permissions" class="c-hyperlink" tabindex=0 (click)="manageScopes()">{{getStr('manage permissions')}}</a>
+         <a href="#" id="manage-permissions" class="c-hyperlink" tabindex=0 (click)="manageScopes()">{{getStr('modify permissions')}}</a>
         
      </div>
      `,

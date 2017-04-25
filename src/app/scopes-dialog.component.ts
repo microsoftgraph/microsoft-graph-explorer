@@ -52,7 +52,7 @@ declare let fabric, mwf;
     <button class="ms-Dialog-button ms-Dialog-buttonClose">
       <i class="ms-Icon ms-Icon--Cancel"></i>
     </button>
-    <div class="ms-Dialog-title">{{getStr('manage permissions')}}</div>
+    <div class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
       <p class="ms-Dialog-subText">Select different <a class="ms-Link" href="https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes" target="_blank">permission scopes</a> to try out Microsoft Graph API endpoints.</p>
       <div class="ms-Dialog-content">
         <table class="ms-Table">

@@ -15,8 +15,7 @@
   ],
   "dependencies": {
     "hello": "git@github.com:dan-silver/hello.js.git#master",
-    "office-ui-fabric-js": "^1.4.0",
-    "hammerjs": "hammer.js#^2.0.8"
+    "office-ui-fabric-js": "^1.4.0"
   },
   "devDependencies": {
     "mocha": "latest",
