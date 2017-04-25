@@ -24,11 +24,10 @@ import { RequestEditorsComponent } from "./request-editors.component";
 import { ShareLinkBtnComponent } from "./share-link-btn.component";
 import { ScopesDialogComponent } from "./scopes-dialog.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
-import { TemplateTipComponent } from "./template-tip.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule ],
-  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, TemplateTipComponent ],
+  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

@@ -54,9 +54,8 @@ declare let mwf:any;
     <request-editors></request-editors>
     <div id="spacer-1"></div>
 
-    <template-tip></template-tip>
+    <message-bar></message-bar>
     <!-- response -->
-    <response-status-bar></response-status-bar>
     <share-link-btn></share-link-btn>
     <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
         <ul class="ms-Pivot-links">

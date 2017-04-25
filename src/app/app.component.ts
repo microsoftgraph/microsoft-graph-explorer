@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
-import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
@@ -18,7 +18,7 @@ import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api
 import { parseMetadata } from "./graph-structure";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
-import { TemplateTipComponent } from "./template-tip.component";
+import { getString } from "./api-explorer-helpers";
 
 declare let mwf:any;
 
@@ -60,11 +60,10 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
 
   static svc:GraphService;
-  static lastApiCall:GraphApiCall;
+  static messageBarContent:MessageBarContent;
   static lastApiCallHeaders: Headers;
   static _changeDetectionRef:ChangeDetectorRef;
   static message:Message;
-  static templateTipQuery:SampleQuery;
 
   constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
     super();
@@ -177,12 +176,33 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     this.explorerValues.showImage = false;
 
-    TemplateTipComponent.hideTip();
-    ResponseStatusBarComponent.clearLastCallMessage()
+    ResponseStatusBarComponent.clearMessage()
 
   }
 
  }
+
+
+  function isSuccessful(query:GraphApiCall) {
+      return query.statusCode >= 200 && query.statusCode < 300;
+  }
+
+ function createTextSummary(query:GraphApiCall) {
+        let text = "";
+        if (isSuccessful(query)) {
+            text += getString(AppComponent.Options, "Success");
+        } else {
+            text += getString(AppComponent.Options, "Failure");
+        }
+
+        text += ` - ${getString(AppComponent.Options, "Status Code")} ${query.statusCode}`
+
+
+        text += `<span style="font-weight: 800; margin-left: 40px;">${query.duration}ms</span>`;
+
+        return text;
+    }
+
 
  function commonResponseHandler(res:Response, query:GraphApiCall) {
 
@@ -190,13 +210,20 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
       // common ops for successful and unsuccessful
     AppComponent.explorerValues.requestInProgress = false;
-    AppComponent.lastApiCall = query;
+
+    
     AppComponent.lastApiCallHeaders = res.headers;
 
     let {status, headers} = res;
     query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
     query.statusCode = status;
     AppComponent.addRequestToHistory(query);
+
+    AppComponent.messageBarContent = {
+      text: createTextSummary(query),
+      backgroundClass: isSuccessful(query) ? "ms-MessageBar--success" : "ms-MessageBar--error",
+      icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--errorBadge"
+    }
 
 
 

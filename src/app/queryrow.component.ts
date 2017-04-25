@@ -122,10 +122,18 @@ export class QueryRowComponent extends GraphExplorerComponent {
             if (this.query.tip == null || !this.isAuthenticated()) {
                 AppComponent.executeExplorerQuery(true);
             } else if (this.query.tip) {
-                AppComponent.templateTipQuery = this.query;
+                this.displayTipMessage();
             }
         } else if (this.query.tip && this.isAuthenticated()) {
-            AppComponent.templateTipQuery = this.query;
+            this.displayTipMessage()
+        }
+    }
+
+    displayTipMessage() {
+        AppComponent.messageBarContent = {
+            backgroundClass: "ms-MessageBar--warning",
+            icon: "ms-Icon--Info",
+            text: this.query.tip
         }
     }
 }

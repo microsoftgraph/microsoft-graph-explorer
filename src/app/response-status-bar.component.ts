@@ -2,27 +2,26 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, Input } from '@angular/core';
-import { GraphApiCall } from "./base";
+import { Component, OnInit, Input, Sanitizer, SecurityContext } from '@angular/core';
+import { GraphApiCall, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
-  selector: 'response-status-bar',
+  selector: 'message-bar',
   template: `
-    <div class="ms-MessageBar ms-MessageBar-singleline " [ngClass]="{'ms-MessageBar--success': isSuccessful(query()), 'ms-MessageBar--error': !isSuccessful(query()), 'hide-action-bar':!query()}">
+    <div class="ms-MessageBar ms-MessageBar-singleline " [ngClass]="[getBackgroundClass(), hideActionBar()]">
         <div class="ms-MessageBar-content">
             <div class="ms-MessageBar-icon">
-                <i class="ms-Icon" [ngClass]="{'ms-Icon--Completed': isSuccessful(query()), 'ms-Icon--errorBadge': !isSuccessful(query())}" ></i>
+                <i class="ms-Icon" [ngClass]="getMessage().icon" *ngIf="getMessage()"></i>
             </div>
             <div class="ms-MessageBar-actionables">
-                <div class="ms-MessageBar-text" *ngIf="query()">
-                    {{createTextSummary()}}<span id="duration-label">{{query().duration}}ms</span>
-                </div>
+                <div class="ms-MessageBar-text" *ngIf="getMessage()" [innerHtml]="getMessageText()"></div>
             </div>
             <div class="ms-MessageBar-actionsOneline">
                 <div id="dismiss-btn" class="ms-MessageBar-icon">
-                    <a href="#" (click)="clearLastCallMessage()"><i class="ms-Icon ms-Icon--Cancel" style="padding-right: 10px;" aria-hidden="true"></i></a>
+                    <a href="#" (click)="clearMessage()"><i class="ms-Icon ms-Icon--Cancel" style="padding-right: 10px;" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -36,12 +35,6 @@ import { AppComponent } from "./app.component";
         font-size: 15px;
         margin-top: 15px;
     }
-
-    span#duration-label {
-        font-weight: 800;
-        margin-left: 40px;
-    }
-
 
     .ms-MessageBar-content {
         padding: 6px;
@@ -59,35 +52,35 @@ import { AppComponent } from "./app.component";
 `]
 })
 export class ResponseStatusBarComponent extends GraphExplorerComponent {
-    isSuccessful(query:GraphApiCall) {
-        if (!query) return false;
-        return query.statusCode >= 200 && query.statusCode < 300;
+    constructor(private sanitizer: DomSanitizer) {
+        super();        
     }
 
-    query() {
-        return AppComponent.lastApiCall;
+    getMessage() {
+        return AppComponent.messageBarContent;
     }
 
-    createTextSummary() {
-        const query = this.query();
+    clearMessage() {
+        AppComponent.messageBarContent = null;
+    }
 
-        
-        let text = "";
-        if (this.isSuccessful(query)) {
-            text += this.getStr("Success");
+    getMessageText() {
+        return this.sanitizer.bypassSecurityTrustHtml(this.getMessage().text) as string;
+    }
+
+    static clearMessage() {
+        AppComponent.messageBarContent = null;
+    }
+
+    hideActionBar() {
+        return this.getMessage() == null ? "hide-action-bar": "";
+    }
+
+    getBackgroundClass() {
+        if (this.getMessage()) {
+            return this.getMessage().backgroundClass;
         } else {
-            text += this.getStr("Failure");
+            return "";
         }
-
-        text += ` - ${this.getStr("Status Code")} ${query.statusCode}`
-        return text;
-    }
-
-    clearLastCallMessage() {
-        AppComponent.lastApiCall = null;
-    }
-
-    static clearLastCallMessage() {
-        AppComponent.lastApiCall = null;
     }
 }

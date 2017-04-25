@@ -187,3 +187,9 @@ export interface Message {
     title: string
     body: string
 }
+
+export interface MessageBarContent {
+    icon: string
+    backgroundClass: string
+    text: string
+}
