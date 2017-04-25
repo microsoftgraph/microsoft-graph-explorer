@@ -84,13 +84,14 @@ declare let mwf;
                     </tr>
                     <tr *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
                         <td class="half-width-col">
-                            <div class="c-search header-autocomplete" autocomplete="off">
+                            <input id="default" class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly" type="text">
+                            <!--<div class="c-search header-autocomplete" autocomplete="off">
                                 <input role="combobox" class="c-text-field header-name" (ngModelChange)="createNewHeaderField()" [attr.aria-controls]="'headers-autosuggest-'+idx" aria-autocomplete="both" aria-expanded="false" type="text" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly">
                                 <div class="m-auto-suggest" [attr.id]="'headers-autosuggest-'+idx" role="group">
                                     <ul class="c-menu" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
                                     <ul class="c-menu f-auto-suggest-no-results" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0"></ul>
                                 </div>
-                            </div>
+                            </div>-->
 
                         </td>
                         <td class="half-width-col">
@@ -147,24 +148,24 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
             this.addEmptyHeader()
         }
 
-        setTimeout(() => {
-            mwf.ComponentFactory.create([{
-                component: mwf.AutoSuggest,
-                callback: (autoSuggests) => {
-                    if (!autoSuggests)
-                        return;
+        // setTimeout(() => {
+        //     mwf.ComponentFactory.create([{
+        //         component: mwf.AutoSuggest,
+        //         callback: (autoSuggests) => {
+        //             if (!autoSuggests)
+        //                 return;
 
-                    for (let autoSuggest of autoSuggests) {
-                        if (autoSuggests[1].element.parentElement.className.indexOf("header-autocomplete") == -1) continue;
-                        autoSuggest.subscribe({
-                            onMatchPatternChanged: (notification) => {
-                                autoSuggest.updateSuggestions(CommonHeaders.filter((s => s.toLowerCase().indexOf(notification.pattern.toLowerCase()) != -1 )).map((s) => { return { type: 'string', value: s }}));
-                            }
-                        });
-                    }
+        //             for (let autoSuggest of autoSuggests) {
+        //                 if (autoSuggests[1].element.parentElement.className.indexOf("header-autocomplete") == -1) continue;
+        //                 autoSuggest.subscribe({
+        //                     onMatchPatternChanged: (notification) => {
+        //                         autoSuggest.updateSuggestions(CommonHeaders.filter((s => s.toLowerCase().indexOf(notification.pattern.toLowerCase()) != -1 )).map((s) => { return { type: 'string', value: s }}));
+        //                     }
+        //                 });
+        //             }
 
-                }
-            }]);
-        }, 0);
+        //         }
+        //     }]);
+        // }, 0);
     }
 }

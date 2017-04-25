@@ -208,10 +208,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     AppComponent.clearResponse();
 
-      // common ops for successful and unsuccessful
+    // common ops for successful and unsuccessful
     AppComponent.explorerValues.requestInProgress = false;
 
-    
     AppComponent.lastApiCallHeaders = res.headers;
 
     let {status, headers} = res;
@@ -222,7 +221,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     AppComponent.messageBarContent = {
       text: createTextSummary(query),
       backgroundClass: isSuccessful(query) ? "ms-MessageBar--success" : "ms-MessageBar--error",
-      icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--errorBadge"
+      icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--ErrorBadge"
     }
 
 

@@ -68480,7 +68480,7 @@ var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
 var graph_structure_1 = require("./graph-structure");
 var response_status_bar_component_1 = require("./response-status-bar.component");
 var generic_message_dialog_component_1 = require("./generic-message-dialog.component");
-var template_tip_component_1 = require("./template-tip.component");
+var api_explorer_helpers_1 = require("./api-explorer-helpers");
 var AppComponent = AppComponent_1 = (function (_super) {
     __extends(AppComponent, _super);
     function AppComponent(GraphService, chRef) {
@@ -68559,8 +68559,7 @@ var AppComponent = AppComponent_1 = (function (_super) {
         api_explorer_jseditor_1.getAceEditorFromElId("response-header-viewer").getSession().setValue("");
         api_explorer_jseditor_1.getJsonViewer().getSession().setValue("");
         this.explorerValues.showImage = false;
-        template_tip_component_1.TemplateTipComponent.hideTip();
-        response_status_bar_component_1.ResponseStatusBarComponent.clearLastCallMessage();
+        response_status_bar_component_1.ResponseStatusBarComponent.clearMessage();
     };
     return AppComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
@@ -68595,15 +68594,34 @@ AppComponent = AppComponent_1 = __decorate([
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService, core_1.ChangeDetectorRef])
 ], AppComponent);
 exports.AppComponent = AppComponent;
+function isSuccessful(query) {
+    return query.statusCode >= 200 && query.statusCode < 300;
+}
+function createTextSummary(query) {
+    var text = "";
+    if (isSuccessful(query)) {
+        text += api_explorer_helpers_1.getString(AppComponent.Options, "Success");
+    }
+    else {
+        text += api_explorer_helpers_1.getString(AppComponent.Options, "Failure");
+    }
+    text += " - " + api_explorer_helpers_1.getString(AppComponent.Options, "Status Code") + " " + query.statusCode;
+    text += "<span style=\"font-weight: 800; margin-left: 40px;\">" + query.duration + "ms</span>";
+    return text;
+}
 function commonResponseHandler(res, query) {
     AppComponent.clearResponse();
     AppComponent.explorerValues.requestInProgress = false;
-    AppComponent.lastApiCall = query;
     AppComponent.lastApiCallHeaders = res.headers;
     var status = res.status, headers = res.headers;
     query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
     query.statusCode = status;
     AppComponent.addRequestToHistory(query);
+    AppComponent.messageBarContent = {
+        text: createTextSummary(query),
+        backgroundClass: isSuccessful(query) ? "ms-MessageBar--success" : "ms-MessageBar--error",
+        icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--ErrorBadge"
+    };
 }
 function handleSuccessfulQueryResponse(res, query) {
     commonResponseHandler(res, query);
@@ -68650,7 +68668,7 @@ function handleUnsuccessfulQueryResponse(res, query) {
 }
 var AppComponent_1;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./generic-message-dialog.component":65,"./graph-structure":67,"./history":70,"./response-handlers":76,"./response-status-bar.component":77,"./template-tip.component":83,"./util":84,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-helpers":54,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./generic-message-dialog.component":65,"./graph-structure":67,"./history":70,"./response-handlers":76,"./response-status-bar.component":77,"./util":83,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -68678,7 +68696,6 @@ var request_editors_component_1 = require("./request-editors.component");
 var share_link_btn_component_1 = require("./share-link-btn.component");
 var scopes_dialog_component_1 = require("./scopes-dialog.component");
 var generic_message_dialog_component_1 = require("./generic-message-dialog.component");
-var template_tip_component_1 = require("./template-tip.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -68687,13 +68704,13 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, animations_1.BrowserAnimationsModule],
-        declarations: [app_component_1.AppComponent, authentication_component_1.AuthenticationComponent, sidebar_component_1.SidebarComponent, queryrow_component_1.QueryRowComponent, main_column_component_1.MainColumnComponent, history_query_component_1.HistoryRowComponent, history_panel_component_1.HistoryPanelComponent, method_badge_component_1.MethodBadgeComponent, response_status_bar_component_1.ResponseStatusBarComponent, sample_categories_panel_component_1.SampleCategoriesPanelComponent, request_editors_component_1.RequestEditorsComponent, share_link_btn_component_1.ShareLinkBtnComponent, scopes_dialog_component_1.ScopesDialogComponent, generic_message_dialog_component_1.GenericDialogComponent, template_tip_component_1.TemplateTipComponent],
+        declarations: [app_component_1.AppComponent, authentication_component_1.AuthenticationComponent, sidebar_component_1.SidebarComponent, queryrow_component_1.QueryRowComponent, main_column_component_1.MainColumnComponent, history_query_component_1.HistoryRowComponent, history_panel_component_1.HistoryPanelComponent, method_badge_component_1.MethodBadgeComponent, response_status_bar_component_1.ResponseStatusBarComponent, sample_categories_panel_component_1.SampleCategoriesPanelComponent, request_editors_component_1.RequestEditorsComponent, share_link_btn_component_1.ShareLinkBtnComponent, scopes_dialog_component_1.ScopesDialogComponent, generic_message_dialog_component_1.GenericDialogComponent],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);
 exports.AppModule = AppModule;
 
-},{"./app.component":58,"./authentication.component":61,"./generic-message-dialog.component":65,"./history-panel.component":68,"./history-query.component":69,"./main-column.component":72,"./method-badge.component":73,"./queryrow.component":74,"./request-editors.component":75,"./response-status-bar.component":77,"./sample-categories-panel.component":78,"./scopes-dialog.component":79,"./share-link-btn.component":81,"./sidebar.component":82,"./template-tip.component":83,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],60:[function(require,module,exports){
+},{"./app.component":58,"./authentication.component":61,"./generic-message-dialog.component":65,"./history-panel.component":68,"./history-query.component":69,"./main-column.component":72,"./method-badge.component":73,"./queryrow.component":74,"./request-editors.component":75,"./response-status-bar.component":77,"./sample-categories-panel.component":78,"./scopes-dialog.component":79,"./share-link-btn.component":81,"./sidebar.component":82,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],60:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -68827,7 +68844,7 @@ function isAuthenticated() {
 exports.isAuthenticated = isAuthenticated;
 ;
 
-},{"./app.component":58,"./scopes":80,"./util":84}],61:[function(require,module,exports){
+},{"./app.component":58,"./scopes":80,"./util":83}],61:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70612,7 +70629,7 @@ MainColumnComponent = __decorate([
     core_1.Component({
         providers: [api_explorer_svc_1.GraphService],
         selector: 'main-column',
-        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" (keydown)=\"endpointInputKeyDown($event)\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i id=\"go-lightning-icon\" class=\"ms-Icon ms-Icon--LightningBolt\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <template-tip></template-tip>\n    <!-- response -->\n    <response-status-bar></response-status-bar>\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
+        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" (keydown)=\"endpointInputKeyDown($event)\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i id=\"go-lightning-icon\" class=\"ms-Icon ms-Icon--LightningBolt\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <message-bar></message-bar>\n    <!-- response -->\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
         styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -5px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 32px;\n        margin-top: 20px;\n        padding-top: 6px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px;\n        position: relative;\n        top: -1px;\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n    #go-lightning-icon {\n        position: relative;\n        top: 2px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n    \n  "]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
@@ -70698,12 +70715,19 @@ var QueryRowComponent = (function (_super) {
                 app_component_1.AppComponent.executeExplorerQuery(true);
             }
             else if (this.query.tip) {
-                app_component_1.AppComponent.templateTipQuery = this.query;
+                this.displayTipMessage();
             }
         }
         else if (this.query.tip && this.isAuthenticated()) {
-            app_component_1.AppComponent.templateTipQuery = this.query;
+            this.displayTipMessage();
         }
+    };
+    QueryRowComponent.prototype.displayTipMessage = function () {
+        app_component_1.AppComponent.messageBarContent = {
+            backgroundClass: "ms-MessageBar--warning",
+            icon: "ms-Icon--Info",
+            text: this.query.tip
+        };
     };
     return QueryRowComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
@@ -70957,53 +70981,57 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var app_component_1 = require("./app.component");
+var platform_browser_1 = require("@angular/platform-browser");
 var ResponseStatusBarComponent = (function (_super) {
     __extends(ResponseStatusBarComponent, _super);
-    function ResponseStatusBarComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function ResponseStatusBarComponent(sanitizer) {
+        var _this = _super.call(this) || this;
+        _this.sanitizer = sanitizer;
+        return _this;
     }
-    ResponseStatusBarComponent.prototype.isSuccessful = function (query) {
-        if (!query)
-            return false;
-        return query.statusCode >= 200 && query.statusCode < 300;
+    ResponseStatusBarComponent.prototype.getMessage = function () {
+        return app_component_1.AppComponent.messageBarContent;
     };
-    ResponseStatusBarComponent.prototype.query = function () {
-        return app_component_1.AppComponent.lastApiCall;
+    ResponseStatusBarComponent.prototype.clearMessage = function () {
+        app_component_1.AppComponent.messageBarContent = null;
     };
-    ResponseStatusBarComponent.prototype.createTextSummary = function () {
-        var query = this.query();
-        var text = "";
-        if (this.isSuccessful(query)) {
-            text += this.getStr("Success");
+    ResponseStatusBarComponent.prototype.getMessageText = function () {
+        return this.sanitizer.bypassSecurityTrustHtml(this.getMessage().text);
+    };
+    ResponseStatusBarComponent.clearMessage = function () {
+        app_component_1.AppComponent.messageBarContent = null;
+    };
+    ResponseStatusBarComponent.prototype.hideActionBar = function () {
+        return this.getMessage() == null ? "hide-action-bar" : "";
+    };
+    ResponseStatusBarComponent.prototype.getBackgroundClass = function () {
+        if (this.getMessage()) {
+            return this.getMessage().backgroundClass;
         }
         else {
-            text += this.getStr("Failure");
+            return "";
         }
-        text += " - " + this.getStr("Status Code") + " " + query.statusCode;
-        return text;
-    };
-    ResponseStatusBarComponent.prototype.clearLastCallMessage = function () {
-        app_component_1.AppComponent.lastApiCall = null;
-    };
-    ResponseStatusBarComponent.clearLastCallMessage = function () {
-        app_component_1.AppComponent.lastApiCall = null;
     };
     return ResponseStatusBarComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
 ResponseStatusBarComponent = __decorate([
     core_1.Component({
-        selector: 'response-status-bar',
-        template: "\n    <div class=\"ms-MessageBar ms-MessageBar-singleline \" [ngClass]=\"{'ms-MessageBar--success': isSuccessful(query()), 'ms-MessageBar--error': !isSuccessful(query()), 'hide-action-bar':!query()}\">\n        <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n                <i class=\"ms-Icon\" [ngClass]=\"{'ms-Icon--Completed': isSuccessful(query()), 'ms-Icon--errorBadge': !isSuccessful(query())}\" ></i>\n            </div>\n            <div class=\"ms-MessageBar-actionables\">\n                <div class=\"ms-MessageBar-text\" *ngIf=\"query()\">\n                    {{createTextSummary()}}<span id=\"duration-label\">{{query().duration}}ms</span>\n                </div>\n            </div>\n            <div class=\"ms-MessageBar-actionsOneline\">\n                <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                    <a href=\"#\" (click)=\"clearLastCallMessage()\"><i class=\"ms-Icon ms-Icon--Cancel\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i></a>\n                </div>\n            </div>\n        </div>\n    </div>\n    ",
-        styles: ["\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    span#duration-label {\n        font-weight: 800;\n        margin-left: 40px;\n    }\n\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n    .ms-MessageBar-content div {\n        float: left;\n    }\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n    .hide-action-bar {\n        opacity: 0;\n    }\n\n"]
-    })
+        selector: 'message-bar',
+        template: "\n    <div class=\"ms-MessageBar ms-MessageBar-singleline \" [ngClass]=\"[getBackgroundClass(), hideActionBar()]\">\n        <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n                <i class=\"ms-Icon\" [ngClass]=\"getMessage().icon\" *ngIf=\"getMessage()\"></i>\n            </div>\n            <div class=\"ms-MessageBar-actionables\">\n                <div class=\"ms-MessageBar-text\" *ngIf=\"getMessage()\" [innerHtml]=\"getMessageText()\"></div>\n            </div>\n            <div class=\"ms-MessageBar-actionsOneline\">\n                <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                    <a href=\"#\" (click)=\"clearMessage()\"><i class=\"ms-Icon ms-Icon--Cancel\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i></a>\n                </div>\n            </div>\n        </div>\n    </div>\n    ",
+        styles: ["\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n    .ms-MessageBar-content div {\n        float: left;\n    }\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n    .hide-action-bar {\n        opacity: 0;\n    }\n\n"]
+    }),
+    __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])
 ], ResponseStatusBarComponent);
 exports.ResponseStatusBarComponent = ResponseStatusBarComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],78:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5,"@angular/platform-browser":10}],78:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -71703,53 +71731,6 @@ exports.SidebarComponent = SidebarComponent;
 
 },{"./GraphExplorerComponent":53,"./getting-started-queries":66,"@angular/core":5}],83:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
-var app_component_1 = require("./app.component");
-var TemplateTipComponent = (function (_super) {
-    __extends(TemplateTipComponent, _super);
-    function TemplateTipComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    TemplateTipComponent.prototype.getQuery = function () {
-        return app_component_1.AppComponent.templateTipQuery;
-    };
-    TemplateTipComponent.prototype.hideTip = function () {
-        app_component_1.AppComponent.templateTipQuery = null;
-    };
-    TemplateTipComponent.hideTip = function () {
-        app_component_1.AppComponent.templateTipQuery = null;
-    };
-    return TemplateTipComponent;
-}(GraphExplorerComponent_1.GraphExplorerComponent));
-TemplateTipComponent = __decorate([
-    core_1.Component({
-        selector: 'template-tip',
-        template: "\n    <div class=\"ms-MessageBar ms-MessageBar--warning ms-MessageBar-singleline\" *ngIf=\"getQuery()\">\n        <div class=\"ms-MessageBar-content\">\n            <table>\n                <tr>\n                    <td>\n                        <div class=\"ms-MessageBar-icon\">\n                            <i class=\"ms-Icon ms-Icon--Info\"></i>\n                        </div>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionables\">\n                            <div class=\"ms-MessageBar-text\">\n                                {{getQuery().tip}}\n                            </div>\n                        </div>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionsOneline\">\n                            <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                                <a href=\"#\" (click)=\"hideTip()\"><i class=\"ms-Icon ms-Icon--Cancel\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i></a>\n                            </div>\n                        </div>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n    ",
-        styles: ["\n\n    table {\n        width: 100%;\n    }\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n\n    .ms-MessageBar-text {\n        font-size: 14px;\n    }\n\n    .ms-MessageBar-content div {\n        float: left;\n    }\n\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n\n    .hide-action-bar {\n        opacity: 0;\n    }\n\n"]
-    })
-], TemplateTipComponent);
-exports.TemplateTipComponent = TemplateTipComponent;
-
-},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],84:[function(require,module,exports){
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
 function createHeaders(explorerHeaders) {
@@ -71776,12 +71757,12 @@ function getParameterByName(name, url) {
 }
 exports.getParameterByName = getParameterByName;
 
-},{"@angular/http":7}],85:[function(require,module,exports){
+},{"@angular/http":7}],84:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_dynamic_1 = require("@angular/platform-browser-dynamic");
 var app_module_1 = require("./app/app.module");
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
-},{"./app/app.module":59,"@angular/platform-browser-dynamic":8}]},{},[85])(85)
+},{"./app/app.module":59,"@angular/platform-browser-dynamic":8}]},{},[84])(84)
 });
