@@ -68572,7 +68572,7 @@ AppComponent.Options = {
     PathToBuildDir: ""
 };
 AppComponent.explorerValues = {
-    endpointUrl: AppComponent_1.Options.GraphUrl + ("/" + (util_1.getParameterByName("version") || "v1.0") + "/" + util_1.getParameterByName("request") || '/v1.0/me/'),
+    endpointUrl: AppComponent_1.Options.GraphUrl + ("/" + (util_1.getParameterByName("version") || "v1.0") + "/" + (util_1.getParameterByName("request") || 'me/')),
     selectedOption: util_1.getParameterByName("method") || "GET",
     selectedVersion: util_1.getParameterByName("version") || "v1.0",
     authentication: {},
@@ -71630,7 +71630,7 @@ var ShareLinkBtnComponent = (function (_super) {
 ShareLinkBtnComponent = __decorate([
     core_1.Component({
         selector: 'share-link-btn',
-        template: "\n    <div id=\"response-action-bar\">\n        <i class=\"ms-Icon ms-Icon--Share\" title=\"{{getStr('Share Query')}}\" aria-hidden=\"true\" aria-label=\"Share\" (click)=\"showShareDialog()\"></i>\n    </div>\n    <div class=\"ms-Dialog\" id=\"share-link-dialog\">\n        <div class=\"ms-Dialog-title\">{{getStr('Share Query')}}</div>\n        <div class=\"ms-Dialog-content\">\n            <label for=\"default\">{{getStr('Share this link to let people try your current query in the Graph Explorer.')}}</label>\n            <input id=\"default\" class=\"c-text-field\" type=\"text\" name=\"default\" (click)=\"this.select();\" value=\"{{getShareLink()}}\">\n        </div>\n      <div class=\"ms-Dialog-actions\">\n            <button class=\"ms-Button ms-Dialog-action\">\n                <span class=\"ms-Button-label\">{{getStr('Close')}}</span>\n            </button>\n        </div>\n    </div>\n    ",
+        template: "\n    <div id=\"response-action-bar\">\n        <i class=\"ms-Icon ms-Icon--Share\" title=\"{{getStr('Share Query')}}\" aria-hidden=\"true\" aria-label=\"Share\" (click)=\"showShareDialog()\"></i>\n    </div>\n    <div class=\"ms-Dialog\" id=\"share-link-dialog\">\n        <div class=\"ms-Dialog-title\">{{getStr('Share Query')}}</div>\n        <div class=\"ms-Dialog-content\">\n            <label for=\"default\">{{getStr('Share this link to let people try your current query in the Graph Explorer.')}}</label>\n            <input id=\"default\" class=\"c-text-field\" type=\"text\" name=\"default\" onclick=\"this.select();\" value=\"{{getShareLink()}}\">\n        </div>\n      <div class=\"ms-Dialog-actions\">\n            <button class=\"ms-Button ms-Dialog-action\">\n                <span class=\"ms-Button-label\">{{getStr('Close')}}</span>\n            </button>\n        </div>\n    </div>\n    ",
         styles: ["\n\n    #response-action-bar i {\n        cursor: pointer;\n    }\n    \n    #response-action-bar {\n        float: right;\n        margin-right: 5px;\n        font-size: 20px;\n        position: relative;\n        bottom: -21px;\n    }\n"]
     })
 ], ShareLinkBtnComponent);
