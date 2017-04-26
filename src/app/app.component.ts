@@ -83,15 +83,12 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     initFabricComponents();
 
-    mwf.ComponentFactory.create([
-      {
+    mwf.ComponentFactory.create([{
         'component': mwf.Drawer,
-      }
-    ])
+    }])
 
     moment.locale(AppComponent.Options.Language);
   }
-  
 
   static Options: ExplorerOptions = {
       ClientId: "",
@@ -105,7 +102,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   };
 
   static explorerValues:ExplorerValues = {
-      endpointUrl: getParameterByName("request") || AppComponent.Options.GraphUrl + '/v1.0/me/',
+      endpointUrl: AppComponent.Options.GraphUrl + (`/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request")}` || '/v1.0/me/'),
       selectedOption: getParameterByName("method") as RequestType || "GET",
       selectedVersion: getParameterByName("version") || "v1.0",
       authentication: {},
@@ -116,7 +113,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   };
 
   static requestHistory: GraphApiCall[] = loadHistoryFromLocalStorage();
-  
+
   static addRequestToHistory(request:GraphApiCall) {
       AppComponent.requestHistory.splice(0, 0, request); //add history object to the array
       saveHistoryToLocalStorage(AppComponent.requestHistory);

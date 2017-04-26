@@ -68506,11 +68506,9 @@ var AppComponent = AppComponent_1 = (function (_super) {
         AppComponent_1.Options.GraphVersions.push("Other");
         auth_1.initAuth(AppComponent_1.Options, this.GraphService, this.chRef);
         fabric_components_1.initFabricComponents();
-        mwf.ComponentFactory.create([
-            {
+        mwf.ComponentFactory.create([{
                 'component': mwf.Drawer,
-            }
-        ]);
+            }]);
         moment.locale(AppComponent_1.Options.Language);
     };
     AppComponent.addRequestToHistory = function (request) {
@@ -68574,7 +68572,7 @@ AppComponent.Options = {
     PathToBuildDir: ""
 };
 AppComponent.explorerValues = {
-    endpointUrl: util_1.getParameterByName("request") || AppComponent_1.Options.GraphUrl + '/v1.0/me/',
+    endpointUrl: AppComponent_1.Options.GraphUrl + ("/" + (util_1.getParameterByName("version") || "v1.0") + "/" + util_1.getParameterByName("request") || '/v1.0/me/'),
     selectedOption: util_1.getParameterByName("method") || "GET",
     selectedVersion: util_1.getParameterByName("version") || "v1.0",
     authentication: {},
