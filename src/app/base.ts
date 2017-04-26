@@ -5,8 +5,6 @@
 import { Headers } from "@angular/http"
 import { AppComponent } from "./app.component";
 
-export const runInTestMode = typeof document === "undefined";
-
 export interface ExplorerOptions {
     AuthUrl?: string
     GraphUrl?: string

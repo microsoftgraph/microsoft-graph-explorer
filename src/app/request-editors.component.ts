@@ -84,7 +84,7 @@ declare let mwf;
                     </tr>
                     <tr *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
                         <td class="half-width-col">
-                            <input id="default" class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly" type="text">
+                            <input id="default" class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly" type="text" [attr.placeholder]="getPlaceholder(header)">
                             <!--<div class="c-search header-autocomplete" autocomplete="off">
                                 <input role="combobox" class="c-text-field header-name" (ngModelChange)="createNewHeaderField()" [attr.aria-controls]="'headers-autosuggest-'+idx" aria-autocomplete="both" aria-expanded="false" type="text" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly">
                                 <div class="m-auto-suggest" [attr.id]="'headers-autosuggest-'+idx" role="group">
