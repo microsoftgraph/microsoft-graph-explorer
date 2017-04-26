@@ -68605,6 +68605,9 @@ function createTextSummary(query) {
     }
     text += " - " + api_explorer_helpers_1.getString(AppComponent.Options, "Status Code") + " " + query.statusCode;
     text += "<span style=\"font-weight: 800; margin-left: 40px;\">" + query.duration + "ms</span>";
+    if (query.statusCode == 401 || query.statusCode == 403) {
+        text += "<span style=\"margin-left: 40px;\">Looks like you may not have the permissions for this call. Please <a href=\"#\" class=\"c-hyperlink\" onclick=\"window.launchPermissionsDialog()\" class=\"\">modify your permissions</a>.</span>";
+    }
     return text;
 }
 function commonResponseHandler(res, query) {
@@ -68620,6 +68623,18 @@ function commonResponseHandler(res, query) {
         backgroundClass: isSuccessful(query) ? "ms-MessageBar--success" : "ms-MessageBar--error",
         icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--ErrorBadge"
     };
+    var dataPoints = [query.statusCode];
+    var cleanedUrl = graph_structure_1.constructGraphLinksFromFullPath(query.requestUrl).map(function (link) { return link.type; }).join("/");
+    dataPoints.push(cleanedUrl);
+    dataPoints.push(auth_1.isAuthenticated() ? "authenticated" : "demo");
+    if (typeof ga !== 'undefined') {
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'GraphExplorer',
+            eventAction: 'ExecuteQuery',
+            eventLabel: dataPoints.join(",")
+        });
+    }
 }
 function handleSuccessfulQueryResponse(res, query) {
     commonResponseHandler(res, query);
@@ -69775,13 +69790,13 @@ function getEntityFromTypeName(typePossiblyWithPrefix, version) {
     return entityTypeData[type];
 }
 exports.getEntityFromTypeName = getEntityFromTypeName;
-function constructGraphLinksFromFullPath(service, path) {
+function constructGraphLinksFromFullPath(path) {
     var urlPathArr = path.split(app_component_1.AppComponent.Options.GraphUrl + "/");
     if (urlPathArr.length <= 1)
         return [];
     var segments = urlPathArr[1].split("/");
     var version = segments.shift();
-    var entityContainerData = loadEntitySets(service, version);
+    var entityContainerData = loadEntitySets(version);
     if (!entityContainerData)
         return;
     var graph = [];
@@ -69814,8 +69829,8 @@ function constructGraphLinksFromFullPath(service, path) {
     return graph;
 }
 exports.constructGraphLinksFromFullPath = constructGraphLinksFromFullPath;
-function combineUrlOptionsWithCurrentUrl(service, urlOptions) {
-    var graphLinks = constructGraphLinksFromFullPath(service, app_component_1.AppComponent.explorerValues.endpointUrl);
+function combineUrlOptionsWithCurrentUrl(urlOptions) {
+    var graphLinks = constructGraphLinksFromFullPath(app_component_1.AppComponent.explorerValues.endpointUrl);
     var baseUrl = [];
     while (graphLinks.length > 0) {
         var lastSegment = graphLinks.shift();
@@ -69827,8 +69842,8 @@ function combineUrlOptionsWithCurrentUrl(service, urlOptions) {
     }
     return urlOptions.map(function (url) { return baseUrlFinal + '/' + url; });
 }
-function getUrlsFromServiceURL(service, version) {
-    var graphLinks = constructGraphLinksFromFullPath(service, app_component_1.AppComponent.explorerValues.endpointUrl);
+function getUrlsFromServiceURL(version) {
+    var graphLinks = constructGraphLinksFromFullPath(app_component_1.AppComponent.explorerValues.endpointUrl);
     if (!graphLinks)
         return [];
     var urls;
@@ -69843,12 +69858,12 @@ function getUrlsFromServiceURL(service, version) {
         urls = entity.links;
     }
     else {
-        urls = loadEntitySets(service, version);
+        urls = loadEntitySets(version);
     }
-    return combineUrlOptionsWithCurrentUrl(service, Object.keys(urls));
+    return combineUrlOptionsWithCurrentUrl(Object.keys(urls));
 }
 exports.getUrlsFromServiceURL = getUrlsFromServiceURL;
-function loadEntitySets(service, version) {
+function loadEntitySets(version) {
     return graphStructureCache.get(version, "EntitySetData");
 }
 exports.loadEntitySets = loadEntitySets;
@@ -70470,6 +70485,9 @@ var MainColumnComponent = (function (_super) {
         };
         return _this;
     }
+    MainColumnComponent.prototype.messageBarContent = function () {
+        return app_component_1.AppComponent.messageBarContent;
+    };
     MainColumnComponent.prototype.ngDoCheck = function () {
         if (this.explorerValues && JSON.stringify(this.oldExplorerValues) != JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();
@@ -70566,8 +70584,8 @@ var MainColumnComponent = (function (_super) {
         return this.getMatches(app_component_1.AppComponent.explorerValues.endpointUrl);
     };
     MainColumnComponent.prototype.getMatches = function (query) {
-        var urls = graph_structure_1.getUrlsFromServiceURL(this.GraphService, app_component_1.AppComponent.explorerValues.selectedVersion);
-        var currentGraphLinks = graph_structure_1.constructGraphLinksFromFullPath(this.GraphService, query);
+        var urls = graph_structure_1.getUrlsFromServiceURL(app_component_1.AppComponent.explorerValues.selectedVersion);
+        var currentGraphLinks = graph_structure_1.constructGraphLinksFromFullPath(query);
         if (!currentGraphLinks)
             return [];
         var lastNode = currentGraphLinks.pop();
@@ -70582,7 +70600,7 @@ var MainColumnComponent = (function (_super) {
         if (!useLastPathSegmentOnly) {
             return url;
         }
-        var links = graph_structure_1.constructGraphLinksFromFullPath(this.GraphService, url);
+        var links = graph_structure_1.constructGraphLinksFromFullPath(url);
         return "/" + links[links.length - 1].name;
     };
     MainColumnComponent.prototype.updateGraphVersionSelect = function () {
@@ -70628,7 +70646,7 @@ MainColumnComponent = __decorate([
     core_1.Component({
         providers: [api_explorer_svc_1.GraphService],
         selector: 'main-column',
-        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" (keydown)=\"endpointInputKeyDown($event)\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i id=\"go-lightning-icon\" class=\"ms-Icon ms-Icon--LightningBolt\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <message-bar></message-bar>\n    <!-- response -->\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
+        template: "\n  <div id=\"request-bar-row-form\" layout=\"row\" layout-align=\"start center\">\n        <!-- HTTP METHOD -->\n        <div [title]=\"isAuthenticated() ? '' : getStr('login to send requests')\" #httpMethod id=\"httpMethodSelect\" [ngClass]=\"explorerValues.selectedOption\" class=\"c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu\">\n            <select [disabled]=\"!isAuthenticated()\">\n                <option *ngFor=\"let choice of methods\">{{choice}}</option>\n            </select>\n        </div>\n\n        <!-- version button -->\n        <div id=\"graph-version-select\">\n            <div class=\"c-select f-border bump-flex-row-mobile graph-version fixed-with-mwf-menu\" #graphVersion>\n                <select>\n                    <option *ngFor=\"let version of GraphVersions\">{{version}}</option>\n                </select>\n            </div>\n        </div>\n\n        <div id=\"graph-request-url\" class=\"c-search\" autocomplete=\"off\" name=\"form1\">\n            <input [(ngModel)]=\"explorerValues.endpointUrl\" (keydown)=\"endpointInputKeyDown($event)\" role=\"combobox\" aria-controls=\"auto-suggest-default-2\" aria-autocomplete=\"both\" aria-expanded=\"false\" type=\"search\" name=\"search-field\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\">\n\n            <div class=\"m-auto-suggest\" id=\"auto-suggest-default-2\" role=\"group\">\n                <ul class=\"c-menu f-auto-suggest-scroll\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\" role=\"listbox\"></ul>\n                <ul class=\"c-menu f-auto-suggest-no-results\" aria-hidden=\"true\" data-js-auto-suggest-position=\"default\" tabindex=\"0\">\n\n                </ul>\n            </div>\n        </div>\n\n        <button name=\"button\" class=\"c-button explorer-form-row bump-flex-row-mobile\" type=\"submit\" id=\"submitBtn\" (click)=\"submit()\">\n            <span [hidden]=\"explorerValues.requestInProgress\"><i id=\"go-lightning-icon\" class=\"ms-Icon ms-Icon--LightningBolt\" style=\"padding-right: 10px;\" aria-hidden=\"true\"></i>{{getStr('Run Query')}}</span>\n            <div class=\"ms-Spinner\" [hidden]=\"!explorerValues.requestInProgress\"></div>\n        </button>\n    </div>\n    <request-editors></request-editors>\n    <div id=\"spacer-1\"></div>\n\n    <message-bar [message]=\"messageBarContent()\"></message-bar>\n    <!-- response -->\n    <share-link-btn></share-link-btn>\n    <div class=\"ms-Pivot\" id=\"response-viewer-labels\" tabindex=\"-1\">\n        <ul class=\"ms-Pivot-links\">\n            <li class=\"ms-Pivot-link is-selected\" data-content=\"response\" tabindex=\"1\">\n                {{getStr('Response Preview')}}\n            </li>\n            <li class=\"ms-Pivot-link\" data-content=\"response-headers\" tabindex=\"1\">\n                {{getStr('Response Headers')}}\n            </li>\n        </ul>\n        <div class=\"ms-Pivot-content\" data-content=\"response\">\n            <div>\n                <img id=\"responseImg\" [hidden]=\"!explorerValues.showImage\" style=\"margin-top:10px\" ng-cloak />\n                <div id=\"jsonViewer\" [hidden]=\"explorerValues.showImage\"></div>\n\n                <!--<svg id=\"visual-explorer\" width=\"1200\" height=\"1000\"/></svg>-->\n            </div>\n        </div>\n        <div class=\"ms-Pivot-content\" data-content=\"response-headers\">\n            <div id=\"response-header-viewer\"></div>\n        </div>\n    </div>\n",
         styles: ["\n    #request-bar-row-form {\n        display: flex;\n        flex-wrap: wrap;\n        margin-top: -5px;\n    }\n\n    #request-bar-row-form::after {\n        content: '';\n        width: 100%;\n    }\n\n    .c-select.f-border {\n        min-width: inherit;\n    }\n\n    .c-select:after {\n        display: none;\n    }\n\n    #responseImg {    \n        max-width: 300px;\n    }\n\n    #graph-request-url {\n        flex: 1;\n        margin-right: 8px;\n        max-width: 100%;\n    }\n\n    #submitBtn {\n        height: 32px;\n        margin-top: 20px;\n        padding-top: 6px;\n    }\n    \n    .ms-Spinner {\n        margin-left: 38px;\n        position: relative;\n        top: -1px;\n    }\n\n    #spacer-1 {\n        margin-bottom: 50px;\n    }\n\n    button.c-button[type=submit]:focus:not(.x-hidden-focus) {\n        outline: #000 solid 1px !important;\n    }\n\n\n    .c-auto-suggest .c-menu, .m-auto-suggest .c-menu {\n        max-width: 100%;\n    }\n    .c-menu.f-auto-suggest-no-results {\n        display: none;\n    }\n\n    .c-menu.f-auto-suggest-scroll {\n        max-height: 300px;\n    }\n\n    #go-lightning-icon {\n        position: relative;\n        top: 2px;\n    }\n\n        \n    /*mobile*/\n\n\n    @media (max-width: 639px) {\n        .bump-flex-row-mobile {\n            order: 1;\n            margin: 0px auto;\n            margin-top: 20px;\n        }\n    }\n    \n  "]
     }),
     __metadata("design:paramtypes", [api_explorer_svc_1.GraphService])
@@ -70972,24 +70990,25 @@ var ResponseStatusBarComponent = (function (_super) {
         _this.sanitizer = sanitizer;
         return _this;
     }
-    ResponseStatusBarComponent.prototype.getMessage = function () {
-        return app_component_1.AppComponent.messageBarContent;
+    ResponseStatusBarComponent.prototype.ngOnChanges = function (changes) {
+        this.setMessageText();
     };
     ResponseStatusBarComponent.prototype.clearMessage = function () {
-        app_component_1.AppComponent.messageBarContent = null;
+        this.message = null;
     };
-    ResponseStatusBarComponent.prototype.getMessageText = function () {
-        return this.sanitizer.bypassSecurityTrustHtml(this.getMessage().text);
+    ResponseStatusBarComponent.prototype.setMessageText = function () {
+        if (this.message)
+            this.messageHTML = this.sanitizer.bypassSecurityTrustHtml(this.message.text);
     };
     ResponseStatusBarComponent.clearMessage = function () {
         app_component_1.AppComponent.messageBarContent = null;
     };
     ResponseStatusBarComponent.prototype.hideActionBar = function () {
-        return this.getMessage() == null ? "hide-action-bar" : "";
+        return this.message == null ? "hide-action-bar" : "";
     };
     ResponseStatusBarComponent.prototype.getBackgroundClass = function () {
-        if (this.getMessage()) {
-            return this.getMessage().backgroundClass;
+        if (this.message) {
+            return this.message.backgroundClass;
         }
         else {
             return "";
@@ -70997,10 +71016,14 @@ var ResponseStatusBarComponent = (function (_super) {
     };
     return ResponseStatusBarComponent;
 }(GraphExplorerComponent_1.GraphExplorerComponent));
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], ResponseStatusBarComponent.prototype, "message", void 0);
 ResponseStatusBarComponent = __decorate([
     core_1.Component({
         selector: 'message-bar',
-        template: "\n    <div class=\"ms-MessageBar ms-MessageBar-singleline \" [ngClass]=\"[getBackgroundClass(), hideActionBar()]\">\n        <div class=\"ms-MessageBar-content\">\n            <table>\n                <tr>\n                    <td style=\"width: 10px;\">\n                        <div class=\"ms-MessageBar-icon\">\n                            <i class=\"ms-Icon\" [ngClass]=\"getMessage().icon\" *ngIf=\"getMessage()\"></i>\n                        </div>\n                    </td>\n                        <div class=\"ms-MessageBar-actionables\">\n                            <div class=\"ms-MessageBar-text\" *ngIf=\"getMessage()\" [innerHtml]=\"getMessageText()\"></div>\n                        </div>\n                    <td>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionsOneline\">\n                            <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                                <a href=\"#\" (click)=\"clearMessage()\"><i class=\"ms-Icon ms-Icon--Cancel\"></i></a>\n                            </div>\n                        </div>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n    ",
+        template: "\n    <div class=\"ms-MessageBar ms-MessageBar-singleline \" [ngClass]=\"[getBackgroundClass(), hideActionBar()]\">\n        <div class=\"ms-MessageBar-content\">\n            <table>\n                <tr>\n                    <td style=\"width: 10px;\">\n                        <div class=\"ms-MessageBar-icon\">\n                            <i class=\"ms-Icon\" [ngClass]=\"message.icon\" *ngIf=\"message\"></i>\n                        </div>\n                    </td>\n                        <div class=\"ms-MessageBar-actionables\">\n                            <div class=\"ms-MessageBar-text\" *ngIf=\"message\" [innerHtml]=\"messageHTML\"></div>\n                        </div>\n                    <td>\n                    </td>\n                    <td>\n                        <div class=\"ms-MessageBar-actionsOneline\">\n                            <div id=\"dismiss-btn\" class=\"ms-MessageBar-icon\">\n                                <a href=\"#\" (click)=\"clearMessage()\"><i class=\"ms-Icon ms-Icon--Cancel\"></i></a>\n                            </div>\n                        </div>\n                    </td>\n                </tr>\n            </table>\n        </div>\n    </div>\n    ",
         styles: ["\n\n    .ms-MessageBar {\n        width: 100%;\n        margin: 0px auto;\n        font-size: 15px;\n        margin-top: 15px;\n    }\n\n    .ms-MessageBar-content {\n        padding: 6px;\n    }\n    .ms-MessageBar-content div {\n        float: left;\n    }\n    .ms-MessageBar-content .ms-MessageBar-actionsOneline {\n        float: right;\n    }\n    .hide-action-bar {\n        opacity: 0;\n    }\n\n    .ms-MessageBar-text {\n        font-size: 14px;\n    }\n\n    table {\n        width: 100%;\n    }\n\n\n"]
     }),
     __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])
@@ -71088,6 +71111,7 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
     }
     ScopesDialogComponent.prototype.ngAfterViewInit = function () {
         ScopesDialogComponent_1.setScopesEnabledTarget();
+        window['launchPermissionsDialog'] = ScopesDialogComponent_1.showDialog;
     };
     ScopesDialogComponent.prototype.scopeListIsDirty = function () {
         return scopes_1.PermissionScopes.filter(function (s) { return s.enabled != s.enabledTarget; }).length > 0;
@@ -71104,11 +71128,7 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
             nonce: 'graph_explorer',
             prompt: 'select_account'
         };
-        hello('msft_admin_consent').login(loginProperties).then(function () {
-            alert('You are signed in to Facebook');
-        }, function (e) {
-            alert('Signin error: ' + e.error.message);
-        });
+        hello('msft_admin_consent').login(loginProperties);
     };
     ScopesDialogComponent.prototype.getNewAccessToken = function () {
         var loginProperties = {

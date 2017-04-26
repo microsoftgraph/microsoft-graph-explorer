@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoCompleteItem } from "./base";
+import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoCompleteItem, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
@@ -54,7 +54,7 @@ declare let mwf:any;
     <request-editors></request-editors>
     <div id="spacer-1"></div>
 
-    <message-bar></message-bar>
+    <message-bar [message]="messageBarContent()"></message-bar>
     <!-- response -->
     <share-link-btn></share-link-btn>
     <div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
@@ -163,6 +163,11 @@ declare let mwf:any;
 
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
     oldExplorerValues:ExplorerValues = {};
+
+    messageBarContent():MessageBarContent {
+        return AppComponent.messageBarContent;
+    }
+
     ngDoCheck() {
         if (this.explorerValues && JSON.stringify(this.oldExplorerValues) != JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();

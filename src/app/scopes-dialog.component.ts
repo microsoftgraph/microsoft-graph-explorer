@@ -127,6 +127,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
 
     ngAfterViewInit(): void {
         ScopesDialogComponent.setScopesEnabledTarget();
+        window['launchPermissionsDialog'] = ScopesDialogComponent.showDialog
     }
 
     scopeListIsDirty():boolean {
@@ -148,11 +149,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
         prompt: 'select_account'
       };
 
-      (hello('msft_admin_consent').login(loginProperties) as any).then(function() {
-        alert('You are signed in to Facebook');
-      }, function(e) {
-        alert('Signin error: ' + e.error.message);
-      });
+      (hello('msft_admin_consent').login(loginProperties) as any);
 
     }
 
@@ -168,7 +165,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
       };
 
       hello('msft').login(loginProperties);
-
     }
 
     static showDialog() {

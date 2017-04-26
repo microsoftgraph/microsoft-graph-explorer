@@ -17,11 +17,11 @@ import { DomSanitizer } from "@angular/platform-browser";
                 <tr>
                     <td style="width: 10px;">
                         <div class="ms-MessageBar-icon">
-                            <i class="ms-Icon" [ngClass]="getMessage().icon" *ngIf="getMessage()"></i>
+                            <i class="ms-Icon" [ngClass]="message.icon" *ngIf="message"></i>
                         </div>
                     </td>
                         <div class="ms-MessageBar-actionables">
-                            <div class="ms-MessageBar-text" *ngIf="getMessage()" [innerHtml]="getMessageText()"></div>
+                            <div class="ms-MessageBar-text" *ngIf="message" [innerHtml]="messageHTML"></div>
                         </div>
                     <td>
                     </td>
@@ -71,20 +71,26 @@ import { DomSanitizer } from "@angular/platform-browser";
 `]
 })
 export class ResponseStatusBarComponent extends GraphExplorerComponent {
+
+    @Input() message: MessageBarContent;
+
+    messageHTML:string;
+
     constructor(private sanitizer: DomSanitizer) {
         super();        
     }
 
-    getMessage() {
-        return AppComponent.messageBarContent;
+    ngOnChanges(changes: any) {
+        this.setMessageText();
     }
 
     clearMessage() {
-        AppComponent.messageBarContent = null;
+        this.message = null;
     }
 
-    getMessageText() {
-        return this.sanitizer.bypassSecurityTrustHtml(this.getMessage().text) as string;
+    setMessageText() {
+        if (this.message)
+            this.messageHTML = this.sanitizer.bypassSecurityTrustHtml(this.message.text) as string;
     }
 
     static clearMessage() {
@@ -92,12 +98,12 @@ export class ResponseStatusBarComponent extends GraphExplorerComponent {
     }
 
     hideActionBar() {
-        return this.getMessage() == null ? "hide-action-bar": "";
+        return this.message == null ? "hide-action-bar": "";
     }
 
     getBackgroundClass() {
-        if (this.getMessage()) {
-            return this.getMessage().backgroundClass;
+        if (this.message) {
+            return this.message.backgroundClass;
         } else {
             return "";
         }

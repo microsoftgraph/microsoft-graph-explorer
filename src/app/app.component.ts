@@ -197,6 +197,10 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
         text += `<span style="font-weight: 800; margin-left: 40px;">${query.duration}ms</span>`;
 
+        if (query.statusCode == 401 || query.statusCode == 403) {
+          text += `<span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.</span>`
+        }
+
         return text;
     }
 
