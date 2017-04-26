@@ -68624,8 +68624,14 @@ function commonResponseHandler(res, query) {
         icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--ErrorBadge"
     };
     var dataPoints = [query.statusCode];
-    var cleanedUrl = graph_structure_1.constructGraphLinksFromFullPath(query.requestUrl).map(function (link) { return link.type; }).join("/");
-    dataPoints.push(cleanedUrl);
+    var urlGraph = graph_structure_1.constructGraphLinksFromFullPath(query.requestUrl);
+    if (urlGraph && urlGraph.length > 0) {
+        var cleanedUrl = urlGraph.map(function (link) { return link.type; }).join("/");
+        dataPoints.push(cleanedUrl);
+    }
+    else {
+        dataPoints.push("UnknownUrl");
+    }
     dataPoints.push(auth_1.isAuthenticated() ? "authenticated" : "demo");
     if (typeof ga !== 'undefined') {
         ga('send', {

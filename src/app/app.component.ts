@@ -227,8 +227,13 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     let dataPoints:any[] = [query.statusCode]
 
-    let cleanedUrl = constructGraphLinksFromFullPath(query.requestUrl).map((link) => link.type).join("/");
-    dataPoints.push(cleanedUrl);
+    let urlGraph = constructGraphLinksFromFullPath(query.requestUrl);
+    if (urlGraph && urlGraph.length > 0) {
+      let cleanedUrl = urlGraph.map((link) => link.type).join("/");
+      dataPoints.push(cleanedUrl);
+    } else {
+      dataPoints.push("UnknownUrl");        
+    }
     dataPoints.push(isAuthenticated() ? "authenticated" : "demo");
 
     if (typeof ga !== 'undefined') {
