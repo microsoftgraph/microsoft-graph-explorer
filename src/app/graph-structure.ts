@@ -159,7 +159,7 @@ export function getEntityFromTypeName(typePossiblyWithPrefix:string, version:str
     return entityTypeData[type];
 }
 
-export function constructGraphLinksFromFullPath(service:GraphService, path:string):GraphNodeLink[] {
+export function constructGraphLinksFromFullPath(path:string):GraphNodeLink[] {
     const urlPathArr = path.split(AppComponent.Options.GraphUrl+"/");
     if (urlPathArr.length <=1)
         return [];
@@ -168,7 +168,7 @@ export function constructGraphLinksFromFullPath(service:GraphService, path:strin
     let version = segments.shift();
 
     // singletons and entitysets
-    let entityContainerData = loadEntitySets(service, version);
+    let entityContainerData = loadEntitySets(version);
 
     if (!entityContainerData) return;
     var graph:GraphNodeLink[] = [];
@@ -203,11 +203,11 @@ export function constructGraphLinksFromFullPath(service:GraphService, path:strin
 }
 
 // urlOptions are like ["driveType", "quota"]
-function combineUrlOptionsWithCurrentUrl(service:GraphService, urlOptions:string[]):string[] {
+function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):string[] {
     // truncate the service string back to the last known good entity (could be an id if prev was a collection)
     // concat each urlOption with this prefix
     // return that array
-    let graphLinks = constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl);
+    let graphLinks = constructGraphLinksFromFullPath(AppComponent.explorerValues.endpointUrl);
     let baseUrl = [];
     while(graphLinks.length > 0) {
         let lastSegment = graphLinks.shift();
@@ -225,8 +225,8 @@ function combineUrlOptionsWithCurrentUrl(service:GraphService, urlOptions:string
 
 // just return relative URLs
 // based on the last node, get the possible URLs
-export function getUrlsFromServiceURL(service:GraphService, version:string):string[] {
-    let graphLinks = constructGraphLinksFromFullPath(service, AppComponent.explorerValues.endpointUrl);
+export function getUrlsFromServiceURL(version:string):string[] {
+    let graphLinks = constructGraphLinksFromFullPath(AppComponent.explorerValues.endpointUrl);
     if (!graphLinks) return [];
     let urls;
     if (graphLinks.length > 0) {
@@ -240,13 +240,13 @@ export function getUrlsFromServiceURL(service:GraphService, version:string):stri
         }
         urls = entity.links;
     } else {
-        urls = loadEntitySets(service, version);
+        urls = loadEntitySets(version);
     }
 
-    return combineUrlOptionsWithCurrentUrl(service, Object.keys(urls));
+    return combineUrlOptionsWithCurrentUrl(Object.keys(urls));
 }
 
-export function loadEntitySets(service:GraphService, version:string) {
+export function loadEntitySets(version:string) {
     return graphStructureCache.get(version, "EntitySetData");
 }
 

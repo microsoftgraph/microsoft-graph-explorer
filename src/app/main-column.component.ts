@@ -300,8 +300,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     }
 
     getMatches(query:string):string[] {
-        let urls = getUrlsFromServiceURL(this.GraphService, AppComponent.explorerValues.selectedVersion);
-        let currentGraphLinks = constructGraphLinksFromFullPath(this.GraphService, query);
+        let urls = getUrlsFromServiceURL(AppComponent.explorerValues.selectedVersion);
+        let currentGraphLinks = constructGraphLinksFromFullPath(query);
 
         if (!currentGraphLinks) return [];
         // if query ends with odata query param, don't return any URLs
@@ -320,7 +320,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         if (!useLastPathSegmentOnly) {
             return url;
         }
-        let links = constructGraphLinksFromFullPath(this.GraphService, url);
+        let links = constructGraphLinksFromFullPath(url);
         return "/" + links[links.length - 1].name;
     }
 

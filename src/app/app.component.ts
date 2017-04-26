@@ -15,12 +15,12 @@ import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./histor
 import * as moment from "moment"
 import { createHeaders, getParameterByName } from "./util";
 import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
-import { parseMetadata } from "./graph-structure";
+import { parseMetadata, constructGraphLinksFromFullPath } from "./graph-structure";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 import { getString } from "./api-explorer-helpers";
 
-declare let mwf:any;
+declare let mwf, ga;
 
 @Component({
   selector: 'api-explorer',
@@ -221,8 +221,20 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--ErrorBadge"
     }
 
+    let dataPoints:any[] = [query.statusCode]
 
+    let cleanedUrl = constructGraphLinksFromFullPath(query.requestUrl).map((link) => link.type).join("/");
+    dataPoints.push(cleanedUrl);
+    dataPoints.push(isAuthenticated() ? "authenticated" : "demo");
 
+    if (typeof ga !== 'undefined') {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'GraphExplorer',
+        eventAction: 'ExecuteQuery',
+        eventLabel: dataPoints.join(",")
+      });
+    }
 
  }
 function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
