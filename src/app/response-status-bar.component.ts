@@ -13,17 +13,27 @@ import { DomSanitizer } from "@angular/platform-browser";
   template: `
     <div class="ms-MessageBar ms-MessageBar-singleline " [ngClass]="[getBackgroundClass(), hideActionBar()]">
         <div class="ms-MessageBar-content">
-            <div class="ms-MessageBar-icon">
-                <i class="ms-Icon" [ngClass]="getMessage().icon" *ngIf="getMessage()"></i>
-            </div>
-            <div class="ms-MessageBar-actionables">
-                <div class="ms-MessageBar-text" *ngIf="getMessage()" [innerHtml]="getMessageText()"></div>
-            </div>
-            <div class="ms-MessageBar-actionsOneline">
-                <div id="dismiss-btn" class="ms-MessageBar-icon">
-                    <a href="#" (click)="clearMessage()"><i class="ms-Icon ms-Icon--Cancel" style="padding-right: 10px;" aria-hidden="true"></i></a>
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <td style="width: 10px;">
+                        <div class="ms-MessageBar-icon">
+                            <i class="ms-Icon" [ngClass]="getMessage().icon" *ngIf="getMessage()"></i>
+                        </div>
+                    </td>
+                        <div class="ms-MessageBar-actionables">
+                            <div class="ms-MessageBar-text" *ngIf="getMessage()" [innerHtml]="getMessageText()"></div>
+                        </div>
+                    <td>
+                    </td>
+                    <td>
+                        <div class="ms-MessageBar-actionsOneline">
+                            <div id="dismiss-btn" class="ms-MessageBar-icon">
+                                <a href="#" (click)="clearMessage()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     `,
@@ -48,6 +58,15 @@ import { DomSanitizer } from "@angular/platform-browser";
     .hide-action-bar {
         opacity: 0;
     }
+
+    .ms-MessageBar-text {
+        font-size: 14px;
+    }
+
+    table {
+        width: 100%;
+    }
+
 
 `]
 })
