@@ -282,6 +282,55 @@ export const PermissionScopes: PermissionScope[] = [
    admin: false
  },
  {
+   name: "Directory.AccessAsUser.All",
+   description: "Access directory as the signed-in user",
+   longDescription: "Allows the app to have the same access to information in the directory as the signed-in user.",
+   preview: false,
+   admin: true
+ },
+ {
+   name: "Directory.Read.All",
+   description: "Read directory data",
+   longDescription: "Allows the app to read data in your organization's directory, such as users, groups and apps.",
+   preview: false,
+   admin: true
+ },
+ {
+   name: "Directory.ReadWrite.All",
+   description: "Read and write directory data",
+   longDescription: "Allows the app to read and write data in your organization's directory, such as users, and groups. Does not allow user or group deletion. It does not allow the app to delete users or groups, or reset user passwords.",
+   preview: false,
+   admin: true
+ },
+ {
+   name: "Group.Read.All",
+   description: "Read all groups",
+   longDescription: "Allows the app to list groups, and to read their properties and all group memberships on behalf of the signed-in user. Also allows the app to read calendar, conversations, files, and other group content for all groups the signed-in user can access.",
+   preview: false,
+   admin: true
+ },
+ {
+   name: "Group.ReadWrite.All",
+   description: "Read and write all groups",
+   longDescription: "Allows the app to create groups and read all group properties and memberships on behalf of the signed-in user. Additionally allows group owners to manage their groups and allows group members to update group content.",
+   preview: false,
+   admin: true
+ },
+ {
+   name: "User.Read.All",
+   description: "Read all user's full profiles",
+   longDescription: "Same as User.ReadBasic.All, except that it allows the app to read the full profile of all users in the organization and when reading navigation properties like manager and direct reports. The full profile includes all of the declared properties of the User entity. To read the groups that a user is a member of, the app will also require either Group.Read.All or Group.ReadWrite.All.",
+   preview: false,
+   admin: true
+ },
+ {
+   name: "User.ReadWrite.All",
+   description: "Read and write all user's full profiles",
+   longDescription: "Allows the app to read and write the full set of profile properties, reports, and managers of other users in your organization, on behalf of the signed-in user.",
+   preview: false,
+   admin: true
+ },
+ {
    name: "IdentityRiskEvent.Read.All",
    description: "Read identity risk event information (preview)",
    longDescription: "Allows the app to read identity risk event information for all users in your organization on behalf of the signed-in user.",
@@ -363,55 +412,6 @@ export const PermissionScopes: PermissionScope[] = [
    description: "Perform user-impacting remote actions on Microsoft Intune devices (preview)",
    longDescription: "Allows the app to perform remote high impact actions such as wiping the device or resetting the passcode on devices managed by Microsoft Intune.",
    preview: true,
-   admin: true
- },
- {
-   name: "Directory.AccessAsUser.All",
-   description: "Access directory as the signed-in user",
-   longDescription: "Allows the app to have the same access to information in the directory as the signed-in user.",
-   preview: false,
-   admin: true
- },
- {
-   name: "Directory.Read.All",
-   description: "Read directory data",
-   longDescription: "Allows the app to read data in your organization's directory, such as users, groups and apps.",
-   preview: false,
-   admin: true
- },
- {
-   name: "Directory.ReadWrite.All",
-   description: "Read and write directory data",
-   longDescription: "Allows the app to read and write data in your organization's directory, such as users, and groups. Does not allow user or group deletion. It does not allow the app to delete users or groups, or reset user passwords.",
-   preview: false,
-   admin: true
- },
- {
-   name: "Group.Read.All",
-   description: "Read all groups",
-   longDescription: "Allows the app to list groups, and to read their properties and all group memberships on behalf of the signed-in user. Also allows the app to read calendar, conversations, files, and other group content for all groups the signed-in user can access.",
-   preview: false,
-   admin: true
- },
- {
-   name: "Group.ReadWrite.All",
-   description: "Read and write all groups",
-   longDescription: "Allows the app to create groups and read all group properties and memberships on behalf of the signed-in user. Additionally allows group owners to manage their groups and allows group members to update group content.",
-   preview: false,
-   admin: true
- },
- {
-   name: "User.Read.All",
-   description: "Read all user's full profiles",
-   longDescription: "Same as User.ReadBasic.All, except that it allows the app to read the full profile of all users in the organization and when reading navigation properties like manager and direct reports. The full profile includes all of the declared properties of the User entity. To read the groups that a user is a member of, the app will also require either Group.Read.All or Group.ReadWrite.All.",
-   preview: false,
-   admin: true
- },
- {
-   name: "User.ReadWrite.All",
-   description: "Read and write all user's full profiles",
-   longDescription: "Allows the app to read and write the full set of profile properties, reports, and managers of other users in your organization, on behalf of the signed-in user.",
-   preview: false,
    admin: true
  }
 ]

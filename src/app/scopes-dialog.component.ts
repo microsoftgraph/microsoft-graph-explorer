@@ -50,6 +50,10 @@ declare let fabric, mwf;
       margin-top: 0px;
       margin-bottom: 20px;
   }
+
+  .preview-label {
+    margin-left: 10px;
+  }
 `],
   template: `
 
@@ -66,7 +70,7 @@ declare let fabric, mwf;
               <div class="c-checkbox">
                   <label class="c-label">
                       <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1" [checked]="scope.enabledTarget">
-                      <span aria-hidden="true">{{scope.name}}<i *ngIf="scope.preview">Preview</i></span>
+                      <span aria-hidden="true">{{scope.name}}<i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i></span>
                   </label>
               </div>
             </td>
