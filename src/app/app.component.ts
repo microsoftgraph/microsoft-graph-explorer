@@ -102,7 +102,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   };
 
   static explorerValues:ExplorerValues = {
-      endpointUrl: AppComponent.Options.GraphUrl + (`/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request")}` || '/v1.0/me/'),
+      endpointUrl: AppComponent.Options.GraphUrl + `/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request") || 'me/'}`,
       selectedOption: getParameterByName("method") as RequestType || "GET",
       selectedVersion: getParameterByName("version") || "v1.0",
       authentication: {},

@@ -17,7 +17,7 @@ declare let fabric:any;
         <div class="ms-Dialog-title">{{getStr('Share Query')}}</div>
         <div class="ms-Dialog-content">
             <label for="default">{{getStr('Share this link to let people try your current query in the Graph Explorer.')}}</label>
-            <input id="default" class="c-text-field" type="text" name="default" (click)="this.select();" value="{{getShareLink()}}">
+            <input id="default" class="c-text-field" type="text" name="default" onclick="this.select();" value="{{getShareLink()}}">
         </div>
       <div class="ms-Dialog-actions">
             <button class="ms-Button ms-Dialog-action">
