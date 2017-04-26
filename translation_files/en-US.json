@@ -41,7 +41,7 @@
   "Response Preview": "Response Preview",
   "Sample Queries": "Sample Queries",
 
-  "show more groups": "show more groups",
+  "show more samples": "show more samples",
   "Sample Categories": "Sample Categories",
 
   "On": "On",
@@ -114,13 +114,13 @@
   "create section"	:"create section",
   "create page"	:"create page",
   "Users":"Users",
-  "Users (preview)":"Users (preview)",
+  "Users (beta)":"Users (beta)",
   "Groups":"Groups",
-  "Groups (preview)":"Groups (preview)",
+  "Groups (beta)":"Groups (beta)",
   "Outlook Mail":"Outlook Mail",
-  "Outlook Mail (preview)":"Outlook Mail (preview)",
+  "Outlook Mail (beta)":"Outlook Mail (beta)",
   "Outlook Calendar":"Outlook Calendar",
-  "Outlook Calendar (preview)":"Outlook Calendar (preview)",
+  "Outlook Calendar (beta)":"Outlook Calendar (beta)",
   "Personal Contacts":"Personal Contacts",
   "OneDrive":"OneDrive",
   "Excel":"Excel",
@@ -129,6 +129,6 @@
   "OneNote (beta)":"OneNote (beta)",
   "SharePoint Lists (beta)": "SharePoint Lists (beta)",
   "Insights": "Insights",
-  "Insights (preview)": "Insights (preview)",
+  "Insights (beta)": "Insights (beta)",
   "Preview": "Preview"
 }

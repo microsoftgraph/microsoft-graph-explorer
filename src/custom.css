@@ -99,7 +99,7 @@ api-explorer button {
     width: 100px !important;
 }
 
-.ms-Dialog.center-dialog {
+/*.ms-Dialog.center-dialog {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -107,7 +107,7 @@ api-explorer button {
     right: 0;
     transform: none;
     top: 8%;
-}
+}*/
 
 
 /* frontdoor */

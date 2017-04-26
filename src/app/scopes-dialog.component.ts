@@ -14,7 +14,12 @@ declare let fabric, mwf;
 @Component({
   selector: 'scopes-dialog',
   styles: [`
-  .ms-Dialog-content {
+
+  #scopes-dialog {
+      min-width: 800px;
+  }
+
+  #scopes-list-table-container {
     max-height: 451px;
     overflow: auto;
     margin-top: 20px;
@@ -40,6 +45,7 @@ declare let fabric, mwf;
   .ms-MessageBar {
     margin-top: 20px;
     width: 100%;
+    height: 40px;
   }
 
   .c-checkbox input[type=checkbox]:focus+span:before {
@@ -64,25 +70,26 @@ declare let fabric, mwf;
     <div class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
       <p class="ms-Dialog-subText">Select different <a class="ms-Link" href="https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes" target="_blank">permission scopes</a> to try out Microsoft Graph API endpoints.</p>
       <div class="ms-Dialog-content">
-        <table class="ms-Table">
-          <tr *ngFor="let scope of scopes">
-            <td>
-              <div class="c-checkbox">
-                  <label class="c-label">
-                      <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1" [checked]="scope.enabledTarget">
-                      <span aria-hidden="true">{{scope.name}}<i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i></span>
-                  </label>
-              </div>
-            </td>
-            <td>
-              <span *ngIf="scope.admin">
-                Admin
-              </span>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div *ngIf="scopeListIsDirty()">
+        <div id="scopes-list-table-container">
+          <table class="ms-Table" id="scopes-list-table">
+            <tr *ngFor="let scope of scopes">
+              <td>
+                <div class="c-checkbox">
+                    <label class="c-label">
+                        <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1" [checked]="scope.enabledTarget">
+                        <span aria-hidden="true">{{scope.name}}<i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i></span>
+                    </label>
+                </div>
+              </td>
+              <td>
+                <span *ngIf="scope.admin">
+                  Admin
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="scopeListIsDirty()">
         <div class="ms-MessageBar">
           <div class="ms-MessageBar-content">
             <div class="ms-MessageBar-icon">
@@ -109,6 +116,8 @@ declare let fabric, mwf;
           </div>
         </div>
       </div>
+      </div>
+      
 
 
     <div class="ms-Dialog-actions">

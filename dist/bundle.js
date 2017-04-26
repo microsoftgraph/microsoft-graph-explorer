@@ -69132,7 +69132,7 @@ exports.SampleQueries = [
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
     },
     {
-        "category": "Users (preview)",
+        "category": "Users (beta)",
         "method": "GET",
         "humanName": "track user changes",
         "requestUrl": "https://graph.microsoft.com/beta/users/delta?$select=displayName,givenName,surname",
@@ -69165,7 +69165,7 @@ exports.SampleQueries = [
         "humanName": "group members",
         "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/members",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_members",
-        "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+        "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
     },
     {
         "category": "Groups",
@@ -69173,7 +69173,7 @@ exports.SampleQueries = [
         "humanName": "group's conversations",
         "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/conversations",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_conversations",
-        "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+        "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
     },
     {
         "category": "Groups",
@@ -69181,7 +69181,7 @@ exports.SampleQueries = [
         "humanName": "group's events",
         "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/events",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events",
-        "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+        "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
     },
     {
         "category": "Groups",
@@ -69195,7 +69195,7 @@ exports.SampleQueries = [
                 "value": "application/json"
             }
         ],
-        "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+        "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
     },
     {
         "category": "Groups",
@@ -69203,10 +69203,10 @@ exports.SampleQueries = [
         "humanName": "items in a group drive",
         "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get",
-        "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+        "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
     },
     {
-        "category": "Groups (preview)",
+        "category": "Groups (beta)",
         "method": "GET",
         "humanName": "track group changes",
         "requestUrl": "https://graph.microsoft.com/beta/groups/delta?$select=displayName,description",
@@ -69254,17 +69254,17 @@ exports.SampleQueries = [
             }
         ],
         "postBody": "{\n  \"comment\": \"FYI\",\n  \"toRecipients\": [\n    {\n      \"emailAddress\": {\n        \"address\": \"FULL_USER_EMAIL\",\n        \"name\": \"Alex Darrow\"\n      }\n    }\n  ]\n}",
-        "tip": "This query requires a message id.  To find the id of the mail message, you will need to run: GET https://graph.microsoft.com/v1.0/me/messages to get a message id."
+        "tip": "This query requires a message id. To get the ID, run the following query, find the message in the response and use its ID property: GET https://graph.microsoft.com/v1.0/me/messages"
     },
     {
-        "category": "Outlook Mail (preview)",
+        "category": "Outlook Mail (beta)",
         "method": "GET",
         "humanName": "track email changes",
         "requestUrl": "https://graph.microsoft.com/beta/me/mailFolders/Inbox/messages/delta",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages"
     },
     {
-        "category": "Outlook Mail (preview)",
+        "category": "Outlook Mail (beta)",
         "method": "GET",
         "humanName": "email I'm @ mentioned",
         "requestUrl": "https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned%20eq%20true&$select=subject,sender,receivedDateTime",
@@ -69329,10 +69329,10 @@ exports.SampleQueries = [
         "tip": "Update the Request Body and select Run Query."
     },
     {
-        "category": "Outlook Calendar (preview)",
+        "category": "Outlook Calendar (beta)",
         "method": "GET",
         "humanName": "track changes on my events for the next week",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
+        "requestUrl": "https://graph.microsoft.com/beta/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events"
     },
     {
@@ -69404,7 +69404,7 @@ exports.SampleQueries = [
         "category": "Excel",
         "method": "GET",
         "humanName": "all of my excel files",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
     },
     {
@@ -69420,7 +69420,7 @@ exports.SampleQueries = [
             }
         ],
         "postBody": "{ \"persistChanges\": true }",
-        "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+        "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
     {
         "category": "Excel",
@@ -69428,7 +69428,7 @@ exports.SampleQueries = [
         "humanName": "worksheets in a workbook",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets",
-        "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+        "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
     {
         "category": "Excel",
@@ -69443,7 +69443,7 @@ exports.SampleQueries = [
             }
         ],
         "postBody": "{\n  \"name\": \"My New Sheet\"\n}",
-        "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+        "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
     {
         "category": "Excel",
@@ -69451,7 +69451,7 @@ exports.SampleQueries = [
         "humanName": "used range in worksheet",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/usedRange",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange",
-        "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+        "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
     {
         "category": "Excel",
@@ -69459,7 +69459,7 @@ exports.SampleQueries = [
         "humanName": "tables in worksheet",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/tables",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables",
-        "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+        "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
     {
         "category": "Excel",
@@ -69467,7 +69467,7 @@ exports.SampleQueries = [
         "humanName": "charts in worksheet",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/charts",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts",
-        "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+        "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
     {
         "category": "Planner (beta)",
@@ -69475,7 +69475,7 @@ exports.SampleQueries = [
         "humanName": "all Planner plans associated with a group",
         "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans ",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannergroup_list_plans",
-        "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+        "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
     },
     {
         "category": "Planner (beta)",
@@ -69483,7 +69483,7 @@ exports.SampleQueries = [
         "humanName": "all Planner tasks for a plan",
         "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans/{plan-id}/tasks",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannerplan_list_tasks",
-        "tip": "This query requires a group id and a plan id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to.  To find the id of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans to get an id of a Planner plan."
+        "tip": "This query requires a group ID and a plan id.  To find the ID of the group, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans."
     },
     {
         "category": "Planner (beta)",
@@ -69496,21 +69496,21 @@ exports.SampleQueries = [
         "category": "SharePoint Sites (beta)",
         "method": "GET",
         "humanName": "my organization's default SharePoint site",
-        "requestUrl": "https://graph.microsoft.com/beta/sharePoint/site",
+        "requestUrl": "https://graph.microsoft.com/beta/sites/root",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/sharepoint"
     },
     {
         "category": "SharePoint Sites (beta)",
         "method": "GET",
-        "humanName": "a SharePoint site by URL",
-        "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}",
+        "humanName": "Enumerate the document libraries under the root site",
+        "requestUrl": "https://graph.microsoft.com/beta/sites/root/drives",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/baseitem_getbyurl"
     },
     {
         "category": "SharePoint Sites (beta)",
         "method": "GET",
-        "humanName": "subsites in a SharePoint site",
-        "requestUrl": "https://graph.microsoft.com/beta/sharepoint/sites:/{site-path}:/sites",
+        "humanName": "Get a SharePoint site based on relative path of the site",
+        "requestUrl": "https://graph.microsoft.com/beta/sites:/{site-path}",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/subsites_list"
     },
     {
@@ -69558,7 +69558,7 @@ exports.SampleQueries = [
             }
         ],
         "postBody": "{\n  \"name\": \"Section 1\"\n}",
-        "tip": "This query requires a notebook id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/beta/me/onenote/notebooks. "
+        "tip": "This query requires a notebook id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/notebooks. "
     },
     {
         "category": "OneNote (beta)",
@@ -69576,7 +69576,54 @@ exports.SampleQueries = [
             }
         ],
         "postBody": "\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"Presentation\"\nContent-Type:text/html\n\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>\n    <meta name=\"created\" content=\"2015-07-22T09:00:00-08:00\" />\n  </head>\n  <body>\n    <p>Here's an image from an online source:</p>\n    <img src=\"http://...\" alt=\"an image on the page\" width=\"500\" />\n    <p>Here's an image uploaded as binary data:</p>\n    <img src=\"name:imageBlock1\" alt=\"an image on the page\" width=\"300\" />\n    <p>Here's a file attachment:</p>\n    <object data-attachment=\"FileName.pdf\" data=\"name:fileBlock1\" type=\"application/pdf\" />\n  </body>\n</html>\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"imageBlock1\"\nContent-Type:image/jpeg\n\n... binary image data ...\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"fileBlock1\"\nContent-Type:application/pdf\n\n... binary file data ...\n\n--MyPartBoundary198374--",
-        "tip": "This query requires a section id.  To find the id, you can run: GET https://graph.microsoft.com/beta/me/onenote/sections."
+        "tip": "This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/sections."
+    },
+    {
+        "category": "Insights",
+        "method": "GET",
+        "humanName": "my recent files",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
+    },
+    {
+        "category": "Insights (beta)",
+        "method": "GET",
+        "humanName": "items trending around me",
+        "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
+    },
+    {
+        "category": "Insights (beta)",
+        "method": "GET",
+        "humanName": "people I work with",
+        "requestUrl": "https://graph.microsoft.com/beta/me/people",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
+    },
+    {
+        "category": "Insights (beta)",
+        "method": "GET",
+        "humanName": "people whos name starts with J",
+        "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=j",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    },
+    {
+        "category": "Insights (beta)",
+        "method": "GET",
+        "humanName": "people relevant to a topic",
+        "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: planning\"",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    },
+    {
+        "category": "SharePoint Sites (beta)",
+        "method": "GET",
+        "humanName": "Search for a sharepoint site by keyword",
+        "requestUrl": "https://graph.microsoft.com/beta/sites?search={query}"
+    },
+    {
+        "category": "SharePoint Sites (beta)",
+        "method": "GET",
+        "humanName": "Enumerate subsites of the root site",
+        "requestUrl": "https://graph.microsoft.com/beta/sites/root/sites"
     }
 ];
 
@@ -70080,7 +70127,7 @@ exports.loc_strings['en-US'] = {
     "Response Headers": "Response Headers",
     "Response Preview": "Response Preview",
     "Sample Queries": "Sample Queries",
-    "show more groups": "show more groups",
+    "show more samples": "show more samples",
     "Sample Categories": "Sample Categories",
     "On": "On",
     "Off": "Off",
@@ -70147,13 +70194,13 @@ exports.loc_strings['en-US'] = {
     "create section": "create section",
     "create page": "create page",
     "Users": "Users",
-    "Users (preview)": "Users (preview)",
+    "Users (beta)": "Users (beta)",
     "Groups": "Groups",
-    "Groups (preview)": "Groups (preview)",
+    "Groups (beta)": "Groups (beta)",
     "Outlook Mail": "Outlook Mail",
-    "Outlook Mail (preview)": "Outlook Mail (preview)",
+    "Outlook Mail (beta)": "Outlook Mail (beta)",
     "Outlook Calendar": "Outlook Calendar",
-    "Outlook Calendar (preview)": "Outlook Calendar (preview)",
+    "Outlook Calendar (beta)": "Outlook Calendar (beta)",
     "Personal Contacts": "Personal Contacts",
     "OneDrive": "OneDrive",
     "Excel": "Excel",
@@ -70162,125 +70209,8 @@ exports.loc_strings['en-US'] = {
     "OneNote (beta)": "OneNote (beta)",
     "SharePoint Lists (beta)": "SharePoint Lists (beta)",
     "Insights": "Insights",
-    "Insights (preview)": "Insights (preview)",
+    "Insights (beta)": "Insights (beta)",
     "Preview": "Preview"
-};
-exports.loc_strings['de-DE'] = {
-    "To try the explorer, please ": "Um den Tester auszuprobieren, ",
-    "sign in": "melden Sie sich",
-    " with your work or school account from Microsoft.": " mit Ihrem Geschäfts-, Schul- oder Unikonto von Microsoft an.",
-    "Submit": "Senden",
-    "Using demo tenant": "Sie verwenden derzeit ein Beispielkonto.",
-    "To access your own data:": "So greifen Sie auf Ihre eigenen Daten zu:",
-    "sign out": "Abmelden",
-    "History": "Verlauf",
-    "Method": "Methode",
-    "Query": "Abfrage",
-    "Status Code": "Statuscode",
-    "Duration": "Dauer",
-    "Go": "Gehe zu",
-    "milliseconds": "ms",
-    "YES": "JA",
-    "Show More": "Mehr anzeigen",
-    "Graph Explorer": "Graph-Tester",
-    "Failure": "Misserfolg",
-    "Success": "Erfolg",
-    "Authentication": "Authentifizierung",
-    "NO": "NEIN",
-    "request header": "Anforderungsheader",
-    "Run Query": "Abfrage ausführen",
-    "request body": "Anforderungstext",
-    "Close": "Schließen",
-    "Getting Started": "Erste Schritte",
-    "Response": "Antwort",
-    "login to send requests": "Melden Sie an, um den Anforderungstyp zu ändern",
-    "Share Query": "Abfrage freigeben",
-    "Share this link to let people try your current query in the Graph Explorer.": "Teilen Sie diesen Link, damit Benutzer Ihre aktuelle Abfrage im Graph-Tester testen können.",
-    "my profile": "mein Profil",
-    "my files": "meine Dateien",
-    "my photo": "mein Foto",
-    "my mail": "meine E-Mail",
-    "my high importance mail": "meine E-Mail mit hoher Wichtigkeit",
-    "my calendar": "mein Kalender",
-    "my manager": "mein Manager"
-};
-exports.loc_strings['zh-CN'] = {
-    "To try the explorer, please ": "若要尝试使用资源管理器，请若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户 ",
-    "sign in": "登录",
-    " with your work or school account from Microsoft.": " 使用 Microsoft 提供的工作或学校帐户。",
-    "Submit": "提交",
-    "Using demo tenant": "当前使用的是示例帐户。",
-    "To access your own data:": "若要访问你自己的数据:",
-    "sign out": "注销",
-    "History": "历史记录",
-    "Method": "方法",
-    "Query": "查询",
-    "Status Code": "状态代码",
-    "Duration": "持续时间",
-    "Go": "调用",
-    "milliseconds": "毫秒",
-    "YES": "是",
-    "Show More": "显示更多",
-    "Graph Explorer": "Graph 浏览器",
-    "Failure": "失败",
-    "Success": "成功",
-    "Authentication": "身份验证",
-    "NO": "否",
-    "request header": "请求头",
-    "Run Query": "运行查询",
-    "request body": "请求正文",
-    "Close": "关闭",
-    "Getting Started": "开始使用",
-    "Response": "响应",
-    "login to send requests": "登录以更改请求类型",
-    "Share Query": "共享查询",
-    "Share this link to let people try your current query in the Graph Explorer.": "共享此链接可让其他人在 Graph 浏览器中尝试执行当前查询。",
-    "my profile": "我的个人资料",
-    "my files": "我的文件",
-    "my photo": "我的照片",
-    "my mail": "我的邮件",
-    "my high importance mail": "我的高重要性邮件",
-    "my calendar": "我的日历",
-    "my manager": "我的管理器"
-};
-exports.loc_strings['es-ES'] = {
-    "To try the explorer, please ": "Para utilizar el probador,  ",
-    "sign in": "inicie sesión",
-    " with your work or school account from Microsoft.": " con su cuenta profesional o educativa de Microsoft.",
-    "Submit": "Enviar",
-    "Using demo tenant": "Actualmente está utilizando una cuenta de muestra.",
-    "To access your own data:": "Para tener acceso a sus propios datos:",
-    "sign out": "Cierre de sesión",
-    "History": "Historial",
-    "Method": "Método",
-    "Query": "Consulta",
-    "Status Code": "Código de estado",
-    "Duration": "Duración",
-    "Go": "Ir",
-    "milliseconds": "ms",
-    "YES": "SÍ",
-    "Show More": "Mostrar más",
-    "Graph Explorer": "Probador de Graph",
-    "Failure": "Erróneo",
-    "Success": "Correcto",
-    "Authentication": "Autenticación",
-    "NO": "NO",
-    "request header": "Encabezados de solicitud",
-    "Run Query": "Ejecutar consulta",
-    "request body": "Cuerpo de la solicitud",
-    "Close": "Cerrar",
-    "Getting Started": "Introducción",
-    "Response": "Respuesta",
-    "login to send requests": "Inicio de sesión para cambiar el tipo de solicitud",
-    "Share Query": "Compartir consulta",
-    "Share this link to let people try your current query in the Graph Explorer.": "Comparta este vínculo para permitir que la gente intente la consulta actual en el Probador de Graph.",
-    "my profile": "mi perfil",
-    "my files": "mis archivos",
-    "my photo": "mi foto",
-    "my mail": "mi correo",
-    "my high importance mail": "mi correo electrónico de importancia alta",
-    "my calendar": "mi calendario",
-    "my manager": "mi administrador"
 };
 exports.loc_strings['fr-FR'] = {
     "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ",
@@ -70321,6 +70251,84 @@ exports.loc_strings['fr-FR'] = {
     "my calendar": "mon calendrier",
     "my manager": "mon responsable"
 };
+exports.loc_strings['de-DE'] = {
+    "To try the explorer, please ": "Um den Tester auszuprobieren, ",
+    "sign in": "melden Sie sich",
+    " with your work or school account from Microsoft.": " mit Ihrem Geschäfts-, Schul- oder Unikonto von Microsoft an.",
+    "Submit": "Senden",
+    "Using demo tenant": "Sie verwenden derzeit ein Beispielkonto.",
+    "To access your own data:": "So greifen Sie auf Ihre eigenen Daten zu:",
+    "sign out": "Abmelden",
+    "History": "Verlauf",
+    "Method": "Methode",
+    "Query": "Abfrage",
+    "Status Code": "Statuscode",
+    "Duration": "Dauer",
+    "Go": "Gehe zu",
+    "milliseconds": "ms",
+    "YES": "JA",
+    "Show More": "Mehr anzeigen",
+    "Graph Explorer": "Graph-Tester",
+    "Failure": "Misserfolg",
+    "Success": "Erfolg",
+    "Authentication": "Authentifizierung",
+    "NO": "NEIN",
+    "request header": "Anforderungsheader",
+    "Run Query": "Abfrage ausführen",
+    "request body": "Anforderungstext",
+    "Close": "Schließen",
+    "Getting Started": "Erste Schritte",
+    "Response": "Antwort",
+    "login to send requests": "Melden Sie an, um den Anforderungstyp zu ändern",
+    "Share Query": "Abfrage freigeben",
+    "Share this link to let people try your current query in the Graph Explorer.": "Teilen Sie diesen Link, damit Benutzer Ihre aktuelle Abfrage im Graph-Tester testen können.",
+    "my profile": "mein Profil",
+    "my files": "meine Dateien",
+    "my photo": "mein Foto",
+    "my mail": "meine E-Mail",
+    "my high importance mail": "meine E-Mail mit hoher Wichtigkeit",
+    "my calendar": "mein Kalender",
+    "my manager": "mein Manager"
+};
+exports.loc_strings['ja-JP'] = {
+    "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
+    "sign in": "サインイン",
+    " with your work or school account from Microsoft.": " します。",
+    "Submit": "送信",
+    "Using demo tenant": "現在、サンプル アカウントを使用しています。",
+    "To access your own data:": "自分のデータにアクセスするには:",
+    "sign out": "サインアウト",
+    "History": "履歴",
+    "Method": "メソッド",
+    "Query": "クエリ",
+    "Status Code": "状態コード",
+    "Duration": "期間",
+    "Go": "実行",
+    "milliseconds": "ミリ秒",
+    "YES": "はい",
+    "Show More": "詳細表示",
+    "Graph Explorer": "Graph エクスプローラー",
+    "Failure": "失敗",
+    "Success": "成功",
+    "Authentication": "認証",
+    "NO": "いいえ",
+    "request header": "要求ヘッダー",
+    "Run Query": "クエリを実行",
+    "request body": "要求本文",
+    "Close": "閉じる",
+    "Getting Started": "はじめに",
+    "Response": "応答",
+    "login to send requests": "要求の種類を変更するにはログインしてください",
+    "Share Query": "クエリの共有",
+    "Share this link to let people try your current query in the Graph Explorer.": "他のユーザーが Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。",
+    "my profile": "自分のプロファイル",
+    "my files": "自分のファイル",
+    "my photo": "自分の写真",
+    "my mail": "自分のメール",
+    "my high importance mail": "重要度の高い自分のメール",
+    "my calendar": "自分の予定表",
+    "my manager": "自分の上司"
+};
 exports.loc_strings['pt-BR'] = {
     "To try the explorer, please ": "Para experimentar o Explorador, ",
     "sign in": "entre",
@@ -70359,6 +70367,45 @@ exports.loc_strings['pt-BR'] = {
     "my high importance mail": "meu email de alta prioridade",
     "my calendar": "meu calendário",
     "my manager": "meu gerente"
+};
+exports.loc_strings['zh-CN'] = {
+    "To try the explorer, please ": "若要尝试使用资源管理器，请若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户 ",
+    "sign in": "登录",
+    " with your work or school account from Microsoft.": " 使用 Microsoft 提供的工作或学校帐户。",
+    "Submit": "提交",
+    "Using demo tenant": "当前使用的是示例帐户。",
+    "To access your own data:": "若要访问你自己的数据:",
+    "sign out": "注销",
+    "History": "历史记录",
+    "Method": "方法",
+    "Query": "查询",
+    "Status Code": "状态代码",
+    "Duration": "持续时间",
+    "Go": "调用",
+    "milliseconds": "毫秒",
+    "YES": "是",
+    "Show More": "显示更多",
+    "Graph Explorer": "Graph 浏览器",
+    "Failure": "失败",
+    "Success": "成功",
+    "Authentication": "身份验证",
+    "NO": "否",
+    "request header": "请求头",
+    "Run Query": "运行查询",
+    "request body": "请求正文",
+    "Close": "关闭",
+    "Getting Started": "开始使用",
+    "Response": "响应",
+    "login to send requests": "登录以更改请求类型",
+    "Share Query": "共享查询",
+    "Share this link to let people try your current query in the Graph Explorer.": "共享此链接可让其他人在 Graph 浏览器中尝试执行当前查询。",
+    "my profile": "我的个人资料",
+    "my files": "我的文件",
+    "my photo": "我的照片",
+    "my mail": "我的邮件",
+    "my high importance mail": "我的高重要性邮件",
+    "my calendar": "我的日历",
+    "my manager": "我的管理器"
 };
 exports.loc_strings['ru-RU'] = {
     "To try the explorer, please ": "Чтобы опробовать песочницу, ",
@@ -70399,44 +70446,44 @@ exports.loc_strings['ru-RU'] = {
     "my calendar": "мой календарь",
     "my manager": "мой руководитель"
 };
-exports.loc_strings['ja-JP'] = {
-    "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
-    "sign in": "サインイン",
-    " with your work or school account from Microsoft.": " します。",
-    "Submit": "送信",
-    "Using demo tenant": "現在、サンプル アカウントを使用しています。",
-    "To access your own data:": "自分のデータにアクセスするには:",
-    "sign out": "サインアウト",
-    "History": "履歴",
-    "Method": "メソッド",
-    "Query": "クエリ",
-    "Status Code": "状態コード",
-    "Duration": "期間",
-    "Go": "実行",
-    "milliseconds": "ミリ秒",
-    "YES": "はい",
-    "Show More": "詳細表示",
-    "Graph Explorer": "Graph エクスプローラー",
-    "Failure": "失敗",
-    "Success": "成功",
-    "Authentication": "認証",
-    "NO": "いいえ",
-    "request header": "要求ヘッダー",
-    "Run Query": "クエリを実行",
-    "request body": "要求本文",
-    "Close": "閉じる",
-    "Getting Started": "はじめに",
-    "Response": "応答",
-    "login to send requests": "要求の種類を変更するにはログインしてください",
-    "Share Query": "クエリの共有",
-    "Share this link to let people try your current query in the Graph Explorer.": "他のユーザーが Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。",
-    "my profile": "自分のプロファイル",
-    "my files": "自分のファイル",
-    "my photo": "自分の写真",
-    "my mail": "自分のメール",
-    "my high importance mail": "重要度の高い自分のメール",
-    "my calendar": "自分の予定表",
-    "my manager": "自分の上司"
+exports.loc_strings['es-ES'] = {
+    "To try the explorer, please ": "Para utilizar el probador,  ",
+    "sign in": "inicie sesión",
+    " with your work or school account from Microsoft.": " con su cuenta profesional o educativa de Microsoft.",
+    "Submit": "Enviar",
+    "Using demo tenant": "Actualmente está utilizando una cuenta de muestra.",
+    "To access your own data:": "Para tener acceso a sus propios datos:",
+    "sign out": "Cierre de sesión",
+    "History": "Historial",
+    "Method": "Método",
+    "Query": "Consulta",
+    "Status Code": "Código de estado",
+    "Duration": "Duración",
+    "Go": "Ir",
+    "milliseconds": "ms",
+    "YES": "SÍ",
+    "Show More": "Mostrar más",
+    "Graph Explorer": "Probador de Graph",
+    "Failure": "Erróneo",
+    "Success": "Correcto",
+    "Authentication": "Autenticación",
+    "NO": "NO",
+    "request header": "Encabezados de solicitud",
+    "Run Query": "Ejecutar consulta",
+    "request body": "Cuerpo de la solicitud",
+    "Close": "Cerrar",
+    "Getting Started": "Introducción",
+    "Response": "Respuesta",
+    "login to send requests": "Inicio de sesión para cambiar el tipo de solicitud",
+    "Share Query": "Compartir consulta",
+    "Share this link to let people try your current query in the Graph Explorer.": "Comparta este vínculo para permitir que la gente intente la consulta actual en el Probador de Graph.",
+    "my profile": "mi perfil",
+    "my files": "mis archivos",
+    "my photo": "mi foto",
+    "my mail": "mi correo",
+    "my high importance mail": "mi correo electrónico de importancia alta",
+    "my calendar": "mi calendario",
+    "my manager": "mi administrador"
 };
 
 },{}],72:[function(require,module,exports){
@@ -71161,8 +71208,8 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
 ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
     core_1.Component({
         selector: 'scopes-dialog',
-        styles: ["\n  .ms-Dialog-content {\n    max-height: 451px;\n    overflow: auto;\n    margin-top: 20px;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n  label.c-label {\n      margin-top: 0px;\n      margin-bottom: 20px;\n  }\n\n  .preview-label {\n    margin-left: 10px;\n  }\n"],
-        template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('modify permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <div class=\"ms-Dialog-content\">\n        <table class=\"ms-Table\">\n          <tr *ngFor=\"let scope of scopes\">\n            <td>\n              <div class=\"c-checkbox\">\n                  <label class=\"c-label\">\n                      <input type=\"checkbox\" [disabled]=\"scope.name == 'openid'\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                      <span aria-hidden=\"true\">{{scope.name}}<i class=\"preview-label\" *ngIf=\"scope.preview\">{{getStr('Preview')}}</i></span>\n                  </label>\n              </div>\n            </td>\n            <td>\n              <span *ngIf=\"scope.admin\">\n                Admin\n              </span>\n            </td>\n          </tr>\n        </table>\n      </div>\n      <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
+        styles: ["\n\n  #scopes-dialog {\n      min-width: 800px;\n  }\n\n  #scopes-list-table-container {\n    max-height: 451px;\n    overflow: auto;\n    margin-top: 20px;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n    height: 40px;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n  label.c-label {\n      margin-top: 0px;\n      margin-bottom: 20px;\n  }\n\n  .preview-label {\n    margin-left: 10px;\n  }\n"],
+        template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('modify permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <div class=\"ms-Dialog-content\">\n        <div id=\"scopes-list-table-container\">\n          <table class=\"ms-Table\" id=\"scopes-list-table\">\n            <tr *ngFor=\"let scope of scopes\">\n              <td>\n                <div class=\"c-checkbox\">\n                    <label class=\"c-label\">\n                        <input type=\"checkbox\" [disabled]=\"scope.name == 'openid'\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                        <span aria-hidden=\"true\">{{scope.name}}<i class=\"preview-label\" *ngIf=\"scope.preview\">{{getStr('Preview')}}</i></span>\n                    </label>\n                </div>\n              </td>\n              <td>\n                <span *ngIf=\"scope.admin\">\n                  Admin\n                </span>\n              </td>\n            </tr>\n          </table>\n        </div>\n        <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n      </div>\n      \n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
     })
 ], ScopesDialogComponent);
 exports.ScopesDialogComponent = ScopesDialogComponent;
@@ -71719,7 +71766,7 @@ var SidebarComponent = (function (_super) {
 SidebarComponent = __decorate([
     core_1.Component({
         selector: 'sidebar',
-        template: "\n      <div id=\"explorer-sidebar\">\n        <div class=\"arrow-left\"></div>\n        <div>\n            <span id=\"explorer-title\" class=\"c-heading-3 panel-header\">{{getStr('Graph Explorer')}}</span>\n        </div>\n        <div class=\"c-drawer\">\n            <button id=\"auth-drawer-button\" class=\"c-glyph\" aria-expanded=\"true\" disabled=\"true\" aria-controls=\"authDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--Permissions\" aria-hidden=\"true\"></i>{{getStr('Authentication')}}</span></button>\n            <div id=\"authDrawer\" class=\"panel-content\">\n\n              <authentication></authentication>\n            </div>\n        </div>\n\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"refineDrawer\">\n                <span class=\"c-heading-5 panel-header\"><img id=\"getting-started-svg\" src=\"{{getAssetPath('assets/images/rocket1.svg')}}\"/>{{getStr('Sample Queries')}}</span></button>\n            <div id=\"refineDrawer\" class=\"panel-content\">\n                <div id=\"sample-queries-scroll\">\n                    <div *ngFor=\"let category of categories\" class=\"sample-category\" [hidden]=\"!category.enabled\">\n                        <div><span class=\"category-heading\">{{getStr(category.title)}}</span></div>\n                        <query-row [query]=\"query\" *ngFor=\"let query of category.queries\"></query-row>\n                    </div>\n                </div>\n                <a href=\"#\" id=\"manage-categories\" class=\"c-hyperlink\" tabindex=0 (click)=\"manageCategories()\">{{getStr('show more groups')}}</a>\n            </div>\n        </div>\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"historyDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--History\" aria-hidden=\"true\"></i>{{getStr('History')}}</span></button>\n            <div id=\"historyDrawer\" class=\"panel-content\">\n                <history-query-row *ngFor=\"let query of getRequestHistory(5)\" [query]=\"query\"></history-query-row>\n                <a href=\"#\" id=\"show-full-history\" (click)=\"manageHistory()\" [hidden]=\"getRequestHistory().length == 0\" class=\"c-hyperlink\" tabindex=0>{{getStr('Show More')}}</a>\n            </div>\n        </div>\n\n  </div>\n\n  ",
+        template: "\n      <div id=\"explorer-sidebar\">\n        <div class=\"arrow-left\"></div>\n        <div>\n            <span id=\"explorer-title\" class=\"c-heading-3 panel-header\">{{getStr('Graph Explorer')}}</span>\n        </div>\n        <div class=\"c-drawer\">\n            <button id=\"auth-drawer-button\" class=\"c-glyph\" aria-expanded=\"true\" disabled=\"true\" aria-controls=\"authDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--Permissions\" aria-hidden=\"true\"></i>{{getStr('Authentication')}}</span></button>\n            <div id=\"authDrawer\" class=\"panel-content\">\n\n              <authentication></authentication>\n            </div>\n        </div>\n\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"refineDrawer\">\n                <span class=\"c-heading-5 panel-header\"><img id=\"getting-started-svg\" src=\"{{getAssetPath('assets/images/rocket1.svg')}}\"/>{{getStr('Sample Queries')}}</span></button>\n            <div id=\"refineDrawer\" class=\"panel-content\">\n                <div id=\"sample-queries-scroll\">\n                    <div *ngFor=\"let category of categories\" class=\"sample-category\" [hidden]=\"!category.enabled\">\n                        <div><span class=\"category-heading\">{{getStr(category.title)}}</span></div>\n                        <query-row [query]=\"query\" *ngFor=\"let query of category.queries\"></query-row>\n                    </div>\n                </div>\n                <a href=\"#\" id=\"manage-categories\" class=\"c-hyperlink\" tabindex=0 (click)=\"manageCategories()\">{{getStr('show more samples')}}</a>\n            </div>\n        </div>\n        <div class=\"c-drawer\">\n            <button class=\"c-glyph\" aria-expanded=\"true\" aria-controls=\"historyDrawer\">\n                  <span class=\"c-heading-5 panel-header\"><i class=\"ms-Icon ms-Icon--History\" aria-hidden=\"true\"></i>{{getStr('History')}}</span></button>\n            <div id=\"historyDrawer\" class=\"panel-content\">\n                <history-query-row *ngFor=\"let query of getRequestHistory(5)\" [query]=\"query\"></history-query-row>\n                <a href=\"#\" id=\"show-full-history\" (click)=\"manageHistory()\" [hidden]=\"getRequestHistory().length == 0\" class=\"c-hyperlink\" tabindex=0>{{getStr('Show More')}}</a>\n            </div>\n        </div>\n\n  </div>\n\n  ",
         styles: ["\n    #explorer-sidebar {\n        background: #2F2F2F !important;\n        min-height: 1024px;\n        padding: 0px;\n        color: white;\n      \tfont-family: \"Segoe UI\", Frutiger, \"Frutiger Linotype\", \"Dejavu Sans\", \"Helvetica Neue\", Arial, sans-serif;\n    }\n\n    #explorer-sidebar .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    #sample-queries-scroll {\n        // max-height: 400px;\n        // overflow-y: auto;\n        // overflow-x: hidden;\n    }\n\n    #getting-started-svg {\n        display: inline-block;\n        width: 29px;\n        height: 29px;\n        margin: -2px 4px 2px -4px;\n    }\n\n    a#show-full-history, a#manage-categories {\n        text-align: right;\n        padding-right: 16px;\n        width: 100%;\n        display: block;\n    }\n\n    span#explorer-title {\n        margin-left: 40px;\n        margin-top: 14px;\n    }\n\n    .c-drawer {\n        padding-bottom: 5px;\n    }\n\n    #explorer-sidebar .panel-header {\n        font-family: \"Segoe UI\",\"wf_segoe-ui_normal\",\"Arial\",sans-serif;\n        display: inline-block;\n        padding: 0px;\n        padding-left: 6px;\n        font-weight: 100;\n        color: white;\n    }\n\n    #explorer-sidebar .panel-content {\n        padding-left: 28px;\n        font-size: 13px;\n    }\n\n    #explorer-sidebar .panel-header i.ms-Icon{\n        margin-right: 10px;\n    }\n\n    /* Remove drawer carrot on auth */\n    #auth-drawer-button:after{\n        content:none;\n    }\n\n    button#auth-drawer-button {\n        background: #2f2f2f !important;\n    }\n\n    .arrow-left {\n        border-top: 18px solid transparent;\n        border-bottom: 18px solid transparent;\n        border-right: 18px solid white;\n        position: relative;\n        right: -10px;\n        top: 13px;\n        margin-bottom: -45px;\n    }\n\n    button.c-glyph {\n        color: white;\n    }\n\n    #authDrawer {\n        min-height: 96px;\n    }\n\n    .c-hyperlink {\n        color: #00bcf2;\n    }\n\n    .category-heading {\n        font-size: 17px;\n        font-weight: 300;\n        padding-bottom: 5px;\n        display: block;\n    }\n\n    .sample-category {\n        margin-bottom: 15px;\n    }\n\n\n    a#show-full-history {\n        margin-top: 15px;\n    }\n    a#show-full-history[hidden] {\n        display: none;\n    }\n    \n    @media (max-width: 639px) {\n        #explorer-sidebar {\n            min-height: inherit;\n            padding-bottom: 15px;\n        }\n    }\n  "]
     })
 ], SidebarComponent);

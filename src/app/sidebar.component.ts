@@ -37,7 +37,7 @@ declare let fabric;
                         <query-row [query]="query" *ngFor="let query of category.queries"></query-row>
                     </div>
                 </div>
-                <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more groups')}}</a>
+                <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more samples')}}</a>
             </div>
         </div>
         <div class="c-drawer">

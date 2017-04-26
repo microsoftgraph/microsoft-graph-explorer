@@ -86,7 +86,7 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
 },
 {
-    "category": "Users (preview)",
+    "category": "Users (beta)",
     "method": "GET",
     "humanName": "track user changes",
     "requestUrl": "https://graph.microsoft.com/beta/users/delta?$select=displayName,givenName,surname",
@@ -119,7 +119,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "group members",
     "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/members",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_members",
-    "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+    "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
 {
     "category": "Groups",
@@ -127,7 +127,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "group's conversations",
     "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/conversations",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_conversations",
-    "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+    "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
 {
     "category": "Groups",
@@ -135,7 +135,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "group's events",
     "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/events",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events",
-    "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+    "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
 {
     "category": "Groups",
@@ -149,7 +149,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+    "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
 {
     "category": "Groups",
@@ -157,10 +157,10 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "items in a group drive",
     "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get",
-    "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+    "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
 {
-    "category": "Groups (preview)",
+    "category": "Groups (beta)",
     "method": "GET",
     "humanName": "track group changes",
     "requestUrl": "https://graph.microsoft.com/beta/groups/delta?$select=displayName,description",
@@ -208,17 +208,17 @@ export const SampleQueries: SampleQuery[] = [
         }
     ],
     "postBody": "{\n  \"comment\": \"FYI\",\n  \"toRecipients\": [\n    {\n      \"emailAddress\": {\n        \"address\": \"FULL_USER_EMAIL\",\n        \"name\": \"Alex Darrow\"\n      }\n    }\n  ]\n}",
-    "tip": "This query requires a message id.  To find the id of the mail message, you will need to run: GET https://graph.microsoft.com/v1.0/me/messages to get a message id."
+    "tip": "This query requires a message id. To get the ID, run the following query, find the message in the response and use its ID property: GET https://graph.microsoft.com/v1.0/me/messages"
 },
 {
-    "category": "Outlook Mail (preview)",
+    "category": "Outlook Mail (beta)",
     "method": "GET",
     "humanName": "track email changes",
     "requestUrl": "https://graph.microsoft.com/beta/me/mailFolders/Inbox/messages/delta",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages"
 },
 {
-    "category": "Outlook Mail (preview)",
+    "category": "Outlook Mail (beta)",
     "method": "GET",
     "humanName": "email I'm @ mentioned",
     "requestUrl": "https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned%20eq%20true&$select=subject,sender,receivedDateTime",
@@ -283,10 +283,10 @@ export const SampleQueries: SampleQuery[] = [
     "tip": "Update the Request Body and select Run Query."
 },
 {
-    "category": "Outlook Calendar (preview)",
+    "category": "Outlook Calendar (beta)",
     "method": "GET",
     "humanName": "track changes on my events for the next week",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
+    "requestUrl": "https://graph.microsoft.com/beta/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events"
 },
 {
@@ -358,7 +358,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Excel",
     "method": "GET",
     "humanName": "all of my excel files",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
 },
 {
@@ -374,7 +374,7 @@ export const SampleQueries: SampleQuery[] = [
         }
     ],
     "postBody": "{ \"persistChanges\": true }",
-    "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
 },
 {
     "category": "Excel",
@@ -382,7 +382,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "worksheets in a workbook",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets",
-    "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
 },
 {
     "category": "Excel",
@@ -397,7 +397,7 @@ export const SampleQueries: SampleQuery[] = [
         }
     ],
     "postBody": "{\n  \"name\": \"My New Sheet\"\n}",
-    "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
 },
 {
     "category": "Excel",
@@ -405,7 +405,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "used range in worksheet",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/usedRange",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange",
-    "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
 },
 {
     "category": "Excel",
@@ -413,7 +413,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "tables in worksheet",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/tables",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables",
-    "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
 },
 {
     "category": "Excel",
@@ -421,7 +421,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "charts in worksheet",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/charts",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts",
-    "tip": "This query requires a driveItem id.  To find the id of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/children."
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
 },
 {
     "category": "Planner (beta)",
@@ -429,7 +429,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "all Planner plans associated with a group",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans ",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannergroup_list_plans",
-    "tip": "This query requires a group id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to."
+    "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
 {
     "category": "Planner (beta)",
@@ -437,7 +437,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "all Planner tasks for a plan",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans/{plan-id}/tasks",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannerplan_list_tasks",
-    "tip": "This query requires a group id and a plan id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/v1.0/me/groups to get an id of an Office 365 group you belong to.  To find the id of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans to get an id of a Planner plan."
+    "tip": "This query requires a group ID and a plan id.  To find the ID of the group, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans."
 },
 {
     "category": "Planner (beta)",
@@ -450,21 +450,21 @@ export const SampleQueries: SampleQuery[] = [
     "category": "SharePoint Sites (beta)",
     "method": "GET",
     "humanName": "my organization's default SharePoint site",
-    "requestUrl": "https://graph.microsoft.com/beta/sharePoint/site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites/root",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/sharepoint"
 },
 {
     "category": "SharePoint Sites (beta)",
     "method": "GET",
-    "humanName": "a SharePoint site by URL",
-    "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}",
+    "humanName": "Enumerate the document libraries under the root site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites/root/drives",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/baseitem_getbyurl"
 },
 {
     "category": "SharePoint Sites (beta)",
     "method": "GET",
-    "humanName": "subsites in a SharePoint site",
-    "requestUrl": "https://graph.microsoft.com/beta/sharepoint/sites:/{site-path}:/sites",
+    "humanName": "Get a SharePoint site based on relative path of the site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites:/{site-path}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/subsites_list"
 },
 {
@@ -512,7 +512,7 @@ export const SampleQueries: SampleQuery[] = [
         }
     ],
     "postBody": "{\n  \"name\": \"Section 1\"\n}",
-    "tip": "This query requires a notebook id.  To find the id of the group, you will need to run: GET https://graph.microsoft.com/beta/me/onenote/notebooks. "
+    "tip": "This query requires a notebook id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/notebooks. "
 },
 {
     "category": "OneNote (beta)",
@@ -530,5 +530,52 @@ export const SampleQueries: SampleQuery[] = [
         }
     ],
     "postBody": "\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"Presentation\"\nContent-Type:text/html\n\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>\n    <meta name=\"created\" content=\"2015-07-22T09:00:00-08:00\" />\n  </head>\n  <body>\n    <p>Here's an image from an online source:</p>\n    <img src=\"http://...\" alt=\"an image on the page\" width=\"500\" />\n    <p>Here's an image uploaded as binary data:</p>\n    <img src=\"name:imageBlock1\" alt=\"an image on the page\" width=\"300\" />\n    <p>Here's a file attachment:</p>\n    <object data-attachment=\"FileName.pdf\" data=\"name:fileBlock1\" type=\"application/pdf\" />\n  </body>\n</html>\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"imageBlock1\"\nContent-Type:image/jpeg\n\n... binary image data ...\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"fileBlock1\"\nContent-Type:application/pdf\n\n... binary file data ...\n\n--MyPartBoundary198374--",
-    "tip": "This query requires a section id.  To find the id, you can run: GET https://graph.microsoft.com/beta/me/onenote/sections."
+    "tip": "This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/sections."
+},
+{
+    "category": "Insights",
+    "method": "GET",
+    "humanName": "my recent files",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/recent",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "items trending around me",
+    "requestUrl": "https://graph.microsoft.com/beta/me/insights/trending",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "people I work with",
+    "requestUrl": "https://graph.microsoft.com/beta/me/people",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "people whos name starts with J",
+    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=j",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "people relevant to a topic",
+    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: planning\"",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+},
+{
+    "category": "SharePoint Sites (beta)",
+    "method": "GET",
+    "humanName": "Search for a sharepoint site by keyword",
+    "requestUrl": "https://graph.microsoft.com/beta/sites?search={query}"
+},
+{
+    "category": "SharePoint Sites (beta)",
+    "method": "GET",
+    "humanName": "Enumerate subsites of the root site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites/root/sites"
 }]
