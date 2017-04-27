@@ -67,6 +67,10 @@ import { DomSanitizer } from "@angular/platform-browser";
         width: 100%;
     }
 
+    .ms-Icon.ms-Icon--Cancel {
+        color: black;
+    }
+
 
 `]
 })
