@@ -108,6 +108,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         response_mode: "fragment",
         nonce: 'graph_explorer',
         prompt: 'select_account',
+        mkt: AppComponent.Options.Language,
         scope: AppComponent.Options.DefaultUserScopes
       }
 
