@@ -35,7 +35,7 @@ var allSpecFiles = Object.keys(window.__karma__.files)
 
 System.config({
   // Base URL for System.js calls. 'base/' is where Karma serves files from.
-  baseURL: 'base/src',
+  baseURL: 'base/',
   // Extend usual application package list with test folder
   packages: { 'testing': { main: 'index.js', defaultExtension: 'js' } },
 
@@ -53,7 +53,7 @@ System.config({
   },
 });
 
-System.import('systemjs.config.js')
+System.import('src/systemjs.config.js')
   .then(importSystemJsExtras)
   .then(initTestBed)
   .then(initTesting);
