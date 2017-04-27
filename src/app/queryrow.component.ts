@@ -3,10 +3,8 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { GraphApiCall, SampleQuery } from "./base";
+import { SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { getString } from "./api-explorer-helpers";
-import { AppModule } from "./app.module";
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
 import { AppComponent } from "./app.component";
 

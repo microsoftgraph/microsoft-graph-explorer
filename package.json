@@ -9,7 +9,8 @@
     "serve": "static-server -p 3000",
     "postinstall": "bower install",
     "build:prod": "npm run build && browserify -s main src/main.js > dist/bundle.js && npm run minify",
-    "minify": "uglifyjs dist/bundle.js --screw-ie8 --compress --mangle --output dist/bundle.min.js"
+    "minify": "uglifyjs dist/bundle.js --screw-ie8 --compress --mangle --output dist/bundle.min.js",
+    "test": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\""
   },
   "author": "",
   "devDependencies": {
@@ -18,9 +19,10 @@
     "@types/chai": "^3.4.35",
     "@types/hellojs": "^0.2.31",
     "@types/jquery": "^2.0.40",
-    "@types/mocha": "^2.2.39",
+    "@types/jasmine": "^2.5.47",
     "browserify": "^14.3.0",
-    "uglifyjs": "^2.4.10"
+    "uglifyjs": "^2.4.10",
+    "jasmine-core": "^2.6.1"
   },
   "dependencies": {
     "@angular/animations": "^4.0.1",
@@ -38,8 +40,13 @@
     "moment": "^2.18.1",
     "rxjs": "^5.0.1",
     "systemjs": "^0.20.12",
-    "typescript": "^2.2.1",
-    "zone.js": "^0.8.5"
+    "typescript": "^2.2.2",
+    "zone.js": "^0.8.5",
+    "karma": "^1.6.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-cli": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2"
   },
   "repository": {
     "type": "git",
