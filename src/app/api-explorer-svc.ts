@@ -2,11 +2,10 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Injectable }              from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 
 import { RequestType } from "./base";
-import { AppComponent } from "./app.component";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/toPromise';
 
@@ -18,7 +17,6 @@ export class GraphService {
       GraphService._http = http;
   }
 
-    
   performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
         if (!headers) headers = new Headers();
         headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
@@ -53,7 +51,7 @@ export class GraphService {
         }
     }
 
-    getMetadata = (version:string) => {
-        return GraphService._http.get(`${AppComponent.Options.GraphUrl}/${version}/$metadata`).toPromise();
+    getMetadata = (graphUrl:string, version:string) => {
+        return GraphService._http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 };

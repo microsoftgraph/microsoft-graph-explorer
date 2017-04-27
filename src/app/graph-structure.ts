@@ -31,7 +31,7 @@ export function parseMetadata(apiService:GraphService, version?:string):Promise<
 
         if (!graphStructureCache.containsVersion(version)) {
             console.log(`parsing ${version} metadata`);
-            apiService.getMetadata(version).then((results:any) => {
+            apiService.getMetadata(AppComponent.Options.GraphUrl, version).then((results:any) => {
                 const metadata = $($.parseXML(results._body));
 
                 let entitySetData = getEntitySets(metadata);

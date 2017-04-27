@@ -4,7 +4,7 @@ Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 // Uncomment to get full stacktrace output. Sometimes helpful, usually not.
 // Error.stackTraceLimit = Infinity; //
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000*10;
 
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is 'src/')
@@ -33,9 +33,10 @@ var allSpecFiles = Object.keys(window.__karma__.files)
   .filter(isSpecFile)
   .filter(isBuiltFile);
 
+
 System.config({
   // Base URL for System.js calls. 'base/' is where Karma serves files from.
-  baseURL: 'base/',
+  baseURL: 'base/src',
   // Extend usual application package list with test folder
   packages: { 'testing': { main: 'index.js', defaultExtension: 'js' } },
 
@@ -50,10 +51,11 @@ System.config({
     '@angular/http/testing': 'npm:@angular/http/bundles/http-testing.umd.js',
     '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',
     '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
+    'api-explorer-svc': 'foobar'
   },
 });
 
-System.import('src/systemjs.config.js')
+System.import('systemjs.config.js')
   .then(importSystemJsExtras)
   .then(initTestBed)
   .then(initTesting);
