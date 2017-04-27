@@ -138,7 +138,7 @@ declare let mwf:any;
     }
 
     .c-menu.f-auto-suggest-scroll {
-        max-height: 300px;
+        max-height: 300px !important;
     }
 
     #go-lightning-icon {
