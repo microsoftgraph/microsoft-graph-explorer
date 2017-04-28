@@ -8,7 +8,7 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
-import { GraphService } from "./api-explorer-svc";
+import { GraphService } from "./graph-service";
 import { Response, Headers } from '@angular/http';
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer, showResults } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";

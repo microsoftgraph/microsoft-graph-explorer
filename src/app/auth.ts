@@ -5,7 +5,7 @@
 import { AppModule } from "./app.module";
 import { ExplorerOptions, Message } from "./base";
 import { AppComponent } from "./app.component";
-import { GraphService } from "./api-explorer-svc";
+import { GraphService } from "./graph-service";
 import { ChangeDetectorRef } from "@angular/core";
 import { PermissionScopes } from "./scopes";
 import { getParameterByName } from "./util";

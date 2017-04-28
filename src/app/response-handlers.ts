@@ -3,7 +3,6 @@
 // ------------------------------------------------------------------------------
 
 import { getJsonViewer, getAceEditorFromElId } from "./api-explorer-jseditor"
-import { GraphService } from "./api-explorer-svc";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
 

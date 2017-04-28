@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { AppComponent } from "./app.component";
-import { GraphService } from "./api-explorer-svc";
+import { GraphService } from "./graph-service";
 export type GraphNodeLinkTagName = "Property" | "NavigationProperty" | "EntitySet" | "Singleton"
 
 export interface GraphNodeLink {

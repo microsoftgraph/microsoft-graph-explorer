@@ -7,7 +7,7 @@ import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoComple
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
-import { GraphService } from "./api-explorer-svc";
+import { GraphService } from "./graph-service";
 import { GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL } from "./graph-structure";
 import { initializeJsonViewer, initializeResponseHeadersViewer } from "./api-explorer-jsviewer";
 import { Observable } from "rxjs/Observable";
