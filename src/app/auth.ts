@@ -148,14 +148,24 @@ function handleAdminConsentResponse() {
 }
 
 // warning - doesn't include 'openid' scope
+
+// After authentication redirect back to explorer, the obtained scopes need to be parsed
+// Issue - Depending on conditions (account type, initial or incremental consent), the 
+// scopes might have different delimiters - " ", "+", ","
 export function getScopes() {
 	let scopesStr = hello('msft').getAuthResponse().scope;
+
+	// scopesStr is something like "Files.Read,Mail.Send,User.Read"
 	if (!scopesStr) return;
 
 	scopesStr = scopesStr.toLowerCase();
 
-	if (scopesStr.indexOf("+") != -1) return scopesStr.split("+");
-	if (scopesStr.indexOf(",") != -1) return scopesStr.split(",");
+	if (scopesStr.indexOf("+") != -1)
+		return scopesStr.split("+");
+	if (scopesStr.indexOf(",") != -1)
+		return scopesStr.split(",");
+	if (scopesStr.split(" ").length > 2)
+		return scopesStr.split(" ");
 }
 
 export function isAuthenticated():boolean {
