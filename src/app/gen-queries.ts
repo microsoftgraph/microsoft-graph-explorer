@@ -86,6 +86,20 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
 },
 {
+    "category": "Users",
+    "method": "POST",
+    "humanName": "create user",
+    "requestUrl": "https://graph.microsoft.com/v1.0/users",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n        \"accountEnabled\": true,\n        \"city\": \"Seattle\",\n        \"country\": \"United States\",\n        \"department\": \"Sales & Marketing\",\n        \"displayName\": \"Melissa Darrow\",\n        \"givenName\": \"Melissa\",\n        \"jobTitle\": \"Marketing Director\",\n        \"mailNickname\": \"MelissaD\",\n        \"passwordPolicies\": \"DisablePasswordExpiration\",\n        \"passwordProfile\": {\n            \"password\": \"Test1234\",\n            \"forceChangePasswordNextSignIn\": false\n        },\n        \"officeLocation\": \"131/1105\",\n        \"postalCode\": \"98052\",\n        \"preferredLanguage\": \"en-US\",\n        \"state\": \"WA\",\n        \"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\n        \"surname\": \"Darrow\",\n        \"mobilePhone\": \"+1 206 555 0110\",\n        \"usageLocation\": \"US\",\n        \"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\",\n    }"
+},
+{
     "category": "Users (beta)",
     "method": "GET",
     "humanName": "track user changes",
@@ -221,7 +235,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Mail (beta)",
     "method": "GET",
     "humanName": "email I'm @ mentioned",
-    "requestUrl": "https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned%20eq%20true&$select=subject,sender,receivedDateTime",
+    "requestUrl": "https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2"
 },
 {
@@ -556,7 +570,7 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Insights (beta)",
     "method": "GET",
-    "humanName": "people whos name starts with J",
+    "humanName": "people whose name starts with J",
     "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=j",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
 },
@@ -570,12 +584,53 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "SharePoint Sites (beta)",
     "method": "GET",
-    "humanName": "Search for a sharepoint site by keyword",
-    "requestUrl": "https://graph.microsoft.com/beta/sites?search={query}"
+    "humanName": "Search for a SharePoint site by keyword",
+    "requestUrl": "https://graph.microsoft.com/beta/sites?search={query}",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ]
 },
 {
     "category": "SharePoint Sites (beta)",
     "method": "GET",
     "humanName": "Enumerate subsites of the root site",
     "requestUrl": "https://graph.microsoft.com/beta/sites/root/sites"
+},
+{
+    "category": "Extensions (beta)",
+    "method": "GET",
+    "humanName": "an open extension",
+    "requestUrl": "https://graph.microsoft.com/beta/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/opentypeextension"
+},
+{
+    "category": "Extensions (beta)",
+    "method": "POST",
+    "humanName": "create an open extension",
+    "requestUrl": "https://graph.microsoft.com/beta/me/extensions",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/opentypeextension_post_opentypeextension",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n    \"@odata.type\":\"microsoft.graph.openTypeExtension\",\n    \"extensionName\":\"com.contoso.roamingSettings\",\n    \"theme\":\"dark\",\n    \"color\":\"purple\",\n    \"lang\":\"Japanese\"\n}"
+},
+{
+    "category": "Extensions (beta)",
+    "method": "PATCH",
+    "humanName": "update an open extension",
+    "requestUrl": "https://graph.microsoft.com/beta/me/extensions/{extension-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/opentypeextension_update"
+},
+{
+    "category": "Extensions (beta)",
+    "method": "GET",
+    "humanName": "schema extension",
+    "requestUrl": "https://graph.microsoft.com/beta/schemaExtensions",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions"
 }]
