@@ -15,13 +15,13 @@ declare let fabric, mwf:any;
   styles: [`
     .category-row {
         margin-bottom: 15px;
-        padding: 0 50px;
+        padding: 0 30px;
     }
 
     .category-switch {
         display: inline-block;
         float: right;
-        width: 100px;
+        width: 130px;
     }
 
     div.c-toggle button {
