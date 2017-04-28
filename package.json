@@ -23,7 +23,7 @@
     "uglifyjs": "^2.4.10"
   },
   "dependencies": {
-    "@angular/animations": "~4.0.1",
+    "@angular/animations": "~4.0.0",
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
     "@angular/core": "~4.0.0",
