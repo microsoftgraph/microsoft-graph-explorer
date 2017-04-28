@@ -12,7 +12,6 @@ import { GraphService } from "./graph-service";
 import { Response, Headers } from '@angular/http';
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer, showResults } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
-import * as moment from "moment"
 import { createHeaders, getParameterByName } from "./util";
 import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
 import { parseMetadata, constructGraphLinksFromFullPath } from "./graph-structure";
@@ -20,7 +19,7 @@ import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 import { getString } from "./api-explorer-helpers";
 
-declare let mwf, ga;
+declare let mwf, ga, moment;
 
 @Component({
   selector: 'api-explorer',
@@ -50,9 +49,11 @@ declare let mwf, ga;
 export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
       // Headers aren't updated when that tab is hidden, so when clicking on any tab reinsert the headers
-      $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
-          insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
-      });
+      if (typeof $ !== "undefined") {
+        $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
+            insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
+        });
+      }
 
       parseMetadata(this.GraphService, "v1.0");
       parseMetadata(this.GraphService, "beta");
