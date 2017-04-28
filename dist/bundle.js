@@ -68851,6 +68851,8 @@ function getScopes() {
         return scopesStr.split("+");
     if (scopesStr.indexOf(",") != -1)
         return scopesStr.split(",");
+    if (scopesStr.split(" ").length > 2)
+        return scopesStr.split(" ");
 }
 exports.getScopes = getScopes;
 function isAuthenticated() {
