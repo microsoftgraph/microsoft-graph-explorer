@@ -13,18 +13,18 @@ fs.readdir("translation_files", function(err, filenames) {
         onError(err);
         return;
     }
-    var fileStr = '// This is a generated file from bundleLocFiles.js \n\nvar loc_strings = {};'
+    var fileStr = '// This is a generated file from bundleLocFiles.js \n\nexport const loc_strings = {};'
     var languageRead = [];
     filenames.forEach(function(filename) {
         languageRead.push(new Promise(function(resolve) {
             fs.readFile("translation_files/" + filename, 'utf-8', function(err, content) {
-                fileStr += '\n\n' + 'loc_strings[\'' + filename.split(".")[0] + '\'] = ' + JSON.stringify(JSON.parse(content));
+                fileStr += '\n\n' + 'loc_strings[\'' + filename.split(".")[0] + '\'] = ' + content;
                 resolve();
             });
         }))
     });
     Promise.all(languageRead).then(() => {
-        fs.writeFile("scripts/typescript/loc_strings.ts", fileStr, function(err) {
+        fs.writeFile("src/app/loc_strings.ts", fileStr, function(err) {
             if(err) {
                 return console.log(err);
             }
@@ -33,5 +33,3 @@ fs.readdir("translation_files", function(err, filenames) {
         }); 
     })
 });
-
-

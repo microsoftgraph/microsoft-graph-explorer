@@ -22,37 +22,14 @@
         <!--Angular material-->
         <script src="../bower_components/angular-material/angular-material.min.js"></script>
 
-        <!-- Graph explorer bundled scripts and styles -->
-        <script src="../build/min/all.js"></script>
-
-        <link rel="stylesheet" href="../build/all.css">
+        <link rel="stylesheet" href="../build/stylesheets/all.css">
 
         <!-- clientId, scopes, redirectUrl -->
         <script src="../secrets.js"></script>
-
-        <script>
-            window.runTests = true;
-            angular.module('ExplorerSampleApp', ['ApiExplorer'])
-            .controller('SampleAppCtrl', ['$scope', function($scope) {
-                $scope.customStrings = {
-                    "using_sample_tenant": "Using sample account"
-                };
-
-                $scope.adminScopes = "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All"
-
-                $scope.clientId = clientId;       //from secrets file
-                $scope.explorerScopes = scopes;   //from secrets file
-                $scope.redirectUrl = redirectUrl; //from secrets file
-
-                $scope.lang = 'en-us';// 'ja_jp'
-            }]);
-        </script>
     </head>
 
-    <body ng-app="ExplorerSampleApp" ng-controller="SampleAppCtrl">
-        <div class="container">
-            <api-explorer language="lang" strings="customStrings" admin-scopes="adminScopes" scopes="explorerScopes" client-id="clientId" redirectUrl="redirectUrl"></api-explorer>
-        </div>
+    <body class="container">
+        <div ng-app="MockApp" ng-controller="MockAppCtrl"></div>
         
         <div id="mocha"></div>
         <script src="../bower_components/chai/chai.js"></script>
@@ -63,9 +40,10 @@
             }
             mocha.setup('bdd')
         </script>
-        <script src="../spec/tests.js"></script>
+        <script src="../build/scripts/all-tests.js"></script>
         <script>
             mocha.run();
         </script>
+        
     </body>
 </html>

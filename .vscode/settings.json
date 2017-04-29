@@ -6,8 +6,10 @@
         "**/all.min.js":true
     },
     "files.exclude": {
-        "scripts/typescript/*.js": true,
-        "scripts/typescript/*.js.map": true,
-        "scripts/typescript/*.d.ts": true
+        "src/**/*.js": false,
+        "src/app/*.js": true,
+        "src/**/.js.map": true,
+        "src/**/.d.ts": true,
+        "**/*gulp-tsc*": true
     }
 }
