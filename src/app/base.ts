@@ -149,6 +149,13 @@ const Tokens = {
     "{site-path}": "/Operations/Manufacturing/",
     "{today}": today.toISOString(),
     "{next-week}": nextWeek.toISOString(),
+    "AUTHENTICATED_DOMAIN": () => {
+        try {
+            return AppComponent.explorerValues.authentication.user.emailAddress.split("@")[1];
+        } catch(e) {
+            return "example@contoso.com"
+        }
+    },
     "FULL_USER_EMAIL": () => {
         try {
             return AppComponent.explorerValues.authentication.user.emailAddress;
