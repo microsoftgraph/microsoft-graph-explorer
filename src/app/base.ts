@@ -191,3 +191,8 @@ export interface MessageBarContent {
     backgroundClass: string
     text: string
 }
+
+export let AllowedGraphDomains = [
+    "https://graph.microsoft.com",
+    "https://microsoftgraph.chinacloudapi.cn"
+]

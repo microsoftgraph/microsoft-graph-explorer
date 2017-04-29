@@ -42,6 +42,10 @@ declare let fabric, mwf;
     margin-top: 4px;
   }
 
+  .ms-MessageBar-text {
+    font-size: 15px;
+  }
+
   .ms-MessageBar {
     margin-top: 20px;
     width: 100%;
@@ -68,7 +72,7 @@ declare let fabric, mwf;
       <i class="ms-Icon ms-Icon--Cancel"></i>
     </button>
     <div class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
-      <p class="ms-Dialog-subText">Select different <a class="ms-Link" href="https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes" target="_blank">permission scopes</a> to try out Microsoft Graph API endpoints.</p>
+      <p class="ms-Dialog-subText">Select different <a class="ms-Link" href="https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes" target="_blank">permissions</a> to try out Microsoft Graph API endpoints.</p>
       <div class="ms-Dialog-content">
         <div id="scopes-list-table-container">
           <table class="ms-Table" id="scopes-list-table">
@@ -90,7 +94,7 @@ declare let fabric, mwf;
           </table>
         </div>
         <div *ngIf="scopeListIsDirty()">
-        <div class="ms-MessageBar">
+        <div class="ms-MessageBar ms-MessageBar--warning">
           <div class="ms-MessageBar-content">
             <div class="ms-MessageBar-icon">
               <i class="ms-Icon ms-Icon--Info"></i>
@@ -104,7 +108,7 @@ declare let fabric, mwf;
       </div>
 
       <div *ngIf="requestingAdminScopes()">
-        <div class="ms-MessageBar">
+        <div class="ms-MessageBar ms-MessageBar--warning">
           <div class="ms-MessageBar-content">
             <div class="ms-MessageBar-icon">
               <i class="ms-Icon ms-Icon--Info"></i>

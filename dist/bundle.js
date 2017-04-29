@@ -68394,12 +68394,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+var base_1 = require("./base");
 var app_component_1 = require("./app.component");
 require("rxjs/add/operator/toPromise");
 var GraphService = GraphService_1 = (function () {
     function GraphService(http) {
         this.http = http;
         this.performQuery = function (queryType, query, postBody, requestHeaders) {
+            var sentToGraph = false;
+            for (var _i = 0, AllowedGraphDomains_1 = base_1.AllowedGraphDomains; _i < AllowedGraphDomains_1.length; _i++) {
+                var domain = AllowedGraphDomains_1[_i];
+                if (query.indexOf(domain) != -1) {
+                    sentToGraph = true;
+                    break;
+                }
+            }
+            if (!sentToGraph) {
+                throw "Not sending request to known Graph deployment";
+            }
             if (typeof requestHeaders == "undefined") {
                 requestHeaders = new http_1.Headers();
             }
@@ -68445,7 +68457,7 @@ exports.GraphService = GraphService;
 ;
 var GraphService_1;
 
-},{"./app.component":58,"@angular/core":5,"@angular/http":7,"rxjs/add/operator/toPromise":20}],58:[function(require,module,exports){
+},{"./app.component":58,"./base":62,"@angular/core":5,"@angular/http":7,"rxjs/add/operator/toPromise":20}],58:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -69027,6 +69039,10 @@ function substituePostBodyTokens(query) {
     }
 }
 exports.substituePostBodyTokens = substituePostBodyTokens;
+exports.AllowedGraphDomains = [
+    "https://graph.microsoft.com",
+    "https://microsoftgraph.chinacloudapi.cn"
+];
 
 },{"./app.component":58}],63:[function(require,module,exports){
 "use strict";
@@ -71867,8 +71883,8 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
 ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
     core_1.Component({
         selector: 'scopes-dialog',
-        styles: ["\n\n  #scopes-dialog {\n      min-width: 800px;\n  }\n\n  #scopes-list-table-container {\n    max-height: 451px;\n    overflow: auto;\n    margin-top: 20px;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n    height: 40px;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n  label.c-label {\n      margin-top: 0px;\n      margin-bottom: 20px;\n  }\n\n  .preview-label {\n    margin-left: 10px;\n  }\n"],
-        template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('modify permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permission scopes</a> to try out Microsoft Graph API endpoints.</p>\n      <div class=\"ms-Dialog-content\">\n        <div id=\"scopes-list-table-container\">\n          <table class=\"ms-Table\" id=\"scopes-list-table\">\n            <tr *ngFor=\"let scope of scopes\">\n              <td>\n                <div class=\"c-checkbox\">\n                    <label class=\"c-label\">\n                        <input type=\"checkbox\" [disabled]=\"scope.name == 'openid'\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                        <span aria-hidden=\"true\">{{scope.name}}<i class=\"preview-label\" *ngIf=\"scope.preview\">{{getStr('Preview')}}</i></span>\n                    </label>\n                </div>\n              </td>\n              <td>\n                <span *ngIf=\"scope.admin\">\n                  Admin\n                </span>\n              </td>\n            </tr>\n          </table>\n        </div>\n        <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n      </div>\n      \n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
+        styles: ["\n\n  #scopes-dialog {\n      min-width: 800px;\n  }\n\n  #scopes-list-table-container {\n    max-height: 451px;\n    overflow: auto;\n    margin-top: 20px;\n  }\n\n  .ms-Dialog {\n    max-width: 770px;\n    z-index: 999;\n  }\n\n  .ms-Dialog-title {\n    text-transform: capitalize;\n  }\n\n  .ms-Link {\n    color: #0078d7;\n  }\n\n  .ms-CheckBox-field:before, .ms-CheckBox-field:after {\n    margin-top: 4px;\n  }\n\n  .ms-MessageBar-text {\n    font-size: 15px;\n  }\n\n  .ms-MessageBar {\n    margin-top: 20px;\n    width: 100%;\n    height: 40px;\n  }\n\n  .c-checkbox input[type=checkbox]:focus+span:before {\n    outline: none !important;\n  }\n\n  label.c-label {\n      margin-top: 0px;\n      margin-bottom: 20px;\n  }\n\n  .preview-label {\n    margin-left: 10px;\n  }\n"],
+        template: "\n\n  <div class=\"ms-Dialog center-dialog ms-Dialog--close\" id=\"scopes-dialog\">\n    <button class=\"ms-Dialog-button ms-Dialog-buttonClose\">\n      <i class=\"ms-Icon ms-Icon--Cancel\"></i>\n    </button>\n    <div class=\"ms-Dialog-title\">{{getStr('modify permissions')}}</div>\n      <p class=\"ms-Dialog-subText\">Select different <a class=\"ms-Link\" href=\"https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes\" target=\"_blank\">permissions</a> to try out Microsoft Graph API endpoints.</p>\n      <div class=\"ms-Dialog-content\">\n        <div id=\"scopes-list-table-container\">\n          <table class=\"ms-Table\" id=\"scopes-list-table\">\n            <tr *ngFor=\"let scope of scopes\">\n              <td>\n                <div class=\"c-checkbox\">\n                    <label class=\"c-label\">\n                        <input type=\"checkbox\" [disabled]=\"scope.name == 'openid'\" (change)=\"toggleScopeEnabled(scope)\" name=\"checkboxId1\" value=\"value1\" [checked]=\"scope.enabledTarget\">\n                        <span aria-hidden=\"true\">{{scope.name}}<i class=\"preview-label\" *ngIf=\"scope.preview\">{{getStr('Preview')}}</i></span>\n                    </label>\n                </div>\n              </td>\n              <td>\n                <span *ngIf=\"scope.admin\">\n                  Admin\n                </span>\n              </td>\n            </tr>\n          </table>\n        </div>\n        <div *ngIf=\"scopeListIsDirty()\">\n        <div class=\"ms-MessageBar ms-MessageBar--warning\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              {{getStr('To change permissions, you will need to log-in again.')}}\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"requestingAdminScopes()\">\n        <div class=\"ms-MessageBar ms-MessageBar--warning\">\n          <div class=\"ms-MessageBar-content\">\n            <div class=\"ms-MessageBar-icon\">\n              <i class=\"ms-Icon ms-Icon--Info\"></i>\n            </div>\n            <div class=\"ms-MessageBar-text\">\n              You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class=\"ms-Link\" href=\"#\" (click)=\"startAdminConsentFlow()\">access to your entire administration</a>.\n              <br />\n            </div>\n          </div>\n        </div>\n      </div>\n      </div>\n      \n\n\n    <div class=\"ms-Dialog-actions\">\n      <button class=\"ms-Button ms-Dialog-action ms-Button--primary\" [disabled]=\"!scopeListIsDirty()\" (click)=\"getNewAccessToken()\">\n        <span class=\"ms-Button-label\">{{getStr('Save changes')}}</span> \n      </button>\n      <button class=\"ms-Button ms-Dialog-action\">\n        <span class=\"ms-Button-label\">{{getStr('Close')}}</span> \n      </button>\n    </div>\n  </div>\n\n     ",
     })
 ], ScopesDialogComponent);
 exports.ScopesDialogComponent = ScopesDialogComponent;
