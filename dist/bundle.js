@@ -68223,21 +68223,21 @@ exports.tryCatch = tryCatch;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
-var api_explorer_helpers_1 = require("./api-explorer-helpers");
+var localization_helpers_1 = require("./localization-helpers");
 function getShortQueryText(query) {
     var shortQueryUrl;
     if (query.requestUrl) {
         shortQueryUrl = query.requestUrl.split(app_component_1.AppComponent.Options.GraphUrl)[1];
     }
     var queryText = query.humanName || shortQueryUrl;
-    return (api_explorer_helpers_1.getString(app_component_1.AppComponent.Options, queryText)) || queryText;
+    return (localization_helpers_1.getString(app_component_1.AppComponent.Options, queryText)) || queryText;
 }
 exports.getShortQueryText = getShortQueryText;
 
-},{"./api-explorer-helpers":54,"./app.component":58}],53:[function(require,module,exports){
+},{"./app.component":57,"./localization-helpers":71}],53:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var api_explorer_helpers_1 = require("./api-explorer-helpers");
+var localization_helpers_1 = require("./localization-helpers");
 var app_component_1 = require("./app.component");
 var auth_1 = require("./auth");
 var base_1 = require("./base");
@@ -68255,7 +68255,7 @@ var GraphExplorerComponent = (function () {
         };
     }
     GraphExplorerComponent.prototype.getStr = function (label) {
-        return api_explorer_helpers_1.getString(app_component_1.AppComponent.Options, label) || "*****" + label;
+        return localization_helpers_1.getString(app_component_1.AppComponent.Options, label) || "*****" + label;
     };
     GraphExplorerComponent.prototype.getAssetPath = function (relPath) {
         return app_component_1.AppComponent.Options.PathToBuildDir + "/" + relPath;
@@ -68315,18 +68315,7 @@ var GraphExplorerComponent = (function () {
 }());
 exports.GraphExplorerComponent = GraphExplorerComponent;
 
-},{"./api-explorer-helpers":54,"./api-explorer-jseditor":55,"./app.component":58,"./auth":60,"./base":62}],54:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var loc_strings_1 = require("./loc_strings");
-function getString(options, label) {
-    if (label in loc_strings_1.loc_strings[options.Language])
-        return loc_strings_1.loc_strings[options.Language][label];
-    return loc_strings_1.loc_strings["en-US"][label];
-}
-exports.getString = getString;
-
-},{"./loc_strings":71}],55:[function(require,module,exports){
+},{"./api-explorer-jseditor":54,"./app.component":57,"./auth":59,"./base":61,"./localization-helpers":71}],54:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function getRequestBodyEditor() {
@@ -68358,7 +68347,7 @@ function commonAceSetup(editor) {
 }
 exports.commonAceSetup = commonAceSetup;
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
@@ -68388,7 +68377,7 @@ function initializeResponseHeadersViewer() {
 }
 exports.initializeResponseHeadersViewer = initializeResponseHeadersViewer;
 
-},{"./api-explorer-jseditor":55}],57:[function(require,module,exports){
+},{"./api-explorer-jseditor":54}],56:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -68465,7 +68454,7 @@ exports.GraphService = GraphService;
 ;
 var GraphService_1;
 
-},{"./app.component":58,"./base":62,"@angular/core":5,"@angular/http":7,"rxjs/add/operator/toPromise":20}],58:[function(require,module,exports){
+},{"./app.component":57,"./base":61,"@angular/core":5,"@angular/http":7,"rxjs/add/operator/toPromise":20}],57:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -68500,7 +68489,7 @@ var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
 var graph_structure_1 = require("./graph-structure");
 var response_status_bar_component_1 = require("./response-status-bar.component");
 var generic_message_dialog_component_1 = require("./generic-message-dialog.component");
-var api_explorer_helpers_1 = require("./api-explorer-helpers");
+var localization_helpers_1 = require("./localization-helpers");
 var AppComponent = AppComponent_1 = (function (_super) {
     __extends(AppComponent, _super);
     function AppComponent(GraphService, chRef) {
@@ -68618,12 +68607,12 @@ function isSuccessful(query) {
 function createTextSummary(query) {
     var text = "";
     if (isSuccessful(query)) {
-        text += api_explorer_helpers_1.getString(AppComponent.Options, "Success");
+        text += localization_helpers_1.getString(AppComponent.Options, "Success");
     }
     else {
-        text += api_explorer_helpers_1.getString(AppComponent.Options, "Failure");
+        text += localization_helpers_1.getString(AppComponent.Options, "Failure");
     }
-    text += " - " + api_explorer_helpers_1.getString(AppComponent.Options, "Status Code") + " " + query.statusCode;
+    text += " - " + localization_helpers_1.getString(AppComponent.Options, "Status Code") + " " + query.statusCode;
     text += "<span style=\"font-weight: 800; margin-left: 40px;\">" + query.duration + "ms</span>";
     if (query.statusCode == 401 || query.statusCode == 403) {
         text += "<span style=\"margin-left: 40px;\">Looks like you may not have the permissions for this call. Please <a href=\"#\" class=\"c-hyperlink\" onclick=\"window.launchPermissionsDialog()\" class=\"\">modify your permissions</a>.</span>";
@@ -68707,7 +68696,7 @@ function handleUnsuccessfulQueryResponse(res, query) {
 }
 var AppComponent_1;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-helpers":54,"./api-explorer-jseditor":55,"./api-explorer-svc":57,"./auth":60,"./fabric-components":63,"./generic-message-dialog.component":65,"./graph-structure":67,"./history":70,"./response-handlers":76,"./response-status-bar.component":77,"./util":83,"@angular/core":5,"moment":11}],59:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":54,"./api-explorer-svc":56,"./auth":59,"./fabric-components":62,"./generic-message-dialog.component":64,"./graph-structure":66,"./history":69,"./localization-helpers":71,"./response-handlers":76,"./response-status-bar.component":77,"./util":83,"@angular/core":5,"moment":11}],58:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -68749,7 +68738,7 @@ AppModule = __decorate([
 ], AppModule);
 exports.AppModule = AppModule;
 
-},{"./app.component":58,"./authentication.component":61,"./generic-message-dialog.component":65,"./history-panel.component":68,"./history-query.component":69,"./main-column.component":72,"./method-badge.component":73,"./queryrow.component":74,"./request-editors.component":75,"./response-status-bar.component":77,"./sample-categories-panel.component":78,"./scopes-dialog.component":79,"./share-link-btn.component":81,"./sidebar.component":82,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],60:[function(require,module,exports){
+},{"./app.component":57,"./authentication.component":60,"./generic-message-dialog.component":64,"./history-panel.component":67,"./history-query.component":68,"./main-column.component":72,"./method-badge.component":73,"./queryrow.component":74,"./request-editors.component":75,"./response-status-bar.component":77,"./sample-categories-panel.component":78,"./scopes-dialog.component":79,"./share-link-btn.component":81,"./sidebar.component":82,"@angular/core":5,"@angular/forms":6,"@angular/http":7,"@angular/platform-browser":10,"@angular/platform-browser/animations":9}],59:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -68889,7 +68878,7 @@ function isAuthenticated() {
 exports.isAuthenticated = isAuthenticated;
 ;
 
-},{"./app.component":58,"./scopes":80,"./util":83}],61:[function(require,module,exports){
+},{"./app.component":57,"./scopes":80,"./util":83}],60:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -68964,7 +68953,7 @@ AuthenticationComponent = __decorate([
 ], AuthenticationComponent);
 exports.AuthenticationComponent = AuthenticationComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"./scopes-dialog.component":79,"@angular/core":5,"@angular/platform-browser":10}],62:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":57,"./scopes-dialog.component":79,"@angular/core":5,"@angular/platform-browser":10}],61:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -69056,7 +69045,7 @@ exports.AllowedGraphDomains = [
     "https://microsoftgraph.chinacloudapi.cn"
 ];
 
-},{"./app.component":58}],63:[function(require,module,exports){
+},{"./app.component":57}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function initFabricComponents() {
@@ -69086,7 +69075,7 @@ function initFabricComponents() {
 }
 exports.initFabricComponents = initFabricComponents;
 
-},{}],64:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SampleQueries = [
@@ -69638,7 +69627,7 @@ exports.SampleQueries = [
     }
 ];
 
-},{}],65:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -69684,7 +69673,7 @@ GenericDialogComponent = __decorate([
 ], GenericDialogComponent);
 exports.GenericDialogComponent = GenericDialogComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],66:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":57,"@angular/core":5}],65:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var gen_queries_1 = require("./gen-queries");
@@ -69728,7 +69717,7 @@ for (var categoryTitle in categories) {
     exports.SampleCategories.push(category);
 }
 
-},{"./gen-queries":64}],67:[function(require,module,exports){
+},{"./gen-queries":63}],66:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");
@@ -69930,7 +69919,7 @@ function loadEntityTypeData(version) {
 }
 exports.loadEntityTypeData = loadEntityTypeData;
 
-},{"./app.component":58}],68:[function(require,module,exports){
+},{"./app.component":57}],67:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70013,7 +70002,7 @@ HistoryPanelComponent = __decorate([
 ], HistoryPanelComponent);
 exports.HistoryPanelComponent = HistoryPanelComponent;
 
-},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":58,"./history":70,"@angular/core":5,"moment":11}],69:[function(require,module,exports){
+},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":57,"./history":69,"@angular/core":5,"moment":11}],68:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -70077,7 +70066,7 @@ HistoryRowComponent = __decorate([
 ], HistoryRowComponent);
 exports.HistoryRowComponent = HistoryRowComponent;
 
-},{"./queryrow.component":74,"@angular/core":5,"moment":11}],70:[function(require,module,exports){
+},{"./queryrow.component":74,"@angular/core":5,"moment":11}],69:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var LocalStorageKeyGraphRequestHistory = "GRAPH_V4.1_REQUEST_HISTORY";
@@ -70094,7 +70083,7 @@ function loadHistoryFromLocalStorage() {
 }
 exports.loadHistoryFromLocalStorage = loadHistoryFromLocalStorage;
 
-},{}],71:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loc_strings = {};
@@ -71093,7 +71082,18 @@ exports.loc_strings['ru-RU'] = {
     "Insights (preview)": "Insights (предварительная версия)"
 };
 
-},{}],72:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var loc_strings_1 = require("./loc_strings");
+function getString(options, label) {
+    if (label in loc_strings_1.loc_strings[options.Language])
+        return loc_strings_1.loc_strings[options.Language][label];
+    return loc_strings_1.loc_strings["en-US"][label];
+}
+exports.getString = getString;
+
+},{"./loc_strings":70}],72:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -71308,7 +71308,7 @@ MainColumnComponent = __decorate([
 ], MainColumnComponent);
 exports.MainColumnComponent = MainColumnComponent;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jsviewer":56,"./api-explorer-svc":57,"./app.component":58,"./base":62,"./graph-structure":67,"@angular/core":5,"@angular/forms":6}],73:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jsviewer":55,"./api-explorer-svc":56,"./app.component":57,"./base":61,"./graph-structure":66,"@angular/core":5,"@angular/forms":6}],73:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -71416,7 +71416,7 @@ QueryRowComponent = __decorate([
 ], QueryRowComponent);
 exports.QueryRowComponent = QueryRowComponent;
 
-},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5}],75:[function(require,module,exports){
+},{"./ApiCallDisplayHelpers":52,"./GraphExplorerComponent":53,"./app.component":57,"@angular/core":5}],75:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -71483,7 +71483,7 @@ RequestEditorsComponent = __decorate([
 ], RequestEditorsComponent);
 exports.RequestEditorsComponent = RequestEditorsComponent;
 
-},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":55,"@angular/core":5}],76:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./api-explorer-jseditor":54,"@angular/core":5}],76:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_explorer_jseditor_1 = require("./api-explorer-jseditor");
@@ -71612,7 +71612,7 @@ function formatXml(xml) {
 exports.formatXml = formatXml;
 ;
 
-},{"./api-explorer-jseditor":55,"./app.component":58}],77:[function(require,module,exports){
+},{"./api-explorer-jseditor":54,"./app.component":57}],77:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -71685,7 +71685,7 @@ ResponseStatusBarComponent = __decorate([
 ], ResponseStatusBarComponent);
 exports.ResponseStatusBarComponent = ResponseStatusBarComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"@angular/core":5,"@angular/platform-browser":10}],78:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":57,"@angular/core":5,"@angular/platform-browser":10}],78:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -71734,7 +71734,7 @@ SampleCategoriesPanelComponent = __decorate([
 ], SampleCategoriesPanelComponent);
 exports.SampleCategoriesPanelComponent = SampleCategoriesPanelComponent;
 
-},{"./GraphExplorerComponent":53,"./getting-started-queries":66,"@angular/core":5}],79:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],79:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -71823,7 +71823,7 @@ ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
 exports.ScopesDialogComponent = ScopesDialogComponent;
 var ScopesDialogComponent_1;
 
-},{"./GraphExplorerComponent":53,"./app.component":58,"./scopes":80,"@angular/core":5}],80:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":57,"./scopes":80,"@angular/core":5}],80:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PermissionScopes = [
@@ -72380,7 +72380,7 @@ SidebarComponent = __decorate([
 ], SidebarComponent);
 exports.SidebarComponent = SidebarComponent;
 
-},{"./GraphExplorerComponent":53,"./getting-started-queries":66,"@angular/core":5}],83:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./getting-started-queries":65,"@angular/core":5}],83:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
@@ -72417,5 +72417,5 @@ var core_1 = require("@angular/core");
 core_1.enableProdMode();
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
-},{"./app/app.module":59,"@angular/core":5,"@angular/platform-browser-dynamic":8}]},{},[84])(84)
+},{"./app/app.module":58,"@angular/core":5,"@angular/platform-browser-dynamic":8}]},{},[84])(84)
 });

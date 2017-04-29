@@ -11,7 +11,6 @@ import { getShortQueryText } from "./ApiCallDisplayHelpers";
 import { getString } from "./localization-helpers";
 import { saveHistoryToLocalStorage } from "./history";
 
-
 @Component({
   selector: 'history-panel',
   styles: [`

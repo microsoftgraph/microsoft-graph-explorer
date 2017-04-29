@@ -9,8 +9,6 @@ import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substitu
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 
-
-
 export class GraphExplorerComponent {
 
   explorerValues = AppComponent.explorerValues;

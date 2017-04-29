@@ -180,7 +180,6 @@ export function substituePostBodyTokens(query:SampleQuery) {
     }
 }
 
-
 export interface Message {
     title: string
     body: string
