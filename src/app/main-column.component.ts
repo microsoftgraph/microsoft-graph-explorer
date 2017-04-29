@@ -176,7 +176,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             this.updateHttpMethod();
 
             // add content-type header when switching to POST
-            if (this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST") {
+            if ((this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST")
+                || (this.oldExplorerValues.selectedOption != "PATCH" && this.explorerValues.selectedOption == "PATCH")) {
                  // if it doesn't already exist
                  let hasContentTypeHeader = false;
                  if (this.explorerValues.headers) {

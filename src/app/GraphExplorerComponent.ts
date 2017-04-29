@@ -54,7 +54,6 @@ export class GraphExplorerComponent {
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
 
-      
       if (query.headers) {
         AppComponent.explorerValues.headers = query.headers;
       } else {

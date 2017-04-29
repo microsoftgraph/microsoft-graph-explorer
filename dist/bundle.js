@@ -71147,7 +71147,8 @@ var MainColumnComponent = (function (_super) {
             this.updateVersionFromEndpointUrl();
             this.updateGraphVersionSelect();
             this.updateHttpMethod();
-            if (this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST") {
+            if ((this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST")
+                || (this.oldExplorerValues.selectedOption != "PATCH" && this.explorerValues.selectedOption == "PATCH")) {
                 var hasContentTypeHeader = false;
                 if (this.explorerValues.headers) {
                     for (var _i = 0, _a = this.explorerValues.headers; _i < _a.length; _i++) {
