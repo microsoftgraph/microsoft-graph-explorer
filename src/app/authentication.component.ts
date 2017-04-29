@@ -9,6 +9,7 @@ import { AuthenticationStatus } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { ScopesDialogComponent } from "./scopes-dialog.component";
+import { localLogout } from "./auth";
 
 @Component({
   selector: 'authentication',
@@ -116,13 +117,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   };
 
   logout() {
-    // anonymous users can only GET
-    this.explorerValues.selectedOption = "GET";
-
-    (hello as any)('msft').logout(null, {force:true});
-    this.explorerValues.authentication.status = "anonymous"
-    delete this.explorerValues.authentication.user;
-
+    localLogout();
   }
 
   authInfo = this.explorerValues.authentication;

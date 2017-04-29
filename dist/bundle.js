@@ -68795,6 +68795,8 @@ function initAuth(options, apiService, changeDetectorRef) {
             Promise.all(promisesGetUserInfo).then(function () {
                 app_component_1.AppComponent.explorerValues.authentication.status = "authenticated";
                 changeDetectorRef.detectChanges();
+            }).catch(function (e) {
+                localLogout();
             });
             var scopes = getScopes();
             scopes.push("openid");
@@ -68877,6 +68879,13 @@ function isAuthenticated() {
 }
 exports.isAuthenticated = isAuthenticated;
 ;
+function localLogout() {
+    app_component_1.AppComponent.explorerValues.selectedOption = "GET";
+    hello('msft').logout(null, { force: true });
+    app_component_1.AppComponent.explorerValues.authentication.status = "anonymous";
+    delete app_component_1.AppComponent.explorerValues.authentication.user;
+}
+exports.localLogout = localLogout;
 
 },{"./app.component":57,"./scopes":80,"./util":83}],60:[function(require,module,exports){
 "use strict";
@@ -68905,6 +68914,7 @@ var platform_browser_1 = require("@angular/platform-browser");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
 var app_component_1 = require("./app.component");
 var scopes_dialog_component_1 = require("./scopes-dialog.component");
+var auth_1 = require("./auth");
 var AuthenticationComponent = (function (_super) {
     __extends(AuthenticationComponent, _super);
     function AuthenticationComponent(sanitizer) {
@@ -68930,10 +68940,7 @@ var AuthenticationComponent = (function (_super) {
     };
     ;
     AuthenticationComponent.prototype.logout = function () {
-        this.explorerValues.selectedOption = "GET";
-        hello('msft').logout(null, { force: true });
-        this.explorerValues.authentication.status = "anonymous";
-        delete this.explorerValues.authentication.user;
+        auth_1.localLogout();
     };
     AuthenticationComponent.prototype.getAuthenticationStatus = function () {
         return this.explorerValues.authentication.status;
@@ -68953,7 +68960,7 @@ AuthenticationComponent = __decorate([
 ], AuthenticationComponent);
 exports.AuthenticationComponent = AuthenticationComponent;
 
-},{"./GraphExplorerComponent":53,"./app.component":57,"./scopes-dialog.component":79,"@angular/core":5,"@angular/platform-browser":10}],61:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./app.component":57,"./auth":59,"./scopes-dialog.component":79,"@angular/core":5,"@angular/platform-browser":10}],61:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_component_1 = require("./app.component");

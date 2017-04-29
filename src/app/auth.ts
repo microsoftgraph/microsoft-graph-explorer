@@ -81,6 +81,9 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			Promise.all(promisesGetUserInfo).then(() => {
 				AppComponent.explorerValues.authentication.status = "authenticated"
 				changeDetectorRef.detectChanges();
+			}).catch((e) => {
+				// occurs when hello got an access token, but it's already expired
+				localLogout();				
 			});
 
 			// set which permissions are checked
@@ -179,3 +182,13 @@ export function isAuthenticated():boolean {
 	let currentTime = (new Date()).getTime() / 1000;
 	return session && session.access_token && session.expires > currentTime;
 };
+
+
+export function localLogout() {
+	// anonymous users can only GET
+	AppComponent.explorerValues.selectedOption = "GET";
+
+	(hello as any)('msft').logout(null, {force:true});
+	AppComponent.explorerValues.authentication.status = "anonymous"
+	delete AppComponent.explorerValues.authentication.user;
+}
