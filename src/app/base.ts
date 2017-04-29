@@ -82,7 +82,6 @@ export interface ExplorerValues {
             displayName?: string
             emailAddress?: string
             profileImageUrl?: string
-            preferred_username?: string
         }
     }
     showImage?: boolean

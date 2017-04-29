@@ -71770,7 +71770,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var GraphExplorerComponent_1 = require("./GraphExplorerComponent");
-var app_component_1 = require("./app.component");
 var scopes_1 = require("./scopes");
 var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
     __extends(ScopesDialogComponent, _super);
@@ -71806,7 +71805,6 @@ var ScopesDialogComponent = ScopesDialogComponent_1 = (function (_super) {
             response_type: "id_token token",
             nonce: 'graph_explorer',
             prompt: 'select_account',
-            login_hint: app_component_1.AppComponent.explorerValues.authentication.user.preferred_username,
             scope: scopes_1.PermissionScopes.filter(function (scope) { return scope.enabledTarget; }).map(function (scope) { return scope.name; }).join(" ")
         };
         hello('msft').login(loginProperties);
@@ -71838,7 +71836,7 @@ ScopesDialogComponent = ScopesDialogComponent_1 = __decorate([
 exports.ScopesDialogComponent = ScopesDialogComponent;
 var ScopesDialogComponent_1;
 
-},{"./GraphExplorerComponent":53,"./app.component":57,"./scopes":80,"@angular/core":5}],80:[function(require,module,exports){
+},{"./GraphExplorerComponent":53,"./scopes":80,"@angular/core":5}],80:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PermissionScopes = [

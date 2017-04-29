@@ -173,7 +173,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
         response_type: "id_token token",
         nonce: 'graph_explorer',
         prompt: 'select_account',
-        login_hint: AppComponent.explorerValues.authentication.user.preferred_username,
+        // login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login
         scope: PermissionScopes.filter((scope) => scope.enabledTarget).map((scope) => scope.name).join(" ")
       };
 
