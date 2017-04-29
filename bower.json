@@ -18,8 +18,6 @@
     "office-ui-fabric-js": "^1.4.0"
   },
   "devDependencies": {
-    "mocha": "latest",
-    "chai": "latest",
-    "jQuery": "latest"
+    "chai": "latest"
   }
 }
