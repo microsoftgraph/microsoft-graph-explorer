@@ -14,17 +14,12 @@
     "tests"
   ],
   "dependencies": {
-    "hello": "^1.14.0"
+    "hello": "git@github.com:dan-silver/hello.js.git#master",
+    "office-ui-fabric-js": "^1.4.0"
   },
   "devDependencies": {
-    "mocha":"latest",
+    "mocha": "latest",
     "chai": "latest",
-    "jQuery": "latest",
-    "bootstrap": "latest",
-    "angular-material": "latest",
-    "angular-animate": "latest",
-    "angular-messages": "latest",
-    "angular-route": "latest",
-    "angular-aria": "latest"
+    "jQuery": "latest"
   }
 }

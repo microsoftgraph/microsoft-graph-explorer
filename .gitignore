@@ -5,6 +5,21 @@ secrets.js
 fonts/
 debug.log
 
-scripts/typescript/*.js
-scripts/typescript/*.js.map
-scripts/typescript/*.d.ts
+scripts/*.js
+scripts/*.js.map
+scripts/*.d.ts
+
+**/*gulp-tsc-tmp*
+build/
+
+spec/*.js
+spec/*.js.map
+
+src/secrets*
+
+src/**/*.d.ts
+src/**/*.js
+src/**/*.js.map
+
+sample-queries.csv
+./import-sample-queries.js
