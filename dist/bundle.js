@@ -69008,6 +69008,14 @@ var Tokens = {
     "{site-path}": "/Operations/Manufacturing/",
     "{today}": today.toISOString(),
     "{next-week}": nextWeek.toISOString(),
+    "AUTHENTICATED_DOMAIN": function () {
+        try {
+            return app_component_1.AppComponent.explorerValues.authentication.user.emailAddress.split("@")[1];
+        }
+        catch (e) {
+            return "example@contoso.com";
+        }
+    },
     "FULL_USER_EMAIL": function () {
         try {
             return app_component_1.AppComponent.explorerValues.authentication.user.emailAddress;
@@ -69168,7 +69176,7 @@ exports.SampleQueries = [
                 "value": "application/json"
             }
         ],
-        "postBody": "{\n        \"accountEnabled\": true,\n        \"city\": \"Seattle\",\n        \"country\": \"United States\",\n        \"department\": \"Sales & Marketing\",\n        \"displayName\": \"Melissa Darrow\",\n        \"givenName\": \"Melissa\",\n        \"jobTitle\": \"Marketing Director\",\n        \"mailNickname\": \"MelissaD\",\n        \"passwordPolicies\": \"DisablePasswordExpiration\",\n        \"passwordProfile\": {\n            \"password\": \"Test1234\",\n            \"forceChangePasswordNextSignIn\": false\n        },\n        \"officeLocation\": \"131/1105\",\n        \"postalCode\": \"98052\",\n        \"preferredLanguage\": \"en-US\",\n        \"state\": \"WA\",\n        \"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\n        \"surname\": \"Darrow\",\n        \"mobilePhone\": \"+1 206 555 0110\",\n        \"usageLocation\": \"US\",\n        \"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\",\n    }"
+        "postBody": "{\n        \"accountEnabled\": true,\n        \"city\": \"Seattle\",\n        \"country\": \"United States\",\n        \"department\": \"Sales & Marketing\",\n        \"displayName\": \"Melissa Darrow\",\n        \"givenName\": \"Melissa\",\n        \"jobTitle\": \"Marketing Director\",\n        \"mailNickname\": \"MelissaD\",\n        \"passwordPolicies\": \"DisablePasswordExpiration\",\n        \"passwordProfile\": {\n            \"password\": \"Test1234\",\n            \"forceChangePasswordNextSignIn\": false\n        },\n        \"officeLocation\": \"131/1105\",\n        \"postalCode\": \"98052\",\n        \"preferredLanguage\": \"en-US\",\n        \"state\": \"WA\",\n        \"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\n        \"surname\": \"Darrow\",\n        \"mobilePhone\": \"+1 206 555 0110\",\n        \"usageLocation\": \"US\",\n        \"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\"\n    }"
     },
     {
         "category": "Users (beta)",
@@ -70038,7 +70046,7 @@ var HistoryRowComponent = (function (_super) {
         var _this = this;
         this.updateMomentRef = setInterval(function () {
             _this.setRelativeDate();
-        }, 1000);
+        }, 1000 * 8);
         this.setRelativeDate();
         this.successClass = this.query.statusCode >= 200 && this.query.statusCode < 300 ? "success" : "error";
     };
