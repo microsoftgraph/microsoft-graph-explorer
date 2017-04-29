@@ -62,7 +62,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
     ngOnInit(): void {
         this.updateMomentRef = setInterval(() => {
             this.setRelativeDate();
-        }, 1000);
+        }, 1000*8);
         this.setRelativeDate();
         this.successClass = this.query.statusCode >= 200 && this.query.statusCode < 300 ? "success" : "error";
     }
