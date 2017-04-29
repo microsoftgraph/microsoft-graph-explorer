@@ -115,7 +115,6 @@ export class QueryRowComponent extends GraphExplorerComponent {
     }
 
     handleQueryClick() {
-
         this.loadQueryIntoEditor(this.query);
 
         if (this.query.method == 'GET') {

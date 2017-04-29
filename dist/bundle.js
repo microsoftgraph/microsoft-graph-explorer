@@ -68281,7 +68281,15 @@ var GraphExplorerComponent = (function () {
         var postBodyEditorSession = api_explorer_jseditor_1.getRequestBodyEditor().getSession();
         if (query.postBody) {
             base_1.substituePostBodyTokens(query);
-            app_component_1.AppComponent.explorerValues.postBody = query.postBody;
+            var rawPostBody = query.postBody;
+            var formattedPostBody = void 0;
+            try {
+                formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
+            }
+            catch (e) {
+                console.log("Can't format JSON post body");
+            }
+            app_component_1.AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
         }
         postBodyEditorSession.setValue(app_component_1.AppComponent.explorerValues.postBody);
     };
@@ -68748,6 +68756,7 @@ var app_component_1 = require("./app.component");
 var scopes_1 = require("./scopes");
 var util_1 = require("./util");
 function initAuth(options, apiService, changeDetectorRef) {
+    setInterval(refreshAccessToken, 1000 * 60 * 10);
     hello.init({
         msft: {
             oauth: {
@@ -68811,8 +68820,11 @@ function initAuth(options, apiService, changeDetectorRef) {
 }
 exports.initAuth = initAuth;
 function refreshAccessToken() {
-    if (!app_component_1.AppComponent.explorerValues.authentication.user)
+    if (!isAuthenticated()) {
+        console.log("Not refreshing access token");
         return;
+    }
+    ;
     var loginProperties = {
         display: 'none',
         response_type: "id_token token",
@@ -69340,7 +69352,7 @@ exports.SampleQueries = [
         "category": "Outlook Calendar",
         "method": "POST",
         "humanName": "find meeting time",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/me/findMeetingTimes",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/findMeetingTimes",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes",
         "headers": [
             {
@@ -69531,92 +69543,6 @@ exports.SampleQueries = [
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
     },
     {
-        "category": "SharePoint Sites (beta)",
-        "method": "GET",
-        "humanName": "my organization's default SharePoint site",
-        "requestUrl": "https://graph.microsoft.com/beta/sites/root",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/sharepoint"
-    },
-    {
-        "category": "SharePoint Sites (beta)",
-        "method": "GET",
-        "humanName": "Enumerate the document libraries under the root site",
-        "requestUrl": "https://graph.microsoft.com/beta/sites/root/drives",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/baseitem_getbyurl"
-    },
-    {
-        "category": "SharePoint Sites (beta)",
-        "method": "GET",
-        "humanName": "Get a SharePoint site based on relative path of the site",
-        "requestUrl": "https://graph.microsoft.com/beta/sites:/{site-path}",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/subsites_list"
-    },
-    {
-        "category": "SharePoint Lists (beta)",
-        "method": "GET",
-        "humanName": "list in a SharePoint site ",
-        "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}:/lists",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/lists_list"
-    },
-    {
-        "category": "OneNote (beta)",
-        "method": "GET",
-        "humanName": "my notebooks",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks"
-    },
-    {
-        "category": "OneNote (beta)",
-        "method": "GET",
-        "humanName": "my sections",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections"
-    },
-    {
-        "category": "OneNote (beta)",
-        "method": "GET",
-        "humanName": "my pages",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/pages"
-    },
-    {
-        "category": "OneNote (beta)",
-        "method": "POST",
-        "humanName": "create notebook",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks",
-        "postBody": "{\n  \"name\": \"My Notebook\"\n}",
-        "tip": "Update the Request Body and select Run Query."
-    },
-    {
-        "category": "OneNote (beta)",
-        "method": "POST",
-        "humanName": "create section",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections",
-        "headers": [
-            {
-                "name": "Content-type",
-                "value": "application/json"
-            }
-        ],
-        "postBody": "{\n  \"name\": \"Section 1\"\n}",
-        "tip": "This query requires a notebook id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/notebooks. "
-    },
-    {
-        "category": "OneNote (beta)",
-        "method": "POST",
-        "humanName": "create page",
-        "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages",
-        "headers": [
-            {
-                "name": "Content-type",
-                "value": "multipart/form-data"
-            },
-            {
-                "name": "boundary",
-                "value": "MyPartBoundary198374"
-            }
-        ],
-        "postBody": "\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"Presentation\"\nContent-Type:text/html\n\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>\n    <meta name=\"created\" content=\"2015-07-22T09:00:00-08:00\" />\n  </head>\n  <body>\n    <p>Here's an image from an online source:</p>\n    <img src=\"http://...\" alt=\"an image on the page\" width=\"500\" />\n    <p>Here's an image uploaded as binary data:</p>\n    <img src=\"name:imageBlock1\" alt=\"an image on the page\" width=\"300\" />\n    <p>Here's a file attachment:</p>\n    <object data-attachment=\"FileName.pdf\" data=\"name:fileBlock1\" type=\"application/pdf\" />\n  </body>\n</html>\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"imageBlock1\"\nContent-Type:image/jpeg\n\n... binary image data ...\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"fileBlock1\"\nContent-Type:application/pdf\n\n... binary file data ...\n\n--MyPartBoundary198374--",
-        "tip": "This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/sections."
-    },
-    {
         "category": "Insights",
         "method": "GET",
         "humanName": "my recent files",
@@ -69652,27 +69578,9 @@ exports.SampleQueries = [
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
     },
     {
-        "category": "SharePoint Sites (beta)",
-        "method": "GET",
-        "humanName": "Search for a SharePoint site by keyword",
-        "requestUrl": "https://graph.microsoft.com/beta/sites?search={query}",
-        "headers": [
-            {
-                "name": "Content-type",
-                "value": "application/json"
-            }
-        ]
-    },
-    {
-        "category": "SharePoint Sites (beta)",
-        "method": "GET",
-        "humanName": "Enumerate subsites of the root site",
-        "requestUrl": "https://graph.microsoft.com/beta/sites/root/sites"
-    },
-    {
         "category": "Extensions (beta)",
         "method": "GET",
-        "humanName": "an open extension",
+        "humanName": "get an open extension",
         "requestUrl": "https://graph.microsoft.com/beta/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/opentypeextension"
     },
@@ -69688,21 +69596,45 @@ exports.SampleQueries = [
                 "value": "application/json"
             }
         ],
-        "postBody": "{\n    \"@odata.type\":\"microsoft.graph.openTypeExtension\",\n    \"extensionName\":\"com.contoso.roamingSettings\",\n    \"theme\":\"dark\",\n    \"color\":\"purple\",\n    \"lang\":\"Japanese\"\n}"
+        "postBody": "{\n  \"@odata.type\":\"microsoft.graph.openTypeExtension\",    \"extensionName\":\"com.contoso.roamingSettings\",\n    \"theme\":\"dark\",\n    \"color\":\"purple\",\n    \"lang\":\"Japanese\"\n}"
     },
     {
         "category": "Extensions (beta)",
         "method": "PATCH",
         "humanName": "update an open extension",
         "requestUrl": "https://graph.microsoft.com/beta/me/extensions/{extension-id}",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/opentypeextension_update"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/opentypeextension_update",
+        "postBody": "{\n    \"theme\":\"light\",\n    \"color\":\"yellow\",\n    \"lang\":\"Swahili\"\n}"
     },
     {
         "category": "Extensions (beta)",
         "method": "GET",
-        "humanName": "schema extension",
+        "humanName": "get available schema extensions",
         "requestUrl": "https://graph.microsoft.com/beta/schemaExtensions",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions"
+    },
+    {
+        "category": "Extensions (beta)",
+        "method": "GET",
+        "humanName": "filter groups by extension property value",
+        "requestUrl": "https://graph.microsoft.com/beta/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions"
+    },
+    {
+        "category": "Extensions (beta)",
+        "method": "POST",
+        "humanName": "create a group with extension data",
+        "requestUrl": "https://graph.microsoft.com/beta/groups",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions",
+        "postBody": "{\n    \"displayName\": \"Extensions sample group\",\n    \"description\": \"Extensions sample group\",\n    \"groupTypes\": [\"Unified\"],\n    \"mailEnabled\": true,\n    \"mailNickname\": \"extSample123\",\n    \"securityEnabled\": false,\n    \"adatumisv_courses\": {\n        \"id\":\"123\",\n        \"name\":\"New Managers\",\n        \"type\":\"Online\"\n    }\n}"
+    },
+    {
+        "category": "Extensions (beta)",
+        "method": "PATCH",
+        "humanName": "update a group with extension data",
+        "requestUrl": "https://graph.microsoft.com/beta/groups",
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions",
+        "postBody": "{\n   \"adatumisv_courses\": {\n        \"id\":\"123\",\n        \"name\":\"New Managers\",\n        \"type\":\"Online\"\n    }\n}"
     }
 ];
 

@@ -13,7 +13,7 @@ import { getParameterByName } from "./util";
 declare const hello: any;
 
 export function initAuth(options:ExplorerOptions, apiService:GraphService, changeDetectorRef: ChangeDetectorRef) {
-	// setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
+	setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
 	hello.init({
 		msft: {
 			oauth: {
@@ -99,7 +99,10 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 }
 
 export function refreshAccessToken() {
-	if (!AppComponent.explorerValues.authentication.user) return;
+	if (!isAuthenticated()) {
+		console.log("Not refreshing access token");
+		return;
+	};
 
 	let loginProperties = {
 		display: 'none',
