@@ -1,5 +1,5 @@
 # Microsoft Graph Explorer
-The Microsoft Graph explorer lets developers quickly navigate and test API endpoints.
+The [Microsoft Graph Explorer](https://developer.microsoft.com/graph/graph-explorer) lets developers quickly navigate and test API endpoints.
 
 The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) and powered by:
 * [Angular 4](https://angular.io/)
