@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { getString } from "./api-explorer-helpers";
+import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
 import { isAuthenticated } from "./auth";
 import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens, substitueTokens } from "./base";

@@ -1,6 +1,6 @@
 // import { parseMetadata, constructGraphLinksFromFullPath } from '../graph-structure'
 // import { apiService } from '../api-explorer-svc'
-// import { formatRequestHeaders } from "../api-explorer-helpers";
+// import { formatRequestHeaders } from "../localization-helpers";
 // import { saveHistoryObject, fetchRequestHistory, clearRequestHistory } from "../history";
 // import { HistoryRecord } from "../base";
 

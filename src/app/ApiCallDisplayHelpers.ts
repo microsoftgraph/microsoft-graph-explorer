@@ -4,7 +4,7 @@
 
 import { AppComponent } from "./app.component";
 import { GraphApiCall } from "./base";
-import { getString } from "./api-explorer-helpers";
+import { getString } from "./localization-helpers";
 
 export function getShortQueryText(query:GraphApiCall) {
     let shortQueryUrl;

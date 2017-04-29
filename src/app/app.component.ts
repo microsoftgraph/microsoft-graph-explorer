@@ -18,7 +18,7 @@ import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api
 import { parseMetadata, constructGraphLinksFromFullPath } from "./graph-structure";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
-import { getString } from "./api-explorer-helpers";
+import { getString } from "./localization-helpers";
 
 declare let mwf, ga;
 

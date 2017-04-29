@@ -8,7 +8,7 @@ import { GraphApiCall } from "./base";
 import { AppComponent } from "./app.component";
 import * as moment from "moment"
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
-import { getString } from "./api-explorer-helpers";
+import { getString } from "./localization-helpers";
 import { saveHistoryToLocalStorage } from "./history";
 
 

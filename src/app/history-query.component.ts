@@ -6,7 +6,7 @@ import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationStatus, ExplorerOptions, GraphApiCall, SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
-import { getString } from "./api-explorer-helpers";
+import { getString } from "./localization-helpers";
 import { AppModule } from "./app.module";
 import { QueryRowComponent } from "./queryrow.component";
 
