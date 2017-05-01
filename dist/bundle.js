@@ -69329,7 +69329,8 @@ exports.SampleQueries = [
         "method": "GET",
         "humanName": "my events for the next week",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week}",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview",
+        "tip": "This query uses date and time parameters. Use an ISO 8601 format. For example, \"2017-04-30T19:00:00.0000000\"."
     },
     {
         "category": "Outlook Calendar",
@@ -69350,7 +69351,8 @@ exports.SampleQueries = [
         "method": "GET",
         "humanName": "all my event reminders for next week",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/reminderView?startdatetime={today}&enddatetime={next-week}",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_reminderview"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_reminderview",
+        "tip": "This query uses date and time parameters. Use an ISO 8601 format. For example, \"2017-04-30T19:00:00.0000000\"."
     },
     {
         "category": "Outlook Calendar",
@@ -69387,7 +69389,8 @@ exports.SampleQueries = [
         "method": "GET",
         "humanName": "track changes on my events for the next week",
         "requestUrl": "https://graph.microsoft.com/beta/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events"
+        "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events",
+        "tip": "This query uses date and time parameters. Use an ISO 8601 format. For example, \"2017-04-30T19:00:00.0000000\"."
     },
     {
         "category": "Personal Contacts",
@@ -69436,7 +69439,7 @@ exports.SampleQueries = [
         "category": "OneDrive",
         "method": "GET",
         "humanName": "all of my excel files",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
     },
     {
@@ -69503,7 +69506,7 @@ exports.SampleQueries = [
         "category": "Excel",
         "method": "GET",
         "humanName": "used range in worksheet",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/usedRange",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange",
         "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
@@ -69511,7 +69514,7 @@ exports.SampleQueries = [
         "category": "Excel",
         "method": "GET",
         "humanName": "tables in worksheet",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/tables",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/tables",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables",
         "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
@@ -69519,7 +69522,7 @@ exports.SampleQueries = [
         "category": "Excel",
         "method": "GET",
         "humanName": "charts in worksheet",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/('Sheet1')/charts",
+        "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/charts",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts",
         "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
     },
@@ -69636,7 +69639,7 @@ exports.SampleQueries = [
         "category": "Extensions (beta)",
         "method": "PATCH",
         "humanName": "update a group with extension data",
-        "requestUrl": "https://graph.microsoft.com/beta/groups",
+        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions",
         "postBody": "{\n   \"adatumisv_courses\": {\n        \"id\":\"123\",\n        \"name\":\"New Managers\",\n        \"type\":\"Online\"\n    }\n}"
     }
