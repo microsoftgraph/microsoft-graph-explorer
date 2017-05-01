@@ -84,7 +84,7 @@ export function getContentType(headers:Headers) {
     }
 }
 
-
+// http://stackoverflow.com/a/2893259/2517012
 export function formatXml(xml) {
     var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
     var wsexp = / *(.*) +\n/g;
