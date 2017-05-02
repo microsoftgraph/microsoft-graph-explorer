@@ -145,7 +145,8 @@ const Tokens = {
     "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
     "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
-    "{site-path}": "/Operations/Manufacturing/",
+    "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
+    "{site-path}": "Operations/Manufacturing/",
     "{today}": today.toISOString(),
     "{next-week}": nextWeek.toISOString(),
     "AUTHENTICATED_DOMAIN": () => {

@@ -69012,7 +69012,8 @@ var Tokens = {
     "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
     "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
-    "{site-path}": "/Operations/Manufacturing/",
+    "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
+    "{site-path}": "Operations/Manufacturing/",
     "{today}": today.toISOString(),
     "{next-week}": nextWeek.toISOString(),
     "AUTHENTICATED_DOMAIN": function () {
@@ -69209,13 +69210,6 @@ exports.SampleQueries = [
     {
         "category": "Groups",
         "method": "GET",
-        "humanName": "unified groups I belong to",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/memberOf/$/?$filter=groupTypes/any(a:a eq 'unified') ",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof"
-    },
-    {
-        "category": "Groups",
-        "method": "GET",
         "humanName": "group members",
         "requestUrl": "https://graph.microsoft.com/v1.0/groups/{group-id}/members",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_members",
@@ -69345,14 +69339,6 @@ exports.SampleQueries = [
         "humanName": "all my calendars",
         "requestUrl": "https://graph.microsoft.com/v1.0/me/calendars",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendars"
-    },
-    {
-        "category": "Outlook Calendar",
-        "method": "GET",
-        "humanName": "all my event reminders for next week",
-        "requestUrl": "https://graph.microsoft.com/v1.0/me/reminderView?startdatetime={today}&enddatetime={next-week}",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_reminderview",
-        "tip": "This query uses date and time parameters. Use an ISO 8601 format. For example, \"2017-04-30T19:00:00.0000000\"."
     },
     {
         "category": "Outlook Calendar",
@@ -69530,7 +69516,7 @@ exports.SampleQueries = [
         "category": "Planner (beta)",
         "method": "GET",
         "humanName": "all Planner plans associated with a group",
-        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans ",
+        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id-with-plan}/planner/plans ",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannergroup_list_plans",
         "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
     },
@@ -69538,9 +69524,9 @@ exports.SampleQueries = [
         "category": "Planner (beta)",
         "method": "GET",
         "humanName": "all Planner tasks for a plan",
-        "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/planner/plans/{plan-id}/tasks",
+        "requestUrl": "https://graph.microsoft.com/beta/planner/plans/{plan-id}/tasks",
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannerplan_list_tasks",
-        "tip": "This query requires a group ID and a plan id.  To find the ID of the group, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans."
+        "tip": "This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans."
     },
     {
         "category": "Planner (beta)",
