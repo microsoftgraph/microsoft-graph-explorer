@@ -1,5 +1,5 @@
 {
-  "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ", 
+ "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ", 
    "sign in": "vous connecter", 
    " with your work or school account from Microsoft.": " avec votre compte scolaire ou professionnel de Microsoft.", 
    "Submit": "Submit", 
@@ -44,7 +44,7 @@
    "Sample Queries": "Exemples de requêtes", 
  
  
-   "show more groups": "Plus de groupes", 
+   "show more samples": "afficher d’autres exemples", 
    "Sample Categories": "Exemples de catégories", 
  
  
@@ -85,7 +85,7 @@
    "add favorite group"	:"ajouter un groupe favori", 
    "items in a group drive"	:"éléments d’un lecteur de groupe", 
    "track group changes"	:"suivre les modifications de groupe", 
-   "my high importance mail"	:"mon courrier électronique de haute importance", 
+   "my high important mail"	:"mon courrier électronique de haute importance", 
    "my mail that has 'Hello World'"	:"mon courrier contenant « Hello World »", 
    "send an email"	:"envoyer un courrier", 
    "forward mail"	:"transférer un courrier", 
@@ -123,13 +123,13 @@
    "create section"	:"créer une section", 
    "create page"	:"créer une page", 
    "Users":"Utilisateurs", 
-   "Users (preview)":"Utilisateurs (aperçu)", 
+   "Users (beta)":"Utilisateurs (version bêta)", 
    "Groups":"Groupes", 
-   "Groups (preview)":"Groupes (aperçu)", 
+   "Groups (beta)":"Groupes (version bêta)", 
    "Outlook Mail":"Messagerie Outlook", 
-   "Outlook Mail (preview)":"Messagerie Outlook (aperçu)", 
+   "Outlook Mail (beta)":"Messagerie Outlook (version bêta)", 
    "Outlook Calendar":"Calendrier Outlook", 
-   "Outlook Calendar (preview)":"Calendrier Outlook (aperçu)", 
+   "Outlook Calendar (beta)":"Calendrier Outlook (version bêta)", 
    "Personal Contacts":"Contacts personnels", 
    "OneDrive":"OneDrive", 
    "Excel":"Excel", 
@@ -137,6 +137,9 @@
    "SharePoint Sites (beta)":"Sites SharePoint (bêta)", 
    "OneNote (beta)":"OneNote (bêta)", 
    "SharePoint Lists (beta)": "Listes SharePoint (bêta)", 
-   "Insights": "Connaissances", 
-   "Insights (preview)": "Insights (aperçu)" 
-}
+   "Insights": "Informations", 
+   "Insights (beta)": "Informations (version bêta)", 
+   "Preview": "Aperçu", 
+  
+   "Extensions (beta)": "Extensions (version bêta)" 
+ } 

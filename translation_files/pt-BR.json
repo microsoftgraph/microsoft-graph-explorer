@@ -1,9 +1,9 @@
 {
-  "To try the explorer, please ": "Para experimentar o Explorador, ", 
+ "To try the explorer, please ": "Para experimentar o Explorador, ", 
    "sign in": "entre", 
    " with your work or school account from Microsoft.": " com a sua conta corporativa ou de estudante da Microsoft.", 
    "Submit": "Enviar", 
-   "Using demo tenant": "No momento, você está usando uma conta de exemplo.", 
+   "Using demo tenant": "No momento, você está usando uma conta de amostra.", 
    "To access your own data:": "Para acessar seus dados:", 
    "sign out": "sair", 
    "History": "Histórico", 
@@ -41,11 +41,11 @@
  
    "Response Headers": "Cabeçalhos da Resposta", 
    "Response Preview": "Visualização da Resposta", 
-   "Sample Queries": "Consultas de Exemplo", 
+   "Sample Queries": "Consultas de amostra", 
  
  
-   "show more groups": "mostrar mais grupos", 
-   "Sample Categories": "Categorias de Exemplo", 
+   "show more samples": "mostrar mais amostras", 
+   "Sample Categories": "Categorias de amostra", 
  
  
    "On": "Habilitado", 
@@ -85,7 +85,7 @@
    "add favorite group"	:"adicionar grupo favorito", 
    "items in a group drive"	:"itens de uma unidade de grupo", 
    "track group changes"	:"controlar alterações do grupo", 
-   "my high importance mail"	:"meu email de alta prioridade", 
+   "my high important mail"	:"meu email de alta prioridade", 
    "my mail that has 'Hello World'"	:"meu email que tenha 'Hello World'", 
    "send an email"	:"enviar um email", 
    "forward mail"	:"encaminhar email", 
@@ -123,13 +123,13 @@
    "create section"	:"criar seção", 
    "create page"	:"criar página", 
    "Users":"Usuários", 
-   "Users (preview)":"Usuários (visualização)", 
+   "Users (beta)":"Usuários (beta)", 
    "Groups":"Grupos", 
-   "Groups (preview)":"Grupos (visualização)", 
+   "Groups (beta)":"Grupos (beta)", 
    "Outlook Mail":"Email do Outlook", 
-   "Outlook Mail (preview)":"Email do Outlook (visualização)", 
+   "Outlook Mail (beta)":"Email do Outlook (beta)", 
    "Outlook Calendar":"Calendário do Outlook", 
-   "Outlook Calendar (preview)":"Calendário do Outlook (visualização)", 
+   "Outlook Calendar (beta)":"Calendário do Outlook (beta)", 
    "Personal Contacts":"Contatos Pessoais", 
    "OneDrive":"OneDrive", 
    "Excel":"Excel", 
@@ -138,5 +138,8 @@
    "OneNote (beta)":"OneNote (beta)", 
    "SharePoint Lists (beta)": "Listas do SharePoint (beta)", 
    "Insights": "Insights", 
-   "Insights (preview)": "Insights (visualização)" 
-}
+   "Insights (beta)": "Insights (beta)", 
+   "Preview": "Visualização", 
+  
+   "Extensions (beta)": "Extensões (beta)" 
+ } 

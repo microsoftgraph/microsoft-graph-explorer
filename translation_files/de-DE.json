@@ -1,5 +1,5 @@
 {
-  "To try the explorer, please ": "Um den Tester auszuprobieren, ", 
+ "To try the explorer, please ": "Um den Tester auszuprobieren, ", 
    "sign in": "melden Sie sich", 
    " with your work or school account from Microsoft.": " mit Ihrem Geschäfts-, Schul- oder Unikonto von Microsoft an.", 
    "Submit": "Senden", 
@@ -44,7 +44,7 @@
    "Sample Queries": "Beispielabfragen", 
  
  
-   "show more groups": "Mehr Gruppen anzeigen", 
+   "show more samples": "Mehr Beispiele anzeigen", 
    "Sample Categories": "Beispielkategorien", 
  
  
@@ -85,7 +85,7 @@
    "add favorite group"	:"Favoritengruppe hinzufügen", 
    "items in a group drive"	:"Elemente in einem Gruppenlaufwerk", 
    "track group changes"	:"Gruppenänderungen nachverfolgen", 
-   "my high importance mail"	:"Eigene E-Mails mit Wichtigkeit „Hoch“", 
+   "my high important mail"	:"Eigene E-Mails mit Wichtigkeit „Hoch“", 
    "my mail that has 'Hello World'"	:"Eigene E-Mail, die „Hello World“ enthält", 
    "send an email"	:"E-Mail senden", 
    "forward mail"	:"E-Mail weiterleiten", 
@@ -123,13 +123,13 @@
    "create section"	:"Abschnitt erstellen", 
    "create page"	:"Seite erstellen", 
    "Users":"Benutzer", 
-   "Users (preview)":"Benutzer (Vorschau)", 
+   "Users (beta)":"Benutzer (Beta)", 
    "Groups":"Gruppen", 
-   "Groups (preview)":"Gruppen (Vorschau)", 
-   "Outlook Mail":"Outlook-Mail", 
-   "Outlook Mail (preview)":"Outlook-Mail (Vorschau)", 
+   "Groups (beta)":"Gruppen (Beta)", 
+   "Outlook Mail":"Outlook Mail", 
+   "Outlook Mail (beta)":"Outlook Mail (Beta)", 
    "Outlook Calendar":"Outlook-Kalender", 
-   "Outlook Calendar (preview)":"Outlook-Kalender (Vorschau)", 
+   "Outlook Calendar (beta)":"Outlook-Kalender (Beta)", 
    "Personal Contacts":"Private Kontakte", 
    "OneDrive":"OneDrive", 
    "Excel":"Excel", 
@@ -138,5 +138,8 @@
    "OneNote (beta)":"OneNote (Beta)", 
    "SharePoint Lists (beta)": "SharePoint-Listen (Beta)", 
    "Insights": "Insights", 
-   "Insights (preview)": "Insights (Vorschau)" 
-}
+   "Insights (beta)": "Insights (Beta)", 
+   "Preview": "Vorschau", 
+  
+   "Extensions (beta)": "Extensions (Beta)" 
+ } 

@@ -1,5 +1,5 @@
-{
-  "To try the explorer, please ": "Чтобы опробовать песочницу, ", 
+﻿{
+ "To try the explorer, please ": "Чтобы опробовать песочницу, ", 
    "sign in": "войдите", 
    " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.", 
    "Submit": "Отправить", 
@@ -12,7 +12,7 @@
    "Status Code": "Код состояния", 
    "Duration": "Срок действия", 
    "Go": "Переход", 
-   "milliseconds": "ms", 
+   "milliseconds": "мс", 
    "YES": "ДА", 
    "Show More": "показать еще", 
    "Graph Explorer": "Песочница Graph", 
@@ -44,7 +44,7 @@
    "Sample Queries": "Примеры запросов", 
  
  
-   "show more groups": "показать еще группы", 
+   "show more samples": "Показать другие примеры", 
    "Sample Categories": "Примеры категорий", 
  
  
@@ -85,7 +85,7 @@
    "add favorite group"	:"добавить любимую группу", 
    "items in a group drive"	:"элементы на диске группы", 
    "track group changes"	:"отслеживание изменений в группах", 
-   "my high importance mail"	:"моя почта высокой важности", 
+   "my high important mail"	:"моя почта высокой важности", 
    "my mail that has 'Hello World'"	:"моя почта с фразой Hello World", 
    "send an email"	:"отправить сообщение", 
    "forward mail"	:"переслать сообщение", 
@@ -123,13 +123,13 @@
    "create section"	:"создать раздел", 
    "create page"	:"создать страницу", 
    "Users":"Пользователи", 
-   "Users (preview)":"Пользователи (предварительная версия)", 
+   "Users (beta)":"Пользователи (бета-версия)", 
    "Groups":"Группы", 
-   "Groups (preview)":"Группы (предварительная версия)", 
-   "Outlook Mail":"Почта Outlook", 
-   "Outlook Mail (preview)":"Почта Outlook (предварительная версия)", 
+   "Groups (beta)":"Группы (бета-версия)", 
+   "Outlook Mail":"Почта", 
+   "Outlook Mail (beta)":"Почта (бета-версия)", 
    "Outlook Calendar":"Календарь Outlook", 
-   "Outlook Calendar (preview)":"Календарь Outlook (предварительная версия)", 
+   "Outlook Calendar (beta)":"Календарь Outlook (бета-версия)", 
    "Personal Contacts":"Личные контакты", 
    "OneDrive":"OneDrive", 
    "Excel":"Excel", 
@@ -137,6 +137,9 @@
    "SharePoint Sites (beta)":"Сайты SharePoint (бета-версия)", 
    "OneNote (beta)":"OneNote (бета-версия)", 
    "SharePoint Lists (beta)": "Списки SharePoint (бета-версия)", 
-   "Insights": "Insights", 
-   "Insights (preview)": "Insights (предварительная версия)" 
-}
+   "Insights": "Аналитика", 
+   "Insights (beta)": "Аналитика (бета-версия)", 
+   "Preview": "Предварительная версия", 
+  
+   "Extensions (beta)": "Расширения (бета-версия)" 
+ } 
