@@ -1,5 +1,5 @@
 {
-  "To try the explorer, please ": "若要尝试使用资源管理器，请若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户 ", 
+ "To try the explorer, please ": "若要尝试使用资源管理器，请若要尝试浏览器，请 使用你的 Microsoft 工作或学校帐户 ", 
    "sign in": "登录", 
    " with your work or school account from Microsoft.": " 使用 Microsoft 提供的工作或学校帐户。", 
    "Submit": "提交", 
@@ -44,7 +44,7 @@
    "Sample Queries": "示例查询", 
  
  
-   "show more groups": "显示更多组", 
+   "show more samples": "显示更多示例", 
    "Sample Categories": "示例类别", 
  
  
@@ -85,7 +85,7 @@
    "add favorite group"	:"添加收藏夹组", 
    "items in a group drive"	:"组驱动器中的项", 
    "track group changes"	:"跟踪组更改", 
-   "my high importance mail"	:"我的高重要性邮件", 
+   "my high important mail"	:"我的高重要性邮件", 
    "my mail that has 'Hello World'"	:"我的包含 “Hello World” 的邮件", 
    "send an email"	:"发送电子邮件", 
    "forward mail"	:"转发邮件", 
@@ -123,13 +123,13 @@
    "create section"	:"创建分区", 
    "create page"	:"创建页面", 
    "Users":"用户", 
-   "Users (preview)":"用户(预览)", 
+   "Users (beta)":"用户 (beta)", 
    "Groups":"组", 
-   "Groups (preview)":"组(预览)", 
+   "Groups (beta)":"组 (beta)", 
    "Outlook Mail":"Outlook 邮件", 
-   "Outlook Mail (preview)":"Outlook 邮件(预览)", 
+   "Outlook Mail (beta)":"Outlook 邮件 (beta)", 
    "Outlook Calendar":"Outlook 日历", 
-   "Outlook Calendar (preview)":"Outlook 日历(预览)", 
+   "Outlook Calendar (beta)":"Outlook 日历 (beta)", 
    "Personal Contacts":"个人联系人", 
    "OneDrive":"OneDrive", 
    "Excel":"Excel", 
@@ -138,5 +138,8 @@
    "OneNote (beta)":"OneNote (beta)", 
    "SharePoint Lists (beta)": "SharePoint 列表 (beta)", 
    "Insights": "见解", 
-   "Insights (preview)": "见解(预览)" 
-}
+   "Insights (beta)": "见解 (beta)", 
+   "Preview": "预览", 
+  
+   "Extensions (beta)": "扩展 (beta)" 
+ } 

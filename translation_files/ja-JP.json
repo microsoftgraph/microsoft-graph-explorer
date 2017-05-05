@@ -1,5 +1,5 @@
 {
-  "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ", 
+ "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ", 
    "sign in": "サインイン", 
    " with your work or school account from Microsoft.": " します。", 
    "Submit": "送信", 
@@ -44,7 +44,7 @@
    "Sample Queries": "サンプル クエリ", 
  
  
-   "show more groups": "その他のグループを表示", 
+   "show more samples": "サンプルをさらに表示", 
    "Sample Categories": "サンプル カテゴリ", 
  
  
@@ -85,7 +85,7 @@
    "add favorite group"	:"お気に入りのグループを追加する", 
    "items in a group drive"	:"グループ ドライブ内の項目", 
    "track group changes"	:"グループ変更の追跡", 
-   "my high importance mail"	:"重要度の高い自分のメール", 
+   "my high important mail"	:"重要度の高い自分のメール", 
    "my mail that has 'Hello World'"	:"'Hello World' を含む自分のメール", 
    "send an email"	:"電子メールを送信する", 
    "forward mail"	:"電子メールを転送する", 
@@ -123,13 +123,13 @@
    "create section"	:"セクションを作成する", 
    "create page"	:"ページを作成する", 
    "Users":"ユーザー", 
-   "Users (preview)":"ユーザー (プレビュー)", 
+   "Users (beta)":"ユーザー (ベータ版)", 
    "Groups":"グループ", 
-   "Groups (preview)":"グループ (プレビュー)", 
+   "Groups (beta)":"グループ (ベータ版)", 
    "Outlook Mail":"Outlook メール", 
-   "Outlook Mail (preview)":"Outlook メール (プレビュー)", 
+   "Outlook Mail (beta)":"Outlook メール (ベータ版)", 
    "Outlook Calendar":"Outlook カレンダー", 
-   "Outlook Calendar (preview)":"Outlook カレンダー (プレビュー)", 
+   "Outlook Calendar (beta)":"Outlook カレンダー (ベータ版)", 
    "Personal Contacts":"個人用連絡先", 
    "OneDrive":"OneDrive", 
    "Excel":"Excel", 
@@ -138,5 +138,8 @@
    "OneNote (beta)":"OneNote (ベータ版)", 
    "SharePoint Lists (beta)": "SharePoint リスト (ベータ版)", 
    "Insights": "Insights", 
-   "Insights (preview)": "Insights (プレビュー)" 
-}
+   "Insights (beta)": "Insights (ベータ版)", 
+   "Preview": "プレビュー", 
+  
+   "Extensions (beta)": "拡張機能 (ベータ版)" 
+ } 
