@@ -97,7 +97,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n � � � �\"accountEnabled\": true,\n � � � �\"city\": \"Seattle\",\n � � � �\"country\": \"United States\",\n � � � �\"department\": \"Sales & Marketing\",\n � � � �\"displayName\": \"Melissa Darrow\",\n � � � �\"givenName\": \"Melissa\",\n � � � �\"jobTitle\": \"Marketing Director\",\n � � � �\"mailNickname\": \"MelissaD\",\n � � � �\"passwordPolicies\": \"DisablePasswordExpiration\",\n � � � �\"passwordProfile\": {\n � � � � � �\"password\": \"Test1234\",\n � � � � � �\"forceChangePasswordNextSignIn\": false\n � � � �},\n � � � �\"officeLocation\": \"131/1105\",\n � � � �\"postalCode\": \"98052\",\n � � � �\"preferredLanguage\": \"en-US\",\n � � � �\"state\": \"WA\",\n � � � �\"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\n � � � �\"surname\": \"Darrow\",\n � � � �\"mobilePhone\": \"+1 206 555 0110\",\n � � � �\"usageLocation\": \"US\",\n � � � �\"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\"\n � �}"
+    "postBody": "{\n        \"accountEnabled\": true,\n        \"city\": \"Seattle\",\n        \"country\": \"United States\",\n        \"department\": \"Sales & Marketing\",\n        \"displayName\": \"Melissa Darrow\",\n        \"givenName\": \"Melissa\",\n        \"jobTitle\": \"Marketing Director\",\n        \"mailNickname\": \"MelissaD\",\n        \"passwordPolicies\": \"DisablePasswordExpiration\",\n        \"passwordProfile\": {\n            \"password\": \"Test1234\",\n            \"forceChangePasswordNextSignIn\": false\n        },\n        \"officeLocation\": \"131/1105\",\n        \"postalCode\": \"98052\",\n        \"preferredLanguage\": \"en-US\",\n        \"state\": \"WA\",\n        \"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\n        \"surname\": \"Darrow\",\n        \"mobilePhone\": \"+1 206 555 0110\",\n        \"usageLocation\": \"US\",\n        \"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\"\n    }"
 },
 {
     "category": "Users (beta)",
@@ -502,7 +502,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n ��\"@odata.type\":\"microsoft.graph.openTypeExtension\", � �\"extensionName\":\"com.contoso.roamingSettings\",\n � �\"theme\":\"dark\",\n � �\"color\":\"purple\",\n � �\"lang\":\"Japanese\"\n}"
+    "postBody": "{\n  \"@odata.type\":\"microsoft.graph.openTypeExtension\",    \"extensionName\":\"com.contoso.roamingSettings\",\n    \"theme\":\"dark\",\n    \"color\":\"purple\",\n    \"lang\":\"Japanese\"\n}"
 },
 {
     "category": "Extensions (beta)",
@@ -532,7 +532,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "create a group with extension data",
     "requestUrl": "https://graph.microsoft.com/beta/groups",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions",
-    "postBody": "{\n � �\"displayName\": \"Extensions sample group\",\n � �\"description\": \"Extensions sample group\",\n � �\"groupTypes\": [\"Unified\"],\n � �\"mailEnabled\": true,\n � �\"mailNickname\": \"extSample123\",\n � �\"securityEnabled\": false,\n � �\"adatumisv_courses\": {\n � � � �\"id\":\"123\",\n � � � �\"name\":\"New Managers\",\n � � � �\"type\":\"Online\"\n � �}\n}"
+    "postBody": "{\n    \"displayName\": \"Extensions sample group\",\n    \"description\": \"Extensions sample group\",\n    \"groupTypes\": [\"Unified\"],\n    \"mailEnabled\": true,\n    \"mailNickname\": \"extSample123\",\n    \"securityEnabled\": false,\n    \"adatumisv_courses\": {\n        \"id\":\"123\",\n        \"name\":\"New Managers\",\n        \"type\":\"Online\"\n    }\n}"
 },
 {
     "category": "Extensions (beta)",
@@ -540,7 +540,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "update a group with extension data",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions",
-    "postBody": "{\n   \"adatumisv_courses\": {\n � � � �\"id\":\"123\",\n � � � �\"name\":\"New Managers\",\n � � � �\"type\":\"Online\"\n � �}\n}"
+    "postBody": "{\n   \"adatumisv_courses\": {\n        \"id\":\"123\",\n        \"name\":\"New Managers\",\n        \"type\":\"Online\"\n    }\n}"
 },
 {
     "category": "OneNote (beta)",
