@@ -146,6 +146,8 @@ const Tokens = {
     "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
+    "{plan-id}": "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
+    "{extension-id}": "com.contoso.roamingSettings",
     "{site-path}": "Operations/Manufacturing/",
     "{today}": today.toISOString(),
     "{next-week}": nextWeek.toISOString(),

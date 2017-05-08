@@ -97,7 +97,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n        \"accountEnabled\": true,\n        \"city\": \"Seattle\",\n        \"country\": \"United States\",\n        \"department\": \"Sales & Marketing\",\n        \"displayName\": \"Melissa Darrow\",\n        \"givenName\": \"Melissa\",\n        \"jobTitle\": \"Marketing Director\",\n        \"mailNickname\": \"MelissaD\",\n        \"passwordPolicies\": \"DisablePasswordExpiration\",\n        \"passwordProfile\": {\n            \"password\": \"Test1234\",\n            \"forceChangePasswordNextSignIn\": false\n        },\n        \"officeLocation\": \"131/1105\",\n        \"postalCode\": \"98052\",\n        \"preferredLanguage\": \"en-US\",\n        \"state\": \"WA\",\n        \"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\n        \"surname\": \"Darrow\",\n        \"mobilePhone\": \"+1 206 555 0110\",\n        \"usageLocation\": \"US\",\n        \"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\"\n    }"
+    "postBody": "{\n � � � �\"accountEnabled\": true,\n � � � �\"city\": \"Seattle\",\n � � � �\"country\": \"United States\",\n � � � �\"department\": \"Sales & Marketing\",\n � � � �\"displayName\": \"Melissa Darrow\",\n � � � �\"givenName\": \"Melissa\",\n � � � �\"jobTitle\": \"Marketing Director\",\n � � � �\"mailNickname\": \"MelissaD\",\n � � � �\"passwordPolicies\": \"DisablePasswordExpiration\",\n � � � �\"passwordProfile\": {\n � � � � � �\"password\": \"Test1234\",\n � � � � � �\"forceChangePasswordNextSignIn\": false\n � � � �},\n � � � �\"officeLocation\": \"131/1105\",\n � � � �\"postalCode\": \"98052\",\n � � � �\"preferredLanguage\": \"en-US\",\n � � � �\"state\": \"WA\",\n � � � �\"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\n � � � �\"surname\": \"Darrow\",\n � � � �\"mobilePhone\": \"+1 206 555 0110\",\n � � � �\"usageLocation\": \"US\",\n � � � �\"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\"\n � �}"
 },
 {
     "category": "Users (beta)",
@@ -429,7 +429,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Planner (beta)",
     "method": "GET",
     "humanName": "all Planner plans associated with a group",
-    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id-with-plan}/planner/plans ",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id-with-plan}/planner/plans",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannergroup_list_plans",
     "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
@@ -502,7 +502,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n  \"@odata.type\":\"microsoft.graph.openTypeExtension\",    \"extensionName\":\"com.contoso.roamingSettings\",\n    \"theme\":\"dark\",\n    \"color\":\"purple\",\n    \"lang\":\"Japanese\"\n}"
+    "postBody": "{\n ��\"@odata.type\":\"microsoft.graph.openTypeExtension\", � �\"extensionName\":\"com.contoso.roamingSettings\",\n � �\"theme\":\"dark\",\n � �\"color\":\"purple\",\n � �\"lang\":\"Japanese\"\n}"
 },
 {
     "category": "Extensions (beta)",
@@ -532,7 +532,7 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "create a group with extension data",
     "requestUrl": "https://graph.microsoft.com/beta/groups",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions",
-    "postBody": "{\n    \"displayName\": \"Extensions sample group\",\n    \"description\": \"Extensions sample group\",\n    \"groupTypes\": [\"Unified\"],\n    \"mailEnabled\": true,\n    \"mailNickname\": \"extSample123\",\n    \"securityEnabled\": false,\n    \"adatumisv_courses\": {\n        \"id\":\"123\",\n        \"name\":\"New Managers\",\n        \"type\":\"Online\"\n    }\n}"
+    "postBody": "{\n � �\"displayName\": \"Extensions sample group\",\n � �\"description\": \"Extensions sample group\",\n � �\"groupTypes\": [\"Unified\"],\n � �\"mailEnabled\": true,\n � �\"mailNickname\": \"extSample123\",\n � �\"securityEnabled\": false,\n � �\"adatumisv_courses\": {\n � � � �\"id\":\"123\",\n � � � �\"name\":\"New Managers\",\n � � � �\"type\":\"Online\"\n � �}\n}"
 },
 {
     "category": "Extensions (beta)",
@@ -540,5 +540,149 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "update a group with extension data",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions",
-    "postBody": "{\n   \"adatumisv_courses\": {\n        \"id\":\"123\",\n        \"name\":\"New Managers\",\n        \"type\":\"Online\"\n    }\n}"
+    "postBody": "{\n   \"adatumisv_courses\": {\n � � � �\"id\":\"123\",\n � � � �\"name\":\"New Managers\",\n � � � �\"type\":\"Online\"\n � �}\n}"
+},
+{
+    "category": "OneNote (beta)",
+    "method": "GET",
+    "humanName": "my notebooks",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/onenote"
+},
+{
+    "category": "OneNote (beta)",
+    "method": "GET",
+    "humanName": "my sections",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/section"
+},
+{
+    "category": "OneNote (beta)",
+    "method": "GET",
+    "humanName": "my pages",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/pages",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/section_list_pages"
+},
+{
+    "category": "OneNote (beta)",
+    "method": "POST",
+    "humanName": "create notebook",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/onenote_post_notebooks",
+    "postBody": "{\n  \"name\": \"My Notebook\"\n}",
+    "tip": "Update the Request Body and select Run Query."
+},
+{
+    "category": "OneNote (beta)",
+    "method": "POST",
+    "humanName": "create section",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/notebook_post_sections",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n  \"name\": \"Section 1\"\n}",
+    "tip": "This query requires a notebook id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/notebooks. "
+},
+{
+    "category": "OneNote (beta)",
+    "method": "POST",
+    "humanName": "create page",
+    "requestUrl": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/section_post_pages",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "multipart/form-data"
+        },
+        {
+            "name": "boundary",
+            "value": "MyPartBoundary198374"
+        }
+    ],
+    "postBody": "\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"Presentation\"\nContent-Type:text/html\n\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>\n    <meta name=\"created\" content=\"2015-07-22T09:00:00-08:00\" />\n  </head>\n  <body>\n    <p>Here's an image from an online source:</p>\n    <img src=\"http://...\" alt=\"an image on the page\" width=\"500\" />\n    <p>Here's an image uploaded as binary data:</p>\n    <img src=\"name:imageBlock1\" alt=\"an image on the page\" width=\"300\" />\n    <p>Here's a file attachment:</p>\n    <object data-attachment=\"FileName.pdf\" data=\"name:fileBlock1\" type=\"application/pdf\" />\n  </body>\n</html>\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"imageBlock1\"\nContent-Type:image/jpeg\n\n... binary image data ...\n\n--MyPartBoundary198374\nContent-Disposition:form-data; name=\"fileBlock1\"\nContent-Type:application/pdf\n\n... binary file data ...\n\n--MyPartBoundary198374--",
+    "tip": "This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/sections."
+},
+{
+    "category": "SharePoint Sites (beta)",
+    "method": "GET",
+    "humanName": "my organization's default SharePoint site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites/root",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/sharepoint"
+},
+{
+    "category": "SharePoint Sites (beta)",
+    "method": "GET",
+    "humanName": "Enumerate the document libraries under the root site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites/root/drives",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/baseitem_getbyurl"
+},
+{
+    "category": "SharePoint Sites (beta)",
+    "method": "GET",
+    "humanName": "Get a SharePoint site based on relative path of the site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites:/{site-path}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/subsites_list"
+},
+{
+    "category": "SharePoint Lists (beta)",
+    "method": "GET",
+    "humanName": "list in a SharePoint site ",
+    "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}/lists",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/lists_list"
+},
+{
+    "category": "SharePoint Sites (beta)",
+    "method": "GET",
+    "humanName": "Search for a SharePoint site by keyword",
+    "requestUrl": "https://graph.microsoft.com/beta/sites?search='contoso'",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ]
+},
+{
+    "category": "SharePoint Sites (beta)",
+    "method": "GET",
+    "humanName": "Enumerate subsites of the root site",
+    "requestUrl": "https://graph.microsoft.com/beta/sites/root/sites",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ]
+},
+{
+    "category": "Batching (beta)",
+    "method": "POST",
+    "humanName": "Perform parrallel GETs",
+    "requestUrl": "https://graph.microsoft.com/beta/$batch",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\"requests\" : [{\"url\" : \"/me\", \"method\" : \"GET\", \"id\" : \"1\"}, {\"url\" : \"/me/messages\", \"method\" : \"GET\", \"id\" : \"2\"}, {\"url\" : \"/me/events\", \"method\" : \"GET\", \"id\" : \"3\"}]  }",
+    "tip": "This query shows you how to use batching to get your user information, your messages, and your events."
+},
+{
+    "category": "Batching (beta)",
+    "method": "POST",
+    "humanName": "Combine a POST and a GET",
+    "requestUrl": "https://graph.microsoft.com/beta/$batch",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n \"requests\": [{\n   \"url\": \"/me/drive/root/children\",\n   \"method\": \"POST\",\n   \"id\": \"1\",\n   \"body\": {\n    \"name\": \"TestBatchingFolder\",\n    \"folder\": {}\n   },\n   \"headers\": {\n    \"Content-Type\": \"application/json\"\n   }\n  }, {\n   \"url\": \"/me/drive/root/children/TestBatchingFolder \",\n   \"method\": \"GET\",\n   \"id\": \"2\",\n   \"DependsOn\": [\"1\"]\n  }]\n} ",
+    "tip": "This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET."
 }]

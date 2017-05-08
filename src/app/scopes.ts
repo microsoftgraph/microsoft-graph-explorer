@@ -282,6 +282,20 @@ export const PermissionScopes: PermissionScope[] = [
    admin: false
  },
  {
+   name: "Device.Read",
+   preview: true,
+   admin: false,
+   description: "",
+   longDescription: ""
+ },
+ {
+   name: "Device.Command",
+   preview: true,
+   admin: false,
+   description: "",
+   longDescription: ""
+ },
+ {
    name: "Directory.AccessAsUser.All",
    description: "Access directory as the signed-in user",
    longDescription: "Allows the app to have the same access to information in the directory as the signed-in user.",
