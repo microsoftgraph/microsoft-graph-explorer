@@ -5,14 +5,12 @@
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { Response, Headers } from '@angular/http';
 
-import * as moment from "moment"
-
 import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, checkHasValidAuthToken, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
-import { GraphService } from "./api-explorer-svc";
+import { GraphService } from "./graph-service";
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer, showResults } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
 import { createHeaders, getParameterByName } from "./util";
@@ -22,7 +20,7 @@ import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 import { getString } from "./localization-helpers";
 
-declare let mwf, ga;
+declare let mwf, ga, moment;
 
 @Component({
   selector: 'api-explorer',
@@ -52,9 +50,11 @@ declare let mwf, ga;
 export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
       // Headers aren't updated when that tab is hidden, so when clicking on any tab reinsert the headers
-      $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
-          insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
-      });
+      if (typeof $ !== "undefined") {
+        $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
+            insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
+        });
+      }
 
       parseMetadata(this.GraphService, "v1.0");
       parseMetadata(this.GraphService, "beta");

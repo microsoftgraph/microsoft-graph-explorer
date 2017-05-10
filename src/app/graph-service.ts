@@ -18,7 +18,6 @@ export class GraphService {
       GraphService._http = http;
   }
 
-    
   performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
         if (!headers) headers = new Headers();
         headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
@@ -67,7 +66,7 @@ export class GraphService {
         }
     }
 
-    getMetadata = (version:string) => {
-        return GraphService._http.get(`${AppComponent.Options.GraphUrl}/${version}/$metadata`).toPromise();
+    getMetadata = (graphUrl:string, version:string) => {
+        return GraphService._http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 };

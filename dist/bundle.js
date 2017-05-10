@@ -68391,8 +68391,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+<<<<<<< HEAD
 var base_1 = require("./base");
 var app_component_1 = require("./app.component");
+=======
+>>>>>>> v4-tests
 require("rxjs/add/operator/toPromise");
 var GraphService = GraphService_1 = (function () {
     function GraphService(http) {
@@ -68428,8 +68431,8 @@ var GraphService = GraphService_1 = (function () {
                     return GraphService_1._http.delete(query, { headers: requestHeaders }).toPromise();
             }
         };
-        this.getMetadata = function (version) {
-            return GraphService_1._http.get(app_component_1.AppComponent.Options.GraphUrl + "/" + version + "/$metadata").toPromise();
+        this.getMetadata = function (graphUrl, version) {
+            return GraphService_1._http.get(graphUrl + "/" + version + "/$metadata").toPromise();
         };
         GraphService_1._http = http;
     }
@@ -68454,7 +68457,11 @@ exports.GraphService = GraphService;
 ;
 var GraphService_1;
 
+<<<<<<< HEAD
 },{"./app.component":57,"./base":61,"@angular/core":5,"@angular/http":7,"rxjs/add/operator/toPromise":20}],57:[function(require,module,exports){
+=======
+},{"@angular/core":5,"@angular/http":7,"rxjs/add/operator/toPromise":20}],58:[function(require,module,exports){
+>>>>>>> v4-tests
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -69874,7 +69881,7 @@ function parseMetadata(apiService, version) {
         }
         if (!graphStructureCache.containsVersion(version)) {
             console.log("parsing " + version + " metadata");
-            apiService.getMetadata(version).then(function (results) {
+            apiService.getMetadata(app_component_1.AppComponent.Options.GraphUrl, version).then(function (results) {
                 var metadata = $($.parseXML(results._body));
                 var entitySetData = getEntitySets(metadata);
                 graphStructureCache.add(version, "EntitySetData", entitySetData);
