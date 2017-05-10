@@ -195,8 +195,8 @@ export function localLogout() {
 }
 
 export function checkHasValidAuthToken() {
-	if (!haveValidAccessToken()) {
-		console.log("Tried to execute query, but user should be logged out.", new Date())
+	if (!haveValidAccessToken()  && isAuthenticated()) {
+		console.log("App says user is authenticated, but doesn't have a valid access token.", new Date())
 		localLogout();
 	}
 }

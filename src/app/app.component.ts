@@ -5,10 +5,11 @@
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { Response, Headers } from '@angular/http';
 
+import * as moment from "moment";
+
 import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, checkHasValidAuthToken, isAuthenticated } from "./auth";
-import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./graph-service";
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer, showResults } from "./response-handlers";
@@ -20,7 +21,7 @@ import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 import { getString } from "./localization-helpers";
 
-declare let mwf, ga, moment;
+declare let mwf, ga;
 
 @Component({
   selector: 'api-explorer',
@@ -233,7 +234,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     let dataPoints:any[] = [query.statusCode]
 
     let urlGraph = constructGraphLinksFromFullPath(query.requestUrl);
-    console.info(urlGraph);
     if (urlGraph && urlGraph.length > 0) {
       let cleanedUrl = urlGraph.map((link) => link.type).join("/");
       dataPoints.push(cleanedUrl);
