@@ -2,11 +2,12 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
+import { ChangeDetectorRef } from "@angular/core";
+
 import { AppModule } from "./app.module";
 import { ExplorerOptions, Message } from "./base";
 import { AppComponent } from "./app.component";
 import { GraphService } from "./api-explorer-svc";
-import { ChangeDetectorRef } from "@angular/core";
 import { PermissionScopes } from "./scopes";
 import { getParameterByName } from "./util";
 
@@ -57,11 +58,11 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 		}
 
 		if (accessToken) {
-			AppComponent.explorerValues.authentication.status = "authenticating"
+			// AppComponent.explorerValues.authentication.status = "authenticating"
 			changeDetectorRef.detectChanges();
 
 			let promisesGetUserInfo = [];
-			AppComponent.explorerValues.authentication.user = {}
+			// AppComponent.explorerValues.authentication.user = {}
 
 			// get displayName and email
 			promisesGetUserInfo.push(apiService.performQuery("GET", `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
@@ -103,7 +104,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 
 export function refreshAccessToken() {
 	if (AppComponent.explorerValues.authentication.status != "authenticated") {
-		console.log("Not refreshing access token since user is logged out or currently logging in.");
+		console.log("Not refreshing access token since user is logged out or currently logging in.", new Date());
 		return;
 	};
 
@@ -113,15 +114,16 @@ export function refreshAccessToken() {
 		response_mode: "fragment",
 		nonce: 'graph_explorer',
 		prompt: 'none',
-		scope: AppComponent.Options.DefaultUserScopes, // should be currently selected scopes?
+		scope: AppComponent.Options.DefaultUserScopes,
 		login_hint: AppComponent.explorerValues.authentication.user.emailAddress,
 		domain_hint: 'organizations'
 	}
 
 	hello('msft').login(loginProperties).then((a) => {
-		console.log("Successfully refreshed access token.")
-	}, (a) => {
-		console.error("Error refreshing access token", a);
+		console.log("Successfully refreshed access token.", new Date())
+	}, (e) => {
+		console.error("Error refreshing access token", e, new Date());
+		checkHasValidAuthToken();
 	});
 }
 
@@ -189,5 +191,16 @@ export function localLogout() {
 
 	(hello as any)('msft').logout(null, {force:true});
 	AppComponent.explorerValues.authentication.status = "anonymous"
-	delete AppComponent.explorerValues.authentication.user;
+	AppComponent.explorerValues.authentication.user = {};
+}
+
+export function checkHasValidAuthToken() {
+	if (!haveValidAccessToken()) {
+		console.log("Tried to execute query, but user should be logged out.", new Date())
+		localLogout();
+	}
+}
+
+export function isAuthenticated() {
+	return AppComponent.explorerValues.authentication.status == "authenticated"
 }

@@ -3,16 +3,18 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
+import { Response, Headers } from '@angular/http';
+
+import * as moment from "moment"
+
 import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { initAuth, haveValidAccessToken } from "./auth";
+import { initAuth, checkHasValidAuthToken, isAuthenticated } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./api-explorer-svc";
-import { Response, Headers } from '@angular/http';
 import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer, showResults } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
-import * as moment from "moment"
 import { createHeaders, getParameterByName } from "./util";
 import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
 import { parseMetadata, constructGraphLinksFromFullPath } from "./graph-structure";
@@ -105,7 +107,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       endpointUrl: AppComponent.Options.GraphUrl + `/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request") || 'me/'}`,
       selectedOption: getParameterByName("method") as RequestType || "GET",
       selectedVersion: getParameterByName("version") || "v1.0",
-      authentication: {},
+      authentication: {
+        user: {}
+      },
       showImage: false,
       requestInProgress: false,
       headers: [],
@@ -151,8 +155,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         postBody: getRequestBodyEditor().getSession().getValue()
     };
 
+    checkHasValidAuthToken();
     let graphRequest:Promise<Response>;
-    if (haveValidAccessToken()) {
+    if (isAuthenticated()) {
       graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, query.postBody, createHeaders(query.headers));
     } else {
       graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl, createHeaders(query.headers));
@@ -228,13 +233,14 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     let dataPoints:any[] = [query.statusCode]
 
     let urlGraph = constructGraphLinksFromFullPath(query.requestUrl);
+    console.info(urlGraph);
     if (urlGraph && urlGraph.length > 0) {
       let cleanedUrl = urlGraph.map((link) => link.type).join("/");
       dataPoints.push(cleanedUrl);
     } else {
       dataPoints.push("UnknownUrl");        
     }
-    dataPoints.push(AppComponent.explorerValues.authentication.status == "authenticated" ? "authenticated" : "demo");
+    dataPoints.push(isAuthenticated() ? "authenticated" : "demo");
 
     if (typeof ga !== 'undefined') {
       ga('send', {
@@ -254,7 +260,7 @@ function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
 
   AppComponent.explorerValues.showImage = false;
   if (isImageResponse(headers)) {
-    let method = haveValidAccessToken() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
+    let method = isAuthenticated() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
     handleImageResponse(method, headers, status, handleUnsuccessfulQueryResponse);
   } else if (isHtmlResponse(headers)) {  
     insertHeadersIntoResponseViewer(headers);

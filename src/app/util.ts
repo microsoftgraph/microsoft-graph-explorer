@@ -12,13 +12,10 @@ export function createHeaders(explorerHeaders: GraphRequestHeader[]): Headers {
     return h;
 }
 
-// http://stackoverflow.com/a/901144/2517012
-export function getParameterByName(name, url?):string {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+// https://github.com/Microsoft/rDSN/blob/f1f474da71003b72f445dcebd6638768301ce930/src/tools/webstudio/app_package/static/js/analyzer.js#L2
+export function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }

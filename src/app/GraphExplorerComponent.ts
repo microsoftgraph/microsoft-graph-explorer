@@ -7,6 +7,8 @@ import { AppComponent } from "./app.component";
 import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens, substitueTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
+import { isAuthenticated as isAuthHelper } from "./auth";
+
 
 export class GraphExplorerComponent {
 
@@ -20,15 +22,15 @@ export class GraphExplorerComponent {
     return AppComponent.Options.PathToBuildDir + "/" + relPath;
   }
 
-  isAuthenticated = () => {
-    return this.explorerValues.authentication.status == "authenticated";
-  }
-
   // used in sidebar and panel
   getRequestHistory = (limit?:number):GraphApiCall[] => {
       if (limit) return AppComponent.requestHistory.slice(0, limit);
 
       return AppComponent.requestHistory;
+  }
+
+  isAuthenticated() {
+    return isAuthHelper();
   }
   
   loadQueryIntoEditor(originalQuery:GraphApiCall) {

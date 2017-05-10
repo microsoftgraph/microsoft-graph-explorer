@@ -160,17 +160,25 @@ export function getEntityFromTypeName(typePossiblyWithPrefix:string, version:str
 }
 
 export function constructGraphLinksFromFullPath(path:string):GraphNodeLink[] {
-    const urlPathArr = path.split(AppComponent.Options.GraphUrl+"/");
-    if (urlPathArr.length <=1)
-        return [];
 
-    let segments:string[] = urlPathArr[1].split("/");
+    const parser = document.createElement('a');
+    parser.href = path;
+
+    let urlPathArr = parser.pathname;
+
+    if (!urlPathArr) return [];
+    
+    let segments:string[] = urlPathArr.split("/");
+
+    if (segments.length <= 2) return [];
+
+    let leadingSlash = segments.shift();
     let version = segments.shift();
 
     // singletons and entitysets
     let entityContainerData = loadEntitySets(version);
 
-    if (!entityContainerData) return;
+    if (!entityContainerData) return [];
     var graph:GraphNodeLink[] = [];
     while (segments.length > 0) {
         let segment = segments.shift();
