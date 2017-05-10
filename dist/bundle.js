@@ -69717,17 +69717,10 @@ exports.SampleQueries = [
         "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/subsites_list"
     },
     {
-        "category": "SharePoint Lists (beta)",
-        "method": "GET",
-        "humanName": "list in a SharePoint site ",
-        "requestUrl": "https://graph.microsoft.com/beta/sharepoint:/{site-path}/lists",
-        "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/lists_list"
-    },
-    {
         "category": "SharePoint Sites (beta)",
         "method": "GET",
         "humanName": "Search for a SharePoint site by keyword",
-        "requestUrl": "https://graph.microsoft.com/beta/sites?search='contoso'",
+        "requestUrl": "https://graph.microsoft.com/beta/sites?search=contoso",
         "headers": [
             {
                 "name": "Content-type",
