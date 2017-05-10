@@ -95,15 +95,15 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			}
 		}
 	});
-	AppComponent.explorerValues.authentication.status = isAuthenticated() ? "authenticating" : "anonymous"
+	AppComponent.explorerValues.authentication.status = haveValidAccessToken() ? "authenticating" : "anonymous"
 
 
 	handleAdminConsentResponse();
 }
 
 export function refreshAccessToken() {
-	if (!isAuthenticated()) {
-		console.log("Not refreshing access token");
+	if (AppComponent.explorerValues.authentication.status != "authenticated") {
+		console.log("Not refreshing access token since user is logged out or currently logging in.");
 		return;
 	};
 
@@ -113,7 +113,7 @@ export function refreshAccessToken() {
 		response_mode: "fragment",
 		nonce: 'graph_explorer',
 		prompt: 'none',
-		scope: AppComponent.Options.DefaultUserScopes,
+		scope: AppComponent.Options.DefaultUserScopes, // should be currently selected scopes?
 		login_hint: AppComponent.explorerValues.authentication.user.emailAddress,
 		domain_hint: 'organizations'
 	}
@@ -174,9 +174,8 @@ export function getScopes() {
 		return scopesStr.split(" ");
 }
 
-export function isAuthenticated():boolean {
+export function haveValidAccessToken():boolean {
 	let session = hello('msft').getAuthResponse();
-	
 
 	if (session === null) return false;
 	let currentTime = (new Date()).getTime() / 1000;

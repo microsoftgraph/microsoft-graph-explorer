@@ -5,7 +5,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { initAuth, isAuthenticated } from "./auth";
+import { initAuth, haveValidAccessToken } from "./auth";
 import { AppModule } from "./app.module";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./api-explorer-svc";
@@ -152,7 +152,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     };
 
     let graphRequest:Promise<Response>;
-    if (isAuthenticated()) {
+    if (haveValidAccessToken()) {
       graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, query.postBody, createHeaders(query.headers));
     } else {
       graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl, createHeaders(query.headers));
@@ -234,7 +234,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     } else {
       dataPoints.push("UnknownUrl");        
     }
-    dataPoints.push(isAuthenticated() ? "authenticated" : "demo");
+    dataPoints.push(AppComponent.explorerValues.authentication.status == "authenticated" ? "authenticated" : "demo");
 
     if (typeof ga !== 'undefined') {
       ga('send', {
@@ -254,7 +254,7 @@ function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
 
   AppComponent.explorerValues.showImage = false;
   if (isImageResponse(headers)) {
-    let method = isAuthenticated() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
+    let method = haveValidAccessToken() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
     handleImageResponse(method, headers, status, handleUnsuccessfulQueryResponse);
   } else if (isHtmlResponse(headers)) {  
     insertHeadersIntoResponseViewer(headers);

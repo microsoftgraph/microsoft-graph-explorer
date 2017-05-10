@@ -4,7 +4,6 @@
 
 import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
-import { isAuthenticated } from "./auth";
 import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens, substitueTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
@@ -22,7 +21,7 @@ export class GraphExplorerComponent {
   }
 
   isAuthenticated = () => {
-    return isAuthenticated();
+    return this.explorerValues.authentication.status == "authenticated";
   }
 
   // used in sidebar and panel
@@ -34,7 +33,7 @@ export class GraphExplorerComponent {
   
   loadQueryIntoEditor(originalQuery:GraphApiCall) {
     // prevent logged out users from POSTing/others
-    if (!isAuthenticated() && originalQuery.method != 'GET') {
+    if (!this.isAuthenticated() && originalQuery.method != 'GET') {
       return;
     }
 
@@ -46,7 +45,7 @@ export class GraphExplorerComponent {
 
 
     // replace endpoint URL with tokens
-      if (!isAuthenticated())
+      if (!this.isAuthenticated())
         substitueTokens(query);
     
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
