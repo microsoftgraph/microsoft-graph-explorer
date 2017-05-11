@@ -1,0 +1,272 @@
+Category Name,Type of Query,Query title (max length: 64 chars),Query URL,Scopes Needed (coma seprated),Tip (something we'll expose in the UI when a user makes a particular request),Doc Link,AAD or MSA,Post template,Headers,Notes
+Getting Started,GET,my profile,https://graph.microsoft.com/v1.0/me/,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,BOTH,,,
+Getting Started,GET,my photo,https://graph.microsoft.com/v1.0/me/photo/$value,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get,BOTH,,,
+Getting Started,GET,my mail,https://graph.microsoft.com/v1.0/me/messages,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
+Getting Started,GET,all the items in my drive,https://graph.microsoft.com/v1.0/me/drive/root/children,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,,
+Getting Started,GET,items trending around me,https://graph.microsoft.com/beta/me/insights/trending,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,,
+Getting Started,GET,my manager,https://graph.microsoft.com/v1.0/me/manager,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager,AAD,,,
+Users,GET,my direct reports,https://graph.microsoft.com/v1.0/me/directReports,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports,AAD,,,
+Users,GET,all users in the organization,https://graph.microsoft.com/v1.0/users,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,,
+Users,GET,all users in the Finance department,https://graph.microsoft.com/v1.0/users?$filter=Department eq 'Finance',,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,,
+Users,GET,my skills,"https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,,
+Users,GET,all my Planner tasks,https://graph.microsoft.com/beta/me/planner/tasks,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview,AAD,,,
+Users,POST,create user,https://graph.microsoft.com/v1.0/users,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users,AAD,"{
+        ""accountEnabled"": true,
+        ""city"": ""Seattle"",
+        ""country"": ""United States"",
+        ""department"": ""Sales & Marketing"",
+        ""displayName"": ""Melissa Darrow"",
+        ""givenName"": ""Melissa"",
+        ""jobTitle"": ""Marketing Director"",
+        ""mailNickname"": ""MelissaD"",
+        ""passwordPolicies"": ""DisablePasswordExpiration"",
+        ""passwordProfile"": {
+            ""password"": ""Test1234"",
+            ""forceChangePasswordNextSignIn"": false
+        },
+        ""officeLocation"": ""131/1105"",
+        ""postalCode"": ""98052"",
+        ""preferredLanguage"": ""en-US"",
+        ""state"": ""WA"",
+        ""streetAddress"": ""9256 Towne Center Dr., Suite 400"",
+        ""surname"": ""Darrow"",
+        ""mobilePhone"": ""+1 206 555 0110"",
+        ""usageLocation"": ""US"",
+        ""userPrincipalName"": ""MelissaD@AUTHENTICATED_DOMAIN""
+    }",Content-type: application/json,
+Users (beta),GET,track user changes,"https://graph.microsoft.com/beta/users/delta?$select=displayName,givenName,surname",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,,will be GA by BUILD
+Groups,GET,all groups in my organization,https://graph.microsoft.com/v1.0/groups,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/group,AAD,,,
+Groups,GET,all groups I belong to,https://graph.microsoft.com/v1.0/me/memberOf,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof,AAD,,,
+,,,,,,,,,,
+Groups,GET,group members,https://graph.microsoft.com/v1.0/groups/{group-id}/members,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_members,AAD,,,
+Groups,GET,group's conversations,https://graph.microsoft.com/v1.0/groups/{group-id}/conversations,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_conversations,AAD,,,
+Groups,GET,group's events,https://graph.microsoft.com/v1.0/groups/{group-id}/events,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events,AAD,,,
+Groups,POST,add favorite group,https://graph.microsoft.com/v1.0/groups/{group-id}/addFavorite,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite,AAD,,Content-type: application/json,
+Groups,GET,items in a group drive,https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get,AAD,,,
+Groups (beta),GET,track group changes,"https://graph.microsoft.com/beta/groups/delta?$select=displayName,description",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,,will be GA by BUILD
+Outlook Mail,GET,my high important mail,https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high',,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
+Outlook Mail,GET,my mail that has 'Hello World',"https://graph.microsoft.com/v1.0/me/messages?$search=""hello world""",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
+Outlook Mail,POST,send an email,https://graph.microsoft.com/v1.0/me/sendMail,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail,BOTH,"{
+        ""message"": {
+            ""subject"": ""Meet for lunch?"",
+            ""body"": {
+                ""contentType"": ""Text"",
+                ""content"": ""The new cafeteria is open.""
+            },
+            ""toRecipients"": [
+                {
+                    ""emailAddress"": {
+                    ""address"": ""garthf@contoso.com""
+                    }
+                }
+            ]
+        }}",Content-type: application/json,
+Outlook Mail,POST,forward mail,https://graph.microsoft.com/v1.0/me/messages/{message-id}/forward,,"This query requires a message id. To get the ID, run the following query, find the message in the response and use its ID property: GET https://graph.microsoft.com/v1.0/me/messages",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward,BOTH,"{
+  ""comment"": ""FYI"",
+  ""toRecipients"": [
+    {
+      ""emailAddress"": {
+        ""address"": ""FULL_USER_EMAIL"",
+        ""name"": ""Alex Darrow""
+      }
+    }
+  ]
+}",Content-type: application/json,
+Outlook Mail (beta),GET,track email changes,https://graph.microsoft.com/beta/me/mailFolders/Inbox/messages/delta,,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages,AAD,,,will be GA by BUILD
+Outlook Mail (beta),GET,email I'm @ mentioned,"https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2,AAD,,,
+Outlook Calendar,GET,my events for the next week,https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week},,"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview,BOTH,,,
+Outlook Calendar,GET,all events in my calendar,"https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events,BOTH,,,
+Outlook Calendar,GET,all my calendars,https://graph.microsoft.com/v1.0/me/calendars,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendars,BOTH,,,
+,,,,,,,,,,
+Outlook Calendar,POST,find meeting time,https://graph.microsoft.com/v1.0/me/findMeetingTimes,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes,AAD,"{
+        ""attendees"": [
+            {
+            ""emailAddress"": {
+                ""address"": ""FULL_USER_EMAIL"",
+                ""name"": ""Alex Darrow""
+            },
+            ""type"": ""Required""
+            }
+        ],
+        ""timeConstraint"": {
+            ""timeslots"": [
+            {
+            ""start"": {
+                ""dateTime"": ""{today}"",  
+                ""timeZone"": ""Pacific Standard Time"" 
+                },  
+                ""end"": { 
+                ""dateTime"": ""{next-week}"",  
+                ""timeZone"": ""Pacific Standard Time"" 
+                }
+            }
+            ]
+        },
+        ""locationConstraint"": {
+        ""isRequired"": ""false"",
+        ""suggestLocation"": ""true"",
+        ""locations"": [
+            {
+            ""displayName"": ""Conf Room 32/1368"",
+            ""locationEmailAddress"": ""conf32room1368@imgeek.onmicrosoft.com""
+            }
+        ]
+        },
+        ""meetingDuration"": ""PT1H""
+        }",Content-type: application/json,
+Outlook Calendar,POST,schedule a meeting,https://graph.microsoft.com/v1.0/me/events,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events,BOTH,"{
+        ""subject"": ""My event"",
+        ""start"": {
+            ""dateTime"": ""{today}"",
+            ""timeZone"": ""UTC""
+        },
+        ""end"": {
+            ""dateTime"": ""{next-week}"",
+            ""timeZone"": ""UTC""
+        },
+    }",Content-type: application/json,
+Outlook Calendar (beta),GET,track changes on my events for the next week,https://graph.microsoft.com/beta/me/calendarView/delta?startDateTime={today}&endDateTime={next-week},,"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events,BOTH,,,will be GA by BUILD
+Personal Contacts,GET,my contacts,https://graph.microsoft.com/v1.0/me/contacts,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_contacts,BOTH,,,
+Personal Contacts,POST,add contact,https://graph.microsoft.com/v1.0/me/contacts,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts,BOTH,"{
+    ""givenName"": ""Pavel"",
+    ""surname"": ""Bansky"",
+    ""emailAddresses"": [
+        {
+        ""address"": ""pavelb@fabrikam.onmicrosoft.com"",
+        ""name"": ""Pavel Bansky""
+        }
+    ],
+    ""businessPhones"": [
+        ""+1 732 555 0102""
+    ]
+}",Content-type: application/json,
+OneDrive,GET,all the items in my drive,https://graph.microsoft.com/v1.0/me/drive/root/children,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,,
+OneDrive,GET,my recent files,https://graph.microsoft.com/v1.0/me/drive/recent,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,,
+OneDrive,GET,files shared with me,https://graph.microsoft.com/v1.0/me/drive/sharedWithMe,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,,
+OneDrive,GET,all of my excel files,"https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,,
+OneDrive,POST,create a folder,https://graph.microsoft.com/v1.0/me/drive/root/children,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children,BOTH,"{
+  ""name"": ""New Folder"",
+  ""folder"": { }
+}",Content-type: application/json,
+Excel,GET,all of my excel files,"https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,,
+Excel,POST,create session,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/createSession,,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel,AAD,"{ ""persistChanges"": true }",Content-type: application/json,
+Excel,GET,worksheets in a workbook,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets,,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets,AAD,,,
+Excel,POST,add a new worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
+  ""name"": ""My New Sheet""
+}",Content-type: application/json,
+Excel,GET,used range in worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange,,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange,AAD,,,
+Excel,GET,tables in worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/tables,,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,,
+Excel,GET,charts in worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/charts,,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts,AAD,,,
+Planner (beta),GET,all Planner plans associated with a group,https://graph.microsoft.com/beta/groups/{group-id-with-plan}/planner/plans,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannergroup_list_plans,AAD,,,will be GA by BUILD
+Planner (beta),GET,all Planner tasks for a plan,https://graph.microsoft.com/beta/planner/plans/{plan-id}/tasks,,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/plannerplan_list_tasks,AAD,,,will be GA by BUILD
+Planner (beta),GET,all my Planner tasks,https://graph.microsoft.com/beta/me/planner/tasks,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview,AAD,,,will be GA by BUILD
+Insights,GET,my recent files,https://graph.microsoft.com/v1.0/me/drive/recent,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,,
+Insights (beta),GET,items trending around me,https://graph.microsoft.com/beta/me/insights/trending,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,,
+Insights (beta),GET,people I work with,https://graph.microsoft.com/beta/me/people,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,,
+Insights (beta),GET,people whose name starts with J,https://graph.microsoft.com/beta/me/people/?$search=j,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,,
+Insights (beta),GET,people relevant to a topic,"https://graph.microsoft.com/beta/me/people/?$search=""topic: planning""",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,,
+,,,,,,,,,,
+,,,,,,,,,,
+Extensions (beta),GET,get an open extension,"https://graph.microsoft.com/beta/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/opentypeextension,AAD,,,will be GA by BUILD
+Extensions (beta),POST,create an open extension,https://graph.microsoft.com/beta/me/extensions,User.ReadWrite.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/opentypeextension_post_opentypeextension,AAD,"{
+  ""@odata.type"":""microsoft.graph.openTypeExtension"",    ""extensionName"":""com.contoso.roamingSettings"",
+    ""theme"":""dark"",
+    ""color"":""purple"",
+    ""lang"":""Japanese""
+}",Content-type: application/json,will be GA by BUILD
+Extensions (beta),PATCH,update an open extension,https://graph.microsoft.com/beta/me/extensions/{extension-id},User.ReadWrite.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/opentypeextension_update,AAD,"{
+    ""theme"":""light"",
+    ""color"":""yellow"",
+    ""lang"":""Swahili""
+}",,will be GA by BUILD
+Extensions (beta),GET,get available schema extensions,https://graph.microsoft.com/beta/schemaExtensions,Directory.Read.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions,AAD,,,will be GA by BUILD
+Extensions (beta),GET,filter groups by extension property value,"https://graph.microsoft.com/beta/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",Group.Read.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions,AAD,,,
+Extensions (beta),POST,create a group with extension data,https://graph.microsoft.com/beta/groups,Group.ReadWrite.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions,AAD,"{
+    ""displayName"": ""Extensions sample group"",
+    ""description"": ""Extensions sample group"",
+    ""groupTypes"": [""Unified""],
+    ""mailEnabled"": true,
+    ""mailNickname"": ""extSample123"",
+    ""securityEnabled"": false,
+    ""adatumisv_courses"": {
+        ""id"":""123"",
+        ""name"":""New Managers"",
+        ""type"":""Online""
+    }
+}",,will be GA by BUILD
+Extensions (beta),PATCH,update a group with extension data,https://graph.microsoft.com/beta/groups/{group-id},Group.ReadWrite.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/schemaextension_post_schemaextensions,AAD,"{
+   ""adatumisv_courses"": {
+        ""id"":""123"",
+        ""name"":""New Managers"",
+        ""type"":""Online""
+    }
+}",,
+OneNote (beta),GET,my notebooks,https://graph.microsoft.com/beta/me/onenote/notebooks,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/onenote,BOTH,,,will be GA by BUILD
+OneNote (beta),GET,my sections,https://graph.microsoft.com/beta/me/onenote/sections,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/section,BOTH,,,will be GA by BUILD
+OneNote (beta),GET,my pages,https://graph.microsoft.com/beta/me/onenote/pages,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/section_list_pages,BOTH,,,will be GA by BUILD
+OneNote (beta),POST,create notebook,https://graph.microsoft.com/beta/me/onenote/notebooks,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/onenote_post_notebooks,BOTH,"{
+  ""name"": ""My Notebook""
+}",,will be GA by BUILD
+OneNote (beta),POST,create section,https://graph.microsoft.com/beta/me/onenote/notebooks/{notebook-id}/sections,,"This query requires a notebook id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/notebooks. ",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/notebook_post_sections,BOTH,"{
+  ""name"": ""Section 1""
+}",Content-type: application/json,will be GA by BUILD
+OneNote (beta),POST,create page,https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages,,"This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/beta/me/onenote/sections.",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/section_post_pages,BOTH,"
+--MyPartBoundary198374
+Content-Disposition:form-data; name=""Presentation""
+Content-Type:text/html
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>
+    <meta name=""created"" content=""2015-07-22T09:00:00-08:00"" />
+  </head>
+  <body>
+    <p>Here's an image from an online source:</p>
+    <img src=""http://..."" alt=""an image on the page"" width=""500"" />
+    <p>Here's an image uploaded as binary data:</p>
+    <img src=""name:imageBlock1"" alt=""an image on the page"" width=""300"" />
+    <p>Here's a file attachment:</p>
+    <object data-attachment=""FileName.pdf"" data=""name:fileBlock1"" type=""application/pdf"" />
+  </body>
+</html>
+
+--MyPartBoundary198374
+Content-Disposition:form-data; name=""imageBlock1""
+Content-Type:image/jpeg
+
+... binary image data ...
+
+--MyPartBoundary198374
+Content-Disposition:form-data; name=""fileBlock1""
+Content-Type:application/pdf
+
+... binary file data ...
+
+--MyPartBoundary198374--",Content-type: multipart/form-data; boundary: MyPartBoundary198374,will be GA by BUILD
+SharePoint Sites (beta),GET,my organization's default SharePoint site,https://graph.microsoft.com/beta/sites/root,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/sharepoint,AAD,,,will be GA by BUILD
+SharePoint Sites (beta),GET,Enumerate the document libraries under the root site,https://graph.microsoft.com/beta/sites/root/drives,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/baseitem_getbyurl,AAD,,,will be GA by BUILD
+SharePoint Sites (beta),GET,Get a SharePoint site based on relative path of the site,https://graph.microsoft.com/beta/sites:/{site-path},,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/subsites_list,AAD,,,will be GA by BUILD
+SharePoint Sites (beta),GET,Search for a SharePoint site by keyword,https://graph.microsoft.com/beta/sites?search=contoso,,,,AAD,,Content-type: application/json,will be GA by BUILD
+SharePoint Sites (beta),GET,Enumerate subsites of the root site,https://graph.microsoft.com/beta/sites/root/sites,,,,AAD,,Content-type: application/json,will be GA by BUILD
+Batching (beta),POST,Perform parrallel GETs,https://graph.microsoft.com/beta/$batch,,"This query shows you how to use batching to get your user information, your messages, and your events.",,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json,will be GA by BUILD
+Batching (beta),POST,Combine a POST and a GET,https://graph.microsoft.com/beta/$batch,,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,,AAD,"{
+ ""requests"": [{
+   ""url"": ""/me/drive/root/children"",
+   ""method"": ""POST"",
+   ""id"": ""1"",
+   ""body"": {
+    ""name"": ""TestBatchingFolder"",
+    ""folder"": {}
+   },
+   ""headers"": {
+    ""Content-Type"": ""application/json""
+   }
+  }, {
+   ""url"": ""/me/drive/root/children/TestBatchingFolder "",
+   ""method"": ""GET"",
+   ""id"": ""2"",
+   ""DependsOn"": [""1""]
+  }
+ ]
+} ",Content-type: application/json,will be GA by BUILD
