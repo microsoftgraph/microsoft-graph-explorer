@@ -8,7 +8,7 @@
     "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
     "serve": "lite-server -c=bs-config.json",
     "postinstall": "bower install",
-    "build:prod": "npm run build && browserify -s main src/main.js > dist/bundle.js && npm run minify",
+    "build:prod": "npm run build && browserify --debug -s main src/main.js > dist/bundle.js && npm run minify",
     "minify": "uglifyjs dist/bundle.js --screw-ie8 --compress --mangle --output dist/bundle.min.js",
     "test": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\""
   },

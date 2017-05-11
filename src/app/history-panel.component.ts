@@ -1,12 +1,12 @@
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
-
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import * as moment from "moment"
+
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { GraphApiCall } from "./base";
 import { AppComponent } from "./app.component";
-import * as moment from "moment"
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
 import { getString } from "./localization-helpers";
 import { saveHistoryToLocalStorage } from "./history";

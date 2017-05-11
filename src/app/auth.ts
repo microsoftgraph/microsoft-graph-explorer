@@ -58,11 +58,11 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 		}
 
 		if (accessToken) {
-			// AppComponent.explorerValues.authentication.status = "authenticating"
+			AppComponent.explorerValues.authentication.status = "authenticating"
 			changeDetectorRef.detectChanges();
 
 			let promisesGetUserInfo = [];
-			// AppComponent.explorerValues.authentication.user = {}
+			AppComponent.explorerValues.authentication.user = {}
 
 			// get displayName and email
 			promisesGetUserInfo.push(apiService.performQuery("GET", `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
@@ -202,5 +202,5 @@ export function checkHasValidAuthToken() {
 }
 
 export function isAuthenticated() {
-	return AppComponent.explorerValues.authentication.status == "authenticated"
+	return AppComponent.explorerValues.authentication.status != "anonymous"
 }
