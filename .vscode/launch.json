@@ -22,8 +22,16 @@
             "request": "attach",
             "name": "Attach to Port",
             "address": "localhost",
-            "port": 5858,
+            "port": 3000,
             "outFiles": []
+        },
+        {
+            "name": "Attach localhost",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "url": "http://localhost:3000/sample.html",
+            "webRoot": "${workspaceRoot}"
         }
     ]
 }

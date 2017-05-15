@@ -15,7 +15,6 @@ import * as moment from "moment"
 @Component({
   selector: 'history-query-row',
   template: `
-  {{displayKeyIcon}}
     <query-row [query]="query">
         <div class="history-row-2">
             <span class="status-code" [ngClass]="successClass">{{query.statusCode}}</span>
@@ -58,7 +57,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
         super();
     }
 
-    updateMomentRef: number;
+    updateMomentRef: NodeJS.Timer;
     ngOnInit(): void {
         this.updateMomentRef = setInterval(() => {
             this.setRelativeDate();
@@ -69,7 +68,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
 
 
     setRelativeDate() {
-        this.query.relativeDate = moment(this.query.requestSentAt).fromNow();
+        this.query.relativeDate = this.query.requestSentAt.toString();
         this._changeDetectionRef.detectChanges();
     }
 

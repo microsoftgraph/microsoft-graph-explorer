@@ -113,7 +113,7 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
     ngOnInit(): void {
         setInterval(() => {
             for (let historyRecord of AppComponent.requestHistory) {
-                historyRecord.relativeDate = moment(historyRecord.requestSentAt).fromNow();
+                historyRecord.relativeDate = historyRecord.requestSentAt.toString();
             }
             this._changeDetectionRef.detectChanges();
         }, 5000);

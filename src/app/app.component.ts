@@ -90,7 +90,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         'component': mwf.Drawer,
     }])
 
-    moment.locale(AppComponent.Options.Language);
+    // moment.locale(AppComponent.Options.Language);
   }
 
   static Options: ExplorerOptions = {
