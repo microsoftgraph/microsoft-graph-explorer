@@ -97,8 +97,8 @@ declare let mwf;
                         <td class="half-width-col">
                             <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [ngClass]="{invisible: isLastHeader(header)}">
                         </td>
-                        <td class="remove-header-btn" [ngClass]="{invisible: isLastHeader(header)}">
-                            <i (click)="removeHeader(header)" class="ms-Icon ms-Icon--Cancel"></i>
+                        <td class="remove-header-btn" [ngClass]="{invisible: isLastHeader(header)}" (click)="removeHeader(header)">
+                            <i class="ms-Icon ms-Icon--Cancel"></i>
                         </td>
                     </tr>
                 </table>
