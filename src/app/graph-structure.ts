@@ -4,6 +4,7 @@
 
 import { AppComponent } from "./app.component";
 import { GraphService } from "./graph-service";
+import { GraphApiVersions } from "./base";
 export type GraphNodeLinkTagName = "Property" | "NavigationProperty" | "EntitySet" | "Singleton"
 
 export interface GraphNodeLink {
@@ -20,7 +21,7 @@ export interface GraphEntity {
 
 export function parseMetadata(apiService:GraphService, version?:string):Promise<any> {
     // don't try to download invalid metadata
-    if (version && AppComponent.Options.GraphVersions.indexOf(version) == -1) {
+    if (version && GraphApiVersions.indexOf(version) == -1) {
         return Promise.reject(`invalid version: ${version}`);
     }
 
