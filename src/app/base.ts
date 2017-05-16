@@ -26,6 +26,10 @@ export let Methods:RequestType[] = [
     'DELETE'
 ];
 
+
+export type GraphApiVersion = "v1.0" | "beta";
+export let GraphApiVersions:GraphApiVersion[] = ["v1.0", "beta"];
+
 export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
 export type RequestType = "GET" | "PUT" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
@@ -75,7 +79,7 @@ export interface SampleQueryCategory {
 
 export interface ExplorerValues {
     selectedOption?: RequestType
-    selectedVersion?: string
+    selectedVersion?: GraphApiVersion
     endpointUrl?: string
     authentication?: {
         status?: AuthenticationStatus

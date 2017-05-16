@@ -133,5 +133,11 @@
   "Preview": "Preview",
 
   "Extensions (beta)": "Extensions (beta)",
-  "Batching (beta)": "Batching (beta)"
+  "Batching (beta)": "Batching (beta)",
+
+  
+  "Extensions": "Extensions",
+  "OneNote": "OneNote",
+  "Planner": "Planner",
+  "SharePoint Sites": "SharePoint Sites"
 }

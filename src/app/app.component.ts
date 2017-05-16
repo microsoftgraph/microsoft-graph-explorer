@@ -7,7 +7,7 @@ import { Response, Headers } from '@angular/http';
 
 import * as moment from "moment";
 
-import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent, GraphApiVersions, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, checkHasValidAuthToken, isAuthenticated } from "./auth";
 import { initFabricComponents } from "./fabric-components";
@@ -100,14 +100,14 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       DefaultUserScopes: "openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite People.Read Notes.ReadWrite.All Tasks.ReadWrite  Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite",
       AuthUrl: "https://login.microsoftonline.com",
       GraphUrl: "https://graph.microsoft.com",
-      GraphVersions: ["v1.0", "beta"],
+      GraphVersions: GraphApiVersions,
       PathToBuildDir: ""
   };
 
   static explorerValues:ExplorerValues = {
       endpointUrl: AppComponent.Options.GraphUrl + `/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request") || 'me/'}`,
       selectedOption: getParameterByName("method") as RequestType || "GET",
-      selectedVersion: getParameterByName("version") || "v1.0",
+      selectedVersion: getParameterByName("version") as GraphApiVersion || "v1.0",
       authentication: {
         user: {}
       },
