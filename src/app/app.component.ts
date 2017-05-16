@@ -96,7 +96,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   static Options: ExplorerOptions = {
       ClientId: "",
       Language: "en-US",
-      AdminScopes: "User.ReadWrite.All Group.ReadWrite.All Directory.ReadWrite.All Directory.AccessAsUser.All IdentityRiskEvent.Read.All",
       DefaultUserScopes: "openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite People.Read Notes.ReadWrite.All Tasks.ReadWrite  Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite",
       AuthUrl: "https://login.microsoftonline.com",
       GraphUrl: "https://graph.microsoft.com",

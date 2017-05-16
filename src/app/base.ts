@@ -11,7 +11,6 @@ export interface ExplorerOptions {
     GraphUrl?: string
     ClientId?: string
     Language?: string
-    AdminScopes?: string
     RedirectUrl?: string
     DefaultUserScopes?: string
     GraphVersions?: string[]
