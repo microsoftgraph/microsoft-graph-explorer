@@ -34,7 +34,7 @@ Users,POST,create user,https://graph.microsoft.com/v1.0/users,,,https://develope
         ""usageLocation"": ""US"",
         ""userPrincipalName"": ""MelissaD@AUTHENTICATED_DOMAIN""
     }",Content-type: application/json,
-Users (beta),GET,track user changes,"https://graph.microsoft.com/beta/users/delta?$select=displayName,givenName,surname",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,,will be GA by BUILD
+Users,GET,track user changes,"https://graph.microsoft.com/v1.0/users/delta?$select=displayName,givenName,surname",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,,will be GA by BUILD
 Groups,GET,all groups in my organization,https://graph.microsoft.com/v1.0/groups,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/group,AAD,,,
 Groups,GET,all groups I belong to,https://graph.microsoft.com/v1.0/me/memberOf,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof,AAD,,,
 ,,,,,,,,,,
@@ -43,7 +43,7 @@ Groups,GET,group's conversations,https://graph.microsoft.com/v1.0/groups/{group-
 Groups,GET,group's events,https://graph.microsoft.com/v1.0/groups/{group-id}/events,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events,AAD,,,
 Groups,POST,add favorite group,https://graph.microsoft.com/v1.0/groups/{group-id}/addFavorite,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite,AAD,,Content-type: application/json,
 Groups,GET,items in a group drive,https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get,AAD,,,
-Groups (beta),GET,track group changes,"https://graph.microsoft.com/beta/groups/delta?$select=displayName,description",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,,will be GA by BUILD
+Groups,GET,track group changes,"https://graph.microsoft.com/v1.0/groups/delta?$select=displayName,description",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,,will be GA by BUILD
 Outlook Mail,GET,my high important mail,https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high',,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
 Outlook Mail,GET,my mail that has 'Hello World',"https://graph.microsoft.com/v1.0/me/messages?$search=""hello world""",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
 Outlook Mail,POST,send an email,https://graph.microsoft.com/v1.0/me/sendMail,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail,BOTH,"{
@@ -72,7 +72,7 @@ Outlook Mail,POST,forward mail,https://graph.microsoft.com/v1.0/me/messages/{mes
     }
   ]
 }",Content-type: application/json,
-Outlook Mail (beta),GET,track email changes,https://graph.microsoft.com/beta/me/mailFolders/Inbox/messages/delta,,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages,AAD,,,will be GA by BUILD
+Outlook Mail,GET,track email changes,https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages/delta,,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages,AAD,,,will be GA by BUILD
 Outlook Mail (beta),GET,email I'm @ mentioned,"https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2,AAD,,,
 Outlook Calendar,GET,my events for the next week,https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week},,"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview,BOTH,,,
 Outlook Calendar,GET,all events in my calendar,"https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events,BOTH,,,
@@ -125,7 +125,7 @@ Outlook Calendar,POST,schedule a meeting,https://graph.microsoft.com/v1.0/me/eve
             ""timeZone"": ""UTC""
         },
     }",Content-type: application/json,
-Outlook Calendar (beta),GET,track changes on my events for the next week,https://graph.microsoft.com/beta/me/calendarView/delta?startDateTime={today}&endDateTime={next-week},,"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events,BOTH,,,will be GA by BUILD
+Outlook Calendar,GET,track changes on my events for the next week,https://graph.microsoft.com/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week},,"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events,BOTH,,,will be GA by BUILD
 Personal Contacts,GET,my contacts,https://graph.microsoft.com/v1.0/me/contacts,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_contacts,BOTH,,,
 Personal Contacts,POST,add contact,https://graph.microsoft.com/v1.0/me/contacts,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts,BOTH,"{
     ""givenName"": ""Pavel"",
@@ -249,8 +249,8 @@ SharePoint Sites,GET,Enumerate the document libraries under the root site,https:
 SharePoint Sites,GET,Get a SharePoint site based on relative path of the site,https://graph.microsoft.com/v1.0/sites:/{site-path},,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list,AAD,,,will be GA by BUILD
 SharePoint Sites,GET,Search for a SharePoint site by keyword,https://graph.microsoft.com/v1.0/sites?search=contoso,,,,AAD,,Content-type: application/json,will be GA by BUILD
 SharePoint Sites,GET,Enumerate subsites of the root site,https://graph.microsoft.com/v1.0/sites/root/sites,,,,AAD,,Content-type: application/json,will be GA by BUILD
-Batching (beta),POST,Perform parrallel GETs,https://graph.microsoft.com/beta/$batch,,"This query shows you how to use batching to get your user information, your messages, and your events.",,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json,will be GA by BUILD
-Batching (beta),POST,Combine a POST and a GET,https://graph.microsoft.com/beta/$batch,,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,,AAD,"{
+Batching (beta),POST,Perform parrallel GETs,https://graph.microsoft.com/beta/$batch,,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json,will be GA by BUILD
+Batching (beta),POST,Combine a POST and a GET,https://graph.microsoft.com/beta/$batch,,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{
  ""requests"": [{
    ""url"": ""/me/drive/root/children"",
    ""method"": ""POST"",

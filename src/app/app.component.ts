@@ -7,7 +7,7 @@ import { Response, Headers } from '@angular/http';
 
 import * as moment from "moment";
 
-import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent, GraphApiVersions } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent, GraphApiVersions, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, checkHasValidAuthToken, isAuthenticated } from "./auth";
 import { initFabricComponents } from "./fabric-components";
@@ -107,7 +107,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   static explorerValues:ExplorerValues = {
       endpointUrl: AppComponent.Options.GraphUrl + `/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request") || 'me/'}`,
       selectedOption: getParameterByName("method") as RequestType || "GET",
-      selectedVersion: getParameterByName("version") || "v1.0",
+      selectedVersion: getParameterByName("version") as GraphApiVersion || "v1.0",
       authentication: {
         user: {}
       },

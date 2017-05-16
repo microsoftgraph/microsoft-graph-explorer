@@ -100,10 +100,10 @@ export const SampleQueries: SampleQuery[] = [
     "postBody": "{\r\n        \"accountEnabled\": true,\r\n        \"city\": \"Seattle\",\r\n        \"country\": \"United States\",\r\n        \"department\": \"Sales & Marketing\",\r\n        \"displayName\": \"Melissa Darrow\",\r\n        \"givenName\": \"Melissa\",\r\n        \"jobTitle\": \"Marketing Director\",\r\n        \"mailNickname\": \"MelissaD\",\r\n        \"passwordPolicies\": \"DisablePasswordExpiration\",\r\n        \"passwordProfile\": {\r\n            \"password\": \"Test1234\",\r\n            \"forceChangePasswordNextSignIn\": false\r\n        },\r\n        \"officeLocation\": \"131/1105\",\r\n        \"postalCode\": \"98052\",\r\n        \"preferredLanguage\": \"en-US\",\r\n        \"state\": \"WA\",\r\n        \"streetAddress\": \"9256 Towne Center Dr., Suite 400\",\r\n        \"surname\": \"Darrow\",\r\n        \"mobilePhone\": \"+1 206 555 0110\",\r\n        \"usageLocation\": \"US\",\r\n        \"userPrincipalName\": \"MelissaD@AUTHENTICATED_DOMAIN\"\r\n    }"
 },
 {
-    "category": "Users (beta)",
+    "category": "Users",
     "method": "GET",
     "humanName": "track user changes",
-    "requestUrl": "https://graph.microsoft.com/beta/users/delta?$select=displayName,givenName,surname",
+    "requestUrl": "https://graph.microsoft.com/v1.0/users/delta?$select=displayName,givenName,surname",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users"
 },
 {
@@ -167,10 +167,10 @@ export const SampleQueries: SampleQuery[] = [
     "tip": "This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf"
 },
 {
-    "category": "Groups (beta)",
+    "category": "Groups",
     "method": "GET",
     "humanName": "track group changes",
-    "requestUrl": "https://graph.microsoft.com/beta/groups/delta?$select=displayName,description",
+    "requestUrl": "https://graph.microsoft.com/v1.0/groups/delta?$select=displayName,description",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups"
 },
 {
@@ -218,10 +218,10 @@ export const SampleQueries: SampleQuery[] = [
     "tip": "This query requires a message id. To get the ID, run the following query, find the message in the response and use its ID property: GET https://graph.microsoft.com/v1.0/me/messages"
 },
 {
-    "category": "Outlook Mail (beta)",
+    "category": "Outlook Mail",
     "method": "GET",
     "humanName": "track email changes",
-    "requestUrl": "https://graph.microsoft.com/beta/me/mailFolders/Inbox/messages/delta",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages/delta",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages"
 },
 {
@@ -284,10 +284,10 @@ export const SampleQueries: SampleQuery[] = [
     "tip": "Update the Request Body and select Run Query."
 },
 {
-    "category": "Outlook Calendar (beta)",
+    "category": "Outlook Calendar",
     "method": "GET",
     "humanName": "track changes on my events for the next week",
-    "requestUrl": "https://graph.microsoft.com/beta/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events",
     "tip": "This query uses date and time parameters. Use an ISO 8601 format. For example, \"2017-04-30T19:00:00.0000000\"."
 },
@@ -656,6 +656,7 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "Perform parrallel GETs",
     "requestUrl": "https://graph.microsoft.com/beta/$batch",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching",
     "headers": [
         {
             "name": "Content-type",
@@ -670,6 +671,7 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "Combine a POST and a GET",
     "requestUrl": "https://graph.microsoft.com/beta/$batch",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching",
     "headers": [
         {
             "name": "Content-type",
