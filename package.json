@@ -26,13 +26,13 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^1.0.2",
-    "uglifyjs": "^2.4.10"
+    "uglifyjs": "^2.4.10",
+    "@angular/compiler-cli": "^4.1.2"
   },
   "dependencies": {
     "@angular/animations": "^4.1.2",
     "@angular/common": "^4.1.2",
     "@angular/compiler": "^4.1.2",
-    "@angular/compiler-cli": "^4.1.2",
     "@angular/core": "^4.1.2",
     "@angular/forms": "^4.1.2",
     "@angular/http": "^4.1.2",
