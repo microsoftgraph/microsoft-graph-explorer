@@ -1,0 +1,66 @@
+<div class="ms-Dialog center-dialog ms-Dialog--close" id="scopes-dialog">
+    <button class="ms-Dialog-button ms-Dialog-buttonClose">
+        <i class="ms-Icon ms-Icon--Cancel"></i>
+    </button>
+    <div class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
+        <p class="ms-Dialog-subText">Select different <a class="ms-Link" href="https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes" target="_blank">permissions</a> to try out Microsoft Graph API endpoints.</p>
+        <div class="ms-Dialog-content">
+        <div id="scopes-list-table-container">
+            <table class="ms-Table" id="scopes-list-table">
+            <tr *ngFor="let scope of scopes">
+                <td>
+                <div class="c-checkbox">
+                    <label class="c-label">
+                        <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1" [checked]="scope.enabledTarget">
+                        <span aria-hidden="true">{{scope.name}}<i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i></span>
+                    </label>
+                </div>
+                </td>
+                <td>
+                <span *ngIf="scope.admin">
+                    Admin
+                </span>
+                </td>
+            </tr>
+            </table>
+        </div>
+        <div *ngIf="scopeListIsDirty()">
+        <div class="ms-MessageBar ms-MessageBar--warning">
+            <div class="ms-MessageBar-content">
+            <div class="ms-MessageBar-icon">
+                <i class="ms-Icon ms-Icon--Info"></i>
+            </div>
+            <div class="ms-MessageBar-text">
+                {{getStr('To change permissions, you will need to log-in again.')}}
+                <br />
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <div *ngIf="requestingAdminScopes()">
+        <div class="ms-MessageBar ms-MessageBar--warning">
+            <div class="ms-MessageBar-content">
+            <div class="ms-MessageBar-icon">
+                <i class="ms-Icon ms-Icon--Info"></i>
+            </div>
+            <div class="ms-MessageBar-text">
+                You have selected permissions that only an administrator can grant.  To get access, an administrator can grant <a class="ms-Link" href="#" (click)="startAdminConsentFlow()">access to your entire administration</a>.
+                <br />
+            </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        
+
+
+    <div class="ms-Dialog-actions">
+        <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="!scopeListIsDirty()" (click)="getNewAccessToken()">
+        <span class="ms-Button-label">{{getStr('Save changes')}}</span> 
+        </button>
+        <button class="ms-Button ms-Dialog-action">
+        <span class="ms-Button-label">{{getStr('Close')}}</span> 
+        </button>
+    </div>
+</div>

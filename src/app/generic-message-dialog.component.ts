@@ -16,7 +16,6 @@ declare let fabric, mwf;
 
 `],
   template: `
-
   <div>
     <div class="ms-Dialog ms-Dialog--close" id="message-dialog">
       <button class="ms-Dialog-button ms-Dialog-buttonClose">

@@ -5,8 +5,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { Response, Headers } from '@angular/http';
 
-import * as moment from "moment";
-
 import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { initAuth, checkHasValidAuthToken, isAuthenticated } from "./auth";
@@ -21,22 +19,12 @@ import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 import { getString } from "./localization-helpers";
 
-declare let mwf, ga;
+declare let mwf, ga, moment;
 
 @Component({
   selector: 'api-explorer',
   providers: [GraphService],
-  template: `
-    <div class="ms-Grid"> 
-      <div class="ms-Grid-row">
-        <sidebar class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg4 ms-u-xl3 ms-u-xxl3 ms-u-xxxl2"></sidebar>
-        <main-column class="ms-Grid-col ms-u-sm12 ms-u-md12  ms-u-lg8 ms-u-xl9 ms-u-xxl9 ms-u-xxxl10" id="explorer-main"></main-column>
-    </div>
-    <history-panel></history-panel>
-    <sample-categories-panel></sample-categories-panel>
-    <scopes-dialog></scopes-dialog>
-    <generic-dialog></generic-dialog>
-    `,
+  templateUrl: './app.component.html',
   styles: [`
   #explorer-main {
       padding-left: 12px;
@@ -90,7 +78,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         'component': mwf.Drawer,
     }])
 
-    // moment.locale(AppComponent.Options.Language);
+    moment.locale(AppComponent.Options.Language);
   }
 
   static Options: ExplorerOptions = {

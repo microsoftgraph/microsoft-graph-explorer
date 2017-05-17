@@ -10,7 +10,7 @@ import { getString } from "./localization-helpers";
 import { AppModule } from "./app.module";
 import { QueryRowComponent } from "./queryrow.component";
 
-import * as moment from "moment"
+declare let moment:any;
 
 @Component({
   selector: 'history-query-row',
@@ -68,7 +68,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
 
 
     setRelativeDate() {
-        this.query.relativeDate = this.query.requestSentAt.toString();
+        this.query.relativeDate = moment(this.query.requestSentAt).fromNow();
         this._changeDetectionRef.detectChanges();
     }
 

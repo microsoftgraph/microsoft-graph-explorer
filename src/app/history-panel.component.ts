@@ -2,7 +2,6 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import * as moment from "moment"
 
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { GraphApiCall } from "./base";
@@ -10,6 +9,8 @@ import { AppComponent } from "./app.component";
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
 import { getString } from "./localization-helpers";
 import { saveHistoryToLocalStorage } from "./history";
+
+declare let moment:any;
 
 @Component({
   selector: 'history-panel',
@@ -113,7 +114,7 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
     ngOnInit(): void {
         setInterval(() => {
             for (let historyRecord of AppComponent.requestHistory) {
-                historyRecord.relativeDate = historyRecord.requestSentAt.toString();
+                historyRecord.relativeDate = moment(historyRecord.requestSentAt).fromNow();
             }
             this._changeDetectionRef.detectChanges();
         }, 5000);
