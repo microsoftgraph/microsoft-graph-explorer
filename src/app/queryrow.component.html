@@ -1,0 +1,14 @@
+<div class="api-query" (click)="handleQueryClick()" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}" tabindex="0">
+    <div class="row-1">
+        <method-badge [query]="query"></method-badge>
+        <div class="query">{{getQueryText()}}</div>
+        <a onclick="this.blur();" class="query-link restrict" *ngIf="query.method != 'GET' && !isAuthenticated() && query.category" [attr.title]="getStr('Login to try this request')">
+            <i class="ms-Icon ms-Icon--Permissions"></i>
+        </a>
+        <a onclick="this.blur();" class="query-link" *ngIf="query.docLink" [attr.href]="query.docLink" [attr.title]="query.docLink" target="_blank">
+            <i class="ms-Icon ms-Icon--Page"></i>
+        </a>
+
+    </div>
+    <ng-content></ng-content>
+</div>

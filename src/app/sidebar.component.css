@@ -1,0 +1,115 @@
+#explorer-sidebar {
+    background: #2F2F2F !important;
+    min-height: 1024px;
+    padding: 0px;
+    color: white;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+#explorer-sidebar .c-hyperlink {
+    color: #00bcf2;
+}
+
+#sample-queries-scroll {
+    // max-height: 400px;
+    // overflow-y: auto;
+    // overflow-x: hidden;
+}
+
+#getting-started-svg {
+    display: inline-block;
+    width: 29px;
+    height: 29px;
+    margin: -2px 4px 2px -4px;
+}
+
+a#show-full-history, a#manage-categories {
+    text-align: right;
+    padding-right: 16px;
+    width: 100%;
+    display: block;
+}
+
+span#explorer-title {
+    margin-left: 40px;
+    margin-top: 14px;
+}
+
+.c-drawer {
+    padding-bottom: 5px;
+}
+
+#explorer-sidebar .panel-header {
+    font-family: "Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
+    display: inline-block;
+    padding: 0px;
+    padding-left: 6px;
+    font-weight: 100;
+    color: white;
+}
+
+#explorer-sidebar .panel-content {
+    padding-left: 28px;
+    font-size: 13px;
+}
+
+#explorer-sidebar .panel-header i.ms-Icon{
+    margin-right: 10px;
+}
+
+/* Remove drawer carrot on auth */
+#auth-drawer-button:after{
+    content:none;
+}
+
+button#auth-drawer-button {
+    background: #2f2f2f !important;
+}
+
+.arrow-left {
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-right: 18px solid white;
+    position: relative;
+    right: -10px;
+    top: 13px;
+    margin-bottom: -45px;
+}
+
+button.c-glyph {
+    color: white;
+}
+
+#authDrawer {
+    min-height: 96px;
+}
+
+.c-hyperlink {
+    color: #00bcf2;
+}
+
+.category-heading {
+    font-size: 17px;
+    font-weight: 300;
+    padding-bottom: 5px;
+    display: block;
+}
+
+.sample-category {
+    margin-bottom: 15px;
+}
+
+
+a#show-full-history {
+    margin-top: 15px;
+}
+a#show-full-history[hidden] {
+    display: none;
+}
+
+@media (max-width: 639px) {
+    #explorer-sidebar {
+        min-height: inherit;
+        padding-bottom: 15px;
+    }
+}

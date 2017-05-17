@@ -10,40 +10,7 @@ import { GraphApiCall } from "./base";
   template: `
     <span class="request-badge" [ngClass]="query.method">{{query.method}}</span>
     `,
-    styles: [`
-      .request-badge {
-          min-width: 55px;
-          display: inline-block;
-          padding: 2px;
-          text-align: center;
-          margin-right: 15px;
-          font-weight: 600;
-          color: white;
-          line-height: normal;
-          padding-bottom: 3px;
-      }
-
-      .request-badge.GET {
-          background-color: #000fdf;
-      }
-
-      .request-badge.POST {
-          background-color: #008412;
-      }
-
-      .request-badge.PUT {
-          background-color: #5C005C;
-      }
-
-      .request-badge.PATCH {
-          background-color: #be8b00;
-      }
-
-      .request-badge.DELETE {
-          background-color: #a10000;
-      }
-
-`]
+    styleUrls: ['./method-badge.component.css']
 })
 export class MethodBadgeComponent {
     @Input() query: GraphApiCall;

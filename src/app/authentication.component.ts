@@ -13,84 +13,8 @@ import { localLogout } from "./auth";
 
 @Component({
   selector: 'authentication',
-  styles: [`
-      #ms-signin-button {
-          max-width: 215px;
-          margin: 20px 0 0px 0px;
-          cursor: pointer;
-          display: inline-block;
-      }
-
-      #signout {
-        float: right;
-        padding-right: 16px;
-        color: #00bcf2;
-      }
-
-      #userDisplayName {
-          color: #e2e2e2
-      }
-
-      #userMail {
-          color: #a0a0a0;
-      }
-
-      #authenticating-progress-bar {
-          margin: 0px auto;
-      }
-
-      .noPicture .ms-Persona-details {
-          padding-left: 0px;
-      }
-
-      #ms-signin-button-holder {
-          position: absolute;
-          left: 0px;
-          width: 100%;
-          text-align: center;
-      }
-
-      #manage-permissions {
-          float: left;
-          color: #00bcf2;
-      }
-
-      #signout, #manage-permissions {
-          margin-top: 9px;
-      }
-`],
-  template: `
-    <div *ngIf="getAuthenticationStatus() == 'anonymous'">
-        <div tabindex="-1">{{getStr('Using demo tenant')}}</div>
-        <div tabindex="-1">{{getStr('To access your own data:')}}</div>
-        <div id="ms-signin-button-holder">
-            <img id="ms-signin-button" alt="{{getStr('sign in')}}" src="{{getAssetPath('assets/images/MSSignInButton.svg')}}" (click)="login()"/>
-        </div>
-    </div>
-    <div *ngIf="getAuthenticationStatus() == 'authenticating'">
-        <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-    <div *ngIf="getAuthenticationStatus() == 'authenticated'" id="persona-holder">
-         <div class="ms-Persona" [ngClass]="{noPicture: !authInfo.user.profileImageUrl}">
-             <div class="ms-Persona-imageArea" *ngIf="authInfo.user.profileImageUrl">
-                 <img class="ms-Persona-image" [src]="sanitize(authInfo.user.profileImageUrl)">
-             </div>
-             <div class="ms-Persona-details">
-                 <div class="ms-Persona-primaryText" id='userDisplayName' *ngIf="authInfo.user.displayName">{{authInfo.user.displayName}}</div>
-                 <div class="ms-Persona-secondaryText" id='userMail' *ngIf="authInfo.user.emailAddress">{{authInfo.user.emailAddress}}</div>
-             </div>
-         </div>
-         <a href="#" id="signout" class="c-hyperlink" tabindex=0 (click)="logout()">{{getStr('sign out')}}</a>
-         <a href="#" id="manage-permissions" class="c-hyperlink" tabindex=0 (click)="manageScopes()">{{getStr('modify permissions')}}</a>
-        
-     </div>
-     `,
+  styleUrls: ['./authentication.component.css'],
+  templateUrl: './authentication.component.html',
 })
 export class AuthenticationComponent extends GraphExplorerComponent {
     constructor(private sanitizer: DomSanitizer) {

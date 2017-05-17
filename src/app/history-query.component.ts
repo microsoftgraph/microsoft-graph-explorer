@@ -10,12 +10,11 @@ import { getString } from "./localization-helpers";
 import { AppModule } from "./app.module";
 import { QueryRowComponent } from "./queryrow.component";
 
-import * as moment from "moment"
+declare let moment:any;
 
 @Component({
   selector: 'history-query-row',
   template: `
-  {{displayKeyIcon}}
     <query-row [query]="query">
         <div class="history-row-2">
             <span class="status-code" [ngClass]="successClass">{{query.statusCode}}</span>
@@ -58,7 +57,7 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
         super();
     }
 
-    updateMomentRef: number;
+    updateMomentRef: NodeJS.Timer;
     ngOnInit(): void {
         this.updateMomentRef = setInterval(() => {
             this.setRelativeDate();

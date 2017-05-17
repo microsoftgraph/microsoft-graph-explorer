@@ -1,0 +1,25 @@
+<div class="ms-MessageBar ms-MessageBar-singleline " [ngClass]="[getBackgroundClass(), hideActionBar()]">
+    <div class="ms-MessageBar-content">
+        <table>
+            <tr>
+                <td style="width: 10px;">
+                    <div class="ms-MessageBar-icon">
+                        <i class="ms-Icon" [ngClass]="message.icon" *ngIf="message"></i>
+                    </div>
+                </td>
+                    <div class="ms-MessageBar-actionables">
+                        <div class="ms-MessageBar-text" *ngIf="message" [innerHtml]="messageHTML"></div>
+                    </div>
+                <td>
+                </td>
+                <td>
+                    <div class="ms-MessageBar-actionsOneline">
+                        <div id="dismiss-btn" class="ms-MessageBar-icon">
+                            <a href="#" (click)="clearMessage()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

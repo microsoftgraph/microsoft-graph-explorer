@@ -20,6 +20,9 @@
 
         <link rel="stylesheet" href="custom.css" />
 
+        <!-- moment js -->
+        <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
+
         <!-- jQuery -->
         <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -38,10 +41,10 @@
     </head>
     <body>
         <api-explorer></api-explorer>
+
         <script src="systemjs.config.js"></script>
         <script>
-            System.import('main.js').catch(function(err){ console.error(err); });
+            System.import('main-jit.js').catch(function(err){ console.error(err); });
         </script>
-        <!--<script src="dist/bundle.min.js"></script>-->
     </body>
 </html>
