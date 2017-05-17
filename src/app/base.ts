@@ -11,7 +11,6 @@ export interface ExplorerOptions {
     GraphUrl?: string
     ClientId?: string
     Language?: string
-    AdminScopes?: string
     RedirectUrl?: string
     DefaultUserScopes?: string
     GraphVersions?: string[]
@@ -25,6 +24,10 @@ export let Methods:RequestType[] = [
     'PATCH',
     'DELETE'
 ];
+
+
+export type GraphApiVersion = "v1.0" | "beta";
+export let GraphApiVersions:GraphApiVersion[] = ["v1.0", "beta"];
 
 export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
 
@@ -75,7 +78,7 @@ export interface SampleQueryCategory {
 
 export interface ExplorerValues {
     selectedOption?: RequestType
-    selectedVersion?: string
+    selectedVersion?: GraphApiVersion
     endpointUrl?: string
     authentication?: {
         status?: AuthenticationStatus

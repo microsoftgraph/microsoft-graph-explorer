@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoCompleteItem, MessageBarContent } from "./base";
+import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoCompleteItem, MessageBarContent, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
@@ -88,7 +88,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                 this.updateGraphVersionSelect();
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
-                        this.explorerValues.selectedVersion = document.getElementById("-"+method.id).children[0].textContent;
+                        this.explorerValues.selectedVersion = document.getElementById("-"+method.id).children[0].textContent as GraphApiVersion;
                         this.updateEndpointURLVersionFromVersion();
                     }
                 })
@@ -151,7 +151,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             return;
         }
 
-        let possibleVersion = possibleGraphPathArr[0];
+        let possibleVersion = possibleGraphPathArr[0] as GraphApiVersion;
 
         // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
             // possibleVersion is a valid version

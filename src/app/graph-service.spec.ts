@@ -6,6 +6,7 @@ import {
 } from '@angular/core/testing';
 
 import { GraphService } from './graph-service';
+import { GraphApiVersions } from "./base";
 
 let graphService:GraphService;
 describe('Metadata download and parsing', () => {
@@ -21,17 +22,13 @@ describe('Metadata download and parsing', () => {
     graphService = _graphService;
   }));
 
-  it('should download beta metadata', function(done) {
-    graphService.getMetadata("https://graph.microsoft.com", "beta").then(() => {
-      done();
+  for (let version of GraphApiVersions) {
+    it(`should download ${version} metadata`, function(done) {
+      graphService.getMetadata("https://graph.microsoft.com", version).then(() => {
+        done();
+      });
     });
-  });
-
-  it('should download v1.0 metadata', function(done) {
-    graphService.getMetadata("https://graph.microsoft.com", "v1.0").then(() => {
-      done();
-    });
-  });
+  }
 
   it('should error on downloading v5.x metadata', function(done) {
     graphService.getMetadata("https://graph.microsoft.com", "5.x").then(() => {
