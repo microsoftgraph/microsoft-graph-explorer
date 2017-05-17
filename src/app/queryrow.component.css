@@ -1,0 +1,62 @@
+.api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {
+        background: rgba(0,0,0,0.25);
+        outline: none;
+    }
+
+    .query-link {
+        color: white;
+        background: #2F2F2F;
+        padding: 8px 11px 7px 12px;
+        margin: -5px;
+        margin-left: 5px;
+        display: block;
+        float: right;
+    }
+
+    .api-query:hover .query-link {
+        background-color: #232323;
+    }
+
+    .query-link:hover {
+        background: rgba(0,0,0,0.4) !important;
+        cursor: pointer;
+    }
+
+    .restrict:hover {
+    cursor: not-allowed;
+    }
+
+    .api-query {
+        cursor: pointer;
+        font-size: 13px;
+        line-height: 16px;
+        display: block;
+        border: 0;
+        background: 0 0;
+        font-weight: 500;
+        padding: 5px 5px 5px 12px;
+        left: 0;
+        text-align: left;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-left: -12px;
+    }
+
+    .row-1 {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+.duration {
+    float: right;
+}
+
+.query {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 2px;
+    color: white;
+}

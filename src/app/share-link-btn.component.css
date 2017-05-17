@@ -1,0 +1,11 @@
+#response-action-bar i {
+    cursor: pointer;
+}
+
+#response-action-bar {
+    float: right;
+    margin-right: 5px;
+    font-size: 20px;
+    position: relative;
+    bottom: -21px;
+}

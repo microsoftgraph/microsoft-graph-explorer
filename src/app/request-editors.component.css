@@ -1,0 +1,51 @@
+#post-body-editor {
+    position: relative;
+    height: 20vh;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.header-row input {
+width: 95%;
+margin-top: 5px;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    text-align: left;
+    font-weight: 300;
+}
+
+td.remove-header-btn {
+font-size: 20px;
+}
+
+td.remove-header-btn:hover {
+    cursor: pointer;
+}
+
+td.remove-header-btn i {
+    margin-top: 12px;
+    font-size: 20px;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.header-autocomplete {
+    max-width: inherit;
+    margin: 0px;
+    height: inherit;
+}
+
+.c-menu.f-auto-suggest-no-results {
+    display: none;
+}
+
+.ms-Pivot-content {
+    margin-top: 10px;
+}

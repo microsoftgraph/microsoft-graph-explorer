@@ -1,0 +1,32 @@
+.category-row {
+    margin-bottom: 15px;
+    padding: 0 30px;
+}
+
+.category-switch {
+    display: inline-block;
+    float: right;
+    width: 130px;
+}
+
+div.c-toggle button {
+    margin-top: 0px;
+}
+
+.ms-Panel-headerText {
+    margin-top: 0px;
+    margin-bottom: 35px;
+}
+
+.ms-Panel.ms-Panel--lg {
+    max-width: 544px;
+}
+
+div.c-toggle button:focus {
+    outline: none;
+}
+
+/* core.css frontdoor conflict */
+.category-switch button {
+    min-width: inherit;
+}
