@@ -680,4 +680,59 @@ export const SampleQueries: SampleQuery[] = [
     ],
     "postBody": "{\r\n \"requests\": [{\r\n   \"url\": \"/me/drive/root/children\",\r\n   \"method\": \"POST\",\r\n   \"id\": \"1\",\r\n   \"body\": {\r\n    \"name\": \"TestBatchingFolder\",\r\n    \"folder\": {}\r\n   },\r\n   \"headers\": {\r\n    \"Content-Type\": \"application/json\"\r\n   }\r\n  }, {\r\n   \"url\": \"/me/drive/root/children/TestBatchingFolder \",\r\n   \"method\": \"GET\",\r\n   \"id\": \"2\",\r\n   \"DependsOn\": [\"1\"]\r\n  }\r\n ]\r\n} ",
     "tip": "This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET."
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "my joined teams",
+    "requestUrl": "https://graph.microsoft.com/beta/me/joinedTeams",
+    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/user_list_joinedteams.md"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "members of a team",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/members",
+    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/group_list_memberof.md",
+    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "channels of a team which I am member of",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels",
+    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/group_list_channels.md",
+    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "channel info",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels/{channel-id}",
+    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/channel_get.md",
+    "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id}/channels"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "POST",
+    "humanName": "create channel",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels",
+    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/group_post_channels.md",
+    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "POST",
+    "humanName": "create chat thread",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels/{channel-id}/chatThreads",
+    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/channel_post_chatthreads.md",
+    "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id}/channels"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "items in a team drive",
+    "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/drive/root/children",
+    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/v1.0/api/item_list_children.md",
+    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 }]
