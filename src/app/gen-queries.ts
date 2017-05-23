@@ -480,7 +480,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Insights (beta)",
     "method": "GET",
     "humanName": "people relevant to a topic",
-    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: planning\"",
+    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: contoso\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
 },
 {
@@ -624,7 +624,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "Get a SharePoint site based on relative path of the site",
-    "requestUrl": "https://graph.microsoft.com/v1.0/sites:/{site-path}",
+    "requestUrl": "https://graph.microsoft.com/v1.0/sites/{host-name}:/{server-relative-path}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list"
 },
 {
@@ -632,6 +632,7 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "Search for a SharePoint site by keyword",
     "requestUrl": "https://graph.microsoft.com/v1.0/sites?search=contoso",
+    "docLink": "https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint",
     "headers": [
         {
             "name": "Content-type",
@@ -644,6 +645,7 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "Enumerate subsites of the root site",
     "requestUrl": "https://graph.microsoft.com/v1.0/sites/root/sites",
+    "docLink": "https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint",
     "headers": [
         {
             "name": "Content-type",
@@ -686,14 +688,14 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "my joined teams",
     "requestUrl": "https://graph.microsoft.com/beta/me/joinedTeams",
-    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/user_list_joinedteams.md"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams"
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
     "humanName": "members of a team",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/members",
-    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/group_list_memberof.md",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof",
     "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
@@ -701,7 +703,7 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "channels of a team which I am member of",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels",
-    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/group_list_channels.md",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels",
     "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
@@ -709,7 +711,7 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "channel info",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels/{channel-id}",
-    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/channel_get.md",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get",
     "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id}/channels"
 },
 {
@@ -717,7 +719,8 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "create channel",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels",
-    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/group_post_channels.md",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels",
+    "postBody": "{\n  \"displayName\": \"Architecture Discussion\",\n  \"description\": \"This channel is where we debate all future architecture plans\"\n}",
     "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
@@ -725,7 +728,8 @@ export const SampleQueries: SampleQuery[] = [
     "method": "POST",
     "humanName": "create chat thread",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/channels/{channel-id}/chatThreads",
-    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/beta/api/channel_post_chatthreads.md",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads",
+    "postBody": "{\n  \"rootMessage\": {\n      \"body\": {\n        \"contentType\": 2,\n        \"content\": \"Hello world\"\n      }\n  }\n}",
     "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id}/channels"
 },
 {
@@ -733,6 +737,6 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "items in a team drive",
     "requestUrl": "https://graph.microsoft.com/beta/groups/{group-id}/drive/root/children",
-    "docLink": "https://github.com/microsoftgraph/microsoft-graph-docs/blob/master/api-reference/v1.0/api/item_list_children.md",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children",
     "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 }]

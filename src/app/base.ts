@@ -152,7 +152,8 @@ const Tokens = {
     "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
     "{plan-id}": "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
     "{extension-id}": "com.contoso.roamingSettings",
-    "{site-path}": "Operations/Manufacturing/",
+    "{host-name}": "cie493742.sharepoint.com",
+    "{server-relative-path}": "sites/Contoso/Operations/Manufacturing",
     "{today}": today.toISOString(),
     "{next-week}": nextWeek.toISOString(),
     "AUTHENTICATED_DOMAIN": () => {
