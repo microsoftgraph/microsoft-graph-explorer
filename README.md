@@ -9,7 +9,7 @@ The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) a
 ## Running the explorer locally
 * `npm install`
 * `bower install`
-* `npm start` starts the TypeScript compiler in watch mode and the local server. Visit [http://localhost:3000/sample.html](http://localhost:3000/sample.html) to view the app
+* `npm start` starts the TypeScript compiler in watch mode and the local server. It should open your browser automatically with the Graph Explorer at [http://localhost:3000/](http://localhost:3000).
 
 ## Other Commands
 * `npm test` to run tests from the command line for scenarios like parsing metadata and functional explorer tests.
