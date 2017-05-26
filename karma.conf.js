@@ -48,6 +48,7 @@ module.exports = function(config) {
       'node_modules/zone.js/dist/fake-async-test.js',
 
       'node_modules/moment/min/moment-with-locales.min.js',
+      'bower_components/jQuery/dist/jquery.min.js',
 
       // RxJs
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },

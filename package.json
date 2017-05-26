@@ -15,7 +15,6 @@
   },
   "author": "",
   "devDependencies": {
-    "@types/chai": "^3.4.35",
     "@types/hellojs": "^0.2.31",
     "@types/jasmine": "^2.5.47",
     "@types/jquery": "^2.0.40",
