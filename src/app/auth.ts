@@ -184,6 +184,14 @@ export function haveValidAccessToken():boolean {
 	return session && session.access_token && session.expires > currentTime;
 };
 
+window['tokenPlease'] = function() {
+	let authResponse = hello('msft').getAuthResponse();
+	if (authResponse)
+		return authResponse.access_token;
+	else
+		console.log("Please sign in to get your access token")
+}
+
 
 export function localLogout() {
 	// anonymous users can only GET
