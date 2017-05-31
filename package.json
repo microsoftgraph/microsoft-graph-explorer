@@ -10,7 +10,7 @@
     "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
     "serve": "lite-server -c=bs-config.json",
     "postinstall": "bower install",
-    "test": "npm run build && karma start karma.conf.js --single-run",
+    "test": "npm run build && karma start karma.conf.js --single-run --browsers ChromeHeadless",
     "test:watch": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
 
     "rollup": "rollup -c rollup-config.js"
@@ -44,8 +44,8 @@
     "angular-in-memory-web-api": "^0.3.0",
     "bower": "^1.8.0",
     "core-js": "^2.4.1",
-    "karma": "^1.6.0",
-    "karma-chrome-launcher": "^2.0.0",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.0",
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
