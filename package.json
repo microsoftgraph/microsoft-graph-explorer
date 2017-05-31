@@ -9,7 +9,8 @@
     "serve": "lite-server -c=bs-config.json",
     "postinstall": "bower install",
     "build:prod": "npm run build:aot && npm run rollup",
-    "test": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
+    "test": "npm run build && karma start karma.conf.js --single-run",
+    "test:watch": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
     "build:aot": "ngc -p src/tsconfig-aot.json",
     "rollup": "rollup -c rollup-config.js"
   },
