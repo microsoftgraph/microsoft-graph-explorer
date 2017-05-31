@@ -23,9 +23,9 @@ export class GraphService {
         headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
 
         if (queryType == "GET") {
-            return GraphService._http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
+            return GraphService._http.get(`https://apisandbox-devx.azurewebsites.net/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
         } else if (queryType == "GET_BINARY") {
-            return GraphService._http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
+            return GraphService._http.get(`https://apisandbox-devx.azurewebsites.net/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
 
