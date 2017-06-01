@@ -4,10 +4,11 @@ The [Microsoft Graph Explorer](https://developer.microsoft.com/graph/graph-explo
 The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) and powered by:
 * [Angular 4](https://angular.io/)
 * [Office Fabric](https://dev.office.com/fabric)
-* [Microsoft Web Framework](http://getmwf.com/)
+* [Microsoft Web Framework](https://getmwf.com/)
 
 ## Running the explorer locally
-* `npm install`
+
+* `npm install` to install project dependencies. `npm` is installed by default with [Node.js](https://nodejs.org/).
 * `bower install`
 * `npm start` starts the TypeScript compiler in watch mode and the local server. It should open your browser automatically with the Graph Explorer at [http://localhost:3000/](http://localhost:3000).
 
