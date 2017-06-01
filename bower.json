@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "hello": "git@github.com:dan-silver/hello.js.git#master",
+    "hello": "https://github.com/dan-silver/hello.js.git",
     "office-ui-fabric-js": "^1.4.0"
   },
   "devDependencies": {

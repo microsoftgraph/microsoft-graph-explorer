@@ -12,5 +12,8 @@
     "declaration": true,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true
-  }
+  },
+  "exclude": [
+    "main.ts"
+  ]
 }
