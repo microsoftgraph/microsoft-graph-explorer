@@ -1,4 +1,6 @@
 # Microsoft Graph Explorer
+[![Build Status](https://travis-ci.org/microsoftgraph/microsoft-graph-explorer.svg?branch=master)](https://travis-ci.org/microsoftgraph/microsoft-graph-explorer)
+
 The [Microsoft Graph Explorer](https://developer.microsoft.com/graph/graph-explorer) lets developers quickly navigate and test API endpoints.
 
 The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) and powered by:
