@@ -22,7 +22,7 @@ The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) a
 
 ## Other commands
 * `npm test` to run tests from the command line for scenarios like parsing metadata and functional explorer tests.
-* `node .\bundleLocFiles.js` combines all the loc files in `translation_files/` to `scripts/loc_strings.ts`
+* `npm run import:loc-strings` combines all the loc files in `translation_files/` to `scripts/loc_strings.ts`
 * `npm run build:prod` to build the minified explorer for production use.
 
 ## Contributing
