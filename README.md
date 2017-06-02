@@ -12,6 +12,10 @@ The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) a
 * `bower install`
 * `npm start` starts the TypeScript compiler in watch mode and the local server. It should open your browser automatically with the Graph Explorer at [http://localhost:3000/](http://localhost:3000).
 
+#### Enabling authentication with your own credentials
+* Register an app on [apps.dev.microsoft.com](https://apps.dev.microsoft.com) as a web application and set the redirect URL to http://localhost:3000
+* Rename `secrets.sample.js` to `secrets.js` in the project root and insert your client ID.
+
 ## Other commands
 * `npm test` to run tests from the command line for scenarios like parsing metadata and functional explorer tests.
 * `node .\bundleLocFiles.js` combines all the loc files in `translation_files/` to `scripts/loc_strings.ts`
