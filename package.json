@@ -13,6 +13,8 @@
     "test": "npm run build && karma start karma.conf.js --single-run --browsers ChromeHeadless",
     "test:watch": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
 
+    "import:samples": "node util-scripts\\query-importer.js",
+
     "rollup": "rollup -c rollup-config.js"
   },
   "author": "",
@@ -28,7 +30,8 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^1.0.2",
     "uglifyjs": "^2.4.10",
-    "@angular/compiler-cli": "^4.1.2"
+    "@angular/compiler-cli": "^4.1.2",
+    "fast-csv": "2.4.0"
   },
   "dependencies": {
     "@angular/animations": "^4.1.2",

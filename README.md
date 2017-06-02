@@ -24,6 +24,9 @@ The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) a
 ## Contributing
 Please see the [contributing guidelines](CONTRIBUTING.md).
 
+#### Sample queries
+We want the explorer to have rich samples for calling all APIs in the Microsoft Graph. If you have ideas for sample queries, you can edit `sample-queries.csv` and then run `npm run import:samples`. This will convert the samples in the CSV file to structured objects in `src/app/gen-queries.ts`.
+
 ## Additional resources
 * [Microsoft Graph website](https://graph.microsoft.io)
 * [Office Dev Center](http://dev.office.com/)

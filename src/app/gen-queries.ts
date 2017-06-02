@@ -3,7 +3,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-// WARNING - This file is generated from import-sample-queries.js
+// WARNING - This file is generated from util-scripts/query-importer.js
 
 import { SampleQuery } from "./base";
 
