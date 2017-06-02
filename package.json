@@ -14,6 +14,7 @@
     "test:watch": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
 
     "import:samples": "node util-scripts\\query-importer.js",
+    "import:loc-strings": "node util-scripts\\bundle-loc-files.js",
 
     "rollup": "rollup -c rollup-config.js"
   },
