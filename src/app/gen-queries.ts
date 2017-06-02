@@ -3,7 +3,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-// WARNING - This file is generated from import-sample-queries.js
+// WARNING - This file is generated from util-scripts/query-importer.js
 
 import { SampleQuery } from "./base";
 
@@ -686,7 +686,7 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
-    "humanName": "my joined teams",
+    "humanName": "my!! joined teams",
     "requestUrl": "https://graph.microsoft.com/beta/me/joinedTeams",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams"
 },
