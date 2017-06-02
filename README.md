@@ -1,3 +1,5 @@
+
+
 # Microsoft Graph Explorer
 [![Build Status](https://travis-ci.org/microsoftgraph/microsoft-graph-explorer.svg?branch=master)](https://travis-ci.org/microsoftgraph/microsoft-graph-explorer)
 
@@ -28,6 +30,9 @@ Please see the [contributing guidelines](CONTRIBUTING.md).
 
 #### Sample queries
 We want the explorer to have rich samples for calling all APIs in the Microsoft Graph. If you have ideas for sample queries, you can edit `sample-queries.csv` and then run `npm run import:samples`. This will convert the samples in the CSV file to structured objects in `src/app/gen-queries.ts`.
+
+When you send a pull request, please commit both the `sample-queries.csv` and the `src/app/gen-queries.ts` file. We will then review your sample queries, and ensure our demo tenant has some sample data for that query.
+
 
 ## Additional resources
 * [Microsoft Graph website](https://graph.microsoft.io)
