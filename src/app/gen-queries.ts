@@ -686,7 +686,7 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
-    "humanName": "my!! joined teams",
+    "humanName": "my joined teams",
     "requestUrl": "https://graph.microsoft.com/beta/me/joinedTeams",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams"
 },
