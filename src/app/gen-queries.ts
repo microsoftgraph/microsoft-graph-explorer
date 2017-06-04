@@ -183,6 +183,13 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Outlook Mail",
     "method": "GET",
+    "humanName": "my mails from an Email address",
+    "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$filter=(from/emailAddress/address) eq 'davids@CIE493742.onmicrosoft.com'",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
     "humanName": "my mail that has 'Hello World'",
     "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$search=\"hello world\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
