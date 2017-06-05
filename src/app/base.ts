@@ -145,7 +145,7 @@ let nextWeek = new Date();
 nextWeek.setDate(today.getDate()+7);
 
 const Tokens = {
-    "{user-principal-name}": "annew@CIE493742.onmicrosoft.com",
+    "{user-mail}": "annew@CIE493742.onmicrosoft.com",
     "{group-id}": "8f4e3cfd-432d-4b9a-b801-f424aaf08ca1",
     "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
     "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
