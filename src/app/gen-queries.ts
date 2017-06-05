@@ -449,6 +449,22 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/planner_overview"
 },
 {
+    "category": "Planner",
+    "method": "GET",
+    "humanName": "all Planner tasks for user",
+    "requestUrl": "https://graph.microsoft.com/v1.0/users/{user-principal-name}/planner/tasks",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/planner_overview",
+    "tip": "This query requires a user id.  To find the ID of the user you can run: GET https://graph.microsoft.com/v1.0/users"
+},
+{
+    "category": "Planner",
+    "method": "GET",
+    "humanName": "Planner task by id",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/tasks/{task-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_get",
+    "tip": "This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks"
+},
+{
     "category": "Insights",
     "method": "GET",
     "humanName": "my recent files",

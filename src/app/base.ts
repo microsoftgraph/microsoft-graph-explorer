@@ -145,12 +145,14 @@ let nextWeek = new Date();
 nextWeek.setDate(today.getDate()+7);
 
 const Tokens = {
+    "{user-principal-name}": "annew@CIE493742.onmicrosoft.com",
     "{group-id}": "8f4e3cfd-432d-4b9a-b801-f424aaf08ca1",
     "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
     "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
     "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
     "{plan-id}": "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
+    "{task-id}": "9jBI6WHDwk60lEWpL4TQ92UAGLhh",
     "{extension-id}": "com.contoso.roamingSettings",
     "{host-name}": "cie493742.sharepoint.com",
     "{server-relative-path}": "sites/Contoso/Operations/Manufacturing",
