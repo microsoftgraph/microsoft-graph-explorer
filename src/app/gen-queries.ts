@@ -81,9 +81,10 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Users",
     "method": "GET",
-    "humanName": "Get User by Email",
-    "requestUrl": "https://graph.microsoft.com/v1.0/users('svenm@CIE493742.onmicrosoft.com')",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user"
+    "humanName": "user by email",
+    "requestUrl": "https://graph.microsoft.com/v1.0/users('{user-mail}')",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user",
+    "tip": "This query requires a user email address.  To find an email address of a user you can run: GET https://graph.microsoft.com/v1.0/users"
 },
 {
     "category": "Users",
@@ -459,7 +460,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Planner",
     "method": "GET",
     "humanName": "all Planner tasks for user",
-    "requestUrl": "https://graph.microsoft.com/v1.0/users/{user-principal-name}/planner/tasks",
+    "requestUrl": "https://graph.microsoft.com/v1.0/users/{user-mail}/planner/tasks",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks",
     "tip": "This query requires a user id.  To find the ID of the user you can run: GET https://graph.microsoft.com/v1.0/users"
 },
