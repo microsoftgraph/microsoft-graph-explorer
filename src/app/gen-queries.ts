@@ -81,6 +81,13 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Users",
     "method": "GET",
+    "humanName": "Get User by Email",
+    "requestUrl": "https://graph.microsoft.com/v1.0/users('svenm@CIE493742.onmicrosoft.com')",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user"
+},
+{
+    "category": "Users",
+    "method": "GET",
     "humanName": "all my Planner tasks",
     "requestUrl": "https://graph.microsoft.com/beta/me/planner/tasks",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview"
