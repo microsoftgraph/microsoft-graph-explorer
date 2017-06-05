@@ -13,7 +13,6 @@ The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) a
 ## Running the explorer locally
 
 * `npm install` to install project dependencies. `npm` is installed by default with [Node.js](https://nodejs.org/).
-* `bower install`
 * `npm start` starts the TypeScript compiler in watch mode and the local server. It should open your browser automatically with the Graph Explorer at [http://localhost:3000/](http://localhost:3000).
 
 #### Enabling authentication with your own credentials
