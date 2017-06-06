@@ -4,7 +4,7 @@
   "description": "Microsoft Graph Explorer",
   "scripts": {
     "build": "tsc -p src/",
-    "build:watch": "tsc -p src/ -w",
+    "build:watch": "npm run build -- -w",
     "build:aot": "ngc -p src/tsconfig-aot.json",
     "build:prod": "npm run build:aot && npm run rollup",
     "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
@@ -27,7 +27,7 @@
     "rollup": "^0.41.6",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^1.0.2",
+    "rollup-plugin-uglify": "^2.0.1",
     "@angular/compiler-cli": "^4.1.2",
     "fast-csv": "2.4.0"
   },
