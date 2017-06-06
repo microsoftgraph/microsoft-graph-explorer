@@ -20,7 +20,7 @@ export class ResponseStatusBarComponent extends GraphExplorerComponent {
     messageHTML:string;
 
     constructor(private sanitizer: DomSanitizer) {
-        super();        
+        super();
     }
 
     ngOnChanges(changes: any) {
@@ -38,17 +38,5 @@ export class ResponseStatusBarComponent extends GraphExplorerComponent {
 
     static clearMessage() {
         AppComponent.messageBarContent = null;
-    }
-
-    hideActionBar() {
-        return this.message == null ? "hide-action-bar": "";
-    }
-
-    getBackgroundClass() {
-        if (this.message) {
-            return this.message.backgroundClass;
-        } else {
-            return "";
-        }
     }
 }
