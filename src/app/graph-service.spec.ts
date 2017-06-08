@@ -24,17 +24,13 @@ describe('Metadata download and parsing', () => {
 
   for (let version of GraphApiVersions) {
     it(`should download ${version} metadata`, function(done) {
-      graphService.getMetadata("https://graph.microsoft.com", version).then(() => {
-        done();
-      });
+      graphService.getMetadata("https://graph.microsoft.com", version).then(done);
     });
   }
 
   it('should error on downloading v5.x metadata', function(done) {
     graphService.getMetadata("https://graph.microsoft.com", "5.x").then(() => {
-      throw new Error("Downloaded invalid metadata")
-    }).catch(() => {
-      done();
-    });
+      done.fail("Downloaded invalid metadata")
+    }).catch(done);
   });
 });

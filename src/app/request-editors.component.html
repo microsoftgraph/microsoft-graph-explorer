@@ -27,9 +27,9 @@
 
                     </td>
                     <td class="half-width-col">
-                        <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [ngClass]="{invisible: isLastHeader(header)}">
+                        <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" name="default" [class.invisible]="isLastHeader(header)">
                     </td>
-                    <td class="remove-header-btn" [ngClass]="{invisible: isLastHeader(header)}" (click)="removeHeader(header)">
+                    <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)">
                         <i class="ms-Icon ms-Icon--Cancel"></i>
                     </td>
                 </tr>

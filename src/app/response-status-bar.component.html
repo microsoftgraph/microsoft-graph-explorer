@@ -1,14 +1,14 @@
-<div class="ms-MessageBar ms-MessageBar-singleline " [ngClass]="[getBackgroundClass(), hideActionBar()]">
+<div class="ms-MessageBar ms-MessageBar-singleline" [ngClass]="message?.backgroundClass" [class.hide-action-bar]="message == null">
     <div class="ms-MessageBar-content">
         <table>
             <tr>
                 <td style="width: 10px;">
                     <div class="ms-MessageBar-icon">
-                        <i class="ms-Icon" [ngClass]="message.icon" *ngIf="message"></i>
+                        <i class="ms-Icon" [ngClass]="message?.icon"></i>
                     </div>
                 </td>
                     <div class="ms-MessageBar-actionables">
-                        <div class="ms-MessageBar-text" *ngIf="message" [innerHtml]="messageHTML"></div>
+                        <div class="ms-MessageBar-text" [innerHtml]="messageHTML"></div>
                     </div>
                 <td>
                 </td>
