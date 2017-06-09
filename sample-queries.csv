@@ -46,6 +46,7 @@ Groups,POST,add favorite group,https://graph.microsoft.com/v1.0/groups/{group-id
 Groups,GET,items in a group drive,https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children,,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get,AAD,,,
 Groups,GET,track group changes,"https://graph.microsoft.com/v1.0/groups/delta?$select=displayName,description",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,,will be GA by BUILD
 Outlook Mail,GET,my high important mail,https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high',,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
+Outlook Mail,GET,my mails from an address,https://graph.microsoft.com/v1.0/me/messages?$filter=(from/emailAddress/address) eq '{user-mail}',,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
 Outlook Mail,GET,my mail that has 'Hello World',"https://graph.microsoft.com/v1.0/me/messages?$search=""hello world""",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,,
 Outlook Mail,POST,send an email,https://graph.microsoft.com/v1.0/me/sendMail,,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail,BOTH,"{
         ""message"": {
