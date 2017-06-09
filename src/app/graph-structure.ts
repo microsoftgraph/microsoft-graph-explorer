@@ -237,7 +237,7 @@ function combineUrlOptionsWithCurrentUrl(urlOptions:string[]):string[] {
 export function getUrlsFromServiceURL(version:string):string[] {
     let graphLinks = constructGraphLinksFromFullPath(AppComponent.explorerValues.endpointUrl);
     if (!graphLinks) return [];
-    let urls;
+    let entityTags; // all tags inside entities - property, navigationProperty
     if (graphLinks.length > 0) {
         let lastNode = graphLinks.pop();
 
@@ -247,12 +247,20 @@ export function getUrlsFromServiceURL(version:string):string[] {
         if (!entity) {
             return [];
         }
-        urls = entity.links;
+        entityTags = entity.links;
     } else {
-        urls = loadEntitySets(version);
+        entityTags = loadEntitySets(version);
     }
 
-    return combineUrlOptionsWithCurrentUrl(Object.keys(urls));
+    // strip out all tags except navigation properties
+    let navProperties = [];
+    for (let entity in entityTags) {
+        let entityType = entityTags[entity];
+        if (entityType.tagName as GraphNodeLinkTagName == "NavigationProperty")
+            navProperties.push(entity);
+    }
+
+    return combineUrlOptionsWithCurrentUrl(navProperties);
 }
 
 export function loadEntitySets(version:string) {
