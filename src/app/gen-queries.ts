@@ -480,6 +480,20 @@ export const SampleQueries: SampleQuery[] = [
     "tip": "This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks"
 },
 {
+    "category": "Planner",
+    "method": "POST",
+    "humanName": "Create a Planner task",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/tasks",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_tasks",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n  \"planId\":\"{plan-id}\",\n    \"title\":\"{task-title}\",\n    \"assignments\":{\n}}"
+},
+{
     "category": "Insights",
     "method": "GET",
     "humanName": "my recent files",
