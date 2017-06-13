@@ -122,7 +122,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       saveHistoryToLocalStorage(AppComponent.requestHistory);
   }
 
-  
   static setMessage(message:Message) {
     AppComponent.message = message;
     setTimeout(() => {GenericDialogComponent.showDialog();});
@@ -237,8 +236,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         eventLabel: dataPoints.join(",")
       });
     }
-
  }
+
 function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
   commonResponseHandler(res, query);
   let {status, headers} = res;
