@@ -18,6 +18,7 @@ import { parseMetadata, constructGraphLinksFromFullPath } from "./graph-structur
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 import { getString } from "./localization-helpers";
+import { refreshAceEditorsContent } from "./ace-utils";
 
 declare let mwf, ga, moment;
 
@@ -38,10 +39,10 @@ declare let mwf, ga, moment;
 })
 export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
-      // Headers aren't updated when that tab is hidden, so when clicking on any tab reinsert the headers
+      // when clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
       if (typeof $ !== "undefined") {
-        $("#response-viewer-labels .ms-Pivot-link").on('click', () => {
-            insertHeadersIntoResponseViewer(AppComponent.lastApiCallHeaders)
+        $("api-explorer .ms-Pivot-link").on('click', () => {
+          setTimeout(refreshAceEditorsContent, 0);
         });
       }
 
@@ -52,7 +53,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
   static svc:GraphService;
   static messageBarContent:MessageBarContent;
-  static lastApiCallHeaders: Headers;
   static _changeDetectionRef:ChangeDetectorRef;
   static message:Message;
 
@@ -204,8 +204,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     // common ops for successful and unsuccessful
     AppComponent.explorerValues.requestInProgress = false;
-
-    AppComponent.lastApiCallHeaders = res.headers;
 
     let {status, headers} = res;
     query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
