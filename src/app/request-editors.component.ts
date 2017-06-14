@@ -16,6 +16,7 @@ declare let mwf;
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.addEmptyHeader();
+        this.initPostBodyEditor();
     }
 
     initPostBodyEditor() {
