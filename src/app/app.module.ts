@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { NgModule, enableProdMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -13,7 +13,6 @@ import { AuthenticationComponent } from './authentication.component'
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms'
 import { SidebarComponent } from "./sidebar.component";
 import { QueryRowComponent } from "./queryrow.component";
-import { ExplorerOptions } from "./base";
 import { HttpModule } from '@angular/http';
 import { HistoryRowComponent } from './history-query.component'
 import { HistoryPanelComponent } from "./history-panel.component";
@@ -27,10 +26,7 @@ import { GenericDialogComponent } from "./generic-message-dialog.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule ],
-  declarations: [ AppComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, ResponseStatusBarComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent ],
+  declarations: [ AppComponent, ResponseStatusBarComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
-
-
-// enableProdMode()

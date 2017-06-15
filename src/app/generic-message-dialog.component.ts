@@ -4,11 +4,10 @@
 
 import { Component } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { Message } from "./base";
 import { AppComponent } from "./app.component";
 
 
-declare let fabric, mwf;
+declare let fabric;
 
 @Component({
   selector: 'generic-dialog',

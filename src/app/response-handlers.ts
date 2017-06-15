@@ -8,12 +8,15 @@ import { AppComponent } from "./app.component";
 export function showResults(results, responseContentType) {
     getJsonViewer().setValue("");    
     getJsonViewer().getSession().insert(0, results);
-    if (responseContentType)
+    if (responseContentType) {
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
+    }
 }
 
 export function insertHeadersIntoResponseViewer(headers:Headers) {
-    if (!headers) return; // prevents foreach of undefined error
+    if (!headers) {
+        return; // prevents foreach of undefined error
+    }
 
     // format headers
     let headersArr = [];
@@ -64,7 +67,7 @@ export function isHtmlResponse(headers:Headers) {
 
 export function isXmlResponse(results) {
     // Don't use headers since xml could be of a million content types.
-    return JSON.stringify(results, null, 4).indexOf("<?xml") != -1;
+    return JSON.stringify(results, null, 4).indexOf("<?xml") !== -1;
 }
 
 export function isJsonResponse(headers:Headers) {
@@ -75,7 +78,7 @@ export function isJsonResponse(headers:Headers) {
 export function getContentType(headers:Headers) {
     var full = headers.get("content-type");
     var delimiterPos = full.indexOf(";");
-    if (delimiterPos != -1) {
+    if (delimiterPos !== -1) {
         return full.substr(0, delimiterPos);
     } else {
         return full;

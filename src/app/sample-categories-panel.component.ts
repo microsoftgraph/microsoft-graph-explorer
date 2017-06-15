@@ -2,13 +2,12 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { GraphApiCall, SampleQueryCategory } from "./base";
-import { AppComponent } from "./app.component";
-import { SampleCategories, getLocalStorageDisplayKey, saveCategoryDisplayState } from "./getting-started-queries";
+import { SampleQueryCategory } from "./base";
+import { SampleCategories, saveCategoryDisplayState } from "./getting-started-queries";
 
-declare let fabric, mwf:any;
+declare let mwf:any;
 
 @Component({
   selector: 'sample-categories-panel',

@@ -6,3 +6,10 @@ addons:
 node_js:
   - "7"
   - "node"
+cache:
+  directories:
+    - "node_modules"
+
+script:
+  - npm run test
+  - npm run lint

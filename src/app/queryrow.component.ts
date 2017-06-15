@@ -7,18 +7,26 @@ import { SampleQuery } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
 import { AppComponent } from "./app.component";
+import { QueryRunnerService } from "./query-runner.service";
 
 @Component({
   selector: 'query-row',
   templateUrl: './queryrow.component.html',
-    styleUrls: ['./queryrow.component.css']
+  styleUrls: ['./queryrow.component.css'],
+  providers: [QueryRunnerService],
 })
 export class QueryRowComponent extends GraphExplorerComponent {
+    
     @Input() query: SampleQuery;
+    
+    constructor(public queryRunnerService: QueryRunnerService) {
+        super();
+    }
 
     queryKeyDown(event) {
-        if (event.keyCode == 13)
+        if (event.keyCode === 13) {
             this.loadQueryIntoEditor(this.query)
+        }
     }
 
     getTitle() {
@@ -32,9 +40,9 @@ export class QueryRowComponent extends GraphExplorerComponent {
     handleQueryClick() {
         this.loadQueryIntoEditor(this.query);
 
-        if (this.query.method == 'GET') {
-            if (this.query.tip == null || !this.isAuthenticated()) {
-                AppComponent.executeExplorerQuery(true);
+        if (this.query.method === 'GET') {
+            if (this.query.tip === null || !this.isAuthenticated()) {
+                this.queryRunnerService.executeExplorerQuery(true);
             } else if (this.query.tip) {
                 this.displayTipMessage();
             }
