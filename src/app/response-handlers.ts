@@ -3,7 +3,6 @@
 // ------------------------------------------------------------------------------
 
 import { getJsonViewer, getAceEditorFromElId } from "./api-explorer-jseditor"
-import { AppComponent } from "./app.component";
 
 export function showResults(results, responseContentType) {
     getJsonViewer().setValue("");    

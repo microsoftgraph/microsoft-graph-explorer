@@ -9,7 +9,6 @@ import { getString } from "./localization-helpers";
 import { constructGraphLinksFromFullPath } from "./graph-structure";
 import { GraphService } from "./graph-service";
 import { createHeaders } from "./util";
-// import { ResponseStatusBarComponent } from "./response-status-bar.component";
 
 declare const ga;
 
@@ -60,7 +59,7 @@ export class QueryRunnerService {
 
   handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
     this.commonResponseHandler(res, query);
-    let {status, headers} = res;
+    let { headers } = res;
 
     let resultBody = res.text();
 
