@@ -28,19 +28,6 @@ export function insertHeadersIntoResponseViewer(headers:Headers) {
     getAceEditorFromElId("response-header-viewer").getSession().insert(0, headersArr.join("\n"));
 }
 
-export function handleImageResponse(method:any, headers, status, handleUnsuccessfulQueryResponse) {
-    method('GET_BINARY', AppComponent.explorerValues.endpointUrl).then((result) => {
-        let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
-        let imageUrl = window.URL.createObjectURL( blob );
-
-        const imageResultViewer = <HTMLImageElement>document.getElementById("responseImg");
-        imageResultViewer.src = imageUrl;
-        AppComponent.explorerValues.showImage = true;
-
-        insertHeadersIntoResponseViewer(result.headers);
-    }, handleUnsuccessfulQueryResponse);
-}
-
 export function handleHtmlResponse(results) {
     showResults(results, "html");
 }

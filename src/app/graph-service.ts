@@ -10,7 +10,6 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class GraphService {
-
   constructor (private http: Http) { }
 
   performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
@@ -25,6 +24,7 @@ export class GraphService {
             return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
+        // let method = isAuthenticated() ? this.GraphService.performQuery : this.GraphService.performAnonymousQuery;
 
     performQuery = (queryType:RequestType, query:string, postBody?:any, requestHeaders?:Headers) => {
         // make sure the request is being sent to the Graph and not another domain

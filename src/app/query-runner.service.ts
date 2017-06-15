@@ -4,7 +4,7 @@ import { GraphApiCall } from "./base";
 import { Response } from "@angular/http"
 import { getRequestBodyEditor, getJsonViewer, getAceEditorFromElId } from "./api-explorer-jseditor";
 import { checkHasValidAuthToken, isAuthenticated } from "./auth";
-import { isImageResponse, handleImageResponse, isHtmlResponse, insertHeadersIntoResponseViewer, handleHtmlResponse, isXmlResponse, handleXmlResponse, handleJsonResponse, showResults } from "./response-handlers";
+import { isImageResponse, isHtmlResponse, insertHeadersIntoResponseViewer, handleHtmlResponse, isXmlResponse, handleXmlResponse, handleJsonResponse, showResults } from "./response-handlers";
 import { getString } from "./localization-helpers";
 import { constructGraphLinksFromFullPath } from "./graph-structure";
 import { GraphService } from "./graph-service";
@@ -66,8 +66,7 @@ export class QueryRunnerService {
 
     AppComponent.explorerValues.showImage = false;
     if (isImageResponse(headers)) {
-        let method = isAuthenticated() ? this.GraphService.performQuery : this.GraphService.performAnonymousQuery;;
-        handleImageResponse(method, headers, status, this.handleUnsuccessfulQueryResponse);
+        this.fetchImage(query);
     } else if (isHtmlResponse(headers)) {  
         insertHeadersIntoResponseViewer(headers);
         handleHtmlResponse(resultBody);
@@ -80,30 +79,50 @@ export class QueryRunnerService {
             handleJsonResponse(res.json());
         }
     }
+  }
+
+  fetchImage(query:GraphApiCall) {
+    let fetchImagePromise:Promise<any>; 
+    if (isAuthenticated()) {
+        fetchImagePromise = this.GraphService.performQuery("GET_BINARY", AppComponent.explorerValues.endpointUrl)
+    } else {
+        fetchImagePromise = this.GraphService.performAnonymousQuery("GET_BINARY", AppComponent.explorerValues.endpointUrl)
     }
 
-    handleUnsuccessfulQueryResponse(res:Response, query:GraphApiCall) {
-        this.commonResponseHandler(res, query);
-        insertHeadersIntoResponseViewer(res.headers);
-        let errorText;
-        
-        try {
-            errorText = res.json();
-            handleJsonResponse(errorText);
-            return;
-        } catch(e) {
-            errorText = res.text();
-        }
+    fetchImagePromise.then((result:any) => {
+      let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
+      let imageUrl = window.URL.createObjectURL( blob );
 
-        if (errorText.indexOf("<!DOCTYPE html>") !== -1) {
-            handleHtmlResponse(errorText);
-        } else {
-            showResults(errorText, "text")
-        }
+      const imageResultViewer = <HTMLImageElement>document.getElementById("responseImg");
+      imageResultViewer.src = imageUrl;
+      AppComponent.explorerValues.showImage = true;
+
+      insertHeadersIntoResponseViewer(result.headers);
+    }).catch((res) => { this.handleUnsuccessfulQueryResponse(res, query) });
+  }
+
+  handleUnsuccessfulQueryResponse(res:Response, query:GraphApiCall) {
+    this.commonResponseHandler(res, query);
+    insertHeadersIntoResponseViewer(res.headers);
+    let errorText;
+
+    try {
+        errorText = res.json();
+        handleJsonResponse(errorText);
+        return;
+    } catch(e) {
+        errorText = res.text();
+    }
+
+    if (errorText.indexOf("<!DOCTYPE html>") !== -1) {
+        handleHtmlResponse(errorText);
+    } else {
+        showResults(errorText, "text")
+    }
     
-    }
+  }
 
-    commonResponseHandler(res:Response, query:GraphApiCall) {
+  commonResponseHandler(res:Response, query:GraphApiCall) {
 
     QueryRunnerService.clearResponse();
 
@@ -139,7 +158,8 @@ export class QueryRunnerService {
         eventLabel: dataPoints.join(",")
       });
     }
- }
+  }
+
   createTextSummary(query:GraphApiCall) {
         let text = "";
         if (this.isSuccessful(query)) {
