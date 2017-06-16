@@ -9,7 +9,7 @@ Users,GET,my direct reports,https://graph.microsoft.com/v1.0/me/directReports,,,
 Users,GET,all users in the organization,https://graph.microsoft.com/v1.0/users,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,,
 Users,GET,all users in the Finance department,https://graph.microsoft.com/v1.0/users?$filter=Department eq 'Finance',,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,,
 Users,GET,my skills,"https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,,
-Users,GET,user by email,https://graph.microsoft.com/v1.0/users/{coworker-mail},,"This query requires a user email address.  To find an email address of a user you can run: GET https://graph.microsoft.com/v1.0/users",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,,
+Users,GET,user by email,https://graph.microsoft.com/v1.0/users/{user-mail},,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,,
 Users,GET,all my Planner tasks,https://graph.microsoft.com/beta/me/planner/tasks,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview,AAD,,,
 Users,POST,create user,https://graph.microsoft.com/v1.0/users,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users,AAD,"{
         ""accountEnabled"": true,

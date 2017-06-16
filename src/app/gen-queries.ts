@@ -82,9 +82,8 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Users",
     "method": "GET",
     "humanName": "user by email",
-    "requestUrl": "https://graph.microsoft.com/v1.0/users/{coworker-mail}",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user",
-    "tip": "This query requires a user email address.  To find an email address of a user you can run: GET https://graph.microsoft.com/v1.0/users"
+    "requestUrl": "https://graph.microsoft.com/v1.0/users/{user-mail}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user"
 },
 {
     "category": "Users",
