@@ -30,6 +30,9 @@ Please see the [contributing guidelines](CONTRIBUTING.md).
 #### Sample queries
 We want the explorer to have rich samples for calling all APIs in the Microsoft Graph. If you have ideas for sample queries, you can edit `sample-queries.csv` and then run `npm run import:samples`. This will convert the samples in the CSV file to structured objects in `src/app/gen-queries.ts`.
 
+Some sample queries have ids or other string constants that are different for authenticated users and
+the sample tenant.  These tokens are maintained in [tokens.ts](tokens.ts) and more documentation for them can be found in [base.ts](base.ts).
+
 When you send a pull request, please commit both the `sample-queries.csv` and the `src/app/gen-queries.ts` file. We will then review your sample queries, and ensure our demo tenant has some sample data for that query.
 
 
