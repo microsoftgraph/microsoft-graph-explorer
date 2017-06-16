@@ -5,6 +5,8 @@
 import { Headers } from "@angular/http"
 
 import { AppComponent } from "./app.component";
+import { Tokens } from "./tokens";
+import { isAuthenticated } from "./auth";
 
 export interface ExplorerOptions {
     AuthUrl?: string
@@ -138,63 +140,66 @@ export const CommonHeaders = [
     "Upgrade",
     "Via",
     "Warning"
-]
+];
 
-let today = new Date();
-let nextWeek = new Date();
-nextWeek.setDate(today.getDate()+7);
+export interface Token {
+    placeholder: string
 
-const Tokens = {
-    "{user-mail}": "annew@CIE493742.onmicrosoft.com",
-    "{group-id}": "8f4e3cfd-432d-4b9a-b801-f424aaf08ca1",
-    "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
-    "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
-    "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
-    "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
-    "{plan-id}": "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
-    "{task-id}": "9jBI6WHDwk60lEWpL4TQ92UAGLhh",
-    "{task-title}": "New Task",
-    "{extension-id}": "com.contoso.roamingSettings",
-    "{host-name}": "cie493742.sharepoint.com",
-    "{server-relative-path}": "sites/Contoso/Operations/Manufacturing",
-    "{group-id-for-teams}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
-    "{channel-id}": "ee3f919c-28e1-4659-86d2-8e37e581335c",
-    "{today}": today.toISOString(),
-    "{next-week}": nextWeek.toISOString(),
-    "AUTHENTICATED_DOMAIN": () => {
-        try {
-            return AppComponent.explorerValues.authentication.user.emailAddress.split("@")[1];
-        } catch(e) {
-            return "example@contoso.com"
+    // base defaults to replace the placeholder with. Not used if any of the below are defined
+    defaultValueFn?: Function
+
+    // when the user is not authenticated, use these values for the demo tenant
+    demoTenantValue?: string
+    demoTenantValueFn?: Function
+
+    // when the user is authenticated with MSA or AAD, replace token with these values
+    authenticatedUserValue?: string
+    authenticatedUserValueFn?: Function
+}
+
+/*
+ * Given a token, go through each of the possible replacement scenarios and find which value to
+ * replace the token with.
+ * Order: Authenticated user values, demo tenant replacament values, default replacement values.
+ */
+function getTokenSubstituteValue(token:Token) {
+    let priorityOrder = []; // desc
+
+    if (isAuthenticated()) {
+        priorityOrder.push(token.authenticatedUserValueFn);
+        priorityOrder.push(token.authenticatedUserValue);
+    }
+
+    priorityOrder.push(token.demoTenantValueFn);
+    priorityOrder.push(token.demoTenantValue);
+    priorityOrder.push(token.defaultValueFn);
+
+    for (let tokenVal of priorityOrder) {
+        if (!tokenVal) {
+            continue;
         }
-    },
-    "FULL_USER_EMAIL": () => {
-        try {
-            return AppComponent.explorerValues.authentication.user.emailAddress;
-        } catch(e) {
-            return "example@contoso.com"
+        if (typeof tokenVal === "string") {
+            return tokenVal;
+        } else if (typeof tokenVal === "function") {
+            return tokenVal();
         }
     }
+
 }
 
 export function substitueTokens(query:SampleQuery) {
-    for (let token in Tokens) {
-        if (query.requestUrl.indexOf(token) != -1) {
-            query.requestUrl = query.requestUrl.replace(token, Tokens[token]);
-        }
-    }
-}
+    type QueryFields = keyof GraphApiCall;
 
-export function substituePostBodyTokens(query:SampleQuery) {
-    for (let token in Tokens) {
-        if (query.postBody.indexOf(token) != -1) {
-            let val;
-            if (typeof Tokens[token] == "string") {
-                val = Tokens[token];
-            } else {
-                val = Tokens[token]();
+    for (let token of Tokens) {
+        let queryFieldsToCheck:QueryFields[] = ['requestUrl', 'postBody'];
+
+        for (let queryField of queryFieldsToCheck) {
+            if (!query[queryField]) {
+                continue;
             }
-            query.postBody = query.postBody.replace(token, val);
+            if ((query[queryField] as string).indexOf(`{${token.placeholder}}`) != -1) {
+                query[queryField] = (query[queryField] as string).replace(`{${token.placeholder}}`, getTokenSubstituteValue(token));
+            }
         }
     }
 }

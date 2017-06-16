@@ -4,7 +4,7 @@
 
 import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
-import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens, substitueTokens } from "./base";
+import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substitueTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 import { isAuthenticated as isAuthHelper } from "./auth";
@@ -64,7 +64,6 @@ export class GraphExplorerComponent {
       AppComponent.explorerValues.postBody = "";
       let postBodyEditorSession = getRequestBodyEditor().getSession();
       if (query.postBody) {
-        substituePostBodyTokens(query);
 
         let rawPostBody = query.postBody;
 

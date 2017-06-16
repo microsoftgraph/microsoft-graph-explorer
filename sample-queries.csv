@@ -33,7 +33,7 @@ Users,POST,create user,https://graph.microsoft.com/v1.0/users,,,https://develope
         ""surname"": ""Darrow"",
         ""mobilePhone"": ""+1 206 555 0110"",
         ""usageLocation"": ""US"",
-        ""userPrincipalName"": ""MelissaD@AUTHENTICATED_DOMAIN""
+        ""userPrincipalName"": ""MelissaD@{domain}""
     }",Content-type: application/json,
 Users,GET,track user changes,"https://graph.microsoft.com/v1.0/users/delta?$select=displayName,givenName,surname",,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,,will be GA by BUILD
 Groups,GET,all groups in my organization,https://graph.microsoft.com/v1.0/groups,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/group,AAD,,,
@@ -68,7 +68,7 @@ Outlook Mail,POST,forward mail,https://graph.microsoft.com/v1.0/me/messages/{mes
   ""toRecipients"": [
     {
       ""emailAddress"": {
-        ""address"": ""FULL_USER_EMAIL"",
+        ""address"": ""{user-mail}"",
         ""name"": ""Alex Darrow""
       }
     }
@@ -84,7 +84,7 @@ Outlook Calendar,POST,find meeting time,https://graph.microsoft.com/v1.0/me/find
         ""attendees"": [
             {
             ""emailAddress"": {
-                ""address"": ""FULL_USER_EMAIL"",
+                ""address"": ""{user-mail}"",
                 ""name"": ""Alex Darrow""
             },
             ""type"": ""Required""
