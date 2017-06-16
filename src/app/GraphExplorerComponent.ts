@@ -4,7 +4,7 @@
 
 import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
-import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substitueTokens } from "./base";
+import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituteTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { RequestEditorsComponent } from "./request-editors.component";
 import { isAuthenticated as isAuthHelper } from "./auth";
@@ -44,7 +44,7 @@ export class GraphExplorerComponent {
 
       // copy the sample query or history item so we're not changing history/samples
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
-      substitueTokens(query);
+      substituteTokens(query);
     
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;

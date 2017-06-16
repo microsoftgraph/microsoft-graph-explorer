@@ -190,7 +190,7 @@ function getTokenSubstituteValue(token:Token) {
 
 }
 
-export function substitueTokens(query:SampleQuery) {
+export function substituteTokens(query:SampleQuery) {
     type QueryFields = keyof GraphApiCall;
 
     for (let token of Tokens) {
