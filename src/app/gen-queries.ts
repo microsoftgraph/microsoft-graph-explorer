@@ -480,9 +480,8 @@ export const SampleQueries: SampleQuery[] = [
 },
 {
     "category": "Planner",
-<<<<<<< HEAD
     "method": "POST",
-    "humanName": "Create a Planner task",
+    "humanName": "create a Planner task",
     "requestUrl": "https://graph.microsoft.com/v1.0/planner/tasks",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_tasks",
     "headers": [
@@ -493,24 +492,21 @@ export const SampleQueries: SampleQuery[] = [
     ],
     "postBody": "{\n  \"planId\": \"{plan-id}\",\n  \"title\": \"{task-title}\",\n  \"assignments\": {}\n}",
     "tip": "This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks"
-=======
+},
+{
+    "category": "Planner",
     "method": "PATCH",
-    "humanName": "update planner task",
-    "requestUrl": "https://graph.microsoft.com/v1.0/planner/tasks/{task-id}",
+    "humanName": "update a Planner task",
+    "requestUrl": "https://graph.microsoft.com/v1.0//planner/tasks/{task-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update",
-    "tip": "This query requires a task id and value of @odata.etag.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks",
-     "headers": [
-        {
-            "name": "Content-type",
-            "value": "application/json"
-        },
+    "headers": [
         {
             "name": "If-Match",
             "value": "{if-match}"
         }
     ],
-    "postBody": "{\n    \"title\":\"title-value\"\n}"
->>>>>>> panjkov-Planner-Patch-Task1
+    "postBody": "{\n    \"title\": \"Updated task title\"\n}",
+    "tip": "This query requires a task id and value of @odata.etag for a selected task.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks"
 },
 {
     "category": "Insights",
@@ -687,7 +683,7 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "SharePoint Sites",
     "method": "GET",
-    "humanName": "Get a SharePoint site based on relative path of the site",
+    "humanName": "SharePoint site based on relative path of the site",
     "requestUrl": "https://graph.microsoft.com/v1.0/sites/{host-name}:/{server-relative-path}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list"
 },
