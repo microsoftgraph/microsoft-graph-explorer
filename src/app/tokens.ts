@@ -1,6 +1,15 @@
 import { Token } from "./base";
 import { AppComponent } from "./app.component";
 
+/**
+ * For more information on Tokens, see the Token interface definition
+ * in base.ts. This is an unordered list of all tokens that can supply
+ * values for POST body templates and URL endpoints for both the demo
+ * tenant and authenticated users. The demoTenantValue and
+ * authenticatedUserValue fields are checked first, and then the
+ * defaultValue fields.
+ */
+
 export const Tokens: Token[] = [
   {
     placeholder: "group-id",
