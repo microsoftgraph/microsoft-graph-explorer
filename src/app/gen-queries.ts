@@ -480,6 +480,7 @@ export const SampleQueries: SampleQuery[] = [
 },
 {
     "category": "Planner",
+<<<<<<< HEAD
     "method": "POST",
     "humanName": "Create a Planner task",
     "requestUrl": "https://graph.microsoft.com/v1.0/planner/tasks",
@@ -492,6 +493,24 @@ export const SampleQueries: SampleQuery[] = [
     ],
     "postBody": "{\n  \"planId\": \"{plan-id}\",\n  \"title\": \"{task-title}\",\n  \"assignments\": {}\n}",
     "tip": "This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks"
+=======
+    "method": "PATCH",
+    "humanName": "update planner task",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/tasks/{task-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update",
+    "tip": "This query requires a task id and value of @odata.etag.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks",
+     "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        },
+        {
+            "name": "If-Match",
+            "value": "{if-match}"
+        }
+    ],
+    "postBody": "{\n    \"title\":\"title-value\"\n}"
+>>>>>>> panjkov-Planner-Patch-Task1
 },
 {
     "category": "Insights",
