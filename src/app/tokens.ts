@@ -32,7 +32,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "task-title",
-    demoTenantValue: "New Task",
+    defaultValue: "New Task",
   },
   {
     placeholder: "extension-id",
@@ -59,6 +59,10 @@ export const Tokens: Token[] = [
     defaultValueFn: () => {
       return (new Date()).toISOString()
     }
+  },
+  {
+    placeholder: "coworker-mail",
+    demoTenantValue: "alans@CIE493742.onmicrosoft.com"
   },
   {
     placeholder: "next-week",

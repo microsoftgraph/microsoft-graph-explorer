@@ -146,6 +146,7 @@ export interface Token {
     placeholder: string
 
     // base defaults to replace the placeholder with. Not used if any of the below are defined
+    defaultValue?: string
     defaultValueFn?: Function
 
     // when the user is not authenticated, use these values for the demo tenant
@@ -168,11 +169,13 @@ function getTokenSubstituteValue(token:Token) {
     if (isAuthenticated()) {
         priorityOrder.push(token.authenticatedUserValueFn);
         priorityOrder.push(token.authenticatedUserValue);
+    } else {
+        priorityOrder.push(token.demoTenantValueFn);
+        priorityOrder.push(token.demoTenantValue);
     }
 
-    priorityOrder.push(token.demoTenantValueFn);
-    priorityOrder.push(token.demoTenantValue);
     priorityOrder.push(token.defaultValueFn);
+    priorityOrder.push(token.defaultValue);
 
     for (let tokenVal of priorityOrder) {
         if (!tokenVal) {
@@ -194,11 +197,16 @@ export function substitueTokens(query:SampleQuery) {
         let queryFieldsToCheck:QueryFields[] = ['requestUrl', 'postBody'];
 
         for (let queryField of queryFieldsToCheck) {
-            if (!query[queryField]) {
+            if (!query[queryField]) { // if the sample doesn't have a post body, don't search for tokens in it
                 continue;
             }
+
             if ((query[queryField] as string).indexOf(`{${token.placeholder}}`) != -1) {
-                query[queryField] = (query[queryField] as string).replace(`{${token.placeholder}}`, getTokenSubstituteValue(token));
+                let substitutedValue = getTokenSubstituteValue(token);
+                if (!substitutedValue) {
+                    continue;
+                }
+                query[queryField] = (query[queryField] as string).replace(`{${token.placeholder}}`, substitutedValue);
             }
         }
     }

@@ -44,11 +44,7 @@ export class GraphExplorerComponent {
 
       // copy the sample query or history item so we're not changing history/samples
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
-
-
-    // replace endpoint URL with tokens
-      if (!this.isAuthenticated())
-        substitueTokens(query);
+      substitueTokens(query);
     
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;

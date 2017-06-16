@@ -197,7 +197,9 @@ export function localLogout() {
 	// anonymous users can only GET
 	AppComponent.explorerValues.selectedOption = "GET";
 
-	(hello as any)('msft').logout(null, {force:true});
+	if (typeof hello !== 'undefined') {
+		(hello as any)('msft').logout(null, {force:true});
+	}
 	AppComponent.explorerValues.authentication.status = "anonymous"
 	AppComponent.explorerValues.authentication.user = {};
 }
