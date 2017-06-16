@@ -153,6 +153,7 @@ const Tokens = {
     "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
     "{plan-id}": "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
     "{task-id}": "9jBI6WHDwk60lEWpL4TQ92UAGLhh",
+    "{task-title}": "New Task",
     "{extension-id}": "com.contoso.roamingSettings",
     "{host-name}": "cie493742.sharepoint.com",
     "{server-relative-path}": "sites/Contoso/Operations/Manufacturing",
