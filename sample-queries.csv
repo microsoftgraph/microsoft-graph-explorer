@@ -9,7 +9,7 @@ Users,GET,my direct reports,https://graph.microsoft.com/v1.0/me/directReports,,,
 Users,GET,all users in the organization,https://graph.microsoft.com/v1.0/users,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,,
 Users,GET,all users in the Finance department,https://graph.microsoft.com/v1.0/users?$filter=Department eq 'Finance',,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,,
 Users,GET,my skills,"https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,,
-Users,GET,user by email,"https://graph.microsoft.com/v1.0/users('{user-mail}')",,"This query requires a user email address.  To find an email address of a user you can run: GET https://graph.microsoft.com/v1.0/users",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,,
+Users,GET,user by email,https://graph.microsoft.com/v1.0/users('{user-mail}'),,This query requires a user email address.  To find an email address of a user you can run: GET https://graph.microsoft.com/v1.0/users,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,,
 Users,GET,all my Planner tasks,https://graph.microsoft.com/beta/me/planner/tasks,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview,AAD,,,
 Users,POST,create user,https://graph.microsoft.com/v1.0/users,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users,AAD,"{
         ""accountEnabled"": true,
@@ -166,6 +166,9 @@ Planner,GET,all Planner tasks for user,https://graph.microsoft.com/v1.0/users/{u
 Planner,GET,Planner task by id,https://graph.microsoft.com/v1.0/planner/tasks/{task-id},,This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_get,AAD,,,will be GA by BUILD
 Insights,GET,my recent files,https://graph.microsoft.com/v1.0/me/drive/recent,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,,
 Insights (beta),GET,items trending around me,https://graph.microsoft.com/beta/me/insights/trending,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,,
+Insights (beta),GET,items used by me,https://graph.microsoft.com/beta/me/insights/used,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_used,AAD,,,
+Insights (beta),GET,items shared with me,https://graph.microsoft.com/beta/me/insights/shared,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_shared,AAD,,,
+Insights (beta),GET,items shared with me by a specific user,https://graph.microsoft.com/beta/me/insights/shared?$filter=lastshared/sharedby/address eq '{user-mail}',,"This query requires a user email address.  To find an email address of a your closest colleagues, you can run: GET https://graph.microsoft.com/beta/people",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_shared,AAD,,,
 Insights (beta),GET,people I work with,https://graph.microsoft.com/beta/me/people,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,,
 Insights (beta),GET,people whose name starts with J,https://graph.microsoft.com/beta/me/people/?$search=j,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,,
 Insights (beta),GET,people relevant to a topic,"https://graph.microsoft.com/beta/me/people/?$search=""topic: contoso""",,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,,
@@ -275,14 +278,14 @@ Batching (beta),POST,Combine a POST and a GET,https://graph.microsoft.com/beta/$
  ]
 } ",Content-type: application/json,will be GA by BUILD
 ,,,,,,,,,,
-Microsoft Teams (beta),GET,my joined teams,https://graph.microsoft.com/beta/me/joinedTeams,User.Read.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams,,,,		
-Microsoft Teams (beta),GET,members of a team,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/members,Group.Read.All,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,,		
-Microsoft Teams (beta),GET,channels of a team which I am member of,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels,Group.Read.All,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,,		
-Microsoft Teams (beta),GET,channel info,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels/{channel-id},Group.Read.All,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,,		
+Microsoft Teams (beta),GET,my joined teams,https://graph.microsoft.com/beta/me/joinedTeams,User.Read.All,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams,,,,"		"
+Microsoft Teams (beta),GET,members of a team,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/members,Group.Read.All,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,,"		"
+Microsoft Teams (beta),GET,channels of a team which I am member of,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels,Group.Read.All,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,,"		"
+Microsoft Teams (beta),GET,channel info,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels/{channel-id},Group.Read.All,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,,"		"
 Microsoft Teams (beta),POST,create channel,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels,Group.ReadWrite.All,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
    ""displayName"": ""Architecture Discussion"",		
    ""description"": ""This channel is where we debate all future architecture plans""		
- }",,		
+ }",,"		"
 Microsoft Teams (beta),POST,create chat thread,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels/{channel-id}/chatThreads,Group.ReadWrite.All,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
 ""rootMessage"": {
        ""body"": {
@@ -290,5 +293,5 @@ Microsoft Teams (beta),POST,create chat thread,https://graph.microsoft.com/beta/
          ""content"": ""Hello world""		
        }		
    }		
- }",,		
+ }",,"		"
 Microsoft Teams (beta),GET,items in a team drive,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/drive/root/children,Group.Read.All,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,,
