@@ -41,7 +41,7 @@ export class QueryRowComponent extends GraphExplorerComponent {
         this.loadQueryIntoEditor(this.query);
 
         if (this.query.method === 'GET') {
-            if (this.query.tip === null || !this.isAuthenticated()) {
+            if (!this.query.tip || !this.isAuthenticated()) {
                 this.queryRunnerService.executeExplorerQuery(true);
             } else if (this.query.tip) {
                 this.displayTipMessage();
