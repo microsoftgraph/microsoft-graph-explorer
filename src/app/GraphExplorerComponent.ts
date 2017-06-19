@@ -4,7 +4,7 @@
 
 import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
-import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituePostBodyTokens, substitueTokens } from "./base";
+import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituteTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { isAuthenticated as isAuthHelper } from "./auth";
 import { QueryRunnerService } from "./query-runner.service";
@@ -45,12 +45,7 @@ export class GraphExplorerComponent {
 
       // copy the sample query or history item so we're not changing history/samples
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
-
-
-    // replace endpoint URL with tokens
-      if (!this.isAuthenticated()) {
-        substitueTokens(query);
-      }
+      substituteTokens(query);
     
       AppComponent.explorerValues.endpointUrl = query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
@@ -66,7 +61,6 @@ export class GraphExplorerComponent {
       AppComponent.explorerValues.postBody = "";
       let postBodyEditorSession = getRequestBodyEditor().getSession();
       if (query.postBody) {
-        substituePostBodyTokens(query);
 
         let rawPostBody = query.postBody;
 

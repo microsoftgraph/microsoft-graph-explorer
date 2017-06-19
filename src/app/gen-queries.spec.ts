@@ -6,8 +6,9 @@ import {
 } from '@angular/core/testing';
 
 import { GraphService } from './graph-service';
-import { GraphApiVersion, substitueTokens, GraphApiVersions } from "./base";
+import { GraphApiVersion, substituteTokens, GraphApiVersions } from "./base";
 import { SampleQueries } from "./gen-queries";
+import { localLogout } from "./auth";
 
 function getGraphVersionFromUrl(url:string):GraphApiVersion {
     for (let version of GraphApiVersions) {
@@ -19,6 +20,10 @@ function getGraphVersionFromUrl(url:string):GraphApiVersion {
 
 let graphService:GraphService;
 describe('Sample query validation', () => {
+
+  beforeAll(() => {
+    localLogout();
+  })
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,8 +69,9 @@ describe('Sample query validation', () => {
     if (query.method !== "GET") {
       continue;
     }
-    substitueTokens(query);
+    substituteTokens(query);
     it(`GET query should execute: ${query.humanName}`, function(done) {
+      substituteTokens(query);
       graphService.performAnonymousQuery(query.method, query.requestUrl).then((res) => {
         if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
           let response = res.json();

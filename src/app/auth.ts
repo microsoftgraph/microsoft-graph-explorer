@@ -181,7 +181,7 @@ export function getScopes() {
 export function haveValidAccessToken():boolean {
 	let session = hello('msft').getAuthResponse();
 
-	if (session === null) {
+	if (!session) {
 		return false;
 	}
 	let currentTime = (new Date()).getTime() / 1000;
@@ -202,7 +202,9 @@ export function localLogout() {
 	// anonymous users can only GET
 	AppComponent.explorerValues.selectedOption = "GET";
 
-	(hello as any)('msft').logout(null, {force:true});
+	if (typeof hello !== 'undefined') {
+		(hello as any)('msft').logout(null, {force:true});
+	}
 	AppComponent.explorerValues.authentication.status = "anonymous"
 	AppComponent.explorerValues.authentication.user = {};
 }

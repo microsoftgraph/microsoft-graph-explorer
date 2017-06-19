@@ -13,7 +13,7 @@ export function saveHistoryToLocalStorage(requestHistory:GraphApiCall[]) {
 export function loadHistoryFromLocalStorage():GraphApiCall[] {
     let possibleHistory = localStorage.getItem(LocalStorageKeyGraphRequestHistory);
 
-    if (possibleHistory === null) {
+    if (!possibleHistory) {
         return [];
     }
 

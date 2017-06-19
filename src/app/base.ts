@@ -2,7 +2,8 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { AppComponent } from "./app.component";
+import { Tokens } from "./tokens";
+import { isAuthenticated } from "./auth";
 
 export interface ExplorerOptions {
     AuthUrl?: string
@@ -136,62 +137,92 @@ export const CommonHeaders = [
     "Upgrade",
     "Via",
     "Warning"
-]
+];
 
-let today = new Date();
-let nextWeek = new Date();
-nextWeek.setDate(today.getDate()+7);
+/**
+ * Tokens are used as placeholder values in sample queries to cover many scenarios:
+ * - ID tokens for sample tenant nodes like user IDs, file IDs and other string constants
+ * - Tokens that must be determined at runtime like the current date
+ * - Tokens that are determined from the authenticated users session
+ * - Tokens can be in the POST body or part of the URL
+ *
+ * The token fields are split into default, demo and authenticated. If neither the demo or
+ * auth values are supplied, the token falls back to the default value.
+ *
+ * Tokens are maintained in tokens.ts.
+ */
 
-const Tokens = {
-    "{user-mail}": "annew@CIE493742.onmicrosoft.com",
-    "{group-id}": "8f4e3cfd-432d-4b9a-b801-f424aaf08ca1",
-    "{drive-item-id}": "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
-    "{section-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
-    "{notebook-id}": "1-fb22b2f1-379f-4da4-bf7b-be5dcca7b99a",
-    "{group-id-with-plan}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
-    "{plan-id}": "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
-    "{task-id}": "9jBI6WHDwk60lEWpL4TQ92UAGLhh",
-    "{extension-id}": "com.contoso.roamingSettings",
-    "{host-name}": "cie493742.sharepoint.com",
-    "{server-relative-path}": "sites/Contoso/Operations/Manufacturing",
-    "{group-id-for-teams}": "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
-    "{channel-id}": "ee3f919c-28e1-4659-86d2-8e37e581335c",
-    "{today}": today.toISOString(),
-    "{next-week}": nextWeek.toISOString(),
-    "AUTHENTICATED_DOMAIN": () => {
-        try {
-            return AppComponent.explorerValues.authentication.user.emailAddress.split("@")[1];
-        } catch(e) {
-            return "example@contoso.com"
-        }
-    },
-    "FULL_USER_EMAIL": () => {
-        try {
-            return AppComponent.explorerValues.authentication.user.emailAddress;
-        } catch(e) {
-            return "example@contoso.com"
-        }
-    }
+export interface Token {
+    placeholder: string
+
+    // base defaults to replace the placeholder with. Not used if any of the below are defined
+    defaultValue?: string
+    defaultValueFn?: Function
+
+    // when the user is not authenticated, use these values for the demo tenant
+    demoTenantValue?: string
+    demoTenantValueFn?: Function
+
+    // when the user is authenticated with MSA or AAD, replace token with these values
+    authenticatedUserValue?: string
+    authenticatedUserValueFn?: Function
 }
 
-export function substitueTokens(query:SampleQuery) {
-    for (let token in Tokens) {
-        if (query.requestUrl.indexOf(token) !== -1) {
-            query.requestUrl = query.requestUrl.replace(token, Tokens[token]);
+/*
+ * Given a token, go through each of the possible replacement scenarios and find which value to
+ * replace the token with.
+ * Order: Authenticated user values, demo tenant replacament values, default replacement values.
+ */
+function getTokenSubstituteValue(token:Token) {
+    let priorityOrder = []; // desc
+
+    if (isAuthenticated()) {
+        priorityOrder.push(token.authenticatedUserValueFn);
+        priorityOrder.push(token.authenticatedUserValue);
+    } else {
+        priorityOrder.push(token.demoTenantValueFn);
+        priorityOrder.push(token.demoTenantValue);
+    }
+
+    priorityOrder.push(token.defaultValueFn);
+    priorityOrder.push(token.defaultValue);
+
+    for (let tokenVal of priorityOrder) {
+        if (!tokenVal) {
+            continue;
+        }
+        if (typeof tokenVal === "string") {
+            return tokenVal;
+        } else if (typeof tokenVal === "function") {
+            return tokenVal();
         }
     }
+
 }
 
-export function substituePostBodyTokens(query:SampleQuery) {
-    for (let token in Tokens) {
-        if (query.postBody.indexOf(token) !== -1) {
-            let val;
-            if (typeof Tokens[token] === "string") {
-                val = Tokens[token];
-            } else {
-                val = Tokens[token]();
+/**
+ * Given a query, replace all tokens in the request URL and the POST body with thier
+ * values.  When a token is found, use getTokenSubstituteValue() to find the right
+ * value to substitute based on the session.
+ */
+export function substituteTokens(query:SampleQuery) {
+    type QueryFields = keyof GraphApiCall;
+
+    for (let token of Tokens) {
+        let queryFieldsToCheck:QueryFields[] = ['requestUrl', 'postBody'];
+
+        for (let queryField of queryFieldsToCheck) {
+            if (!query[queryField]) { // if the sample doesn't have a post body, don't search for tokens in it
+                continue;
             }
-            query.postBody = query.postBody.replace(token, val);
+
+            if ((query[queryField] as string).indexOf(`{${token.placeholder}}`) !== -1) {
+                let substitutedValue = getTokenSubstituteValue(token);
+                if (!substitutedValue) {
+                    continue;
+                }
+                query[queryField] = (query[queryField] as string).replace(`{${token.placeholder}}`, substitutedValue);
+            }
         }
     }
 }
