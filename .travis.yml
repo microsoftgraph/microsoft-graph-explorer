@@ -6,3 +6,7 @@ addons:
 node_js:
   - "7"
   - "node"
+
+script:
+  - npm run test
+  - npm run lint

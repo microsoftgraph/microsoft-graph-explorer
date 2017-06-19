@@ -1,15 +1,17 @@
-import { GraphRequestHeader, RequestType } from "./base";
+import { GraphRequestHeader } from "./base";
 import { Headers } from "@angular/http"
 
 export function createHeaders(explorerHeaders: GraphRequestHeader[]): Headers {
     let h = new Headers();
 
     for (let header of explorerHeaders) {
-      if (!header.name) continue;
+      if (!header.name) {
+          continue;
+      }
       // Handle backslash that is returned in odata.etag before double-quote
       // as the etag would otherwise be invalid and request will fail
       // if user just does copy-paste odata.etag value from the previous response
-      if (header.name == "If-Match"){
+      if (header.name === "If-Match"){
           h.append(header.name, header.value.replace(/\\"/g, '"'));
       }
       else{

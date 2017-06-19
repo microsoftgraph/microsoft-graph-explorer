@@ -3,22 +3,21 @@
 // ------------------------------------------------------------------------------
 
 import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoCompleteItem, MessageBarContent, GraphApiVersion } from "./base";
+import { Methods, ExplorerValues, MessageBarContent, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
-import { GraphService } from "./graph-service";
 import { GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL } from "./graph-structure";
 import { initializeJsonViewer, initializeResponseHeadersViewer } from "./api-explorer-jsviewer";
-import { Observable } from "rxjs/Observable";
+import { QueryRunnerService } from "./query-runner.service";
 
 declare let mwf:any;
 
 @Component({
-  providers: [GraphService],
   selector: 'main-column',
   templateUrl: './main-column.component.html',
-  styleUrls: ['./main-column.component.css']
+  styleUrls: ['./main-column.component.css'],
+  providers: [QueryRunnerService]
 })
 
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
@@ -29,20 +28,20 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     }
 
     ngDoCheck() {
-        if (this.explorerValues && JSON.stringify(this.oldExplorerValues) != JSON.stringify(this.explorerValues)) {
+        if (this.explorerValues && JSON.stringify(this.oldExplorerValues) !== JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();
             this.updateGraphVersionSelect();
 
             this.updateHttpMethod();
 
             // add content-type header when switching to POST
-            if ((this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST")
-                || (this.oldExplorerValues.selectedOption != "PATCH" && this.explorerValues.selectedOption == "PATCH")) {
+            if ((this.oldExplorerValues.selectedOption !== "POST" && this.explorerValues.selectedOption === "POST")
+                || (this.oldExplorerValues.selectedOption !== "PATCH" && this.explorerValues.selectedOption === "PATCH")) {
                  // if it doesn't already exist
                  let hasContentTypeHeader = false;
                  if (this.explorerValues.headers) {
                      for (let header of this.explorerValues.headers) {
-                         if (header.name.toLowerCase() == "content-type") {
+                         if (header.name.toLowerCase() === "content-type") {
                              hasContentTypeHeader = true;
                              break;
                          }
@@ -124,18 +123,18 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     methods = Methods;
     GraphVersions = AppComponent.Options.GraphVersions;
-    constructor(private GraphService: GraphService) {
-        super();
-    }
 
     endpointInputKeyDown(event) {
-        if (event.keyCode == 13)
+        if (event.keyCode === 13) {
             this.submit()
+        }
     }
 
     submit = () => {
-        if (this.explorerValues.requestInProgress) return;
-        AppComponent.executeExplorerQuery();
+        if (this.explorerValues.requestInProgress) {
+            return;
+        }
+        this.queryRunnerService.executeExplorerQuery();
     }
 
     getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
@@ -145,15 +144,17 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     updateVersionFromEndpointUrl() {
         // if the user typed in a different version, change the dropdown
         let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl+"/");
-        if (graphPathStartingWithVersion.length < 2) return;
+        if (graphPathStartingWithVersion.length < 2) {
+            return;
+        }
         let possibleGraphPathArr = graphPathStartingWithVersion[1].split('/');
-        if (possibleGraphPathArr.length == 0) {
+        if (possibleGraphPathArr.length === 0) {
             return;
         }
 
         let possibleVersion = possibleGraphPathArr[0] as GraphApiVersion;
 
-        // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
+        // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) !== -1) {
             // possibleVersion is a valid version
         this.explorerValues.selectedVersion = possibleVersion;
         // }
@@ -165,14 +166,20 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         return this.getMatches(AppComponent.explorerValues.endpointUrl);
     }
 
+    constructor(public queryRunnerService: QueryRunnerService) {
+        super();
+    }
+
     getMatches(query:string):string[] {
         let urls = getUrlsFromServiceURL(AppComponent.explorerValues.selectedVersion);
         let currentGraphLinks = constructGraphLinksFromFullPath(query);
 
-        if (!currentGraphLinks) return [];
+        if (!currentGraphLinks) {
+            return [];
+        }
         // if query ends with odata query param, don't return any URLs
         const lastNode = currentGraphLinks.pop();
-        if (lastNode && lastNode.name.indexOf("?") != -1) {
+        if (lastNode && lastNode.name.indexOf("?") !== -1) {
             return [];
         }
 
@@ -201,7 +208,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.t.selectMenu;
 
         let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
-        if (graphVersionIdx == -1) {
+        if (graphVersionIdx === -1) {
             document.getElementById("-Other").children[0].textContent = this.explorerValues.selectedVersion;
             graphVersionIdx = this.GraphVersions.indexOf("Other");
 

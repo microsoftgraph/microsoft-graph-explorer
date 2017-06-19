@@ -2,8 +2,6 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Headers } from "@angular/http"
-
 import { AppComponent } from "./app.component";
 import { Tokens } from "./tokens";
 import { isAuthenticated } from "./auth";
@@ -219,7 +217,7 @@ export function substituteTokens(query:SampleQuery) {
                 continue;
             }
 
-            if ((query[queryField] as string).indexOf(`{${token.placeholder}}`) != -1) {
+            if ((query[queryField] as string).indexOf(`{${token.placeholder}}`) !== -1) {
                 let substitutedValue = getTokenSubstituteValue(token);
                 if (!substitutedValue) {
                     continue;

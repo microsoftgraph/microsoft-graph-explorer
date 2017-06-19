@@ -6,9 +6,8 @@ import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
 import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituteTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
-import { RequestEditorsComponent } from "./request-editors.component";
 import { isAuthenticated as isAuthHelper } from "./auth";
-
+import { QueryRunnerService } from "./query-runner.service";
 
 export class GraphExplorerComponent {
 
@@ -24,7 +23,9 @@ export class GraphExplorerComponent {
 
   // used in sidebar and panel
   getRequestHistory = (limit?:number):GraphApiCall[] => {
-      if (limit) return AppComponent.requestHistory.slice(0, limit);
+      if (limit) {
+        return AppComponent.requestHistory.slice(0, limit);
+      }
 
       return AppComponent.requestHistory;
   }
@@ -35,11 +36,11 @@ export class GraphExplorerComponent {
   
   loadQueryIntoEditor(originalQuery:GraphApiCall) {
     // prevent logged out users from POSTing/others
-    if (!this.isAuthenticated() && originalQuery.method != 'GET') {
+    if (!this.isAuthenticated() && originalQuery.method !== 'GET') {
       return;
     }
 
-    AppComponent.clearResponse();
+    QueryRunnerService.clearResponse();
 
 
       // copy the sample query or history item so we're not changing history/samples
@@ -81,7 +82,7 @@ export class GraphExplorerComponent {
   }
   shouldEndWithOneEmptyHeader() {
     let lastHeader = this.getLastHeader();
-    if (lastHeader && lastHeader.name == "" && lastHeader.value == "") {
+    if (lastHeader && lastHeader.name === "" && lastHeader.value === "") {
       return;
     } else {
       this.addEmptyHeader();

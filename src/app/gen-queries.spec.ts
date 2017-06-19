@@ -12,7 +12,7 @@ import { localLogout } from "./auth";
 
 function getGraphVersionFromUrl(url:string):GraphApiVersion {
     for (let version of GraphApiVersions) {
-        if (url.indexOf(`/${version}/`) != -1) {
+        if (url.indexOf(`/${version}/`) !== -1) {
             return version;
         }
     }
@@ -38,20 +38,23 @@ describe('Sample query validation', () => {
 
   for (let query of SampleQueries) {
     it(`${query.humanName}: Doc link should exist and match request version`, function() {
-        if (!query.docLink) throw new Error(`${query.humanName}: Doc link doesn't exist`);
+        if (!query.docLink) {
+          throw new Error(`${query.humanName}: Doc link doesn't exist`);
+        }
 
         let docLinkVersion = getGraphVersionFromUrl(query.docLink);
         let requestUrlVersion = getGraphVersionFromUrl(query.requestUrl);
 
         // some doc links go to concept pages, not /version/doc page
-        if (docLinkVersion && requestUrlVersion)
+        if (docLinkVersion && requestUrlVersion) {
             expect(docLinkVersion).toBe(requestUrlVersion);
+        }
     });
 
     // it(`Doc link shouldn't contain a language for ${query.docLink}`, function() {
     //     if (!query.docLink) return;
 
-    //     let hasLanguage = query.docLink.indexOf("en-us") != -1;
+    //     let hasLanguage = query.docLink.indexOf("en-us") !== -1;
 
     //     expect(hasLanguage).toBe(false);
     // })
@@ -63,14 +66,17 @@ describe('Sample query validation', () => {
     //     });
     // });
 
-    if (query.method != "GET") continue;
+    if (query.method !== "GET") {
+      continue;
+    }
+    substituteTokens(query);
     it(`GET query should execute: ${query.humanName}`, function(done) {
       substituteTokens(query);
       graphService.performAnonymousQuery(query.method, query.requestUrl).then((res) => {
-        if (res.headers.get('Content-Type').indexOf('application/json') != -1) {
+        if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
           let response = res.json();
           if (response && response.value && response.value.constructor === Array) {
-            if (response.value.length == 0) {
+            if (response.value.length === 0) {
               done.fail(`${query.humanName}: All sample GETs on collections must have values`)
             }
           }

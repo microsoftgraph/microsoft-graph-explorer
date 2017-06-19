@@ -7,7 +7,8 @@ import { ExplorerOptions } from "./base";
 
 
 export function getString(options:ExplorerOptions, label:string) {
-    if (label in loc_strings[options.Language])
+    if (label in loc_strings[options.Language]) {
         return loc_strings[options.Language][label];
+    }
     return loc_strings["en-US"][label];
 }

@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 
 declare let fabric:any;
@@ -39,11 +39,15 @@ export class ShareLinkBtnComponent extends GraphExplorerComponent implements Aft
     }
 
     extractGraphEndpoint(fullRequestUrl) {
-        if (!fullRequestUrl) return;
+        if (!fullRequestUrl) {
+            return;
+        }
         let requestUrl = fullRequestUrl.split('.com')
         requestUrl.shift();
         
-        if (requestUrl.length == 0) return;
+        if (requestUrl.length === 0) {
+            return;
+        }
         var requestUrlComponents = requestUrl[0].split('/');
         requestUrlComponents.shift(); //remove empty item
         requestUrlComponents.shift(); //remove version

@@ -6,35 +6,32 @@ import { Injectable } from '@angular/core';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 
 import { RequestType, AllowedGraphDomains } from "./base";
-import { AppComponent } from "./app.component";
-import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class GraphService {
-  static _http:Http;
-
-  constructor (private http: Http) {
-      GraphService._http = http;
-  }
+  constructor (private http: Http) { }
 
   performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
-        if (!headers) headers = new Headers();
+        if (!headers) {
+            headers = new Headers();
+        }
         headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
 
-        if (queryType == "GET") {
-            return GraphService._http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
-        } else if (queryType == "GET_BINARY") {
-            return GraphService._http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
+        if (queryType === "GET") {
+            return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
+        } else if (queryType === "GET_BINARY") {
+            return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
+        // let method = isAuthenticated() ? this.GraphService.performQuery : this.GraphService.performAnonymousQuery;
 
     performQuery = (queryType:RequestType, query:string, postBody?:any, requestHeaders?:Headers) => {
         // make sure the request is being sent to the Graph and not another domain
         let sentToGraph = false;
 
         for (let domain of AllowedGraphDomains) {
-            if (query.indexOf(domain) != -1) {
+            if (query.indexOf(domain) !== -1) {
                 sentToGraph = true;
                 break;
             }
@@ -44,7 +41,7 @@ export class GraphService {
             throw "Not sending request to known Graph deployment";
         }
 
-        if (typeof requestHeaders == "undefined") {
+        if (typeof requestHeaders === "undefined") {
             requestHeaders = new Headers();
         }
 
@@ -52,21 +49,21 @@ export class GraphService {
 
         switch(queryType) {
             case "GET":
-                return GraphService._http.get(query, {headers: requestHeaders}).toPromise();
+                return this.http.get(query, {headers: requestHeaders}).toPromise();
             case "GET_BINARY":
-                return GraphService._http.get(query, {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
+                return this.http.get(query, {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
             case "PUT":
-                return GraphService._http.put(query, postBody, {headers : requestHeaders}).toPromise();
+                return this.http.put(query, postBody, {headers : requestHeaders}).toPromise();
             case "POST":
-                return GraphService._http.post(query, postBody, {headers : requestHeaders}).toPromise();
+                return this.http.post(query, postBody, {headers : requestHeaders}).toPromise();
             case "PATCH":
-                return GraphService._http.patch(query, postBody, {headers : requestHeaders}).toPromise();
+                return this.http.patch(query, postBody, {headers : requestHeaders}).toPromise();
             case "DELETE":
-                return GraphService._http.delete(query, {headers : requestHeaders}).toPromise();
+                return this.http.delete(query, {headers : requestHeaders}).toPromise();
         }
     }
 
     getMetadata = (graphUrl:string, version:string) => {
-        return GraphService._http.get(`${graphUrl}/${version}/$metadata`).toPromise();
+        return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 };

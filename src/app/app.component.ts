@@ -2,25 +2,20 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, Input, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
-import { Response, Headers } from '@angular/http';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 
-import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, GraphRequestHeader, Message, SampleQuery, MessageBarContent, GraphApiVersions, GraphApiVersion } from "./base";
+import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, Message, MessageBarContent, GraphApiVersions, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { initAuth, checkHasValidAuthToken, isAuthenticated } from "./auth";
+import { initAuth } from "./auth";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./graph-service";
-import { isImageResponse, isHtmlResponse, isXmlResponse, handleHtmlResponse, handleXmlResponse, handleJsonResponse, handleImageResponse, insertHeadersIntoResponseViewer, showResults } from "./response-handlers";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";
-import { createHeaders, getParameterByName } from "./util";
-import { getRequestBodyEditor, getAceEditorFromElId, getJsonViewer } from "./api-explorer-jseditor";
-import { parseMetadata, constructGraphLinksFromFullPath } from "./graph-structure";
-import { ResponseStatusBarComponent } from "./response-status-bar.component";
+import { getParameterByName } from "./util";
+import { parseMetadata } from "./graph-structure";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
-import { getString } from "./localization-helpers";
 import { refreshAceEditorsContent } from "./ace-utils";
 
-declare let mwf, ga, moment;
+declare let mwf, moment;
 
 @Component({
   selector: 'api-explorer',
@@ -51,21 +46,20 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     }
 
 
-  static svc:GraphService;
   static messageBarContent:MessageBarContent;
   static _changeDetectionRef:ChangeDetectorRef;
   static message:Message;
 
   constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
     super();
-    AppComponent.svc = GraphService;
     AppComponent._changeDetectionRef = chRef;
   }
 
   ngOnInit() {
     for (let key in AppComponent.Options) {
-      if (key in window)
+      if (key in window) {
         AppComponent.Options[key] = window[key];
+      }
     }
 
     AppComponent.Options.GraphVersions.push("Other");
@@ -126,156 +120,4 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     AppComponent.message = message;
     setTimeout(() => {GenericDialogComponent.showDialog();});
   }
-
-
-  static executeExplorerQuery(fromSample?:boolean) {
-
-    // #hack.  When clicking on an autocomplete option, the model isn't updated
-    if (fromSample != true)
-      AppComponent.explorerValues.endpointUrl = $("#graph-request-url input").val();
-
-    let query:GraphApiCall = {
-        requestUrl: AppComponent.explorerValues.endpointUrl,
-        method: AppComponent.explorerValues.selectedOption,
-        requestSentAt: new Date(),
-        headers: AppComponent.explorerValues.headers,
-        postBody: getRequestBodyEditor().getSession().getValue()
-    };
-
-    checkHasValidAuthToken();
-    let graphRequest:Promise<Response>;
-    if (isAuthenticated()) {
-      graphRequest = AppComponent.svc.performQuery(query.method, query.requestUrl, query.postBody, createHeaders(query.headers));
-    } else {
-      graphRequest = AppComponent.svc.performAnonymousQuery(query.method, query.requestUrl, createHeaders(query.headers));
-    }
-    this.explorerValues.requestInProgress = true;
-
-    graphRequest.then((res) => {
-      handleSuccessfulQueryResponse(res, query);
-    }).catch((res) => {
-      handleUnsuccessfulQueryResponse(res, query);
-    });
-  }
-
-  static clearResponse() {
-    // clear response preview and headers
-    getAceEditorFromElId("response-header-viewer").getSession().setValue("");
-    getJsonViewer().getSession().setValue("")
-
-    this.explorerValues.showImage = false;
-
-    ResponseStatusBarComponent.clearMessage()
-
-  }
-
  }
-
-
-  function isSuccessful(query:GraphApiCall) {
-      return query.statusCode >= 200 && query.statusCode < 300;
-  }
-
- function createTextSummary(query:GraphApiCall) {
-        let text = "";
-        if (isSuccessful(query)) {
-            text += getString(AppComponent.Options, "Success");
-        } else {
-            text += getString(AppComponent.Options, "Failure");
-        }
-
-        text += ` - ${getString(AppComponent.Options, "Status Code")} ${query.statusCode}`
-
-
-        text += `<span style="font-weight: 800; margin-left: 40px;">${query.duration}ms</span>`;
-
-        if (query.statusCode == 401 || query.statusCode == 403) {
-          text += `<span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.</span>`
-        }
-
-        return text;
-    }
-
-
- function commonResponseHandler(res:Response, query:GraphApiCall) {
-
-    AppComponent.clearResponse();
-
-    // common ops for successful and unsuccessful
-    AppComponent.explorerValues.requestInProgress = false;
-
-    let {status, headers} = res;
-    query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
-    query.statusCode = status;
-    AppComponent.addRequestToHistory(query);
-
-    AppComponent.messageBarContent = {
-      text: createTextSummary(query),
-      backgroundClass: isSuccessful(query) ? "ms-MessageBar--success" : "ms-MessageBar--error",
-      icon: isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--ErrorBadge"
-    }
-
-    let dataPoints:any[] = [query.statusCode]
-
-    let urlGraph = constructGraphLinksFromFullPath(query.requestUrl);
-    if (urlGraph && urlGraph.length > 0) {
-      let cleanedUrl = urlGraph.map((link) => link.type).join("/");
-      dataPoints.push(cleanedUrl);
-    } else {
-      dataPoints.push("UnknownUrl");        
-    }
-    dataPoints.push(isAuthenticated() ? "authenticated" : "demo");
-
-    if (typeof ga !== 'undefined') {
-      ga('send', {
-        hitType: 'event',
-        eventCategory: 'GraphExplorer',
-        eventAction: 'ExecuteQuery',
-        eventLabel: dataPoints.join(",")
-      });
-    }
- }
-
-function handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
-  commonResponseHandler(res, query);
-  let {status, headers} = res;
-
-  let resultBody = res.text();
-
-  AppComponent.explorerValues.showImage = false;
-  if (isImageResponse(headers)) {
-    let method = isAuthenticated() ? AppComponent.svc.performQuery : AppComponent.svc.performAnonymousQuery;;
-    handleImageResponse(method, headers, status, handleUnsuccessfulQueryResponse);
-  } else if (isHtmlResponse(headers)) {  
-    insertHeadersIntoResponseViewer(headers);
-    handleHtmlResponse(resultBody);
-  } else if (isXmlResponse(resultBody)) {
-    insertHeadersIntoResponseViewer(headers);
-    handleXmlResponse(resultBody);
-  } else {
-    insertHeadersIntoResponseViewer(headers);
-    if (res.text() != "")
-      handleJsonResponse(res.json());
-  }
-}
-
-function handleUnsuccessfulQueryResponse(res:Response, query:GraphApiCall) {
-  commonResponseHandler(res, query);
-  insertHeadersIntoResponseViewer(res.headers);
-  let errorText;
-  
-  try {
-    errorText = res.json();
-    handleJsonResponse(errorText);
-    return;
-  } catch(e) {
-    errorText = res.text();
-  }
-
-  if (errorText.indexOf("<!DOCTYPE html>") != -1) {
-    handleHtmlResponse(errorText);
-  } else {
-    showResults(errorText, "text")
-  }
-  
-}

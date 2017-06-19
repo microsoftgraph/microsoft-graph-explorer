@@ -4,10 +4,8 @@
 
 import { Component, AfterViewInit } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AppComponent } from "./app.component";
 import { PermissionScopes } from "./scopes";
 import { PermissionScope } from "./base";
-import { getScopes } from "./auth";
 
 declare let fabric, mwf;
 
@@ -24,11 +22,11 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     }
 
     scopeListIsDirty():boolean {
-      return PermissionScopes.filter(s => s.enabled != s.enabledTarget).length > 0;
+      return PermissionScopes.filter((s) => s.enabled !== s.enabledTarget).length > 0;
     }
 
     requestingAdminScopes():boolean {
-      return PermissionScopes.filter(s => s.admin && s.enabledTarget).length > 0;
+      return PermissionScopes.filter((s) => s.admin && s.enabledTarget).length > 0;
     }
 
     toggleScopeEnabled(scope:PermissionScope) {
@@ -42,7 +40,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
         prompt: 'select_account'
       };
 
-      (hello('msft_admin_consent').login(loginProperties) as any);
+      hello('msft_admin_consent').login(loginProperties);
 
     }
 
@@ -54,7 +52,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
         nonce: 'graph_explorer',
         prompt: 'select_account',
         // login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login
-        scope: PermissionScopes.filter(scope => scope.enabledTarget).map(scope => scope.name).join(" ")
+        scope: PermissionScopes.filter((scope) => scope.enabledTarget).map((scope) => scope.name).join(" ")
       };
 
       hello('msft').login(loginProperties);
