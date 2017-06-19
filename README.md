@@ -1,6 +1,3 @@
-
-
-
 # Microsoft Graph Explorer
 [![Build Status](https://travis-ci.org/microsoftgraph/microsoft-graph-explorer.svg?branch=master)](https://travis-ci.org/microsoftgraph/microsoft-graph-explorer)
 
