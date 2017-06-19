@@ -4,7 +4,6 @@
 
 import { ChangeDetectorRef } from "@angular/core";
 
-import { AppModule } from "./app.module";
 import { ExplorerOptions, Message } from "./base";
 import { AppComponent } from "./app.component";
 import { GraphService } from "./graph-service";
@@ -51,7 +50,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 	hello.on('auth.login', (auth) => {
 		let accessToken;
 
-		if (auth.network == "msft") {
+		if (auth.network === "msft") {
 			let authResponse = hello('msft').getAuthResponse();
 
 			accessToken = authResponse.access_token;
@@ -92,7 +91,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			let scopes = getScopes();
 			scopes.push("openid")
 			for (let scope of PermissionScopes) {
-				scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) != -1
+				scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) !== -1
 			}
 		}
 	});
@@ -103,7 +102,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 }
 
 export function refreshAccessToken() {
-	if (AppComponent.explorerValues.authentication.status != "authenticated") {
+	if (AppComponent.explorerValues.authentication.status !== "authenticated") {
 		console.log("Not refreshing access token since user is logged out or currently logging in.", new Date());
 		return;
 	};
@@ -164,32 +163,38 @@ export function getScopes() {
 	let scopesStr = hello('msft').getAuthResponse().scope;
 
 	// scopesStr is something like "Files.Read,Mail.Send,User.Read"
-	if (!scopesStr) return;
+	if (!scopesStr) {
+		return;
+	}
 
 	scopesStr = scopesStr.toLowerCase();
 
-	if (scopesStr.indexOf("+") != -1)
+	if (scopesStr.indexOf("+") !== -1) {
 		return scopesStr.split("+");
-	if (scopesStr.indexOf(",") != -1)
+	} else if (scopesStr.indexOf(",") !== -1) {
 		return scopesStr.split(",");
-	if (scopesStr.split(" ").length > 2)
+	} else if (scopesStr.split(" ").length > 2) {
 		return scopesStr.split(" ");
+	}
 }
 
 export function haveValidAccessToken():boolean {
 	let session = hello('msft').getAuthResponse();
 
-	if (session === null) return false;
+	if (session === null) {
+		return false;
+	}
 	let currentTime = (new Date()).getTime() / 1000;
 	return session && session.access_token && session.expires > currentTime;
 };
 
 window['tokenPlease'] = function() {
 	let authResponse = hello('msft').getAuthResponse();
-	if (authResponse)
+	if (authResponse) {
 		return authResponse.access_token;
-	else
+	} else {
 		console.log("Please sign in to get your access token")
+	}
 }
 
 
@@ -210,5 +215,5 @@ export function checkHasValidAuthToken() {
 }
 
 export function isAuthenticated() {
-	return AppComponent.explorerValues.authentication.status != "anonymous"
+	return AppComponent.explorerValues.authentication.status !== "anonymous"
 }

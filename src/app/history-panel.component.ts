@@ -7,8 +7,8 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { GraphApiCall } from "./base";
 import { AppComponent } from "./app.component";
 import { getShortQueryText } from "./ApiCallDisplayHelpers";
-import { getString } from "./localization-helpers";
 import { saveHistoryToLocalStorage } from "./history";
+import { QueryRunnerService } from "./query-runner.service";
 
 declare let moment:any;
 
@@ -16,9 +16,10 @@ declare let moment:any;
   selector: 'history-panel',
   styleUrls: ['./history-panel.component.css'],
   templateUrl: './history-panel.component.html',
+  providers: [QueryRunnerService],
 })
 export class HistoryPanelComponent extends GraphExplorerComponent implements OnInit {
-    constructor(private _changeDetectionRef : ChangeDetectorRef) {
+    constructor(private _changeDetectionRef : ChangeDetectorRef, private queryRunnerService: QueryRunnerService) {
         super();
     }
 
@@ -54,15 +55,15 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
     }
 
     handleQueryClick(query: GraphApiCall) {
-        if (!this.isAuthenticated() && query.method != 'GET') {
+        if (!this.isAuthenticated() && query.method !== 'GET') {
             return;
         }
 
         this.loadQueryIntoEditor(query);
         this.closeHistoryPanel();
 
-        if (query.method == 'GET') {
-            AppComponent.executeExplorerQuery(true);
+        if (query.method === 'GET') {
+            this.queryRunnerService.executeExplorerQuery(true);
         }
     }
 }

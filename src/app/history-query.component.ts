@@ -3,17 +3,15 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { AuthenticationStatus, ExplorerOptions, GraphApiCall, SampleQuery } from "./base";
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AppComponent } from "./app.component";
-import { getString } from "./localization-helpers";
-import { AppModule } from "./app.module";
+import { SampleQuery } from "./base";
 import { QueryRowComponent } from "./queryrow.component";
+import { QueryRunnerService } from "./query-runner.service";
 
 declare let moment:any;
 
 @Component({
   selector: 'history-query-row',
+  providers: [QueryRunnerService],
   template: `
     <query-row [query]="query">
         <div class="history-row-2">
@@ -53,8 +51,8 @@ declare let moment:any;
 `]
 })
 export class HistoryRowComponent extends QueryRowComponent implements OnInit {
-    constructor(private _changeDetectionRef : ChangeDetectorRef) {
-        super();
+    constructor(private _changeDetectionRef : ChangeDetectorRef, public queryRunnerService: QueryRunnerService) {
+        super(queryRunnerService);
     }
 
     updateMomentRef: NodeJS.Timer;

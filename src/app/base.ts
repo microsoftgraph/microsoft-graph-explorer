@@ -2,8 +2,6 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Headers } from "@angular/http"
-
 import { AppComponent } from "./app.component";
 
 export interface ExplorerOptions {
@@ -178,7 +176,7 @@ const Tokens = {
 
 export function substitueTokens(query:SampleQuery) {
     for (let token in Tokens) {
-        if (query.requestUrl.indexOf(token) != -1) {
+        if (query.requestUrl.indexOf(token) !== -1) {
             query.requestUrl = query.requestUrl.replace(token, Tokens[token]);
         }
     }
@@ -186,9 +184,9 @@ export function substitueTokens(query:SampleQuery) {
 
 export function substituePostBodyTokens(query:SampleQuery) {
     for (let token in Tokens) {
-        if (query.postBody.indexOf(token) != -1) {
+        if (query.postBody.indexOf(token) !== -1) {
             let val;
-            if (typeof Tokens[token] == "string") {
+            if (typeof Tokens[token] === "string") {
                 val = Tokens[token];
             } else {
                 val = Tokens[token]();

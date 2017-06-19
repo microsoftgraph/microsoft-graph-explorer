@@ -2,16 +2,15 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, Input, Sanitizer, SecurityContext } from '@angular/core';
-import { GraphApiCall, MessageBarContent } from "./base";
+import { Component, Input } from '@angular/core';
+import { MessageBarContent } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AppComponent } from "./app.component";
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: 'message-bar',
   templateUrl: './response-status-bar.component.html',
-    styleUrls: ['./response-status-bar.component.css']
+  styleUrls: ['./response-status-bar.component.css']
 })
 export class ResponseStatusBarComponent extends GraphExplorerComponent {
 
@@ -32,11 +31,8 @@ export class ResponseStatusBarComponent extends GraphExplorerComponent {
     }
 
     setMessageText() {
-        if (this.message)
+        if (this.message) {
             this.messageHTML = this.sanitizer.bypassSecurityTrustHtml(this.message.text) as string;
-    }
-
-    static clearMessage() {
-        AppComponent.messageBarContent = null;
+        }
     }
 }

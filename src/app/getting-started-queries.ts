@@ -36,7 +36,7 @@ for (let query of SampleQueries) {
         categories[query.category].queries.push(query);
     } else {
         categories[query.category] = {
-            enabled: query.category == "Getting Started",
+            enabled: query.category === "Getting Started",
             queries: [query],
             title: query.category
         }
@@ -49,7 +49,7 @@ for (let categoryTitle in categories) {
     let category = categories[categoryTitle];
     let displayCategory = getCategoryDisplayState(category);
 
-    if (displayCategory != null) {
+    if (displayCategory !== null) {
         category.enabled = displayCategory;
     }
     SampleCategories.push(category);

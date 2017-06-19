@@ -13,7 +13,8 @@
     "test:watch": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
     "import:samples": "node util-scripts\\query-importer.js",
     "import:loc-strings": "node util-scripts\\bundle-loc-files.js",
-    "rollup": "rollup -c rollup-config.js"
+    "rollup": "rollup -c rollup-config.js",
+    "lint": "tslint --type-check --project src/tsconfig.json -c tslint.json"
   },
   "author": "",
   "devDependencies": {
@@ -29,7 +30,8 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "@angular/compiler-cli": "^4.1.2",
-    "fast-csv": "2.4.0"
+    "fast-csv": "2.4.0",
+    "tslint": "^5.4.3"
   },
   "dependencies": {
     "@angular/animations": "^4.1.2",

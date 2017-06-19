@@ -3,12 +3,12 @@
 // ------------------------------------------------------------------------------
 
 import { Component, AfterViewInit } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, SampleQueryCategory } from "./base";
+import { SampleQueryCategory } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { SampleCategories } from "./getting-started-queries";
-import { AppComponent } from "./app.component";
-import { SampleCategoriesPanelComponent } from "./sample-categories-panel.component";
+
 declare let fabric;
+
 @Component({
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
@@ -23,8 +23,9 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
         this.sampleCategoryPanel = document.querySelector("#sample-categories-panel");
 
         $(document).keyup((e) => {
-            if (e.keyCode === 27) // esc
+            if (e.keyCode === 27) { // esc
                 this.closePanels();
+            }
         });
 
     }
@@ -33,13 +34,13 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
 
     manageCategories() {
         // open sample category panel
-        new fabric['Panel'](this.sampleCategoryPanel);
+        new fabric['Panel'](this.sampleCategoryPanel); // tslint:disable-line
 
     }
 
     manageHistory() {
         // open history panel
-        new fabric['Panel'](this.historyPanel);
+        new fabric['Panel'](this.historyPanel); // tslint:disable-line
         (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
     }
 
