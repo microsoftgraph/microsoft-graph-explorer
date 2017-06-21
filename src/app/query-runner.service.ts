@@ -4,7 +4,7 @@ import { GraphApiCall } from "./base";
 import { Response } from "@angular/http"
 import { getRequestBodyEditor, getJsonViewer, getAceEditorFromElId } from "./api-explorer-jseditor";
 import { checkHasValidAuthToken, isAuthenticated } from "./auth";
-import { isImageResponse, isHtmlResponse, insertHeadersIntoResponseViewer, handleHtmlResponse, isXmlResponse, handleXmlResponse, handleJsonResponse, showResults } from "./response-handlers";
+import { isImageResponse, insertHeadersIntoResponseViewer, handleHtmlResponse, handleXmlResponse, handleJsonResponse, showResults, handleTextResponse, getContentType } from "./response-handlers";
 import { getString } from "./localization-helpers";
 import { constructGraphLinksFromFullPath } from "./graph-structure";
 import { GraphService } from "./graph-service";
@@ -64,19 +64,36 @@ export class QueryRunnerService {
     let resultBody = res.text();
 
     AppComponent.explorerValues.showImage = false;
-    if (isImageResponse(headers)) {
+    let contentType = getContentType(headers);
+
+    if (isImageResponse(contentType)) {
+        // For image responses don't insert the headers yet since we need
+        // to turn around and make a second request to the Graph for the image
         this.fetchImage(query);
-    } else if (isHtmlResponse(headers)) {  
-        insertHeadersIntoResponseViewer(headers);
+        return;
+    }
+
+    insertHeadersIntoResponseViewer(headers);
+    switch (contentType) {
+      case 'application/json': {
+        handleJsonResponse(res.json());
+        break;
+      }
+
+      case 'text/html':
+      case 'application/xhtml+xml': {
         handleHtmlResponse(resultBody);
-    } else if (isXmlResponse(resultBody)) {
-        insertHeadersIntoResponseViewer(headers);
+        break;
+      }
+
+      case 'application/xml': {
         handleXmlResponse(resultBody);
-    } else {
-        insertHeadersIntoResponseViewer(headers);
-        if (res.text() !== "") {
-            handleJsonResponse(res.json());
-        }
+        break;
+      }
+
+      default: {
+        handleTextResponse(resultBody);
+      }
     }
   }
 
