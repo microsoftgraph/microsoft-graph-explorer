@@ -427,5 +427,12 @@ export const PermissionScopes: PermissionScope[] = [
    longDescription: "Allows the app to perform remote high impact actions such as wiping the device or resetting the passcode on devices managed by Microsoft Intune.",
    preview: true,
    admin: true
+ },
+ {
+   name: "Reports.Read.All",
+   description: "Read all usage reports",
+   longDescription: "Allows an app to read all service usage reports without a signed-in user. Services that provide usage reports include Office 365 and Azure Active Directory.",
+   preview: true,
+   admin: true
  }
 ]
