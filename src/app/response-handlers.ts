@@ -41,25 +41,14 @@ export function handleXmlResponse(results) {
     showResults(results, "xml");
 }
 
-export function isImageResponse(headers:Headers) {
-    var contentType = getContentType(headers);
+export function handleTextResponse(results) {
+    showResults(results, "plain_text");
+}
+
+export function isImageResponse(contentType:string) {
     return contentType === "application/octet-stream" || contentType.substr(0, 6) === "image/";
 }
 
-export function isHtmlResponse(headers:Headers) {
-    var contentType = getContentType(headers);
-    return contentType === "text/html" || contentType === "application/xhtml+xml";
-}
-
-export function isXmlResponse(results) {
-    // Don't use headers since xml could be of a million content types.
-    return JSON.stringify(results, null, 4).indexOf("<?xml") !== -1;
-}
-
-export function isJsonResponse(headers:Headers) {
-    var contentType = getContentType(headers);
-    return contentType === "application/json";
-}
 
 export function getContentType(headers:Headers) {
     var full = headers.get("content-type");
@@ -73,7 +62,6 @@ export function getContentType(headers:Headers) {
 
 // from swagger-js
 var formatXml = function(xml) {
-    console.log(1)
     var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
     reg = /(>)(<)(\/*)/g;
     wsexp = /[ ]*(.*)[ ]+\n/g;
