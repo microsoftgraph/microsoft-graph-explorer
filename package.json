@@ -31,7 +31,8 @@
     "rollup-plugin-uglify": "^2.0.1",
     "@angular/compiler-cli": "^4.1.2",
     "fast-csv": "2.4.0",
-    "tslint": "^5.4.3"
+    "tslint": "^5.4.3",
+    "typescript": "~2.3.0"
   },
   "dependencies": {
     "@angular/animations": "^4.1.2",
@@ -53,9 +54,8 @@
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "moment": "^2.18.1",
-    "rxjs": "^5.0.1",
+    "rxjs": "^5.4.0",
     "systemjs": "^0.20.12",
-    "typescript": "^2.2.2",
     "zone.js": "^0.8.5"
   },
   "repository": {
