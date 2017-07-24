@@ -449,6 +449,67 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Planner",
     "method": "GET",
+    "humanName": "Planner plan",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/plans/{plan-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_get",
+    "tip": "This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans."
+},
+{
+    "category": "Planner",
+    "method": "PATCH",
+    "humanName": "update a Planner plan",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/plans/{plan-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_update",
+    "headers": [
+        {
+            "name": "If-Match",
+            "value": "{if-match}"
+        }
+    ],
+    "postBody": "{\n    \"title\": \"Updated plan title\"\n}",
+    "tip": "This query requires a Plan ID and value of @odata.etag for a selected task. To find the ID of the Plan, you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks. To get the @odata.etag, run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}"
+},
+{
+    "category": "Planner",
+    "method": "GET",
+    "humanName": "all buckets in Planner plan",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/buckets",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_buckets",
+    "tip": "This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans."
+},
+{
+    "category": "Planner",
+    "method": "POST",
+    "humanName": "create a bucket in Planner plan",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/buckets",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_buckets",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n  \"name\": \"{bucket-name}\",\n  \"planId\": \"{plan-id}\",\n  \"orderHint\": \" !\"\n}",
+    "tip": "This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/plans"
+},
+{
+    "category": "Planner",
+    "method": "PATCH",
+    "humanName": "update a bucket in Planner plan",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/buckets/{bucket-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerbucket_update",
+    "headers": [
+        {
+            "name": "If-Match",
+            "value": "{if-match}"
+        }
+    ],
+    "postBody": "{\n    \"name\": \"Updated bucket name\"\n}",
+    "tip": "This query requires a bucket id and value of @odata.etag for a selected bucket.  To find the ID of the bucket run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/buckets and then run: GET https://graph.microsoft.com/v1.0/planner/buckets/{bucket-id} to discover @odata.etag"
+},
+{
+    "category": "Planner",
+    "method": "GET",
     "humanName": "all Planner tasks for a plan",
     "requestUrl": "https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/tasks",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_tasks",

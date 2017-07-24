@@ -36,6 +36,14 @@ export const Tokens: Token[] = [
     demoTenantValue: "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
   },
   {
+    placeholder: "{bucket-id}",
+    demoTenantValue: "1m6FwcAAZ0eW5J1Abe7ndWUAJ1ca",
+  },
+  {
+    placeholder: "{bucket-name}",
+    demoTenantValue: "New Bucket",
+  },
+  {
     placeholder: "task-id",
     demoTenantValue: "9jBI6WHDwk60lEWpL4TQ92UAGLhh",
   },
