@@ -507,6 +507,14 @@ export const SampleQueries: SampleQuery[] = [
     "tip": "This query requires a task id and value of @odata.etag for a selected task.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks"
 },
 {
+    "category": "Planner",
+    "method": "GET",
+    "humanName": "details for Planner task",
+    "requestUrl": "https://graph.microsoft.com/v1.0/planner/tasks/{task-id}/details",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertaskdetails_get",
+    "tip": "This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks"
+},
+{
     "category": "Insights",
     "method": "GET",
     "humanName": "my recent files",
