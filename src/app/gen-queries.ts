@@ -467,7 +467,7 @@ export const SampleQueries: SampleQuery[] = [
         }
     ],
     "postBody": "{\n    \"title\": \"Updated plan title\"\n}",
-    "tip": "This query requires a Plan id and value of @odata.etag for a selected task.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks and then use retrieved {plan-id} to find @odata.etag run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}"
+    "tip": "This query requires a Plan ID and value of @odata.etag for a selected task. To find the ID of the Plan, you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks. To get the @odata.etag, run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}"
 },
 {
     "category": "Planner",
@@ -489,7 +489,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n  \"name\": \"{bucket-name}\",\n  \"planId\": \"{plan-id}\",\n  \"orderHint\":  \" !\"\n}",
+    "postBody": "{\n  \"name\": \"{bucket-name}\",\n  \"planId\": \"{plan-id}\",\n  \"orderHint\": \" !\"\n}",
     "tip": "This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/plans"
 },
 {
