@@ -170,6 +170,9 @@ Planner,POST,create a bucket in Planner plan,https://graph.microsoft.com/v1.0/pl
   ""planId"": ""{plan-id}"",  
   ""orderHint"": "" " !""
 }",Content-type: application/json,
+Planner,PATCH,update a bucket in Planner plan,https://graph.microsoft.com/v1.0/planner/buckets/{bucket-id},Group.ReadWrite.All,This query requires a bucket id and value of @odata.etag for a selected bucket.  To find the ID of the bucket run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/buckets and then run: GET https://graph.microsoft.com/v1.0/planner/buckets/{bucket-id} to discover @odata.etag,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerbucket_update,AAD,"{
+    ""name"": ""Updated bucket name""
+}",If-Match: {if-match},
 Planner,GET,all Planner tasks for a plan,https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/tasks,,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_tasks,AAD,,,
 Planner,GET,all my Planner tasks,https://graph.microsoft.com/v1.0/me/planner/tasks,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/planner_overview,AAD,,,
 Planner,GET,all Planner tasks for user,https://graph.microsoft.com/v1.0/users/{user-mail}/planner/tasks,,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks,AAD,,,
