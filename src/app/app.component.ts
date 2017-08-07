@@ -70,9 +70,13 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     mwf.ComponentFactory.create([{
         'component': mwf.Drawer,
-    }])
+    }]);
 
     moment.locale(AppComponent.Options.Language);
+
+    // set explorer state that depends on configuration
+    AppComponent.explorerValues.endpointUrl = AppComponent.Options.GraphUrl + `/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request") || 'me/'}`;
+
   }
 
   static Options: ExplorerOptions = {
@@ -86,7 +90,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
   };
 
   static explorerValues:ExplorerValues = {
-      endpointUrl: AppComponent.Options.GraphUrl + `/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request") || 'me/'}`,
       selectedOption: getParameterByName("method") as RequestType || "GET",
       selectedVersion: getParameterByName("version") as GraphApiVersion || "v1.0",
       authentication: {

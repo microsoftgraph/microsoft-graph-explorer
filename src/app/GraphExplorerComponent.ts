@@ -47,7 +47,8 @@ export class GraphExplorerComponent {
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
       substituteTokens(query);
     
-      AppComponent.explorerValues.endpointUrl = query.requestUrl;
+      // set the endpoint url. if it's a relative path, add the configured graph URL
+      AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith("https://") ? query.requestUrl : AppComponent.Options.GraphUrl + query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
 
       if (query.headers) {
