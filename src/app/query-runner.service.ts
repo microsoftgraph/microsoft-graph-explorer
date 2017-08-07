@@ -42,8 +42,18 @@ export class QueryRunnerService {
     AppComponent.explorerValues.requestInProgress = true;
 
     graphRequest.then((res) => {
-      this.handleSuccessfulQueryResponse(res, query);
+      try {
+        this.handleSuccessfulQueryResponse(res, query)
+      } catch(e) {
+        console.error(e);
+        AppComponent.messageBarContent = {
+          text: getString(AppComponent.Options, 'explorer-error'),
+          backgroundClass: "ms-MessageBar--error",
+          icon: "ms-Icon--ErrorBadge"
+        }
+      }
     }).catch((res) => {
+      debugger;
       this.handleUnsuccessfulQueryResponse(res, query);
     });
   }
