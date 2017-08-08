@@ -9,7 +9,7 @@
     "build:prod": "npm run build:aot && npm run rollup",
     "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
     "serve": "lite-server -c=bs-config.json",
-    "test": "npm run build && karma start karma.conf.js --single-run --browsers ChromeHeadless",
+    "test": "npm run build && karma start karma.conf.js --single-run --browsers Chrome",
     "test:watch": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
     "import:samples": "node util-scripts\\query-importer.js",
     "import:loc-strings": "node util-scripts\\bundle-loc-files.js",

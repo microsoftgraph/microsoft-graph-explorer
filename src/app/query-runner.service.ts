@@ -53,7 +53,6 @@ export class QueryRunnerService {
         }
       }
     }).catch((res) => {
-      debugger;
       this.handleUnsuccessfulQueryResponse(res, query);
     });
   }

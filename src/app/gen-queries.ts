@@ -75,7 +75,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Users",
     "method": "GET",
     "humanName": "my skills",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",
+    "requestUrl": "/v1.0/me/?$select=displayName,skills",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user"
 },
 {
@@ -110,7 +110,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Users",
     "method": "GET",
     "humanName": "track user changes",
-    "requestUrl": "https://graph.microsoft.com/v1.0/users/delta?$select=displayName,givenName,surname",
+    "requestUrl": "/v1.0/users/delta?$select=displayName,givenName,surname",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users"
 },
 {
@@ -177,7 +177,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Groups",
     "method": "GET",
     "humanName": "track group changes",
-    "requestUrl": "https://graph.microsoft.com/v1.0/groups/delta?$select=displayName,description",
+    "requestUrl": "/v1.0/groups/delta?$select=displayName,description",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups"
 },
 {
@@ -198,7 +198,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Mail",
     "method": "GET",
     "humanName": "my mail that has 'Hello World'",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/messages?$search=\"hello world\"",
+    "requestUrl": "/v1.0/me/messages?$search=\"hello world\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages"
 },
 {
@@ -242,7 +242,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Mail (beta)",
     "method": "GET",
     "humanName": "email I'm @ mentioned",
-    "requestUrl": "https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",
+    "requestUrl": "/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2"
 },
 {
@@ -256,7 +256,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Calendar",
     "method": "GET",
     "humanName": "all events in my calendar",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",
+    "requestUrl": "/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events"
 },
 {
@@ -351,7 +351,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "OneDrive",
     "method": "GET",
     "humanName": "all of my excel files",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
+    "requestUrl": "/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
 },
 {
@@ -373,7 +373,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Excel",
     "method": "GET",
     "humanName": "all of my excel files",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
+    "requestUrl": "/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
 },
 {
@@ -607,14 +607,14 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Insights (beta)",
     "method": "GET",
     "humanName": "people relevant to a topic",
-    "requestUrl": "https://graph.microsoft.com/beta/me/people/?$search=\"topic: contoso\"",
+    "requestUrl": "/beta/me/people/?$search=\"topic: contoso\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
 },
 {
     "category": "Extensions",
     "method": "GET",
     "humanName": "get an open extension",
-    "requestUrl": "https://graph.microsoft.com/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",
+    "requestUrl": "/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/opentypeextension"
 },
 {
@@ -650,7 +650,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Extensions",
     "method": "GET",
     "humanName": "filter groups by extension property value",
-    "requestUrl": "https://graph.microsoft.com/v1.0/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",
+    "requestUrl": "/v1.0/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions"
 },
 {

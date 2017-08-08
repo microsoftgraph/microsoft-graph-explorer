@@ -8,7 +8,7 @@ Getting Started,GET,my manager,/v1.0/me/manager,,https://developer.microsoft.com
 Users,GET,my direct reports,/v1.0/me/directReports,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports,AAD,,
 Users,GET,all users in the organization,/v1.0/users,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,
 Users,GET,all users in the Finance department,/v1.0/users?$filter=Department eq 'Finance',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,
-Users,GET,my skills,"https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,
+Users,GET,my skills,"/v1.0/me/?$select=displayName,skills",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,
 Users,GET,user by email,/v1.0/users/{user-mail},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,
 Users,GET,all my Planner tasks,/beta/me/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview,AAD,,
 Users,POST,create user,/v1.0/users,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users,AAD,"{
@@ -35,7 +35,7 @@ Users,POST,create user,/v1.0/users,,https://developer.microsoft.com/en-us/graph/
         ""usageLocation"": ""US"",
         ""userPrincipalName"": ""MelissaD@{domain}""
     }",Content-type: application/json
-Users,GET,track user changes,"https://graph.microsoft.com/v1.0/users/delta?$select=displayName,givenName,surname",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,
+Users,GET,track user changes,"/v1.0/users/delta?$select=displayName,givenName,surname",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,
 Groups,GET,all groups in my organization,/v1.0/groups,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/group,AAD,,
 Groups,GET,all groups I belong to,/v1.0/me/memberOf,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof,AAD,,
 ,,,,,,,,
@@ -44,10 +44,10 @@ Groups,GET,group's conversations,/v1.0/groups/{group-id}/conversations,"This que
 Groups,GET,group's events,/v1.0/groups/{group-id}/events,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events,AAD,,
 Groups,POST,add favorite group,/v1.0/groups/{group-id}/addFavorite,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite,AAD,,Content-type: application/json
 Groups,GET,items in a group drive,/v1.0/groups/{group-id}/drive/root/children,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get,AAD,,
-Groups,GET,track group changes,"https://graph.microsoft.com/v1.0/groups/delta?$select=displayName,description",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,
+Groups,GET,track group changes,"/v1.0/groups/delta?$select=displayName,description",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,
 Outlook Mail,GET,my high important mail,/v1.0/me/messages?$filter=importance eq 'high',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
 Outlook Mail,GET,my mails from an address,/v1.0/me/messages?$filter=(from/emailAddress/address) eq '{user-mail}',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Outlook Mail,GET,my mail that has 'Hello World',"https://graph.microsoft.com/v1.0/me/messages?$search=""hello world""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
+Outlook Mail,GET,my mail that has 'Hello World',"/v1.0/me/messages?$search=""hello world""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
 Outlook Mail,POST,send an email,/v1.0/me/sendMail,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail,BOTH,"{
         ""message"": {
             ""subject"": ""Meet for lunch?"",
@@ -75,9 +75,9 @@ Outlook Mail,POST,forward mail,/v1.0/me/messages/{message-id}/forward,"This quer
   ]
 }",Content-type: application/json
 Outlook Mail,GET,track email changes,/v1.0/me/mailFolders/Inbox/messages/delta,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages,AAD,,
-Outlook Mail (beta),GET,email I'm @ mentioned,"https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2,AAD,,
+Outlook Mail (beta),GET,email I'm @ mentioned,"/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2,AAD,,
 Outlook Calendar,GET,my events for the next week,/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview,BOTH,,
-Outlook Calendar,GET,all events in my calendar,"https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events,BOTH,,
+Outlook Calendar,GET,all events in my calendar,"/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events,BOTH,,
 Outlook Calendar,GET,all my calendars,/v1.0/me/calendars,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendars,BOTH,,
 ,,,,,,,,
 Outlook Calendar,POST,find meeting time,/v1.0/me/findMeetingTimes,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes,AAD,"{
@@ -145,12 +145,12 @@ Personal Contacts,POST,add contact,/v1.0/me/contacts,Update the Request Body and
 OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
 OneDrive,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 OneDrive,GET,files shared with me,/v1.0/me/drive/sharedWithMe,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,
-OneDrive,GET,all of my excel files,"https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
+OneDrive,GET,all of my excel files,"/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
 OneDrive,POST,create a folder,/v1.0/me/drive/root/children,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children,BOTH,"{
   ""name"": ""New Folder"",
   ""folder"": { }
 }",Content-type: application/json
-Excel,GET,all of my excel files,"https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
+Excel,GET,all of my excel files,"/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
 Excel,POST,create session,/v1.0/me/drive/items/{drive-item-id}/workbook/createSession,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel,AAD,"{ ""persistChanges"": true }",Content-type: application/json
 Excel,GET,worksheets in a workbook,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets,AAD,,
 Excel,POST,add a new worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
@@ -190,10 +190,10 @@ Insights,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.
 Insights (beta),GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
 Insights (beta),GET,people I work with,/beta/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,
 Insights (beta),GET,people whose name starts with J,/beta/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
-Insights (beta),GET,people relevant to a topic,"https://graph.microsoft.com/beta/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
+Insights (beta),GET,people relevant to a topic,"/beta/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
 ,,,,,,,,
 ,,,,,,,,
-Extensions,GET,get an open extension,"https://graph.microsoft.com/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/opentypeextension,AAD,,
+Extensions,GET,get an open extension,"/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/opentypeextension,AAD,,
 Extensions,POST,create an open extension,/v1.0/me/extensions,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/opentypeextension_post_opentypeextension,AAD,"{
   ""@odata.type"":""microsoft.graph.openTypeExtension"",    ""extensionName"":""com.contoso.roamingSettings"",
     ""theme"":""dark"",
@@ -206,7 +206,7 @@ Extensions,PATCH,update an open extension,/v1.0/me/extensions/{extension-id},,ht
     ""lang"":""Swahili""
 }",
 Extensions,GET,get available schema extensions,/v1.0/schemaExtensions,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,,
-Extensions,GET,filter groups by extension property value,"https://graph.microsoft.com/v1.0/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,,
+Extensions,GET,filter groups by extension property value,"/v1.0/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,,
 Extensions,POST,create a group with extension data,/v1.0/groups,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,"{
     ""displayName"": ""Extensions sample group"",
     ""description"": ""Extensions sample group"",
