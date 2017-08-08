@@ -240,5 +240,6 @@ export interface MessageBarContent {
 
 export let AllowedGraphDomains = [
     "https://graph.microsoft.com",
+    "https://canary.graph.microsoft.com",
     "https://microsoftgraph.chinacloudapi.cn"
 ]

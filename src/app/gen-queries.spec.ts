@@ -72,7 +72,7 @@ describe('Sample query validation', () => {
     substituteTokens(query);
     it(`GET query should execute: ${query.humanName}`, function(done) {
       substituteTokens(query);
-      graphService.performAnonymousQuery(query.method, query.requestUrl).then((res) => {
+      graphService.performAnonymousQuery(query.method, 'https://graph.microsoft.com' + query.requestUrl).then((res) => {
         if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
           let response = res.json();
           if (response && response.value && response.value.constructor === Array) {

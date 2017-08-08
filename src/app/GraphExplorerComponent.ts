@@ -4,7 +4,7 @@
 
 import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
-import { ExplorerValues, GraphApiCall, SampleQuery, GraphRequestHeader, substituteTokens } from "./base";
+import { GraphApiCall, SampleQuery, GraphRequestHeader, substituteTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
 import { isAuthenticated as isAuthHelper } from "./auth";
 import { QueryRunnerService } from "./query-runner.service";
@@ -47,7 +47,8 @@ export class GraphExplorerComponent {
       let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
       substituteTokens(query);
     
-      AppComponent.explorerValues.endpointUrl = query.requestUrl;
+      // set the endpoint url. if it's a relative path, add the configured graph URL
+      AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith("https://") ? query.requestUrl : AppComponent.Options.GraphUrl + query.requestUrl;
       AppComponent.explorerValues.selectedOption = query.method;
 
       if (query.headers) {

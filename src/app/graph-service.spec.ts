@@ -33,4 +33,10 @@ describe('Metadata download and parsing', () => {
       done.fail("Downloaded invalid metadata")
     }).catch(done);
   });
+
+  it('should download canary metadata', function(done) {
+    graphService.getMetadata("https://canary.graph.microsoft.com", "1.0").then(() => {
+      done.fail("Downloaded invalid metadata")
+    }).catch(done);
+  });
 });

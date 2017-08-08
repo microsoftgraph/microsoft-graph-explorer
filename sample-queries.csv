@@ -1,17 +1,17 @@
 Category Name,Type of Query,Query title (max length: 64 chars),Query URL,Tip (something we'll expose in the UI when a user makes a particular request),Doc Link,AAD or MSA,Post template,Headers
-Getting Started,GET,my profile,https://graph.microsoft.com/v1.0/me/,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,BOTH,,
-Getting Started,GET,my photo,https://graph.microsoft.com/v1.0/me/photo/$value,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get,BOTH,,
-Getting Started,GET,my mail,https://graph.microsoft.com/v1.0/me/messages,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Getting Started,GET,all the items in my drive,https://graph.microsoft.com/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
-Getting Started,GET,items trending around me,https://graph.microsoft.com/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
-Getting Started,GET,my manager,https://graph.microsoft.com/v1.0/me/manager,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager,AAD,,
-Users,GET,my direct reports,https://graph.microsoft.com/v1.0/me/directReports,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports,AAD,,
-Users,GET,all users in the organization,https://graph.microsoft.com/v1.0/users,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,
-Users,GET,all users in the Finance department,https://graph.microsoft.com/v1.0/users?$filter=Department eq 'Finance',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,
-Users,GET,my skills,"https://graph.microsoft.com/v1.0/me/?$select=displayName,skills",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,
-Users,GET,user by email,https://graph.microsoft.com/v1.0/users/{user-mail},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,
-Users,GET,all my Planner tasks,https://graph.microsoft.com/beta/me/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview,AAD,,
-Users,POST,create user,https://graph.microsoft.com/v1.0/users,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users,AAD,"{
+Getting Started,GET,my profile,/v1.0/me/,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,BOTH,,
+Getting Started,GET,my photo,/v1.0/me/photo/$value,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get,BOTH,,
+Getting Started,GET,my mail,/v1.0/me/messages,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
+Getting Started,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+Getting Started,GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
+Getting Started,GET,my manager,/v1.0/me/manager,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager,AAD,,
+Users,GET,my direct reports,/v1.0/me/directReports,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports,AAD,,
+Users,GET,all users in the organization,/v1.0/users,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,
+Users,GET,all users in the Finance department,/v1.0/users?$filter=Department eq 'Finance',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,AAD,,
+Users,GET,my skills,"/v1.0/me/?$select=displayName,skills",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,
+Users,GET,user by email,/v1.0/users/{user-mail},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user,AAD,,
+Users,GET,all my Planner tasks,/beta/me/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/planner_overview,AAD,,
+Users,POST,create user,/v1.0/users,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users,AAD,"{
         ""accountEnabled"": true,
         ""city"": ""Seattle"",
         ""country"": ""United States"",
@@ -35,20 +35,20 @@ Users,POST,create user,https://graph.microsoft.com/v1.0/users,,https://developer
         ""usageLocation"": ""US"",
         ""userPrincipalName"": ""MelissaD@{domain}""
     }",Content-type: application/json
-Users,GET,track user changes,"https://graph.microsoft.com/v1.0/users/delta?$select=displayName,givenName,surname",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,
-Groups,GET,all groups in my organization,https://graph.microsoft.com/v1.0/groups,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/group,AAD,,
-Groups,GET,all groups I belong to,https://graph.microsoft.com/v1.0/me/memberOf,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof,AAD,,
+Users,GET,track user changes,"/v1.0/users/delta?$select=displayName,givenName,surname",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_users,AAD,,
+Groups,GET,all groups in my organization,/v1.0/groups,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/group,AAD,,
+Groups,GET,all groups I belong to,/v1.0/me/memberOf,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_memberof,AAD,,
 ,,,,,,,,
-Groups,GET,group members,https://graph.microsoft.com/v1.0/groups/{group-id}/members,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_members,AAD,,
-Groups,GET,group's conversations,https://graph.microsoft.com/v1.0/groups/{group-id}/conversations,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_conversations,AAD,,
-Groups,GET,group's events,https://graph.microsoft.com/v1.0/groups/{group-id}/events,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events,AAD,,
-Groups,POST,add favorite group,https://graph.microsoft.com/v1.0/groups/{group-id}/addFavorite,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite,AAD,,Content-type: application/json
-Groups,GET,items in a group drive,https://graph.microsoft.com/v1.0/groups/{group-id}/drive/root/children,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get,AAD,,
-Groups,GET,track group changes,"https://graph.microsoft.com/v1.0/groups/delta?$select=displayName,description",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,
-Outlook Mail,GET,my high important mail,https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Outlook Mail,GET,my mails from an address,https://graph.microsoft.com/v1.0/me/messages?$filter=(from/emailAddress/address) eq '{user-mail}',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Outlook Mail,GET,my mail that has 'Hello World',"https://graph.microsoft.com/v1.0/me/messages?$search=""hello world""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Outlook Mail,POST,send an email,https://graph.microsoft.com/v1.0/me/sendMail,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail,BOTH,"{
+Groups,GET,group members,/v1.0/groups/{group-id}/members,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_members,AAD,,
+Groups,GET,group's conversations,/v1.0/groups/{group-id}/conversations,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_conversations,AAD,,
+Groups,GET,group's events,/v1.0/groups/{group-id}/events,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_events,AAD,,
+Groups,POST,add favorite group,/v1.0/groups/{group-id}/addFavorite,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_addfavorite,AAD,,Content-type: application/json
+Groups,GET,items in a group drive,/v1.0/groups/{group-id}/drive/root/children,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_get,AAD,,
+Groups,GET,track group changes,"/v1.0/groups/delta?$select=displayName,description",,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_groups,AAD,,
+Outlook Mail,GET,my high important mail,/v1.0/me/messages?$filter=importance eq 'high',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
+Outlook Mail,GET,my mails from an address,/v1.0/me/messages?$filter=(from/emailAddress/address) eq '{user-mail}',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
+Outlook Mail,GET,my mail that has 'Hello World',"/v1.0/me/messages?$search=""hello world""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
+Outlook Mail,POST,send an email,/v1.0/me/sendMail,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_sendmail,BOTH,"{
         ""message"": {
             ""subject"": ""Meet for lunch?"",
             ""body"": {
@@ -63,7 +63,7 @@ Outlook Mail,POST,send an email,https://graph.microsoft.com/v1.0/me/sendMail,Upd
                 }
             ]
         }}",Content-type: application/json
-Outlook Mail,POST,forward mail,https://graph.microsoft.com/v1.0/me/messages/{message-id}/forward,"This query requires a message id. To get the ID, run the following query, find the message in the response and use its ID property: GET https://graph.microsoft.com/v1.0/me/messages",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward,BOTH,"{
+Outlook Mail,POST,forward mail,/v1.0/me/messages/{message-id}/forward,"This query requires a message id. To get the ID, run the following query, find the message in the response and use its ID property: GET https://graph.microsoft.com/v1.0/me/messages",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/message_forward,BOTH,"{
   ""comment"": ""FYI"",
   ""toRecipients"": [
     {
@@ -74,13 +74,13 @@ Outlook Mail,POST,forward mail,https://graph.microsoft.com/v1.0/me/messages/{mes
     }
   ]
 }",Content-type: application/json
-Outlook Mail,GET,track email changes,https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages/delta,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages,AAD,,
-Outlook Mail (beta),GET,email I'm @ mentioned,"https://graph.microsoft.com/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2,AAD,,
-Outlook Calendar,GET,my events for the next week,https://graph.microsoft.com/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview,BOTH,,
-Outlook Calendar,GET,all events in my calendar,"https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events,BOTH,,
-Outlook Calendar,GET,all my calendars,https://graph.microsoft.com/v1.0/me/calendars,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendars,BOTH,,
+Outlook Mail,GET,track email changes,/v1.0/me/mailFolders/Inbox/messages/delta,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages,AAD,,
+Outlook Mail (beta),GET,email I'm @ mentioned,"/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2,AAD,,
+Outlook Calendar,GET,my events for the next week,/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview,BOTH,,
+Outlook Calendar,GET,all events in my calendar,"/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events,BOTH,,
+Outlook Calendar,GET,all my calendars,/v1.0/me/calendars,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendars,BOTH,,
 ,,,,,,,,
-Outlook Calendar,POST,find meeting time,https://graph.microsoft.com/v1.0/me/findMeetingTimes,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes,AAD,"{
+Outlook Calendar,POST,find meeting time,/v1.0/me/findMeetingTimes,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_findmeetingtimes,AAD,"{
         ""attendees"": [
             {
             ""emailAddress"": {
@@ -116,7 +116,7 @@ Outlook Calendar,POST,find meeting time,https://graph.microsoft.com/v1.0/me/find
         },
         ""meetingDuration"": ""PT1H""
         }",Content-type: application/json
-Outlook Calendar,POST,schedule a meeting,https://graph.microsoft.com/v1.0/me/events,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events,BOTH,"{
+Outlook Calendar,POST,schedule a meeting,/v1.0/me/events,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events,BOTH,"{
         ""subject"": ""My event"",
         ""start"": {
             ""dateTime"": ""{today}"",
@@ -127,9 +127,9 @@ Outlook Calendar,POST,schedule a meeting,https://graph.microsoft.com/v1.0/me/eve
             ""timeZone"": ""UTC""
         },
     }",Content-type: application/json
-Outlook Calendar,GET,track changes on my events for the next week,https://graph.microsoft.com/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week},"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events,BOTH,,
-Personal Contacts,GET,my contacts,https://graph.microsoft.com/v1.0/me/contacts,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_contacts,BOTH,,
-Personal Contacts,POST,add contact,https://graph.microsoft.com/v1.0/me/contacts,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts,BOTH,"{
+Outlook Calendar,GET,track changes on my events for the next week,/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week},"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events,BOTH,,
+Personal Contacts,GET,my contacts,/v1.0/me/contacts,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_contacts,BOTH,,
+Personal Contacts,POST,add contact,/v1.0/me/contacts,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts,BOTH,"{
     ""givenName"": ""Pavel"",
     ""surname"": ""Bansky"",
     ""emailAddresses"": [
@@ -142,72 +142,72 @@ Personal Contacts,POST,add contact,https://graph.microsoft.com/v1.0/me/contacts,
         ""+1 732 555 0102""
     ]
 }",Content-type: application/json
-OneDrive,GET,all the items in my drive,https://graph.microsoft.com/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
-OneDrive,GET,my recent files,https://graph.microsoft.com/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
-OneDrive,GET,files shared with me,https://graph.microsoft.com/v1.0/me/drive/sharedWithMe,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,
-OneDrive,GET,all of my excel files,"https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
-OneDrive,POST,create a folder,https://graph.microsoft.com/v1.0/me/drive/root/children,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children,BOTH,"{
+OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+OneDrive,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
+OneDrive,GET,files shared with me,/v1.0/me/drive/sharedWithMe,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,
+OneDrive,GET,all of my excel files,"/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
+OneDrive,POST,create a folder,/v1.0/me/drive/root/children,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children,BOTH,"{
   ""name"": ""New Folder"",
   ""folder"": { }
 }",Content-type: application/json
-Excel,GET,all of my excel files,"https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
-Excel,POST,create session,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/createSession,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel,AAD,"{ ""persistChanges"": true }",Content-type: application/json
-Excel,GET,worksheets in a workbook,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets,AAD,,
-Excel,POST,add a new worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
+Excel,GET,all of my excel files,"/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
+Excel,POST,create session,/v1.0/me/drive/items/{drive-item-id}/workbook/createSession,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel,AAD,"{ ""persistChanges"": true }",Content-type: application/json
+Excel,GET,worksheets in a workbook,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets,AAD,,
+Excel,POST,add a new worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
   ""name"": ""My New Sheet""
 }",Content-type: application/json
-Excel,GET,used range in worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange,AAD,,
-Excel,GET,tables in worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/tables,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,
-Excel,GET,charts in worksheet,https://graph.microsoft.com/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/charts,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts,AAD,,
-Planner,GET,all Planner plans associated with a group,https://graph.microsoft.com/v1.0/groups/{group-id-with-plan}/planner/plans,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannergroup_list_plans,AAD,,
-Planner,GET,Planner plan,https://graph.microsoft.com/v1.0/planner/plans/{plan-id},This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_get,AAD,,
-Planner,PATCH,update a Planner plan,https://graph.microsoft.com/v1.0/planner/plans/{plan-id},"This query requires a Plan ID and value of @odata.etag for a selected task. To find the ID of the Plan, you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks. To get the @odata.etag, run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_update,AAD,"{
+Excel,GET,used range in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange,AAD,,
+Excel,GET,tables in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/tables,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,
+Excel,GET,charts in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/charts,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts,AAD,,
+Planner,GET,all Planner plans associated with a group,/v1.0/groups/{group-id-with-plan}/planner/plans,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannergroup_list_plans,AAD,,
+Planner,GET,Planner plan,/v1.0/planner/plans/{plan-id},This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_get,AAD,,
+Planner,PATCH,update a Planner plan,/v1.0/planner/plans/{plan-id},"This query requires a Plan ID and value of @odata.etag for a selected task. To find the ID of the Plan, you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks. To get the @odata.etag, run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_update,AAD,"{
     ""title"": ""Updated plan title""
 }",If-Match: {if-match}
-Planner,GET,all buckets in Planner plan,https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/buckets,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_buckets,AAD,,
-Planner,POST,create a bucket in Planner plan,https://graph.microsoft.com/v1.0/planner/buckets,This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/plans,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_buckets,AAD,"{
+Planner,GET,all buckets in Planner plan,/v1.0/planner/plans/{plan-id}/buckets,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_buckets,AAD,,
+Planner,POST,create a bucket in Planner plan,/v1.0/planner/buckets,This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/plans,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_buckets,AAD,"{
   ""name"": ""{bucket-name}"",
   ""planId"": ""{plan-id}"",
   ""orderHint"": "" !""
 }",Content-type: application/json
-Planner,PATCH,update a bucket in Planner plan,https://graph.microsoft.com/v1.0/planner/buckets/{bucket-id},This query requires a bucket id and value of @odata.etag for a selected bucket.  To find the ID of the bucket run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/buckets and then run: GET https://graph.microsoft.com/v1.0/planner/buckets/{bucket-id} to discover @odata.etag,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerbucket_update,AAD,"{
+Planner,PATCH,update a bucket in Planner plan,/v1.0/planner/buckets/{bucket-id},This query requires a bucket id and value of @odata.etag for a selected bucket.  To find the ID of the bucket run: GET https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/buckets and then run: GET https://graph.microsoft.com/v1.0/planner/buckets/{bucket-id} to discover @odata.etag,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerbucket_update,AAD,"{
     ""name"": ""Updated bucket name""
 }",If-Match: {if-match}
-Planner,GET,all Planner tasks for a plan,https://graph.microsoft.com/v1.0/planner/plans/{plan-id}/tasks,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_tasks,AAD,,
-Planner,GET,all my Planner tasks,https://graph.microsoft.com/v1.0/me/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/planner_overview,AAD,,
-Planner,GET,all Planner tasks for user,https://graph.microsoft.com/v1.0/users/{user-mail}/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks,AAD,,
-Planner,GET,Planner task by id,https://graph.microsoft.com/v1.0/planner/tasks/{task-id},This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_get,AAD,,
-Planner,POST,create a Planner task,https://graph.microsoft.com/v1.0/planner/tasks,This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_tasks,AAD,"{
+Planner,GET,all Planner tasks for a plan,/v1.0/planner/plans/{plan-id}/tasks,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_tasks,AAD,,
+Planner,GET,all my Planner tasks,/v1.0/me/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/planner_overview,AAD,,
+Planner,GET,all Planner tasks for user,/v1.0/users/{user-mail}/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks,AAD,,
+Planner,GET,Planner task by id,/v1.0/planner/tasks/{task-id},This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_get,AAD,,
+Planner,POST,create a Planner task,/v1.0/planner/tasks,This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_tasks,AAD,"{
   ""planId"": ""{plan-id}"",
   ""title"": ""{task-title}"",
   ""assignments"": {}
 }",Content-type: application/json
-Planner,PATCH,update a Planner task,https://graph.microsoft.com/v1.0//planner/tasks/{task-id},This query requires a task id and value of @odata.etag for a selected task.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update,AAD,"{
+Planner,PATCH,update a Planner task,/v1.0//planner/tasks/{task-id},This query requires a task id and value of @odata.etag for a selected task.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update,AAD,"{
     ""title"": ""Updated task title""
 }",If-Match: {if-match}
-Planner,GET,details for Planner task,https://graph.microsoft.com/v1.0/planner/tasks/{task-id}/details,This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertaskdetails_get,AAD,,
-Insights,GET,my recent files,https://graph.microsoft.com/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
-Insights (beta),GET,items trending around me,https://graph.microsoft.com/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
-Insights (beta),GET,people I work with,https://graph.microsoft.com/beta/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,
-Insights (beta),GET,people whose name starts with J,https://graph.microsoft.com/beta/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
-Insights (beta),GET,people relevant to a topic,"https://graph.microsoft.com/beta/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
+Planner,GET,details for Planner task,/v1.0/planner/tasks/{task-id}/details,This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertaskdetails_get,AAD,,
+Insights,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
+Insights (beta),GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
+Insights (beta),GET,people I work with,/beta/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,
+Insights (beta),GET,people whose name starts with J,/beta/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
+Insights (beta),GET,people relevant to a topic,"/beta/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
 ,,,,,,,,
 ,,,,,,,,
-Extensions,GET,get an open extension,"https://graph.microsoft.com/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/opentypeextension,AAD,,
-Extensions,POST,create an open extension,https://graph.microsoft.com/v1.0/me/extensions,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/opentypeextension_post_opentypeextension,AAD,"{
+Extensions,GET,get an open extension,"/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/opentypeextension,AAD,,
+Extensions,POST,create an open extension,/v1.0/me/extensions,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/opentypeextension_post_opentypeextension,AAD,"{
   ""@odata.type"":""microsoft.graph.openTypeExtension"",    ""extensionName"":""com.contoso.roamingSettings"",
     ""theme"":""dark"",
     ""color"":""purple"",
     ""lang"":""Japanese""
 }",Content-type: application/json
-Extensions,PATCH,update an open extension,https://graph.microsoft.com/v1.0/me/extensions/{extension-id},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/opentypeextension_update,AAD,"{
+Extensions,PATCH,update an open extension,/v1.0/me/extensions/{extension-id},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/opentypeextension_update,AAD,"{
     ""theme"":""light"",
     ""color"":""yellow"",
     ""lang"":""Swahili""
 }",
-Extensions,GET,get available schema extensions,https://graph.microsoft.com/v1.0/schemaExtensions,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,,
-Extensions,GET,filter groups by extension property value,"https://graph.microsoft.com/v1.0/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,,
-Extensions,POST,create a group with extension data,https://graph.microsoft.com/v1.0/groups,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,"{
+Extensions,GET,get available schema extensions,/v1.0/schemaExtensions,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,,
+Extensions,GET,filter groups by extension property value,"/v1.0/groups?$filter=adatumisv_courses/id eq '123'&$select=id,displayName,adatumisv_courses",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,,
+Extensions,POST,create a group with extension data,/v1.0/groups,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,"{
     ""displayName"": ""Extensions sample group"",
     ""description"": ""Extensions sample group"",
     ""groupTypes"": [""Unified""],
@@ -220,23 +220,23 @@ Extensions,POST,create a group with extension data,https://graph.microsoft.com/v
         ""type"":""Online""
     }
 }",
-Extensions,PATCH,update a group with extension data,https://graph.microsoft.com/v1.0/groups/{group-id},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,"{
+Extensions,PATCH,update a group with extension data,/v1.0/groups/{group-id},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/schemaextension_post_schemaextensions,AAD,"{
    ""adatumisv_courses"": {
         ""id"":""123"",
         ""name"":""New Managers"",
         ""type"":""Online""
     }
 }",
-OneNote,GET,my notebooks,https://graph.microsoft.com/v1.0/me/onenote/notebooks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/onenote,BOTH,,
-OneNote,GET,my sections,https://graph.microsoft.com/v1.0/me/onenote/sections,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/section,BOTH,,
-OneNote,GET,my pages,https://graph.microsoft.com/v1.0/me/onenote/pages,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_list_pages,BOTH,,
-OneNote,POST,create notebook,https://graph.microsoft.com/v1.0/me/onenote/notebooks,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/onenote_post_notebooks,BOTH,"{
+OneNote,GET,my notebooks,/v1.0/me/onenote/notebooks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/onenote,BOTH,,
+OneNote,GET,my sections,/v1.0/me/onenote/sections,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/section,BOTH,,
+OneNote,GET,my pages,/v1.0/me/onenote/pages,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_list_pages,BOTH,,
+OneNote,POST,create notebook,/v1.0/me/onenote/notebooks,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/onenote_post_notebooks,BOTH,"{
   ""displayName"": ""My Notebook""
 }",
-OneNote,POST,create section,https://graph.microsoft.com/v1.0/me/onenote/notebooks/{notebook-id}/sections,"This query requires a notebook id.  To find the ID, you can run: GET https://graph.microsoft.com/v1.0/me/onenote/notebooks. ",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/notebook_post_sections,BOTH,"{
+OneNote,POST,create section,/v1.0/me/onenote/notebooks/{notebook-id}/sections,"This query requires a notebook id.  To find the ID, you can run: GET https://graph.microsoft.com/v1.0/me/onenote/notebooks. ",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/notebook_post_sections,BOTH,"{
   ""displayName"": ""Section 1""
 }",Content-type: application/json
-OneNote,POST,create page,https://graph.microsoft.com/v1.0/me/onenote/sections/{section-id}/pages,"This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/v1.0/me/onenote/sections.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_post_pages,BOTH,"
+OneNote,POST,create page,/v1.0/me/onenote/sections/{section-id}/pages,"This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/v1.0/me/onenote/sections.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_post_pages,BOTH,"
 --MyPartBoundary198374
 Content-Disposition:form-data; name=""Presentation""
 Content-Type:text/html
@@ -270,13 +270,13 @@ Content-Type:application/pdf
 ... binary file data ...
 
 --MyPartBoundary198374--",Content-type: multipart/form-data; boundary: MyPartBoundary198374
-SharePoint Sites,GET,my organization's default SharePoint site,https://graph.microsoft.com/v1.0/sites/root,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,
-SharePoint Sites,GET,Enumerate the document libraries under the root site,https://graph.microsoft.com/v1.0/sites/root/drives,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/baseitem_getbyurl,AAD,,
-SharePoint Sites,GET,SharePoint site based on relative path of the site,https://graph.microsoft.com/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list,AAD,,
-SharePoint Sites,GET,Search for a SharePoint site by keyword,https://graph.microsoft.com/v1.0/sites?search=contoso,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
-SharePoint Sites,GET,Enumerate subsites of the root site,https://graph.microsoft.com/v1.0/sites/root/sites,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
-Batching (beta),POST,Perform parrallel GETs,https://graph.microsoft.com/beta/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
-Batching (beta),POST,Combine a POST and a GET,https://graph.microsoft.com/beta/$batch,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{
+SharePoint Sites,GET,my organization's default SharePoint site,/v1.0/sites/root,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,
+SharePoint Sites,GET,Enumerate the document libraries under the root site,/v1.0/sites/root/drives,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/baseitem_getbyurl,AAD,,
+SharePoint Sites,GET,SharePoint site based on relative path of the site,/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list,AAD,,
+SharePoint Sites,GET,Search for a SharePoint site by keyword,/v1.0/sites?search=contoso,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
+SharePoint Sites,GET,Enumerate subsites of the root site,/v1.0/sites/root/sites,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
+Batching (beta),POST,Perform parrallel GETs,/beta/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
+Batching (beta),POST,Combine a POST and a GET,/beta/$batch,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{
  ""requests"": [{
    ""url"": ""/me/drive/root/children"",
    ""method"": ""POST"",
@@ -297,15 +297,15 @@ Batching (beta),POST,Combine a POST and a GET,https://graph.microsoft.com/beta/$
  ]
 } ",Content-type: application/json
 ,,,,,,,,
-Microsoft Teams (beta),GET,my joined teams,https://graph.microsoft.com/beta/me/joinedTeams,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams,,,
-Microsoft Teams (beta),GET,members of a team,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,
-Microsoft Teams (beta),GET,channels of a team which I am member of,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
-Microsoft Teams (beta),GET,channel info,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels/{channel-id},"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
-Microsoft Teams (beta),POST,create channel,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
+Microsoft Teams (beta),GET,my joined teams,/beta/me/joinedTeams,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams,,,
+Microsoft Teams (beta),GET,members of a team,/beta/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,
+Microsoft Teams (beta),GET,channels of a team which I am member of,/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
+Microsoft Teams (beta),GET,channel info,/beta/groups/{group-id-for-teams}/channels/{channel-id},"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
+Microsoft Teams (beta),POST,create channel,/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
    ""displayName"": ""Architecture Discussion"",		
    ""description"": ""This channel is where we debate all future architecture plans""		
  }",
-Microsoft Teams (beta),POST,create chat thread,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels/{channel-id}/chatThreads,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
+Microsoft Teams (beta),POST,create chat thread,/beta/groups/{group-id-for-teams}/channels/{channel-id}/chatThreads,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
 ""rootMessage"": {
        ""body"": {
          ""contentType"": 2,		
@@ -313,4 +313,4 @@ Microsoft Teams (beta),POST,create chat thread,https://graph.microsoft.com/beta/
        }		
    }		
  }",
-Microsoft Teams (beta),GET,items in a team drive,https://graph.microsoft.com/beta/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,
+Microsoft Teams (beta),GET,items in a team drive,/beta/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,

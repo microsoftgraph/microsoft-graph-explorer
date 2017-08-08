@@ -31,7 +31,7 @@ export class GraphService {
         let sentToGraph = false;
 
         for (let domain of AllowedGraphDomains) {
-            if (query.indexOf(domain) !== -1) {
+            if (query.startsWith(domain)) {
                 sentToGraph = true;
                 break;
             }
