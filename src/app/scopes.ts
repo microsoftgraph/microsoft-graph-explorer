@@ -352,14 +352,14 @@ export const PermissionScopes: PermissionScope[] = [
    admin: true,
  },
  {
-   name: "DeviceManagementServiceConfiguration.Read.All",
+   name: "DeviceManagementServiceConfig.Read.All",
    description: "Read Microsoft Intune configuration (preview)",
    longDescription: "Allows the app to read Microsoft Intune service properties including device enrollment and third party service connection configuration.",
    preview: true,
    admin: true,
  },
  {
-   name: "DeviceManagementServiceConfiguration.ReadWrite.All",
+   name: "DeviceManagementServiceConfig.ReadWrite.All",
    description: "Read and write Microsoft Intune configuration (preview)",
    longDescription: "Allows the app to read and write Microsoft Intune service properties including device enrollment and third party service connection configuration.",
    preview: true,
