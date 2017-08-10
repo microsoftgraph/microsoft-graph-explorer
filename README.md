@@ -35,6 +35,20 @@ the sample tenant.  These tokens are maintained in [tokens.ts](src/app/tokens.ts
 
 When you send a pull request, please commit both the `sample-queries.csv` and the `src/app/gen-queries.ts` file. We will then review your sample queries, and ensure our demo tenant has some sample data for that query.
 
+#### Permissions
+
+Permissions like `Mail.Read` are listed in [scopes.ts](src/app/scopes.ts) and each permission has a few properties, like its name and description.
+
+```javascript
+ {
+   name: "Calendars.ReadWrite",
+   description: "Have full access to user calendars",
+   longDescription: "Allows the app to create, read, update, and delete events in user calendars.",
+   preview: false,
+   admin: false
+ }
+```
+Edits to this file can be made directly from Github.com so you don't even have to clone the project to add a new permission.  You can also see [a merged pull request](https://github.com/microsoftgraph/microsoft-graph-explorer/pull/48) for adding the `Reports.Read.All` permission.
 
 ## Additional resources
 * [Microsoft Graph website](https://graph.microsoft.io)
