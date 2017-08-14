@@ -145,12 +145,11 @@ Personal Contacts,POST,add contact,/v1.0/me/contacts,Update the Request Body and
 OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
 OneDrive,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 OneDrive,GET,files shared with me,/v1.0/me/drive/sharedWithMe,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,
-OneDrive,GET,all of my excel files,"/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
+OneDrive,GET,search my OneDrive,"/v1.0/me/drive/root/search(q='finance')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
 OneDrive,POST,create a folder,/v1.0/me/drive/root/children,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_post_children,BOTH,"{
   ""name"": ""New Folder"",
   ""folder"": { }
 }",Content-type: application/json
-Excel,GET,all of my excel files,"/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
 Excel,POST,create session,/v1.0/me/drive/items/{drive-item-id}/workbook/createSession,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/excel,AAD,"{ ""persistChanges"": true }",Content-type: application/json
 Excel,GET,worksheets in a workbook,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/workbook_list_worksheets,AAD,,
 Excel,POST,add a new worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
