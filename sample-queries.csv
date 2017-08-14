@@ -125,7 +125,7 @@ Outlook Calendar,POST,schedule a meeting,/v1.0/me/events,Update the Request Body
         ""end"": {
             ""dateTime"": ""{next-week}"",
             ""timeZone"": ""UTC""
-        },
+        }
     }",Content-type: application/json
 Outlook Calendar,GET,track changes on my events for the next week,/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week},"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events,BOTH,,
 Personal Contacts,GET,my contacts,/v1.0/me/contacts,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_contacts,BOTH,,
