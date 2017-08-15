@@ -293,7 +293,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n        \"subject\": \"My event\",\n        \"start\": {\n            \"dateTime\": \"{today}\",\n            \"timeZone\": \"UTC\"\n        },\n        \"end\": {\n            \"dateTime\": \"{next-week}\",\n            \"timeZone\": \"UTC\"\n        },\n    }",
+    "postBody": "{\n        \"subject\": \"My event\",\n        \"start\": {\n            \"dateTime\": \"{today}\",\n            \"timeZone\": \"UTC\"\n        },\n        \"end\": {\n            \"dateTime\": \"{next-week}\",\n            \"timeZone\": \"UTC\"\n        }\n    }",
     "tip": "Update the Request Body and select Run Query."
 },
 {
@@ -350,8 +350,8 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "OneDrive",
     "method": "GET",
-    "humanName": "all of my excel files",
-    "requestUrl": "/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
+    "humanName": "search my OneDrive",
+    "requestUrl": "/v1.0/me/drive/root/search(q='finance')?select=name,id,webUrl",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
 },
 {
@@ -368,13 +368,6 @@ export const SampleQueries: SampleQuery[] = [
     ],
     "postBody": "{\n  \"name\": \"New Folder\",\n  \"folder\": { }\n}",
     "tip": "Update the Request Body and select Run Query."
-},
-{
-    "category": "Excel",
-    "method": "GET",
-    "humanName": "all of my excel files",
-    "requestUrl": "/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search"
 },
 {
     "category": "Excel",

@@ -180,5 +180,6 @@
   "update an open extension": "update an open extension",
   "user by email": "user by email",
 
-  "explorer-error": "We had an issue sending this request to the Graph API.  For assistance, connect with us on StackOverflow with the tag [microsoftgraph]."
+  "explorer-error": "We had an issue sending this request to the Graph API.  For assistance, connect with us on StackOverflow with the tag [microsoftgraph].",
+  "search my OneDrive": "search my OneDrive"
 }
