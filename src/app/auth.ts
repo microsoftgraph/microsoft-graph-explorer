@@ -10,8 +10,6 @@ import { GraphService } from "./graph-service";
 import { PermissionScopes } from "./scopes";
 import { getParameterByName } from "./util";
 
-declare const hello: any;
-
 export function initAuth(options:ExplorerOptions, apiService:GraphService, changeDetectorRef: ChangeDetectorRef) {
 	setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
 	hello.init({
@@ -38,7 +36,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 			// This means no POST operations in <=IE9
 			form: false
 		}
-	});
+	} as any);
 
 	hello.init({
 			msft: options.ClientId,
@@ -118,7 +116,11 @@ export function refreshAccessToken() {
 		domain_hint: 'organizations'
 	}
 
-	hello('msft').login(loginProperties).then((a) => {
+	// hellojs might have a bug with their types for .login()
+	// https://github.com/MrSwitch/hello.js/issues/514
+
+	const silentLoginRequest: Promise<void> = hello('msft').login(loginProperties) as any;
+	silentLoginRequest.then(() => {
 		console.log("Successfully refreshed access token.", new Date())
 	}, (e) => {
 		console.error("Error refreshing access token", e, new Date());
