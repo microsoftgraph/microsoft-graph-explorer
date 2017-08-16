@@ -239,13 +239,6 @@ export const PermissionScopes: PermissionScope[] = [
    preview: false,
    admin: false,
  },
-{
-   name: "People.Read.All",
-   description: "Read all users' relevant people lists and search the directory",
-   longDescription: "Allows the app to read a scored list of relevant people of the signed-in user or other users in the signed-in user's organization. The list can include local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
-   preview: false,
-   admin: false,
- },
  {
    name: "Sites.Read.All",
    description: "Read items in all site collections",
@@ -350,6 +343,13 @@ export const PermissionScopes: PermissionScope[] = [
    longDescription: "Allows the app to read and write the full set of profile properties, reports, and managers of other users in your organization, on behalf of the signed-in user.",
    preview: false,
    admin: true,
+ },
+ {
+  name: "People.Read.All",
+  description: "Read all users' relevant people lists and search the directory",
+  longDescription: "Allows the app to read a scored list of relevant people of the signed-in user or other users in the signed-in user's organization. The list can include local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
+  preview: false,
+  admin: true,
  },
  {
    name: "IdentityRiskEvent.Read.All",
