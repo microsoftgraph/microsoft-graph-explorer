@@ -232,11 +232,18 @@ export const PermissionScopes: PermissionScope[] = [
    preview: true,
    admin: false,
  },
- {
+{
    name: "People.Read",
-   description: "Read users' relevant people lists (preview)",
-   longDescription: "Allows the app to read a ranked list of relevant people of the signed-in user. The list includes local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
-   preview: true,
+   description: "Read all users' relevant people lists and search your directory",
+   longDescription: "Allows the app to read a scored list of relevant people of the signed-in user. The list includes local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
+   preview: false,
+   admin: false,
+ },
+{
+   name: "People.Read.All",
+   description: "Read all users' relevant people lists and search the directory",
+   longDescription: "Allows the app to read a scored list of relevant people of the signed-in user or other users in the signed-in user's organization. The list can include local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
+   preview: false,
    admin: false,
  },
  {
