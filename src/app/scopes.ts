@@ -156,13 +156,6 @@ export const PermissionScopes: PermissionScope[] = [
    admin: false,
  },
  {
-   name: "offline_access",
-   description: "Access user's data anytime (preview)",
-   longDescription: "Allows the app to read and update user data, even when they are not currently using the app.",
-   preview: false,
-   admin: false,
- },
- {
    name: "openid",
    description: "Sign users in (preview)",
    longDescription: "Allows users to sign in to the app with their work or school accounts and allows the app to see basic user profile information.",
