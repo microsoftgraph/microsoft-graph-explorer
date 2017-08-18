@@ -27,7 +27,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
   login() {
       let loginProperties = {
-        display: 'popup',
+        display: 'page',
         response_type: "id_token token",
         response_mode: "fragment",
         nonce: 'graph_explorer',
