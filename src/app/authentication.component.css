@@ -42,3 +42,8 @@
 #signout, #manage-permissions {
     margin-top: 9px;
 }
+
+#persona-holder {
+    margin-top: 15px;
+    margin-bottom: -15px;
+}
