@@ -75,3 +75,7 @@ button.c-button[type=submit]:focus:not(.x-hidden-focus) {
         margin-top: 20px;
     }
 }
+
+:host /deep/ button {
+    line-height: 1;
+}
