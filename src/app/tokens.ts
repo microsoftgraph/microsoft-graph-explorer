@@ -57,7 +57,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "host-name",
-    demoTenantValue: "cie493742.sharepoint.com",
+    demoTenantValue: "M365x214355.sharepoint.com",
   },
   {
     placeholder: "server-relative-path",
