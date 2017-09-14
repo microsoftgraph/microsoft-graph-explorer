@@ -519,7 +519,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Planner",
     "method": "GET",
     "humanName": "all Planner tasks for user",
-    "requestUrl": "/v1.0/users/{user-mail}/planner/tasks",
+    "requestUrl": "/v1.0/users/{coworker-mail}/planner/tasks",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks"
 },
 {

@@ -79,7 +79,10 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "coworker-mail",
-    demoTenantValue: "meganb@M365x214355.onmicrosoft.com"
+    demoTenantValue: "meganb@M365x214355.onmicrosoft.com",
+    authenticatedUserValueFn: () => {
+      return AppComponent.explorerValues.authentication.user.emailAddress;
+    }    
   },
   {
     placeholder: "next-week",

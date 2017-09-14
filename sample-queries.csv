@@ -174,7 +174,7 @@ Planner,PATCH,update a bucket in Planner plan,/v1.0/planner/buckets/{bucket-id},
 }",If-Match: {if-match}
 Planner,GET,all Planner tasks for a plan,/v1.0/planner/plans/{plan-id}/tasks,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_tasks,AAD,,
 Planner,GET,all my Planner tasks,/v1.0/me/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/planner_overview,AAD,,
-Planner,GET,all Planner tasks for user,/v1.0/users/{user-mail}/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks,AAD,,
+Planner,GET,all Planner tasks for user,/v1.0/users/{coworker-mail}/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks,AAD,,
 Planner,GET,Planner task by id,/v1.0/planner/tasks/{task-id},This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_get,AAD,,
 Planner,POST,create a Planner task,/v1.0/planner/tasks,This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_tasks,AAD,"{
   ""planId"": ""{plan-id}"",
