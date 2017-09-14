@@ -13,11 +13,11 @@ import { AppComponent } from "./app.component";
 export const Tokens: Token[] = [
   {
     placeholder: "group-id",
-    demoTenantValue: "8f4e3cfd-432d-4b9a-b801-f424aaf08ca1",
+    demoTenantValue: "02bd9fd6-8f93-4758-87c3-1fb73740a315",
   },
   {
     placeholder: "drive-item-id",
-    demoTenantValue: "01ZDJCYOZPW7IKQNDL3NHZVRODY2GC2YKW",
+    demoTenantValue: "01BYE5RZZ5OJSCSRM6BZDY7ZEFZ3NJ2QAY",
   },
   {
     placeholder: "section-id",
@@ -29,11 +29,11 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "group-id-with-plan",
-    demoTenantValue: "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
+    demoTenantValue: "1e770bc2-3c5f-487f-871f-16fbdf1c8ed8",
   },
   {
     placeholder: "plan-id",
-    demoTenantValue: "RVBp6oJJt0K5f6Lq42zBK2UAA-Rs",
+    demoTenantValue: "CONGZUWfGUu4msTgNP66e2UAAySi",
   },
   {
     placeholder: "{bucket-id}",
@@ -45,7 +45,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "task-id",
-    demoTenantValue: "9jBI6WHDwk60lEWpL4TQ92UAGLhh",
+    demoTenantValue: "oIx3zN98jEmVOM-4mUJzSGUANeje",
   },
   {
     placeholder: "task-title",
@@ -65,11 +65,11 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "group-id-for-teams",
-    demoTenantValue: "d2b6c7fe-f440-446b-99d8-9ac12e036bf0",
+    demoTenantValue: "02bd9fd6-8f93-4758-87c3-1fb73740a315",
   },
   {
     placeholder: "channel-id",
-    demoTenantValue: "ee3f919c-28e1-4659-86d2-8e37e581335c",
+    demoTenantValue: "d0bba23c-2fc8-4139-9112-5a43a54cc30e",
   },
   {
     placeholder: "today",
@@ -79,7 +79,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "coworker-mail",
-    demoTenantValue: "alans@CIE493742.onmicrosoft.com"
+    demoTenantValue: "meganb@M365x214355.onmicrosoft.com"
   },
   {
     placeholder: "next-week",
@@ -92,7 +92,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "user-mail",
-    demoTenantValue: "annew@CIE493742.onmicrosoft.com",
+    demoTenantValue: "MiriamG@M365x214355.onmicrosoft.com",
     authenticatedUserValueFn: () => {
       return AppComponent.explorerValues.authentication.user.emailAddress;
     }
