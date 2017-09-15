@@ -587,21 +587,21 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "people I work with",
     "requestUrl": "/v1.0/me/people",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_people"
 },
 {
     "category": "People",
     "method": "GET",
     "humanName": "people whose name starts with J",
     "requestUrl": "/v1.0/me/people/?$search=j",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get"
 },
 {
     "category": "People",
     "method": "GET",
     "humanName": "people relevant to a topic",
     "requestUrl": "/v1.0/me/people/?$search=\"topic: contoso\"",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get"
 },
 {
     "category": "Extensions",
@@ -776,7 +776,7 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Batching (beta)",
     "method": "POST",
-    "humanName": "Perform parrallel GETs",
+    "humanName": "Perform parallel GETs",
     "requestUrl": "/beta/$batch",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching",
     "headers": [

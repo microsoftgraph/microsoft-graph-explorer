@@ -61,7 +61,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "server-relative-path",
-    demoTenantValue: "sites/Contoso/Operations/Manufacturing",
+    demoTenantValue: "sites/contoso/Departments/SM/MarketingDocuments",
   },
   {
     placeholder: "group-id-for-teams",
