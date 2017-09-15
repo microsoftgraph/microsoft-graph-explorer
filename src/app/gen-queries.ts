@@ -583,24 +583,24 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
 },
 {
-    "category": "Insights (beta)",
+    "category": "People",
     "method": "GET",
     "humanName": "people I work with",
-    "requestUrl": "/beta/me/people",
+    "requestUrl": "/v1.0/me/people",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
 },
 {
-    "category": "Insights (beta)",
+    "category": "People",
     "method": "GET",
     "humanName": "people whose name starts with J",
-    "requestUrl": "/beta/me/people/?$search=j",
+    "requestUrl": "/v1.0/me/people/?$search=j",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
 },
 {
-    "category": "Insights (beta)",
+    "category": "People",
     "method": "GET",
     "humanName": "people relevant to a topic",
-    "requestUrl": "/beta/me/people/?$search=\"topic: contoso\"",
+    "requestUrl": "/v1.0/me/people/?$search=\"topic: contoso\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
 },
 {

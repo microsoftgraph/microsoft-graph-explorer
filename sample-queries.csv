@@ -187,9 +187,9 @@ Planner,PATCH,update a Planner task,/v1.0//planner/tasks/{task-id},This query re
 Planner,GET,details for Planner task,/v1.0/planner/tasks/{task-id}/details,This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertaskdetails_get,AAD,,
 Insights,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 Insights (beta),GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
-Insights (beta),GET,people I work with,/beta/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,
-Insights (beta),GET,people whose name starts with J,/beta/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
-Insights (beta),GET,people relevant to a topic,"/beta/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
+People,GET,people I work with,/v1.0/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,
+People,GET,people whose name starts with J,/v1.0/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
+People,GET,people relevant to a topic,"/v1.0/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
 ,,,,,,,,
 ,,,,,,,,
 Extensions,GET,get an open extension,"/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/opentypeextension,AAD,,
@@ -274,7 +274,7 @@ SharePoint Sites,GET,Enumerate the document libraries under the root site,/v1.0/
 SharePoint Sites,GET,SharePoint site based on relative path of the site,/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list,AAD,,
 SharePoint Sites,GET,Search for a SharePoint site by keyword,/v1.0/sites?search=contoso,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
 SharePoint Sites,GET,Enumerate subsites of the root site,/v1.0/sites/root/sites,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
-Batching (beta),POST,Perform parrallel GETs,/beta/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
+Batching (beta),POST,Perform parallel GETs,/beta/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
 Batching (beta),POST,Combine a POST and a GET,/beta/$batch,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{
  ""requests"": [{
    ""url"": ""/me/drive/root/children"",
