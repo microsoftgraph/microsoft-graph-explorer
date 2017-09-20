@@ -409,6 +409,21 @@ export const SampleQueries: SampleQuery[] = [
 },
 {
     "category": "Excel",
+    "method": "POST",
+    "humanName": "calculate loan payment",
+    "requestUrl": "/v1.0/me/drive/items/{drive-item-id}/workbook/functions/pmt",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/workbook#functions",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{ \n \"rate\": 0.035, \n \"nper\": 20, \n \"pv\": -2000 \n}",
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
+},
+{
+    "category": "Excel",
     "method": "GET",
     "humanName": "used range in worksheet",
     "requestUrl": "/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange",
@@ -549,7 +564,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Planner",
     "method": "PATCH",
     "humanName": "update a Planner task",
-    "requestUrl": "/v1.0//planner/tasks/{task-id}",
+    "requestUrl": "/v1.0/planner/tasks/{task-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update",
     "headers": [
         {
@@ -581,6 +596,20 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "items trending around me",
     "requestUrl": "/beta/me/insights/trending",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "items shared with me",
+    "requestUrl": "/beta/me/insights/shared",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_shared"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "items viewed and modified by me",
+    "requestUrl": "/beta/me/insights/used",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_used"
 },
 {
     "category": "People",
@@ -785,7 +814,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\"requests\" : [{\"url\" : \"/me\", \"method\" : \"GET\", \"id\" : \"1\"}, {\"url\" : \"/me/messages\", \"method\" : \"GET\", \"id\" : \"2\"}, {\"url\" : \"/me/events\", \"method\" : \"GET\", \"id\" : \"3\"}]  }",
+    "postBody": "{\"requests\" : [{\"url\" : \"/me?$select=displayName,jobTitle,userPrincipalName\", \"method\" : \"GET\", \"id\" : \"1\"}, {\"url\" : \"/me/messages?$filter=importance eq 'high'&$select=from,subject,receivedDateTime,bodyPreview\", \"method\" : \"GET\", \"id\" : \"2\"},     {\n      \"url\": \"/me/people?$select=displayName&top=5\",\n      \"method\": \"GET\",\n      \"id\": \"3\"\n    }]  }",
     "tip": "This query shows you how to use batching to get your user information, your messages, and your events."
 },
 {
