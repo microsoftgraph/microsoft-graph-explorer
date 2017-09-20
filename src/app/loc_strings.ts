@@ -302,6 +302,7 @@ loc_strings['en-US'] = {
   "create page"	:"create page",
   "Users":"Users",
   "Users (beta)":"Users (beta)",
+  "People":"People",
   "Groups":"Groups",
   "Groups (beta)":"Groups (beta)",
   "Outlook Mail":"Outlook Mail",

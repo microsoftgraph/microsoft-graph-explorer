@@ -156,7 +156,7 @@ Excel,POST,add a new worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/wor
   ""name"": ""My New Sheet""
 }",Content-type: application/json
 Excel,GET,used range in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange,AAD,,
-Excel,GET,tables in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/tables,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,
+Excel,GET,tables in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/Sheet1/tables,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,
 Excel,GET,charts in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/charts,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts,AAD,,
 Planner,GET,all Planner plans associated with a group,/v1.0/groups/{group-id-with-plan}/planner/plans,"This query requires a group id.  To find the ID of a group you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/memberOf",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannergroup_list_plans,AAD,,
 Planner,GET,Planner plan,/v1.0/planner/plans/{plan-id},This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_get,AAD,,
@@ -174,7 +174,7 @@ Planner,PATCH,update a bucket in Planner plan,/v1.0/planner/buckets/{bucket-id},
 }",If-Match: {if-match}
 Planner,GET,all Planner tasks for a plan,/v1.0/planner/plans/{plan-id}/tasks,This query requires a plan id.  To find the ID of the plan you can run: GET https://graph.microsoft.com/v1.0/me/groups/{group-id}/plans.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannerplan_list_tasks,AAD,,
 Planner,GET,all my Planner tasks,/v1.0/me/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/planner_overview,AAD,,
-Planner,GET,all Planner tasks for user,/v1.0/users/{user-mail}/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks,AAD,,
+Planner,GET,all Planner tasks for user,/v1.0/users/{coworker-mail}/planner/tasks,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks,AAD,,
 Planner,GET,Planner task by id,/v1.0/planner/tasks/{task-id},This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_get,AAD,,
 Planner,POST,create a Planner task,/v1.0/planner/tasks,This query requires a Plan id.  To find the ID of the Plan you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planner_post_tasks,AAD,"{
   ""planId"": ""{plan-id}"",
@@ -187,9 +187,9 @@ Planner,PATCH,update a Planner task,/v1.0//planner/tasks/{task-id},This query re
 Planner,GET,details for Planner task,/v1.0/planner/tasks/{task-id}/details,This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertaskdetails_get,AAD,,
 Insights,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 Insights (beta),GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
-Insights (beta),GET,people I work with,/beta/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people,BOTH,,
-Insights (beta),GET,people whose name starts with J,/beta/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
-Insights (beta),GET,people relevant to a topic,"/beta/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get,BOTH,,
+People,GET,people I work with,/v1.0/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_people,BOTH,,
+People,GET,people whose name starts with J,/v1.0/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get,BOTH,,
+People,GET,people relevant to a topic,"/v1.0/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get,BOTH,,
 ,,,,,,,,
 ,,,,,,,,
 Extensions,GET,get an open extension,"/v1.0/me?$select=id,displayName,mail,mobilePhone&$expand=extensions",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/opentypeextension,AAD,,
@@ -274,7 +274,7 @@ SharePoint Sites,GET,Enumerate the document libraries under the root site,/v1.0/
 SharePoint Sites,GET,SharePoint site based on relative path of the site,/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list,AAD,,
 SharePoint Sites,GET,Search for a SharePoint site by keyword,/v1.0/sites?search=contoso,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
 SharePoint Sites,GET,Enumerate subsites of the root site,/v1.0/sites/root/sites,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
-Batching (beta),POST,Perform parrallel GETs,/beta/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
+Batching (beta),POST,Perform parallel GETs,/beta/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
 Batching (beta),POST,Combine a POST and a GET,/beta/$batch,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{
  ""requests"": [{
    ""url"": ""/me/drive/root/children"",

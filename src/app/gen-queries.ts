@@ -419,7 +419,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Excel",
     "method": "GET",
     "humanName": "tables in worksheet",
-    "requestUrl": "/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/tables",
+    "requestUrl": "/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/Sheet1/tables",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables",
     "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
 },
@@ -519,7 +519,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Planner",
     "method": "GET",
     "humanName": "all Planner tasks for user",
-    "requestUrl": "/v1.0/users/{user-mail}/planner/tasks",
+    "requestUrl": "/v1.0/users/{coworker-mail}/planner/tasks",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/planneruser_list_tasks"
 },
 {
@@ -583,25 +583,25 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
 },
 {
-    "category": "Insights (beta)",
+    "category": "People",
     "method": "GET",
     "humanName": "people I work with",
-    "requestUrl": "/beta/me/people",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_people"
+    "requestUrl": "/v1.0/me/people",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_people"
 },
 {
-    "category": "Insights (beta)",
+    "category": "People",
     "method": "GET",
     "humanName": "people whose name starts with J",
-    "requestUrl": "/beta/me/people/?$search=j",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    "requestUrl": "/v1.0/me/people/?$search=j",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get"
 },
 {
-    "category": "Insights (beta)",
+    "category": "People",
     "method": "GET",
     "humanName": "people relevant to a topic",
-    "requestUrl": "/beta/me/people/?$search=\"topic: contoso\"",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/person_get"
+    "requestUrl": "/v1.0/me/people/?$search=\"topic: contoso\"",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get"
 },
 {
     "category": "Extensions",
@@ -776,7 +776,7 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Batching (beta)",
     "method": "POST",
-    "humanName": "Perform parrallel GETs",
+    "humanName": "Perform parallel GETs",
     "requestUrl": "/beta/$batch",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching",
     "headers": [
