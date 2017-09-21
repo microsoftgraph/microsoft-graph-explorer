@@ -807,7 +807,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "SharePoint Lists",
     "method": "GET",
     "humanName": "Enumerate list items with specific column values",
-    "requestUrl": "/v1.0/sites/root/lists/{list-id}/items?$filter=fields/Title eq '{title}'",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/items?$filter=fields/Title eq '{list-title}'",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list"
 },
 {
