@@ -731,47 +731,84 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "my organization's default SharePoint site",
     "requestUrl": "/v1.0/sites/root",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/sharepoint"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_get"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "Enumerate the document libraries under the root site",
     "requestUrl": "/v1.0/sites/root/drives",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/baseitem_getbyurl"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_list#list-a-sites-drives"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "SharePoint site based on relative path of the site",
     "requestUrl": "/v1.0/sites/{host-name}:/{server-relative-path}",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_getbypath"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "Search for a SharePoint site by keyword",
     "requestUrl": "/v1.0/sites?search=contoso",
-    "docLink": "https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint",
-    "headers": [
-        {
-            "name": "Content-type",
-            "value": "application/json"
-        }
-    ]
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_search"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "Enumerate subsites of the root site",
     "requestUrl": "/v1.0/sites/root/sites",
-    "docLink": "https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint",
-    "headers": [
-        {
-            "name": "Content-type",
-            "value": "application/json"
-        }
-    ]
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_subsites"
+},
+{
+    "category": "SharePoint Sites",
+    "method": "GET",
+    "humanName": "Enumerate site columns of the root site",
+    "requestUrl": "/v1.0/sites/root/columns",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_columns"
+},
+{
+    "category": "SharePoint Sites",
+    "method": "GET",
+    "humanName": "Enumerate site content types of the root site",
+    "requestUrl": "/v1.0/sites/root/contentTypes",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_contenttypes"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate the lists in the root site",
+    "requestUrl": "/v1.0/sites/root/lists",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate list columns",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/columns",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_columns"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate list content types",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/contentTypes",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_contenttypes"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate the list items in a list",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/items",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate list items with specific column values",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/items?$filter=fields/Title eq '{list-title}'",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list"
 },
 {
     "category": "Batching (beta)",
