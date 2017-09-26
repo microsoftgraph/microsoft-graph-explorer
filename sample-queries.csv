@@ -76,6 +76,10 @@ Outlook Mail,POST,forward mail,/v1.0/me/messages/{message-id}/forward,"This quer
 }",Content-type: application/json
 Outlook Mail,GET,track email changes,/v1.0/me/mailFolders/Inbox/messages/delta,,https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_messages,AAD,,
 Outlook Mail (beta),GET,email I'm @ mentioned,"/beta/me/messages?$filter=mentionsPreview/isMentioned eq true&$select=subject,sender,receivedDateTime",,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2,AAD,,
+Outlook Mail (beta),GET,my inbox rules,/beta/me/mailFolders/inbox/messagerules,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule,BOTH,,
+Outlook Mail (beta),GET,my outlook categories,/beta/me/outlook/masterCategories,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories,BOTH,,
+Outlook Mail (beta),GET,get email headers, /beta/me/messages?$select=internetMessageHeaders&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message,BOTH,,
+Outlook Mail (beta),GET,list conference rooms,/beta/me/findRooms,,,AAD,,
 Outlook Calendar,GET,my events for the next week,/v1.0/me/calendarview?startdatetime={today}&enddatetime={next-week},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendarview,BOTH,,
 Outlook Calendar,GET,all events in my calendar,"/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_events,BOTH,,
 Outlook Calendar,GET,all my calendars,/v1.0/me/calendars,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_calendars,BOTH,,
