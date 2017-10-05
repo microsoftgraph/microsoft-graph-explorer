@@ -409,6 +409,21 @@ export const SampleQueries: SampleQuery[] = [
 },
 {
     "category": "Excel",
+    "method": "POST",
+    "humanName": "calculate loan payment",
+    "requestUrl": "/v1.0/me/drive/items/{drive-item-id}/workbook/functions/pmt",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/workbook#functions",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{ \n \"rate\": 0.035, \n \"nper\": 20, \n \"pv\": -2000 \n}",
+    "tip": "This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl."
+},
+{
+    "category": "Excel",
     "method": "GET",
     "humanName": "used range in worksheet",
     "requestUrl": "/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange",
@@ -549,7 +564,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Planner",
     "method": "PATCH",
     "humanName": "update a Planner task",
-    "requestUrl": "/v1.0//planner/tasks/{task-id}",
+    "requestUrl": "/v1.0/planner/tasks/{task-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update",
     "headers": [
         {
@@ -581,6 +596,20 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "items trending around me",
     "requestUrl": "/beta/me/insights/trending",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "items shared with me",
+    "requestUrl": "/beta/me/insights/shared",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_shared"
+},
+{
+    "category": "Insights (beta)",
+    "method": "GET",
+    "humanName": "items viewed and modified by me",
+    "requestUrl": "/beta/me/insights/used",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_used"
 },
 {
     "category": "People",
@@ -731,47 +760,84 @@ export const SampleQueries: SampleQuery[] = [
     "method": "GET",
     "humanName": "my organization's default SharePoint site",
     "requestUrl": "/v1.0/sites/root",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/sharepoint"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_get"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "Enumerate the document libraries under the root site",
     "requestUrl": "/v1.0/sites/root/drives",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/baseitem_getbyurl"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_list#list-a-sites-drives"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "SharePoint site based on relative path of the site",
     "requestUrl": "/v1.0/sites/{host-name}:/{server-relative-path}",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list"
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_getbypath"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "Search for a SharePoint site by keyword",
     "requestUrl": "/v1.0/sites?search=contoso",
-    "docLink": "https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint",
-    "headers": [
-        {
-            "name": "Content-type",
-            "value": "application/json"
-        }
-    ]
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_search"
 },
 {
     "category": "SharePoint Sites",
     "method": "GET",
     "humanName": "Enumerate subsites of the root site",
     "requestUrl": "/v1.0/sites/root/sites",
-    "docLink": "https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint",
-    "headers": [
-        {
-            "name": "Content-type",
-            "value": "application/json"
-        }
-    ]
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_subsites"
+},
+{
+    "category": "SharePoint Sites",
+    "method": "GET",
+    "humanName": "Enumerate site columns of the root site",
+    "requestUrl": "/v1.0/sites/root/columns",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_columns"
+},
+{
+    "category": "SharePoint Sites",
+    "method": "GET",
+    "humanName": "Enumerate site content types of the root site",
+    "requestUrl": "/v1.0/sites/root/contentTypes",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_contenttypes"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate the lists in the root site",
+    "requestUrl": "/v1.0/sites/root/lists",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate list columns",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/columns",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_columns"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate list content types",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/contentTypes",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_contenttypes"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate the list items in a list",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/items",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list"
+},
+{
+    "category": "SharePoint Lists",
+    "method": "GET",
+    "humanName": "Enumerate list items with specific column values",
+    "requestUrl": "/v1.0/sites/root/lists/{list-id}/items?$filter=fields/Title eq '{list-title}'",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list"
 },
 {
     "category": "Batching (beta)",
@@ -785,7 +851,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\"requests\" : [{\"url\" : \"/me\", \"method\" : \"GET\", \"id\" : \"1\"}, {\"url\" : \"/me/messages\", \"method\" : \"GET\", \"id\" : \"2\"}, {\"url\" : \"/me/events\", \"method\" : \"GET\", \"id\" : \"3\"}]  }",
+    "postBody": "{\"requests\" : [{\"url\" : \"/me?$select=displayName,jobTitle,userPrincipalName\", \"method\" : \"GET\", \"id\" : \"1\"}, {\"url\" : \"/me/messages?$filter=importance eq 'high'&$select=from,subject,receivedDateTime,bodyPreview\", \"method\" : \"GET\", \"id\" : \"2\"},     {\n      \"url\": \"/me/people?$select=displayName&top=5\",\n      \"method\": \"GET\",\n      \"id\": \"3\"\n    }]  }",
     "tip": "This query shows you how to use batching to get your user information, your messages, and your events."
 },
 {

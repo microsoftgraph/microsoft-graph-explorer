@@ -155,6 +155,11 @@ Excel,GET,worksheets in a workbook,/v1.0/me/drive/items/{drive-item-id}/workbook
 Excel,POST,add a new worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
   ""name"": ""My New Sheet""
 }",Content-type: application/json
+Excel,POST,calculate loan payment,/v1.0/me/drive/items/{drive-item-id}/workbook/functions/pmt,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/workbook#functions,AAD,"{ 
+ ""rate"": 0.035, 
+ ""nper"": 20, 
+ ""pv"": -2000 
+}",Content-type: application/json
 Excel,GET,used range in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange,AAD,,
 Excel,GET,tables in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/Sheet1/tables,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,
 Excel,GET,charts in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/charts,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_charts,AAD,,
@@ -181,12 +186,14 @@ Planner,POST,create a Planner task,/v1.0/planner/tasks,This query requires a Pla
   ""title"": ""{task-title}"",
   ""assignments"": {}
 }",Content-type: application/json
-Planner,PATCH,update a Planner task,/v1.0//planner/tasks/{task-id},This query requires a task id and value of @odata.etag for a selected task.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update,AAD,"{
+Planner,PATCH,update a Planner task,/v1.0/planner/tasks/{task-id},This query requires a task id and value of @odata.etag for a selected task.  To find the ID of the task and @odata.etag you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertask_update,AAD,"{
     ""title"": ""Updated task title""
 }",If-Match: {if-match}
 Planner,GET,details for Planner task,/v1.0/planner/tasks/{task-id}/details,This query requires a task id.  To find the ID of the task you can run: GET https://graph.microsoft.com/v1.0/me/planner/tasks,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/plannertaskdetails_get,AAD,,
 Insights,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 Insights (beta),GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
+Insights (beta),GET,items shared with me,/beta/me/insights/shared,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_shared,AAD,,
+Insights (beta),GET,items viewed and modified by me,/beta/me/insights/used,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_used,AAD,,
 People,GET,people I work with,/v1.0/me/people,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_people,BOTH,,
 People,GET,people whose name starts with J,/v1.0/me/people/?$search=j,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get,BOTH,,
 People,GET,people relevant to a topic,"/v1.0/me/people/?$search=""topic: contoso""",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get,BOTH,,
@@ -269,11 +276,18 @@ Content-Type:application/pdf
 ... binary file data ...
 
 --MyPartBoundary198374--",Content-type: multipart/form-data; boundary: MyPartBoundary198374
-SharePoint Sites,GET,my organization's default SharePoint site,/v1.0/sites/root,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,
-SharePoint Sites,GET,Enumerate the document libraries under the root site,/v1.0/sites/root/drives,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/baseitem_getbyurl,AAD,,
-SharePoint Sites,GET,SharePoint site based on relative path of the site,/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/subsites_list,AAD,,
-SharePoint Sites,GET,Search for a SharePoint site by keyword,/v1.0/sites?search=contoso,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
-SharePoint Sites,GET,Enumerate subsites of the root site,/v1.0/sites/root/sites,,https://developer.microsoft.com/graph/docs/api-reference/v1.0/resources/sharepoint,AAD,,Content-type: application/json
+SharePoint Sites,GET,my organization's default SharePoint site,/v1.0/sites/root,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_get,AAD,,
+SharePoint Sites,GET,Enumerate the document libraries under the root site,/v1.0/sites/root/drives,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_list#list-a-sites-drives,AAD,,
+SharePoint Sites,GET,SharePoint site based on relative path of the site,/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_getbypath,AAD,,
+SharePoint Sites,GET,Search for a SharePoint site by keyword,/v1.0/sites?search=contoso,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_search,AAD,,
+SharePoint Sites,GET,Enumerate subsites of the root site,/v1.0/sites/root/sites,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_subsites,AAD,,
+SharePoint Sites,GET,Enumerate site columns of the root site,/v1.0/sites/root/columns,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_columns,AAD,,
+SharePoint Sites,GET,Enumerate site content types of the root site,/v1.0/sites/root/contentTypes,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_contenttypes,AAD,,
+SharePoint Lists,GET,Enumerate the lists in the root site,/v1.0/sites/root/lists,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list,AAD,,
+SharePoint Lists,GET,Enumerate list columns,/v1.0/sites/root/lists/{list-id}/columns,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_columns,AAD,,
+SharePoint Lists,GET,Enumerate list content types,/v1.0/sites/root/lists/{list-id}/contentTypes,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_contenttypes,AAD,,
+SharePoint Lists,GET,Enumerate the list items in a list,/v1.0/sites/root/lists/{list-id}/items,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list,AAD,,
+SharePoint Lists,GET,Enumerate list items with specific column values,/v1.0/sites/root/lists/{list-id}/items?$filter=fields/Title eq '{list-title}',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list,AAD,,
 Batching (beta),POST,Perform parallel GETs,/beta/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
 Batching (beta),POST,Combine a POST and a GET,/beta/$batch,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{
  ""requests"": [{
