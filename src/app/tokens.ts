@@ -108,5 +108,13 @@ export const Tokens: Token[] = [
     authenticatedUserValueFn: () => {
       return AppComponent.explorerValues.authentication.user.emailAddress.split("@")[1];
     }
+  },
+  {
+    placeholder: "list-id",
+    defaultValue: "d7689e2b-941a-4cd3-bb24-55cddee54294",
+  },
+  {
+    placeholder: "list-title",
+    defaultValue: "Contoso Home",
   }
 ]

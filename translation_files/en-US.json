@@ -126,11 +126,13 @@
   "Excel":"Excel",
   "Planner (beta)":"Planner (beta)",
   "SharePoint Sites (beta)":"SharePoint Sites (beta)",
+  "SharePoint Lists":"SharePoint Lists",
   "OneNote (beta)":"OneNote (beta)",
   "SharePoint Lists (beta)": "SharePoint Lists (beta)",
   "Insights": "Insights",
   "Insights (beta)": "Insights (beta)",
   "Preview": "Preview",
+  "People":"People",
 
   "Extensions (beta)": "Extensions (beta)",
   "Batching (beta)": "Batching (beta)",
