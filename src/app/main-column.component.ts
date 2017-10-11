@@ -99,6 +99,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
         mwf.ComponentFactory.create([{
             component: mwf.AutoSuggest,
+            elements: [this._autoSuggestEl.element.nativeElement],
             callback: (autoSuggests) => {
                 if (autoSuggests && (autoSuggests.length > 0)) {
                     let autoSuggest = autoSuggests[0];
@@ -120,6 +121,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     @ViewChild('httpMethod', {read: ViewContainerRef}) _httpMethodEl;
     @ViewChild('graphVersion', {read: ViewContainerRef}) _graphVersionEl;
+    @ViewChild('autoSuggest', {read: ViewContainerRef}) _autoSuggestEl;
 
     methods = Methods;
     GraphVersions = AppComponent.Options.GraphVersions;
