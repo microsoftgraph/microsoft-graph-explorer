@@ -1,6 +1,6 @@
 {
   "To try the explorer, please ": "Para experimentar o Explorador, ",
-  "sign in": "entre",
+  "sign in": "entrar",
   " with your work or school account from Microsoft.": " com a sua conta corporativa ou de estudante da Microsoft.",
   "Submit": "Enviar",
   "Using demo tenant": "No momento, você está usando uma conta de amostra.",
@@ -126,11 +126,13 @@
   "Excel":"Excel",
   "Planner (beta)":"Planner (beta)",
   "SharePoint Sites (beta)":"Sites do SharePoint (beta)",
+  "SharePoint Lists":"Listas do SharePoint",
   "OneNote (beta)":"OneNote (beta)",
   "SharePoint Lists (beta)": "Listas do SharePoint (beta)",
   "Insights": "Insights",
   "Insights (beta)": "Insights (beta)",
   "Preview": "Visualização",
+  "People":"Pessoas",
 
   "Extensions (beta)": "Extensões (beta)",
   "Batching (beta)": "Envio em lote (beta)",
