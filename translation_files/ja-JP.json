@@ -126,11 +126,13 @@
   "Excel":"Excel",
   "Planner (beta)":"Planner (ベータ版)",
   "SharePoint Sites (beta)":"SharePoint サイト (ベータ版)",
+  "SharePoint Lists":"SharePoint リスト",
   "OneNote (beta)":"OneNote (ベータ版)",
   "SharePoint Lists (beta)": "SharePoint リスト (ベータ版)",
   "Insights": "Insights",
   "Insights (beta)": "Insights (ベータ版)",
   "Preview": "プレビュー",
+  "People":"連絡先",
 
   "Extensions (beta)": "拡張機能 (ベータ版)",
   "Batching (beta)": "バッチ処理 (ベータ版)",

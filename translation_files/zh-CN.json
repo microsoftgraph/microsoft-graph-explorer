@@ -126,11 +126,13 @@
   "Excel":"Excel",
   "Planner (beta)":"规划器 (beta)",
   "SharePoint Sites (beta)":"SharePoint 网站 (beta)",
+  "SharePoint Lists":"SharePoint 列表",
   "OneNote (beta)":"OneNote (beta)",
   "SharePoint Lists (beta)": "SharePoint 列表 (beta)",
   "Insights": "见解",
   "Insights (beta)": "见解 (beta)",
   "Preview": "预览",
+  "People":"人员",
 
   "Extensions (beta)": "扩展 (beta)",
   "Batching (beta)": "批处理 (beta)",
