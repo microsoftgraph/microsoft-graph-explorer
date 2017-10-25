@@ -270,7 +270,8 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Mail (beta)",
     "method": "GET",
     "humanName": "list conference rooms",
-    "requestUrl": "/beta/me/findRooms"
+    "requestUrl": "/beta/me/findRooms",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 },
 {
     "category": "Outlook Calendar",
