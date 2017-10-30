@@ -107,7 +107,7 @@ export function refreshAccessToken() {
 
 	let loginProperties = {
 		display: 'none',
-		response_type: "id_token token",
+		response_type: "token",
 		response_mode: "fragment",
 		nonce: 'graph_explorer',
 		prompt: 'none',

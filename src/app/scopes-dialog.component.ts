@@ -48,7 +48,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
       // @todo type HelloJSLoginOptions
       let loginProperties = {
         display: 'page',
-        response_type: "id_token token",
+        response_type: "token",
         nonce: 'graph_explorer',
         prompt: 'select_account',
         // login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login

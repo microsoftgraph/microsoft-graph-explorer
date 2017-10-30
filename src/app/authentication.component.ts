@@ -28,7 +28,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   login() {
       let loginProperties = {
         display: 'page',
-        response_type: "id_token token",
+        response_type: "token",
         response_mode: "fragment",
         nonce: 'graph_explorer',
         prompt: 'select_account',
