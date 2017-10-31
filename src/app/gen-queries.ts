@@ -246,6 +246,34 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_messages#request-2"
 },
 {
+    "category": "Outlook Mail (beta)",
+    "method": "GET",
+    "humanName": "my inbox rules",
+    "requestUrl": "/beta/me/mailFolders/inbox/messagerules",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule"
+},
+{
+    "category": "Outlook Mail (beta)",
+    "method": "GET",
+    "humanName": "my outlook categories",
+    "requestUrl": "/beta/me/outlook/masterCategories",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories"
+},
+{
+    "category": "Outlook Mail (beta)",
+    "method": "GET",
+    "humanName": "get email headers",
+    "requestUrl": " /beta/me/messages?$select=internetMessageHeaders&$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message"
+},
+{
+    "category": "Outlook Mail (beta)",
+    "method": "GET",
+    "humanName": "list conference rooms",
+    "requestUrl": "/beta/me/findRooms",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
+},
+{
     "category": "Outlook Calendar",
     "method": "GET",
     "humanName": "my events for the next week",
