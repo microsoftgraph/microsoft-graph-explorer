@@ -925,4 +925,31 @@ export const SampleQueries: SampleQuery[] = [
     "requestUrl": "/beta/groups/{group-id-for-teams}/drive/root/children",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children",
     "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "my inbox rules",
+    "requestUrl": "/beta/me/mailFolders/inbox/messagerules",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "my outlook categories",
+    "requestUrl": "/beta/me/outlook/masterCategories",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "get email headers",
+    "requestUrl": " /beta/me/messages?$select=internetMessageHeaders&$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "list conference rooms",
+    "requestUrl": "/beta/me/findRooms"
 }]
