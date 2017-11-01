@@ -946,4 +946,11 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "get email headers",
     "requestUrl": "/beta/me/messages?$select=internetMessageHeaders&$top=1",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "list conference rooms",
+    "requestUrl": "/beta/me/findRooms",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 }]
