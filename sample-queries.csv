@@ -329,5 +329,5 @@ Microsoft Teams (beta),POST,create chat thread,/beta/groups/{group-id-for-teams}
 Microsoft Teams (beta),GET,items in a team drive,/beta/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,
 Outlook Mail,GET,my inbox rules,/beta/me/mailFolders/inbox/messagerules,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule,BOTH,,
 Outlook Mail,GET,my outlook categories,/beta/me/outlook/masterCategories,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories,BOTH,,
-Outlook Mail,GET,get email headers, /beta/me/messages?$select=internetMessageHeaders&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message,BOTH,,
+Outlook Mail,GET,get email headers,/beta/me/messages?$select=internetMessageHeaders&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message,BOTH,,
 Outlook Mail,GET,list conference rooms,/beta/me/findRooms,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms,AAD,, 

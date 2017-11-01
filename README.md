@@ -35,6 +35,8 @@ the sample tenant.  These tokens are maintained in [tokens.ts](src/app/tokens.ts
 
 When you send a pull request, please commit both the `sample-queries.csv` and the `src/app/gen-queries.ts` file. We will then review your sample queries, and ensure our demo tenant has some sample data for that query.
 
+**Note**: If you see `Unexpected token T in JSON at position 0` as an error when you run `npm test`, then you may have an unexpected space in your sample. Make sure you run `npm test` before you submit your samples.
+
 #### Permissions
 
 Permissions like `Mail.Read` are listed in [scopes.ts](src/app/scopes.ts) and each permission has a few properties, like its name and description.

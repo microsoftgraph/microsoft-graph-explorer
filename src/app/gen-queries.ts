@@ -944,6 +944,6 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Outlook Mail",
     "method": "GET",
     "humanName": "get email headers",
-    "requestUrl": " /beta/me/messages?$select=internetMessageHeaders&$top=1",
+    "requestUrl": "/beta/me/messages?$select=internetMessageHeaders&$top=1",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message"
 }]
