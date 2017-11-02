@@ -851,7 +851,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\"requests\" : [{\"url\" : \"/me?$select=displayName,jobTitle,userPrincipalName\", \"method\" : \"GET\", \"id\" : \"1\"}, {\"url\" : \"/me/messages?$filter=importance eq 'high'&$select=from,subject,receivedDateTime,bodyPreview\", \"method\" : \"GET\", \"id\" : \"2\"},     {\n      \"url\": \"/me/people?$select=displayName&top=5\",\n      \"method\": \"GET\",\n      \"id\": \"3\"\n    }]  }",
+    "postBody": "{\"requests\" : [{\"url\" : \"/me?$select=displayName,jobTitle,userPrincipalName\", \"method\" : \"GET\", \"id\" : \"1\"}, {\"url\" : \"/me/messages?$filter=importance eq 'high'&$select=from,subject,receivedDateTime,bodyPreview\", \"method\" : \"GET\", \"id\" : \"2\"}, {\"url\" : \"/me/events\", \"method\" : \"GET\", \"id\" : \"3\"}]  }",
     "tip": "This query shows you how to use batching to get your user information, your messages, and your events."
 },
 {
@@ -925,4 +925,32 @@ export const SampleQueries: SampleQuery[] = [
     "requestUrl": "/beta/groups/{group-id-for-teams}/drive/root/children",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children",
     "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "my inbox rules",
+    "requestUrl": "/beta/me/mailFolders/inbox/messagerules",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "my outlook categories",
+    "requestUrl": "/beta/me/outlook/masterCategories",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "get email headers",
+    "requestUrl": "/beta/me/messages?$select=internetMessageHeaders&$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message"
+},
+{
+    "category": "Outlook Mail",
+    "method": "GET",
+    "humanName": "list conference rooms",
+    "requestUrl": "/beta/me/findRooms",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 }]
