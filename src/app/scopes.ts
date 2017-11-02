@@ -257,7 +257,7 @@ export const PermissionScopes: PermissionScope[] = [
     description: "Have full control of all site collections",
     longDescription: "Allows the app to have full control to SharePoint sites in all site collections on behalf of the signed-in user.",
     preview: true,
-    admin: false,
+    admin: true,
   },
   {
     name: "Tasks.Read",
