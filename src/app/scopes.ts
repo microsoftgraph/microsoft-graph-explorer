@@ -447,5 +447,19 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription: "Allows an app to read all service usage reports without a signed-in user. Services that provide usage reports include Office 365 and Azure Active Directory.",
     preview: true,
     admin: true
+  },
+  {
+    name: "IdentityProvider.Read.All",
+    description: "Read all identity providers",
+    longDescription: "Allows an app to read all Azure Active Directory (Azure AD) identity providers.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "IdentityProvider.ReadWrite.All",
+    description: "Read and write all identity providers",
+    longDescription: "Allows an app to read and write all Azure Active Directory (Azure AD) identity providers.",
+    preview: true,
+    admin: true
   }
 ]
