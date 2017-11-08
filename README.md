@@ -55,6 +55,7 @@ Edits to this file can be made directly from Github.com so you don't even have t
 ## Additional resources
 * [Microsoft Graph website](https://graph.microsoft.io)
 * [Office Dev Center](http://dev.office.com/)
+* [Graph Explorer releases](https://github.com/microsoftgraph/microsoft-graph-explorer/releases)
 
 ## Copyright
 Copyright (c) 2017 Microsoft. All rights reserved.
