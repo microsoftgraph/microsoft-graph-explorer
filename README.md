@@ -34,7 +34,7 @@ We want the explorer to have rich samples for calling all APIs in the Microsoft 
 - [ ]	Assuming that the scopes are supported in the v2.0 authentication endpoint, does Graph Explorer already have the scopes that support your query? If not, you’ll need to add the scopes. See the [permissions](#permissions) section for how you can add your scopes. 
 - [ ]	Does documentation exist for functionality described in your sample query? [Create](https://github.com/microsoftgraph/microsoft-graph-docs) and publish the documentation before you add your sample.
 - [ ]	Is the sample query functionality available on either the beta or v1.0 Graph endpoints? Confirm that the functionality is available on at least of one of these endpoints before submitting your sample query.
-- [ ]	Are you certain that the functionality in the sample query will not change? We don’t want to have outdated samples so only add samples when you are confident the API won’t change.
+- [ ]	Are you certain that the functionality in the sample query will not change? We don’t want to have outdated samples so only add samples when you are confident that the API won’t change.
 - [ ]	Does the Graph metadata properly describe the functionality in the sample query? Confirm that either the [v1.0](https://graph.microsoft.com/v1.0/$metadata) or [beta]( https://graph.microsoft.com/beta/$metadata) metadata describes your functionality.
 
 When your answer is yes to all of the questions, you are now ready to add your sample query. Before you do that, we need to check whether you require sample data.
