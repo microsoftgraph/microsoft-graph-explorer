@@ -31,14 +31,14 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 We want the explorer to have rich samples for calling all APIs in the Microsoft Graph. Choose the most relevant queries that demonstrate your feature. GET samples are the only queries that will work against our demo tenant. There are a few things that you need to check before you can add a sample query:
 - [ ]	Does your sample query use [scopes]( https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-scopes) that are available via the [Azure AD v2.0 authentication]( https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-appmodel-v2-overview) endpoint? You’ll need to confirm this before you can add your sample.
-- [ ]	Assuming that the scopes are supported in the v2.0 authentication endpoint, does Graph Explorer already have the scopes that support your query? If not, you’ll need to add the scopes. See the [permissions](#permissions) section for how you can add your scopes. 
+- [ ]	Does Graph Explorer already have the scopes that support your query? If not, you’ll need to add the scopes. See the [permissions](#permissions) section for how you can add your scopes. 
 - [ ]	Does documentation exist for functionality described in your sample query? [Create](https://github.com/microsoftgraph/microsoft-graph-docs) and publish the documentation before you add your sample.
 - [ ]	Is the sample query functionality available on either the beta or v1.0 Graph endpoints? Confirm that the functionality is available on at least of one of these endpoints before submitting your sample query.
-- [ ]	Are you certain that the functionality in the sample query will not change? We don’t want to have outdated samples so only add samples when you are confident that the API won’t change.
+- [ ]	Are you certain that the functionality in the sample query will not change? We don’t want to have outdated samples, so only add samples when you are confident that the API won’t change.
 - [ ]	Does the Graph metadata properly describe the functionality in the sample query? Confirm that either the [v1.0](https://graph.microsoft.com/v1.0/$metadata) or [beta]( https://graph.microsoft.com/beta/$metadata) metadata describes your functionality.
 
 When your answer is yes to all of the questions, you are now ready to add your sample query. Before you do that, we need to check whether you require sample data.
-- [ ]	Do your sample queries require data to be setup on the sample tenant? Contact the Graph Explorer maintainers to request sample data setup. 
+- [ ]	Do your sample queries require data to be set up on the sample tenant? Contact the Graph Explorer maintainers to request sample data setup. 
 - [ ]	Do your sample queries require placeholder data? If so, you’ll need to update [tokens.ts](./src/app/tokens.ts) with your placeholder data. Some sample queries have ids or other string constants that are different for authenticated users and the sample tenant. These tokens are maintained in tokens.ts. Token documentation can be found in the Token interface located in [base.ts](./src/app/base.ts).
 
 Sample queries are added to [sample-queries.csv](./sample-queries.csv). You’ll add your sample query to this file. Make sure you fill out all of the fields that are applicable to your query. Run `npm run import:samples` after you’ve added your sample query. This will convert the samples in the CSV file to structured objects in src/app/get-queries. 
