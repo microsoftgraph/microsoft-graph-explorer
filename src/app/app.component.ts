@@ -77,6 +77,12 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     // set explorer state that depends on configuration
     AppComponent.explorerValues.endpointUrl = AppComponent.Options.GraphUrl + `/${(getParameterByName("version") || "v1.0")}/${getParameterByName("request") || 'me/'}`;
 
+    // Show the Microsoft Graph TOU when we load GE.
+    AppComponent.messageBarContent = {
+      text: "<a href='https://aka.ms/msgraphtou'>Microsoft Graph Terms of Use</a>",
+      backgroundClass: "ms-MessageBar--warning",
+      icon: "none"
+    }
   }
 
   static Options: ExplorerOptions = {
