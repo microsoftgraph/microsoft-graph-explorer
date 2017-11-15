@@ -79,8 +79,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     // Show the Microsoft Graph TOU when we load GE.
     AppComponent.messageBarContent = {
-      text: "<a href='https://aka.ms/msgraphtou'>Microsoft Graph Terms of Use</a>",
-      backgroundClass: "ms-MessageBar--warning",
+      text: "<a href='https://aka.ms/msgraphtou' class='ms-Link' target='_blank'>Microsoft Graph Terms of Use</a>",
+      backgroundClass: "ms-MessageBar--default",
       icon: "none"
     }
   }
