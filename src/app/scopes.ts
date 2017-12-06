@@ -454,5 +454,54 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription: "Allows an app to read and write all Azure Active Directory (Azure AD) identity providers.",
     preview: true,
     admin: true
+  },
+  {
+    name: "EduRoster.ReadBasic",
+    description: "Read a limited subset of the organization's roster",
+    longDescription: "Allows the app to read a limited subset of the properties from the structure of schools and classes in an organization's roster and a limited subset of properties about users to be read on behalf of the user. Includes name, status, education role, email address and photo.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.ReadBasic",
+    description: "Read assignments without grades",
+    longDescription: "Allows the app to read assignments without grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.Read",
+    description: "Read assignments including grades",
+    longDescription: "Allows the app to read assignments and their grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.ReadWriteBasic",
+    description: "Read and write assignments without grades",
+    longDescription: "Allows the app to read and write assignments without grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.ReadWrite",
+    description: "Read and write assignments including grades",
+    longDescription: "Allows the app to read and write assignments and their grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAdministration.Read",
+    description: "View all Microsoft education app settings",
+    longDescription: "Read the state and settings of all Microsoft education apps on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAdministration.ReadWrite",
+    description: "Manage all Microsoft education app settings",
+    longDescription: "Manage the state and settings of all Microsoft education apps on behalf of the user.",
+    preview: true,
+    admin: true
   }
 ]
