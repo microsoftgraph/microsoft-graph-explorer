@@ -110,7 +110,7 @@ module.exports = function(config) {
     singleRun: false,
 
     // Adding this since we are getting a timeout in CI. The default at 10 seconds was not enough.
-    browserNoActivityTimeout: 1000*15;
+    browserNoActivityTimeout: 1000*15
   }
 
   config.set(configuration);
