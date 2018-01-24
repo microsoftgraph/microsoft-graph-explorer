@@ -185,44 +185,37 @@ export const PermissionScopes: PermissionScope[] = [
   },
   {
     name: "Notes.Create",
-    description: "Create pages in users' notebooks (preview)",
+    description: "Create pages in users' notebooks",
     longDescription: "Allows the app to read the titles of notebooks and sections and create new pages, notebooks and sections on behalf of the signed-in user.",
-    preview: true,
+    preview: false,
     admin: false,
   },
   {
     name: "Notes.Read",
-    description: "Read user notebooks (preview)",
+    description: "Read user notebooks",
     longDescription: "Allows the app to view the titles of OneNote notebooks and sections and to read all pages on behalf of the signed-in user. It cannot view password protected sections.",
     preview: true,
     admin: false,
   },
   {
     name: "Notes.Read.All",
-    description: "Read all notebooks that the user can access (preview)",
+    description: "Read all notebooks that the user can access",
     longDescription: "Allows the app to read the contents of all notebooks and sections that the signed-in user can access. It cannot read password protected sections.",
-    preview: true,
+    preview: false,
     admin: false,
   },
   {
     name: "Notes.ReadWrite",
-    description: "Read and write user notebooks (preview)",
+    description: "Read and write user notebooks",
     longDescription: "Allows the app to read the titles of notebooks and sections, read all pages, write all pages and create new pages on behalf of the signed-in user.  It cannot access password protected sections.",
-    preview: true,
+    preview: false,
     admin: false,
   },
   {
     name: "Notes.ReadWrite.All",
-    description: "Read and write notebooks that the user can access (preview)",
+    description: "Read and write notebooks that the user can access",
     longDescription: "Allows the app to read and write the contents of all notebooks and sections that the signed-in user can access. It cannot access password protected sections.",
-    preview: true,
-    admin: false,
-  },
-  {
-    name: "Notes.ReadWrite.CreatedByApp",
-    description: "Limited notebook access (preview)",
-    longDescription: "Allows the app to read the titles of notebooks and sections, create new pages on behalf of the signed-in user. Also allows the app to read and update pages created by the app.",
-    preview: true,
+    preview: false,
     admin: false,
   },
   {
@@ -459,6 +452,55 @@ export const PermissionScopes: PermissionScope[] = [
     name: "IdentityProvider.ReadWrite.All",
     description: "Read and write all identity providers",
     longDescription: "Allows an app to read and write all Azure Active Directory (Azure AD) identity providers.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduRoster.ReadBasic",
+    description: "Read a limited subset of the organization's roster",
+    longDescription: "Allows the app to read a limited subset of the properties from the structure of schools and classes in an organization's roster and a limited subset of properties about users to be read on behalf of the user. Includes name, status, education role, email address and photo.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.ReadBasic",
+    description: "Read assignments without grades",
+    longDescription: "Allows the app to read assignments without grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.Read",
+    description: "Read assignments including grades",
+    longDescription: "Allows the app to read assignments and their grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.ReadWriteBasic",
+    description: "Read and write assignments without grades",
+    longDescription: "Allows the app to read and write assignments without grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAssignments.ReadWrite",
+    description: "Read and write assignments including grades",
+    longDescription: "Allows the app to read and write assignments and their grades on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAdministration.Read",
+    description: "View all Microsoft education app settings",
+    longDescription: "Read the state and settings of all Microsoft education apps on behalf of the user.",
+    preview: true,
+    admin: true
+  },
+  {
+    name: "EduAdministration.ReadWrite",
+    description: "Manage all Microsoft education app settings",
+    longDescription: "Manage the state and settings of all Microsoft education apps on behalf of the user.",
     preview: true,
     admin: true
   }
