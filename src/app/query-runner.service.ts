@@ -16,24 +16,24 @@ declare const ga;
 export class QueryRunnerService {
 
   constructor(private GraphService: GraphService) { }
-  
-  executeExplorerQuery(fromSample?:boolean) {
+
+  executeExplorerQuery(fromSample?: boolean) {
 
     // #hack.  When clicking on an autocomplete option, the model isn't updated
     if (fromSample !== true) {
       AppComponent.explorerValues.endpointUrl = $("#graph-request-url input").val();
     }
 
-    let query:GraphApiCall = {
-        requestUrl: AppComponent.explorerValues.endpointUrl,
-        method: AppComponent.explorerValues.selectedOption,
-        requestSentAt: new Date(),
-        headers: AppComponent.explorerValues.headers,
-        postBody: getRequestBodyEditor().getSession().getValue()
+    let query: GraphApiCall = {
+      requestUrl: AppComponent.explorerValues.endpointUrl,
+      method: AppComponent.explorerValues.selectedOption,
+      requestSentAt: new Date(),
+      headers: AppComponent.explorerValues.headers,
+      postBody: getRequestBodyEditor().getSession().getValue()
     };
 
     checkHasValidAuthToken();
-    let graphRequest:Promise<Response>;
+    let graphRequest: Promise<Response>;
     if (isAuthenticated()) {
       graphRequest = this.GraphService.performQuery(query.method, query.requestUrl, query.postBody, createHeaders(query.headers));
     } else {
@@ -44,7 +44,7 @@ export class QueryRunnerService {
     graphRequest.then((res) => {
       try {
         this.handleSuccessfulQueryResponse(res, query)
-      } catch(e) {
+      } catch (e) {
         console.error(e);
         AppComponent.messageBarContent = {
           text: getString(AppComponent.Options, 'explorer-error'),
@@ -66,7 +66,7 @@ export class QueryRunnerService {
     AppComponent.messageBarContent = null;
   }
 
-  handleSuccessfulQueryResponse(res:Response, query:GraphApiCall) {
+  handleSuccessfulQueryResponse(res: Response, query: GraphApiCall) {
     this.commonResponseHandler(res, query);
     let { headers } = res;
 
@@ -76,10 +76,10 @@ export class QueryRunnerService {
     let contentType = getContentType(headers);
 
     if (isImageResponse(contentType)) {
-        // For image responses don't insert the headers yet since we need
-        // to turn around and make a second request to the Graph for the image
-        this.fetchImage(query);
-        return;
+      // For image responses don't insert the headers yet since we need
+      // to turn around and make a second request to the Graph for the image
+      this.fetchImage(query);
+      return;
     }
 
     insertHeadersIntoResponseViewer(headers);
@@ -106,17 +106,17 @@ export class QueryRunnerService {
     }
   }
 
-  fetchImage(query:GraphApiCall) {
-    let fetchImagePromise:Promise<any>; 
+  fetchImage(query: GraphApiCall) {
+    let fetchImagePromise: Promise<any>;
     if (isAuthenticated()) {
-        fetchImagePromise = this.GraphService.performQuery("GET_BINARY", AppComponent.explorerValues.endpointUrl)
+      fetchImagePromise = this.GraphService.performQuery("GET_BINARY", AppComponent.explorerValues.endpointUrl)
     } else {
-        fetchImagePromise = this.GraphService.performAnonymousQuery("GET_BINARY", AppComponent.explorerValues.endpointUrl)
+      fetchImagePromise = this.GraphService.performAnonymousQuery("GET_BINARY", AppComponent.explorerValues.endpointUrl)
     }
 
-    fetchImagePromise.then((result:any) => {
-      let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
-      let imageUrl = window.URL.createObjectURL( blob );
+    fetchImagePromise.then((result: any) => {
+      let blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
+      let imageUrl = window.URL.createObjectURL(blob);
 
       const imageResultViewer = <HTMLImageElement>document.getElementById("responseImg");
       imageResultViewer.src = imageUrl;
@@ -126,28 +126,28 @@ export class QueryRunnerService {
     }).catch((res) => { this.handleUnsuccessfulQueryResponse(res, query) });
   }
 
-  handleUnsuccessfulQueryResponse(res:Response, query:GraphApiCall) {
+  handleUnsuccessfulQueryResponse(res: Response, query: GraphApiCall) {
     this.commonResponseHandler(res, query);
     insertHeadersIntoResponseViewer(res.headers);
     let errorText;
 
     try {
-        errorText = res.json();
-        handleJsonResponse(errorText);
-        return;
-    } catch(e) {
-        errorText = res.text();
+      errorText = res.json();
+      handleJsonResponse(errorText);
+      return;
+    } catch (e) {
+      errorText = res.text();
     }
 
     if (errorText.indexOf("<!DOCTYPE html>") !== -1) {
-        handleHtmlResponse(errorText);
+      handleHtmlResponse(errorText);
     } else {
-        showResults(errorText, "text")
+      showResults(errorText, "text")
     }
-    
+
   }
 
-  commonResponseHandler(res:Response, query:GraphApiCall) {
+  commonResponseHandler(res: Response, query: GraphApiCall) {
 
     QueryRunnerService.clearResponse();
 
@@ -164,50 +164,42 @@ export class QueryRunnerService {
       icon: this.isSuccessful(query) ? "ms-Icon--Completed" : "ms-Icon--ErrorBadge"
     }
 
-    let dataPoints:any[] = [query.statusCode]
+    // Telemetry data points.
+    let dataPoints: any[] = [query.statusCode]
 
     let urlGraph = constructGraphLinksFromFullPath(query.requestUrl);
     if (urlGraph && urlGraph.length > 0) {
       let cleanedUrl = urlGraph.map((link) => link.type).join("/");
       dataPoints.push(cleanedUrl);
     } else {
-      dataPoints.push("UnknownUrl");        
+      dataPoints.push("UnknownUrl");
     }
     dataPoints.push(isAuthenticated() ? "authenticated" : "demo");
-
-    if (typeof ga !== 'undefined') {
-      ga('send', {
-        hitType: 'event',
-        eventCategory: 'GraphExplorer',
-        eventAction: 'ExecuteQuery',
-        eventLabel: dataPoints.join(",")
-      });
-    }
   }
 
-  createTextSummary(query:GraphApiCall) {
-        let text = "";
-        if (this.isSuccessful(query)) {
-            text += getString(AppComponent.Options, "Success");
-        } else {
-            text += getString(AppComponent.Options, "Failure");
-        }
-
-        text += ` - ${getString(AppComponent.Options, "Status Code")} ${query.statusCode}`
-
-
-        text += `<span style="font-weight: 800; margin-left: 40px;">${query.duration}ms</span>`;
-
-        if (query.statusCode === 401 || query.statusCode === 403) {
-          text += `<span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.</span>`
-        }
-
-        return text;
+  createTextSummary(query: GraphApiCall) {
+    let text = "";
+    if (this.isSuccessful(query)) {
+      text += getString(AppComponent.Options, "Success");
+    } else {
+      text += getString(AppComponent.Options, "Failure");
     }
 
+    text += ` - ${getString(AppComponent.Options, "Status Code")} ${query.statusCode}`
 
-  isSuccessful(query:GraphApiCall) {
-      return query.statusCode >= 200 && query.statusCode < 300;
+
+    text += `<span style="font-weight: 800; margin-left: 40px;">${query.duration}ms</span>`;
+
+    if (query.statusCode === 401 || query.statusCode === 403) {
+      text += `<span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.</span>`
+    }
+
+    return text;
+  }
+
+
+  isSuccessful(query: GraphApiCall) {
+    return query.statusCode >= 200 && query.statusCode < 300;
   }
 
 }
