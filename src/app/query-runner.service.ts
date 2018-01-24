@@ -10,8 +10,6 @@ import { constructGraphLinksFromFullPath } from "./graph-structure";
 import { GraphService } from "./graph-service";
 import { createHeaders } from "./util";
 
-declare const ga;
-
 @Injectable()
 export class QueryRunnerService {
 
