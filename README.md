@@ -69,7 +69,7 @@ Permissions like `Mail.Read` are listed in [scopes.ts](./src/app/scopes.ts) and 
 Edits to this file can be made directly from Github.com so you don't even have to clone the project to add a new permission.  You can also see [a merged pull request](https://github.com/microsoftgraph/microsoft-graph-explorer/pull/48) for adding the `Reports.Read.All` permission.
 
 ## Known issues
-* You cannot remove permissions by using the Graph Explorer UI. You will need to use remove the application consent and then re-consent to remove permissions. I know, this is far from a good experience.
+* You cannot remove permissions by using the Graph Explorer UI. You will need to [remove the application consent](http://shawntabrizi.com/aad/revoking-consent-azure-active-directory-applications/) and then re-consent to remove permissions. I know, this is far from a good experience.
 
 ## Additional resources
 * [Microsoft Graph website](https://graph.microsoft.io)
