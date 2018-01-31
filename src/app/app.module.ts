@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
-import { AriaSelectedDirective } from './aria-selected.directive';
+import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { MainColumnComponent } from './main-column.component'
 import { AuthenticationComponent } from './authentication.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -27,7 +27,7 @@ import { GenericDialogComponent } from "./generic-message-dialog.component";
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
-  declarations: [AppComponent, AriaSelectedDirective, ResponseStatusBarComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent],
+  declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,19 +1,21 @@
-// AriaSelectedDirective - An attribute directive that uses the 'ariaselected' selector to 
-// to apply the aria-selected attribute and value when the item gains and loses focus. 
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
+// AriaSelectedMSPivotLinkDirective - An attribute directive that uses the ms-Pivot-link class selector to 
+// to apply the aria-selected attribute and value when the tab gains and loses focus.
+// https://dev.office.com/fabric-js/Components/Pivot/Pivot.html
 import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
 @Directive({
-    selector: '[ariaselected]'
-    // TODO: Investigate whether we target ms-pivot-link class with this selector. I think we can
-    // since this class is used for tabs. 
+    selector: '.ms-Pivot-link'
 })
-export class AriaSelectedDirective {
+export class AriaSelectedMSPivotLinkDirective {
     constructor(private el: ElementRef, private renderer: Renderer2) {
         this.el = el;
         this.renderer = renderer;
     }
 
-    // TODO: Make sure this works from the keyboard.
-    // Set the aria-selected attribute to true when the tab (ms-pivot-link) is selected.
+    // Set the aria-selected attribute to true when the tab (ms-pivot-link) gains focus.
     @HostListener('focus')
     onFocus() {
         this.renderer.setAttribute(this.el.nativeElement, 'aria-selected', 'true');
