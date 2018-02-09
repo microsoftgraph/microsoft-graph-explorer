@@ -7,6 +7,7 @@ module.exports = function(config) {
   var testingBase    = 'testing/'; // transpiled test JS and map files
   var testingSrcBase = 'testing/'; // test source TS files
 
+  // http://karma-runner.github.io/2.0/config/configuration-file.html
   var configuration = {
     basePath: '',
     frameworks: ['jasmine'],
@@ -106,7 +107,10 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+
+    // Adding this since we are getting a timeout in CI. The default at 10 seconds was not enough.
+    browserNoActivityTimeout: 1000*15
   }
 
   config.set(configuration);
