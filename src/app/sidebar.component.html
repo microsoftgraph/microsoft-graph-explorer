@@ -1,7 +1,7 @@
 <div id="explorer-sidebar">
     <div class="arrow-left"></div>
     <div>
-        <span id="explorer-title" class="c-heading-3 panel-header" tabindex="0" title="Graph Explorer">{{getStr('Graph Explorer')}}</span>
+        <span id="explorer-title" class="c-heading-3 panel-header" tabindex="0" [attr.title]="getStr('Graph Explorer')">{{getStr('Graph Explorer')}}</span>
     </div>
     <div class="c-drawer">
         <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
