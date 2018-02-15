@@ -1,10 +1,10 @@
 <div class="ms-Pivot">
     <ul class="ms-Pivot-links">
-        <li class="ms-Pivot-link is-selected" aria-selected="true" data-content="body" [attr.title]="getStr('request body')" tabindex="1"
+        <li class="ms-Pivot-link is-selected" aria-selected="true" data-content="body" [attr.title]="getStr('request body')" tabindex="0"
             role="tab">
             {{getStr('request body')}}
         </li>
-        <li class="ms-Pivot-link" data-content="headers" [attr.title]="getStr('request header')" tabindex="1" role="tab">
+        <li class="ms-Pivot-link" data-content="headers" [attr.title]="getStr('request header')" tabindex="0" role="tab">
             {{getStr('request header')}}
         </li>
     </ul>
@@ -23,7 +23,7 @@
                 <tr *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
                     <td class="half-width-col">
                         <input id="default" class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly"
-                            type="text" [attr.placeholder]="getPlaceholder(header)">
+                            role="textbox" aria-label="Add request header name" type="text" [attr.placeholder]="getPlaceholder(header)">
                         <!--<div class="c-search header-autocomplete" autocomplete="off">
                             <input role="combobox" class="c-text-field header-name" (ngModelChange)="createNewHeaderField()" [attr.aria-controls]="'headers-autosuggest-'+idx" aria-autocomplete="both" aria-expanded="false" type="text" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly">
                             <div class="m-auto-suggest" [attr.id]="'headers-autosuggest-'+idx" role="group">
@@ -35,9 +35,10 @@
                     </td>
                     <td class="half-width-col">
                         <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text"
-                            name="default" [class.invisible]="isLastHeader(header)">
+                            name="default" [class.invisible]="isLastHeader(header)" role="textbox" aria-label="Add request header value">
                     </td>
-                    <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)">
+                    <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)" role="button" aria-label="Remove request header"
+                        tabindex="0">
                         <i class="ms-Icon ms-Icon--Cancel"></i>
                     </td>
                 </tr>
