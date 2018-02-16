@@ -14,14 +14,14 @@
         </div>
     </div>
     <div class="ms-Pivot-content" data-content="headers">
-        <div id="headers-editor">
-            <table>
-                <tr>
-                    <th>{{getStr('Key')}}</th>
-                    <th>{{getStr('Value')}}</th>
+        <div id="headers-editor" role="grid">
+            <table role="presentation">
+                <tr role="row">
+                    <th role="columnheader" tabindex="0">{{getStr('Key')}}</th>
+                    <th role="columnheader" tabindex="0">{{getStr('Value')}}</th>
                 </tr>
-                <tr *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
-                    <td class="half-width-col">
+                <tr role="row" *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
+                    <td role="gridcell" class="half-width-col">
                         <input id="default" class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly"
                             role="textbox" aria-label="Add request header name" type="text" [attr.placeholder]="getPlaceholder(header)">
                         <!--<div class="c-search header-autocomplete" autocomplete="off">
@@ -33,7 +33,7 @@
                         </div>-->
 
                     </td>
-                    <td class="half-width-col">
+                    <td role="gridcell" class="half-width-col">
                         <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text"
                             name="default" [class.invisible]="isLastHeader(header)" role="textbox" aria-label="Add request header value">
                     </td>
