@@ -183,7 +183,7 @@ export class QueryRunnerService {
       text += getString(AppComponent.Options, "Failure");
     }
 
-    text += ` - ${getString(AppComponent.Options, "Status Code")} ${query.statusCode}`
+    text += ` - ${getString(AppComponent.Options, "Status Code")} ${query.statusCode}, `
 
 
     text += `<span style="font-weight: 800; margin-left: 40px;">${query.duration}ms</span>`;
