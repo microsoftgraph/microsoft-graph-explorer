@@ -7,12 +7,12 @@ import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { SampleQueryCategory } from "./base";
 import { SampleCategories, saveCategoryDisplayState } from "./getting-started-queries";
 
-declare let mwf:any;
+declare let mwf: any;
 
 @Component({
-  selector: 'sample-categories-panel',
-  styleUrls: ['./sample-categories-panel.component.css'],
-  templateUrl: './sample-categories-panel.component.html',
+    selector: 'sample-categories-panel',
+    styleUrls: ['./sample-categories-panel.component.css'],
+    templateUrl: './sample-categories-panel.component.html',
 })
 export class SampleCategoriesPanelComponent extends GraphExplorerComponent implements AfterViewInit {
 
@@ -22,10 +22,17 @@ export class SampleCategoriesPanelComponent extends GraphExplorerComponent imple
         }])
     }
 
-    toggleCategory(category:SampleQueryCategory) {
+    toggleCategory(category: SampleQueryCategory) {
         category.enabled = !category.enabled;
         saveCategoryDisplayState(category);
     }
 
-    categories:SampleQueryCategory[] = SampleCategories;
+    categories: SampleQueryCategory[] = SampleCategories;
+
+    // Creates an identifier from the category title by removing whitespace. We need this to 
+    // have the checkbox elements labelled by the containing category row so that screen readers 
+    // correctly state the purpose of the checkbox.
+    getId(title: string): string {
+        return this.getStr(title).replace(/\s+/, "");
+    }
 }
