@@ -23,7 +23,7 @@ div.c-toggle button {
 }
 
 div.c-toggle button:focus {
-    outline: none;
+    outline: 2px solid blue;
 }
 
 /* core.css frontdoor conflict */
