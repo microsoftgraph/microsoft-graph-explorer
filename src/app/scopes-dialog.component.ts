@@ -16,66 +16,70 @@ declare let fabric, mwf;
 })
 export class ScopesDialogComponent extends GraphExplorerComponent implements AfterViewInit {
 
-    ngAfterViewInit(): void {
-        ScopesDialogComponent.setScopesEnabledTarget();
-        window['launchPermissionsDialog'] = ScopesDialogComponent.showDialog
+  getScopeLabel(scopeName: String): String {
+    return scopeName + " scope";
+  }
+
+  ngAfterViewInit(): void {
+    ScopesDialogComponent.setScopesEnabledTarget();
+    window['launchPermissionsDialog'] = ScopesDialogComponent.showDialog
+  }
+
+  scopeListIsDirty(): boolean {
+    return PermissionScopes.filter((s) => s.enabled !== s.enabledTarget).length > 0;
+  }
+
+  requestingAdminScopes(): boolean {
+    return PermissionScopes.filter((s) => s.admin && s.enabledTarget).length > 0;
+  }
+
+  toggleScopeEnabled(scope: PermissionScope) {
+    scope.enabledTarget = !scope.enabledTarget;
+  }
+
+  startAdminConsentFlow() {
+    let loginProperties = {
+      display: 'page',
+      nonce: 'graph_explorer',
+      prompt: 'select_account'
+    };
+
+    hello('msft_admin_consent').login(loginProperties);
+
+  }
+
+  getNewAccessToken() {
+    // @todo type HelloJSLoginOptions
+    let loginProperties = {
+      display: 'page',
+      response_type: "token",
+      nonce: 'graph_explorer',
+      prompt: 'select_account',
+      // login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login
+      scope: PermissionScopes.filter((scope) => scope.enabledTarget).map((scope) => scope.name).join(" ")
+    };
+
+    hello('msft').login(loginProperties);
+  }
+
+  static showDialog() {
+    ScopesDialogComponent.setScopesEnabledTarget();
+
+    const el = document.querySelector("#scopes-dialog")
+    const fabricDialog = new fabric['Dialog'](el);
+    fabricDialog.open();
+
+    mwf.ComponentFactory.create([{
+      'component': mwf.Checkbox
+    }])
+  }
+
+  static setScopesEnabledTarget() {
+    // populate enabledTarget
+    for (let scope of PermissionScopes) {
+      scope.enabledTarget = scope.enabled;
     }
+  }
 
-    scopeListIsDirty():boolean {
-      return PermissionScopes.filter((s) => s.enabled !== s.enabledTarget).length > 0;
-    }
-
-    requestingAdminScopes():boolean {
-      return PermissionScopes.filter((s) => s.admin && s.enabledTarget).length > 0;
-    }
-
-    toggleScopeEnabled(scope:PermissionScope) {
-      scope.enabledTarget = !scope.enabledTarget;
-    }
-
-    startAdminConsentFlow() {
-      let loginProperties = {
-        display: 'page',
-        nonce: 'graph_explorer',
-        prompt: 'select_account'
-      };
-
-      hello('msft_admin_consent').login(loginProperties);
-
-    }
-
-    getNewAccessToken() {
-      // @todo type HelloJSLoginOptions
-      let loginProperties = {
-        display: 'page',
-        response_type: "token",
-        nonce: 'graph_explorer',
-        prompt: 'select_account',
-        // login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login
-        scope: PermissionScopes.filter((scope) => scope.enabledTarget).map((scope) => scope.name).join(" ")
-      };
-
-      hello('msft').login(loginProperties);
-    }
-
-    static showDialog() {
-        ScopesDialogComponent.setScopesEnabledTarget();
-
-        const el = document.querySelector("#scopes-dialog")
-        const fabricDialog = new fabric['Dialog'](el);
-        fabricDialog.open();
-
-        mwf.ComponentFactory.create([{
-            'component': mwf.Checkbox
-        }])
-    }
-
-    static setScopesEnabledTarget() {
-      // populate enabledTarget
-      for (let scope of PermissionScopes) {
-        scope.enabledTarget = scope.enabled;
-      }
-    }
-
-    scopes:PermissionScope[] = PermissionScopes;
+  scopes: PermissionScope[] = PermissionScopes;
 }
