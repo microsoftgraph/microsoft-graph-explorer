@@ -9,7 +9,7 @@
         <div id="scopes-list-table-container">
             <table class="ms-Table" id="scopes-list-table">
                 <tr *ngFor="let scope of scopes">
-                    <td>
+                    <td class="scopeRow">
                         <div class="c-checkbox">
                             <label class="c-label">
                                 <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1"
