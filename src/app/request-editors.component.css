@@ -49,3 +49,8 @@ td.remove-header-btn i {
 .ms-Pivot-content {
     margin-top: 10px;
 }
+
+.ms-Pivot-link:hover, .ms-Pivot-link:focus {
+    background: rgba(0,0,0,0.25);
+    outline: 2px solid white;
+}
