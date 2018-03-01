@@ -1,6 +1,6 @@
 <div class="ms-MessageBar ms-MessageBar-singleline" [ngClass]="message?.backgroundClass" [class.hide-action-bar]="message == null">
     <div class="ms-MessageBar-content">
-        <table>
+        <table aria-labelledby="responseStatusText">
             <tr>
                 <td style="width: 10px;">
                     <div class="ms-MessageBar-icon">
@@ -8,7 +8,7 @@
                     </div>
                 </td>
                 <div class="ms-MessageBar-actionables">
-                    <div class="ms-MessageBar-text" tabindex="0" [innerHtml]="messageHTML"></div>
+                    <div id="responseStatusText" class="ms-MessageBar-text" tabindex="0" [innerHtml]="messageHTML" role="alert" aria-live="assertive"></div>
                 </div>
                 <td>
                 </td>
