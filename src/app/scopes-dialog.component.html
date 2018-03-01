@@ -6,7 +6,8 @@
     <p class="ms-Dialog-subText">Select different
         <a class="ms-Link" href="https://developer.microsoft.com/graph/docs/concepts/permissions_reference" target="_blank">permissions</a> to try out Microsoft Graph API endpoints.</p>
     <div class="ms-Dialog-content">
-        <div id="scopes-list-table-container">
+
+        <div id="scopes-list-table-container" #scopesListTableContainer [style.height.px]="getScopesListTableHeight()">
             <table class="ms-Table" id="scopes-list-table">
                 <tr *ngFor="let scope of scopes">
                     <td class="scopeRow">
@@ -34,7 +35,7 @@
                     <div class="ms-MessageBar-icon">
                         <i class="ms-Icon ms-Icon--Info"></i>
                     </div>
-                    <div class="ms-MessageBar-text">
+                    <div class="ms-MessageBar-text" role="alert" aria-live="assertive">
                         {{getStr('To change permissions, you will need to log-in again.')}}
                         <br />
                     </div>
@@ -47,7 +48,7 @@
                     <div class="ms-MessageBar-icon">
                         <i class="ms-Icon ms-Icon--Info"></i>
                     </div>
-                    <div class="ms-MessageBar-text">
+                    <div class="ms-MessageBar-text" role="alert" aria-live="assertive">
                         You have selected permissions that only an administrator can grant. To get access, an administrator can grant
                         <a class="ms-Link" href="#" [style.font-size.px]="15" (click)="startAdminConsentFlow()">access to your entire organization</a>.
                         <br />
