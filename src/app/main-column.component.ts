@@ -11,19 +11,19 @@ import { GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL }
 import { initializeJsonViewer, initializeResponseHeadersViewer } from "./api-explorer-jsviewer";
 import { QueryRunnerService } from "./query-runner.service";
 
-declare let mwf:any;
+declare let mwf: any;
 
 @Component({
-  selector: 'main-column',
-  templateUrl: './main-column.component.html',
-  styleUrls: ['./main-column.component.css'],
-  providers: [QueryRunnerService]
+    selector: 'main-column',
+    templateUrl: './main-column.component.html',
+    styleUrls: ['./main-column.component.css'],
+    providers: [QueryRunnerService]
 })
 
 export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
-    oldExplorerValues:ExplorerValues = {};
+    oldExplorerValues: ExplorerValues = {};
 
-    messageBarContent():MessageBarContent {
+    messageBarContent(): MessageBarContent {
         return AppComponent.messageBarContent;
     }
 
@@ -37,26 +37,26 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             // add content-type header when switching to POST
             if ((this.oldExplorerValues.selectedOption !== "POST" && this.explorerValues.selectedOption === "POST")
                 || (this.oldExplorerValues.selectedOption !== "PATCH" && this.explorerValues.selectedOption === "PATCH")) {
-                 // if it doesn't already exist
-                 let hasContentTypeHeader = false;
-                 if (this.explorerValues.headers) {
-                     for (let header of this.explorerValues.headers) {
-                         if (header.name.toLowerCase() === "content-type") {
-                             hasContentTypeHeader = true;
-                             break;
-                         }
-                     }
-                     if (!hasContentTypeHeader) {
-                         this.explorerValues.headers.unshift({
-                             enabled: true,
-                             name: "Content-type",
-                             readonly: false,
-                             value: "application/json"
-                         })
-                     }
-                 }
+                // if it doesn't already exist
+                let hasContentTypeHeader = false;
+                if (this.explorerValues.headers) {
+                    for (let header of this.explorerValues.headers) {
+                        if (header.name.toLowerCase() === "content-type") {
+                            hasContentTypeHeader = true;
+                            break;
+                        }
+                    }
+                    if (!hasContentTypeHeader) {
+                        this.explorerValues.headers.unshift({
+                            enabled: true,
+                            name: "Content-type",
+                            readonly: false,
+                            value: "application/json"
+                        })
+                    }
+                }
             }
-            
+
 
             this.oldExplorerValues = JSON.parse(JSON.stringify(this.explorerValues));
         }
@@ -69,8 +69,22 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         mwf.ComponentFactory.create([{
             component: mwf.Select,
             elements: [this._httpMethodEl.element.nativeElement],
-            callback: (event:any) => {            
+            callback: (event: any) => {
                 this.updateHttpMethod();
+
+                console.log("Debug httpMethod");
+                event[0].selectMenu.element.children[0].setAttribute("disabled", "");
+                console.log(event[0].selectMenu.element.children[0]);
+                console.log(this._httpMethodEl.element.nativeElement);
+
+                // This is a hacky way to get to the button so that we can disable it. The problem is that this component is generated from the MS Web Framework. I don't think we have access to this component. 
+                // When the user signs out, we need to update the DOM and set this button as disabled.
+                // I don't think we need to worry about signing in as the page is reloaded to the correct state.
+                // This is the same as event[0].selectMenu.element.children[0]
+                console.log(this._httpMethodEl.element.nativeElement.children[1].children[0]);
+
+                // console.log(event);
+
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedOption = method.id;
@@ -83,11 +97,11 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         mwf.ComponentFactory.create([{
             component: mwf.Select,
             elements: [this._graphVersionEl.element.nativeElement],
-            callback: (event:any) => {
+            callback: (event: any) => {
                 this.updateGraphVersionSelect();
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
-                        this.explorerValues.selectedVersion = document.getElementById("-"+method.id).children[0].textContent as GraphApiVersion;
+                        this.explorerValues.selectedVersion = document.getElementById("-" + method.id).children[0].textContent as GraphApiVersion;
                         this.updateEndpointURLVersionFromVersion();
                     }
                 })
@@ -106,7 +120,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                     if (!!autoSuggest) {
                         autoSuggest.subscribe({
                             onMatchPatternChanged: (notification) => {
-                                autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: s }}));
+                                autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: s } }));
                                 // autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: this.getShortUrl(s) }}));
                             }
                         });
@@ -117,11 +131,11 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
-    @ViewChild('httpMethod', {read: ViewContainerRef}) _httpMethodEl;
-    @ViewChild('graphVersion', {read: ViewContainerRef}) _graphVersionEl;
-    @ViewChild('autoSuggest', {read: ViewContainerRef}) _autoSuggestEl;
+    @ViewChild('httpMethod', { read: ViewContainerRef }) _httpMethodEl;
+    @ViewChild('graphVersion', { read: ViewContainerRef }) _graphVersionEl;
+    @ViewChild('autoSuggest', { read: ViewContainerRef }) _autoSuggestEl;
 
     methods = Methods;
     GraphVersions = AppComponent.Options.GraphVersions;
@@ -139,13 +153,13 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         this.queryRunnerService.executeExplorerQuery();
     }
 
-    getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
+    getRelativeUrlFromGraphNodeLinks(links: GraphNodeLink[]) {
         return links.map((x) => x.name).join('/');
     }
 
     updateVersionFromEndpointUrl() {
         // if the user typed in a different version, change the dropdown
-        let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl+"/");
+        let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl + "/");
         if (graphPathStartingWithVersion.length < 2) {
             return;
         }
@@ -157,7 +171,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         let possibleVersion = possibleGraphPathArr[0] as GraphApiVersion;
 
         // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) !== -1) {
-            // possibleVersion is a valid version
+        // possibleVersion is a valid version
         this.explorerValues.selectedVersion = possibleVersion;
         // }
         // parseMetadata();
@@ -172,7 +186,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         super();
     }
 
-    getMatches(query:string):string[] {
+    getMatches(query: string): string[] {
         let urls = getUrlsFromServiceURL(AppComponent.explorerValues.selectedVersion);
         let currentGraphLinks = constructGraphLinksFromFullPath(query);
 
@@ -185,10 +199,10 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             return [];
         }
 
-        return urls.filter((option) => option.indexOf(query)>-1);
+        return urls.filter((option) => option.indexOf(query) > -1);
     }
 
-    getShortUrl(url:string) {
+    getShortUrl(url: string) {
         const serviceTextLength = AppComponent.explorerValues.endpointUrl.length;
         const useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 50;
 
@@ -202,7 +216,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     updateGraphVersionSelect() {
         // update version select from explorerValues
         let graphVersionSelectEl = this._graphVersionEl.element.nativeElement;
-        
+
         if (!graphVersionSelectEl.mwfInstances) {
             return;
         };
@@ -238,7 +252,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     updateHttpMethod() {
         const httpMethodSelectMenuEl = this._httpMethodEl.element.nativeElement;
-        
+
         if (!httpMethodSelectMenuEl.mwfInstances) {
             return;
         };

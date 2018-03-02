@@ -10,7 +10,7 @@ import { GraphService } from "./graph-service";
 import { PermissionScopes } from "./scopes";
 import { getParameterByName } from "./util";
 
-export function initAuth(options:ExplorerOptions, apiService:GraphService, changeDetectorRef: ChangeDetectorRef) {
+export function initAuth(options: ExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef) {
 	setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
 	hello.init({
 		msft: {
@@ -39,11 +39,11 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 	} as any);
 
 	hello.init({
-			msft: options.ClientId,
-			msft_admin_consent: options.ClientId
+		msft: options.ClientId,
+		msft_admin_consent: options.ClientId
 	}, {
 			redirect_uri: window.location.pathname //required to remove extra url params that make URLs not match
-	});
+		});
 
 	hello.on('auth.login', (auth) => {
 		let accessToken;
@@ -71,8 +71,8 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 
 			// get profile image
 			promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
-				let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
-				let imageUrl = window.URL.createObjectURL( blob );
+				let blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
+				let imageUrl = window.URL.createObjectURL(blob);
 				AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
 			}).catch((e) => console.log(e)));
 
@@ -81,7 +81,7 @@ export function initAuth(options:ExplorerOptions, apiService:GraphService, chang
 				changeDetectorRef.detectChanges();
 			}).catch((e) => {
 				// occurs when hello got an access token, but it's already expired
-				localLogout();				
+				localLogout();
 			});
 
 			// set which permissions are checked
@@ -131,7 +131,7 @@ export function refreshAccessToken() {
 function handleAdminConsentResponse() {
 	let adminConsentRes = hello('msft_admin_consent').getAuthResponse();
 
-	let successMsg:Message = {
+	let successMsg: Message = {
 		body: "You have completed the admin consent flow and can now select permission scopes that require administrator consent.  It may take a few minutes before the consent takes effect.",
 		title: "Admin consent completed"
 	};
@@ -180,7 +180,7 @@ export function getScopes() {
 	}
 }
 
-export function haveValidAccessToken():boolean {
+export function haveValidAccessToken(): boolean {
 	let session = hello('msft').getAuthResponse();
 
 	if (!session) {
@@ -190,7 +190,7 @@ export function haveValidAccessToken():boolean {
 	return session && session.access_token && session.expires > currentTime;
 };
 
-window['tokenPlease'] = function() {
+window['tokenPlease'] = function () {
 	let authResponse = hello('msft').getAuthResponse();
 	if (authResponse) {
 		return authResponse.access_token;
@@ -201,18 +201,21 @@ window['tokenPlease'] = function() {
 
 
 export function localLogout() {
+
+	// TODO: Change the httpVerb drop down to be disabled.
+
 	// anonymous users can only GET
 	AppComponent.explorerValues.selectedOption = "GET";
 
 	if (typeof hello !== 'undefined') {
-		(hello as any)('msft').logout(null, {force:true});
+		(hello as any)('msft').logout(null, { force: true });
 	}
 	AppComponent.explorerValues.authentication.status = "anonymous"
 	AppComponent.explorerValues.authentication.user = {};
 }
 
 export function checkHasValidAuthToken() {
-	if (!haveValidAccessToken()  && isAuthenticated()) {
+	if (!haveValidAccessToken() && isAuthenticated()) {
 		console.log("App says user is authenticated, but doesn't have a valid access token.", new Date())
 		localLogout();
 	}
