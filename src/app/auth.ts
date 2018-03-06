@@ -201,9 +201,6 @@ window['tokenPlease'] = function () {
 
 
 export function localLogout() {
-
-	// TODO: Change the httpVerb drop down to be disabled.
-
 	// anonymous users can only GET
 	AppComponent.explorerValues.selectedOption = "GET";
 
