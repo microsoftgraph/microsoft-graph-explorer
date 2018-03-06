@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck, AfterViewChecked } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ViewContainerRef, DoCheck, AfterViewChecked } from '@angular/core';
 import { Methods, ExplorerValues, MessageBarContent, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
@@ -20,7 +20,7 @@ declare let mwf: any;
     providers: [QueryRunnerService]
 })
 
-export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
+export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck {
     oldExplorerValues: ExplorerValues = {};
 
     messageBarContent(): MessageBarContent {
@@ -126,8 +126,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             }
         }]);
     }
-
-    ngOnInit() { }
 
     @ViewChild('httpMethod', { read: ViewContainerRef }) _httpMethodEl;
     @ViewChild('graphVersion', { read: ViewContainerRef }) _graphVersionEl;
