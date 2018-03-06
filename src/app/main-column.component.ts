@@ -33,8 +33,12 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
          * like this since the httpVerb picker is a non-Angular, Microsoft Web Framework component that is loaded into 
          * the DOM. It is not part of the Angular template and is loaded at ngAfterViewInit(). 
          */
-        if (!this.isAuthenticated()) {
-            this._httpMethodEl.element.nativeElement.children[1].children[0].setAttribute("disabled", "");
+        if (this.isAuthenticated()) {
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "false");
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("disabled", "false");
+        } else {
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "true");
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("disabled", "true");
         }
     }
 
