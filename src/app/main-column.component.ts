@@ -2,7 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck, AfterViewChecked } from '@angular/core';
 import { Methods, ExplorerValues, MessageBarContent, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
@@ -25,6 +25,17 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
     messageBarContent(): MessageBarContent {
         return AppComponent.messageBarContent;
+    }
+
+    ngAfterViewChecked() {
+        /**
+         * Disable the the httpVerb picker after the view has changed and the client is not authenticated. We are doing this 
+         * like this since the httpVerb picker is a non-Angular, Microsoft Web Framework component that is loaded into 
+         * the DOM. It is not part of the Angular template and is loaded at ngAfterViewInit(). 
+         */
+        if (!this.isAuthenticated()) {
+            this._httpMethodEl.element.nativeElement.children[1].children[0].setAttribute("disabled", "");
+        }
     }
 
     ngDoCheck() {
@@ -71,20 +82,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
             elements: [this._httpMethodEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateHttpMethod();
-
-                console.log("Debug httpMethod");
-                event[0].selectMenu.element.children[0].setAttribute("disabled", "");
-                console.log(event[0].selectMenu.element.children[0]);
-                console.log(this._httpMethodEl.element.nativeElement);
-
-                // This is a hacky way to get to the button so that we can disable it. The problem is that this component is generated from the MS Web Framework. I don't think we have access to this component. 
-                // When the user signs out, we need to update the DOM and set this button as disabled.
-                // I don't think we need to worry about signing in as the page is reloaded to the correct state.
-                // This is the same as event[0].selectMenu.element.children[0]
-                console.log(this._httpMethodEl.element.nativeElement.children[1].children[0]);
-
-                // console.log(event);
-
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedOption = method.id;
@@ -128,7 +125,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                 }
             }
         }]);
-
     }
 
     ngOnInit() { }
