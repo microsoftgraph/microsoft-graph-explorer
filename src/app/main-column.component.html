@@ -17,9 +17,9 @@
     </div>
 
     <div id="graph-request-url" class="c-search" autocomplete="off" name="form1">
-        <input [(ngModel)]="explorerValues.endpointUrl" (keydown)="endpointInputKeyDown($event)" role="combobox" aria-controls="auto-suggest-default-2"
+        <input [(ngModel)]="explorerValues.endpointUrl" (keydown)="endpointInputKeyDown($event)" role="textbox" aria-controls="auto-suggest-default-2"
             aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off"
-            autocapitalize="off" spellcheck="false">
+            autocapitalize="off" spellcheck="false" aria-label="Microsoft Graph request URL input">
 
         <div class="m-auto-suggest" #autoSuggest id="auto-suggest-default-2" role="group">
             <ul class="c-menu f-auto-suggest-scroll" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
@@ -42,7 +42,7 @@
 <!-- response -->
 <share-link-btn></share-link-btn>
 <div class="ms-Pivot" id="response-viewer-labels" tabindex="0">
-    <ul class="ms-Pivot-links">
+    <ul class="ms-Pivot-links" role="tablist">
         <li class="ms-Pivot-link is-selected" data-content="response" [attr.title]="getStr('Response Preview')" tabindex="0" role="tab">
             {{getStr('Response Preview')}}
         </li>

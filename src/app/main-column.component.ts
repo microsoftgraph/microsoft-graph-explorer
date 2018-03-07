@@ -35,10 +35,10 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
          */
         if (this.isAuthenticated()) {
             this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "false");
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute("disabled", "false");
+            this._httpMethodEl.element.nativeElement.children[1].children[0].removeAttribute("disabled");
         } else {
             this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "true");
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute("disabled", "true");
+            this._httpMethodEl.element.nativeElement.children[1].children[0].setAttribute("disabled", "");
         }
     }
 
