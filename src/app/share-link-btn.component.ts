@@ -2,8 +2,9 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
+import { AllowedGraphDomains } from "./base";
 
 declare let fabric:any;
 
@@ -34,19 +35,45 @@ export class ShareLinkBtnComponent extends GraphExplorerComponent implements Aft
         return this.createShareLink(this.explorerValues.endpointUrl, this.explorerValues.selectedOption, this.explorerValues.selectedVersion);
     }
 
-    createShareLink(fullRequestUrl, action, version) {    
-        return window.location.origin + window.location.pathname + "?request=" + this.extractGraphEndpoint(fullRequestUrl) + "&method=" + action + "&version=" + version;
+    createShareLink(fullRequestUrl, action, version) {
+        let callComponents = this.getGraphCallComponents(fullRequestUrl);
+        return window.location.origin
+            + window.location.pathname
+            + "?request=" + callComponents.requestUrl
+             + "&method=" + action
+             + "&version=" + callComponents.version
+             + "&GraphUrl=" + callComponents.graphDeploymentUrl;
     }
 
-    extractGraphEndpoint(fullRequestUrl) {
-        if (!fullRequestUrl) return;
-        let requestUrl = fullRequestUrl.split('.com')
-        requestUrl.shift();
-        
-        if (requestUrl.length == 0) return;
-        var requestUrlComponents = requestUrl[0].split('/');
-        requestUrlComponents.shift(); //remove empty item
-        requestUrlComponents.shift(); //remove version
-        return (requestUrlComponents.join('/'));
+
+    /**
+     * Given a URL like https://graph.microsoft.com/v1.0/some/graph/api/call, extract
+     * https://graph.microsoft.com and some/graph/api/call
+     */
+    getGraphCallComponents(fullRequestUrl: string): GraphApiCallUrlComponents  {
+        if (!fullRequestUrl) {
+            return;
+        }
+
+        for (const graphDeploymentUrl of AllowedGraphDomains) {
+            if (fullRequestUrl.startsWith(graphDeploymentUrl)) {
+
+                let apiCall = fullRequestUrl.split(graphDeploymentUrl)[1];
+                let requestUrlComponents = apiCall.split('/');
+
+
+                return {
+                    graphDeploymentUrl,
+                    version: requestUrlComponents[1],
+                    requestUrl: requestUrlComponents.slice(2, requestUrlComponents.length).join('/')
+                }
+            }
+        }
     }
+}
+
+interface GraphApiCallUrlComponents {
+    graphDeploymentUrl?: string // https://graph.microsoft.com
+    requestUrl?: string // /me/people
+    version?: string // beta
 }

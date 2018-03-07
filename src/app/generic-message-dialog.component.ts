@@ -4,11 +4,10 @@
 
 import { Component } from '@angular/core';
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { Message } from "./base";
 import { AppComponent } from "./app.component";
 
 
-declare let fabric, mwf;
+declare let fabric;
 
 @Component({
   selector: 'generic-dialog',
@@ -21,9 +20,9 @@ declare let fabric, mwf;
       <button class="ms-Dialog-button ms-Dialog-buttonClose">
         <i class="ms-Icon ms-Icon--Cancel"></i>
       </button>
-      <div class="ms-Dialog-title" *ngIf="getMessage()">{{getMessage().title}}</div>
-      <div class="ms-Dialog-content" *ngIf="getMessage()">
-        {{getMessage().body}}
+      <div class="ms-Dialog-title">{{getMessage()?.title}}</div>
+      <div class="ms-Dialog-content">
+        {{getMessage()?.body}}
       </div>
       <div class="ms-Dialog-actions">
         <button class="ms-Button ms-Dialog-action">

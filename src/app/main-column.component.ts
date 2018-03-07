@@ -2,62 +2,76 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, DoCheck } from '@angular/core';
-import { AuthenticationStatus, GraphApiCall, Methods, ExplorerValues, AutoCompleteItem, MessageBarContent, GraphApiVersion } from "./base";
+import { Component, AfterViewInit, ViewChild, ViewContainerRef, DoCheck, AfterViewChecked } from '@angular/core';
+import { Methods, ExplorerValues, MessageBarContent, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { FormControl } from "@angular/forms";
-import { GraphService } from "./graph-service";
 import { GraphNodeLink, constructGraphLinksFromFullPath, getUrlsFromServiceURL } from "./graph-structure";
 import { initializeJsonViewer, initializeResponseHeadersViewer } from "./api-explorer-jsviewer";
-import { Observable } from "rxjs/Observable";
+import { QueryRunnerService } from "./query-runner.service";
 
-declare let mwf:any;
+declare let mwf: any;
 
 @Component({
-  providers: [GraphService],
-  selector: 'main-column',
-  templateUrl: './main-column.component.html',
-  styleUrls: ['./main-column.component.css']
+    selector: 'main-column',
+    templateUrl: './main-column.component.html',
+    styleUrls: ['./main-column.component.css'],
+    providers: [QueryRunnerService]
 })
 
-export class MainColumnComponent extends GraphExplorerComponent implements OnInit, AfterViewInit, DoCheck {
-    oldExplorerValues:ExplorerValues = {};
+export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck, AfterViewChecked {
+    oldExplorerValues: ExplorerValues = {};
 
-    messageBarContent():MessageBarContent {
+    messageBarContent(): MessageBarContent {
         return AppComponent.messageBarContent;
     }
 
+    ngAfterViewChecked() {
+        /**
+         * Disable the the httpVerb picker after the view has changed and the client is not authenticated. We are doing this 
+         * like this since the httpVerb picker is a non-Angular, Microsoft Web Framework component that is loaded into 
+         * the DOM. It is not part of the Angular template and is loaded at ngAfterViewInit(). 
+         */
+        if (this.isAuthenticated()) {
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "false");
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("disabled", "false");
+        } else {
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "true");
+            this._httpMethodEl.element.nativeElement.children[1].setAttribute("disabled", "true");
+        }
+    }
+
     ngDoCheck() {
-        if (this.explorerValues && JSON.stringify(this.oldExplorerValues) != JSON.stringify(this.explorerValues)) {
+        if (this.explorerValues && JSON.stringify(this.oldExplorerValues) !== JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();
             this.updateGraphVersionSelect();
 
             this.updateHttpMethod();
 
             // add content-type header when switching to POST
-            if ((this.oldExplorerValues.selectedOption != "POST" && this.explorerValues.selectedOption == "POST")
-                || (this.oldExplorerValues.selectedOption != "PATCH" && this.explorerValues.selectedOption == "PATCH")) {
-                 // if it doesn't already exist
-                 let hasContentTypeHeader = false;
-                 if (this.explorerValues.headers) {
-                     for (let header of this.explorerValues.headers) {
-                         if (header.name.toLowerCase() == "content-type") {
-                             hasContentTypeHeader = true;
-                             break;
-                         }
-                     }
-                     if (!hasContentTypeHeader) {
-                         this.explorerValues.headers.unshift({
-                             enabled: true,
-                             name: "Content-type",
-                             readonly: false,
-                             value: "application/json"
-                         })
-                     }
-                 }
+            if ((this.oldExplorerValues.selectedOption !== "POST" && this.explorerValues.selectedOption === "POST")
+                || (this.oldExplorerValues.selectedOption !== "PATCH" && this.explorerValues.selectedOption === "PATCH")) {
+                // if it doesn't already exist
+                let hasContentTypeHeader = false;
+                if (this.explorerValues.headers) {
+                    for (let header of this.explorerValues.headers) {
+                        if (header.name.toLowerCase() === "content-type") {
+                            hasContentTypeHeader = true;
+                            break;
+                        }
+                    }
+                    if (!hasContentTypeHeader) {
+                        this.explorerValues.headers.unshift({
+                            enabled: true,
+                            name: "Content-type",
+                            readonly: false,
+                            value: "application/json"
+                        })
+                    }
+                }
             }
-            
+
 
             this.oldExplorerValues = JSON.parse(JSON.stringify(this.explorerValues));
         }
@@ -70,7 +84,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         mwf.ComponentFactory.create([{
             component: mwf.Select,
             elements: [this._httpMethodEl.element.nativeElement],
-            callback: (event:any) => {            
+            callback: (event: any) => {
                 this.updateHttpMethod();
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
@@ -84,11 +98,11 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         mwf.ComponentFactory.create([{
             component: mwf.Select,
             elements: [this._graphVersionEl.element.nativeElement],
-            callback: (event:any) => {
+            callback: (event: any) => {
                 this.updateGraphVersionSelect();
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
-                        this.explorerValues.selectedVersion = document.getElementById("-"+method.id).children[0].textContent as GraphApiVersion;
+                        this.explorerValues.selectedVersion = document.getElementById("-" + method.id).children[0].textContent as GraphApiVersion;
                         this.updateEndpointURLVersionFromVersion();
                     }
                 })
@@ -100,13 +114,14 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
 
         mwf.ComponentFactory.create([{
             component: mwf.AutoSuggest,
+            elements: [this._autoSuggestEl.element.nativeElement],
             callback: (autoSuggests) => {
                 if (autoSuggests && (autoSuggests.length > 0)) {
                     let autoSuggest = autoSuggests[0];
                     if (!!autoSuggest) {
                         autoSuggest.subscribe({
                             onMatchPatternChanged: (notification) => {
-                                autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: s }}));
+                                autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: s } }));
                                 // autoSuggest.updateSuggestions(this.getAutoCompleteOptions().map((s) => { return { type: 'string', value: this.getShortUrl(s) }}));
                             }
                         });
@@ -114,47 +129,47 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
                 }
             }
         }]);
-
     }
 
-    ngOnInit() {}
-
-    @ViewChild('httpMethod', {read: ViewContainerRef}) _httpMethodEl;
-    @ViewChild('graphVersion', {read: ViewContainerRef}) _graphVersionEl;
+    @ViewChild('httpMethod', { read: ViewContainerRef }) _httpMethodEl;
+    @ViewChild('graphVersion', { read: ViewContainerRef }) _graphVersionEl;
+    @ViewChild('autoSuggest', { read: ViewContainerRef }) _autoSuggestEl;
 
     methods = Methods;
     GraphVersions = AppComponent.Options.GraphVersions;
-    constructor(private GraphService: GraphService) {
-        super();
-    }
 
     endpointInputKeyDown(event) {
-        if (event.keyCode == 13)
+        if (event.keyCode === 13) {
             this.submit()
+        }
     }
 
     submit = () => {
-        if (this.explorerValues.requestInProgress) return;
-        AppComponent.executeExplorerQuery();
+        if (this.explorerValues.requestInProgress) {
+            return;
+        }
+        this.queryRunnerService.executeExplorerQuery();
     }
 
-    getRelativeUrlFromGraphNodeLinks(links:GraphNodeLink[]) {
+    getRelativeUrlFromGraphNodeLinks(links: GraphNodeLink[]) {
         return links.map((x) => x.name).join('/');
     }
 
     updateVersionFromEndpointUrl() {
         // if the user typed in a different version, change the dropdown
-        let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl+"/");
-        if (graphPathStartingWithVersion.length < 2) return;
+        let graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl + "/");
+        if (graphPathStartingWithVersion.length < 2) {
+            return;
+        }
         let possibleGraphPathArr = graphPathStartingWithVersion[1].split('/');
-        if (possibleGraphPathArr.length == 0) {
+        if (possibleGraphPathArr.length === 0) {
             return;
         }
 
         let possibleVersion = possibleGraphPathArr[0] as GraphApiVersion;
 
-        // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) != -1) {
-            // possibleVersion is a valid version
+        // if (AppComponent.Options.GraphVersions.indexOf(possibleVersion) !== -1) {
+        // possibleVersion is a valid version
         this.explorerValues.selectedVersion = possibleVersion;
         // }
         // parseMetadata();
@@ -165,21 +180,27 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         return this.getMatches(AppComponent.explorerValues.endpointUrl);
     }
 
-    getMatches(query:string):string[] {
+    constructor(public queryRunnerService: QueryRunnerService) {
+        super();
+    }
+
+    getMatches(query: string): string[] {
         let urls = getUrlsFromServiceURL(AppComponent.explorerValues.selectedVersion);
         let currentGraphLinks = constructGraphLinksFromFullPath(query);
 
-        if (!currentGraphLinks) return [];
+        if (!currentGraphLinks) {
+            return [];
+        }
         // if query ends with odata query param, don't return any URLs
         const lastNode = currentGraphLinks.pop();
-        if (lastNode && lastNode.name.indexOf("?") != -1) {
+        if (lastNode && lastNode.name.indexOf("?") !== -1) {
             return [];
         }
 
-        return urls.filter((option) => option.indexOf(query)>-1);
+        return urls.filter((option) => option.indexOf(query) > -1);
     }
 
-    getShortUrl(url:string) {
+    getShortUrl(url: string) {
         const serviceTextLength = AppComponent.explorerValues.endpointUrl.length;
         const useLastPathSegmentOnly = serviceTextLength !== undefined && serviceTextLength > 50;
 
@@ -193,7 +214,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     updateGraphVersionSelect() {
         // update version select from explorerValues
         let graphVersionSelectEl = this._graphVersionEl.element.nativeElement;
-        
+
         if (!graphVersionSelectEl.mwfInstances) {
             return;
         };
@@ -201,7 +222,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
         const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.t.selectMenu;
 
         let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
-        if (graphVersionIdx == -1) {
+        if (graphVersionIdx === -1) {
             document.getElementById("-Other").children[0].textContent = this.explorerValues.selectedVersion;
             graphVersionIdx = this.GraphVersions.indexOf("Other");
 
@@ -218,12 +239,18 @@ export class MainColumnComponent extends GraphExplorerComponent implements OnIni
     }
 
     updateEndpointURLVersionFromVersion() {
-        this.explorerValues.endpointUrl = this.explorerValues.endpointUrl.replace(/https:\/\/graph.microsoft.com($|\/([\w]|\.)*($|))/, (AppComponent.Options.GraphUrl + "/" + this.explorerValues.selectedVersion));
+        // AppComponent.Options.GraphUrl may be https://graph.microsoft.com/ or another sovereign cloud deployment endpoint
+        let path = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl + '/');
+        if (path.length > 1) {
+            let pathStartingWithVersion = path[1].split("/");
+            pathStartingWithVersion[0] = AppComponent.explorerValues.selectedVersion; // replace the version in the URL with the actual value
+            this.explorerValues.endpointUrl = AppComponent.Options.GraphUrl + '/' + pathStartingWithVersion.join("/"); // updates URL in input field
+        }
     }
 
     updateHttpMethod() {
         const httpMethodSelectMenuEl = this._httpMethodEl.element.nativeElement;
-        
+
         if (!httpMethodSelectMenuEl.mwfInstances) {
             return;
         };

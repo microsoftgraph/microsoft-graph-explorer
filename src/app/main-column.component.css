@@ -75,3 +75,12 @@ button.c-button[type=submit]:focus:not(.x-hidden-focus) {
         margin-top: 20px;
     }
 }
+
+:host /deep/ button {
+    line-height: 1;
+}
+
+.ms-Pivot-link:hover, .ms-Pivot-link:focus {
+    background: rgba(0,0,0,0.25);
+    outline: 2px solid white;
+}

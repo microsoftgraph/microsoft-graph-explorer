@@ -1,5 +1,5 @@
 <div id="history-panel" class="ms-Panel ms-Panel--xl">
-    <button class="ms-Panel-closeButton ms-PanelAction-close" tabindex="1">
+    <button class="ms-Panel-closeButton ms-PanelAction-close" tabindex="0">
         <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
     </button>
     <div class="ms-Panel-contentInner">
@@ -17,13 +17,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let query of getRequestHistory()" class="request-history-query" [ngClass]="{restrict: (!isAuthenticated() && query.method != 'GET')}">
-                        <td (click)="handleQueryClick(query)"><method-badge [query]="query"></method-badge></td>
+                    <tr *ngFor="let query of getRequestHistory()" class="request-history-query" [class.restrict]="!isAuthenticated() && query.method != 'GET'">
+                        <td (click)="handleQueryClick(query)">
+                            <method-badge [query]="query"></method-badge>
+                        </td>
                         <td (click)="handleQueryClick(query)">{{getQueryText(query)}}</td>
-                        <td (click)="handleQueryClick(query)">{{query.relativeDate}}</td>
-                        <td (click)="handleQueryClick(query)"><span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span></td>
+                        <td (click)="handleQueryClick(query)" class="relative-date">{{query.relativeDate}}</td>
+                        <td (click)="handleQueryClick(query)">
+                            <span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span>
+                        </td>
                         <td class="duration" (click)="handleQueryClick(query)">{{query.duration}} {{getStr('milliseconds')}}</td>
-                        <td class="remove-query" (click)="removeQueryFromHistory(query)"><i class="ms-Icon ms-Icon--Cancel"></i></td>
+                        <td class="remove-query" (click)="removeQueryFromHistory(query)">
+                            <i class="ms-Icon ms-Icon--Cancel"></i>
+                        </td>
                     </tr>
                 </tbody>
             </table>

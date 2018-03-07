@@ -4,10 +4,10 @@
 
 import { Component, AfterViewInit } from '@angular/core';
 
-import { GraphRequestHeader, CommonHeaders } from "./base";
+import { GraphRequestHeader } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jseditor";
-declare let mwf;
+
 @Component({
   selector: 'request-editors',
   styleUrls: ['./request-editors.component.css'],
@@ -16,6 +16,7 @@ declare let mwf;
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.addEmptyHeader();
+        this.initPostBodyEditor();
     }
 
     initPostBodyEditor() {
@@ -24,11 +25,11 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
     }
 
     isLastHeader(header:GraphRequestHeader) {
-        return header == this.getLastHeader();
+        return header === this.getLastHeader();
     }
 
     getPlaceholder(header:GraphRequestHeader) {
-        if (this.getLastHeader() == header) {
+        if (this.getLastHeader() === header) {
             return this.getStr("Enter new header");
         }
     }
@@ -36,7 +37,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
     removeHeader(header:GraphRequestHeader) {
         let idx = this.explorerValues.headers.indexOf(header);
 
-        if (idx != -1) {
+        if (idx !== -1) {
             this.explorerValues.headers.splice(idx, 1);
         } else {
             console.error("Can't remove header", header)
@@ -44,7 +45,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
     }
 
     createNewHeaderField() {
-        if (this.getLastHeader().name != "") {
+        if (this.getLastHeader().name !== "") {
             this.addEmptyHeader()
         }
 

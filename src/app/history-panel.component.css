@@ -46,3 +46,7 @@ td.remove-query:hover {
 tr.request-history-query.restrict:hover td {
     cursor: not-allowed !important;
 }
+
+td.relative-date {
+    white-space: nowrap;
+}

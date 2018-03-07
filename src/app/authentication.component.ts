@@ -2,10 +2,9 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { AuthenticationStatus } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
 import { ScopesDialogComponent } from "./scopes-dialog.component";
@@ -29,7 +28,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   login() {
       let loginProperties = {
         display: 'page',
-        response_type: "id_token token",
+        response_type: "token",
         response_mode: "fragment",
         nonce: 'graph_explorer',
         prompt: 'select_account',

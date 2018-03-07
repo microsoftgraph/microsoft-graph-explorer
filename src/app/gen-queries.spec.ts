@@ -1,52 +1,79 @@
-import { HttpModule } from '@angular/http';
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
+// gen-queries.spec.ts prepares non destructive sample queries and runs the tests.
+
+import { HttpModule, Headers } from '@angular/http';
 
 import {
-    inject,
-    TestBed
+  inject,
+  TestBed
 } from '@angular/core/testing';
 
 import { GraphService } from './graph-service';
-import { GraphApiVersion, substitueTokens, GraphApiVersions } from "./base";
+import { GraphApiVersion, substituteTokens, GraphApiVersions, GraphRequestHeader } from "./base";
 import { SampleQueries } from "./gen-queries";
+import { localLogout } from "./auth";
 
-function getGraphVersionFromUrl(url:string):GraphApiVersion {
-    for (let version of GraphApiVersions) {
-        if (url.indexOf(`/${version}/`) != -1) {
-            return version;
-        }
+function getGraphVersionFromUrl(url: string): GraphApiVersion {
+  for (let version of GraphApiVersions) {
+    if (url.indexOf(`/${version}/`) !== -1) {
+      return version;
     }
+  }
 }
 
-let graphService:GraphService;
+// Convert from GraphRequestHeaders to Fetch API headers.
+function convertHeaders(graphRequestHeaders: GraphRequestHeader[]): Headers {
+  var headers = new Headers();
+
+  if (graphRequestHeaders) {
+    for (let i = 0; i < graphRequestHeaders.length; ++i) {
+      headers.append(graphRequestHeaders[i].name, graphRequestHeaders[i].value);
+    }
+  }
+
+  return headers;
+}
+
+let graphService: GraphService;
 describe('Sample query validation', () => {
+
+  beforeAll(() => {
+    localLogout();
+  })
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-        imports: [HttpModule],
-        providers: [GraphService]
+      imports: [HttpModule],
+      providers: [GraphService]
     });
   });
 
-  it('Creates an instance of the graph service', inject([GraphService], (_graphService:GraphService) => {
+  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
     graphService = _graphService;
   }));
 
   for (let query of SampleQueries) {
-    it(`${query.humanName}: Doc link should exist and match request version`, function() {
-        if (!query.docLink) throw new Error(`${query.humanName}: Doc link doesn't exist`);
+    it(`${query.humanName}: Doc link should exist and match request version`, function () {
+      if (!query.docLink) {
+        throw new Error(`${query.humanName}: Doc link doesn't exist`);
+      }
 
-        let docLinkVersion = getGraphVersionFromUrl(query.docLink);
-        let requestUrlVersion = getGraphVersionFromUrl(query.requestUrl);
+      let docLinkVersion = getGraphVersionFromUrl(query.docLink);
+      let requestUrlVersion = getGraphVersionFromUrl(query.requestUrl);
 
-        // some doc links go to concept pages, not /version/doc page
-        if (docLinkVersion && requestUrlVersion)
-            expect(docLinkVersion).toBe(requestUrlVersion);
+      // some doc links go to concept pages, not /version/doc page
+      if (docLinkVersion && requestUrlVersion) {
+        expect(docLinkVersion).toBe(requestUrlVersion);
+      }
     });
 
     // it(`Doc link shouldn't contain a language for ${query.docLink}`, function() {
     //     if (!query.docLink) return;
 
-    //     let hasLanguage = query.docLink.indexOf("en-us") != -1;
+    //     let hasLanguage = query.docLink.indexOf("en-us") !== -1;
 
     //     expect(hasLanguage).toBe(false);
     // })
@@ -58,20 +85,26 @@ describe('Sample query validation', () => {
     //     });
     // });
 
-    if (query.method != "GET") continue;
-    substitueTokens(query);
-    it(`GET query should execute: ${query.humanName}`, function(done) {
-      graphService.performAnonymousQuery(query.method, query.requestUrl).then((res) => {
-        if (res.headers.get('Content-Type').indexOf('application/json') != -1) {
+    if (query.method !== "GET") {
+      continue;
+    }
+    substituteTokens(query);
+    it(`GET query should execute: ${query.humanName}`, function (done) {
+      substituteTokens(query);
+
+      var headers = convertHeaders(query.headers);
+
+      graphService.performAnonymousQuery(query.method, 'https://graph.microsoft.com' + query.requestUrl, headers).then((res) => {
+        if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
           let response = res.json();
           if (response && response.value && response.value.constructor === Array) {
-            if (response.value.length == 0) {
+            if (response.value.length === 0) {
               done.fail(`${query.humanName}: All sample GETs on collections must have values`)
             }
           }
         }
         done();
-      }).catch((e:Response) => {
+      }).catch((e: Response) => {
         done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
       });
     });

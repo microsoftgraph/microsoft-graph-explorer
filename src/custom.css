@@ -81,14 +81,6 @@ api-explorer .c-select-menu>a:after, api-explorer .c-select-menu>button:after {
     background-color: #5C005C;
 }
 
-
-
-/* @todo move to authentication component */
-#persona-holder {
-    margin-top: 15px;
-    margin-bottom: -15px;
-}
-
 .m-auto-suggest .c-menu-item strong {
     font-weight: normal;
 }
@@ -99,17 +91,6 @@ api-explorer .c-select-menu>a:after, api-explorer .c-select-menu>button:after {
     width: 100px !important;
 }
 
-/*.ms-Dialog.center-dialog {
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    transform: none;
-    top: 8%;
-}*/
-
-
 /* frontdoor */
 .ms-PanelHost {
     z-index: 999;
@@ -118,7 +99,6 @@ api-explorer .c-select-menu>a:after, api-explorer .c-select-menu>button:after {
 #deltaUi {
     display: none;
 }
-
 
 .ms-Overlay.is-visible {
     z-index: 990;

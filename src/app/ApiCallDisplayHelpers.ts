@@ -3,13 +3,20 @@
 // ------------------------------------------------------------------------------
 
 import { AppComponent } from "./app.component";
-import { GraphApiCall } from "./base";
+import { GraphApiCall, AllowedGraphDomains } from "./base";
 import { getString } from "./localization-helpers";
 
 export function getShortQueryText(query:GraphApiCall) {
     let shortQueryUrl;
+
     if (query.requestUrl) {
-        shortQueryUrl = query.requestUrl.split(AppComponent.Options.GraphUrl)[1];
+        // parse out /v1.0/me from graph.microsoft.com/v1.0/me for all domains
+        for (const GraphDeploymentUrl of AllowedGraphDomains) {
+            if (query.requestUrl.startsWith(GraphDeploymentUrl)) {
+                shortQueryUrl = query.requestUrl.split(GraphDeploymentUrl)[1];
+                break;
+            }
+        }
     }
 
     let queryText = query.humanName || shortQueryUrl;

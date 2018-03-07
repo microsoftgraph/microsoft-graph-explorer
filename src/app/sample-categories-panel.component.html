@@ -1,15 +1,15 @@
 <div id="sample-categories-panel" class="ms-Panel ms-Panel--lg">
-    <button class="ms-Panel-closeButton ms-PanelAction-close" tabindex="1">
+    <button class="ms-Panel-closeButton ms-PanelAction-close" aria-label="Close sample categories" tabindex="0">
         <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
     </button>
     <div class="ms-Panel-contentInner">
         <p class="ms-Panel-headerText">{{getStr('Sample Categories')}}</p>
         <div class="ms-Panel-content">
-            <div *ngFor="let category of categories" class="category-row">
+            <div *ngFor="let category of categories" class="category-row" [attr.aria-label]="getStr(category.title)" [attr.id]="getId(category.title)">
                 {{getStr(category.title)}} ({{category.queries.length}})
                 <div class="category-switch">
                     <div class="c-toggle" (click)="toggleCategory(category)">
-                        <button id="example-1" name="example-1" role="checkbox" [attr.aria-checked]="category.enabled" aria-labelledby="c-label c-state-label-1"></button>
+                        <button id="example-1" name="example-1" role="checkbox" [attr.aria-checked]="category.enabled" [attr.aria-labelledby]="getId(category.title)"></button>
                         <span [attr.data-on-string]="getStr('On')" [attr.data-off-string]="getStr('Off')" id="c-state-label-1">{{getStr('On')}}</span>
                     </div>
                 </div>

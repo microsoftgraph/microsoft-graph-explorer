@@ -3,17 +3,19 @@
 // ------------------------------------------------------------------------------
 
 import { getJsonViewer, getAceEditorFromElId } from "./api-explorer-jseditor"
-import { AppComponent } from "./app.component";
 
 export function showResults(results, responseContentType) {
     getJsonViewer().setValue("");    
     getJsonViewer().getSession().insert(0, results);
-    if (responseContentType)
+    if (responseContentType) {
         getJsonViewer().getSession().setMode("ace/mode/" + responseContentType);
+    }
 }
 
 export function insertHeadersIntoResponseViewer(headers:Headers) {
-    if (!headers) return; // prevents foreach of undefined error
+    if (!headers) {
+        return; // prevents foreach of undefined error
+    }
 
     // format headers
     let headersArr = [];
@@ -23,19 +25,6 @@ export function insertHeadersIntoResponseViewer(headers:Headers) {
 
     getAceEditorFromElId("response-header-viewer").getSession().setValue("");
     getAceEditorFromElId("response-header-viewer").getSession().insert(0, headersArr.join("\n"));
-}
-
-export function handleImageResponse(method:any, headers, status, handleUnsuccessfulQueryResponse) {
-    method('GET_BINARY', AppComponent.explorerValues.endpointUrl).then((result) => {
-        let blob = new Blob( [ result.arrayBuffer() ], { type: "image/jpeg" } );
-        let imageUrl = window.URL.createObjectURL( blob );
-
-        const imageResultViewer = <HTMLImageElement>document.getElementById("responseImg");
-        imageResultViewer.src = imageUrl;
-        AppComponent.explorerValues.showImage = true;
-
-        insertHeadersIntoResponseViewer(result.headers);
-    }, handleUnsuccessfulQueryResponse);
 }
 
 export function handleHtmlResponse(results) {
@@ -52,30 +41,19 @@ export function handleXmlResponse(results) {
     showResults(results, "xml");
 }
 
-export function isImageResponse(headers:Headers) {
-    var contentType = getContentType(headers);
+export function handleTextResponse(results) {
+    showResults(results, "plain_text");
+}
+
+export function isImageResponse(contentType:string) {
     return contentType === "application/octet-stream" || contentType.substr(0, 6) === "image/";
 }
 
-export function isHtmlResponse(headers:Headers) {
-    var contentType = getContentType(headers);
-    return contentType === "text/html" || contentType === "application/xhtml+xml";
-}
-
-export function isXmlResponse(results) {
-    // Don't use headers since xml could be of a million content types.
-    return JSON.stringify(results, null, 4).indexOf("<?xml") != -1;
-}
-
-export function isJsonResponse(headers:Headers) {
-    var contentType = getContentType(headers);
-    return contentType === "application/json";
-}
 
 export function getContentType(headers:Headers) {
     var full = headers.get("content-type");
     var delimiterPos = full.indexOf(";");
-    if (delimiterPos != -1) {
+    if (delimiterPos !== -1) {
         return full.substr(0, delimiterPos);
     } else {
         return full;
@@ -84,7 +62,6 @@ export function getContentType(headers:Headers) {
 
 // from swagger-js
 var formatXml = function(xml) {
-    console.log(1)
     var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
     reg = /(>)(<)(\/*)/g;
     wsexp = /[ ]*(.*)[ ]+\n/g;

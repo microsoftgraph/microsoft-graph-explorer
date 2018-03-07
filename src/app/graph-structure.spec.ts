@@ -25,9 +25,7 @@ describe('Graph structural tests', () => {
 
   for (let version of GraphApiVersions) {
     it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`, function(done) {
-        parseMetadata(graphService, version).then(() => {
-        done();
-        });
+        return parseMetadata(graphService, version).then(done);
     });
   }
 

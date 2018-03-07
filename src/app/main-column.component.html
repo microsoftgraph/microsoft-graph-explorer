@@ -1,6 +1,7 @@
 <div id="request-bar-row-form" layout="row" layout-align="start center">
     <!-- HTTP METHOD -->
-    <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption" class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu">
+    <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption"
+        class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu">
         <select [disabled]="!isAuthenticated()">
             <option *ngFor="let choice of methods">{{choice}}</option>
         </select>
@@ -16,9 +17,11 @@
     </div>
 
     <div id="graph-request-url" class="c-search" autocomplete="off" name="form1">
-        <input [(ngModel)]="explorerValues.endpointUrl" (keydown)="endpointInputKeyDown($event)" role="combobox" aria-controls="auto-suggest-default-2" aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <input [(ngModel)]="explorerValues.endpointUrl" (keydown)="endpointInputKeyDown($event)" role="combobox" aria-controls="auto-suggest-default-2"
+            aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false">
 
-        <div class="m-auto-suggest" id="auto-suggest-default-2" role="group">
+        <div class="m-auto-suggest" #autoSuggest id="auto-suggest-default-2" role="group">
             <ul class="c-menu f-auto-suggest-scroll" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
             <ul class="c-menu f-auto-suggest-no-results" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0">
 
@@ -27,7 +30,8 @@
     </div>
 
     <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" id="submitBtn" (click)="submit()">
-        <span [hidden]="explorerValues.requestInProgress"><i id="go-lightning-icon" class="ms-Icon ms-Icon--LightningBolt" style="padding-right: 10px;" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
+        <span [hidden]="explorerValues.requestInProgress">
+            <i id="go-lightning-icon" class="ms-Icon ms-Icon--LightningBolt" style="padding-right: 10px;" aria-hidden="true"></i>{{getStr('Run Query')}}</span>
         <div class="ms-Spinner" [hidden]="!explorerValues.requestInProgress"></div>
     </button>
 </div>
@@ -37,12 +41,12 @@
 <message-bar [message]="messageBarContent()"></message-bar>
 <!-- response -->
 <share-link-btn></share-link-btn>
-<div class="ms-Pivot" id="response-viewer-labels" tabindex="-1">
+<div class="ms-Pivot" id="response-viewer-labels" tabindex="0">
     <ul class="ms-Pivot-links">
-        <li class="ms-Pivot-link is-selected" data-content="response" tabindex="1">
+        <li class="ms-Pivot-link is-selected" data-content="response" [attr.title]="getStr('Response Preview')" tabindex="0" role="tab">
             {{getStr('Response Preview')}}
         </li>
-        <li class="ms-Pivot-link" data-content="response-headers" tabindex="1">
+        <li class="ms-Pivot-link" data-content="response-headers" [attr.title]="getStr('Response Headers')" tabindex="0" role="tab">
             {{getStr('Response Headers')}}
         </li>
     </ul>
