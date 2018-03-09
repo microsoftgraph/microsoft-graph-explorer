@@ -43,22 +43,20 @@
 <share-link-btn></share-link-btn>
 <div class="ms-Pivot" id="response-viewer-labels" tabindex="0">
     <ul class="ms-Pivot-links" role="tablist">
-        <li class="ms-Pivot-link is-selected" data-content="response" [attr.title]="getStr('Response Preview')" tabindex="0" role="tab">
+        <li class="ms-Pivot-link is-selected" data-content="response" [attr.title]="getStr('Response Preview')" tabindex="0" role="tab" aria-owns="response-viewer">
             {{getStr('Response Preview')}}
         </li>
-        <li class="ms-Pivot-link" data-content="response-headers" [attr.title]="getStr('Response Headers')" tabindex="0" role="tab">
+        <li class="ms-Pivot-link" data-content="response-headers" [attr.title]="getStr('Response Headers')" tabindex="0" role="tab" aria-owns="response-header-viewer">
             {{getStr('Response Headers')}}
         </li>
     </ul>
-    <div class="ms-Pivot-content" data-content="response">
-        <div>
-            <img id="responseImg" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak />
-            <div id="jsonViewer" [hidden]="explorerValues.showImage"></div>
-
-            <!--<svg id="visual-explorer" width="1200" height="1000"/></svg>-->
+    <div class="ms-Pivot-content" data-content="response" >
+        <div id="response-viewer">
+            <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" aria-label="Photo of the signed in user"/>
+            <div id="jsonViewer" tabindex="0" [hidden]="explorerValues.showImage" role="textbox" aria-label="The response body returned by Microsoft Graph"></div>
         </div>
     </div>
-    <div class="ms-Pivot-content" data-content="response-headers">
-        <div id="response-header-viewer"></div>
+    <div class="ms-Pivot-content" data-content="response-headers" >
+        <div id="response-header-viewer" role="textbox" title="response headers" tabindex="0" aria-label="The response headers returned by Microsoft Graph"></div>
     </div>
 </div>
