@@ -5,10 +5,8 @@
 
     .query-link {
         color: white;
-        background: #2F2F2F;
-        padding: 8px 11px 7px 12px;
-        margin: -5px;
-        margin-left: 5px;
+        padding: 6px;
+        margin: 3px, 0px, 3px, 0px;
         display: block;
         float: right;
     }
@@ -34,7 +32,7 @@
         border: 0;
         background: 0 0;
         font-weight: 500;
-        padding: 5px 5px 5px 12px;
+        padding: 0px 5px 0px 12px;
         left: 0;
         text-align: left;
         width: 100%;
@@ -57,6 +55,11 @@
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-top: 2px;
+    padding: 2px;
+    margin: auto;
     color: white;
+}
+
+method-badge {
+    margin:auto;
 }
