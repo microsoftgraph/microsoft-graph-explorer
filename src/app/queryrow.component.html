@@ -1,5 +1,5 @@
 <div class="api-query" (click)="handleQueryClick()" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()"
-    [class.restrict]="!isAuthenticated() && query.method != 'GET'" tabindex="0">
+    [class.restrict]="!isAuthenticated() && query.method != 'GET'" tabindex="0" aria-labelledby="row-1" role="button">
     <div class="row-1" [attr.aria-label]="getAriaLabelForSampleRow()">
         <method-badge [query]="query"></method-badge>
         <div class="query">{{getQueryText()}}</div>

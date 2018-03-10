@@ -30,7 +30,7 @@ export class QueryRowComponent extends GraphExplorerComponent {
     }
 
     getTitle() {
-        return this.getQueryText() + " | " + this.query.requestUrl;
+        return this.getAriaLabelForSampleRow(); //this.getQueryText() + " | " + this.query.requestUrl;
     }
 
     getQueryText() {
