@@ -28,6 +28,7 @@
   "Getting Started": "Getting Started",
   "Response": "Response",
   "login to send requests": "Login to change the request type",
+  "HTTP verb selector": "HTTP verb selector",
   "Share Query": "Share Query",
   "Share this link to let people try your current query in the Graph Explorer.": "Share this link to let people try your current query in the Graph Explorer.",
   "Date": "Date",
