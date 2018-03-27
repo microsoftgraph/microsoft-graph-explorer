@@ -2,6 +2,34 @@ import { PermissionScope } from "./base";
 
 export const PermissionScopes: PermissionScope[] = [
   {
+    name: "Agreement.Read.All",
+    description: "Read all terms of use agreements",
+    longDescription: "Allows the app to read terms of use agreements on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "Agreement.ReadWrite.All",
+    description: "Read and write all terms of use agreements",
+    longDescription: "Allows the app to read and write terms of use agreements on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "AgreementAcceptance.Read",
+    description: "Read user terms of use acceptance statuses",
+    longDescription: "Allows the app to read terms of use acceptance statuses on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "AgreementAcceptance.Read.All",
+    description: "Read terms of use acceptance statuses that user can access",
+    longDescription: "Allows the app to read terms of use acceptance statuses on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
     name: "Calendars.Read",
     description: "Read user calendars",
     longDescription: "Allows the app to read events in user calendars.",
