@@ -20,7 +20,7 @@ declare let mwf: any;
     providers: [QueryRunnerService]
 })
 
-export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck, AfterViewChecked {
+export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck {
     oldExplorerValues: ExplorerValues = {};
 
     messageBarContent(): MessageBarContent {
