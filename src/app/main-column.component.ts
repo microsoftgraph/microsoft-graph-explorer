@@ -27,21 +27,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
         return AppComponent.messageBarContent;
     }
 
-    ngAfterViewChecked() {
-        /**
-         * Disable the the httpVerb picker after the view has changed and the client is not authenticated. We are doing this 
-         * like this since the httpVerb picker is a non-Angular, Microsoft Web Framework component that is loaded into 
-         * the DOM. It is not part of the Angular template and is loaded at ngAfterViewInit(). 
-         */
-        if (this.isAuthenticated()) {
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "false");
-            this._httpMethodEl.element.nativeElement.children[1].children[0].removeAttribute("disabled");
-        } else {
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute("aria-disabled", "true");
-            this._httpMethodEl.element.nativeElement.children[1].children[0].setAttribute("disabled", "");
-        }
-    }
-
     ngDoCheck() {
         if (this.explorerValues && JSON.stringify(this.oldExplorerValues) !== JSON.stringify(this.explorerValues)) {
             this.updateVersionFromEndpointUrl();
