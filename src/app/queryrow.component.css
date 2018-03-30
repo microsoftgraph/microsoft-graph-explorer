@@ -58,8 +58,10 @@
     padding: 2px;
     margin: auto;
     color: white;
+    height: 20px;
 }
 
 method-badge {
     margin:auto;
+    height: 22px;
 }
