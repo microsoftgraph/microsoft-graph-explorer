@@ -52,11 +52,11 @@
     </ul>
     <div class="ms-Pivot-content" data-content="response" >
         <div id="response-viewer">
-            <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" aria-label="Photo of the signed in user"/>
-            <div id="jsonViewer" tabindex="0" [hidden]="explorerValues.showImage" role="textbox" aria-label="The response body returned by Microsoft Graph"></div>
+            <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" [attr.aria-label]="getStr('User photo')"/>
+            <div id="jsonViewer" tabindex="0" [hidden]="explorerValues.showImage" role="textbox" [attr.aria-label]="getStr('Response body')"></div>
         </div>
     </div>
     <div class="ms-Pivot-content" data-content="response-headers" >
-        <div id="response-header-viewer" role="textbox" title="response headers" tabindex="0" aria-label="The response headers returned by Microsoft Graph"></div>
+        <div id="response-header-viewer" role="textbox" title="response headers" tabindex="0" [attr.aria-label]="getStr('Response headers viewer')"></div>
     </div>
 </div>
