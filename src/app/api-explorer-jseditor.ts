@@ -16,7 +16,13 @@ export function getAceEditorFromElId(id:string) {
     return ace.edit(document.getElementById(id));
 }
 
-export function initializeAceEditor(editor, text?) {
+/**
+ * Initialize the text editor.
+ * @param editor The AceEditor component
+ * @param ariaLabel The aria-label attribute to add to the textarea of the AceEditor.
+ * @param text Default text to add to editor.
+ */
+export function initializeAceEditor(editor, ariaLabel: string, text?: string) {
     commonAceSetup(editor);
 
     if (text) {
@@ -24,9 +30,13 @@ export function initializeAceEditor(editor, text?) {
     }
 
     editor.moveCursorTo(1, 0);
+    editor.textInput.getElement().setAttribute("aria-label", ariaLabel);
 }
 
-// standard ace editor setup and customizations
+/**
+ * Standard ace editor setup
+ * @param editor The AceEditor component
+ */ 
 export function commonAceSetup(editor) {
     editor.setShowPrintMargin(false);
     editor.$blockScrolling = Infinity;

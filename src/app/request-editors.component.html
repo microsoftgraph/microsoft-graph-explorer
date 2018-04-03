@@ -10,7 +10,7 @@
     </ul>
     <div class="ms-Pivot-content" data-content="body">
         <div id="requestBodyContainer">
-            <div id="post-body-editor" [attr.title]="getStr('Request body editor')" role="textbox"></div>
+            <div id="post-body-editor"></div>
         </div>
     </div>
     <div class="ms-Pivot-content" data-content="headers">
@@ -37,7 +37,7 @@
                         <input class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text"
                             name="default" [class.invisible]="isLastHeader(header)" role="textbox" aria-label="Add request header value">
                     </td>
-                    <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)" role="button" aria-label="Remove request header"
+                    <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)" (keydown)="removeHeaderKeyDown($event, header)" role="button" aria-label="Remove request header"
                         tabindex="0">
                         <i class="ms-Icon ms-Icon--Cancel"></i>
                     </td>
