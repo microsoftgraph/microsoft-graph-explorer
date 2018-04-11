@@ -225,7 +225,7 @@ export const PermissionScopes: PermissionScope[] = [
     preview: false,
     admin: false,
   },
-    {
+  {
     name: "SecurityEvents.Read.All",
     description: "Read your organization’s security events",
     longDescription: "Allows the app to read your organization’s security events on behalf of the signed-in user.",
