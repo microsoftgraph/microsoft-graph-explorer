@@ -271,7 +271,7 @@ Content-Type:image/jpeg
 ... binary image data ...
 
 --MyPartBoundary198374
-Content-Disposition:form-data; name=""fileBlock1""
+'Content-Disposition:form-data; name=""fileBlock1""
 Content-Type:application/pdf
 
 ... binary file data ...
@@ -286,8 +286,7 @@ SharePoint Sites,GET,Enumerate site columns of the root site,/v1.0/sites/root/co
 SharePoint Sites,GET,Enumerate site content types of the root site,/v1.0/sites/root/contentTypes,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_list_contenttypes,AAD,,
 SharePoint Lists,GET,Enumerate the lists in the root site,/v1.0/sites/root/lists,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list,AAD,,
 SharePoint Lists,GET,Enumerate list columns,/v1.0/sites/root/lists/{list-id}/columns,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_columns,AAD,,
-SharePoint Lists,GET,Enumerate list content types,/v1.0/sites/root/lists/{list-id}/contentTypes,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_contenttypes,AAD,,
-SharePoint Lists,GET,Enumerate the list items in a list,/v1.0/sites/root/lists/{list-id}/items,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list,AAD,,
+SharePoint Lists,GET,Enumerate list content types,/v1.0/sites/root/lists/{list-id}/contentTypes,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/list_list_contenttypes,AAD,,TSharePoint Lists,GET,Enumerate the list items in a list,/v1.0/sites/root/lists/{list-id}/items,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list,AAD,,
 SharePoint Lists,GET,Enumerate list items with specific column values,/v1.0/sites/root/lists/{list-id}/items?$filter=fields/Title eq '{list-title}',,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/listitem_list,AAD,,Prefer: allowthrottleablequeries
 Batching,POST,Perform parallel GETs,/v1.0/$batch,"This query shows you how to use batching to get your user information, your messages, and your events.",https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{""requests"" : [{""url"" : ""/me?$select=displayName,jobTitle,userPrincipalName"", ""method"" : ""GET"", ""id"" : ""1""}, {""url"" : ""/me/messages?$filter=importance eq 'high'&$select=from,subject,receivedDateTime,bodyPreview"", ""method"" : ""GET"", ""id"" : ""2""}, {""url"" : ""/me/events"", ""method"" : ""GET"", ""id"" : ""3""}]  }",Content-type: application/json
 Batching,POST,Combine a POST and a GET,/v1.0/$batch,This query will create a folder called TestBatchingFolder in your OneDrive and return it back to you via a GET.,https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching,AAD,"{
@@ -334,5 +333,5 @@ Outlook Mail,GET,get email headers,/beta/me/messages?$select=internetMessageHead
 Outlook Mail,GET,list conference rooms,/beta/me/findRooms,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms,AAD,,
 Security,GET,alerts with 'High' severity,/beta/security/alerts?filter=Severity eq 'High'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
 Security,GET,alerts related to 'Ransomware' category,/beta/security/alerts?filter=Category eq 'Ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security,GET,alerts from ASC,/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security,GET,alerts select by title,/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security,GET,alerts from 'Azure Security Center',/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security,GET,alerts select by 'Title',/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
