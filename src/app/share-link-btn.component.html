@@ -1,5 +1,6 @@
 <div id="response-action-bar">
-    <i class="ms-Icon ms-Icon--Share" title="{{getStr('Share Query')}}" aria-hidden="true" aria-label="Share" (click)="showShareDialog()"></i>
+    <i class="ms-Icon ms-Icon--Share" title="{{getStr('Share Query')}}" tabindex="0" role="button" aria-label="Share this query"
+        (click)="showShareDialog()" (keydown)="showShareDialogKeyDown($event)"></i>
 </div>
 <div class="ms-Dialog" id="share-link-dialog">
     <div class="ms-Dialog-title">{{getStr('Share Query')}}</div>

@@ -503,5 +503,37 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription: "Manage the state and settings of all Microsoft education apps on behalf of the user.",
     preview: true,
     admin: true
+  },
+  {
+    name: "Bookings.Read.All",
+    description: "Read bookings information",
+    longDescription:
+      "Allows the app to read bookings appointments, businesses, customers, services, and staff on your behalf.",
+    preview: true,
+    admin: false
+  },
+  {
+    name: "BookingsAppointment.ReadWrite.All",
+    description: "Read and write booking appointments",
+    longDescription:
+      "Allows the app to read and write bookings appointments and customers, and additionally allows read businesses information, services, and staff on your behalf.",
+    preview: true,
+    admin: false
+  },
+  {
+    name: "Bookings.ReadWrite.All",
+    description: "Read and write bookings information",
+    longDescription:
+      "Allows the app to read and write Bookings appointments, businesses, customers, services, and staff on your behalf. Does not allow create, delete and publish of booking businesses.",
+    preview: true,
+    admin: false
+  },
+  {
+    name: "Bookings.Manage.All",
+    description: "Manage bookings information",
+    longDescription:
+      "Allows the app to read, write and manage bookings appointments, businesses, customers, services, and staff on your behalf.",
+    preview: true,
+    admin: false
   }
 ]

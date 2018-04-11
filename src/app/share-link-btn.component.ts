@@ -8,6 +8,9 @@ import { AllowedGraphDomains } from "./base";
 
 declare let fabric:any;
 
+/** 
+ * Provides a link to share the last query issued from Graph Explorer.
+*/
 @Component({
   selector: 'share-link-btn',
   templateUrl: './share-link-btn.component.html',
@@ -25,6 +28,20 @@ export class ShareLinkBtnComponent extends GraphExplorerComponent implements Aft
 
     }
 
+    /**
+     * Shows the Share Code Dialog if the enter/return key is pressed.
+     * @param e the event object
+     */
+    showShareDialogKeyDown(e : any) {
+        // Enter/return
+        if (e.keyCode === 13) {
+            this.showShareDialog();
+        }
+    }
+
+    /** 
+     * Shows the Share Code Dialog.
+    */
     showShareDialog() {
         const el = document.querySelector("#share-link-dialog")
         const fabricDialog = new fabric['Dialog'](el);

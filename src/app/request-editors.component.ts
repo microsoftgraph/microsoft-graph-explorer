@@ -21,7 +21,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
 
     initPostBodyEditor() {
         const postBodyEditor = getRequestBodyEditor()
-        initializeAceEditor(postBodyEditor);
+        initializeAceEditor(postBodyEditor, this.getStr("Request body editor"));
     }
 
     isLastHeader(header:GraphRequestHeader) {
@@ -34,6 +34,23 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
         }
     }
 
+    /**
+     * Check the keyboard input and remove the header if Enter/Return 
+     * is selected when the button is the active element.
+     * @param e The event arguments.
+     * @param header The header key to remove from the request UI.
+     */
+    removeHeaderKeyDown(e: any, header: GraphRequestHeader) {
+        // Enter/return
+        if (e.keyCode === 13) {
+            this.removeHeader(header);
+        }
+    }
+
+    /**
+     * Remove a header from the request UI.
+     * @param header The header key to remove from the request UI.
+     */
     removeHeader(header:GraphRequestHeader) {
         let idx = this.explorerValues.headers.indexOf(header);
 

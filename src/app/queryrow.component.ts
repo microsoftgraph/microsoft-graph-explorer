@@ -10,15 +10,15 @@ import { AppComponent } from "./app.component";
 import { QueryRunnerService } from "./query-runner.service";
 
 @Component({
-  selector: 'query-row',
-  templateUrl: './queryrow.component.html',
-  styleUrls: ['./queryrow.component.css'],
-  providers: [QueryRunnerService],
+    selector: 'query-row',
+    templateUrl: './queryrow.component.html',
+    styleUrls: ['./queryrow.component.css'],
+    providers: [QueryRunnerService],
 })
 export class QueryRowComponent extends GraphExplorerComponent {
-    
+
     @Input() query: SampleQuery;
-    
+
     constructor(public queryRunnerService: QueryRunnerService) {
         super();
     }
@@ -30,11 +30,15 @@ export class QueryRowComponent extends GraphExplorerComponent {
     }
 
     getTitle() {
-        return this.getQueryText() + " | " + this.query.requestUrl;
+        return this.getAriaLabelForSampleRow(); //this.getQueryText() + " | " + this.query.requestUrl;
     }
 
     getQueryText() {
         return getShortQueryText(this.query);
+    }
+
+    getAriaLabelForSampleRow() {
+        return this.query.method + " " + this.getQueryText() + " sample request";
     }
 
     handleQueryClick() {
