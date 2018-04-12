@@ -331,3 +331,8 @@ Outlook Mail,GET,my inbox rules,/beta/me/mailFolders/inbox/messagerules,,https:/
 Outlook Mail,GET,my outlook categories,/beta/me/outlook/masterCategories,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories,BOTH,,
 Outlook Mail,GET,get email headers,/beta/me/messages?$select=internetMessageHeaders&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message,BOTH,,
 Outlook Mail,GET,list conference rooms,/beta/me/findRooms,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms,AAD,,
+Security,GET,alerts,/beta/security/alerts?$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security,GET,alerts with 'High' severity,/beta/security/alerts?filter=Severity eq 'High'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security,GET,alerts related to 'ransomware' category,/beta/security/alerts?filter=Category eq 'ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security,GET,alerts from 'Azure Security Center',/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security,GET,alerts select by 'Title',/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
