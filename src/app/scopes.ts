@@ -535,5 +535,13 @@ export const PermissionScopes: PermissionScope[] = [
       "Allows the app to read, write and manage bookings appointments, businesses, customers, services, and staff on your behalf.",
     preview: true,
     admin: false
+  },
+  {
+    name: "UserActivity.ReadWrite.CreatedByApp",
+    description: "Read and write app activity to users' activity feed",
+    longDescription:
+      "Allows the app to read and report the signed-in user's activity in the app",
+    preview: true,
+    admin: false
   }
 ]
