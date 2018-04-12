@@ -2,7 +2,7 @@
   "Security": "Security",
   "alerts": "alerts",
   "alerts with 'High' severity": "alerts with 'High' severity",
-  "alerts related to 'Ransomware' category": "alerts related to 'Ransomware' category",
+  "alerts related to 'ransomware' category": "alerts related to 'ransomware' category",
   "alerts from 'Azure Security Center'": "alerts from 'Azure Security Center'",
   "alerts select by 'Title'": "alerts select by 'Title'",
   "To try the explorer, please ": "To try the explorer, please ",

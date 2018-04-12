@@ -977,8 +977,8 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Security",
     "method": "GET",
-    "humanName": "alerts related to 'Ransomware' category",
-    "requestUrl": "/beta/security/alerts?filter=Category eq 'Ransomware'&$top=5",
+    "humanName": "alerts related to 'ransomware' category",
+    "requestUrl": "/beta/security/alerts?filter=Category eq 'ransomware'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
