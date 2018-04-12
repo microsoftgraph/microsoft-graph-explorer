@@ -24,7 +24,7 @@ export const PermissionScopes: PermissionScope[] = [
   },
   {
     name: "AgreementAcceptance.Read.All",
-    description: "Read terms of use acceptance statuses that user can access",
+    description: "Read terms of use acceptance statuses that a user can access",
     longDescription: "Allows the app to read terms of use acceptance statuses on behalf of the signed-in user.",
     preview: true,
     admin: true,
