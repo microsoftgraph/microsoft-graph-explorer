@@ -583,7 +583,7 @@ export const PermissionScopes: PermissionScope[] = [
     description: "Read and write app activity to users' activity feed",
     longDescription:
       "Allows the app to read and report the signed-in user's activity in the app",
-    preview: true,
+    preview: false,
     admin: false
   }
 ]
