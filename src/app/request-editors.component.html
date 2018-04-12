@@ -1,5 +1,5 @@
 <div class="ms-Pivot">
-    <ul class="ms-Pivot-links">
+    <ul class="ms-Pivot-links" role="tablist">
         <li class="ms-Pivot-link is-selected" aria-selected="true" data-content="body" [attr.title]="getStr('request body')" tabindex="0"
             role="tab">
             {{getStr('request body')}}
@@ -10,7 +10,7 @@
     </ul>
     <div class="ms-Pivot-content" data-content="body">
         <div id="requestBodyContainer">
-            <div id="post-body-editor" [attr.title]="getStr('Request body editor')" role="textbox"></div>
+            <div id="post-body-editor"></div>
         </div>
     </div>
     <div class="ms-Pivot-content" data-content="headers">
@@ -22,7 +22,7 @@
                 </tr>
                 <tr role="row" *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
                     <td role="gridcell" class="half-width-col">
-                        <input id="default" class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly"
+                        <input class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly"
                             role="textbox" aria-label="Add request header name" type="text" [attr.placeholder]="getPlaceholder(header)">
                         <!--<div class="c-search header-autocomplete" autocomplete="off">
                             <input role="combobox" class="c-text-field header-name" (ngModelChange)="createNewHeaderField()" [attr.aria-controls]="'headers-autosuggest-'+idx" aria-autocomplete="both" aria-expanded="false" type="text" [attr.placeholder]="getPlaceholder(header)" [(ngModel)]="header.name" [disabled]="header.readonly">
@@ -34,10 +34,10 @@
 
                     </td>
                     <td role="gridcell" class="half-width-col">
-                        <input id="default" class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text"
+                        <input class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text"
                             name="default" [class.invisible]="isLastHeader(header)" role="textbox" aria-label="Add request header value">
                     </td>
-                    <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)" role="button" aria-label="Remove request header"
+                    <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)" (keydown)="removeHeaderKeyDown($event, header)" role="button" aria-label="Remove request header"
                         tabindex="0">
                         <i class="ms-Icon ms-Icon--Cancel"></i>
                     </td>
