@@ -2,6 +2,34 @@ import { PermissionScope } from "./base";
 
 export const PermissionScopes: PermissionScope[] = [
   {
+    name: "Agreement.Read.All",
+    description: "Read all terms of use agreements",
+    longDescription: "Allows the app to read terms of use agreements on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "Agreement.ReadWrite.All",
+    description: "Read and write all terms of use agreements",
+    longDescription: "Allows the app to read and write terms of use agreements on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "AgreementAcceptance.Read",
+    description: "Read user terms of use acceptance statuses",
+    longDescription: "Allows the app to read terms of use acceptance statuses on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "AgreementAcceptance.Read.All",
+    description: "Read terms of use acceptance statuses that a user can access",
+    longDescription: "Allows the app to read terms of use acceptance statuses on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
     name: "Calendars.Read",
     description: "Read user calendars",
     longDescription: "Allows the app to read events in user calendars.",
@@ -219,11 +247,18 @@ export const PermissionScopes: PermissionScope[] = [
     admin: false,
   },
   {
-    name: "People.Read",
-    description: "Read all users' relevant people lists and search your directory",
-    longDescription: "Allows the app to read a scored list of relevant people of the signed-in user. The list includes local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
-    preview: false,
-    admin: false,
+    name: "SecurityEvents.Read.All",
+    description: "Read your organization’s security events",
+    longDescription: "Allows the app to read your organization’s security events on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "SecurityEvents.ReadWrite.All",
+    description: "Read and update your organization’s security events",
+    longDescription: "Allows the app to read your organization’s security events on behalf of the signed-in user. Also allows the app to update editable properties in security events on behalf of the signed-in user.",
+    preview: true,
+    admin: true,
   },
   {
     name: "Sites.Read.All",
@@ -342,6 +377,13 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription: "Allows the app to read and write the full set of profile properties, reports, and managers of other users in your organization, on behalf of the signed-in user.",
     preview: false,
     admin: true,
+  },
+  {
+    name: "People.Read",
+    description: "Read all users' relevant people lists and search your directory",
+    longDescription: "Allows the app to read a scored list of relevant people of the signed-in user. The list includes local contacts, contacts from social networking, your organization's directory, and people from recent communications (such as email and Skype).",
+    preview: false,
+    admin: false,
   },
   {
     name: "People.Read.All",
@@ -534,6 +576,14 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription:
       "Allows the app to read, write and manage bookings appointments, businesses, customers, services, and staff on your behalf.",
     preview: true,
+    admin: false
+  },
+  {
+    name: "UserActivity.ReadWrite.CreatedByApp",
+    description: "Read and write app activity to users' activity feed",
+    longDescription:
+      "Allows the app to read and report the signed-in user's activity in the app",
+    preview: false,
     admin: false
   }
 ]
