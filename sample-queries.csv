@@ -371,8 +371,8 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
     ""historyItems"":[
         {
             ""userTimezone"": ""America/Los Angeles"",
-            ""startedDateTime"": ""2018-04-19T20:40:04.345Z"",
-            ""lastActiveDateTime"": ""2018-04-19T21:00:24.345Z"",
+            ""startedDateTime"": ""{todayMinusHour}"",
+            ""lastActiveDateTime"": ""{today}"",
         }
     ]
 }",Content-Type: application/json
