@@ -336,3 +336,44 @@ Security,GET,alerts with 'High' severity,/beta/security/alerts?filter=Severity e
 Security,GET,alerts related to 'ransomware' category,/beta/security/alerts?filter=Category eq 'ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
 Security,GET,alerts from 'Azure Security Center',/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
 Security,GET,alerts select by 'Title',/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+User Activities,PUT,create a user activity and history item,/v1.0/me/activities/uniqueIdInAppContext,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_put_activity#example-2---deep-insert,AAD,"{
+    ""appActivityId"": ""uniqueIdInAppContext"",
+    ""activitySourceHost"": ""https://graphexplorer.blob.core.windows.net"",
+    ""userTimezone"": ""America/Los Angeles"",
+    ""appDisplayName"": ""Graph Explorer"",
+    ""activationUrl"": ""https://developer.microsoft.com/en-us/graph/graph-explorer"",
+    ""fallbackUrl"": ""https://developer.microsoft.com/en-us/graph/graph-explorer"",
+    ""contentInfo"": {
+        ""@context"": ""http://schema.org"",
+        ""@type"": ""CreativeWork"",
+        ""author"": ""Jennifer Booth"",
+        ""name"": ""Graph Explorer User Activity""
+    },
+    ""visualElements"": {
+        ""attribution"": {
+            ""iconUrl"": """",
+            ""alternateText"": ""Microsoft Graph Explorer"",
+            ""addImageQuery"": ""false"",
+        },
+        ""description"": ""A user activity made through the Microsoft Graph Explorer"",
+        ""backgroundColor"": ""#009933"",
+        ""displayText"": ""Graph Explorer Sample User Activity"",
+        ""content"": {
+            ""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",
+            ""type"": ""AdaptiveCard"",
+            ""body"":
+            [{
+                ""type"": ""TextBlock"",
+                ""text"": ""With activities, developers have a way to capture the unique tasks for users of their app which flow seamlessly across any platform and device, allowing them to quickly resume working on their preferred screen. Using the Activity Feed, developers can create a human-centric view of the tasks most important to users helping reduce friction when switching from web to mobile to PC and beyond.""
+            }]
+        }
+    },
+    ""historyItems"":[
+        {
+            ""userTimezone"": ""America/Los Angeles"",
+            ""startedDateTime"": ""2018-04-19T20:40:04.345Z"",
+            ""lastActiveDateTime"": ""2018-04-19T21:00:24.345Z"",
+        }
+    ]
+}",Content-Type: application/json
+User Activities,GET,get recent user activities,/v1.0/me/activities/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities,AAD,,
