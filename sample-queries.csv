@@ -351,12 +351,12 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
     },
     ""visualElements"": {
         ""attribution"": {
-            ""iconUrl"": """",
+            ""iconUrl"": ""https://graphexplorer.blob.core.windows.net/explorerIcon.png"",
             ""alternateText"": ""Microsoft Graph Explorer"",
             ""addImageQuery"": ""false"",
         },
         ""description"": ""A user activity made through the Microsoft Graph Explorer"",
-        ""backgroundColor"": ""#009933"",
+        ""backgroundColor"": ""#008272"",
         ""displayText"": ""Graph Explorer Sample User Activity"",
         ""content"": {
             ""$schema"": ""http://adaptivecards.io/schemas/adaptive-card.json"",
