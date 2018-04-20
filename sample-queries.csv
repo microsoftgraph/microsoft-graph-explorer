@@ -336,7 +336,7 @@ Security,GET,alerts with 'High' severity,/beta/security/alerts?filter=Severity e
 Security,GET,alerts related to 'ransomware' category,/beta/security/alerts?filter=Category eq 'ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
 Security,GET,alerts from 'Azure Security Center',/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
 Security,GET,alerts select by 'Title',/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-User Activities,PUT,create a user activity and history item,/v1.0/me/activities/uniqueIdInAppContext,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_put_activity#example-2---deep-insert,AAD,"{
+User Activities,PUT,create a user activity and history item,/v1.0/me/activities/uniqueIdInAppContext,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_put_activity#example-2---deep-insert,BOTH,"{
     ""appActivityId"": ""uniqueIdInAppContext"",
     ""activitySourceHost"": ""https://graphexplorer.blob.core.windows.net"",
     ""userTimezone"": ""America/Los Angeles"",
@@ -376,4 +376,4 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
         }
     ]
 }",Content-Type: application/json
-User Activities,GET,get recent user activities,/v1.0/me/activities/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities,AAD,,
+User Activities,GET,get recent user activities,/v1.0/me/activities/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities,BOTH,,
