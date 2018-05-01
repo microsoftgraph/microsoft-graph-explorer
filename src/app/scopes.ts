@@ -585,5 +585,13 @@ export const PermissionScopes: PermissionScope[] = [
       "Allows the app to read and report the signed-in user's activity in the app",
     preview: false,
     admin: false
+  },
+  {
+    name: "Financials.ReadWrite.All",
+    description: "Read and write financials data",
+    longDescription:
+      "Allows the app to read and write financials data on your behalf",
+    preview: false,
+    admin: false
   }
 ]
