@@ -1,4 +1,10 @@
 {
+  "Security": "Security",
+  "alerts": "alerts",
+  "alerts with 'High' severity": "alerts with 'High' severity",
+  "alerts related to 'ransomware' category": "alerts related to 'ransomware' category",
+  "alerts from 'Azure Security Center'": "alerts from 'Azure Security Center'",
+  "alerts select by 'Title'": "alerts select by 'Title'",
   "To try the explorer, please ": "To try the explorer, please ",
   "sign in": "sign in",
   " with your work or school account from Microsoft.": " with your work or school account from Microsoft.",
@@ -39,7 +45,7 @@
   "my manager": "my manager",
   "User photo": "photo of the signed in user",
   "Response Headers": "Response Headers",
-  "Response headers viewer" : "The response headers returned by Microsoft Graph",
+  "Response headers viewer": "The response headers returned by Microsoft Graph",
   "Response body": "The response body returned by Microsoft Graph",
   "Response Preview": "Response Preview",
   "Sample Queries": "Sample Queries",
@@ -185,5 +191,8 @@
   "update an open extension": "update an open extension",
   "user by email": "user by email",
   "explorer-error": "We had an issue sending this request to the Graph API.  For assistance, connect with us on StackOverflow with the tag [microsoftgraph].",
-  "search my OneDrive": "search my OneDrive"
+  "search my OneDrive": "search my OneDrive",
+  "User Activities": "User Activities",
+  "get recent user activities": "get recent user activities",
+  "create a user activity and history item": "create a user activity and history item"
 }
