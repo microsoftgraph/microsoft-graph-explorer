@@ -191,5 +191,8 @@
   "update an open extension": "Offene Erweiterung aktualisieren",
   "user by email": "Benutzer nach E-Mail",
   "explorer-error": "Beim Senden dieser Anforderung an die Graph-API ist ein Fehler aufgetreten.  Um Unterstützung zu erhalten, verbinden Sie sich mit uns auf StackOverflow, und verwenden Sie dazu das Tag [microsoftgraph].",
-  "search my OneDrive": "mein OneDrive durchsuchen"
+  "search my OneDrive": "mein OneDrive durchsuchen",
+  "User Activities": "Benutzeraktivitäten",
+  "get recent user activities": "Aktuelle Benutzeraktivitäten abrufen",
+  "create a user activity and history item": "Benutzeraktivitäts- und Verlaufselement erstellen"
 }

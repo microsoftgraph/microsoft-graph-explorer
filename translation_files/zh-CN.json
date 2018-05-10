@@ -191,5 +191,8 @@
   "update an open extension": "更新开放扩展",
   "user by email": "按电子邮件地址排序的用户",
   "explorer-error": "我们在向图形 API 发送此请求时遇到了问题。 若要获得帮助，请在 StackOverflow 上使用标签 [microsoftgraph] 与我们联系。",
-  "search my OneDrive": "搜索我的 OneDrive"
+  "search my OneDrive": "搜索我的 OneDrive",
+  "User Activities": "用户活动",
+  "get recent user activities": "获取最近用户活动",
+  "create a user activity and history item": "创建用户活动和历史记录项"
 }

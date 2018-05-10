@@ -191,5 +191,8 @@
   "update an open extension": "Обновление открытого расширения",
   "user by email": "Пользователи по электронной почте",
   "explorer-error": "Возникла проблема с отправкой этого запроса в API Graph.  Для получения помощи свяжитесь с нами через сайт StackOverflow, добавив к своему сообщению тег [microsoftgraph].",
-  "search my OneDrive": "Поиск в OneDrive"
+  "search my OneDrive": "Поиск в OneDrive",
+  "User Activities": "Действия пользователей",
+  "get recent user activities": "Получение сведений о последних действиях пользователей",
+  "create a user activity and history item": "Создание элемента журнала и действий пользователей"
 }

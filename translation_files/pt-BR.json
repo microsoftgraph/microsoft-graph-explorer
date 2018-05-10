@@ -191,5 +191,8 @@
   "update an open extension": "atualizar uma extensão aberta",
   "user by email": "usuário por email",
   "explorer-error": "Tivemos um problema ao enviar esta solicitação à API do Graph.  Para receber ajuda, envie uma mensagem no StackOverflow com a marca [microsoftgraph].",
-  "search my OneDrive": "pesquisar meu OneDrive"
+  "search my OneDrive": "pesquisar meu OneDrive",
+  "User Activities": "Atividades do usuário",
+  "get recent user activities": "obter as atividades recentes do usuário",
+  "create a user activity and history item": "criar um item de histórico e atividade do usuário"
 }

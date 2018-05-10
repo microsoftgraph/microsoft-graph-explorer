@@ -191,5 +191,8 @@
   "update an open extension": "オープン拡張機能を更新する",
   "user by email": "メールごとのユーザー",
   "explorer-error": "この要求の Graph API への送信で問題が発生しました。 サポートが必要な場合は、StackOverflow で [microsoftgraph] タグを付けて質問を投稿してください。",
-  "search my OneDrive": "自分の OneDrive を検索"
+  "search my OneDrive": "自分の OneDrive を検索",
+  "User Activities": "ユーザー アクティビティ",
+  "get recent user activities": "最近のユーザー アクティビティを取得する",
+  "create a user activity and history item": "ユーザー アクティビティと履歴項目を作成する"
 }
