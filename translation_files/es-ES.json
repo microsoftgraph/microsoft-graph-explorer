@@ -1,5 +1,11 @@
 {
-  "To try the explorer, please ": "Para utilizar el probador,  ",
+  "Security": "Seguridad",
+  "alerts": "alertas",
+  "alerts with 'High' severity": "alertas con estado de gravedad alto",
+  "alerts related to 'ransomware' category": "alertas relacionadas con la categoría “ransomware”",
+  "alerts from 'Azure Security Center'": "alertas de “Azure Security Center”",
+  "alerts select by 'Title'": "seleccionar alertas por “Título”",
+  "To try the explorer, please ": "Para utilizar el probador, ",
   "sign in": "inicie sesión",
   " with your work or school account from Microsoft.": " con su cuenta profesional o educativa de Microsoft.",
   "Submit": "Enviar",
@@ -39,7 +45,7 @@
   "my manager": "mi administrador",
   "User photo": "foto del usuario que ha iniciado sesión",
   "Response Headers": "Encabezados de respuesta",
-  "Response headers viewer" : "Encabezados de respuesta devueltos por Microsoft Graph",
+  "Response headers viewer": "Encabezados de respuesta devueltos por Microsoft Graph",
   "Response body": "Cuerpo de la respuesta devuelto por Microsoft Graph",
   "Response Preview": "Vista previa de la respuesta",
   "Sample Queries": "Consultas de ejemplo",
@@ -185,5 +191,8 @@
   "update an open extension": "actualizar una extensión abierta",
   "user by email": "usuario por correo electrónico",
   "explorer-error": "Se ha producido un problema al enviar esta solicitud a la API de Graph.  Para obtener ayuda, póngase en contacto con nosotros en StackOverflow con la etiqueta [microsoftgraph].",
-  "search my OneDrive": "buscar en mi OneDrive"
+  "search my OneDrive": "buscar en mi OneDrive",
+  "User Activities": "Actividades de usuario",
+  "get recent user activities": "obtener actividades de usuario recientes",
+  "create a user activity and history item": "crear una actividad de usuario y un elemento de historial"
 }
