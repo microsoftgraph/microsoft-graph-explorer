@@ -1,4 +1,10 @@
 {
+  "Security": "Sicherheit",
+  "alerts": "Warnungen",
+  "alerts with 'High' severity": "Warnungen mit Schweregrad „Hoch“",
+  "alerts related to 'ransomware' category": "Warnungen im Zusammenhang mit der Kategorie „Ransomware“",
+  "alerts from 'Azure Security Center'": "Warnungen vom „Azure Security Center“",
+  "alerts select by 'Title'": "Warnungen nach „Titel“",
   "To try the explorer, please ": "Um den Tester auszuprobieren, ",
   "sign in": "melden Sie sich",
   " with your work or school account from Microsoft.": " mit Ihrem Geschäfts-, Schul- oder Unikonto von Microsoft an.",
@@ -28,6 +34,7 @@
   "Getting Started": "Erste Schritte",
   "Response": "Antwort",
   "login to send requests": "Melden Sie an, um den Anforderungstyp zu ändern",
+  "HTTP verb selector": "HTTP-Verbselektor",
   "Share Query": "Abfrage freigeben",
   "Share this link to let people try your current query in the Graph Explorer.": "Teilen Sie diesen Link, damit Benutzer Ihre aktuelle Abfrage im Graph-Tester testen können.",
   "Date": "Datum",
@@ -36,7 +43,10 @@
   "my photo": "Mein Foto",
   "my mail": "Meine E-Mail",
   "my manager": "Mein Vorgesetzter",
+  "User photo": "Foto des angemeldeten Benutzers",
   "Response Headers": "Antwortheader",
+  "Response headers viewer": "Die von Microsoft Graph zurückgegebenen Antwortheader",
+  "Response body": "Der von Microsoft Graph zurückgegebene Antworttext",
   "Response Preview": "Antwortvorschau",
   "Sample Queries": "Beispielabfragen",
   "show more samples": "Mehr Beispiele anzeigen",
@@ -181,5 +191,8 @@
   "update an open extension": "Offene Erweiterung aktualisieren",
   "user by email": "Benutzer nach E-Mail",
   "explorer-error": "Beim Senden dieser Anforderung an die Graph-API ist ein Fehler aufgetreten.  Um Unterstützung zu erhalten, verbinden Sie sich mit uns auf StackOverflow, und verwenden Sie dazu das Tag [microsoftgraph].",
-  "search my OneDrive": "mein OneDrive durchsuchen"
+  "search my OneDrive": "mein OneDrive durchsuchen",
+  "User Activities": "Benutzeraktivitäten",
+  "get recent user activities": "Aktuelle Benutzeraktivitäten abrufen",
+  "create a user activity and history item": "Benutzeraktivitäts- und Verlaufselement erstellen"
 }

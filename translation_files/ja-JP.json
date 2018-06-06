@@ -1,4 +1,10 @@
 {
+  "Security": "セキュリティ",
+  "alerts": "アラート",
+  "alerts with 'High' severity": "重要度 - '高' のアラート",
+  "alerts related to 'ransomware' category": "'ランサムウェア' カテゴリに関連するアラート",
+  "alerts from 'Azure Security Center'": "'Azure Security Center' からのアラート",
+  "alerts select by 'Title'": "'タイトル' で選択するアラート",
   "To try the explorer, please ": "エクスプローラーをお試しいただくには、Microsoft の職場または学校アカウントで ",
   "sign in": "サインイン",
   " with your work or school account from Microsoft.": " します。",
@@ -28,6 +34,7 @@
   "Getting Started": "はじめに",
   "Response": "応答",
   "login to send requests": "要求の種類を変更するにはログインしてください",
+  "HTTP verb selector": "HTTP 動詞セレクター",
   "Share Query": "クエリの共有",
   "Share this link to let people try your current query in the Graph Explorer.": "他のユーザーが Graph エクスプローラーで現在のクエリを試せるようにするには、このリンクを共有してください。",
   "Date": "日付",
@@ -36,7 +43,10 @@
   "my photo": "自分の写真",
   "my mail": "自分のメール",
   "my manager": "自分の上司",
+  "User photo": "サインインしているユーザーの写真",
   "Response Headers": "応答ヘッダー",
+  "Response headers viewer": "Microsoft Graph で返される応答ヘッダー",
+  "Response body": "Microsoft Graph で返される応答本文",
   "Response Preview": "応答のプレビュー",
   "Sample Queries": "サンプル クエリ",
   "show more samples": "サンプルをさらに表示",
@@ -181,5 +191,8 @@
   "update an open extension": "オープン拡張機能を更新する",
   "user by email": "メールごとのユーザー",
   "explorer-error": "この要求の Graph API への送信で問題が発生しました。 サポートが必要な場合は、StackOverflow で [microsoftgraph] タグを付けて質問を投稿してください。",
-  "search my OneDrive": "自分の OneDrive を検索"
+  "search my OneDrive": "自分の OneDrive を検索",
+  "User Activities": "ユーザー アクティビティ",
+  "get recent user activities": "最近のユーザー アクティビティを取得する",
+  "create a user activity and history item": "ユーザー アクティビティと履歴項目を作成する"
 }

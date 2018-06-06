@@ -92,13 +92,36 @@ describe('Sample query validation', () => {
     it(`GET query should execute: ${query.humanName}`, function (done) {
       substituteTokens(query);
 
+      /**
+       * Indicates whether we will skip the named query response length check.
+       * @returns {Boolean} - A value of true indicates that the we should skip the response length check.
+       */
+      function skipResponseLengthCheck(): Boolean {
+
+        // A list of query names from gen-queries.ts that we will skip.
+        // These are the names of samples where we expect to a get a response body
+        // that contains an empty JSON object.
+        // We are using this to skip the empty response check.
+        let skipQueryList = [
+          "get recent user activities"
+        ];
+
+        skipQueryList.map((queryName) => {
+          if (queryName === query.humanName) {
+            return true;
+          }
+        })
+
+        return false;
+      }
+
       var headers = convertHeaders(query.headers);
 
       graphService.performAnonymousQuery(query.method, 'https://graph.microsoft.com' + query.requestUrl, headers).then((res) => {
         if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
           let response = res.json();
           if (response && response.value && response.value.constructor === Array) {
-            if (response.value.length === 0) {
+            if (response.value.length === 0 && skipResponseLengthCheck()) {
               done.fail(`${query.humanName}: All sample GETs on collections must have values`)
             }
           }

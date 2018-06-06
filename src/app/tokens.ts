@@ -78,18 +78,26 @@ export const Tokens: Token[] = [
     }
   },
   {
+    placeholder: "todayMinusHour",
+    defaultValueFn: () => {
+      let todayMinusHour = new Date();
+      todayMinusHour.setHours(new Date().getHours() - 1);
+      return todayMinusHour.toISOString()
+    }
+  },
+  {
     placeholder: "coworker-mail",
     demoTenantValue: "meganb@M365x214355.onmicrosoft.com",
     authenticatedUserValueFn: () => {
       return AppComponent.explorerValues.authentication.user.emailAddress;
-    }    
+    }
   },
   {
     placeholder: "next-week",
     defaultValueFn: () => {
       let today = new Date();
       let nextWeek = new Date();
-      nextWeek.setDate(today.getDate()+7);
+      nextWeek.setDate(today.getDate() + 7);
       return nextWeek.toISOString()
     }
   },
