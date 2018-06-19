@@ -593,5 +593,12 @@ export const PermissionScopes: PermissionScope[] = [
       "Allows the app to read and write financials data on your behalf",
     preview: false,
     admin: false
+  },
+   {
+    name: "AuditLog.Read.All",
+    description: "Read audit logs data",
+    longDescription: "Allows the app to read audit logs data on your behalf",
+    preview: false,
+    admin: false
   }
 ]
