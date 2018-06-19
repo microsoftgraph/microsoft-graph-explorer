@@ -2,6 +2,20 @@ import { PermissionScope } from "./base";
 
 export const PermissionScopes: PermissionScope[] = [
   {
+    name: "AccessReviews.Read.All",
+    description: "Read access reviews and related entities that user can access",
+    longDescription: "Allows the app to read access reviews and related entities that the signed-in user has access to in the organization.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "AccessReviews.ReadWrite.All",
+    description: "Read, Update and perform actions on access reviews and related entities that user can access",
+    longDescription: "Allows the app to read, update, delete and perform actions on access reviews and related entities that the signed-in user has access to in the organization.",
+    preview: true,
+    admin: true,
+  },
+  {
     name: "Agreement.Read.All",
     description: "Read all terms of use agreements",
     longDescription: "Allows the app to read terms of use agreements on behalf of the signed-in user.",
@@ -245,6 +259,20 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription: "Allows the app to read and write the contents of all notebooks and sections that the signed-in user can access. It cannot access password protected sections.",
     preview: false,
     admin: false,
+  },
+  {
+    name: "Programs.Read.All",
+    description: "Read programs and related entities that user can access",
+    longDescription: "Allows the app to read programs and related entities that the signed-in user has access to in the organization.",
+    preview: true,
+    admin: true,
+  },
+  {
+    name: "Programs.ReadWrite.All",
+    description: "Read, Update and perform actions on programs and related entities that user can access",
+    longDescription: "Allows the app to read, update, delete and perform actions on programs and related entities that the signed-in user has access to in the organization.",
+    preview: true,
+    admin: true,
   },
   {
     name: "SecurityEvents.Read.All",
