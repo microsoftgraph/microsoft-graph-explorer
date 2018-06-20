@@ -45,9 +45,9 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
 
   sortScopesList(): void {
     PermissionScopes.sort(function (a, b) {
-      var textA = a.name.toUpperCase();
-      var textB = b.name.toUpperCase();
-      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      var scopeName_a = a.name.toUpperCase();
+      var scopeName_b = b.name.toUpperCase();
+      return (scopeName_a < scopeName_b) ? -1 : (scopeName_a > scopeName_b) ? 1 : 0;
     });
   }
 
