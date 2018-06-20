@@ -37,9 +37,18 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   }
 
   ngAfterViewInit(): void {
+    this.sortScopesList();
     ScopesDialogComponent.setScopesEnabledTarget();
     window['launchPermissionsDialog'] = ScopesDialogComponent.showDialog;
     this.scopesListTableHeight = window.getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue("height");
+  }
+
+  sortScopesList(): void {
+    PermissionScopes.sort(function (a, b) {
+      var textA = a.name.toUpperCase();
+      var textB = b.name.toUpperCase();
+      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
   }
 
   /** 
