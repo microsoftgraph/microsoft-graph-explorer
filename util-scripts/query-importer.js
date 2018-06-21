@@ -18,25 +18,25 @@ let knownHeaders = {
 let schema, queries = [];
 
 var csvStream = csv()
-    .on("data", (line) => {
+  .on("data", (line) => {
 
-        if (!schema) {
-          schema = {};
-          let headers = line;
-          for (let i=0;i<headers.length;i++) {
-            schema[headers[i]] = i;
-          }
-          return;
-        }
+    if (!schema) {
+      schema = {};
+      let headers = line;
+      for (let i = 0; i < headers.length; i++) {
+        schema[headers[i]] = i;
+      }
+      return;
+    }
 
-        let query = createQueryFromLine(line)
+    let query = createQueryFromLine(line)
 
-        if (query["Query URL"]) // only add queries that have URLs
-          queries.push(query);
-   })
-    .on("end", function(){
-        saveSampleQueries();
-    });
+    if (query["Query URL"]) // only add queries that have URLs
+      queries.push(query);
+  })
+  .on("end", function () {
+    saveSampleQueries();
+  });
 
 function createQueryFromLine(lineArr) {
 
@@ -61,7 +61,7 @@ function convertRawQueryToSampleQueryType(query) {
 }
 
 function saveSampleQueries() {
-let outStr=`
+  let outStr = `
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ import { SampleQuery } from "./base";
 export const SampleQueries: SampleQuery[] = [
   `;
   formattedQueryArr = []
-  for (let i=0;i<queries.length;i++) {
+  for (let i = 0; i < queries.length; i++) {
     let csvQuery = queries[i];
     let sampleQuery = convertRawQueryToSampleQueryType(csvQuery);
 
@@ -85,14 +85,14 @@ export const SampleQueries: SampleQuery[] = [
   outStr += formattedQueryArr.join(",\n");
 
   outStr += ']'
-  
-  fs.writeFile("src/app/gen-queries.ts", outStr, function(err) {
-      if(err) {
-          return console.log(err);
-      }
 
-      console.log("The file was saved!");
-  }); 
+  fs.writeFile("src/app/gen-queries.ts", outStr, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log("The file was saved!");
+  });
 }
 
 function cleanupSampleQuery(sampleQuery) {
@@ -114,12 +114,12 @@ function cleanupSampleQuery(sampleQuery) {
 
 
   if (sampleQuery.headers) {
-    let headers = sampleQuery.headers.split(";");
+    let headers = sampleQuery.headers.split(/[\r\n]+/);
     sampleQuery.headers = [];
     for (let header of headers) {
       if (!header) continue;
       let name = header.split(":")[0].trim();
-      let value = header.split(":")[1].trim();
+      let value = header.split(/:(.+)/)[1].trim();
       sampleQuery.headers.push({
         name: name,
         value: value

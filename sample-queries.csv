@@ -243,39 +243,15 @@ OneNote,POST,create section,/v1.0/me/onenote/notebooks/{notebook-id}/sections,"T
   ""displayName"": ""Section 1""
 }",Content-type: application/json
 OneNote,POST,create page,/v1.0/me/onenote/sections/{section-id}/pages,"This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/v1.0/me/onenote/sections.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_post_pages,BOTH,"
---MyPartBoundary198374
-Content-Disposition:form-data; name=""Presentation""
-Content-Type:text/html
-
 <!DOCTYPE html>
 <html>
   <head>
-    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>
-    <meta name=""created"" content=""2015-07-22T09:00:00-08:00"" />
+    <title>A page with a block of HTML</title>
   </head>
   <body>
-    <p>Here's an image from an online source:</p>
-    <img src=""http://..."" alt=""an image on the page"" width=""500"" />
-    <p>Here's an image uploaded as binary data:</p>
-    <img src=""name:imageBlock1"" alt=""an image on the page"" width=""300"" />
-    <p>Here's a file attachment:</p>
-    <object data-attachment=""FileName.pdf"" data=""name:fileBlock1"" type=""application/pdf"" />
+    <p>This page contains some <i>formatted</i> <b>text</b>.</p>
   </body>
-</html>
-
---MyPartBoundary198374
-Content-Disposition:form-data; name=""imageBlock1""
-Content-Type:image/jpeg
-
-... binary image data ...
-
---MyPartBoundary198374
-Content-Disposition:form-data; name=""fileBlock1""
-Content-Type:application/pdf
-
-... binary file data ...
-
---MyPartBoundary198374--",Content-type: multipart/form-data; boundary: MyPartBoundary198374
+</html>",Content-type: application/xhtml+xml
 SharePoint Sites,GET,my organization's default SharePoint site,/v1.0/sites/root,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_get,AAD,,
 SharePoint Sites,GET,Enumerate the document libraries under the root site,/v1.0/sites/root/drives,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_list#list-a-sites-drives,AAD,,
 SharePoint Sites,GET,SharePoint site based on relative path of the site,/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_getbypath,AAD,,
