@@ -47,7 +47,7 @@
     "@angular/router": "^4.1.2",
     "angular-in-memory-web-api": "^0.3.0",
     "core-js": "^2.4.1",
-    "hello": "https://github.com/dan-silver/hello.js.git",
+    "hellojs": "https://github.com/dan-silver/hello.js.git",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.1.0",
     "karma-cli": "^1.0.1",
