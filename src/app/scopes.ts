@@ -261,14 +261,14 @@ export const PermissionScopes: PermissionScope[] = [
     admin: false,
   },
   {
-    name: "Program.Read.All",
+    name: "ProgramControl.Read.All",
     description: "Read all programs that user can access",
     longDescription: "Allows the app to read programs and programControls that the signed-in user has access to in the organization",
     preview: true,
     admin: true,
   },
   {
-    name: "Program.ReadWrite.All",
+    name: "ProgramControl.ReadWrite.All",
     description: "Manage programs that user can access",
     longDescription: "Allows the app to read, update, delete and perform actions on programs and programControls that the signed-in user has access to in the organization",
     preview: true,
