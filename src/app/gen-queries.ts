@@ -957,35 +957,35 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts",
     "requestUrl": "/beta/security/alerts?$top=1",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts with 'High' severity",
     "requestUrl": "/beta/security/alerts?filter=Severity eq 'High'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts related to 'ransomware' category",
     "requestUrl": "/beta/security/alerts?filter=Category eq 'ransomware'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts from 'Azure Security Center'",
     "requestUrl": "/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts select by 'Title'",
     "requestUrl": "/beta/security/alerts?$top=5&$select=title",
