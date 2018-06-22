@@ -193,7 +193,7 @@ loc_strings['de-DE'] = {
 }
 
 loc_strings['en-US'] = {
-  "Security": "Security",
+  "Security (beta)": "Security (beta)",
   "alerts": "alerts",
   "alerts with 'High' severity": "alerts with 'High' severity",
   "alerts related to 'ransomware' category": "alerts related to 'ransomware' category",
