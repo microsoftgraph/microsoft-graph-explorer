@@ -3,7 +3,7 @@ import { PermissionScope } from "./base";
 export const PermissionScopes: PermissionScope[] = [
   {
     name: "AccessReview.Read.All",
-    description: "Read all access reviews that user can access",
+    description: "Read all access reviews that a user can access",
     longDescription: "Allows the app to read access reviews, reviewers, decisions and settings that the signed-in user has access to in the organization",
     preview: true,
     admin: true,
@@ -262,15 +262,15 @@ export const PermissionScopes: PermissionScope[] = [
   },
   {
     name: "ProgramControl.Read.All",
-    description: "Read all programs that user can access",
-    longDescription: "Allows the app to read programs and programControls that the signed-in user has access to in the organization",
+    description: "Read all programs that a user can access",
+    longDescription: "Allows the app to read programs and program controls that the signed-in user has access to in the organization",
     preview: true,
     admin: true,
   },
   {
     name: "ProgramControl.ReadWrite.All",
-    description: "Manage programs that user can access",
-    longDescription: "Allows the app to read, update, delete and perform actions on programs and programControls that the signed-in user has access to in the organization",
+    description: "Manage programs that a user can access",
+    longDescription: "Allows the app to read, update, delete and perform actions on programs and program controls that the signed-in user has access to in the organization",
     preview: true,
     admin: true,
   },
