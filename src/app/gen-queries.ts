@@ -745,14 +745,10 @@ export const SampleQueries: SampleQuery[] = [
     "headers": [
         {
             "name": "Content-type",
-            "value": "multipart/form-data"
-        },
-        {
-            "name": "boundary",
-            "value": "MyPartBoundary198374"
+            "value": "application/xhtml+xml"
         }
     ],
-    "postBody": "\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"Presentation\"\r\nContent-Type:text/html\r\n\r\n<!DOCTYPE html>\r\n<html>\r\n  <head>\r\n    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>\r\n    <meta name=\"created\" content=\"2015-07-22T09:00:00-08:00\" />\r\n  </head>\r\n  <body>\r\n    <p>Here's an image from an online source:</p>\r\n    <img src=\"http://...\" alt=\"an image on the page\" width=\"500\" />\r\n    <p>Here's an image uploaded as binary data:</p>\r\n    <img src=\"name:imageBlock1\" alt=\"an image on the page\" width=\"300\" />\r\n    <p>Here's a file attachment:</p>\r\n    <object data-attachment=\"FileName.pdf\" data=\"name:fileBlock1\" type=\"application/pdf\" />\r\n  </body>\r\n</html>\r\n\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"imageBlock1\"\r\nContent-Type:image/jpeg\r\n\r\n... binary image data ...\r\n\r\n--MyPartBoundary198374\r\nContent-Disposition:form-data; name=\"fileBlock1\"\r\nContent-Type:application/pdf\r\n\r\n... binary file data ...\r\n\r\n--MyPartBoundary198374--",
+    "postBody": "\r\n<!DOCTYPE html>\r\n<html>\r\n  <head>\r\n    <title>A page with a block of HTML</title>\r\n  </head>\r\n  <body>\r\n    <p>This page contains some <i>formatted</i> <b>text</b>.</p>\r\n  </body>\r\n</html>",
     "tip": "This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/v1.0/me/onenote/sections."
 },
 {
@@ -961,35 +957,35 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts",
     "requestUrl": "/beta/security/alerts?$top=1",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts with 'High' severity",
     "requestUrl": "/beta/security/alerts?filter=Severity eq 'High'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts related to 'ransomware' category",
     "requestUrl": "/beta/security/alerts?filter=Category eq 'ransomware'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts from 'Azure Security Center'",
     "requestUrl": "/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
 },
 {
-    "category": "Security",
+    "category": "Security (beta)",
     "method": "GET",
     "humanName": "alerts select by 'Title'",
     "requestUrl": "/beta/security/alerts?$top=5&$select=title",
