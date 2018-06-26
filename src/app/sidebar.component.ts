@@ -38,7 +38,6 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
 
         // Set the focus on the first actionable control in the sampleCategoryPanel.
         (document.querySelector("#closeSampleCategories") as any).focus();
-        console.log(document.activeElement);
     }
 
     manageHistory() {
