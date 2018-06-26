@@ -1,5 +1,5 @@
 {
-  "Security": "セキュリティ",
+  "Security (beta)": "セキュリティ (ベータ版)",
   "alerts": "アラート",
   "alerts with 'High' severity": "重要度 - '高' のアラート",
   "alerts related to 'ransomware' category": "'ランサムウェア' カテゴリに関連するアラート",
