@@ -10,9 +10,9 @@ import { SampleCategories } from "./getting-started-queries";
 declare let fabric;
 
 @Component({
-  selector: 'sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+    selector: 'sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent extends GraphExplorerComponent implements AfterViewInit {
     sampleCategoryPanel: Element;
@@ -30,12 +30,15 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
 
     }
 
-    categories:SampleQueryCategory[] = SampleCategories
+    categories: SampleQueryCategory[] = SampleCategories
 
     manageCategories() {
         // open sample category panel
         new fabric['Panel'](this.sampleCategoryPanel); // tslint:disable-line
 
+        // Set the focus on the first actionable control in the sampleCategoryPanel.
+        (document.querySelector("#closeSampleCategories") as any).focus();
+        console.log(document.activeElement);
     }
 
     manageHistory() {
@@ -46,14 +49,14 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
 
     closePanels() {
         try {
-            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
-        } catch(e) {
+            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click();
+        } catch (e) {
 
         }
 
         try {
-            (document.querySelector("#sample-categories-panel .ms-Panel-closeButton") as any).click()
-        } catch(e) {
+            (document.querySelector("#sample-categories-panel .ms-Panel-closeButton") as any).click();
+        } catch (e) {
 
         }
     };
