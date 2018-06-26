@@ -18,8 +18,8 @@ export class SampleCategoriesPanelComponent extends GraphExplorerComponent imple
 
     ngAfterViewInit(): void {
         mwf.ComponentFactory.create([{
-            'component': mwf.Toggle,
-        }])
+            'component': mwf.Toggle
+        }]);
     }
 
     toggleCategory(category: SampleQueryCategory) {
