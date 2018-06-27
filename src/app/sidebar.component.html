@@ -23,9 +23,9 @@
             <div id="sample-queries-scroll">
                 <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
                     <div>
-                        <span class="category-heading">{{getStr(category.title)}}</span>
+                        <span class="category-heading" [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
                     </div>
-                    <query-row [query]="query" *ngFor="let query of category.queries"></query-row>
+                    <query-row [query]="query" [category]="idifyCategory(category.title)" *ngFor="let query of category.queries"></query-row>
                 </div>
             </div>
             <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more samples')}}</a>
