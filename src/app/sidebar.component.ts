@@ -6,7 +6,6 @@ import { Component, AfterViewInit } from '@angular/core';
 import { SampleQueryCategory } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { SampleCategories } from "./getting-started-queries";
-import { QueryRowComponent } from './queryrow.component';
 
 declare let fabric;
 
