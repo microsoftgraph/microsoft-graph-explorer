@@ -287,14 +287,14 @@ Batching,POST,Combine a POST and a GET,/v1.0/$batch,This query will create a fol
 } ",Content-type: application/json
 ,,,,,,,,
 Microsoft Teams (beta),GET,my joined teams,/beta/me/joinedTeams,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams,,,
-Microsoft Teams (beta),GET,members of a team,/beta/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,
-Microsoft Teams (beta),GET,channels of a team which I am member of,/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
-Microsoft Teams (beta),GET,channel info,/beta/groups/{group-id-for-teams}/channels/{channel-id},"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
-Microsoft Teams (beta),POST,create channel,/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
+Microsoft Teams (beta),GET,members of a team,/beta/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,
+Microsoft Teams (beta),GET,channels of a team which I am member of,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
+Microsoft Teams (beta),GET,channel info,/beta/teams/{team-id}/channels/{channel-id},"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
+Microsoft Teams (beta),POST,create channel,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams.",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
    ""displayName"": ""Architecture Discussion"",		
    ""description"": ""This channel is where we debate all future architecture plans""		
  }",
-Microsoft Teams (beta),POST,create chat thread,/beta/groups/{group-id-for-teams}/channels/{channel-id}/chatThreads,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
+Microsoft Teams (beta),POST,create chat thread,/beta/teams/{team-id}/channels/{channel-id}/chatThreads,"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
 ""rootMessage"": {
        ""body"": {
          ""contentType"": 2,		
@@ -302,6 +302,7 @@ Microsoft Teams (beta),POST,create chat thread,/beta/groups/{group-id-for-teams}
        }		
    }		
  }",
+Microsoft Teams (beta),GET,apps in a team,/beta/teams/{team-id}/apps,"This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list,,,
 Microsoft Teams (beta),GET,items in a team drive,/beta/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,
 Outlook Mail,GET,my inbox rules,/beta/me/mailFolders/inbox/messagerules,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule,BOTH,,
 Outlook Mail,GET,my outlook categories,/beta/me/outlook/masterCategories,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories,BOTH,,

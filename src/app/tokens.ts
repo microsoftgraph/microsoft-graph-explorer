@@ -68,6 +68,10 @@ export const Tokens: Token[] = [
     demoTenantValue: "02bd9fd6-8f93-4758-87c3-1fb73740a315",
   },
   {
+    placeholder: "team-id",
+    demoTenantValue: "02bd9fd6-8f93-4758-87c3-1fb73740a315",
+  },
+  {
     placeholder: "channel-id",
     demoTenantValue: "d0bba23c-2fc8-4139-9112-5a43a54cc30e",
   },
