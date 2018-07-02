@@ -30,6 +30,15 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
 
     }
 
+    /**
+     * idifyCategory
+     * @param categoryTitle The sample category title that will be changed into an element id.
+     * @returns A sample category title as an ID.
+     */
+    idifyCategory(categoryTitle: string): string {
+        return categoryTitle.replace(/\s+/g, '-').toLowerCase();
+    }
+
     categories: SampleQueryCategory[] = SampleCategories
 
     manageCategories() {

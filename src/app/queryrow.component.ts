@@ -17,6 +17,7 @@ import { QueryRunnerService } from "./query-runner.service";
 })
 export class QueryRowComponent extends GraphExplorerComponent {
 
+    @Input() category: string;
     @Input() query: SampleQuery;
 
     constructor(public queryRunnerService: QueryRunnerService) {
@@ -35,6 +36,20 @@ export class QueryRowComponent extends GraphExplorerComponent {
 
     getQueryText() {
         return getShortQueryText(this.query);
+    }
+
+    /**
+     * @returns The identifier of query button element.
+     */
+    getQueryButtonId(): string {
+        return (this.query.method + " " + this.getQueryText()).replace(/\s+/g, '-').toLowerCase();
+    }
+
+    /**
+     * @returns The value for the aria-labelledby element that is used by AT.
+     */
+    getAriaLabelledBy(): string {
+        return this.category + " " + this.getQueryButtonId();
     }
 
     getAriaLabelForSampleRow() {
