@@ -10,9 +10,9 @@ import { SampleCategories } from "./getting-started-queries";
 declare let fabric;
 
 @Component({
-  selector: 'sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+    selector: 'sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent extends GraphExplorerComponent implements AfterViewInit {
     sampleCategoryPanel: Element;
@@ -30,12 +30,23 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
 
     }
 
-    categories:SampleQueryCategory[] = SampleCategories
+    /**
+     * idifyCategory
+     * @param categoryTitle The sample category title that will be changed into an element id.
+     * @returns A sample category title as an ID.
+     */
+    idifyCategory(categoryTitle: string): string {
+        return categoryTitle.replace(/\s+/g, '-').toLowerCase();
+    }
+
+    categories: SampleQueryCategory[] = SampleCategories
 
     manageCategories() {
         // open sample category panel
         new fabric['Panel'](this.sampleCategoryPanel); // tslint:disable-line
 
+        // Set the focus on the first actionable control in the sampleCategoryPanel.
+        (document.querySelector("#closeSampleCategories") as any).focus();
     }
 
     manageHistory() {
@@ -46,14 +57,14 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
 
     closePanels() {
         try {
-            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
-        } catch(e) {
+            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click();
+        } catch (e) {
 
         }
 
         try {
-            (document.querySelector("#sample-categories-panel .ms-Panel-closeButton") as any).click()
-        } catch(e) {
+            (document.querySelector("#sample-categories-panel .ms-Panel-closeButton") as any).click();
+        } catch (e) {
 
         }
     };
