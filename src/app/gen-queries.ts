@@ -884,41 +884,49 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "members of a team",
     "requestUrl": "/beta/groups/{group-id-for-teams}/members",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof",
-    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+    "tip": "This query requires a group id of the Team.  To find the group id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
     "humanName": "channels of a team which I am member of",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels",
+    "requestUrl": "/beta/teams/{team-id}/channels",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels",
-    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+    "tip": "This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
     "humanName": "channel info",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels/{channel-id}",
+    "requestUrl": "/beta/teams/{team-id}/channels/{channel-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get",
-    "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels"
+    "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels"
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "POST",
     "humanName": "create channel",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels",
+    "requestUrl": "/beta/teams/{team-id}/channels",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels",
     "postBody": "{\r\n   \"displayName\": \"Architecture Discussion\",\t\t\r\n   \"description\": \"This channel is where we debate all future architecture plans\"\t\t\r\n }",
-    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+    "tip": "This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams."
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "POST",
     "humanName": "create chat thread",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels/{channel-id}/chatThreads",
+    "requestUrl": "/beta/teams/{team-id}/channels/{channel-id}/chatThreads",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads",
     "postBody": "{\r\n\"rootMessage\": {\r\n       \"body\": {\r\n         \"contentType\": 2,\t\t\r\n         \"content\": \"Hello world\"\t\t\r\n       }\t\t\r\n   }\t\t\r\n }",
-    "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels"
+    "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "apps in a team",
+    "requestUrl": "/beta/teams/{team-id}/apps",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list",
+    "tip": "This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
     "category": "Microsoft Teams (beta)",
