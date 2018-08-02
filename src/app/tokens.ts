@@ -123,7 +123,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "list-id",
-    defaultValue: "d7689e2b-941a-4cd3-bb24-55cddee54294",
+    defaultValue: "bb07158e-4b8e-4746-9906-ac4d8f8eb264",
   },
   {
     placeholder: "list-title",
