@@ -628,5 +628,13 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription: "Allows the app to read audit logs data on your behalf",
     preview: false,
     admin: false
+  }, 
+  {
+    name: "Notifications.ReadWrite.CreatedByApp",
+    description: "Deliver and manage your notifications for this app",
+    longDescription:
+      "Allows the app to deliver its notifications, on your behalf. Also allows the app to read, update, and delete your notification items for this app",
+    preview: false,
+    admin: false
   }
 ]
