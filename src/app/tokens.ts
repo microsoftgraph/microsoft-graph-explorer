@@ -76,12 +76,12 @@ export const Tokens: Token[] = [
     demoTenantValue: "19:d0bba23c2fc8413991125a43a54cc30e@thread.skype",
   },
   {
-    placeholder:"message-id",
-    demoTenantValue:"1501527481624"
+    placeholder: "message-id",
+    demoTenantValue: "1501527481624"
   },
   {
-    placeholder:"reply-id",
-    demoTenantValue:"1501527483334"
+    placeholder: "reply-id",
+    demoTenantValue: "1501527483334"
   },
   {
     placeholder: "today",
@@ -131,7 +131,7 @@ export const Tokens: Token[] = [
   },
   {
     placeholder: "list-id",
-    defaultValue: "bb07158e-4b8e-4746-9906-ac4d8f8eb264",
+    defaultValue: "d7689e2b-941a-4cd3-bb24-55cddee54294",
   },
   {
     placeholder: "list-title",
