@@ -6,7 +6,7 @@ The [Microsoft Graph Explorer](https://developer.microsoft.com/graph/graph-explo
 The Graph Explorer is written in [TypeScript](https://www.typescriptlang.org/) and powered by:
 * [Angular 4](https://angular.io/)
 * [Office Fabric](https://dev.office.com/fabric)
-* [Microsoft Web Framework](https://getmwf.com/)
+* [Microsoft Web Framework](https://getmwf.com/) 
 
 ## Running the explorer locally
 
