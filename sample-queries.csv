@@ -127,6 +127,36 @@ Outlook Calendar,POST,schedule a meeting,/v1.0/me/events,Update the Request Body
             ""timeZone"": ""UTC""
         }
     }",Content-type: application/json
+Outlook Calendar,POST,add graph community call,/v1.0/me/events,Creates the monthly Microsoft Graph community call on your calendar.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events,BOTH,"{
+  ""subject"": ""Microsoft Graph Community call"",
+  ""body"": {
+    ""contentType"": ""HTML"",
+    ""content"": ""Call link: https://aka.ms/mmkv1b Submit a question: https://aka.ms/ybuw2i""
+  },
+  ""start"": {
+      ""dateTime"": ""2018-09-04T08:00:00"",
+      ""timeZone"": ""Pacific Standard Time""
+  },
+  ""end"": {
+      ""dateTime"": ""2018-09-04T09:00:00"",
+      ""timeZone"": ""Pacific Standard Time""
+  },
+  ""location"":{
+      ""displayName"":""Skype for Business""
+  },
+    ""recurrence"": {
+      ""pattern"": {
+      ""type"": ""relativeMonthly"",
+      ""interval"": 1,
+      ""daysOfWeek"": [ ""Tuesday"" ],
+      ""index"": ""first""
+    },
+      ""range"": {
+        ""type"": ""noEnd"",
+        ""startDate"": ""2017-08-29""
+      }
+    }
+}",Content-type: application/json
 Outlook Calendar,GET,track changes on my events for the next week,/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week},"This query uses date and time parameters. Use an ISO 8601 format. For example, ""2017-04-30T19:00:00.0000000"".",https://developer.microsoft.com/en-us/graph/docs/concepts/delta_query_events,BOTH,,
 Personal Contacts,GET,my contacts,/v1.0/me/contacts,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_contacts,BOTH,,
 Personal Contacts,POST,add contact,/v1.0/me/contacts,Update the Request Body and select Run Query.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_contacts,BOTH,"{
