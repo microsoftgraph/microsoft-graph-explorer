@@ -243,39 +243,15 @@ OneNote,POST,create section,/v1.0/me/onenote/notebooks/{notebook-id}/sections,"T
   ""displayName"": ""Section 1""
 }",Content-type: application/json
 OneNote,POST,create page,/v1.0/me/onenote/sections/{section-id}/pages,"This query requires a section id.  To find the ID, you can run: GET https://graph.microsoft.com/v1.0/me/onenote/sections.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_post_pages,BOTH,"
---MyPartBoundary198374
-Content-Disposition:form-data; name=""Presentation""
-Content-Type:text/html
-
 <!DOCTYPE html>
 <html>
   <head>
-    <title>A page with <i>rendered</i> images and an <b>attached</b> file</title>
-    <meta name=""created"" content=""2015-07-22T09:00:00-08:00"" />
+    <title>A page with a block of HTML</title>
   </head>
   <body>
-    <p>Here's an image from an online source:</p>
-    <img src=""http://..."" alt=""an image on the page"" width=""500"" />
-    <p>Here's an image uploaded as binary data:</p>
-    <img src=""name:imageBlock1"" alt=""an image on the page"" width=""300"" />
-    <p>Here's a file attachment:</p>
-    <object data-attachment=""FileName.pdf"" data=""name:fileBlock1"" type=""application/pdf"" />
+    <p>This page contains some <i>formatted</i> <b>text</b>.</p>
   </body>
-</html>
-
---MyPartBoundary198374
-Content-Disposition:form-data; name=""imageBlock1""
-Content-Type:image/jpeg
-
-... binary image data ...
-
---MyPartBoundary198374
-Content-Disposition:form-data; name=""fileBlock1""
-Content-Type:application/pdf
-
-... binary file data ...
-
---MyPartBoundary198374--",Content-type: multipart/form-data; boundary: MyPartBoundary198374
+</html>",Content-type: application/xhtml+xml
 SharePoint Sites,GET,my organization's default SharePoint site,/v1.0/sites/root,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_get,AAD,,
 SharePoint Sites,GET,Enumerate the document libraries under the root site,/v1.0/sites/root/drives,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_list#list-a-sites-drives,AAD,,
 SharePoint Sites,GET,SharePoint site based on relative path of the site,/v1.0/sites/{host-name}:/{server-relative-path},,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/site_getbypath,AAD,,
@@ -311,14 +287,14 @@ Batching,POST,Combine a POST and a GET,/v1.0/$batch,This query will create a fol
 } ",Content-type: application/json
 ,,,,,,,,
 Microsoft Teams (beta),GET,my joined teams,/beta/me/joinedTeams,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams,,,
-Microsoft Teams (beta),GET,members of a team,/beta/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,
-Microsoft Teams (beta),GET,channels of a team which I am member of,/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
-Microsoft Teams (beta),GET,channel info,/beta/groups/{group-id-for-teams}/channels/{channel-id},"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
-Microsoft Teams (beta),POST,create channel,/beta/groups/{group-id-for-teams}/channels,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
+Microsoft Teams (beta),GET,members of a team,/beta/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,
+Microsoft Teams (beta),GET,channels of a team which I am member of,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
+Microsoft Teams (beta),GET,channel info,/beta/teams/{team-id}/channels/{channel-id},"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
+Microsoft Teams (beta),POST,create channel,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams.",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
    ""displayName"": ""Architecture Discussion"",		
    ""description"": ""This channel is where we debate all future architecture plans""		
  }",
-Microsoft Teams (beta),POST,create chat thread,/beta/groups/{group-id-for-teams}/channels/{channel-id}/chatThreads,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
+Microsoft Teams (beta),POST,create chat thread,/beta/teams/{team-id}/channels/{channel-id}/chatThreads,"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
 ""rootMessage"": {
        ""body"": {
          ""contentType"": 2,		
@@ -326,16 +302,21 @@ Microsoft Teams (beta),POST,create chat thread,/beta/groups/{group-id-for-teams}
        }		
    }		
  }",
+Microsoft Teams (beta),GET,apps in a team,/beta/teams/{team-id}/apps,"This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list,,,
 Microsoft Teams (beta),GET,items in a team drive,/beta/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,
+Microsoft Teams (beta),GET,messages (without replies) in a channel,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_list_messages,,,
+Microsoft Teams (beta),GET,message in a channel,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id},"This query requires a group id of the Team, channel id of the corresponding channel of that Team and message id of the message you want to retrieve. To find the group id, channel id and message-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get_message,,,
+Microsoft Teams (beta),GET,replies to a message in channel,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies,"This query requires a group id of the Team, channel id of the corresponding channel of that Team and message id of the message of which you need the replies. To find the group id, channel id and message-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_list_messagereplies,,,
+Microsoft Teams (beta),GET,reply of a message,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies/{reply-id},"This query requires a group id of the Team, channel id of the corresponding channel of that Team, message id of the message of which you need the reply and the id of the specific reply. To find the group id, channel id, message-id and reply-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages 4) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get_messagereply,,,
 Outlook Mail,GET,my inbox rules,/beta/me/mailFolders/inbox/messagerules,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule,BOTH,,
 Outlook Mail,GET,my outlook categories,/beta/me/outlook/masterCategories,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories,BOTH,,
 Outlook Mail,GET,get email headers,/beta/me/messages?$select=internetMessageHeaders&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message,BOTH,,
 Outlook Mail,GET,list conference rooms,/beta/me/findRooms,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms,AAD,,
-Security,GET,alerts,/beta/security/alerts?$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security,GET,alerts with 'High' severity,/beta/security/alerts?filter=Severity eq 'High'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security,GET,alerts related to 'ransomware' category,/beta/security/alerts?filter=Category eq 'ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security,GET,alerts from 'Azure Security Center',/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security,GET,alerts select by 'Title',/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security (beta),GET,alerts,/beta/security/alerts?$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security (beta),GET,alerts with 'High' severity,/beta/security/alerts?filter=Severity eq 'High'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security (beta),GET,alerts related to 'ransomware' category,/beta/security/alerts?filter=Category eq 'ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security (beta),GET,alerts from 'Azure Security Center',/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security (beta),GET,alerts select by 'Title',/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
 User Activities,PUT,create a user activity and history item,/v1.0/me/activities/uniqueIdInAppContext,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_put_activity#example-2---deep-insert,BOTH,"{
     ""appActivityId"": ""uniqueIdInAppContext"",
     ""activitySourceHost"": ""https://graphexplorer.blob.core.windows.net"",
