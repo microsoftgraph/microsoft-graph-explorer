@@ -14,8 +14,9 @@
                         <div class="c-checkbox">
                             <label class="c-label">
                                 <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1"
-                                    [checked]="scope.enabledTarget" [attr.aria-label]="getScopeLabel(scope.name)">
+                                    [attr.aria-label]="getScopeLabel(scope.name)">
                                 <span aria-hidden="true">{{scope.name}}
+                                    <i class="consented-label" *ngIf="scope.enabledTarget">Consented</i>
                                     <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
                                 </span>
                             </label>
