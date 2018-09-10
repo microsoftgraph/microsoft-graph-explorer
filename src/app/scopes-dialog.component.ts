@@ -110,8 +110,37 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     return isDirty;
   }
 
+  /**
+   * Specifies whether we have any admin scopes selected in the scopes-dialog UI.
+   * If this value is true, we will show an alert that admin consent will be required
+   * to use this scope.
+   */
+  hasSelectedAdminScope: boolean = false;
+
+  /**
+   * A container to track which admin scopes have been selected in the UI.
+   */
+  selectedTargetedAdminScopes: PermissionScope[] = [];
+
+  /**
+   * Toggles whether the scope has been targeted to be enabled. This will be used to determine whether we 
+   * need to request consent for this scope. 
+   * @param scope The scope to toggle its enabled state. 
+   */
   toggleScopeEnabled(scope: PermissionScope) {
     scope.enabledTarget = !scope.enabledTarget;
+
+    // Track whether we have any admin scopes selected in the UI to be enabled for the user. 
+    if (scope.admin && scope.enabledTarget) {
+      this.selectedTargetedAdminScopes.push(scope);
+      this.hasSelectedAdminScope = true;
+    }
+    else if (scope.admin && !scope.enabledTarget) {
+      this.selectedTargetedAdminScopes = this.selectedTargetedAdminScopes.filter(e => e !== scope);
+      if (this.selectedTargetedAdminScopes.length === 0) {
+        this.hasSelectedAdminScope = false;
+      }
+    }
   }
 
   startAdminConsentFlow() {

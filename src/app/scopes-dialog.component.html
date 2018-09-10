@@ -13,10 +13,10 @@
                     <td class="scopeRow">
                         <div class="c-checkbox">
                             <label class="c-label">
-                                <input type="checkbox" [disabled]="scope.name == 'openid'" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1"
+                                <input type="checkbox" [disabled]="scope.enabled" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1"
                                     [attr.aria-label]="getScopeLabel(scope.name)">
                                 <span aria-hidden="true">{{scope.name}}
-                                    <i class="consented-label" *ngIf="scope.enabledTarget">Consented</i>
+                                    <i class="consented-label" *ngIf="scope.enabled">Consented</i>
                                     <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
                                 </span>
                             </label>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="requestingAdminScopes()">
+        <div *ngIf="hasSelectedAdminScope">
             <div class="ms-MessageBar ms-MessageBar--warning">
                 <div class="ms-MessageBar-content">
                     <div class="ms-MessageBar-icon">
