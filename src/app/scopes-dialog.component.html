@@ -16,7 +16,7 @@
                                 <input type="checkbox" [disabled]="scope.enabled" (change)="toggleScopeEnabled(scope)" name="checkboxId1" value="value1"
                                     [attr.aria-label]="getScopeLabel(scope.name)">
                                 <span aria-hidden="true">{{scope.name}}
-                                    <i class="consented-label" *ngIf="scope.enabled">Consented</i>
+                                    <i class="consented-label" *ngIf="scope.enabled">{{getStr('Consented')}}</i>
                                     <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
                                 </span>
                             </label>
