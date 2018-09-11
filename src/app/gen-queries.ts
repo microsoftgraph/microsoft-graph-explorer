@@ -1092,7 +1092,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Applications (beta)",
     "method": "GET",
     "humanName": "retrieve application properties",
-    "requestUrl": "/beta/applications/{id}",
+    "requestUrl": "/beta/applications/{application-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_get",
     "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
 },
@@ -1100,7 +1100,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Applications (beta)",
     "method": "PATCH",
     "humanName": "update application properties",
-    "requestUrl": "/beta/applications/{id}",
+    "requestUrl": "/beta/applications/{application-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_update",
     "headers": [
         {
@@ -1115,7 +1115,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Applications (beta)",
     "method": "DELETE",
     "humanName": "delete an application",
-    "requestUrl": "/beta/applications/{id}",
+    "requestUrl": "/beta/applications/{application-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_delete",
     "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
 },
@@ -1123,7 +1123,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Applications (beta)",
     "method": "GET",
     "humanName": "retrieve a list of owners",
-    "requestUrl": "/beta/applications/{id}/owners",
+    "requestUrl": "/beta/applications/{application-id}/owners",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list_owners",
     "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
 },
@@ -1131,7 +1131,7 @@ export const SampleQueries: SampleQuery[] = [
     "category": "Applications (beta)",
     "method": "POST",
     "humanName": "create a new owner",
-    "requestUrl": "/beta/applications/{id}/owners",
+    "requestUrl": "/beta/applications/{application-id}/owners",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_owners",
     "headers": [
         {
