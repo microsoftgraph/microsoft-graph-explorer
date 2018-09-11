@@ -88,6 +88,10 @@ export const Tokens: Token[] = [
     demoTenantValue: "03c2bc3d-adaf-45b9-86e2-e95bddc6ad3d"
   },
   {
+    placeholder: "destination-address",
+    demoTenantValue: "1.2.3.5"
+  },
+  {
     placeholder: "today",
     defaultValueFn: () => {
       return (new Date()).toISOString()

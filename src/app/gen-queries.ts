@@ -1012,39 +1012,77 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts",
-    "requestUrl": "/beta/security/alerts?$top=1",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts with 'High' severity",
-    "requestUrl": "/beta/security/alerts?filter=Severity eq 'High'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$filter=Severity eq 'High'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
-    "method": "GET",
-    "humanName": "alerts related to 'ransomware' category",
-    "requestUrl": "/beta/security/alerts?filter=Category eq 'ransomware'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
-},
-{
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts from 'Azure Security Center'",
-    "requestUrl": "/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$filter=vendorInformation/provider eq 'ASC'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts select by 'Title'",
-    "requestUrl": "/beta/security/alerts?$top=5&$select=title",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$top=5&$select=title",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by 'Category'",
+    "requestUrl": "/v1.0/security/alerts?$filter=Category eq 'ransomware'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by destination address",
+    "requestUrl": "/v1.0/security/alerts?$filter=networkConnections/any(d:d/destinationAddress eq '{destination-address}')",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list",
+    "tip": "This query requires a destination address. Run https://graph.microsoft.com/v1.0/security/alerts?$top=1 and search the results for a destinationAddress property."
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by 'Status'",
+    "requestUrl": "/v1.0/security/alerts?$filter=Status eq 'NewAlert'&$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "secure scores (beta)",
+    "requestUrl": "/beta/security/secureScores?$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescores_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "secure score control profiles (beta)",
+    "requestUrl": "/beta/security/secureScoreControlProfiles?$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescorecontrolprofiles_list"
+},
+{
+    "category": "Security",
+    "method": "PATCH",
+    "humanName": "update alert by status",
+    "requestUrl": "/v1.0/security/alerts/{alert-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update",
+    "postBody": "{\r\n  \"comments\": \"['Updating the alert status']\",\r\n  \"status\": \"newAlert\",\r\n}",
+    "tip": "This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1"
 },
 {
     "category": "User Activities",
