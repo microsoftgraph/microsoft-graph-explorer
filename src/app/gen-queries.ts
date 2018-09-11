@@ -298,6 +298,21 @@ export const SampleQueries: SampleQuery[] = [
 },
 {
     "category": "Outlook Calendar",
+    "method": "POST",
+    "humanName": "add graph community call",
+    "requestUrl": "/v1.0/me/events",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"subject\": \"Microsoft Graph Community call\",\r\n  \"body\": {\r\n    \"contentType\": \"HTML\",\r\n    \"content\": \"Call link: https://aka.ms/mmkv1b Submit a question: https://aka.ms/ybuw2i\"\r\n  },\r\n  \"start\": {\r\n      \"dateTime\": \"2018-09-04T08:00:00\",\r\n      \"timeZone\": \"Pacific Standard Time\"\r\n  },\r\n  \"end\": {\r\n      \"dateTime\": \"2018-09-04T09:00:00\",\r\n      \"timeZone\": \"Pacific Standard Time\"\r\n  },\r\n  \"location\":{\r\n      \"displayName\":\"Skype for Business\"\r\n  },\r\n    \"recurrence\": {\r\n      \"pattern\": {\r\n      \"type\": \"relativeMonthly\",\r\n      \"interval\": 1,\r\n      \"daysOfWeek\": [ \"Tuesday\" ],\r\n      \"index\": \"first\"\r\n    },\r\n      \"range\": {\r\n        \"type\": \"noEnd\",\r\n        \"startDate\": \"2017-08-29\"\r\n      }\r\n    }\r\n}",
+    "tip": "Creates the monthly Microsoft Graph community call on your calendar."
+},
+{
+    "category": "Outlook Calendar",
     "method": "GET",
     "humanName": "track changes on my events for the next week",
     "requestUrl": "/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
