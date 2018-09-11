@@ -1078,10 +1078,10 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Security",
     "method": "PATCH",
-    "humanName": "update alert by status",
+    "humanName": "update alert",
     "requestUrl": "/v1.0/security/alerts/{alert-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update",
-    "postBody": "{\r\n  \"comments\": \"['Updating the alert status']\",\r\n  \"status\": \"newAlert\",\r\n}",
+    "postBody": "{\r\n  \"assignedTo\": \"test@scuba.com\",\r\n  \"closedDateTime\": \"2018-08-27T00:00:00Z\",\r\n  \"comments\": [\"Comment 0\", \"Comment 1\"],\r\n  \"tags\": [\"Tag 0\", \"Tag 1\"],\r\n  \"feedback\": \"truePositive\",\r\n  \"status\": \"newAlert\",\r\n  \"vendorInformation\": {\r\n    \"provider\": \"provider\",\r\n    \"providerVersion\": \"3.0\",\r\n    \"subProvider\": null,\r\n    \"vendor\": \"vendor\"\r\n  }\r\n}\r\n",
     "tip": "This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1"
 },
 {
