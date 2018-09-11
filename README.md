@@ -47,7 +47,7 @@ Once you've added your sample queries, you'll need to add your query titles and 
 
 Next, you need to run Graph Explorer on your development computer to verify that the samples are working as you expect. Go to [Running the explorer locally]( https://github.com/microsoftgraph/microsoft-graph-explorer#running-the-explorer-locally) to learn how to run Graph Explorer. Confirm that your samples work as expected with a signed in user account. 
 
-We now need to confirm that your samples will work correct against the demo tenant used when the user is not logged in. Run `npm test` to test all of the **GET** queries against the demo tenant.
+We now need to confirm that your samples will work against the demo tenant used when the user is not logged in. Run `npm test` to test all of the **GET** queries against the demo tenant.
 
 Now that you have a working sample query, build the Graph Explorer so that your changes are available to be staged. Run `npm run build:prod`. 
 
