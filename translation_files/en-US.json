@@ -196,5 +196,13 @@
   "search my OneDrive": "search my OneDrive",
   "User Activities": "User Activities",
   "get recent user activities": "get recent user activities",
-  "create a user activity and history item": "create a user activity and history item"
+  "create a user activity and history item": "create a user activity and history item",
+  "Applications (beta)": "Applications (beta)",
+  "retrieve the list of applications in this organization": "retrieve the list of applications in this organization",
+  "create a new application": "create a new application",
+  "retrieve the properties and relationships of application object": "retrieve the properties and relationships of application object",
+  "update the properties of application object": "update the properties of application object",
+  "delete an application": "delete an application",
+  "retrieve a list of directoryObject objects": "retrieve a list of directoryObject objects",
+  "create a new owner": "create a new owner"
 }

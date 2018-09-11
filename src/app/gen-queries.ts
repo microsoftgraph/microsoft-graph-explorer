@@ -1066,4 +1066,79 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "get recent user activities",
     "requestUrl": "/v1.0/me/activities/recent",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve the list of applications",
+    "requestUrl": "/beta/applications",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list"
+},
+{
+    "category": "Applications (beta)",
+    "method": "POST",
+    "humanName": "create a new application",
+    "requestUrl": "/beta/applications",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_applications",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"displayName\": \"My App\"\r\n    }"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve application properties",
+    "requestUrl": "/beta/applications/{id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_get",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "PATCH",
+    "humanName": "update application properties",
+    "requestUrl": "/beta/applications/{id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_update",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"signInAudience\": \"AzureADMyOrg\"\r\n    }",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "DELETE",
+    "humanName": "delete an application",
+    "requestUrl": "/beta/applications/{id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_delete",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve a list of owners",
+    "requestUrl": "/beta/applications/{id}/owners",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list_owners",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "POST",
+    "humanName": "create a new owner",
+    "requestUrl": "/beta/applications/{id}/owners",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_owners",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"directoryObject\": {\r\n        }\r\n    }",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications. In the request body supply a JSON representation of directoryObject object"
 }]
