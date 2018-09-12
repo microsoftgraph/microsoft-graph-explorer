@@ -1012,39 +1012,77 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts",
-    "requestUrl": "/beta/security/alerts?$top=1",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts with 'High' severity",
-    "requestUrl": "/beta/security/alerts?filter=Severity eq 'High'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$filter=Severity eq 'High'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
-    "method": "GET",
-    "humanName": "alerts related to 'ransomware' category",
-    "requestUrl": "/beta/security/alerts?filter=Category eq 'ransomware'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
-},
-{
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts from 'Azure Security Center'",
-    "requestUrl": "/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$filter=vendorInformation/provider eq 'ASC'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts select by 'Title'",
-    "requestUrl": "/beta/security/alerts?$top=5&$select=title",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$top=5&$select=title",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by 'Category'",
+    "requestUrl": "/v1.0/security/alerts?$filter=Category eq 'ransomware'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by destination address",
+    "requestUrl": "/v1.0/security/alerts?$filter=networkConnections/any(d:d/destinationAddress eq '{destination-address}')",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list",
+    "tip": "This query requires a destination address. Run https://graph.microsoft.com/v1.0/security/alerts?$top=1 and search the results for a destinationAddress property."
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by 'Status'",
+    "requestUrl": "/v1.0/security/alerts?$filter=Status eq 'NewAlert'&$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "secure scores (beta)",
+    "requestUrl": "/beta/security/secureScores?$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescores_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "secure score control profiles (beta)",
+    "requestUrl": "/beta/security/secureScoreControlProfiles?$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescorecontrolprofiles_list"
+},
+{
+    "category": "Security",
+    "method": "PATCH",
+    "humanName": "update alert",
+    "requestUrl": "/v1.0/security/alerts/{alert-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update",
+    "postBody": "{\r\n  \"assignedTo\": \"test@scuba.com\",\r\n  \"closedDateTime\": \"2018-08-27T00:00:00Z\",\r\n  \"comments\": [\"Comment 0\", \"Comment 1\"],\r\n  \"tags\": [\"Tag 0\", \"Tag 1\"],\r\n  \"feedback\": \"truePositive\",\r\n  \"status\": \"newAlert\",\r\n  \"vendorInformation\": {\r\n    \"provider\": \"provider\",\r\n    \"providerVersion\": \"3.0\",\r\n    \"subProvider\": null,\r\n    \"vendor\": \"vendor\"\r\n  }\r\n}\r\n",
+    "tip": "This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1"
 },
 {
     "category": "User Activities",
@@ -1068,6 +1106,81 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities"
 },
 {
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve the list of applications",
+    "requestUrl": "/beta/applications",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list"
+},
+{
+    "category": "Applications (beta)",
+    "method": "POST",
+    "humanName": "create a new application",
+    "requestUrl": "/beta/applications",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_applications",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"displayName\": \"My App\"\r\n    }"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve application properties",
+    "requestUrl": "/beta/applications/{application-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_get",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "PATCH",
+    "humanName": "update application properties",
+    "requestUrl": "/beta/applications/{application-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_update",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"signInAudience\": \"AzureADMyOrg\"\r\n    }",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "DELETE",
+    "humanName": "delete an application",
+    "requestUrl": "/beta/applications/{application-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_delete",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve a list of owners",
+    "requestUrl": "/beta/applications/{application-id}/owners",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list_owners",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "POST",
+    "humanName": "create a new owner",
+    "requestUrl": "/beta/applications/{application-id}/owners",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_owners",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"directoryObject\": {\r\n        }\r\n    }",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications. In the request body supply a JSON representation of directoryObject object"
+},
+{
     "category": "Notifications (beta)",
     "method": "POST",
     "humanName": "create a raw notification",
@@ -1079,7 +1192,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\n  \"appNotificationId\": \"sampleRawNotification\",\n  \"payload\": {\n    \"rawContent\": \"Hello World!\"\n  },\n  \"targetPolicy\": {\n    \"platformTypes\": [\n      \"windows\",\n      \"ios\",\n      \"android\"\n    ]\n  },\n  \"priority\": \"High\",\n  \"displayTimeToLive\": \"60\"\n}",
+    "postBody": "{\r\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\r\n  \"appNotificationId\": \"sampleRawNotification\",\r\n  \"payload\": {\r\n    \"rawContent\": \"Hello World!\"\r\n  },\r\n  \"targetPolicy\": {\r\n    \"platformTypes\": [\r\n      \"windows\",\r\n      \"ios\",\r\n      \"android\"\r\n    ]\r\n  },\r\n  \"priority\": \"High\",\r\n  \"displayTimeToLive\": \"60\"\r\n}",
     "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A raw notification is a notification that is received by the application and processed in an application specific manner.  A raw notification may or may not include UI/UX for the user. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
 },
 {
@@ -1094,6 +1207,6 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\n  \"appNotificationId\": \"sampleDirectToastNotification\",\n  \"payload\": {\n    \"visualContent\": {\n      \"title\": \"Hello World!\",\n      \"body\": \"Notifications are Great!\"\n    }\n  },\n  \"targetPolicy\": {\n    \"platformTypes\": [\n      \"windows\",\n      \"ios\",\n      \"android\"\n    ]\n  },\n  \"priority\": \"High\",\n  \"displayTimeToLive\": \"60\"\n}",
+    "postBody": "{\r\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\r\n  \"appNotificationId\": \"sampleDirectToastNotification\",\r\n  \"payload\": {\r\n    \"visualContent\": {\r\n      \"title\": \"Hello World!\",\r\n      \"body\": \"Notifications are Great!\"\r\n    }\r\n  },\r\n  \"targetPolicy\": {\r\n    \"platformTypes\": [\r\n      \"windows\",\r\n      \"ios\",\r\n      \"android\"\r\n    ]\r\n  },\r\n  \"priority\": \"High\",\r\n  \"displayTimeToLive\": \"60\"\r\n}",
     "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A visual notification is a notification that a user can see by default within the notification center of the target platform. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
 }]
