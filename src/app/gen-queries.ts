@@ -1079,7 +1079,7 @@ export const SampleQueries: SampleQuery[] = [
             "value": "application/json"
         }
     ],
-    "postBody": "{\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\n  \"appNotificationId\": \"sampleRawNotification\",\n  \"payload\": {\n    \"rawContent\": \"Hello World\"\n  },\n  \"targetPolicy\": {\n    \"platformTypes\": [\n      \"windows\",\n      \"ios\",\n      \"android\"\n    ]\n  },\n  \"priority\": \"High\",\n  \"displayTimeToLive\": \"60\"\n}",
+    "postBody": "{\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\n  \"appNotificationId\": \"sampleRawNotification\",\n  \"payload\": {\n    \"rawContent\": \"Hello World!\"\n  },\n  \"targetPolicy\": {\n    \"platformTypes\": [\n      \"windows\",\n      \"ios\",\n      \"android\"\n    ]\n  },\n  \"priority\": \"High\",\n  \"displayTimeToLive\": \"60\"\n}",
     "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A raw notification is a notification that is received by the application and processed in an application specific manner.  A raw notification may or may not include UI/UX for the user. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
 },
 {
