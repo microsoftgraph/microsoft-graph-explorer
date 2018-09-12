@@ -196,5 +196,8 @@
   "search my OneDrive": "search my OneDrive",
   "User Activities": "User Activities",
   "get recent user activities": "get recent user activities",
-  "create a user activity and history item": "create a user activity and history item"
+  "create a user activity and history item": "create a user activity and history item",
+  "Notifications (beta)": "Notifications (beta)",
+  "create a raw notification": "create a raw notification",
+  "create a visual notification": "create a visual notification"
 }
