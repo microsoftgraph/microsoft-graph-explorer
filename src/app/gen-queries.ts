@@ -1066,4 +1066,34 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "get recent user activities",
     "requestUrl": "/v1.0/me/activities/recent",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities"
+},
+{
+    "category": "Notifications (beta)",
+    "method": "POST",
+    "humanName": "create a raw notification",
+    "requestUrl": "/beta/me/notifications",
+    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\n  \"appNotificationId\": \"sampleRawNotification\",\n  \"payload\": {\n    \"rawContent\": \"Hello World!\"\n  },\n  \"targetPolicy\": {\n    \"platformTypes\": [\n      \"windows\",\n      \"ios\",\n      \"android\"\n    ]\n  },\n  \"priority\": \"High\",\n  \"displayTimeToLive\": \"60\"\n}",
+    "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A raw notification is a notification that is received by the application and processed in an application specific manner.  A raw notification may or may not include UI/UX for the user. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
+},
+{
+    "category": "Notifications (beta)",
+    "method": "POST",
+    "humanName": "create a visual notification",
+    "requestUrl": "/beta/me/notifications",
+    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\n  \"appNotificationId\": \"sampleDirectToastNotification\",\n  \"payload\": {\n    \"visualContent\": {\n      \"title\": \"Hello World!\",\n      \"body\": \"Notifications are Great!\"\n    }\n  },\n  \"targetPolicy\": {\n    \"platformTypes\": [\n      \"windows\",\n      \"ios\",\n      \"android\"\n    ]\n  },\n  \"priority\": \"High\",\n  \"displayTimeToLive\": \"60\"\n}",
+    "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A visual notification is a notification that a user can see by default within the notification center of the target platform. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
 }]
