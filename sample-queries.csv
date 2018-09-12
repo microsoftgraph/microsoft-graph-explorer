@@ -421,3 +421,38 @@ Applications (beta),POST,create a new owner,/beta/applications/{application-id}/
         ""directoryObject"": {
         }
     }",Content-type: application/json
+Notifications (beta),POST,create a raw notification,/beta/me/notifications,Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A raw notification is a notification that is received by the application and processed in an application specific manner.  A raw notification may or may not include UI/UX for the user. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info.,https://aka.ms/graphNotificationsDocs,BOTH,"{
+  ""targetHostName"": ""graphnotifications.sample.windows.com"",
+  ""appNotificationId"": ""sampleRawNotification"",
+  ""payload"": {
+    ""rawContent"": ""Hello World!""
+  },
+  ""targetPolicy"": {
+    ""platformTypes"": [
+      ""windows"",
+      ""ios"",
+      ""android""
+    ]
+  },
+  ""priority"": ""High"",
+  ""displayTimeToLive"": ""60""
+}",Content-Type: application/json
+Notifications (beta),POST,create a visual notification,/beta/me/notifications,Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A visual notification is a notification that a user can see by default within the notification center of the target platform. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info.,https://aka.ms/graphNotificationsDocs,BOTH,"{
+  ""targetHostName"": ""graphnotifications.sample.windows.com"",
+  ""appNotificationId"": ""sampleDirectToastNotification"",
+  ""payload"": {
+    ""visualContent"": {
+      ""title"": ""Hello World!"",
+      ""body"": ""Notifications are Great!""
+    }
+  },
+  ""targetPolicy"": {
+    ""platformTypes"": [
+      ""windows"",
+      ""ios"",
+      ""android""
+    ]
+  },
+  ""priority"": ""High"",
+  ""displayTimeToLive"": ""60""
+}",Content-Type: application/json

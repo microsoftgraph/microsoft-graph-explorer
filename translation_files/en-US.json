@@ -209,5 +209,8 @@
   "update the properties of application object": "update the properties of application object",
   "delete an application": "delete an application",
   "retrieve a list of directoryObject objects": "retrieve a list of directoryObject objects",
-  "create a new owner": "create a new owner"
+  "create a new owner": "create a new owner",
+  "Notifications (beta)": "Notifications (beta)",
+  "create a raw notification": "create a raw notification",
+  "create a visual notification": "create a visual notification"
 }

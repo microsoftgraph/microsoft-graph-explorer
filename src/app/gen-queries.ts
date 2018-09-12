@@ -1179,4 +1179,34 @@ export const SampleQueries: SampleQuery[] = [
     ],
     "postBody": "{\r\n        \"directoryObject\": {\r\n        }\r\n    }",
     "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications. In the request body supply a JSON representation of directoryObject object"
+},
+{
+    "category": "Notifications (beta)",
+    "method": "POST",
+    "humanName": "create a raw notification",
+    "requestUrl": "/beta/me/notifications",
+    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\r\n  \"appNotificationId\": \"sampleRawNotification\",\r\n  \"payload\": {\r\n    \"rawContent\": \"Hello World!\"\r\n  },\r\n  \"targetPolicy\": {\r\n    \"platformTypes\": [\r\n      \"windows\",\r\n      \"ios\",\r\n      \"android\"\r\n    ]\r\n  },\r\n  \"priority\": \"High\",\r\n  \"displayTimeToLive\": \"60\"\r\n}",
+    "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A raw notification is a notification that is received by the application and processed in an application specific manner.  A raw notification may or may not include UI/UX for the user. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
+},
+{
+    "category": "Notifications (beta)",
+    "method": "POST",
+    "humanName": "create a visual notification",
+    "requestUrl": "/beta/me/notifications",
+    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\r\n  \"appNotificationId\": \"sampleDirectToastNotification\",\r\n  \"payload\": {\r\n    \"visualContent\": {\r\n      \"title\": \"Hello World!\",\r\n      \"body\": \"Notifications are Great!\"\r\n    }\r\n  },\r\n  \"targetPolicy\": {\r\n    \"platformTypes\": [\r\n      \"windows\",\r\n      \"ios\",\r\n      \"android\"\r\n    ]\r\n  },\r\n  \"priority\": \"High\",\r\n  \"displayTimeToLive\": \"60\"\r\n}",
+    "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A visual notification is a notification that a user can see by default within the notification center of the target platform. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
 }]
