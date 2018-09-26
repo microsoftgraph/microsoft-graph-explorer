@@ -298,6 +298,21 @@ export const SampleQueries: SampleQuery[] = [
 },
 {
     "category": "Outlook Calendar",
+    "method": "POST",
+    "humanName": "add graph community call",
+    "requestUrl": "/v1.0/me/events",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_events",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"subject\": \"Microsoft Graph Community call\",\r\n  \"body\": {\r\n    \"contentType\": \"HTML\",\r\n    \"content\": \"Call link: https://aka.ms/mmkv1b Submit a question: https://aka.ms/ybuw2i\"\r\n  },\r\n  \"start\": {\r\n      \"dateTime\": \"2018-09-04T08:00:00\",\r\n      \"timeZone\": \"Pacific Standard Time\"\r\n  },\r\n  \"end\": {\r\n      \"dateTime\": \"2018-09-04T09:00:00\",\r\n      \"timeZone\": \"Pacific Standard Time\"\r\n  },\r\n  \"location\":{\r\n      \"displayName\":\"Skype for Business\"\r\n  },\r\n    \"recurrence\": {\r\n      \"pattern\": {\r\n      \"type\": \"relativeMonthly\",\r\n      \"interval\": 1,\r\n      \"daysOfWeek\": [ \"Tuesday\" ],\r\n      \"index\": \"first\"\r\n    },\r\n      \"range\": {\r\n        \"type\": \"noEnd\",\r\n        \"startDate\": \"2017-08-29\"\r\n      }\r\n    }\r\n}",
+    "tip": "Creates the monthly Microsoft Graph community call on your calendar."
+},
+{
+    "category": "Outlook Calendar",
     "method": "GET",
     "humanName": "track changes on my events for the next week",
     "requestUrl": "/v1.0/me/calendarView/delta?startDateTime={today}&endDateTime={next-week}",
@@ -884,41 +899,49 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "members of a team",
     "requestUrl": "/beta/groups/{group-id-for-teams}/members",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof",
-    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+    "tip": "This query requires a group id of the Team.  To find the group id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
     "humanName": "channels of a team which I am member of",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels",
+    "requestUrl": "/beta/teams/{team-id}/channels",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels",
-    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+    "tip": "This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
     "humanName": "channel info",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels/{channel-id}",
+    "requestUrl": "/beta/teams/{team-id}/channels/{channel-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get",
-    "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels"
+    "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels"
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "POST",
     "humanName": "create channel",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels",
+    "requestUrl": "/beta/teams/{team-id}/channels",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels",
     "postBody": "{\r\n   \"displayName\": \"Architecture Discussion\",\t\t\r\n   \"description\": \"This channel is where we debate all future architecture plans\"\t\t\r\n }",
-    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+    "tip": "This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams."
 },
 {
     "category": "Microsoft Teams (beta)",
     "method": "POST",
     "humanName": "create chat thread",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/channels/{channel-id}/chatThreads",
+    "requestUrl": "/beta/teams/{team-id}/channels/{channel-id}/chatThreads",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads",
     "postBody": "{\r\n\"rootMessage\": {\r\n       \"body\": {\r\n         \"contentType\": 2,\t\t\r\n         \"content\": \"Hello world\"\t\t\r\n       }\t\t\r\n   }\t\t\r\n }",
-    "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels"
+    "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "apps in a team",
+    "requestUrl": "/beta/teams/{team-id}/apps",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list",
+    "tip": "This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
     "category": "Microsoft Teams (beta)",
@@ -927,6 +950,38 @@ export const SampleQueries: SampleQuery[] = [
     "requestUrl": "/beta/groups/{group-id-for-teams}/drive/root/children",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children",
     "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "messages (without replies) in a channel",
+    "requestUrl": "/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_list_messages",
+    "tip": "This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "message in a channel",
+    "requestUrl": "/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get_message",
+    "tip": "This query requires a group id of the Team, channel id of the corresponding channel of that Team and message id of the message you want to retrieve. To find the group id, channel id and message-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "replies to a message in channel",
+    "requestUrl": "/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_list_messagereplies",
+    "tip": "This query requires a group id of the Team, channel id of the corresponding channel of that Team and message id of the message of which you need the replies. To find the group id, channel id and message-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "reply of a message",
+    "requestUrl": "/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies/{reply-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get_messagereply",
+    "tip": "This query requires a group id of the Team, channel id of the corresponding channel of that Team, message id of the message of which you need the reply and the id of the specific reply. To find the group id, channel id, message-id and reply-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages 4) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies"
 },
 {
     "category": "Outlook Mail",
@@ -957,39 +1012,77 @@ export const SampleQueries: SampleQuery[] = [
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts",
-    "requestUrl": "/beta/security/alerts?$top=1",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts with 'High' severity",
-    "requestUrl": "/beta/security/alerts?filter=Severity eq 'High'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$filter=Severity eq 'High'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
-    "method": "GET",
-    "humanName": "alerts related to 'ransomware' category",
-    "requestUrl": "/beta/security/alerts?filter=Category eq 'ransomware'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
-},
-{
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts from 'Azure Security Center'",
-    "requestUrl": "/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$filter=vendorInformation/provider eq 'ASC'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
 },
 {
-    "category": "Security (beta)",
+    "category": "Security",
     "method": "GET",
     "humanName": "alerts select by 'Title'",
-    "requestUrl": "/beta/security/alerts?$top=5&$select=title",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list"
+    "requestUrl": "/v1.0/security/alerts?$top=5&$select=title",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by 'Category'",
+    "requestUrl": "/v1.0/security/alerts?$filter=Category eq 'ransomware'&$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by destination address",
+    "requestUrl": "/v1.0/security/alerts?$filter=networkConnections/any(d:d/destinationAddress eq '{destination-address}')",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list",
+    "tip": "This query requires a destination address. Run https://graph.microsoft.com/v1.0/security/alerts?$top=1 and search the results for a destinationAddress property."
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "alerts filter by 'Status'",
+    "requestUrl": "/v1.0/security/alerts?$filter=Status eq 'NewAlert'&$top=1",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "secure scores (beta)",
+    "requestUrl": "/beta/security/secureScores?$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescores_list"
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "secure score control profiles (beta)",
+    "requestUrl": "/beta/security/secureScoreControlProfiles?$top=5",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescorecontrolprofiles_list"
+},
+{
+    "category": "Security",
+    "method": "PATCH",
+    "humanName": "update alert",
+    "requestUrl": "/v1.0/security/alerts/{alert-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update",
+    "postBody": "{\r\n  \"assignedTo\": \"test@scuba.com\",\r\n  \"closedDateTime\": \"2018-08-27T00:00:00Z\",\r\n  \"comments\": [\"Comment 0\", \"Comment 1\"],\r\n  \"tags\": [\"Tag 0\", \"Tag 1\"],\r\n  \"feedback\": \"truePositive\",\r\n  \"status\": \"newAlert\",\r\n  \"vendorInformation\": {\r\n    \"provider\": \"provider\",\r\n    \"providerVersion\": \"3.0\",\r\n    \"subProvider\": null,\r\n    \"vendor\": \"vendor\"\r\n  }\r\n}\r\n",
+    "tip": "This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1"
 },
 {
     "category": "User Activities",
@@ -1011,4 +1104,109 @@ export const SampleQueries: SampleQuery[] = [
     "humanName": "get recent user activities",
     "requestUrl": "/v1.0/me/activities/recent",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve the list of applications",
+    "requestUrl": "/beta/applications",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list"
+},
+{
+    "category": "Applications (beta)",
+    "method": "POST",
+    "humanName": "create a new application",
+    "requestUrl": "/beta/applications",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_applications",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"displayName\": \"My App\"\r\n    }"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve application properties",
+    "requestUrl": "/beta/applications/{application-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_get",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "PATCH",
+    "humanName": "update application properties",
+    "requestUrl": "/beta/applications/{application-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_update",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"signInAudience\": \"AzureADMyOrg\"\r\n    }",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "DELETE",
+    "humanName": "delete an application",
+    "requestUrl": "/beta/applications/{application-id}",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_delete",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "GET",
+    "humanName": "retrieve a list of owners",
+    "requestUrl": "/beta/applications/{application-id}/owners",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list_owners",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications"
+},
+{
+    "category": "Applications (beta)",
+    "method": "POST",
+    "humanName": "create a new owner",
+    "requestUrl": "/beta/applications/{application-id}/owners",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_owners",
+    "headers": [
+        {
+            "name": "Content-type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n        \"directoryObject\": {\r\n        }\r\n    }",
+    "tip": "This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications. In the request body supply a JSON representation of directoryObject object"
+},
+{
+    "category": "Notifications (beta)",
+    "method": "POST",
+    "humanName": "create a raw notification",
+    "requestUrl": "/beta/me/notifications",
+    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\r\n  \"appNotificationId\": \"sampleRawNotification\",\r\n  \"payload\": {\r\n    \"rawContent\": \"Hello World!\"\r\n  },\r\n  \"targetPolicy\": {\r\n    \"platformTypes\": [\r\n      \"windows\",\r\n      \"ios\",\r\n      \"android\"\r\n    ]\r\n  },\r\n  \"priority\": \"High\",\r\n  \"displayTimeToLive\": \"60\"\r\n}",
+    "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A raw notification is a notification that is received by the application and processed in an application specific manner.  A raw notification may or may not include UI/UX for the user. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
+},
+{
+    "category": "Notifications (beta)",
+    "method": "POST",
+    "humanName": "create a visual notification",
+    "requestUrl": "/beta/me/notifications",
+    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\r\n  \"appNotificationId\": \"sampleDirectToastNotification\",\r\n  \"payload\": {\r\n    \"visualContent\": {\r\n      \"title\": \"Hello World!\",\r\n      \"body\": \"Notifications are Great!\"\r\n    }\r\n  },\r\n  \"targetPolicy\": {\r\n    \"platformTypes\": [\r\n      \"windows\",\r\n      \"ios\",\r\n      \"android\"\r\n    ]\r\n  },\r\n  \"priority\": \"High\",\r\n  \"displayTimeToLive\": \"60\"\r\n}",
+    "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A visual notification is a notification that a user can see by default within the notification center of the target platform. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info."
 }]

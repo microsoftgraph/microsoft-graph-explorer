@@ -1,5 +1,6 @@
 <div class="api-query" (click)="handleQueryClick()" onclick="this.blur();" (keydown)="queryKeyDown($event)" [attr.title]="getTitle()"
-    [class.restrict]="!isAuthenticated() && query.method != 'GET'" tabindex="0" role="button">
+    [class.restrict]="!isAuthenticated() && query.method != 'GET'" tabindex="0" role="button" [attr.aria-labelledby]="getAriaLabelledBy()"
+    [attr.id]="getQueryButtonId()">
     <div class="row-1" [attr.aria-label]="getAriaLabelForSampleRow()">
         <method-badge [query]="query"></method-badge>
         <div class="query">{{getQueryText()}}</div>
@@ -11,7 +12,6 @@
             target="_blank" aria-label="Documentation">
             <i class="ms-Icon ms-Icon--Page"></i>
         </a>
-
     </div>
     <ng-content></ng-content>
 </div>
