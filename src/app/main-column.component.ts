@@ -94,8 +94,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             }
         }]);
 
-        console.log(this._httpMethodEl.element.nativeElement);
-
         // init Graph version selector
         mwf.ComponentFactory.create([{
             component: mwf.Select,
