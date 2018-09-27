@@ -44,6 +44,13 @@ export const PermissionScopes: PermissionScope[] = [
     admin: true,
   },
   {
+    name: "AppCatalog.ReadWrite.All",
+    description: "Read and write to all app catalogs",
+    longDescription: "Allows the app to create, read, update, and delete apps in the app catalogs.",
+    preview: true,
+    admin: true,
+  },
+  {
     name: "Calendars.Read",
     description: "Read user calendars",
     longDescription: "Allows the app to read events in user calendars.",

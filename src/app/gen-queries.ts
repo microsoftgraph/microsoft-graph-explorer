@@ -938,6 +938,20 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
+    "humanName": "apps in your app catalog",
+    "requestUrl": "/beta/appCatalogs/teamsApps",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list_published"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "apps unique to your tenant",
+    "requestUrl": "/beta/appCatalogs/teamsApps?$filter=distributionMethod eq 'organization'",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list_published"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
     "humanName": "apps in a team",
     "requestUrl": "/beta/teams/{team-id}/apps",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list",
@@ -946,10 +960,10 @@ export const SampleQueries: SampleQuery[] = [
 {
     "category": "Microsoft Teams (beta)",
     "method": "GET",
-    "humanName": "items in a team drive",
-    "requestUrl": "/beta/groups/{group-id-for-teams}/drive/root/children",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children",
-    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
+    "humanName": "tabs in a channel",
+    "requestUrl": "/beta/teams/{team-id}/channels/{channel-id}/tabs",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channels_tabs_list",
+    "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels"
 },
 {
     "category": "Microsoft Teams (beta)",
@@ -982,6 +996,14 @@ export const SampleQueries: SampleQuery[] = [
     "requestUrl": "/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies/{reply-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get_messagereply",
     "tip": "This query requires a group id of the Team, channel id of the corresponding channel of that Team, message id of the message of which you need the reply and the id of the specific reply. To find the group id, channel id, message-id and reply-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages 4) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies"
+},
+{
+    "category": "Microsoft Teams (beta)",
+    "method": "GET",
+    "humanName": "items in a team drive",
+    "requestUrl": "/beta/groups/{group-id-for-teams}/drive/root/children",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children",
+    "tip": "This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams"
 },
 {
     "category": "Outlook Mail",
