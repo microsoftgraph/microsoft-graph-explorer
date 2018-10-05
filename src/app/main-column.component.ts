@@ -36,6 +36,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
             // add content-type header when switching to POST
             if ((this.oldExplorerValues.selectedOption !== "POST" && this.explorerValues.selectedOption === "POST")
+                || (this.oldExplorerValues.selectedOption !== "PUT" && this.explorerValues.selectedOption === "PUT")
                 || (this.oldExplorerValues.selectedOption !== "PATCH" && this.explorerValues.selectedOption === "PATCH")) {
                 // if it doesn't already exist
                 let hasContentTypeHeader = false;
