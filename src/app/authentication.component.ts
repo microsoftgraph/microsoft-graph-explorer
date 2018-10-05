@@ -7,7 +7,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
 import { AppComponent } from "./app.component";
-import { ScopesDialogComponent } from "./scopes-dialog.component";
+import { ScopesDialogComponent } from "./scopes-dialog/scopes-dialog.component";
 import { localLogout } from "./auth";
 
 @Component({

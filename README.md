@@ -57,7 +57,7 @@ You are now ready to open your pull request to submit your changes. All GET samp
 
 #### Permissions
 
-Permissions like `Mail.Read` are listed in [scopes.ts](./src/app/scopes.ts) and each permission has a few properties, like its name and description.
+Permissions like `Mail.Read` are listed in [scopes.ts](src/app/scopes-dialog/scopes.ts) and each permission has a few properties, like its name and description.
 
 ```javascript
  {

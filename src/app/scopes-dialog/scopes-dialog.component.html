@@ -14,8 +14,16 @@
                     <td class="scopeRow">
                         <div class="c-checkbox">
                             <label class="c-label">
-                                <input type="checkbox" [disabled]="scope.enabled" (change)="toggleScopeEnabled(scope)"
-                                    name="checkboxId1" value="value1" [attr.aria-label]="getScopeLabel(scope.name)">
+                                <input
+                                    type="checkbox"
+                                    [disabled]="scope.enabled"
+                                    (change)="toggleScopeEnabled(scope)"
+                                    name="checkboxId1"
+                                    value="value1"
+                                    [attr.aria-label]="getScopeLabel(scope.name)"
+                                    [tabindex]=""
+                                >
+
                                 <span aria-hidden="true" [title]="scope.description">{{scope.name}}
                                     <i class="consented-label" *ngIf="scope.enabled">{{getStr('Consented')}}</i>
                                     <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>

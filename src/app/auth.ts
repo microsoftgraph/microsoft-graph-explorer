@@ -7,7 +7,7 @@ import { ChangeDetectorRef } from "@angular/core";
 import { ExplorerOptions, Message } from "./base";
 import { AppComponent } from "./app.component";
 import { GraphService } from "./graph-service";
-import { PermissionScopes } from "./scopes";
+import { PermissionScopes } from "./scopes-dialog/scopes";
 import { getParameterByName } from "./util";
 
 export function initAuth(options: ExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef) {
