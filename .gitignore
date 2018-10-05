@@ -24,3 +24,5 @@ src/**/*.js.map
 
 src/aot/**/*
 /.vs/**/*
+
+/.idea
