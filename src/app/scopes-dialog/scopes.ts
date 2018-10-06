@@ -1,4 +1,4 @@
-import { PermissionScope } from "./base";
+import { PermissionScope } from "../base";
 
 export const PermissionScopes: PermissionScope[] = [
   {

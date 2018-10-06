@@ -3,9 +3,9 @@
 // ------------------------------------------------------------------------------
 
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
+import { GraphExplorerComponent } from "../GraphExplorerComponent";
 import { PermissionScopes } from "./scopes";
-import { PermissionScope } from "./base";
+import { PermissionScope } from "../base";
 
 declare let fabric, mwf;
 
