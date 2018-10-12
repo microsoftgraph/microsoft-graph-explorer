@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { MainColumnComponent } from './main-column.component'
-import { AuthenticationComponent } from './authentication.component'
+import { AuthenticationComponent } from './authentication/authentication.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SidebarComponent } from "./sidebar.component";
 import { QueryRowComponent } from "./queryrow.component";

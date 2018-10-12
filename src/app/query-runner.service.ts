@@ -3,7 +3,7 @@ import { AppComponent } from "./app.component";
 import { GraphApiCall } from "./base";
 import { Response } from "@angular/http"
 import { getRequestBodyEditor, getJsonViewer, getAceEditorFromElId } from "./api-explorer-jseditor";
-import { checkHasValidAuthToken, isAuthenticated } from "./auth";
+import { checkHasValidAuthToken, isAuthenticated } from "./authentication/auth";
 import { isImageResponse, insertHeadersIntoResponseViewer, handleHtmlResponse, handleXmlResponse, handleJsonResponse, showResults, handleTextResponse, getContentType } from "./response-handlers";
 import { getString } from "./localization-helpers";
 import { constructGraphLinksFromFullPath } from "./graph-structure";

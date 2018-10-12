@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 import { Tokens } from "./tokens";
-import { isAuthenticated } from "./auth";
+import { isAuthenticated } from "./authentication/auth";
 
 export interface ExplorerOptions {
     AuthUrl?: string

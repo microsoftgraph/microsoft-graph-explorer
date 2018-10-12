@@ -6,7 +6,7 @@ import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/co
 
 import { ExplorerOptions, RequestType, ExplorerValues, GraphApiCall, Message, MessageBarContent, GraphApiVersions, GraphApiVersion } from "./base";
 import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { initAuth } from "./auth";
+import { initAuth } from "./authentication/auth";
 import { initFabricComponents } from "./fabric-components";
 import { GraphService } from "./graph-service";
 import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from "./history";

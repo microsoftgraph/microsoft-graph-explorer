@@ -5,9 +5,9 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AppComponent } from "./app.component";
-import { ScopesDialogComponent } from "./scopes-dialog/scopes-dialog.component";
+import { GraphExplorerComponent } from "../GraphExplorerComponent";
+import { AppComponent } from "../app.component";
+import { ScopesDialogComponent } from "../scopes-dialog/scopes-dialog.component";
 import { localLogout } from "./auth";
 
 @Component({
@@ -34,7 +34,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         prompt: 'select_account',
         mkt: AppComponent.Options.Language,
         scope: AppComponent.Options.DefaultUserScopes
-      }
+      };
 
       hello('msft').login(loginProperties);
   };
