@@ -4,11 +4,11 @@
 
 import { ChangeDetectorRef } from "@angular/core";
 
-import { ExplorerOptions, Message } from "./base";
-import { AppComponent } from "./app.component";
-import { GraphService } from "./graph-service";
-import { PermissionScopes } from "./scopes";
-import { getParameterByName } from "./util";
+import { ExplorerOptions, Message } from "../base";
+import { AppComponent } from "../app.component";
+import { GraphService } from "../graph-service";
+import { PermissionScopes } from "../scopes-dialog/scopes";
+import { getParameterByName } from "../util";
 
 export function initAuth(options: ExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef) {
 	setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
@@ -77,7 +77,7 @@ export function initAuth(options: ExplorerOptions, apiService: GraphService, cha
 			}).catch((e) => console.log(e)));
 
 			Promise.all(promisesGetUserInfo).then(() => {
-				AppComponent.explorerValues.authentication.status = "authenticated"
+				AppComponent.explorerValues.authentication.status = "authenticated";
 				changeDetectorRef.detectChanges();
 			}).catch((e) => {
 				// occurs when hello got an access token, but it's already expired
@@ -87,7 +87,7 @@ export function initAuth(options: ExplorerOptions, apiService: GraphService, cha
 			// set which permissions are checked
 
 			let scopes = getScopes();
-			scopes.push("openid")
+			scopes.push("openid");
 			for (let scope of PermissionScopes) {
 				scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) !== -1
 			}

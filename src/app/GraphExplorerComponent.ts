@@ -6,7 +6,7 @@ import { getString } from "./localization-helpers";
 import { AppComponent } from "./app.component";
 import { GraphApiCall, SampleQuery, GraphRequestHeader, substituteTokens } from "./base";
 import { getRequestBodyEditor } from "./api-explorer-jseditor";
-import { isAuthenticated as isAuthHelper } from "./auth";
+import { isAuthenticated as isAuthHelper } from "./authentication/auth";
 import { QueryRunnerService } from "./query-runner.service";
 
 export class GraphExplorerComponent {

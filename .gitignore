@@ -24,4 +24,3 @@ src/**/*.js.map
 
 src/aot/**/*
 /.vs/**/*
-translation_files/de-DE.json

@@ -14,7 +14,7 @@ import {
 import { GraphService } from './graph-service';
 import { GraphApiVersion, substituteTokens, GraphApiVersions, GraphRequestHeader } from "./base";
 import { SampleQueries } from "./gen-queries";
-import { localLogout } from "./auth";
+import { localLogout } from "./authentication/auth";
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
   for (let version of GraphApiVersions) {
