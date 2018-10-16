@@ -21,7 +21,7 @@ import { MethodBadgeComponent } from "./method-badge.component";
 import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { SampleCategoriesPanelComponent } from "./sample-categories-panel.component";
 import { RequestEditorsComponent } from "./request-editors.component";
-import { ShareLinkBtnComponent } from "./share-link-btn.component";
+import { ShareLinkBtnComponent } from "./share-link/share-link-btn.component";
 import { ScopesDialogComponent } from "./scopes-dialog.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 
