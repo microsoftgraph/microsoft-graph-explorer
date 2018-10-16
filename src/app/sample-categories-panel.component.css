@@ -18,8 +18,13 @@ div.c-toggle button {
     margin-bottom: 35px;
 }
 
+.ms-Panel-contentInner {
+    overflow-y:visible;
+}
+
 .ms-Panel.ms-Panel--lg {
     max-width: 544px;
+    overflow-y: auto;
 }
 
 div.c-toggle button:focus {

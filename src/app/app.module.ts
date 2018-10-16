@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { MainColumnComponent } from './main-column.component'
-import { AuthenticationComponent } from './authentication.component'
+import { AuthenticationComponent } from './authentication/authentication.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SidebarComponent } from "./sidebar.component";
 import { QueryRowComponent } from "./queryrow.component";
@@ -22,7 +22,7 @@ import { ResponseStatusBarComponent } from "./response-status-bar.component";
 import { SampleCategoriesPanelComponent } from "./sample-categories-panel.component";
 import { RequestEditorsComponent } from "./request-editors.component";
 import { ShareLinkBtnComponent } from "./share-link/share-link-btn.component";
-import { ScopesDialogComponent } from "./scopes-dialog.component";
+import { ScopesDialogComponent } from "./scopes-dialog/scopes-dialog.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
 
 @NgModule({
