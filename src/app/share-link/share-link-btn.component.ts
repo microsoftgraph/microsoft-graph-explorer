@@ -3,8 +3,8 @@
 // ------------------------------------------------------------------------------
 
 import { Component, AfterViewInit } from '@angular/core';
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AllowedGraphDomains } from "./base";
+import { GraphExplorerComponent } from "../GraphExplorerComponent";
+import { AllowedGraphDomains } from "../base";
 
 declare let fabric:any;
 
