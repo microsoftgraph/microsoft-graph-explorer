@@ -1,11 +1,12 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { getRequestBodyEditor } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { isAuthenticated as isAuthHelper } from './authentication/auth';
-import { GraphRequestHeader, IGraphApiCall, SampleQuery, substituteTokens } from './base';
+import { IGraphApiCall, IGraphRequestHeader, ISampleQuery, substituteTokens } from './base';
 import { getString } from './localization-helpers';
 import { QueryRunnerService } from './query-runner.service';
 

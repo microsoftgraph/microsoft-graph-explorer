@@ -242,5 +242,5 @@ export interface IMessageBarContent {
 export let AllowedGraphDomains = [
     'https://graph.microsoft.com',
     'https://canary.graph.microsoft.com',
-    'https://microsoftgraph.chinacloudapi.cn'
+    'https://microsoftgraph.chinacloudapi.cn',
 ];
