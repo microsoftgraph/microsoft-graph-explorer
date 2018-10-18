@@ -1,11 +1,12 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component } from '@angular/core';
 
 import { getRequestBodyEditor, initializeAceEditor } from './api-explorer-jseditor';
-import { GraphRequestHeader } from './base';
+import { IGraphRequestHeader } from './base';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
 
 @Component({
@@ -24,11 +25,11 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
         initializeAceEditor(postBodyEditor, this.getStr('Request body editor'));
     }
 
-    public isLastHeader(header: GraphRequestHeader) {
+    public isLastHeader(header: IGraphRequestHeader) {
         return header === this.getLastHeader();
     }
 
-    public getPlaceholder(header: GraphRequestHeader) {
+    public getPlaceholder(header: IGraphRequestHeader) {
         if (this.getLastHeader() === header) {
             return this.getStr('Enter new header');
         }
@@ -40,7 +41,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
      * @param e The event arguments.
      * @param header The header key to remove from the request UI.
      */
-    public removeHeaderKeyDown(e: any, header: GraphRequestHeader) {
+    public removeHeaderKeyDown(e: any, header: IGraphRequestHeader) {
         // Enter/return
         if (e.keyCode === 13) {
             this.removeHeader(header);
@@ -51,13 +52,13 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
      * Remove a header from the request UI.
      * @param header The header key to remove from the request UI.
      */
-    public removeHeader(header: GraphRequestHeader) {
+    public removeHeader(header: IGraphRequestHeader) {
         const idx = this.explorerValues.headers.indexOf(header);
 
         if (idx !== -1) {
             this.explorerValues.headers.splice(idx, 1);
         } else {
-            console.error('Can\'t remove header', header);
+          throw new Error('Can\'t remove header');
         }
     }
 
@@ -65,25 +66,5 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
         if (this.getLastHeader().name !== '') {
             this.addEmptyHeader();
         }
-
-        // setTimeout(() => {
-        //     mwf.ComponentFactory.create([{
-        //         component: mwf.AutoSuggest,
-        //         callback: (autoSuggests) => {
-        //             if (!autoSuggests)
-        //                 return;
-
-        //             for (let autoSuggest of autoSuggests) {
-        //                 if (autoSuggests[1].element.parentElement.className.indexOf("header-autocomplete") == -1) continue;
-        //                 autoSuggest.subscribe({
-        //                     onMatchPatternChanged: (notification) => {
-        //                         autoSuggest.updateSuggestions(CommonHeaders.filter((s => s.toLowerCase().indexOf(notification.pattern.toLowerCase()) != -1 )).map((s) => { return { type: 'string', value: s }}));
-        //                     }
-        //                 });
-        //             }
-
-        //         }
-        //     }]);
-        // }, 0);
     }
 }

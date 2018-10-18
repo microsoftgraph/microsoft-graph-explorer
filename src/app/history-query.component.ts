@@ -1,9 +1,10 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { SampleQuery } from './base';
+import { ISampleQuery } from './base';
 import { QueryRunnerService } from './query-runner.service';
 import { QueryRowComponent } from './queryrow.component';
 
@@ -51,12 +52,15 @@ declare let moment: any;
 `],
 })
 export class HistoryRowComponent extends QueryRowComponent implements OnInit {
-    constructor(private _changeDetectionRef: ChangeDetectorRef, public queryRunnerService: QueryRunnerService) {
+  public successClass: string;
+  public updateMomentRef: NodeJS.Timer;
+  @Input() public query: ISampleQuery;
+
+  constructor(private changeDetectorRef: ChangeDetectorRef, public queryRunnerService: QueryRunnerService) {
         super(queryRunnerService);
     }
 
-    public updateMomentRef: NodeJS.Timer;
-    public ngOnInit(): void {
+  public ngOnInit(): void {
         this.updateMomentRef = setInterval(() => {
             this.setRelativeDate();
         }, 1000 * 8);
@@ -64,16 +68,13 @@ export class HistoryRowComponent extends QueryRowComponent implements OnInit {
         this.successClass = this.query.statusCode >= 200 && this.query.statusCode < 300 ? 'success' : 'error';
     }
 
-    public setRelativeDate() {
+  public setRelativeDate() {
         this.query.relativeDate = moment(this.query.requestSentAt).fromNow();
-        this._changeDetectionRef.detectChanges();
+        this.changeDetectorRef.detectChanges();
     }
 
-    @Input() public query: SampleQuery;
-
-    public successClass: string;
-    public ngOnDestroy() {
+  public ngOnDestroy() {
       clearInterval(this.updateMomentRef);
-      this._changeDetectionRef.detach();
+      this.changeDetectorRef.detach();
     }
 }

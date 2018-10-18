@@ -1,12 +1,12 @@
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
-// See License in the project root for license information.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
 import { getShortQueryText } from './ApiCallDisplayHelpers';
 import { AppComponent } from './app.component';
-import { SampleQuery } from './base';
+import { ISampleQuery } from './base';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
 import { QueryRunnerService } from './query-runner.service';
 
@@ -19,7 +19,7 @@ import { QueryRunnerService } from './query-runner.service';
 export class QueryRowComponent extends GraphExplorerComponent {
 
     @Input() public category: string;
-    @Input() public query: SampleQuery;
+    @Input() public query: ISampleQuery;
 
     constructor(public queryRunnerService: QueryRunnerService) {
         super();
@@ -75,7 +75,7 @@ export class QueryRowComponent extends GraphExplorerComponent {
         AppComponent.messageBarContent = {
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'ms-Icon--Info',
-            text: this.query.tip
+            text: this.query.tip,
         };
     }
 }

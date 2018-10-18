@@ -17,100 +17,7 @@ declare let mwf;
   templateUrl: './scopes-dialog.component.html',
 })
 export class ScopesDialogComponent extends GraphExplorerComponent implements AfterViewInit {
-
-  // Use this to get a handle on the scopes-list-table-container element.
-  @ViewChild('scopesListTableContainer') public scopesTableList: ElementRef;
-
-  // Contains the scopes list table height. The maximum height value is 451px.
-  public scopesListTableHeight: String;
-
-  // Flags for changing the scopes list table height.
-  public hasChangedScopeListHeight: Boolean = false;
-  public hasRequestedAdminConsent: Boolean = false;
-
-  // Updates the style.height of the scopes-list-table-container element.
-  public getScopesListTableHeight(): String {
-    this.scopesListTableHeight = window.getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
-    return this.scopesListTableHeight;
-  }
-
-  public getScopeLabel(scopeName: String): String {
-    return scopeName + ' scope';
-  }
-
-  public ngAfterViewInit(): void {
-    this.sortScopesList();
-    ScopesDialogComponent.setScopesEnabledTarget();
-    window.launchPermissionsDialog = ScopesDialogComponent.showDialog;
-    this.scopesListTableHeight = window.getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
-  }
-
-  public sortScopesList(): void {
-    PermissionScopes.sort(function(a, b) {
-      const scopeName_a = a.name.toUpperCase();
-      const scopeName_b = b.name.toUpperCase();
-      return (scopeName_a < scopeName_b) ? -1 : (scopeName_a > scopeName_b) ? 1 : 0;
-    });
-  }
-
-  /**
-   * Indicates whether the scope list has been changed.
-   * @returns {boolean} A value of true indicates that a scope has been added or removed from the scope list.
-  */
-  public scopeListIsDirty(): boolean {
-
-    // Determine whether the scope list has changed. The scope list has changed if isDirty = true.
-    const isDirty = PermissionScopes.filter((s) => s.enabled !== s.enabledTarget).length > 0;
-
-    // Reduce the size of the scopes table list by the size of the message bar. We only want to make this
-    // change the first time that the selected scope list is changed.
-    if (isDirty && !this.hasChangedScopeListHeight) {
-
-      // Convert the table height from string to number.
-      const currentHeight: number = Number(this.scopesListTableHeight.replace(/px/, '')).valueOf();
-
-      // Update the table height based on the height of the message bar that's displayed when the scope list is dirty.
-      // This should keep the buttons from moving below the viewport as long as the component is showing in the viewport.
-      const updatedHeight: number = currentHeight - 60;
-
-      // Convert the updated height to a string and set the scopes list table height style.
-      this.scopesTableList.nativeElement.style.height = updatedHeight.toString() + 'px';
-
-      // We only want to adjust the height one time after making a change to the selected scope list.
-      this.hasChangedScopeListHeight = true;
-    }
-
-    return isDirty;
-  }
-
-  /**
-   * Indicates whether an admin scope has been selected.
-   * @returns {boolean} A value of true indicates that a scope that requires admin consent has been selected.
-  */
-  public requestingAdminScopes(): boolean {
-
-    // Determine whether a scope that requires admin consent has been selected. An admin consent scope has been selected if isDirty = true.
-    const isDirty = PermissionScopes.filter((s) => s.admin && s.enabledTarget).length > 0;
-
-    // Reduce the size of the scopes table list by the size of the message bar. We only want to make this
-    // change the first time that the selected scope list is changed.
-    if (isDirty && !this.hasRequestedAdminConsent) {
-      // Convert the table height from string to number.
-      const currentHeight: number = Number(this.scopesListTableHeight.replace(/px/, '')).valueOf();
-
-      // Update the table height based on the height of the message bar that's displayed when an admin consent scope is selected.
-      // This should keep the buttons from moving below the viewport as long as the component is showing in the viewport.
-      const updatedHeight: number = currentHeight - 135;
-
-      // Convert the updated height to a string and set the scopes list table height style.
-      this.scopesTableList.nativeElement.style.height = updatedHeight.toString() + 'px';
-
-      // We only want to adjust the height one time after making a change to the selected scope list.
-      this.hasRequestedAdminConsent = true;
-    }
-
-    return isDirty;
-  }
+  public scopes: IPermissionScope[] = PermissionScopes;
 
   /**
    * Specifies whether we have any admin scopes selected in the scopes-dialog UI.
@@ -123,6 +30,106 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
    * A container to track which admin scopes have been selected in the UI.
    */
   public selectedTargetedAdminScopes: IPermissionScope[] = [];
+
+  // Use this to get a handle on the scopes-list-table-container element.
+  @ViewChild('scopesListTableContainer') public scopesTableList: ElementRef;
+
+  // Contains the scopes list table height. The maximum height value is 451px.
+  public scopesListTableHeight: string;
+
+  // Flags for changing the scopes list table height.
+  public hasChangedScopeListHeight: boolean = false;
+  public hasRequestedAdminConsent: boolean = false;
+
+  // Updates the style.height of the scopes-list-table-container element.
+  public getScopesListTableHeight(): string {
+    this.scopesListTableHeight = window.getComputedStyle(this.scopesTableList.nativeElement, null)
+      .getPropertyValue('height');
+    return this.scopesListTableHeight;
+  }
+
+  public getScopeLabel(scopeName: string): string {
+    return scopeName + ' scope';
+  }
+
+  public ngAfterViewInit(): void {
+    this.sortScopesList();
+    ScopesDialogComponent.setScopesEnabledTarget();
+    window.launchPermissionsDialog = ScopesDialogComponent.showDialog;
+    this.scopesListTableHeight = window
+      .getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
+  }
+
+  public sortScopesList(): void {
+    PermissionScopes.sort((a, b) => {
+      const scopeNameA = a.name.toUpperCase();
+      const scopeNameB = b.name.toUpperCase();
+      return (scopeNameA < scopeNameB) ? -1 : (scopeNameA > scopeNameB) ? 1 : 0;
+    });
+  }
+
+  /*
+   * Indicates whether the scope list has been changed.
+   * @returns {boolean} A value of true indicates that a scope has been added or removed from the scope list.
+  */
+  public scopeListIsDirty(): boolean {
+
+    // Determine whether the scope list has changed. The scope list has changed if isDirty = true.
+    const isDirty = PermissionScopes.filter((s) => s.enabled !== s.enabledTarget).length > 0;
+
+    // Reduce the size of the scopes table list by the size of the message bar. We only want to make this
+    // Change the first time that the selected scope list is changed.
+    if (isDirty && !this.hasChangedScopeListHeight) {
+
+      // Convert the table height from string to number.
+      const currentHeight: number = Number(this.scopesListTableHeight.replace(/px/, '')).valueOf();
+
+      // Update the table height based on the height of the message bar that's displayed when the scope list is dirty.
+      // This should keep the buttons from moving below the viewport as long as the component is showing in the viewport
+      const updatedHeight: number = currentHeight - 60;
+
+      // Convert the updated height to a string and set the scopes list table height style.
+      this.scopesTableList.nativeElement.style.height = updatedHeight.toString() + 'px';
+
+      // We only want to adjust the height one time after making a change to the selected scope list.
+      this.hasChangedScopeListHeight = true;
+    }
+
+    return isDirty;
+  }
+
+  /*
+   * Indicates whether an admin scope has been selected.
+   * @returns {boolean} A value of true indicates that a scope that requires admin consent has been selected.
+  */
+  public requestingAdminScopes(): boolean {
+
+    // Determine whether a scope that requires admin consent has been selected. An admin consent scope has been
+    // Selected if isDirty = true.
+    const isDirty = PermissionScopes.filter((s) => s.admin && s.enabledTarget).length > 0;
+
+    // Reduce the size of the scopes table list by the size of the message bar. We only want to make this
+    // Change the first time that the selected scope list is changed.
+    if (isDirty && !this.hasRequestedAdminConsent) {
+      // Convert the table height from string to number.
+      const currentHeight: number = Number(this.scopesListTableHeight.replace(/px/, '')).valueOf();
+
+      /*
+       Update the table height based on the height of the message bar that's displayed when an admin consent scope is
+       selected.
+       This should keep the buttons from moving below the viewport as long as the component is showing in the viewport.
+      */
+      const updatedHeight: number = currentHeight - 135;
+
+      // Convert the updated height to a string and set the scopes list table height style.
+      this.scopesTableList.nativeElement.style.height = updatedHeight.toString() + 'px';
+
+      // We only want to adjust the height one time after making a change to the selected scope list.
+      this.hasRequestedAdminConsent = true;
+    }
+
+    return isDirty;
+  }
 
   /**
    * Toggles whether the scope has been targeted to be enabled. This will be used to determine whether we
@@ -162,14 +169,14 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
       response_type: 'token',
       nonce: 'graph_explorer',
       prompt: 'select_account',
-      // login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login
+      // This, login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login
       scope: PermissionScopes.filter((scope) => scope.enabledTarget).map((scope) => scope.name).join(' '),
     };
 
     hello('msft').login(loginProperties);
   }
 
-  public static showDialog() {
+  public static showDialog() { // tslint:disable-line
     ScopesDialogComponent.setScopesEnabledTarget();
 
     const el = document.querySelector('#scopes-dialog');
@@ -181,12 +188,11 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     }]);
   }
 
-  public static setScopesEnabledTarget() {
-    // populate enabledTarget
+  public static setScopesEnabledTarget() { // tslint:disable-line
+    // Populate enabledTarget
     for (const scope of PermissionScopes) {
       scope.enabledTarget = scope.enabled;
     }
   }
 
-  public scopes: IPermissionScope[] = PermissionScopes;
 }

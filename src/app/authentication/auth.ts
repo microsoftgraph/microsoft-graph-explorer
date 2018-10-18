@@ -1,3 +1,4 @@
+/* tslint:disable */
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
@@ -189,7 +190,7 @@ export function haveValidAccessToken(): boolean {
   return session && session.access_token && session.expires > currentTime;
 }
 
-window.tokenPlease = function() {
+window['tokenPlease'] = function() {
   const authResponse = hello('msft').getAuthResponse();
   if (authResponse) {
     return authResponse.access_token;

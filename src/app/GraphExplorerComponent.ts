@@ -22,7 +22,7 @@ export class GraphExplorerComponent {
     return AppComponent.Options.PathToBuildDir + '/' + relPath;
   }
 
-  // used in sidebar and panel
+  // Used in sidebar and panel
   public getRequestHistory = (limit?: number): IGraphApiCall[] => {
       if (limit) {
         return AppComponent.requestHistory.slice(0, limit);
@@ -36,22 +36,23 @@ export class GraphExplorerComponent {
   }
 
   public loadQueryIntoEditor(originalQuery: IGraphApiCall) {
-    // prevent logged out users from POSTing/others
+    // Prevent logged out users from POSTing/others
     if (!this.isAuthenticated() && originalQuery.method !== 'GET') {
       return;
     }
 
     QueryRunnerService.clearResponse();
 
-      // copy the sample query or history item so we're not changing history/samples
-    const query: SampleQuery = jQuery.extend(true, {}, originalQuery);
+      // Copy the sample query or history item so we're not changing history/samples
+    const query: ISampleQuery = jQuery.extend(true, {}, originalQuery);
     substituteTokens(query);
 
-      // set the endpoint url. if it's a relative path, add the configured graph URL
-    AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith('https://') ? query.requestUrl : AppComponent.Options.GraphUrl + query.requestUrl;
+      // Set the endpoint url. if it's a relative path, add the configured graph URL
+    AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith('https://') ? query.requestUrl :
+      AppComponent.Options.GraphUrl + query.requestUrl;
     AppComponent.explorerValues.selectedOption = query.method;
 
-    if (query.headers) {
+    if (query.headers) { // tslint:disable-line
         AppComponent.explorerValues.headers = query.headers;
       } else {
         AppComponent.explorerValues.headers = [];
@@ -65,13 +66,13 @@ export class GraphExplorerComponent {
 
         const rawPostBody = query.postBody;
 
-        // try to format the post body
+        // Try to format the post body
 
         let formattedPostBody;
         try {
           formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
         } catch (e) {
-          console.log('Can\'t format JSON post body');
+          throw (e);
         }
 
         AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
@@ -96,7 +97,7 @@ export class GraphExplorerComponent {
       });
   }
 
-  public getLastHeader(): GraphRequestHeader {
+  public getLastHeader(): IGraphRequestHeader {
       return this.explorerValues.headers[this.explorerValues.headers.length - 1];
   }
 
