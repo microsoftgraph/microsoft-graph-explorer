@@ -4,20 +4,20 @@
 
 // gen-queries.spec.ts prepares non destructive sample queries and runs the tests.
 
-import { HttpModule, Headers } from '@angular/http';
+import { Headers, HttpModule } from '@angular/http';
 
 import {
   inject,
-  TestBed
+  TestBed,
 } from '@angular/core/testing';
 
+import { localLogout } from './authentication/auth';
+import { GraphApiVersion, GraphApiVersions, GraphRequestHeader, substituteTokens } from './base';
+import { SampleQueries } from './gen-queries';
 import { GraphService } from './graph-service';
-import { GraphApiVersion, substituteTokens, GraphApiVersions, GraphRequestHeader } from "./base";
-import { SampleQueries } from "./gen-queries";
-import { localLogout } from "./authentication/auth";
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
-  for (let version of GraphApiVersions) {
+  for (const version of GraphApiVersions) {
     if (url.indexOf(`/${version}/`) !== -1) {
       return version;
     }
@@ -26,7 +26,7 @@ function getGraphVersionFromUrl(url: string): GraphApiVersion {
 
 // Convert from GraphRequestHeaders to Fetch API headers.
 function convertHeaders(graphRequestHeaders: GraphRequestHeader[]): Headers {
-  var headers = new Headers();
+  const headers = new Headers();
 
   if (graphRequestHeaders) {
     for (let i = 0; i < graphRequestHeaders.length; ++i) {
@@ -42,12 +42,12 @@ describe('Sample query validation', () => {
 
   beforeAll(() => {
     localLogout();
-  })
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
-      providers: [GraphService]
+      providers: [GraphService],
     });
   });
 
@@ -55,14 +55,14 @@ describe('Sample query validation', () => {
     graphService = _graphService;
   }));
 
-  for (let query of SampleQueries) {
-    it(`${query.humanName}: Doc link should exist and match request version`, function () {
+  for (const query of SampleQueries) {
+    it(`${query.humanName}: Doc link should exist and match request version`, function() {
       if (!query.docLink) {
         throw new Error(`${query.humanName}: Doc link doesn't exist`);
       }
 
-      let docLinkVersion = getGraphVersionFromUrl(query.docLink);
-      let requestUrlVersion = getGraphVersionFromUrl(query.requestUrl);
+      const docLinkVersion = getGraphVersionFromUrl(query.docLink);
+      const requestUrlVersion = getGraphVersionFromUrl(query.requestUrl);
 
       // some doc links go to concept pages, not /version/doc page
       if (docLinkVersion && requestUrlVersion) {
@@ -85,11 +85,11 @@ describe('Sample query validation', () => {
     //     });
     // });
 
-    if (query.method !== "GET") {
+    if (query.method !== 'GET') {
       continue;
     }
     substituteTokens(query);
-    it(`GET query should execute: ${query.humanName}`, function (done) {
+    it(`GET query should execute: ${query.humanName}`, function(done) {
       substituteTokens(query);
 
       /**
@@ -102,27 +102,27 @@ describe('Sample query validation', () => {
         // These are the names of samples where we expect to a get a response body
         // that contains an empty JSON object.
         // We are using this to skip the empty response check.
-        let skipQueryList = [
-          "get recent user activities"
+        const skipQueryList = [
+          'get recent user activities',
         ];
 
         skipQueryList.map((queryName) => {
           if (queryName === query.humanName) {
             return true;
           }
-        })
+        });
 
         return false;
       }
 
-      var headers = convertHeaders(query.headers);
+      const headers = convertHeaders(query.headers);
 
       graphService.performAnonymousQuery(query.method, 'https://graph.microsoft.com' + query.requestUrl, headers).then((res) => {
         if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
-          let response = res.json();
+          const response = res.json();
           if (response && response.value && response.value.constructor === Array) {
             if (response.value.length === 0 && skipResponseLengthCheck()) {
-              done.fail(`${query.humanName}: All sample GETs on collections must have values`)
+              done.fail(`${query.humanName}: All sample GETs on collections must have values`);
             }
           }
         }

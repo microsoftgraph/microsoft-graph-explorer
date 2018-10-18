@@ -2,11 +2,11 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
-import { GraphRequestHeader } from "./base";
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jseditor";
+import { getRequestBodyEditor, initializeAceEditor } from './api-explorer-jseditor';
+import { GraphRequestHeader } from './base';
+import { GraphExplorerComponent } from './GraphExplorerComponent';
 
 @Component({
   selector: 'request-editors',
@@ -14,33 +14,33 @@ import { getRequestBodyEditor, initializeAceEditor } from "./api-explorer-jsedit
   templateUrl: './request-editors.component.html',
 })
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         this.addEmptyHeader();
         this.initPostBodyEditor();
     }
 
-    initPostBodyEditor() {
-        const postBodyEditor = getRequestBodyEditor()
-        initializeAceEditor(postBodyEditor, this.getStr("Request body editor"));
+    public initPostBodyEditor() {
+        const postBodyEditor = getRequestBodyEditor();
+        initializeAceEditor(postBodyEditor, this.getStr('Request body editor'));
     }
 
-    isLastHeader(header:GraphRequestHeader) {
+    public isLastHeader(header: GraphRequestHeader) {
         return header === this.getLastHeader();
     }
 
-    getPlaceholder(header:GraphRequestHeader) {
+    public getPlaceholder(header: GraphRequestHeader) {
         if (this.getLastHeader() === header) {
-            return this.getStr("Enter new header");
+            return this.getStr('Enter new header');
         }
     }
 
     /**
-     * Check the keyboard input and remove the header if Enter/Return 
+     * Check the keyboard input and remove the header if Enter/Return
      * is selected when the button is the active element.
      * @param e The event arguments.
      * @param header The header key to remove from the request UI.
      */
-    removeHeaderKeyDown(e: any, header: GraphRequestHeader) {
+    public removeHeaderKeyDown(e: any, header: GraphRequestHeader) {
         // Enter/return
         if (e.keyCode === 13) {
             this.removeHeader(header);
@@ -51,19 +51,19 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
      * Remove a header from the request UI.
      * @param header The header key to remove from the request UI.
      */
-    removeHeader(header:GraphRequestHeader) {
-        let idx = this.explorerValues.headers.indexOf(header);
+    public removeHeader(header: GraphRequestHeader) {
+        const idx = this.explorerValues.headers.indexOf(header);
 
         if (idx !== -1) {
             this.explorerValues.headers.splice(idx, 1);
         } else {
-            console.error("Can't remove header", header)
+            console.error('Can\'t remove header', header);
         }
     }
 
-    createNewHeaderField() {
-        if (this.getLastHeader().name !== "") {
-            this.addEmptyHeader()
+    public createNewHeaderField() {
+        if (this.getLastHeader().name !== '') {
+            this.addEmptyHeader();
         }
 
         // setTimeout(() => {

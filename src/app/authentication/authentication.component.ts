@@ -5,10 +5,10 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { GraphExplorerComponent } from "../GraphExplorerComponent";
-import { AppComponent } from "../app.component";
-import { ScopesDialogComponent } from "../scopes-dialog/scopes-dialog.component";
-import { localLogout } from "./auth";
+import { AppComponent } from '../app.component';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
+import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
+import { localLogout } from './auth';
 
 @Component({
   selector: 'authentication',
@@ -20,36 +20,36 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         super();
     }
 
-    sanitize(url:string):SafeUrl {
+    public sanitize(url: string): SafeUrl {
         return this.sanitizer.bypassSecurityTrustUrl(url);
     }
 
   // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
-  login() {
-      let loginProperties = {
+    public login() {
+      const loginProperties = {
         display: 'page',
-        response_type: "token",
-        response_mode: "fragment",
+        response_type: 'token',
+        response_mode: 'fragment',
         nonce: 'graph_explorer',
         prompt: 'select_account',
         mkt: AppComponent.Options.Language,
-        scope: AppComponent.Options.DefaultUserScopes
+        scope: AppComponent.Options.DefaultUserScopes,
       };
 
       hello('msft').login(loginProperties);
-  };
+  }
 
-  logout() {
+    public logout() {
     localLogout();
   }
 
-  authInfo = this.explorerValues.authentication;
+    public authInfo = this.explorerValues.authentication;
 
-  getAuthenticationStatus() {
+    public getAuthenticationStatus() {
       return this.explorerValues.authentication.status;
   }
 
-  manageScopes() {
+    public manageScopes() {
     ScopesDialogComponent.showDialog();
   }
 }

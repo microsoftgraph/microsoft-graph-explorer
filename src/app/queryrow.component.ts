@@ -1,13 +1,14 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+// See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { SampleQuery } from "./base";
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { getShortQueryText } from "./ApiCallDisplayHelpers";
-import { AppComponent } from "./app.component";
-import { QueryRunnerService } from "./query-runner.service";
+import { getShortQueryText } from './ApiCallDisplayHelpers';
+import { AppComponent } from './app.component';
+import { SampleQuery } from './base';
+import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { QueryRunnerService } from './query-runner.service';
 
 @Component({
     selector: 'query-row',
@@ -17,46 +18,46 @@ import { QueryRunnerService } from "./query-runner.service";
 })
 export class QueryRowComponent extends GraphExplorerComponent {
 
-    @Input() category: string;
-    @Input() query: SampleQuery;
+    @Input() public category: string;
+    @Input() public query: SampleQuery;
 
     constructor(public queryRunnerService: QueryRunnerService) {
         super();
     }
 
-    queryKeyDown(event) {
+    public queryKeyDown(event) {
         if (event.keyCode === 13) {
-            this.loadQueryIntoEditor(this.query)
+            this.loadQueryIntoEditor(this.query);
         }
     }
 
-    getTitle() {
-        return this.getAriaLabelForSampleRow(); //this.getQueryText() + " | " + this.query.requestUrl;
+    public getTitle() {
+        return this.getAriaLabelForSampleRow(); // This.getQueryText() + " | " + this.query.requestUrl;
     }
 
-    getQueryText() {
+    public getQueryText() {
         return getShortQueryText(this.query);
     }
 
     /**
      * @returns The identifier of query button element.
      */
-    getQueryButtonId(): string {
-        return (this.query.method + " " + this.getQueryText()).replace(/\s+/g, '-').toLowerCase();
+    public getQueryButtonId(): string {
+        return (this.query.method + ' ' + this.getQueryText()).replace(/\s+/g, '-').toLowerCase();
     }
 
     /**
      * @returns The value for the aria-labelledby element that is used by AT.
      */
-    getAriaLabelledBy(): string {
-        return this.category + " " + this.getQueryButtonId();
+    public getAriaLabelledBy(): string {
+        return this.category + ' ' + this.getQueryButtonId();
     }
 
-    getAriaLabelForSampleRow() {
-        return this.query.method + " " + this.getQueryText() + " sample request";
+    public getAriaLabelForSampleRow() {
+        return this.query.method + ' ' + this.getQueryText() + ' sample request';
     }
 
-    handleQueryClick() {
+    public handleQueryClick() {
         this.loadQueryIntoEditor(this.query);
 
         if (this.query.method === 'GET') {
@@ -66,15 +67,15 @@ export class QueryRowComponent extends GraphExplorerComponent {
                 this.displayTipMessage();
             }
         } else if (this.query.tip && this.isAuthenticated()) {
-            this.displayTipMessage()
+            this.displayTipMessage();
         }
     }
 
-    displayTipMessage() {
+    public displayTipMessage() {
         AppComponent.messageBarContent = {
-            backgroundClass: "ms-MessageBar--warning",
-            icon: "ms-Icon--Info",
+            backgroundClass: 'ms-MessageBar--warning',
+            icon: 'ms-Icon--Info',
             text: this.query.tip
-        }
+        };
     }
 }

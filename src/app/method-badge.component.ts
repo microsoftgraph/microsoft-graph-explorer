@@ -1,9 +1,10 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { GraphApiCall } from "./base";
+import { IGraphApiCall } from './base';
 
 @Component({
   selector: 'method-badge',
@@ -13,8 +14,8 @@ import { GraphApiCall } from "./base";
     styleUrls: ['./method-badge.component.css']
 })
 export class MethodBadgeComponent {
-    @Input() query: GraphApiCall;
+    @Input() public query: IGraphApiCall;
     
-    successClass:string;
+    public successClass: string;
     
 }
