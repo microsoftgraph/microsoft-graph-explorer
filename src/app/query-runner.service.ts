@@ -9,11 +9,12 @@ import { getString } from "./localization-helpers";
 import { constructGraphLinksFromFullPath } from "./graph-structure";
 import { GraphService } from "./graph-service";
 import { createHeaders } from "./util";
+import { AuthService } from "./authentication/auth.service";
 
 @Injectable()
 export class QueryRunnerService {
 
-  constructor(private GraphService: GraphService) { }
+  constructor(private GraphService: GraphService, private authService: AuthService) { }
 
   executeExplorerQuery(fromSample?: boolean) {
 
@@ -30,7 +31,7 @@ export class QueryRunnerService {
       postBody: getRequestBodyEditor().getSession().getValue()
     };
 
-    checkHasValidAuthToken();
+    checkHasValidAuthToken(this.authService);
     let graphRequest: Promise<Response>;
     if (isAuthenticated()) {
       graphRequest = this.GraphService.performQuery(query.method, query.requestUrl, query.postBody, createHeaders(query.headers));

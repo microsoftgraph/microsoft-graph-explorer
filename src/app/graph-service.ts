@@ -4,15 +4,15 @@
 
 import { Injectable } from '@angular/core';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
-
+import { AuthService } from './authentication/auth.service';
 import { RequestType, AllowedGraphDomains } from "./base";
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class GraphService {
-  constructor (private http: Http) { }
+    constructor(private http: Http, private authService: AuthService) { }
 
-  performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
+    performAnonymousQuery(queryType:RequestType, query:string, headers?:Headers):Promise<Response> {
         if (!headers) {
             headers = new Headers();
         }
@@ -24,7 +24,7 @@ export class GraphService {
             return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
-        // let method = isAuthenticated() ? this.GraphService.performQuery : this.GraphService.performAnonymousQuery;
+    // let method = isAuthenticated() ? this.GraphService.performQuery : this.GraphService.performAnonymousQuery;
 
     performQuery = (queryType:RequestType, query:string, postBody?:any, requestHeaders?:Headers) => {
         // make sure the request is being sent to the Graph and not another domain
@@ -45,25 +45,31 @@ export class GraphService {
             requestHeaders = new Headers();
         }
 
-        requestHeaders.append("Authorization", `Bearer ${hello.getAuthResponse('msft').access_token}`)
-
-        switch(queryType) {
-            case "GET":
-                return this.http.get(query, {headers: requestHeaders}).toPromise();
-            case "GET_BINARY":
-                return this.http.get(query, {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
-            case "PUT":
-                return this.http.put(query, postBody, {headers : requestHeaders}).toPromise();
-            case "POST":
-                return this.http.post(query, postBody, {headers : requestHeaders}).toPromise();
-            case "PATCH":
-                return this.http.patch(query, postBody, {headers : requestHeaders}).toPromise();
-            case "DELETE":
-                return this.http.delete(query, {headers : requestHeaders}).toPromise();
-        }
+        const token = this.authService.getToken();
+        var queryResult = token.then(this.performAction.bind(this, token, queryType, query, requestHeaders, postBody));
+        return queryResult;
     }
+
 
     getMetadata = (graphUrl:string, version:string) => {
         return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
+    }
+
+    private performAction(this, accessToken, queryType, query, requestHeaders, postBody) {
+        requestHeaders.append("Authorization", `Bearer ${accessToken.__zone_symbol__value}`);
+        switch (queryType) {
+            case "GET":
+                return this.http.get(query, { headers: requestHeaders }).toPromise();
+            case "GET_BINARY":
+                return this.http.get(query, { responseType: ResponseContentType.ArrayBuffer, headers: requestHeaders }).toPromise();
+            case "PUT":
+                return this.http.put(query, postBody, { headers: requestHeaders }).toPromise();
+            case "POST":
+                return this.http.post(query, postBody, { headers: requestHeaders }).toPromise();
+            case "PATCH":
+                return this.http.patch(query, postBody, { headers: requestHeaders }).toPromise();
+            case "DELETE":
+                return this.http.delete(query, { headers: requestHeaders }).toPromise();
+        }
     }
 };

@@ -64,8 +64,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     AppComponent.Options.GraphVersions.push("Other");
 
-    initAuth(AppComponent.Options, this.GraphService, this.chRef);
-
     initFabricComponents();
 
     mwf.ComponentFactory.create([{

@@ -180,14 +180,13 @@ export function getScopes() {
 	}
 }
 
-export function haveValidAccessToken(): boolean {
-	let session = hello('msft').getAuthResponse();
+export async function haveValidAccessToken(authService) {
 
-	if (!session) {
-		return false;
+	const token = await authService.getToken();
+	if(token) {
+		return true;
 	}
-	let currentTime = (new Date()).getTime() / 1000;
-	return session && session.access_token && session.expires > currentTime;
+	return false;
 };
 
 window['tokenPlease'] = function () {
@@ -211,8 +210,8 @@ export function localLogout() {
 	AppComponent.explorerValues.authentication.user = {};
 }
 
-export function checkHasValidAuthToken() {
-	if (!haveValidAccessToken() && isAuthenticated()) {
+export function checkHasValidAuthToken(authService) {
+	if (!haveValidAccessToken(authService) && isAuthenticated()) {
 		console.log("App says user is authenticated, but doesn't have a valid access token.", new Date())
 		localLogout();
 	}
