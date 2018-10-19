@@ -14,7 +14,7 @@
     "import:samples": "node util-scripts\\query-importer.js",
     "import:loc-strings": "node util-scripts\\bundle-loc-files.js",
     "rollup": "rollup -c rollup-config.js",
-    "lint": "tslint --type-check --project src/tsconfig.json -c tslint.json"
+    "lint": "tslint --project src/tsconfig.json -c tslint.json"
   },
   "author": "",
   "devDependencies": {
