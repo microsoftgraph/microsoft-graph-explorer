@@ -24,9 +24,11 @@ import { RequestEditorsComponent } from "./request-editors.component";
 import { ShareLinkBtnComponent } from "./share-link-btn.component";
 import { ScopesDialogComponent } from "./scopes-dialog/scopes-dialog.component";
 import { GenericDialogComponent } from "./generic-message-dialog.component";
+import { AuthService } from './authentication/auth.service';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
+  providers: [ AuthService ],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent, AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent, HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent, ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent],
   bootstrap: [AppComponent]
 })
