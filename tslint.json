@@ -5,7 +5,6 @@
     "quotemark": [true, "single"],
     "max-line-length": [true, 120],
     "indent": [true, "spaces", 2],
-    "linebreak-style": [true, "CRLF"],
     "no-var-keyword": true,
     "prefer-const": true,
     "ban-comma-operator": true,
