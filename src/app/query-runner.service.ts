@@ -37,7 +37,7 @@ export class QueryRunnerService {
       method: AppComponent.explorerValues.selectedOption,
       requestSentAt: new Date(),
       headers: AppComponent.explorerValues.headers,
-      postBody: getRequestBodyEditor().getSession().getValue()
+      postBody: getRequestBodyEditor().getSession().getValue(),
     };
 
     checkHasValidAuthToken();
@@ -58,7 +58,7 @@ export class QueryRunnerService {
         AppComponent.messageBarContent = {
           text: getString(AppComponent.Options, 'explorer-error'),
           backgroundClass: 'ms-MessageBar--error',
-          icon: 'ms-Icon--ErrorBadge'
+          icon: 'ms-Icon--ErrorBadge',
         };
       }
     }).catch((res) => {
@@ -165,7 +165,7 @@ export class QueryRunnerService {
     AppComponent.messageBarContent = {
       text: this.createTextSummary(query),
       backgroundClass: this.isSuccessful(query) ? 'ms-MessageBar--success' : 'ms-MessageBar--error',
-      icon: this.isSuccessful(query) ? 'ms-Icon--Completed' : 'ms-Icon--ErrorBadge'
+      icon: this.isSuccessful(query) ? 'ms-Icon--Completed' : 'ms-Icon--ErrorBadge',
     };
 
     // Telemetry data points.
@@ -191,19 +191,17 @@ export class QueryRunnerService {
 
     text += ` - ${getString(AppComponent.Options, 'Status Code')} ${query.statusCode}, `;
 
-
     text += `<span style="font-weight: 800; margin-left: 40px;">${query.duration}ms</span>`;
 
     if (query.statusCode === 401 || query.statusCode === 403) {
       text += `
-        <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please 
+        <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please
         <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.
         </span>`;
     }
 
     return text;
   }
-
 
   public isSuccessful(query: IGraphApiCall) {
     return query.statusCode >= 200 && query.statusCode < 300;

@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
-// See License in the project root for license information.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { getAceEditorFromElId, getJsonViewer } from './api-explorer-jseditor';
@@ -102,7 +102,7 @@ const formatXml = (xml) => {
       'other->opening': 0,
       'other->other': 0,
     };
-  fn = (ln) => {
+  fn = (ln) => { //tslint:disable-line
       let fromTo;
       let j;
       let key;
@@ -118,7 +118,7 @@ const formatXml = (xml) => {
       type = ((() => {
         let results;
         results = [];
-        for (key in types) {
+        for (key in types) { // tslint:disable-line
           value = types[key];
           if (value) {
             results.push(key);
@@ -136,6 +136,7 @@ const formatXml = (xml) => {
         let ref1;
         let results;
         results = [];
+        // tslint:disable-next-line
         for (j = m = 0, ref1 = indent; 0 <= ref1 ? m < ref1 : m > ref1; j = 0 <= ref1 ? ++m : --m) {
           results.push('  ');
         }
@@ -147,10 +148,9 @@ const formatXml = (xml) => {
         formatted += padding + ln + '\n';
       }
     };
-  for (l = 0, len = lines.length; l < len; l++) {
+  for (l = 0, len = lines.length; l < len; l++) { //tslint:disable-line
       ln = lines[l];
       fn(ln);
     }
   return formatted;
   };
-

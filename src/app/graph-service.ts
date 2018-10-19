@@ -10,7 +10,7 @@ import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
 export class GraphService {
-  constructor (private http: Http) { }
+  constructor(private http: Http) { }
 
   public performAnonymousQuery(queryType: RequestType, query: string, headers?: Headers): Promise<Response> {
         if (!headers) {
@@ -27,7 +27,7 @@ export class GraphService {
         }
     }
 
-    public performQuery = (queryType: RequestType, query: string, postBody?: any, requestHeaders?: Headers) => {
+  public performQuery = (queryType: RequestType, query: string, postBody?: any, requestHeaders?: Headers) => {
         // Make sure the request is being sent to the Graph and not another domain
         let sentToGraph = false;
 
@@ -65,7 +65,7 @@ export class GraphService {
         }
     }
 
-    public getMetadata = (graphUrl: string, version: string) => {
+  public getMetadata = (graphUrl: string, version: string) => {
         return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 }

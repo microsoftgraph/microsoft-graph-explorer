@@ -6,9 +6,6 @@
 import { ISampleQueryCategory } from './base';
 import { SampleQueries } from './gen-queries';
 
-
-
-
 export function getLocalStorageDisplayKey(category: ISampleQueryCategory) {
     return `CATEGORY_DISPLAY_${category.title}`;
 }
@@ -42,14 +39,14 @@ for (const query of SampleQueries) {
         categories[query.category] = {
             enabled: query.category === 'Getting Started',
             queries: [query],
-            title: query.category
+            title: query.category,
         };
     }
 }
 
 export let SampleCategories: ISampleQueryCategory[] = [];
 
-for (const categoryTitle in categories) {
+for (const categoryTitle in categories) { // tslint:disable-line
     const category = categories[categoryTitle];
     const displayCategory = getCategoryDisplayState(category);
 

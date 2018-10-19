@@ -19,24 +19,26 @@ describe('Graph structural tests', () => {
     });
   });
 
+  // tslint:disable-next-line
   it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
     graphService = _graphService;
   }));
 
   for (const version of GraphApiVersions) {
-    it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`, function(done) {
+    it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`,
+        (done) => {
         return parseMetadata(graphService, version).then(done);
     });
   }
 
-  it('https://graph.microsoft.com/v1.0/me => [user]', function() {
+  it('https://graph.microsoft.com/v1.0/me => [user]', () => {
     const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/v1.0/me');
 
     expect(links.length).toBe(1);
     expect(links[0].type).toBe('microsoft.graph.user');
   });
 
-  it('https://graph.microsoft.com/v1.0/me/drive/quota => [user] -> [drive] -> [drive quoata]', function() {
+  it('https://graph.microsoft.com/v1.0/me/drive/quota => [user] -> [drive] -> [drive quoata]', () => {
     const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/drive/quota');
     expect(links.length).toBe(3);
 
@@ -49,11 +51,11 @@ describe('Graph structural tests', () => {
     expect(links[2].type).toBe('microsoft.graph.quota');
     expect(links[2].isACollection).toBe(false);
     expect(links[2].tagName).toBe('Property');
-
     });
 
-  it('https://graph.microsoft.com/v1.0/users/foobar@contoso.com/calendar => [users] -> [user] -> [calendar]', function() {
-    const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/v1.0/users/foobar@contoso.com/calendar');
+  it('https://graph.microsoft.com/v1.0/users/foobar@contoso.com/calendar => [users] -> [user] -> [calendar]', () => {
+    const links = constructGraphLinksFromFullPath(
+        'https://graph.microsoft.com/v1.0/users/foobar@contoso.com/calendar');
     expect(links.length).toBe(3);
 
     expect(links[0].type).toBe('microsoft.graph.user');
@@ -68,7 +70,7 @@ describe('Graph structural tests', () => {
 
     });
 
-  it('https://graph.microsoft.com/beta/me/photos/ => [user] -> [profilePhoto collection]', function() {
+  it('https://graph.microsoft.com/beta/me/photos/ => [user] -> [profilePhoto collection]', () => {
     const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/photos/');
     expect(links.length).toBe(2);
 
@@ -80,7 +82,8 @@ describe('Graph structural tests', () => {
 
     });
 
-  it('https://graph.microsoft.com/beta/me/photos/x/width => [user] -> [profilePhoto collection] -> [profilePhoto] -> [width property]', function() {
+  it('https://graph.microsoft.com/beta/me/photos/x/width => [user] -> [profilePhoto collection] -> ' +
+      '[profilePhoto] -> [width property]', () => {
         const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/photos/x/width');
         expect(links.length).toBe(4);
 
@@ -99,7 +102,7 @@ describe('Graph structural tests', () => {
         expect(links[3].tagName).toBe('Property');
     });
 
-  it('https://graph.microsoft.com/beta/me/city => [microsoft.graph.user] -> [city property]', function() {
+  it('https://graph.microsoft.com/beta/me/city => [microsoft.graph.user] -> [city property]', () => {
         const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/city');
         expect(links.length).toBe(2);
 
@@ -113,7 +116,7 @@ describe('Graph structural tests', () => {
         expect(links[1].type).toBe('Edm.String');
     });
 
-  it('https://graph.microsoft.com/beta/me/drive/quota => [user] -> [drive] -> [drive quoata]', function() {
+  it('https://graph.microsoft.com/beta/me/drive/quota => [user] -> [drive] -> [drive quoata]', () => {
         const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/drive/quota');
         expect(links.length).toBe(3);
 

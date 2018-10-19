@@ -1,12 +1,14 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { refreshAceEditorsContent } from './ace-utils';
 import { initAuth } from './authentication/auth';
-import { GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage, IMessageBarContent, RequestType } from './base';
+import { GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
+    IMessageBarContent, RequestType } from './base';
 import { initFabricComponents } from './fabric-components';
 import { GenericDialogComponent } from './generic-message-dialog.component';
 import { GraphService } from './graph-service';
@@ -34,8 +36,64 @@ declare let moment;
 `],
 })
 export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
+
+    public static messageBarContent: IMessageBarContent;
+    public static _changeDetectionRef: ChangeDetectorRef; // tslint:disable-line
+    public static message: IMessage;
+
+    public static Options: IExplorerOptions = {
+        ClientId: '',
+        Language: 'en-US',
+        DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite ' +
+            'People.Read Notes.ReadWrite.All Tasks.ReadWrite  Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
+        AuthUrl: 'https://login.microsoftonline.com',
+        GraphUrl: getParameterByName('GraphUrl') || 'https://graph.microsoft.com',
+        GraphVersions: GraphApiVersions,
+        PathToBuildDir: '',
+    };
+
+    public static explorerValues: IExplorerValues = {
+        selectedOption: getParameterByName('method') as RequestType || 'GET',
+        selectedVersion: getParameterByName('version') as GraphApiVersion || 'v1.0',
+        authentication: {
+            user: {},
+        },
+        showImage: false,
+        requestInProgress: false,
+        headers: [],
+        postBody: '',
+    };
+
+    public static requestHistory: IGraphApiCall[] = loadHistoryFromLocalStorage();
+
+    public static addRequestToHistory(request: IGraphApiCall) {
+        AppComponent.requestHistory.splice(0, 0, request); // Add history object to the array
+        saveHistoryToLocalStorage(AppComponent.requestHistory);
+    }
+
+    public static removeRequestFromHistory(request: IGraphApiCall) {
+        const idx = AppComponent.requestHistory.indexOf(request);
+
+        if (idx > -1) {
+            AppComponent.requestHistory.splice(idx, 1);
+        } else {
+            return;
+        }
+        saveHistoryToLocalStorage(AppComponent.requestHistory);
+    }
+
+    public static setMessage(message: IMessage) {
+        AppComponent.message = message;
+        setTimeout(() => {GenericDialogComponent.showDialog(); });
+    }
+
+    constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) { // tslint:disable-line
+        super();
+        AppComponent._changeDetectionRef = chRef;
+    }
+
     public ngAfterViewInit(): void {
-      // when clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
+      // When clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
       if (typeof $ !== 'undefined') {
         $('api-explorer .ms-Pivot-link').on('click', () => {
           setTimeout(refreshAceEditorsContent, 0);
@@ -45,15 +103,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
       parseMetadata(this.GraphService, 'v1.0');
       parseMetadata(this.GraphService, 'beta');
     }
-
-    public static messageBarContent: IMessageBarContent;
-    public static _changeDetectionRef: ChangeDetectorRef;
-    public static message: IMessage;
-
-    constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) {
-    super();
-    AppComponent._changeDetectionRef = chRef;
-  }
 
     public ngOnInit() {
     for (const key in AppComponent.Options) {
@@ -74,59 +123,18 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     moment.locale(AppComponent.Options.Language);
 
-    // set explorer state that depends on configuration
-    AppComponent.explorerValues.endpointUrl = AppComponent.Options.GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
+    // Set explorer state that depends on configuration
+    AppComponent.explorerValues.endpointUrl = AppComponent.Options
+      .GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
 
     // Show the Microsoft Graph TOU when we load GE.
     AppComponent.messageBarContent = {
-      text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' target=\'_blank\'>Microsoft Graph Terms of Use</a> and the <a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\' target=\'_blank\'>Microsoft Privacy Statement</a>.',
+      text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' ' +
+          'target=\'_blank\'>Microsoft Graph Terms of Use</a> and the ' +
+          '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
+          ' target=\'_blank\'>Microsoft Privacy Statement</a>.',
       backgroundClass: 'ms-MessageBar--warning',
       icon: 'none',
     };
-  }
-
-    public static Options: IExplorerOptions = {
-      ClientId: '',
-      Language: 'en-US',
-      DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite People.Read Notes.ReadWrite.All Tasks.ReadWrite  Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
-      AuthUrl: 'https://login.microsoftonline.com',
-      GraphUrl: getParameterByName('GraphUrl') || 'https://graph.microsoft.com',
-      GraphVersions: GraphApiVersions,
-      PathToBuildDir: '',
-  };
-
-    public static explorerValues: IExplorerValues = {
-      selectedOption: getParameterByName('method') as RequestType || 'GET',
-      selectedVersion: getParameterByName('version') as GraphApiVersion || 'v1.0',
-      authentication: {
-        user: {},
-      },
-      showImage: false,
-      requestInProgress: false,
-      headers: [],
-      postBody: '',
-  };
-
-    public static requestHistory: IGraphApiCall[] = loadHistoryFromLocalStorage();
-
-    public static addRequestToHistory(request: IGraphApiCall) {
-      AppComponent.requestHistory.splice(0, 0, request); //add history object to the array
-      saveHistoryToLocalStorage(AppComponent.requestHistory);
-  }
-
-    public static removeRequestFromHistory(request: IGraphApiCall) {
-      const idx = AppComponent.requestHistory.indexOf(request);
-
-      if (idx > -1) {
-        AppComponent.requestHistory.splice(idx, 1);
-      } else {
-        return;
-      }
-      saveHistoryToLocalStorage(AppComponent.requestHistory);
-  }
-
-    public static setMessage(message: IMessage) {
-    AppComponent.message = message;
-    setTimeout(() => {GenericDialogComponent.showDialog(); });
   }
  }

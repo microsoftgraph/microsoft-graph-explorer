@@ -33,7 +33,6 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
         }, 5000);
     }
 
-
     public closeHistoryPanel = () => {
         (document.querySelector('#history-panel .ms-Panel-closeButton') as any).click();
     };

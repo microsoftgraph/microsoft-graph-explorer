@@ -32,7 +32,6 @@ export function parseMetadata(apiService: GraphService, version?: GraphApiVersio
         }
 
         if (!graphStructureCache.containsVersion(version)) {
-            console.log(`parsing ${version} metadata`);
             apiService.getMetadata(AppComponent.Options.GraphUrl, version).then((results: any) => {
                 const metadata = $($.parseXML(results._body));
 
@@ -40,11 +39,10 @@ export function parseMetadata(apiService: GraphService, version?: GraphApiVersio
                 graphStructureCache.add(version, 'EntitySetData', entitySetData);
                 const entityTypeData = getEntityTypes(metadata);
                 graphStructureCache.add(version, 'EntityTypeData', entityTypeData);
-                console.log(`${version} metadata successfully parsed`);
                 return resolve();
             }).catch(reject);
         } else {
-            // metadata already cached
+            // Metadata already cached
             return resolve();
         }
     });
@@ -82,12 +80,12 @@ const graphStructureCache = new GraphStructureCache();
 function getEntitySets(metadata: JQuery) {
     const entitySetsObj = {};
     const entitySetsAndSingletons = metadata.find('EntitySet,SingleTon');
-    for (let i = 0; i < entitySetsAndSingletons.length; i++) {
+    for (let i = 0; i < entitySetsAndSingletons.length; i++) { // tslint:disable-line
         const set = entitySetsAndSingletons[i];
 
         const entitySetOrSingleton: IGraphNodeLink = {
             name: set.getAttribute('Name'),
-            // singletons like "me" have "Type" instead of "EntityType"
+            // Singletons like "me" have "Type" instead of "EntityType"
             type: set.getAttribute('EntityType') || set.getAttribute('Type'),
             tagName: set.tagName as GraphNodeLinkTagName,
         };
@@ -97,7 +95,7 @@ function getEntitySets(metadata: JQuery) {
         } else if (set.tagName === 'Singleton') {
             entitySetOrSingleton.isACollection = false;
         } else {
-            console.error('Found unexpected type in metadata under EntityContainer');
+            throw new Error('Found unexpected type in metadata under EntityContainer');
         }
 
         entitySetsObj[entitySetOrSingleton.name] = entitySetOrSingleton;
@@ -107,14 +105,14 @@ function getEntitySets(metadata: JQuery) {
 
 function createEntityTypeObject(DOMarray: Element[]) {
     const entityTypes = {};
-    for (let i = 0; i < DOMarray.length; i++) {
+    for (let i = 0; i < DOMarray.length; i++) { // tslint:disable-line
            const EntityType: IGraphEntity = {
                 name: DOMarray[i].getAttribute('Name'),
                 links: {},
            };
 
-           const children = $(DOMarray[i]).children(); // must use $() otherwise in IE .children is undefined
-           for (let j = 0; j < children.length; j++) {
+           const children = $(DOMarray[i]).children(); // Must use $() otherwise in IE .children is undefined
+           for (let j = 0; j < children.length; j++) { // tslint:disable-line
                 if (children[j].attributes.length > 0) {
 
                     const childName = children[j].getAttribute('Name');
@@ -178,10 +176,10 @@ export function constructGraphLinksFromFullPath(path: string): IGraphNodeLink[] 
         return [];
     }
 
-    segments.shift(); // remove leading slash
+    segments.shift(); // Remove leading slash
     const version = segments.shift();
 
-    // singletons and entitysets
+    // Singletons and entitysets
     const entityContainerData = loadEntitySets(version);
 
     if (!entityContainerData) {
@@ -203,10 +201,10 @@ export function constructGraphLinksFromFullPath(path: string): IGraphNodeLink[] 
                 continue;
             }
 
-            if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) { // me/drive/root
+            if (lastGraphItemEntity.links !== undefined && segment in lastGraphItemEntity.links) {
                 graph.push(lastGraphItemEntity.links[segment]);
             } else if (lastGraphItem.isACollection && segment !== '') {
-                // previous link was a collection, current is an id
+                // Previous link was a collection, current is an id
                 graph.push({
                     isACollection: false,
                     name: segment,
@@ -218,11 +216,12 @@ export function constructGraphLinksFromFullPath(path: string): IGraphNodeLink[] 
     return graph;
 }
 
-// urlOptions are like ["driveType", "quota"]
 function combineUrlOptionsWithCurrentUrl(urlOptions: string[]): string[] {
-    // truncate the service string back to the last known good entity (could be an id if prev was a collection)
-    // concat each urlOption with this prefix
-    // return that array
+    /*
+     truncate the service string back to the last known good entity (could be an id if prev was a collection)
+     concat each urlOption with this prefix
+     return that array
+    */
     const graphLinks = constructGraphLinksFromFullPath(AppComponent.explorerValues.endpointUrl);
     const baseUrl = [];
     while (graphLinks.length > 0) {
@@ -239,14 +238,14 @@ function combineUrlOptionsWithCurrentUrl(urlOptions: string[]): string[] {
     return urlOptions.map((url) => baseUrlFinal + '/' + url);
 }
 
-// just return relative URLs
-// based on the last node, get the possible URLs
+// Just return relative URLs
+// Based on the last node, get the possible URLs
 export function getUrlsFromServiceURL(version: string): string[] {
     const graphLinks = constructGraphLinksFromFullPath(AppComponent.explorerValues.endpointUrl);
     if (!graphLinks) {
         return [];
     }
-    let entityProperties; // all properties inside entities - property, navigationProperty
+    let entityProperties; // All properties inside entities - property, navigationProperty
     if (graphLinks.length > 0) {
         const lastNode = graphLinks.pop();
 
@@ -263,9 +262,9 @@ export function getUrlsFromServiceURL(version: string): string[] {
         entityProperties = loadEntitySets(version);
     }
 
-    // strip out all tags except navigation properties
+    // Strip out all tags except navigation properties
     const navProperties = [];
-    for (const entity in entityProperties) {
+    for (const entity in entityProperties) { // tslint:disable
         const entityType = entityProperties[entity];
         if (entityType.tagName as GraphNodeLinkTagName === 'NavigationProperty') {
             navProperties.push(entity);

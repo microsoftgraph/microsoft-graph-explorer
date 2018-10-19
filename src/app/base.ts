@@ -22,9 +22,8 @@ export let Methods: RequestType[] = [
     'POST',
     'PUT',
     'PATCH',
-    'DELETE'
+    'DELETE',
 ];
-
 
 export type GraphApiVersion = 'v1.0' | 'beta';
 export let GraphApiVersions: GraphApiVersion[] = ['v1.0', 'beta'];
@@ -85,8 +84,8 @@ export interface IExplorerValues {
         user?: {
             displayName?: string
             emailAddress?: string
-            profileImageUrl?: string
-        }
+            profileImageUrl?: string,
+        },
     };
     showImage?: boolean;
     requestInProgress?: boolean;
@@ -137,7 +136,7 @@ export const CommonHeaders = [
     'User-Agent',
     'Upgrade',
     'Via',
-    'Warning'
+    'Warning',
 ];
 
 /**

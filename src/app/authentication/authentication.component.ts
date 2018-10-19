@@ -1,5 +1,6 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { Component } from '@angular/core';
@@ -16,6 +17,8 @@ import { localLogout } from './auth';
   templateUrl: './authentication.component.html',
 })
 export class AuthenticationComponent extends GraphExplorerComponent {
+    public authInfo = this.explorerValues.authentication;
+
     constructor(private sanitizer: DomSanitizer) {
         super();
     }
@@ -24,7 +27,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         return this.sanitizer.bypassSecurityTrustUrl(url);
     }
 
-  // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
+    /*
+      https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
+     */
     public login() {
       const loginProperties = {
         display: 'page',
@@ -42,8 +47,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     public logout() {
     localLogout();
   }
-
-    public authInfo = this.explorerValues.authentication;
 
     public getAuthenticationStatus() {
       return this.explorerValues.authentication.status;

@@ -1,5 +1,6 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 declare const ace;
@@ -36,7 +37,7 @@ export function initializeAceEditor(editor, ariaLabel: string, text?: string) {
 /**
  * Standard ace editor setup
  * @param editor The AceEditor component
- */ 
+ */
 export function commonAceSetup(editor) {
     editor.setShowPrintMargin(false);
     editor.$blockScrolling = Infinity;

@@ -1,11 +1,11 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { Component } from '@angular/core';
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { AppComponent } from "./app.component";
-
+import { AppComponent } from './app.component';
+import { GraphExplorerComponent } from './GraphExplorerComponent';
 
 declare let fabric;
 
@@ -35,13 +35,13 @@ declare let fabric;
      `,
 })
 export class GenericDialogComponent extends GraphExplorerComponent {
-  getMessage() {
-    return AppComponent.message;
+  public static showDialog() {
+      const el = document.querySelector('#message-dialog');
+      const fabricDialog = new fabric.Dialog(el);
+      fabricDialog.open();
   }
 
-  static showDialog() {
-    const el = document.querySelector("#message-dialog")
-    const fabricDialog = new fabric['Dialog'](el);
-    fabricDialog.open();
+  public getMessage() {
+    return AppComponent.message;
   }
 }

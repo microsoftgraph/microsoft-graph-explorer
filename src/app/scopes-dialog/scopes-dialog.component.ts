@@ -55,7 +55,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public ngAfterViewInit(): void {
     this.sortScopesList();
     ScopesDialogComponent.setScopesEnabledTarget();
-    window.launchPermissionsDialog = ScopesDialogComponent.showDialog;
+    (window as any).launchPermissionsDialog = ScopesDialogComponent.showDialog;
     this.scopesListTableHeight = window
       .getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
   }

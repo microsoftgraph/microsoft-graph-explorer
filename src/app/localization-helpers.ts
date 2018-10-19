@@ -6,7 +6,6 @@
 import { IExplorerOptions } from './base';
 import { loc_strings } from './loc_strings';
 
-
 export function getString(options: IExplorerOptions, label: string) {
     if (label in loc_strings[options.Language]) {
         return loc_strings[options.Language][label];

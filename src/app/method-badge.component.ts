@@ -11,11 +11,11 @@ import { IGraphApiCall } from './base';
   template: `
     <span class="request-badge" [ngClass]="query.method">{{query.method}}</span>
     `,
-    styleUrls: ['./method-badge.component.css']
+  styleUrls: ['./method-badge.component.css'],
 })
 export class MethodBadgeComponent {
     @Input() public query: IGraphApiCall;
-    
+
     public successClass: string;
-    
+
 }
