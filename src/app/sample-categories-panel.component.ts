@@ -1,11 +1,12 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, AfterViewInit } from '@angular/core';
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { SampleQueryCategory } from "./base";
-import { SampleCategories, saveCategoryDisplayState } from "./getting-started-queries";
+import { AfterViewInit, Component } from '@angular/core';
+import { ISampleQueryCategory } from './base';
+import { SampleCategories, saveCategoryDisplayState } from './getting-started-queries';
+import { GraphExplorerComponent } from './GraphExplorerComponent';
 
 declare let mwf: any;
 
@@ -15,24 +16,25 @@ declare let mwf: any;
     templateUrl: './sample-categories-panel.component.html',
 })
 export class SampleCategoriesPanelComponent extends GraphExplorerComponent implements AfterViewInit {
+    public categories: ISampleQueryCategory[] = SampleCategories;
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         mwf.ComponentFactory.create([{
-            'component': mwf.Toggle
+            component: mwf.Toggle,
         }]);
     }
 
-    toggleCategory(category: SampleQueryCategory) {
+    public toggleCategory(category: ISampleQueryCategory) {
         category.enabled = !category.enabled;
         saveCategoryDisplayState(category);
     }
 
-    categories: SampleQueryCategory[] = SampleCategories;
-
-    // Creates an identifier from the category title by removing whitespace. We need this to 
-    // have the checkbox elements labelled by the containing category row so that screen readers 
-    // correctly state the purpose of the checkbox.
-    getId(title: string): string {
-        return this.getStr(title).replace(/\s+/, "");
+    /*
+     Creates an identifier from the category title by removing whitespace. We need this to
+     have the checkbox elements labelled by the containing category row so that screen readers
+     correctly state the purpose of the checkbox.
+    */
+    public getId(title: string): string {
+        return this.getStr(title).replace(/\s+/, '');
     }
 }

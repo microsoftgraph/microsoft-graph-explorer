@@ -1,13 +1,16 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-// AriaSelectedMSPivotLinkDirective - An attribute directive that uses the ms-Pivot-link class selector to 
-// to apply the aria-selected attribute and value when the tab gains and loses focus.
-// https://dev.office.com/fabric-js/Components/Pivot/Pivot.html
-import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+/*
+   AriaSelectedMSPivotLinkDirective - An attribute directive that uses the ms-Pivot-link class selector to
+   to apply the aria-selected attribute and value when the tab gains and loses focus.
+   https://dev.office.com/fabric-js/Components/Pivot/Pivot.html
+ */
+import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 @Directive({
-    selector: '.ms-Pivot-link'
+    selector: '.ms-Pivot-link',
 })
 export class AriaSelectedMSPivotLinkDirective {
     constructor(private el: ElementRef, private renderer: Renderer2) {
@@ -17,13 +20,13 @@ export class AriaSelectedMSPivotLinkDirective {
 
     // Set the aria-selected attribute to true when the tab (ms-pivot-link) gains focus.
     @HostListener('focus')
-    onFocus() {
+    public onFocus() {
         this.renderer.setAttribute(this.el.nativeElement, 'aria-selected', 'true');
     }
 
     // Set the aria-selected attribute to false when the tab (ms-pivot-link) loses focus.
     @HostListener('blur')
-    onBlur() {
+    public onBlur() {
         this.renderer.setAttribute(this.el.nativeElement, 'aria-selected', 'false');
     }
 }
