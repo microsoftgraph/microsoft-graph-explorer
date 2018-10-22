@@ -15,7 +15,12 @@
                 <td>
                     <div class="ms-MessageBar-actionsOneline">
                         <div id="dismiss-btn" class="ms-MessageBar-icon">
-                            <div tabindex="0" role="button" aria-label="Close status message" (click)="clearMessage()">
+                            <div
+                                tabindex="0" role="button"
+                                aria-label="Close status message"
+                                (click)="clearMessage()"
+                                (keyup.enter)="clearMessage()"
+                                >
                                 <i class="ms-Icon ms-Icon--Cancel"></i>
                             </div>
                         </div>
