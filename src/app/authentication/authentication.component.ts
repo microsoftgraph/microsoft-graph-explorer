@@ -1,78 +1,77 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+// See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { AppComponent } from '../app.component';
-import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
-import { localLogout } from './auth';
 import { AuthService } from './auth.service';
+import { ChangeDetectorRef , Component } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { GraphService } from '../graph-service';
-import { ChangeDetectorRef } from '@angular/core';
+import { localLogout } from './auth';
+import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 
 @Component({
   selector: 'authentication',
   styleUrls: ['./authentication.component.css'],
   templateUrl: './authentication.component.html',
 })
+
 export class AuthenticationComponent extends GraphExplorerComponent {
 
   public authInfo = this.explorerValues.authentication;
-  
+
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private apiService: GraphService, private changeDetectorRef: ChangeDetectorRef ) {
     super();
   }
 
-  ngOnInit() {
-    if (this.getAuthenticationStatus() == 'authenticated') {
-      this.createUserProfile()
+  public ngOnInit() {
+    if (this.getAuthenticationStatus() === 'authenticated') {
+      this.createUserProfile();
     }
   }
-
 
   sanitize(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
-  login() {
-    AppComponent.explorerValues.authentication.status = 'authenticating'
+  // Https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
+  public login() {
+    AppComponent.explorerValues.authentication.status = 'authenticating';
     this.changeDetectorRef.detectChanges();
 
     this.authService.login()
-      .then(user => {
+      .then((user) => {
         if (user) {
           AppComponent.explorerValues.authentication.user = user;
           localStorage.setItem('status', 'authenticating');
           this.createUserProfile();
         } else {
-          console.log('login failed');
+          // Console.log('login failed');
           localLogout();
         }
       }, () => {
-        console.log('login failed');
+        // Console.log('login failed');
         localLogout();
       });
     };
 
-  private createUserProfile() {
-    let promisesGetUserInfo = [];
-    // get displayName and email
+  private createUserProfile () {
+    const promisesGetUserInfo = [];
+    // Get displayName and email
     promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
-      let resultBody = result.json();
+      const resultBody = result.json();
       AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
       AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
-    }).catch((e) => console.log(e)));
+    }));
 
-    // get profile image
+    // Get profile image
     promisesGetUserInfo.push(this.apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
-      let blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
-      let imageUrl = window.URL.createObjectURL(blob);
+      const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
+      const imageUrl = window.URL.createObjectURL(blob);
       AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
-    }).catch((e) => console.log(e)));
+    }));
 
     Promise.all(promisesGetUserInfo).then(() => {
       localStorage.setItem('status', 'authenticated');
@@ -82,19 +81,17 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     });
   }
 
-  logout() {
+  public logout() {
     localLogout();
     this.authService.logout();
   }
 
-
-  getAuthenticationStatus() {
+  public getAuthenticationStatus() {
     var status = localStorage.getItem('status');
     return status;
   }
 
-  manageScopes() {
+  public manageScopes() {
     ScopesDialogComponent.showDialog();
   }
-
 }
