@@ -23,6 +23,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     super();
   }
 
+  ngOnInit() {
+    if (this.getAuthenticationStatus() == "authenticated") {
+      this.createUserProfile()
+    }
+  }
+
 
   sanitize(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
@@ -37,7 +43,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       .then(user => {
         if (user) {
           AppComponent.explorerValues.authentication.user = user;
-          AppComponent.explorerValues.authentication.status = "authenticating";
+          localStorage.setItem('status', "authenticating");
           this.createUserProfile();
         } else {
           console.log('login failed');
@@ -56,7 +62,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       let resultBody = result.json();
       AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
       AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
-    }));
+    }).catch((e) => console.log(e)));
+
     // get profile image
     promisesGetUserInfo.push(this.apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
       let blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
@@ -65,8 +72,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }).catch((e) => console.log(e)));
 
     Promise.all(promisesGetUserInfo).then(() => {
-      AppComponent.explorerValues.authentication.status = "authenticated";
-      localStorage.setItem('status', AppComponent.explorerValues.authentication.status);
+      localStorage.setItem('status', "authenticated");
       this.changeDetectorRef.detectChanges();
     }).catch((e) => {
       localLogout();
@@ -75,17 +81,13 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   logout() {
     localLogout();
+    this.authService.logout();
   }
 
 
   getAuthenticationStatus() {
     var status = localStorage.getItem('status');
-    if (status == 'authenticated') {
-     // this.createUserProfile();
-     // calling this method here goes into an infinite loop
-      return status;
-    }
-    return 'anonymous'
+    return status;
   }
 
   manageScopes() {

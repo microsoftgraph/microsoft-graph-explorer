@@ -4,7 +4,7 @@ import { AppComponent } from "../app.component";
 @Injectable()
 export class AuthService {
     private applicationConfig: any = {
-        clientID: "<Client ID Value>",
+        clientID: "cb2d7367-7429-41c6-ab18-6ecb336139a6",
         graphScopes: ['openid', 'profile', 'User.ReadWrite', 'User.ReadBasic.All', 'Sites.ReadWrite.All', 'Contacts.ReadWrite', 'People.Read', 'Notes.ReadWrite.All', 'Tasks.ReadWrite', 'Mail.ReadWrite', 'Files.ReadWrite.All', 'Calendars.ReadWrite']
     };
     private app: any;
@@ -43,7 +43,7 @@ export class AuthService {
                     .then(accessToken => {
                         return accessToken;
                     }, err => {
-                        console.error(err);
+                        localStorage.setItem('status', "anonymous");
                     });
             });
     }

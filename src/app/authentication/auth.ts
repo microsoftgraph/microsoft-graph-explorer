@@ -9,8 +9,9 @@ import { AppComponent } from "../app.component";
 import { GraphService } from "../graph-service";
 import { PermissionScopes } from "../scopes-dialog/scopes";
 import { getParameterByName } from "../util";
+import { AuthService } from "./auth.service";
 
-export function initAuth(options: ExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef) {
+export function initAuth(options: ExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef, authService: AuthService) {
 	setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
 	hello.init({
 		msft: {
@@ -93,7 +94,7 @@ export function initAuth(options: ExplorerOptions, apiService: GraphService, cha
 			}
 		}
 	});
-	AppComponent.explorerValues.authentication.status = haveValidAccessToken() ? "authenticating" : "anonymous"
+	AppComponent.explorerValues.authentication.status = haveValidAccessToken(authService) ? "authenticating" : "anonymous"
 
 
 	handleAdminConsentResponse();
@@ -202,12 +203,8 @@ window['tokenPlease'] = function () {
 export function localLogout() {
 	// anonymous users can only GET
 	AppComponent.explorerValues.selectedOption = "GET";
-
-	if (typeof hello !== 'undefined') {
-		(hello as any)('msft').logout(null, { force: true });
-	}
-	AppComponent.explorerValues.authentication.status = "anonymous"
 	AppComponent.explorerValues.authentication.user = {};
+	localStorage.setItem('status', "anonymous");
 }
 
 export function checkHasValidAuthToken(authService) {
@@ -218,5 +215,9 @@ export function checkHasValidAuthToken(authService) {
 }
 
 export function isAuthenticated() {
-	return AppComponent.explorerValues.authentication.status !== "anonymous"
+	var status = localStorage.getItem('status');
+    if (status && status != 'anonymous') {
+      return true;
+    }
+    return false;
 }
