@@ -10,12 +10,15 @@ import { AppComponent } from '../app.component';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { localLogout } from './auth';
 
+declare let dialogPolyfill;
+
 @Component({
   selector: 'authentication',
   styleUrls: ['./authentication.component.css'],
   templateUrl: './authentication.component.html',
 })
 export class AuthenticationComponent extends GraphExplorerComponent {
+
   public authInfo = this.explorerValues.authentication;
 
   constructor(private sanitizer: DomSanitizer) {
@@ -54,6 +57,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   public manageScopes() {
     // ScopesDialogComponent.isDialogOpen = true;
     const dialog =  document.querySelector('#scopes-dialog');
+    dialogPolyfill.registerDialog(dialog);
     (dialog as any).showModal();
   }
 }
