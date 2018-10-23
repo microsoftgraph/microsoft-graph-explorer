@@ -5,7 +5,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, ResponseContentType, Headers } from '@angular/http';
 import { AuthService } from './authentication/auth.service';
-import { RequestType, AllowedGraphDomains } from "./base";
+import { RequestType, AllowedGraphDomains } from './base';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -16,11 +16,11 @@ export class GraphService {
         if (!headers) {
             headers = new Headers();
         }
-        headers.append("Authorization", "Bearer {token:https://graph.microsoft.com/}");
+        headers.append('Authorization', 'Bearer {token:https://graph.microsoft.com/}');
 
-        if (queryType === "GET") {
+        if (queryType === 'GET') {
             return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers}).toPromise();
-        } else if (queryType === "GET_BINARY") {
+        } else if (queryType === 'GET_BINARY') {
             return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
@@ -38,10 +38,10 @@ export class GraphService {
         }
 
         if (!sentToGraph) {
-            throw "Not sending request to known Graph deployment";
+            throw 'Not sending request to known Graph deployment';
         }
 
-        if (typeof requestHeaders === "undefined") {
+        if (typeof requestHeaders === 'undefined') {
             requestHeaders = new Headers();
         }
 
@@ -56,19 +56,19 @@ export class GraphService {
     }
 
     private performAction(this, accessToken, queryType, query, requestHeaders, postBody) {
-        requestHeaders.append("Authorization", `Bearer ${accessToken.__zone_symbol__value}`);
+        requestHeaders.append('Authorization', `Bearer ${accessToken.__zone_symbol__value}`);
         switch (queryType) {
-            case "GET":
+            case 'GET':
                 return this.http.get(query, { headers: requestHeaders }).toPromise();
-            case "GET_BINARY":
+            case 'GET_BINARY':
                 return this.http.get(query, { responseType: ResponseContentType.ArrayBuffer, headers: requestHeaders }).toPromise();
-            case "PUT":
+            case 'PUT':
                 return this.http.put(query, postBody, { headers: requestHeaders }).toPromise();
-            case "POST":
+            case 'POST':
                 return this.http.post(query, postBody, { headers: requestHeaders }).toPromise();
-            case "PATCH":
+            case 'PATCH':
                 return this.http.patch(query, postBody, { headers: requestHeaders }).toPromise();
-            case "DELETE":
+            case 'DELETE':
                 return this.http.delete(query, { headers: requestHeaders }).toPromise();
         }
     }

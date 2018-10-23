@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AppComponent } from "../app.component";
+import { AppComponent } from '../app.component';
 
 @Injectable()
 export class AuthService {
     private applicationConfig: any = {
-        clientID: "cb2d7367-7429-41c6-ab18-6ecb336139a6",
+        clientID: '<Insert clint Id>', //TODO get the client Id from configuration file
         graphScopes: ['openid', 'profile', 'User.ReadWrite', 'User.ReadBasic.All', 'Sites.ReadWrite.All', 'Contacts.ReadWrite', 'People.Read', 'Notes.ReadWrite.All', 'Tasks.ReadWrite', 'Mail.ReadWrite', 'Files.ReadWrite.All', 'Calendars.ReadWrite']
     };
     private app: any;
@@ -43,7 +43,7 @@ export class AuthService {
                     .then(accessToken => {
                         return accessToken;
                     }, err => {
-                        localStorage.setItem('status', "anonymous");
+                        localStorage.setItem('status', 'anonymous');
                     });
             });
     }

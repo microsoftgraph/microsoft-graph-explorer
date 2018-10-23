@@ -14,7 +14,7 @@
     "import:samples": "node util-scripts\\query-importer.js",
     "import:loc-strings": "node util-scripts\\bundle-loc-files.js",
     "rollup": "rollup -c rollup-config.js",
-    "lint": "tslint --type-check --project src/tsconfig.json -c tslint.json"
+    "lint": "tslint --project src/tsconfig.json -c tslint.json"
   },
   "author": "",
   "devDependencies": {
@@ -24,6 +24,7 @@
     "@types/jquery": "^2.0.40",
     "concurrently": "^3.2.0",
     "fast-csv": "2.4.0",
+    "husky": "^1.1.2",
     "jasmine-core": "^2.6.1",
     "jquery": "^3.2.1",
     "lite-server": "^2.3.0",
@@ -31,7 +32,7 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
-    "tslint": "^5.4.3",
+    "tslint": "^5.11.0",
     "typescript": "~2.3.0"
   },
   "dependencies": {

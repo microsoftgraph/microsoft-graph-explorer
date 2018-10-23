@@ -5,13 +5,13 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { GraphExplorerComponent } from "../GraphExplorerComponent";
-import { AppComponent } from "../app.component";
-import { ScopesDialogComponent } from "../scopes-dialog/scopes-dialog.component";
-import { localLogout } from "./auth";
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
+import { AppComponent } from '../app.component';
+import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
+import { localLogout } from './auth';
 import { AuthService } from './auth.service';
-import { GraphService } from "../graph-service";
-import { ChangeDetectorRef } from "@angular/core";
+import { GraphService } from '../graph-service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'authentication',
@@ -19,12 +19,15 @@ import { ChangeDetectorRef } from "@angular/core";
   templateUrl: './authentication.component.html',
 })
 export class AuthenticationComponent extends GraphExplorerComponent {
+
+  public authInfo = this.explorerValues.authentication;
+  
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private apiService: GraphService, private changeDetectorRef: ChangeDetectorRef ) {
     super();
   }
 
   ngOnInit() {
-    if (this.getAuthenticationStatus() == "authenticated") {
+    if (this.getAuthenticationStatus() == 'authenticated') {
       this.createUserProfile()
     }
   }
@@ -36,14 +39,14 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
   login() {
-    AppComponent.explorerValues.authentication.status = "authenticating"
+    AppComponent.explorerValues.authentication.status = 'authenticating'
     this.changeDetectorRef.detectChanges();
 
     this.authService.login()
       .then(user => {
         if (user) {
           AppComponent.explorerValues.authentication.user = user;
-          localStorage.setItem('status', "authenticating");
+          localStorage.setItem('status', 'authenticating');
           this.createUserProfile();
         } else {
           console.log('login failed');
@@ -54,11 +57,11 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         localLogout();
       });
     };
-    
+
   private createUserProfile() {
     let promisesGetUserInfo = [];
     // get displayName and email
-    promisesGetUserInfo.push(this.apiService.performQuery("GET", `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
+    promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
       let resultBody = result.json();
       AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
       AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
@@ -66,13 +69,13 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
     // get profile image
     promisesGetUserInfo.push(this.apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
-      let blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
+      let blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
       let imageUrl = window.URL.createObjectURL(blob);
       AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
     }).catch((e) => console.log(e)));
 
     Promise.all(promisesGetUserInfo).then(() => {
-      localStorage.setItem('status', "authenticated");
+      localStorage.setItem('status', 'authenticated');
       this.changeDetectorRef.detectChanges();
     }).catch((e) => {
       localLogout();
@@ -94,5 +97,4 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     ScopesDialogComponent.showDialog();
   }
 
-  authInfo = AppComponent.explorerValues.authentication;
 }
