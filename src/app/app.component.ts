@@ -5,16 +5,16 @@
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
-import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { initFabricComponents } from './fabric-components';
-import { GraphService } from './graph-service';
-import { saveHistoryToLocalStorage, loadHistoryFromLocalStorage } from './history';
-import { getParameterByName } from './util';
-import { parseMetadata } from './graph-structure';
-import { GenericDialogComponent } from './generic-message-dialog.component';
 import { refreshAceEditorsContent } from './ace-utils';
 import { GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
     IMessageBarContent, RequestType } from './base';
+import { initFabricComponents } from './fabric-components';
+import { GenericDialogComponent } from './generic-message-dialog.component';
+import { GraphService } from './graph-service';
+import { parseMetadata } from './graph-structure';
+import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history';
+import { getParameterByName } from './util';
 
 declare let mwf;
 declare let moment;
