@@ -19,9 +19,10 @@ import { ChangeDetectorRef } from "@angular/core";
   templateUrl: './authentication.component.html',
 })
 export class AuthenticationComponent extends GraphExplorerComponent {
-  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private apiService: GraphService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private apiService: GraphService, private changeDetectorRef: ChangeDetectorRef ) {
     super();
   }
+
 
   sanitize(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
@@ -29,59 +30,67 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   // https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
   login() {
+    AppComponent.explorerValues.authentication.status = "authenticating"
+    this.changeDetectorRef.detectChanges();
+
     this.authService.login()
       .then(user => {
         if (user) {
-          AppComponent.explorerValues.authentication.status = "authenticating"
-          this.changeDetectorRef.detectChanges();
-
-          let promisesGetUserInfo = [];
-          AppComponent.explorerValues.authentication.user = {}
-
-          // get displayName and email
-          promisesGetUserInfo.push(this.apiService.performQuery("GET", `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
-            let resultBody = result.json();
-
-            AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
-            AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
-          }));
-
-          // get profile image
-          promisesGetUserInfo.push(this.apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
-            let blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
-            let imageUrl = window.URL.createObjectURL(blob);
-            AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
-          }).catch((e) => console.log(e)));
-
-          Promise.all(promisesGetUserInfo).then(() => {
-            AppComponent.explorerValues.authentication.status = "authenticated";
-            this.changeDetectorRef.detectChanges();
-          }).catch((e) => {
-            // occurs when hello got an access token, but it's already expired
-            localLogout();
-          });
-
-          // set which permissions are checked
-
+          AppComponent.explorerValues.authentication.user = user;
+          AppComponent.explorerValues.authentication.status = "authenticating";
+          this.createUserProfile();
         } else {
           console.log('login failed');
+          localLogout();
         }
       }, () => {
         console.log('login failed');
+        localLogout();
       });
-  };
+    };
+    
+  private createUserProfile() {
+    let promisesGetUserInfo = [];
+    // get displayName and email
+    promisesGetUserInfo.push(this.apiService.performQuery("GET", `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
+      let resultBody = result.json();
+      AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
+      AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
+    }));
+    // get profile image
+    promisesGetUserInfo.push(this.apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
+      let blob = new Blob([result.arrayBuffer()], { type: "image/jpeg" });
+      let imageUrl = window.URL.createObjectURL(blob);
+      AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
+    }).catch((e) => console.log(e)));
+
+    Promise.all(promisesGetUserInfo).then(() => {
+      AppComponent.explorerValues.authentication.status = "authenticated";
+      localStorage.setItem('status', AppComponent.explorerValues.authentication.status);
+      this.changeDetectorRef.detectChanges();
+    }).catch((e) => {
+      localLogout();
+    });
+  }
 
   logout() {
     localLogout();
   }
 
-  authInfo = this.explorerValues.authentication;
-  
+
   getAuthenticationStatus() {
-    return this.explorerValues.authentication.status;
+    var status = localStorage.getItem('status');
+    if (status == 'authenticated') {
+     // this.createUserProfile();
+     // calling this method here goes into an infinite loop
+      return status;
+    }
+    return 'anonymous'
   }
 
   manageScopes() {
     ScopesDialogComponent.showDialog();
   }
+
+  authInfo = AppComponent.explorerValues.authentication;
 }
