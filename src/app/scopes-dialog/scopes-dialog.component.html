@@ -1,30 +1,39 @@
-<div class="ms-Dialog center-dialog ms-Dialog--close" id="scopes-dialog">
-    <button class="ms-Dialog-button ms-Dialog-buttonClose">
+<dialog id="scopes-dialog" #scopesDialog>
+    <button
+        tabindex="0"
+        id="scopes-dialog-button"
+        class="ms-Dialog-button ms-Dialog-buttonClose">
         <i class="ms-Icon ms-Icon--Cancel"></i>
     </button>
-    <div class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
-    <p class="ms-Dialog-subText">Select different
-        <a class="ms-Link" href="https://developer.microsoft.com/graph/docs/concepts/permissions_reference" target="_blank">permissions</a>
+    <div tabindex="0" class="ms-Dialog-title" id="dialog-title">{{getStr('modify permissions')}}</div>
+    <p class="ms-Dialog-subText" tabindex="0">
+        Select different
+        <a
+            class="ms-Link"
+            href="https://developer.microsoft.com/graph/docs/concepts/permissions_reference"
+            target="_blank"
+        >
+            permissions
+        </a>
         to try out Microsoft Graph API endpoints.</p>
     <div class="ms-Dialog-content">
 
-        <div id="scopes-list-table-container" #scopesListTableContainer [style.height.px]="getScopesListTableHeight()">
+        <div tabindex="0" id="scopes-list-table-container" #scopesListTableContainer [style.height.px]="getScopesListTableHeight()">
             <table class="ms-Table" id="scopes-list-table">
                 <tr *ngFor="let scope of scopes">
-                    <td class="scopeRow">
+                    <td tabindex="0" class="scopeRow">
                         <div class="c-checkbox">
-                            <label class="c-label">
+                            <label tabindex="0" class="c-label">
                                 <input
+                                    tabindex="0"
                                     type="checkbox"
                                     [disabled]="scope.enabled"
                                     (change)="toggleScopeEnabled(scope)"
                                     name="checkboxId1"
                                     value="value1"
                                     [attr.aria-label]="getScopeLabel(scope.name)"
-                                    [tabindex]=""
                                 >
-
-                                <span aria-hidden="true" [title]="scope.description">{{scope.name}}
+                                <span tabindex="0" aria-hidden="true" [title]="scope.description">{{scope.name}}
                                     <i class="consented-label" *ngIf="scope.enabled">{{getStr('Consented')}}</i>
                                     <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
                                 </span>
@@ -77,4 +86,4 @@
             <span class="ms-Button-label">{{getStr('Close')}}</span>
         </button>
     </div>
-</div>
+</dialog>

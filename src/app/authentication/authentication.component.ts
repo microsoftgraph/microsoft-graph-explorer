@@ -8,7 +8,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { AppComponent } from '../app.component';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
-import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { localLogout } from './auth';
 
 @Component({
@@ -17,20 +16,20 @@ import { localLogout } from './auth';
   templateUrl: './authentication.component.html',
 })
 export class AuthenticationComponent extends GraphExplorerComponent {
-    public authInfo = this.explorerValues.authentication;
+  public authInfo = this.explorerValues.authentication;
 
-    constructor(private sanitizer: DomSanitizer) {
-        super();
-    }
+  constructor(private sanitizer: DomSanitizer) {
+    super();
+  }
 
-    public sanitize(url: string): SafeUrl {
-        return this.sanitizer.bypassSecurityTrustUrl(url);
-    }
+  public sanitize(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
 
     /*
       https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
      */
-    public login() {
+  public login() {
       const loginProperties = {
         display: 'page',
         response_type: 'token',
@@ -44,15 +43,17 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       hello('msft').login(loginProperties);
   }
 
-    public logout() {
+  public logout() {
     localLogout();
   }
 
-    public getAuthenticationStatus() {
+  public getAuthenticationStatus() {
       return this.explorerValues.authentication.status;
   }
 
-    public manageScopes() {
-    ScopesDialogComponent.showDialog();
+  public manageScopes() {
+    // ScopesDialogComponent.isDialogOpen = true;
+    const dialog =  document.querySelector('#scopes-dialog');
+    (dialog as any).showModal();
   }
 }

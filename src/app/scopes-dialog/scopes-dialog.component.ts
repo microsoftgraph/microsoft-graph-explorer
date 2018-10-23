@@ -8,9 +8,6 @@ import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
 
-declare let fabric;
-declare let mwf;
-
 @Component({
   selector: 'scopes-dialog',
   styleUrls: ['./scopes-dialog.component.css'],
@@ -18,28 +15,14 @@ declare let mwf;
 })
 export class ScopesDialogComponent extends GraphExplorerComponent implements AfterViewInit {
   public scopes: IPermissionScope[] = PermissionScopes;
-
-  /**
-   * Specifies whether we have any admin scopes selected in the scopes-dialog UI.
-   * If this value is true, we will show an alert that admin consent will be required
-   * to use this scope.
-   */
-  public hasSelectedAdminScope: boolean = false;
-
-  /**
-   * A container to track which admin scopes have been selected in the UI.
-   */
   public selectedTargetedAdminScopes: IPermissionScope[] = [];
 
-  // Use this to get a handle on the scopes-list-table-container element.
-  @ViewChild('scopesListTableContainer') public scopesTableList: ElementRef;
-
-  // Contains the scopes list table height. The maximum height value is 451px.
-  public scopesListTableHeight: string;
-
-  // Flags for changing the scopes list table height.
+  public hasSelectedAdminScope: boolean = false;
   public hasChangedScopeListHeight: boolean = false;
   public hasRequestedAdminConsent: boolean = false;
+  public scopesListTableHeight: string;
+
+  @ViewChild('scopesListTableContainer') public scopesTableList: ElementRef;
 
   // Updates the style.height of the scopes-list-table-container element.
   public getScopesListTableHeight(): string {
@@ -55,7 +38,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public ngAfterViewInit(): void {
     this.sortScopesList();
     ScopesDialogComponent.setScopesEnabledTarget();
-    (window as any).launchPermissionsDialog = ScopesDialogComponent.showDialog;
     this.scopesListTableHeight = window
       .getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
   }
@@ -176,23 +158,10 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     hello('msft').login(loginProperties);
   }
 
-  public static showDialog() { // tslint:disable-line
-    ScopesDialogComponent.setScopesEnabledTarget();
-
-    const el = document.querySelector('#scopes-dialog');
-    const fabricDialog = new fabric.Dialog(el);
-    fabricDialog.open();
-
-    mwf.ComponentFactory.create([{
-      component: mwf.Checkbox,
-    }]);
-  }
-
   public static setScopesEnabledTarget() { // tslint:disable-line
     // Populate enabledTarget
     for (const scope of PermissionScopes) {
       scope.enabledTarget = scope.enabled;
     }
   }
-
 }
