@@ -3,14 +3,14 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { AppComponent } from '../app.component';
-import { AuthService } from './auth.service';
 import { ChangeDetectorRef , Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { GraphExplorerComponent } from '../GraphExplorerComponent';
+import { AppComponent } from '../app.component';
 import { GraphService } from '../graph-service';
-import { localLogout } from './auth';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
+import { localLogout } from './auth';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'authentication',
@@ -22,7 +22,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public authInfo = this.explorerValues.authentication;
 
-  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private apiService: GraphService, private changeDetectorRef: ChangeDetectorRef ) {
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private apiService: GraphService,
+              private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
@@ -32,7 +33,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }
   }
 
-  sanitize(url: string): SafeUrl {
+  public sanitize(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
@@ -48,26 +49,40 @@ export class AuthenticationComponent extends GraphExplorerComponent {
           localStorage.setItem('status', 'authenticating');
           this.createUserProfile();
         } else {
-          // Console.log('login failed');
           localLogout();
         }
       }, () => {
-        // Console.log('login failed');
         localLogout();
       });
-    };
+    }
+  public logout() {
+    localLogout();
+    this.authService.logout();
+  }
 
-  private createUserProfile () {
+  public getAuthenticationStatus() {
+    const status = localStorage.getItem('status');
+    return status;
+  }
+
+  public manageScopes() {
+    ScopesDialogComponent.showDialog();
+  }
+
+  private createUserProfile() {
     const promisesGetUserInfo = [];
     // Get displayName and email
-    promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
+    promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`)
+    .then((result) => {
       const resultBody = result.json();
       AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
       AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
     }));
 
     // Get profile image
-    promisesGetUserInfo.push(this.apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
+    promisesGetUserInfo.push(this.apiService
+      .performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`)
+    .then((result) => {
       const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
       const imageUrl = window.URL.createObjectURL(blob);
       AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
@@ -79,19 +94,5 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }).catch((e) => {
       localLogout();
     });
-  }
-
-  public logout() {
-    localLogout();
-    this.authService.logout();
-  }
-
-  public getAuthenticationStatus() {
-    var status = localStorage.getItem('status');
-    return status;
-  }
-
-  public manageScopes() {
-    ScopesDialogComponent.showDialog();
   }
 }

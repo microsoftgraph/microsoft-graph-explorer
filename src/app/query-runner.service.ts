@@ -3,19 +3,17 @@ import { Response } from '@angular/http';
 import { getAceEditorFromElId, getJsonViewer, getRequestBodyEditor } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
-import { IGraphApiCall } from './base';
+import { AuthService } from './authentication/auth.service'; import { IGraphApiCall } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
 import { getString } from './localization-helpers';
 import { getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
   insertHeadersIntoResponseViewer, isImageResponse, showResults } from './response-handlers';
 import { createHeaders } from './util';
-import { AuthService } from "./authentication/auth.service";
 
 @Injectable()
 export class QueryRunnerService {
 
-  constructor(private GraphService: GraphService, private authService: AuthService) { }
   public static clearResponse() {
     // Clear response preview and headers
     getAceEditorFromElId('response-header-viewer').getSession().setValue('');
@@ -24,6 +22,8 @@ export class QueryRunnerService {
     AppComponent.explorerValues.showImage = false;
     AppComponent.messageBarContent = null;
   }
+
+  constructor(private graphService: GraphService, private authService: AuthService) { }
 
   public executeExplorerQuery(fromSample?: boolean) {
 
@@ -43,10 +43,10 @@ export class QueryRunnerService {
     checkHasValidAuthToken(this.authService);
     let graphRequest: Promise<Response>;
     if (isAuthenticated()) {
-      graphRequest = this.GraphService.performQuery(query.method, query.requestUrl, query.postBody,
+      graphRequest = this.graphService.performQuery(query.method, query.requestUrl, query.postBody,
         createHeaders(query.headers));
     } else {
-      graphRequest = this.GraphService.performAnonymousQuery(query.method, query.requestUrl,
+      graphRequest = this.graphService.performAnonymousQuery(query.method, query.requestUrl,
         createHeaders(query.headers));
     }
     AppComponent.explorerValues.requestInProgress = true;
@@ -73,7 +73,7 @@ export class QueryRunnerService {
     const resultBody = res.text();
 
     AppComponent.explorerValues.showImage = false;
-    const contentType = getContentType(headers);
+    const contentType = getContentType(headers as any);
 
     if (isImageResponse(contentType)) {
       /*
@@ -84,7 +84,7 @@ export class QueryRunnerService {
       return;
     }
 
-    insertHeadersIntoResponseViewer(headers);
+    insertHeadersIntoResponseViewer(headers as any);
     switch (contentType) {
       case 'application/json': {
         handleJsonResponse(res.json());
@@ -111,10 +111,10 @@ export class QueryRunnerService {
   public fetchImage(query: IGraphApiCall) {
     let fetchImagePromise: Promise<any>;
     if (isAuthenticated()) {
-      fetchImagePromise = this.GraphService
+      fetchImagePromise = this.graphService
         .performQuery('GET_BINARY', AppComponent.explorerValues.endpointUrl);
     } else {
-      fetchImagePromise = this.GraphService
+      fetchImagePromise = this.graphService
         .performAnonymousQuery('GET_BINARY', AppComponent.explorerValues.endpointUrl);
     }
 
@@ -132,7 +132,7 @@ export class QueryRunnerService {
 
   public handleUnsuccessfulQueryResponse(res: Response, query: IGraphApiCall) {
     this.commonResponseHandler(res, query);
-    insertHeadersIntoResponseViewer(res.headers);
+    insertHeadersIntoResponseViewer(res.headers as any);
     let errorText;
 
     try {
