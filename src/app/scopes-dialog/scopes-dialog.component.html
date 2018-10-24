@@ -1,4 +1,4 @@
-<dialog id="scopes-dialog" #scopesDialog (keyup.esc)="closeModal()" (click)="clickedOutSideModal($event)">
+<dialog id="scopes-dialog" #scopesDialog (keyup.esc)="closeModal()">
     <button
         autofocus
         tabindex="0"
@@ -22,36 +22,26 @@
         </a>
         to try out Microsoft Graph API endpoints.</p>
     <div class="ms-Dialog-content">
-
         <div tabindex="0" id="scopes-list-table-container" #scopesListTableContainer [style.height.px]="getScopesListTableHeight()">
-            <table class="ms-Table" id="scopes-list-table">
-                <tr *ngFor="let scope of scopes">
-                    <td tabindex="0" class="scopeRow">
-                        <div class="c-checkbox">
-                            <label tabindex="0" class="c-label">
-                                <input
-                                    tabindex="0"
-                                    type="checkbox"
-                                    [disabled]="scope.enabled"
-                                    (change)="toggleScopeEnabled(scope)"
-                                    name="checkboxId1"
-                                    value="value1"
-                                    [attr.aria-label]="getScopeLabel(scope.name)"
-                                >
-                                <span tabindex="0" aria-hidden="true" [title]="scope.description">{{scope.name}}
-                                    <i class="consented-label" *ngIf="scope.enabled">{{getStr('Consented')}}</i>
-                                    <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
-                                </span>
-                            </label>
-                        </div>
-                    </td>
-                    <td>
-                        <span *ngIf="scope.admin">
-                            Admin
-                        </span>
-                    </td>
-                </tr>
-            </table>
+            <ul id="scopes-list-table">
+                <li class="scopeRow" *ngFor="let scope of scopes" tabindex="-1">
+                    <div tabindex="0" class="c-checkbox">
+                        <label class="c-label">
+                            <input
+                              type="checkbox"
+                              [disabled]="scope.enabled"
+                              (change)="toggleScopeEnabled(scope)"
+                              (keyup.enter)="toggleScopeEnabled(scope)"
+                              name="checkboxId1"
+                              value="value1" [attr.aria-label]="getScopeLabel(scope.name)">
+                              <span aria-hidden="true" [title]="scope.description">{{scope.name}}
+                                <i class="consented-label" *ngIf="scope.enabled">{{getStr('Consented')}}</i>
+                                <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
+                              </span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div *ngIf="scopeListIsDirty()">
             <div class="ms-MessageBar ms-MessageBar--warning">

@@ -169,8 +169,4 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     const dialog = document.querySelector('#scopes-dialog');
     (dialog as any).close();
   }
-
-  public clickedOutSideModal(evt) {
-    if (evt.target.id === 'scopes-dialog') { this.closeModal(); }
-  }
 }
