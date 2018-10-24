@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as Msal from 'msal';
-
+declare var Msal: any;
 @Injectable()
 export class AuthService {
     private applicationConfig: any = {
@@ -12,7 +11,6 @@ export class AuthService {
     private app: any;
 
     constructor() {
-        // This.applicationConfig.clientID = AppComponent.Options.ClientId;
         this.app = new Msal.UserAgentApplication(this.applicationConfig.clientID, '', () => {
             // Callback for login redirect
         });
