@@ -14,6 +14,13 @@ import { PermissionScopes } from './scopes';
   templateUrl: './scopes-dialog.component.html',
 })
 export class ScopesDialogComponent extends GraphExplorerComponent implements AfterViewInit {
+  public static setScopesEnabledTarget() {
+    // Populate enabledTarget
+    for (const scope of PermissionScopes) {
+      scope.enabledTarget = scope.enabled;
+    }
+  }
+
   public scopes: IPermissionScope[] = PermissionScopes;
   public selectedTargetedAdminScopes: IPermissionScope[] = [];
 
@@ -158,10 +165,12 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     hello('msft').login(loginProperties);
   }
 
-  public static setScopesEnabledTarget() { // tslint:disable-line
-    // Populate enabledTarget
-    for (const scope of PermissionScopes) {
-      scope.enabledTarget = scope.enabled;
-    }
+  public closeModal() {
+    const dialog = document.querySelector('#scopes-dialog');
+    (dialog as any).close();
+  }
+
+  public clickedOutSideModal(evt) {
+    if (evt.target.id === 'scopes-dialog') { this.closeModal(); }
   }
 }

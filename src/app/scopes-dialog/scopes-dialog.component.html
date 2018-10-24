@@ -1,9 +1,13 @@
-<dialog id="scopes-dialog" #scopesDialog>
+<dialog id="scopes-dialog" #scopesDialog (keyup.esc)="closeModal()" (click)="clickedOutSideModal($event)">
     <button
         autofocus
         tabindex="0"
         id="scopes-dialog-button"
-        class="ms-Dialog-button ms-Dialog-buttonClose">
+        class="ms-Dialog-button ms-Dialog-buttonClose"
+        (click)="closeModal()"
+        (keyup.enter)="closeModal()"
+        #scopesDialog
+    >
         <i class="ms-Icon ms-Icon--Cancel"></i>
     </button>
     <div tabindex="0" class="ms-Dialog-title" id="dialog-title">{{getStr('modify permissions')}}</div>
@@ -83,7 +87,11 @@
         <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="!scopeListIsDirty()" (click)="getNewAccessToken()">
             <span class="ms-Button-label" style="text-transform: capitalize;">{{getStr('modify permissions')}}</span>
         </button>
-        <button class="ms-Button ms-Dialog-action">
+        <button
+            class="ms-Button ms-Dialog-action"
+            (keyup.enter)="closeModal()"
+            (click)="closeModal()"
+        >
             <span class="ms-Button-label">{{getStr('Close')}}</span>
         </button>
     </div>
