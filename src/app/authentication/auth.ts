@@ -90,7 +90,8 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
       const scopes = getScopes();
       scopes.push('openid');
       for (const scope of PermissionScopes) {
-        scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) !== -1;
+        // scope.consented indicates that the user or admin has previously consented to the scope.
+        scope.consented = scopes.indexOf(scope.name.toLowerCase()) !== -1;
       }
     }
   });
@@ -190,7 +191,7 @@ export function haveValidAccessToken(): boolean {
   return session && session.access_token && session.expires > currentTime;
 }
 
-window['tokenPlease'] = function() {
+window['tokenPlease'] = function () {
   const authResponse = hello('msft').getAuthResponse();
   if (authResponse) {
     return authResponse.access_token;
