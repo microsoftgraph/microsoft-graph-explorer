@@ -53,9 +53,19 @@ label.c-label {
     margin-left: 10px;
 }
 
-.scopeRow:hover, .scopeRow:focus {
+.scope-row:hover, .scope-row:focus {
     background: rgba(0,0,0,0.25);
     outline: 2px solid white;
+}
+
+.scope-row {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.admin-scope {
+    float: right;
 }
 
 dialog {

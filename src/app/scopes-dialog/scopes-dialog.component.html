@@ -24,19 +24,22 @@
     <div class="ms-Dialog-content">
         <div tabindex="0" id="scopes-list-table-container" #scopesListTableContainer [style.height.px]="getScopesListTableHeight()">
             <ul id="scopes-list-table">
-                <li class="scopeRow" *ngFor="let scope of scopes" tabindex="-1">
+                <li class="scope-row" *ngFor="let scope of scopes" tabindex="-1">
                     <div tabindex="0" class="c-checkbox">
                         <label class="c-label">
                             <input
                               type="checkbox"
                               [disabled]="scope.enabled"
-                              (change)="toggleScopeEnabled(scope)"
-                              (keyup.enter)="toggleScopeEnabled(scope)"
+                              (change)="toggleRequestScope(scope)"
+                              (keyup.enter)="toggleRequestScope(scope)"
                               name="checkboxId1"
                               value="value1" [attr.aria-label]="getScopeLabel(scope.name)">
                               <span aria-hidden="true" [title]="scope.description">{{scope.name}}
                                 <i class="consented-label" *ngIf="scope.enabled">{{getStr('Consented')}}</i>
                                 <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
+                              </span>
+                              <span *ngIf="scope.admin" class="admin-scope">
+                                Admin
                               </span>
                         </label>
                     </div>
