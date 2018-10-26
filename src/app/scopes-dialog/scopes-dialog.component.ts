@@ -16,8 +16,8 @@ import { PermissionScopes } from './scopes';
 export class ScopesDialogComponent extends GraphExplorerComponent implements AfterViewInit {
   public static setScopesEnabledTarget() {
     // Populate enabledTarget
-    for (const scope of PermissionScopes) {
-      scope.enabledTarget = scope.enabled;
+    for (const scope  of PermissionScopes) {
+      (scope as any).enabledTarget = (scope as any).enabled;
     }
   }
 
@@ -45,7 +45,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public ngAfterViewInit(): void {
     this.sortScopesList();
     ScopesDialogComponent.setScopesEnabledTarget();
-    (window as any).launchPermissionsDialog = ScopesDialogComponent.showDialog;
+    (window as any).launchPermissionsDialog = (ScopesDialogComponent as any).showDialog;
     this.scopesListTableHeight = window
       .getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
   }
