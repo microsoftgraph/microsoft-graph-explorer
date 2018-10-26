@@ -2,7 +2,7 @@
     <!-- HTTP METHOD -->
     <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption"
         class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu" [attr.aria-label]="getStr('HTTP verb selector')" [attr.tabindex]="isAuthenticated() ? '-1' : '0'">
-        <select #verbSelector [disabled]="!isAuthenticated()" tabindex="0" role="button" [attr.aria-label]="getStr('HTTP verb selector')">
+        <select #verbSelector [disabled]="!isAuthenticated()" tabindex="0" role="button" [attr.name]="getStr('HTTP verb selector')">
             <option *ngFor="let choice of methods">{{choice}}</option>
         </select>
     </div>
@@ -19,7 +19,7 @@
     <div id="graph-request-url" class="c-search" autocomplete="off" name="form1">
         <input [(ngModel)]="explorerValues.endpointUrl" (keydown)="endpointInputKeyDown($event)" role="textbox" aria-controls="auto-suggest-default-2"
             aria-autocomplete="both" aria-expanded="false" type="search" name="search-field" autocomplete="off" autocorrect="off"
-            autocapitalize="off" spellcheck="false" aria-label="Microsoft Graph request URL input">
+            autocapitalize="off" spellcheck="false" name="Microsoft Graph request URL input">
 
         <div class="m-auto-suggest" #autoSuggest id="auto-suggest-default-2" role="group">
             <ul class="c-menu f-auto-suggest-scroll" aria-hidden="true" data-js-auto-suggest-position="default" tabindex="0" role="listbox"></ul>
@@ -52,7 +52,7 @@
     <share-link-btn *ngIf="verbSelector.value === 'GET'"></share-link-btn>
     <div class="ms-Pivot-content" data-content="response" >
         <div id="response-viewer">
-            <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" [attr.aria-label]="getStr('User photo')"/>
+            <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" [attr.name]="getStr('User photo')"/>
             <div id="jsonViewer" tabindex="0" [hidden]="explorerValues.showImage" role="textbox" [attr.aria-label]="getStr('Response body')"></div>
         </div>
     </div>
