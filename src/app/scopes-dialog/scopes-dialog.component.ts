@@ -14,22 +14,29 @@ import { PermissionScopes } from './scopes';
   templateUrl: './scopes-dialog.component.html',
 })
 export class ScopesDialogComponent extends GraphExplorerComponent implements AfterViewInit {
-  public static setScopesEnabledTarget() {
-    // Populate enabledTarget
-    for (const scope  of PermissionScopes) {
-      (scope as any).enabledTarget = (scope as any).enabled;
-    }
-  }
-
   public scopes: IPermissionScope[] = PermissionScopes;
+
+  /**
+   * Specifies whether we have any admin scopes selected in the scopes-dialog UI.
+   * If this value is true, we will show an alert that admin consent will be required
+   * to use this scope.
+   */
+  public hasSelectedAdminScope: boolean = false;
+
+  /**
+   * A container to track which admin scopes have been selected in the UI.
+   */
   public selectedTargetedAdminScopes: IPermissionScope[] = [];
 
-  public hasSelectedAdminScope: boolean = false;
-  public hasChangedScopeListHeight: boolean = false;
-  public hasRequestedAdminConsent: boolean = false;
+  // Use this to get a handle on the scopes-list-table-container element.
+  @ViewChild('scopesListTableContainer') public scopesTableList: ElementRef;
+
+  // Contains the scopes list table height. The maximum height value is 451px.
   public scopesListTableHeight: string;
 
-  @ViewChild('scopesListTableContainer') public scopesTableList: ElementRef;
+  // Flags for changing the scopes list table height.
+  public hasChangedScopeListHeight: boolean = false;
+  public hasRequestedAdminConsent: boolean = false;
 
   // Updates the style.height of the scopes-list-table-container element.
   public getScopesListTableHeight(): string {
@@ -44,7 +51,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
 
   public ngAfterViewInit(): void {
     this.sortScopesList();
-    ScopesDialogComponent.setScopesEnabledTarget();
     (window as any).launchPermissionsDialog = (ScopesDialogComponent as any).showDialog;
     this.scopesListTableHeight = window
       .getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
