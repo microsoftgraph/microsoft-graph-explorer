@@ -5,8 +5,8 @@
 
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IMessageBarContent } from './base';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { IMessageBarContent } from '../base';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
 @Component({
   selector: 'message-bar',

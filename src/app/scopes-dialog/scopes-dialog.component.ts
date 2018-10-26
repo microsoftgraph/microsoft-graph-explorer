@@ -45,6 +45,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public ngAfterViewInit(): void {
     this.sortScopesList();
     ScopesDialogComponent.setScopesEnabledTarget();
+    (window as any).launchPermissionsDialog = ScopesDialogComponent.showDialog;
     this.scopesListTableHeight = window
       .getComputedStyle(this.scopesTableList.nativeElement, null).getPropertyValue('height');
   }
@@ -64,7 +65,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public scopeListIsDirty(): boolean {
 
     // Determine whether the scope list has changed. The scope list has changed if isDirty = true.
-    const isDirty = PermissionScopes.filter((s) => s.enabled !== s.enabledTarget).length > 0;
+    const isDirty = PermissionScopes.filter((s) => s.requested === true).length > 0;
 
     // Reduce the size of the scopes table list by the size of the message bar. We only want to make this
     // Change the first time that the selected scope list is changed.
@@ -93,9 +94,9 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   */
   public requestingAdminScopes(): boolean {
 
-    // Determine whether a scope that requires admin consent has been selected. An admin consent scope has been
+    // Determine whether a scope that requires admin consent has been requested. An admin consent scope has been
     // Selected if isDirty = true.
-    const isDirty = PermissionScopes.filter((s) => s.admin && s.enabledTarget).length > 0;
+    const isDirty = PermissionScopes.filter((s) => s.admin && s.requested).length > 0;
 
     // Reduce the size of the scopes table list by the size of the message bar. We only want to make this
     // Change the first time that the selected scope list is changed.
@@ -121,18 +122,18 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   }
 
   /**
-   * Toggles whether the scope has been targeted to be enabled. This will be used to determine whether we
-   * need to request consent for this scope.
+   * Toggles whether the scope will be requested. This occurs in the Modify Permissions UI by selecting a checkbox.
+   * This will be used to determine whether we will request consent for this scope.
    * @param scope The scope to toggle its enabled state.
    */
-  public toggleScopeEnabled(scope: IPermissionScope) {
-    scope.enabledTarget = !scope.enabledTarget;
+  public toggleRequestScope(scope: IPermissionScope) {
+    scope.requested = !scope.requested;
 
     // Track whether we have any admin scopes selected in the UI to be enabled for the user.
-    if (scope.admin && scope.enabledTarget) {
+    if (scope.admin && scope.requested) {
       this.selectedTargetedAdminScopes.push(scope);
       this.hasSelectedAdminScope = true;
-    } else if (scope.admin && !scope.enabledTarget) {
+    } else if (scope.admin && !scope.requested) {
       this.selectedTargetedAdminScopes = this.selectedTargetedAdminScopes.filter((e) => e !== scope);
       if (this.selectedTargetedAdminScopes.length === 0) {
         this.hasSelectedAdminScope = false;
@@ -158,8 +159,11 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
       response_type: 'token',
       nonce: 'graph_explorer',
       prompt: 'select_account',
-      // This, login_hint: AppComponent.explorerValues.authentication.user.emailAddress, // breaks MSA login
-      scope: PermissionScopes.filter((scope) => scope.enabledTarget).map((scope) => scope.name).join(' '),
+      /* Login hint not applied via AppComponent.explorerValues.authentication.user.emailAddress
+      /* as it breaks MSA login. */
+      scope: PermissionScopes.filter((scope) => scope.requested && !scope.consented)
+        .map((scope) => scope.name)
+        .join(' '),
     };
 
     hello('msft').login(loginProperties);
