@@ -19,7 +19,7 @@ import { MainColumnComponent } from './main-column.component';
 import { MethodBadgeComponent } from './method-badge.component';
 import { QueryRowComponent } from './queryrow.component';
 import { RequestEditorsComponent } from './request-editors.component';
-import { ResponseStatusBarComponent } from './response-status-bar.component';
+import { ResponseStatusBarComponent } from './response-status-bar/response-status-bar.component';
 import { SampleCategoriesPanelComponent } from './sample-categories-panel.component';
 import { ScopesDialogComponent } from './scopes-dialog/scopes-dialog.component';
 import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';

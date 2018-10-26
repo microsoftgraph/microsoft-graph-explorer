@@ -1,20 +1,19 @@
+/* tslint:disable */
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
-//  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { ChangeDetectorRef } from '@angular/core';
+
 import { AppComponent } from '../app.component';
 import { IExplorerOptions, IMessage } from '../base';
 import { GraphService } from '../graph-service';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { getParameterByName } from '../util';
-import { AuthService } from './auth.service';
 
-export function initAuth(options: IExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef,
-                         authService: AuthService) {
-    setInterval(refreshAccessToken, 1000 * 60 * 10); // Refresh access token every 10 minutes
-    hello.init({
+export function initAuth(options: IExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef) {
+  setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
+  hello.init({
     msft: {
       oauth: {
         version: 2,
@@ -26,8 +25,7 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
       // Don't even try submitting via form.
       // This means no POST operations in <=IE9
       form: false,
-    },
-    msft_admin_consent: {
+    }, msft_admin_consent: {
       oauth: {
         version: 2,
         auth: options.AuthUrl + '/common/adminconsent',
@@ -41,14 +39,14 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
     },
   } as any);
 
-    hello.init({
+  hello.init({
     msft: options.ClientId,
     msft_admin_consent: options.ClientId,
   }, {
-      redirect_uri: window.location.pathname, // Required to remove extra url params that make URLs not match
+      redirect_uri: window.location.pathname, //required to remove extra url params that make URLs not match
     });
 
-    hello.on('auth.login', (auth) => {
+  hello.on('auth.login', (auth) => {
     let accessToken;
 
     if (auth.network === 'msft') {
@@ -64,53 +62,51 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
       const promisesGetUserInfo = [];
       AppComponent.explorerValues.authentication.user = {};
 
-      // Get displayName and email
-      promisesGetUserInfo.push(apiService
-        .performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`)
-        .then((result) => {
-          const resultBody = result.json();
-          AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
-          AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail
-          || resultBody.userPrincipalName;
+      // get displayName and email
+      promisesGetUserInfo.push(apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
+        const resultBody = result.json();
+
+        AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
+        AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
       }));
 
-      // Get profile image
-      promisesGetUserInfo.push(apiService
-        .performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`)
-        .then((result) => {
-          const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
-          const imageUrl = window.URL.createObjectURL(blob);
-          AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
-      }));
+      // get profile image
+      promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
+        const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
+        const imageUrl = window.URL.createObjectURL(blob);
+        AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
+      }).catch((e) => console.log(e)));
 
       Promise.all(promisesGetUserInfo).then(() => {
         AppComponent.explorerValues.authentication.status = 'authenticated';
         changeDetectorRef.detectChanges();
       }).catch((e) => {
-        // Occurs when hello got an access token, but it's already expired
+        // occurs when hello got an access token, but it's already expired
         localLogout();
       });
 
-      // Set which permissions are checked
+      // set which permissions are checked
 
       const scopes = getScopes();
       scopes.push('openid');
       for (const scope of PermissionScopes) {
-        scope.enabled = scope.enabledTarget = scopes.indexOf(scope.name.toLowerCase()) !== -1;
+        // scope.consented indicates that the user or admin has previously consented to the scope.
+        scope.consented = scopes.indexOf(scope.name.toLowerCase()) !== -1;
       }
     }
   });
-    AppComponent.explorerValues.authentication.status =
-  haveValidAccessToken(authService) ? 'authenticating' : 'anonymous';
-    handleAdminConsentResponse();
+  AppComponent.explorerValues.authentication.status = haveValidAccessToken() ? 'authenticating' : 'anonymous';
+
+  handleAdminConsentResponse();
 }
 
 export function refreshAccessToken() {
   if (AppComponent.explorerValues.authentication.status !== 'authenticated') {
+    console.log('Not refreshing access token since user is logged out or currently logging in.', new Date());
     return;
   }
 
-/*   const loginProperties = {
+  const loginProperties = {
     display: 'none',
     response_type: 'token',
     response_mode: 'fragment',
@@ -120,19 +116,24 @@ export function refreshAccessToken() {
     login_hint: AppComponent.explorerValues.authentication.user.emailAddress,
     domain_hint: 'organizations',
   };
- */
-  // Hellojs might have a bug with their types for .login()
-  // Https://github.com/MrSwitch/hello.js/issues/514
 
-  // Const silentLoginRequest: Promise<void> = hello('msft').login(loginProperties) as any;
+  // hellojs might have a bug with their types for .login()
+  // https://github.com/MrSwitch/hello.js/issues/514
+
+  const silentLoginRequest: Promise<void> = hello('msft').login(loginProperties) as any;
+  silentLoginRequest.then(() => {
+    console.log('Successfully refreshed access token.', new Date());
+  }, (e) => {
+    console.error('Error refreshing access token', e, new Date());
+    checkHasValidAuthToken();
+  });
 }
 
 function handleAdminConsentResponse() {
   const adminConsentRes = hello('msft_admin_consent').getAuthResponse();
 
   const successMsg: IMessage = {
-    body: 'You have completed the admin consent flow and can now select permission scopes that require' +
-    ' administrator consent.  It may take a few minutes before the consent takes effect.',
+    body: 'You have completed the admin consent flow and can now select permission scopes that require administrator consent.  It may take a few minutes before the consent takes effect.',
     title: 'Admin consent completed',
   };
 
@@ -140,6 +141,8 @@ function handleAdminConsentResponse() {
     if (adminConsentRes) {
       const error = adminConsentRes.error_description;
       if (error) {
+        // hello('msft_admin_consent').logout()
+
         AppComponent.setMessage({
           body: error,
           title: 'Admin consent error',
@@ -154,15 +157,15 @@ function handleAdminConsentResponse() {
   }
 }
 
-// Warning - doesn't include 'openid' scope
+// warning - doesn't include 'openid' scope
 
 // After authentication redirect back to explorer, the obtained scopes need to be parsed
 // Issue - Depending on conditions (account type, initial or incremental consent), the
-// Scopes might have different delimiters - ' ', '+', ','
+// scopes might have different delimiters - " ", "+", ","
 export function getScopes() {
   let scopesStr = hello('msft').getAuthResponse().scope;
 
-  // ScopesStr is something like 'Files.Read,Mail.Send,User.Read'
+  // scopesStr is something like "Files.Read,Mail.Send,User.Read"
   if (!scopesStr) {
     return;
   }
@@ -178,39 +181,43 @@ export function getScopes() {
   }
 }
 
-export async function haveValidAccessToken(authService) {
+export function haveValidAccessToken(): boolean {
+  const session = hello('msft').getAuthResponse();
 
-  const token = await authService.getToken();
-  if (token) {
-    return true;
+  if (!session) {
+    return false;
   }
-  return false;
+  const currentTime = (new Date()).getTime() / 1000;
+  return session && session.access_token && session.expires > currentTime;
 }
 
-(window as any).tokenPlease = () => {
+window['tokenPlease'] = function () {
   const authResponse = hello('msft').getAuthResponse();
   if (authResponse) {
     return authResponse.access_token;
+  } else {
+    console.log('Please sign in to get your access token');
   }
 };
 
 export function localLogout() {
-  // Anonymous users can only GET
+  // anonymous users can only GET
   AppComponent.explorerValues.selectedOption = 'GET';
+
+  if (typeof hello !== 'undefined') {
+    (hello as any)('msft').logout(null, { force: true });
+  }
+  AppComponent.explorerValues.authentication.status = 'anonymous';
   AppComponent.explorerValues.authentication.user = {};
-  localStorage.setItem('status', 'anonymous');
 }
 
-export function checkHasValidAuthToken(authService) {
-  if (!haveValidAccessToken(authService) && isAuthenticated()) {
+export function checkHasValidAuthToken() {
+  if (!haveValidAccessToken() && isAuthenticated()) {
+    console.log('App says user is authenticated, but doesn\'t have a valid access token.', new Date());
     localLogout();
   }
 }
 
 export function isAuthenticated() {
-  const status = localStorage.getItem('status');
-  if (status && status !== 'anonymous') {
-      return true;
-    }
-  return false;
+  return AppComponent.explorerValues.authentication.status !== 'anonymous';
 }

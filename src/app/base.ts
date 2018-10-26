@@ -32,19 +32,39 @@ export type AuthenticationStatus = 'anonymous' | 'authenticating' | 'authenticat
 
 export type RequestType = 'GET' | 'PUT' | 'POST' | 'GET_BINARY' | 'POST' | 'PATCH' | 'DELETE';
 
+/***
+ * Represents a scope.
+ */
 export interface IPermissionScope {
-  name: string;
-  description: string;
-  longDescription: string;
-  preview: boolean;
-  admin: boolean;
-
-  enabled?: boolean;
-
-  /**
-   * Used in the scopes dialog for checking/unchecking before scope is actually enabled in the token.
-   */
-  enabledTarget?: boolean;
+    /**
+     * The scope name.
+     */
+    name: string;
+    /**
+     * A short description of the scope.
+     */
+    description: string;
+    /**
+     * A long description of the scope.
+     */
+    longDescription: string;
+    /**
+     * Specifies whether the scope is currently in preview.
+     */
+    preview: boolean;
+    /**
+     * Specifies whether the property is only consent-able via admin consent.
+     */
+    admin: boolean;
+    /**
+     * Specifies whether the user has already consented to the scope.
+     */
+    consented?: boolean;
+    /**
+     * Specifies whether the user wants to request this scope. Used in the scopes
+     * dialog for checking/unchecking before scope is actually enabled in the token.
+     */
+    requested?: boolean;
 }
 
 export interface IGraphApiCall {
