@@ -29,13 +29,13 @@
                         <label class="c-label">
                             <input
                               type="checkbox"
-                              [disabled]="scope.enabled"
+                              [disabled]="scope.consented"
                               (change)="toggleRequestScope(scope)"
                               (keyup.enter)="toggleRequestScope(scope)"
                               name="checkboxId1"
                               value="value1" [attr.aria-label]="getScopeLabel(scope.name)">
                               <span aria-hidden="true" [title]="scope.description">{{scope.name}}
-                                <i class="consented-label" *ngIf="scope.enabled">{{getStr('Consented')}}</i>
+                                <i class="consented-label" *ngIf="scope.consented">{{getStr('Consented')}}</i>
                                 <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
                               </span>
                               <span *ngIf="scope.admin" class="admin-scope">
