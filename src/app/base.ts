@@ -12,7 +12,7 @@ export interface IExplorerOptions {
     ClientId?: string;
     Language?: string;
     RedirectUrl?: string;
-    DefaultUserScopes?: string;
+    DefaultUserScopes?: string[];
     GraphVersions?: string[];
     PathToBuildDir: string;
 }

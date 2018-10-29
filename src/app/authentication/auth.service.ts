@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
+import { AppComponent } from '../app.component';
+
 declare let Msal: any;
 @Injectable()
 export class AuthService {
-    private applicationConfig: any = {
-        clientId: (window as any).ClientId,
-        graphScopes: ['openid', 'profile', 'User.ReadWrite', 'User.ReadBasic.All', 'Sites.ReadWrite.All',
-        'Contacts.ReadWrite', 'People.Read', 'Notes.ReadWrite.All', 'Tasks.ReadWrite', 'Mail.ReadWrite',
-        'Files.ReadWrite.All', 'Calendars.ReadWrite'],
-    };
     private app: any;
 
     constructor() {
-        this.app = new Msal.UserAgentApplication(this.applicationConfig.clientId, '', this.authCallback, {});
+        this.app = new Msal.UserAgentApplication((window as any).ClientId, '', this.authCallback, {});
     }
 
     public authCallback = (errorDesc, token, error) => {
@@ -23,7 +19,7 @@ export class AuthService {
     }
 
     public async login() {
-        return this.app.loginRedirect(this.applicationConfig.graphScopes);
+        return this.app.loginRedirect(this.getScopes());
     }
 
     public logout() {
@@ -31,16 +27,20 @@ export class AuthService {
     }
 
     public getToken() {
-        return this.app.acquireTokenSilent(this.applicationConfig.graphScopes)
+        return this.app.acquireTokenSilent(this.getScopes())
             .then((accessToken) => {
                 return accessToken;
             }, (error) => {
-                return this.app.acquireTokenPopup(this.applicationConfig.graphScopes)
+                return this.app.acquireTokenPopup(this.getScopes())
                     .then((accessToken) => {
                         return accessToken;
                     }, (err) => {
                         localStorage.setItem('status', 'anonymous');
                     });
             });
+    }
+
+    public getScopes() {
+        return AppComponent.Options.DefaultUserScopes;
     }
 }
