@@ -29,7 +29,6 @@ export class GraphService {
             {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
         }
     }
-    // Let method = isAuthenticated() ? this.GraphService.performQuery : this.GraphService.performAnonymousQuery;
 
     public performQuery = (queryType: RequestType, query: string, postBody?: any, requestHeaders?: Headers) => {
         // Make sure the request is being sent to the Graph and not another domain
@@ -49,10 +48,7 @@ export class GraphService {
         if (typeof requestHeaders === 'undefined') {
             requestHeaders = new Headers();
         }
-
-        const token = this.authService.getToken();
-        const queryResult = token.then(this.performAction
-            .bind(this, token, queryType, query, requestHeaders, postBody));
+        const queryResult = this.handleRequest(requestHeaders, query, queryType, postBody, this.authService);
         return queryResult;
     }
 
@@ -60,8 +56,9 @@ export class GraphService {
         return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 
-    private performAction(this, accessToken, queryType, query, requestHeaders, postBody) {
-        requestHeaders.append('Authorization', `Bearer ${accessToken.__zone_symbol__value}`);
+    public handleRequest = async function(requestHeaders, query, queryType, postBody, authService) {
+        const accessToken = await authService.getToken();
+        requestHeaders.append('Authorization', `Bearer ${accessToken}`);
         switch (queryType) {
             case 'GET':
                 return this.http.get(query, { headers: requestHeaders }).toPromise();
@@ -77,5 +74,6 @@ export class GraphService {
             case 'DELETE':
                 return this.http.delete(query, { headers: requestHeaders }).toPromise();
         }
-    }
+    };
+
 }
