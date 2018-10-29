@@ -5,7 +5,7 @@ addons:
   chrome: stable
 node_js:
   - "7"
-  - "node"
+  - "7"
 
 script:
   - npm run test
