@@ -10,6 +10,7 @@ import { PermissionScopes } from './scopes';
 
 declare let fabric;
 declare let mwf;
+declare const hello;
 
 @Component({
   selector: 'scopes-dialog',

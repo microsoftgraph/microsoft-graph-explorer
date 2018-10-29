@@ -1,50 +1,45 @@
-<!-- Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information. -->
-<!DOCTYPE html>
-<html>
-    <head>
-        <!-- Graph explorer depends on ACE editor -->
-        <!-- Must be inclued separetely -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GE</title>
+  <base href="/">
 
-        <!--hello.js-->
-        <script src="../node_modules/hellojs/dist/hello.all.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-        <!--Fabric-->
-        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.min.css">
-        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.components.min.css">
-        <script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/js/fabric.min.js"></script>
+  <!-- Graph explorer depends on ACE editor -->
+  <!-- Must be inclued separetely -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
 
-        <!-- MWF -->
-        <link rel="stylesheet" href="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/css/mwf-west-european-default.min.css">
-        <script src="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/scripts/mwf-main.var.min.js"></script>
+  <!--hello.js-->
+  <script src="../node_modules/hellojs/dist/hello.all.js"></script>
 
-        <link rel="stylesheet" href="custom.css" />
+  <!--Fabric-->
+  <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.min.css">
+  <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.components.min.css">
+  <script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/js/fabric.min.js"></script>
 
-        <!-- moment js -->
-        <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
+  <!-- MWF -->
+  <link rel="stylesheet" href="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/css/mwf-west-european-default.min.css">
+  <script src="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/scripts/mwf-main.var.min.js"></script>
 
-        <!-- jQuery -->
-        <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="custom.css" />
 
-        <!-- clientId, scopes, redirectUrl -->
-        <script src="../secrets.js"></script>
+  <!-- moment js -->
+  <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
 
-        <!-- Polyfill(s) for older browsers -->
-        <script src="../node_modules/core-js/client/shim.min.js"></script>
+  <!-- jQuery -->
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
 
-        <script src="../node_modules/zone.js/dist/zone.js"></script>
-        <script src="../node_modules/systemjs/dist/system.src.js"></script>
+  <!-- clientId, scopes, redirectUrl -->
+  <script src="../secrets.js"></script>
 
-    </head>
-    <body>
-        <api-explorer></api-explorer>
-
-        <script src="systemjs.config.js"></script>
-        <script>
-            System.import('main-jit.js').catch(function(err){ console.error(err); });
-        </script>
-    </body>
+</head>
+<body>
+  <api-explorer></api-explorer>
+</body>
 </html>

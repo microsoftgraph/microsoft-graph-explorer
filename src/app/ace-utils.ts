@@ -1,4 +1,5 @@
 declare let ace: any;
+declare let $: any;
 
 /**
  * ACE editors don't update their content when a parent DOM element is hidden. After

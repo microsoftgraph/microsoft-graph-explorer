@@ -11,6 +11,7 @@ import { SampleCategories } from './getting-started-queries';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
 
 declare let fabric;
+declare const $;
 
 @Component({
     selector: 'sidebar',

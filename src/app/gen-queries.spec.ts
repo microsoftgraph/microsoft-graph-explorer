@@ -79,7 +79,7 @@ describe('Sample query validation', () => {
     it(`GET query should execute: ${query.humanName}`, (done) => {
       substituteTokens(query);
 
-      /**
+      /*
        * Indicates whether we will skip the named query response length check.
        * @returns {Boolean} - A value of true indicates that the we should skip the response length check.
        */

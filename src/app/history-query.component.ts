@@ -3,7 +3,7 @@
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { ISampleQuery } from './base';
 import { QueryRunnerService } from './query-runner.service';
 import { QueryRowComponent } from './queryrow.component';
@@ -51,8 +51,9 @@ declare let moment: any;
     }
 `],
 })
-export class HistoryRowComponent extends QueryRowComponent implements OnInit {
+export class HistoryRowComponent extends QueryRowComponent implements OnInit, OnDestroy {
   public successClass: string;
+  // @ts-ignore
   public updateMomentRef: NodeJS.Timer;
   @Input() public query: ISampleQuery;
 

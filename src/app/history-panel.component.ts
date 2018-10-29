@@ -35,7 +35,7 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
 
     public closeHistoryPanel = () => {
         (document.querySelector('#history-panel .ms-Panel-closeButton') as any).click();
-    };
+    }
 
     public getQueryText(query: IGraphApiCall) {
         return getShortQueryText(query);

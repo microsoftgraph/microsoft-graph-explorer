@@ -94,12 +94,12 @@ Outlook Calendar,POST,find meeting time,/v1.0/me/findMeetingTimes,Update the Req
             ""timeslots"": [
             {
             ""start"": {
-                ""dateTime"": ""{today}"",  
-                ""timeZone"": ""Pacific Standard Time"" 
-                },  
-                ""end"": { 
-                ""dateTime"": ""{next-week}"",  
-                ""timeZone"": ""Pacific Standard Time"" 
+                ""dateTime"": ""{today}"",
+                ""timeZone"": ""Pacific Standard Time""
+                },
+                ""end"": {
+                ""dateTime"": ""{next-week}"",
+                ""timeZone"": ""Pacific Standard Time""
                 }
             }
             ]
@@ -185,10 +185,10 @@ Excel,GET,worksheets in a workbook,/v1.0/me/drive/items/{drive-item-id}/workbook
 Excel,POST,add a new worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
   ""name"": ""My New Sheet""
 }",Content-type: application/json
-Excel,POST,calculate loan payment,/v1.0/me/drive/items/{drive-item-id}/workbook/functions/pmt,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/workbook#functions,AAD,"{ 
- ""rate"": 0.035, 
- ""nper"": 20, 
- ""pv"": -2000 
+Excel,POST,calculate loan payment,/v1.0/me/drive/items/{drive-item-id}/workbook/functions/pmt,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/workbook#functions,AAD,"{
+ ""rate"": 0.035,
+ ""nper"": 20,
+ ""pv"": -2000
 }",Content-type: application/json
 Excel,GET,used range in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange,AAD,,
 Excel,GET,tables in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/Sheet1/tables,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,
@@ -321,16 +321,16 @@ Microsoft Teams (beta),GET,members of a team,/beta/groups/{group-id-for-teams}/m
 Microsoft Teams (beta),GET,channels of a team which I am member of,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
 Microsoft Teams (beta),GET,channel info,/beta/teams/{team-id}/channels/{channel-id},"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
 Microsoft Teams (beta),POST,create channel,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams.",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
-   ""displayName"": ""Architecture Discussion"",		
-   ""description"": ""This channel is where we debate all future architecture plans""		
+   ""displayName"": ""Architecture Discussion"",
+   ""description"": ""This channel is where we debate all future architecture plans""
  }",
 Microsoft Teams (beta),POST,create chat thread,/beta/teams/{team-id}/channels/{channel-id}/chatThreads,"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
 ""rootMessage"": {
        ""body"": {
-         ""contentType"": 2,		
-         ""content"": ""Hello world""		
-       }		
-   }		
+         ""contentType"": 2,
+         ""content"": ""Hello world""
+       }
+   }
  }",
 Microsoft Teams (beta),GET,apps in a team,/beta/teams/{team-id}/apps,"This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list,,,
 Microsoft Teams (beta),GET,items in a team drive,/beta/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,

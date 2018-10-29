@@ -3,7 +3,7 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IMessageBarContent } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
@@ -13,7 +13,7 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
   templateUrl: './response-status-bar.component.html',
   styleUrls: ['./response-status-bar.component.css'],
 })
-export class ResponseStatusBarComponent extends GraphExplorerComponent {
+export class ResponseStatusBarComponent extends GraphExplorerComponent implements OnChanges {
 
     @Input() public message: IMessageBarContent;
 

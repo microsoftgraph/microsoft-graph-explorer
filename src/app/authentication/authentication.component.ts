@@ -11,6 +11,8 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { localLogout } from './auth';
 
+declare const hello;
+
 @Component({
   selector: 'authentication',
   styleUrls: ['./authentication.component.css'],

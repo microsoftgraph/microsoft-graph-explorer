@@ -8,6 +8,8 @@ import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 
 import { AllowedGraphDomains, RequestType } from './base';
 
+declare const hello;
+
 @Injectable()
 export class GraphService {
   constructor(private http: Http) { }

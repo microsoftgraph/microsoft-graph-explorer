@@ -19,6 +19,7 @@ import { getParameterByName } from './util';
 
 declare let mwf;
 declare let moment;
+declare let $;
 
 @Component({
   selector: 'api-explorer',

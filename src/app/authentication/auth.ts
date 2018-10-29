@@ -11,6 +11,8 @@ import { GraphService } from '../graph-service';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { getParameterByName } from '../util';
 
+declare let hello;
+
 export function initAuth(options: IExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef) {
   setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
   hello.init({

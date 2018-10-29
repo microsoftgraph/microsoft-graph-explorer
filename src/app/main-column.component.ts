@@ -3,7 +3,7 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { AfterViewInit, Component, DoCheck, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, ViewChild, ViewContainerRef} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { initializeJsonViewer, initializeResponseHeadersViewer } from './api-explorer-jsviewer';
 import { AppComponent } from './app.component';
@@ -21,7 +21,7 @@ declare let mwf: any;
     providers: [QueryRunnerService],
 })
 
-export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck {
+export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck, AfterViewChecked {
     public oldExplorerValues: IExplorerValues = {};
     public myControl = new FormControl();
 
@@ -82,13 +82,13 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
          * like this since the httpVerb picker is a non-Angular, Microsoft Web Framework component that is loaded into
          * the DOM. It is not part of the Angular template and is loaded at ngAfterViewInit().
          */
-        if (this.isAuthenticated()) {
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute('aria-disabled', 'false');
-            this._httpMethodEl.element.nativeElement.children[1].children[0].removeAttribute('disabled');
-        } else {
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute('aria-disabled', 'true');
-            this._httpMethodEl.element.nativeElement.children[1].children[0].setAttribute('disabled', '');
-        }
+        // if (this.isAuthenticated()) {
+        //     this._httpMethodEl.element.nativeElement.children[1].setAttribute('aria-disabled', 'false');
+        //     this._httpMethodEl.element.nativeElement.children[1].children[0].removeAttribute('disabled');
+        // } else {
+        //     this._httpMethodEl.element.nativeElement.children[1].setAttribute('aria-disabled', 'true');
+        //     this._httpMethodEl.element.nativeElement.children[1].children[0].setAttribute('disabled', '');
+        // }
     }
 
     public ngAfterViewInit(): void {

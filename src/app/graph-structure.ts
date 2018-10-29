@@ -6,6 +6,9 @@
 import { AppComponent } from './app.component';
 import { GraphApiVersion, GraphApiVersions } from './base';
 import { GraphService } from './graph-service';
+
+declare const $, jQuery;
+
 export type GraphNodeLinkTagName = 'Property' | 'NavigationProperty' | 'EntitySet' | 'Singleton';
 
 export interface IGraphNodeLink {
@@ -19,6 +22,36 @@ export interface IGraphEntity {
     name: string;
     links: { [Name: string]: IGraphNodeLink; };
 }
+
+
+class GraphStructureCache {
+  public contents: {
+    [version: string]: {
+      [content: string]: any,
+    },
+  } = {};
+
+  public add(version: string, key: string, content: any) {
+    this.contents[version] = this.contents[version] || {};
+    this.contents[version][key] = content;
+  }
+
+  public containsVersion(version: string) {
+    return version in this.contents;
+  }
+
+  public contains(version: string, key: string) {
+    return this.contents[version] && this.contents[version][key];
+  }
+
+  public get(version: string, key: string) {
+    if (this.contains(version, key)) {
+      return this.contents[version][key];
+    }
+  }
+}
+
+const graphStructureCache = new GraphStructureCache();
 
 export function parseMetadata(apiService: GraphService, version?: GraphApiVersion): Promise<any> {
     /* don't try to download invalid metadata*/
@@ -48,36 +81,7 @@ export function parseMetadata(apiService: GraphService, version?: GraphApiVersio
     });
 }
 
-class GraphStructureCache {
-    public contents: {
-        [version: string]: {
-            [content: string]: any,
-        },
-    } = {};
-
-    public add(version: string, key: string, content: any) {
-        this.contents[version] = this.contents[version] || {};
-        this.contents[version][key] = content;
-    }
-
-    public containsVersion(version: string) {
-        return version in this.contents;
-    }
-
-    public contains(version: string, key: string) {
-        return this.contents[version] && this.contents[version][key];
-    }
-
-    public get(version: string, key: string) {
-        if (this.contains(version, key)) {
-            return this.contents[version][key];
-        }
-    }
-}
-
-const graphStructureCache = new GraphStructureCache();
-
-function getEntitySets(metadata: JQuery) {
+function getEntitySets(metadata: any) {
     const entitySetsObj = {};
     const entitySetsAndSingletons = metadata.find('EntitySet,SingleTon');
     for (let i = 0; i < entitySetsAndSingletons.length; i++) { // tslint:disable-line

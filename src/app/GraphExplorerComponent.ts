@@ -10,6 +10,8 @@ import { IGraphApiCall, IGraphRequestHeader, ISampleQuery, substituteTokens } fr
 import { getString } from './localization-helpers';
 import { QueryRunnerService } from './query-runner.service';
 
+declare let jQuery;
+
 export class GraphExplorerComponent {
 
   public explorerValues = AppComponent.explorerValues;

@@ -11,6 +11,8 @@ import { getContentType, handleHtmlResponse, handleJsonResponse, handleTextRespo
   insertHeadersIntoResponseViewer, isImageResponse, showResults } from './response-handlers';
 import { createHeaders } from './util';
 
+declare const $;
+
 @Injectable()
 export class QueryRunnerService {
 
