@@ -4,24 +4,15 @@ secrets.js
 fonts/
 debug.log
 
-scripts/*.js
-scripts/*.js.map
-scripts/*.d.ts
-
 **/*gulp-tsc-tmp*
 build/
 
-spec/*.js
-spec/*.js.map
-
 src/secrets*
-
-src/**/*.d.ts
-src/**/*.js
-src/**/*.js.map
 
 ./import-sample-queries.js
 
 src/aot/**/*
 /.vs/**/*
 /.idea
+
+/out-dir

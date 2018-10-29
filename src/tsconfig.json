@@ -9,6 +9,7 @@
     "lib": [ "es2015", "dom" ],
     "sourceMap": true,
     "target": "es5",
+    "outDir": "../out-dir",
     "declaration": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true

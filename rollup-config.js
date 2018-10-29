@@ -1,10 +1,9 @@
-import rollup      from 'rollup'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs    from 'rollup-plugin-commonjs';
 import uglify      from 'rollup-plugin-uglify'
 
 export default {
-  entry: 'src/main.js',
+  entry: 'out-dir/main.js',
   dest: 'dist/explorer.js', // output a single application bundle
   sourceMap: true,
   format: 'iife',
