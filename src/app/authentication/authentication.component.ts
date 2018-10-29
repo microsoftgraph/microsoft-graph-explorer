@@ -29,7 +29,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public ngOnInit() {
     if (this.getAuthenticationStatus() === 'authenticated') {
-      this.createUserProfile();
+      this.displayUserProfile();
     }
   }
 
@@ -56,7 +56,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     ScopesDialogComponent.showDialog();
   }
 
-  private createUserProfile() {
+  private displayUserProfile() {
     localStorage.setItem('status', 'authenticating');
     const promisesGetUserInfo = [];
     // Get displayName and email

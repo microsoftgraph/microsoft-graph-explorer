@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-declare var Msal: any;
+declare let Msal: any;
 @Injectable()
 export class AuthService {
     private applicationConfig: any = {
