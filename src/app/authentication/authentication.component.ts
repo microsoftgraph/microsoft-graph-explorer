@@ -39,25 +39,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   // Https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
   public login() {
-    AppComponent.explorerValues.authentication.status = 'authenticating';
-    this.changeDetectorRef.detectChanges();
-
-    this.authService.login()
-      .then((user) => {
-        if (user) {
-          AppComponent.explorerValues.authentication.user = user;
-          localStorage.setItem('status', 'authenticating');
-          this.createUserProfile();
-        } else {
-          localLogout();
-        }
-      }, () => {
-        localLogout();
-      });
+    this.authService.login();
     }
+
   public logout() {
-    localLogout();
-    this.authService.logout();
+      localLogout();
+      this.authService.logout();
   }
 
   public getAuthenticationStatus() {
@@ -70,6 +57,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   private createUserProfile() {
+    localStorage.setItem('status', 'authenticating');
     const promisesGetUserInfo = [];
     // Get displayName and email
     promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`)

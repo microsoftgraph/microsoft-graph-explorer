@@ -3,7 +3,7 @@ declare var Msal: any;
 @Injectable()
 export class AuthService {
     private applicationConfig: any = {
-        clientID: (window as any).ClientId,
+        clientId: (window as any).ClientId,
         graphScopes: ['openid', 'profile', 'User.ReadWrite', 'User.ReadBasic.All', 'Sites.ReadWrite.All',
         'Contacts.ReadWrite', 'People.Read', 'Notes.ReadWrite.All', 'Tasks.ReadWrite', 'Mail.ReadWrite',
         'Files.ReadWrite.All', 'Calendars.ReadWrite'],
@@ -11,23 +11,19 @@ export class AuthService {
     private app: any;
 
     constructor() {
-        this.app = new Msal.UserAgentApplication(this.applicationConfig.clientID, '', () => {
-            // Callback for login redirect
-        });
+        this.app = new Msal.UserAgentApplication(this.applicationConfig.clientId, '', this.authCallback, {});
     }
 
-    public login() {
-        return this.app.loginPopup(this.applicationConfig.graphScopes)
-            .then((idToken) => {
-                const user = this.app.getUser();
-                if (user) {
-                    return user;
-                } else {
-                    return null;
-                }
-            }, () => {
-                return null;
-            });
+    public authCallback = (errorDesc, token, error) => {
+        if (token) {
+            localStorage.setItem('status', 'authenticated');
+        } else if (errorDesc || error) {
+            localStorage.setItem('status', 'anonymous');
+        }
+    }
+
+    public async login() {
+        return this.app.loginRedirect(this.applicationConfig.graphScopes);
     }
 
     public logout() {
