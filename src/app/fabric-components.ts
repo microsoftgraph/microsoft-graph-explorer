@@ -12,7 +12,7 @@ export function initFabricComponents() {
     if ('Spinner' in fabric) {
         const elements = document.querySelectorAll('.ms-Spinner');
         let i = elements.length;
-        let component;
+        let component; // tslint:disable-line
         while (i--) {
             component = new fabric.Spinner(elements[i]);
         }
