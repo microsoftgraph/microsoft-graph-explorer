@@ -24,16 +24,16 @@ declare let mwf: any;
 export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck, AfterViewChecked {
     public oldExplorerValues: IExplorerValues = {};
     public myControl = new FormControl();
+    public methods = Methods;
+    public GraphVersions = AppComponent.Options.GraphVersions;
+    public showShareButton: boolean = false;
 
     @ViewChild('httpMethod', { read: ViewContainerRef }) public _httpMethodEl; // tslint:disable-line
     @ViewChild('graphVersion', { read: ViewContainerRef }) public _graphVersionEl; // tslint:disable-line
     @ViewChild('autoSuggest', { read: ViewContainerRef }) public _autoSuggestEl; // tslint:disable-line
 
-    public methods = Methods;
-    public GraphVersions = AppComponent.Options.GraphVersions;
-
     constructor(public queryRunnerService: QueryRunnerService) {
-      super();
+        super();
     }
 
     public messageBarContent(): IMessageBarContent {
@@ -101,6 +101,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedOption = method.id;
+
+                        if (this.explorerValues.selectedOption === 'GET') { this.showShareButton = true; }
                     },
                 });
             },
@@ -115,7 +117,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
                 event[0].selectMenu.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedVersion = document
-                          .getElementById('-' + method.id).children[0].textContent as GraphApiVersion;
+                            .getElementById('-' + method.id).children[0].textContent as GraphApiVersion;
                         this.updateEndpointURLVersionFromVersion();
                     },
                 });
@@ -135,7 +137,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
                         autoSuggest.subscribe({
                             onMatchPatternChanged: (notification) => {
                                 autoSuggest.updateSuggestions(this.getAutoCompleteOptions()
-                                  .map((s) => ({ type: 'string', value: s })));
+                                    .map((s) => ({ type: 'string', value: s })));
                             },
                         });
                     }
@@ -241,8 +243,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
     public updateEndpointURLVersionFromVersion() {
         /* AppComponent.Options.GraphUrl may be https://graph.microsoft.com/
         or another sovereign cloud deployment endpoint*/
-      const path = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl + '/');
-      if (path.length > 1) {
+        const path = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl + '/');
+        if (path.length > 1) {
             const pathStartingWithVersion = path[1].split('/');
 
             // Replace the version in the URL with the actual value
