@@ -8,5 +8,6 @@ node_js:
   - "7"
 
 script:
+  - npm install -g @angular/cli
   - npm run test
   - npm run lint
