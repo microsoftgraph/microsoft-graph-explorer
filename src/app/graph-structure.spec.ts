@@ -1,7 +1,6 @@
 import { HttpModule } from '@angular/http';
 
 import {
-    inject,
     TestBed,
 } from '@angular/core/testing';
 
@@ -12,24 +11,19 @@ import { constructGraphLinksFromFullPath, parseMetadata } from './graph-structur
 let graphService: GraphService;
 describe('Graph structural tests', () => {
 
-  beforeEach(() => {
+  beforeAll((done) => {
     TestBed.configureTestingModule({
-        imports: [HttpModule],
-        providers: [GraphService],
+      imports: [HttpModule],
+      providers: [GraphService],
     });
+
+    graphService = TestBed.get(GraphService);
+    const metaDataPromises = GraphApiVersions.map(async (version) => {
+      return await parseMetadata(graphService, version);
+    });
+
+    Promise.all(metaDataPromises).then(done);
   });
-
-  // tslint:disable-next-line
-  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
-    graphService = _graphService;
-  }));
-
-  for (const version of GraphApiVersions) {
-    it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`,
-        (done) => {
-        return parseMetadata(graphService, version).then(done);
-    });
-  }
 
   it('https://graph.microsoft.com/v1.0/me => [user]', () => {
     const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/v1.0/me');

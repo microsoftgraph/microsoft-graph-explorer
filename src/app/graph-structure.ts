@@ -6,8 +6,7 @@
 import { AppComponent } from './app.component';
 import { GraphApiVersion, GraphApiVersions } from './base';
 import { GraphService } from './graph-service';
-
-declare const $, jQuery;
+import $ from 'jquery';
 
 export type GraphNodeLinkTagName = 'Property' | 'NavigationProperty' | 'EntitySet' | 'Singleton';
 
@@ -58,22 +57,23 @@ export function parseMetadata(apiService: GraphService, version?: GraphApiVersio
   if (version && GraphApiVersions.indexOf(version) === -1) {
         return Promise.reject(`invalid version: ${version}`);
     }
-
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
         if (!version) {
             version = AppComponent.explorerValues.selectedVersion;
         }
 
         if (!graphStructureCache.containsVersion(version)) {
-            apiService.getMetadata(AppComponent.Options.GraphUrl, version).then((results: any) => {
-                const metadata = $($.parseXML(results._body));
-
-                const entitySetData = getEntitySets(metadata);
-                graphStructureCache.add(version, 'EntitySetData', entitySetData);
-                const entityTypeData = getEntityTypes(metadata);
-                graphStructureCache.add(version, 'EntityTypeData', entityTypeData);
-                return resolve();
-            }).catch(reject);
+          try {
+            const results = await apiService.getMetadata(AppComponent.Options.GraphUrl, version);
+            const metadata = $($.parseXML((results as any)._body));
+            const entitySetData = getEntitySets(metadata);
+            graphStructureCache.add(version, 'EntitySetData', entitySetData);
+            const entityTypeData = getEntityTypes(metadata);
+            graphStructureCache.add(version, 'EntityTypeData', entityTypeData);
+            return resolve();
+          } catch (e) {
+            reject(e);
+          }
         } else {
             // Metadata already cached
             return resolve();
@@ -146,10 +146,10 @@ function getEntityTypes(metadata: any) {
     const entities = {};
 
     const entityTypes = metadata.find('EntityType');
-    jQuery.extend(entities, createEntityTypeObject(entityTypes));
+    $.extend(entities, createEntityTypeObject(entityTypes));
 
     const complexTypes = metadata.find('ComplexType');
-    jQuery.extend(entities, createEntityTypeObject(complexTypes));
+    $.extend(entities, createEntityTypeObject(complexTypes));
 
     return entities;
 }
