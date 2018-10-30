@@ -6,10 +6,9 @@
 // tslint:disable-next-line
 // gen-queries.spec.ts prepares non destructive sample queries and runs the tests.
 
-import { Headers, HttpModule } from '@angular/http';
+import {Headers, Http, HttpModule} from '@angular/http';
 
 import {
-  inject,
   TestBed,
 } from '@angular/core/testing'; // tslint:disable-line
 
@@ -44,6 +43,13 @@ describe('Sample query validation', () => {
 
   beforeAll(() => {
     localLogout();
+
+    TestBed.configureTestingModule({
+      providers: [GraphService],
+      imports: [HttpModule]
+    });
+
+    graphService = TestBed.get(GraphService);
   });
 
   beforeEach(() => {
@@ -52,10 +58,6 @@ describe('Sample query validation', () => {
       providers: [GraphService],
     });
   });
-
-  it('Creates an instance of the graph service', inject([GraphService], (graphSvc: GraphService) => {
-    graphService = graphSvc;
-  }));
 
   for (const query of SampleQueries) {
     it(`${query.humanName}: Doc link should exist and match request version`, () => {
