@@ -4,8 +4,8 @@ language: node_js
 addons:
   chrome: stable
 node_js:
-  - "7"
-  - "7"
+  - "8.9"
+  - "8.9"
 
 script:
   - npm install -g @angular/cli
