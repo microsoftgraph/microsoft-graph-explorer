@@ -12,6 +12,8 @@ let graphService: GraphService;
 describe('Graph structural tests', () => {
 
   beforeAll((done) => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 15;
+
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [GraphService],

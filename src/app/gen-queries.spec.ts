@@ -57,6 +57,8 @@ describe('Sample query validation', () => {
       imports: [HttpModule],
       providers: [GraphService],
     });
+
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 15;
   });
 
   for (const query of SampleQueries) {
