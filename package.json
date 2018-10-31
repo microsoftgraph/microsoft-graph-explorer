@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build",
     "test": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "import:samples": "node util-scripts\\query-importer.js",
+    "import:loc-strings": "node util-scripts\\bundle-loc-files.js"
   },
   "private": true,
   "dependencies": {
