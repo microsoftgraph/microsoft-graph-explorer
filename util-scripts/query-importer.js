@@ -68,9 +68,9 @@ function saveSampleQueries() {
 
 // WARNING - This file is generated from util-scripts/query-importer.js
 
-import { SampleQuery } from "./base";
+import { ISampleQuery } from "./base";
 
-export const SampleQueries: SampleQuery[] = [
+export const SampleQueries: ISampleQuery[] = [
   `;
   formattedQueryArr = []
   for (let i = 0; i < queries.length; i++) {
