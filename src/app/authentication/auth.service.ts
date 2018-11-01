@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import * as JWT from 'jwt-decode';
 import { AppComponent } from '../app.component';
 
 declare let Msal: any;
+
 @Injectable()
 export class AuthService {
     private app: any;
@@ -18,8 +20,13 @@ export class AuthService {
         }
     }
 
-    public async login() {
-        return this.app.loginRedirect(this.getScopes());
+    public async login(scopes: any = []) {
+        const hasScopes = scopes.length > 0;
+        let listOfScopes = this.defaultUserScopes();
+        if (hasScopes) {
+            listOfScopes = scopes;
+        }
+        return this.app.loginRedirect(listOfScopes);
     }
 
     public logout() {
@@ -27,11 +34,11 @@ export class AuthService {
     }
 
     public getToken() {
-        return this.app.acquireTokenSilent(this.getScopes())
+        return this.app.acquireTokenSilent(this.defaultUserScopes())
             .then((accessToken) => {
                 return accessToken;
             }, (error) => {
-                return this.app.acquireTokenPopup(this.getScopes())
+                return this.app.acquireTokenPopup(this.defaultUserScopes())
                     .then((accessToken) => {
                         return accessToken;
                     }, (err) => {
@@ -40,7 +47,27 @@ export class AuthService {
             });
     }
 
-    public getScopes() {
+    public defaultUserScopes() {
         return AppComponent.Options.DefaultUserScopes;
+    }
+
+    public async getScopes() {
+        const accessToken = await this.getToken();
+        const jwtToken = JWT(accessToken);
+        let scopesStr = jwtToken.scp;
+
+        // ScopesStr is something like "Files.Read,Mail.Send,User.Read"
+        if (!scopesStr) {
+            return;
+        }
+
+        scopesStr = scopesStr.toLowerCase();
+        if (scopesStr.indexOf('+') !== -1) {
+            return scopesStr.split('+');
+        } else if (scopesStr.indexOf(',') !== -1) {
+            return scopesStr.split(',');
+        } else if (scopesStr.split(' ').length > 2) {
+            return scopesStr.split(' ');
+        }
     }
 }

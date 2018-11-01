@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AuthService } from '../authentication/auth.service';
 import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
@@ -41,6 +42,9 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public hasChangedScopeListHeight: boolean = false;
   public hasRequestedAdminConsent: boolean = false;
 
+  constructor(private authService: AuthService) {
+    super();
+  }
   // Updates the style.height of the scopes-list-table-container element.
   public getScopesListTableHeight(): string {
     this.scopesListTableHeight = window.getComputedStyle(this.scopesTableList.nativeElement, null)
@@ -163,19 +167,10 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
 
   public getNewAccessToken() {
     // @todo type HelloJSLoginOptions
-    const loginProperties = {
-      display: 'page',
-      response_type: 'token',
-      nonce: 'graph_explorer',
-      prompt: 'select_account',
-      /* Login hint not applied via AppComponent.explorerValues.authentication.user.emailAddress
-      /* as it breaks MSA login. */
-      scope: PermissionScopes.filter((scope) => scope.requested && !scope.consented)
-        .map((scope) => scope.name)
-        .join(' '),
-    };
+    const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
+      .map((scope) => scope.name);
 
-    hello('msft').login(loginProperties);
+    this.authService.login(selectedScopes);
   }
 
   public static showDialog() { // tslint:disable-line
