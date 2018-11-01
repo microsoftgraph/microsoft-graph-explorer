@@ -91,7 +91,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       this.changeDetectorRef.detectChanges();
       this.setPermissions();
     }).catch((e) => {
-      localLogout();
+      localStorage.setItem('status', 'authenticated');
     });
   }
 }
