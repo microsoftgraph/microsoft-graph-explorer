@@ -58,6 +58,7 @@ module.exports = function(config) {
       'node_modules/zone.js/dist/jasmine-patch.js',
       'node_modules/zone.js/dist/async-test.js',
       'node_modules/zone.js/dist/fake-async-test.js',
+      'node_modules/msal/dist/msal.js/',
 
       'node_modules/moment/min/moment-with-locales.min.js',
       'node_modules/jquery/dist/jquery.min.js',

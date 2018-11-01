@@ -5,6 +5,7 @@ import {
     TestBed,
 } from '@angular/core/testing';
 
+import { AuthService } from './authentication/auth.service';
 import { GraphApiVersions } from './base';
 import { GraphService } from './graph-service';
 
@@ -14,7 +15,7 @@ describe('Metadata download and parsing', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
-        providers: [GraphService],
+        providers: [GraphService, AuthService ],
     });
   });
 
