@@ -187,6 +187,11 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     mwf.ComponentFactory.create([{
       component: mwf.Checkbox,
     }]);
+
+    // We are explicitly focusing on the close icon button here despite setting the autofocus property.
+    // This is because Edge does not give this element focus even with the autofocus property set.
+    // See: https://stackoverflow.com/questions/51867504/edge-how-to-make-autofocus-work-with-refresh-button
+    (scopesDialog.childNodes[2] as any).focus();
   }
 
   public focusOnFirstElement(firstElement: Element) {
