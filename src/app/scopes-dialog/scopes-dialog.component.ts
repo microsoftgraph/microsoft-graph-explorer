@@ -187,8 +187,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     mwf.ComponentFactory.create([{
       component: mwf.Checkbox,
     }]);
-
-    (scopesDialog.childNodes[1] as any).focus();
   }
 
   public focusOnFirstElement(firstElement: Element) {
@@ -202,7 +200,8 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   }
 
   public getTabIndex(scope) {
-    // Consented scopes appear as disabled elements. Users should not be able to tab through them.
+    // Consented scopes appear as disabled elements.
+    // Users should not be able to tab through them.
     const isDisabled = scope.consented;
     return isDisabled ? '-1' : '0';
   }
