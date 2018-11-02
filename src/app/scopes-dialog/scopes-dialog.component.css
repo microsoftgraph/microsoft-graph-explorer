@@ -36,7 +36,7 @@
 }
 
 .c-checkbox input[type=checkbox]:focus+span:before {
-    outline: none !important;
+    outline: 1.5px solid #0078d7;;
 }
 
 label.c-label {
