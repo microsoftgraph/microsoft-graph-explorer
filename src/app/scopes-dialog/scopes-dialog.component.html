@@ -1,8 +1,8 @@
 <div class="ms-Dialog center-dialog ms-Dialog--close" id="scopes-dialog">
-    <button class="ms-Dialog-button ms-Dialog-buttonClose">
+    <button class="ms-Dialog-button ms-Dialog-buttonClose" tabindex="0" (keydown)="focusOnLastElement($event, lastElement)" #firstElement>
         <i class="ms-Icon ms-Icon--Cancel"></i>
     </button>
-    <div class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
+    <div tabindex="0" class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
     <p class="ms-Dialog-subText">Select different
         <a class="ms-Link" href="https://developer.microsoft.com/graph/docs/concepts/permissions_reference" target="_blank">permissions</a>
         to try out Microsoft Graph API endpoints.</p>
@@ -11,19 +11,18 @@
         <div id="scopes-list-table-container" #scopesListTableContainer [style.height.px]="getScopesListTableHeight()">
             <table class="ms-Table" id="scopes-list-table">
                 <tr *ngFor="let scope of scopes">
-                    <td class="scopeRow">
+                    <td class="scopeRow" [tabindex]="getTabIndex(scope)" >
                         <div class="c-checkbox">
                             <label class="c-label">
                                 <!-- scope.consented indicates that the user or admin has previously consented to the scope.-->
-                                <input type="checkbox" 
+                                <input type="checkbox"
                                     [disabled]="scope.consented"
                                     (change)="toggleRequestScope(scope)"
-                                    name="checkboxId1" 
-                                    value="value1" 
+                                    name="checkboxId1"
+                                    value="value1"
                                     [attr.aria-label]="getScopeLabel(scope.name)"
-                                    [tabindex]=""
                                     >
-                                <span aria-hidden="true" [title]="scope.description">{{scope.name}}
+                                <span aria-hidden="true" [title]="scope.description" >{{scope.name}}
                                     <i class="consented-label" *ngIf="scope.consented">{{getStr('Consented')}}</i>
                                     <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
                                 </span>
@@ -69,10 +68,10 @@
         </div>
     </div>
     <div class="ms-Dialog-actions">
-        <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="!scopeListIsDirty()" (click)="getNewAccessToken()">
+        <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="!scopeListIsDirty()" (click)="getNewAccessToken()" tabindex="0">
             <span class="ms-Button-label" style="text-transform: capitalize;">{{getStr('modify permissions')}}</span>
         </button>
-        <button class="ms-Button ms-Dialog-action">
+        <button class="ms-Button ms-Dialog-action" tabindex="0" #lastElement (keydown.tab)="focusOnFirstElement(firstElement)" tabindex="0">
             <span class="ms-Button-label">{{getStr('Close')}}</span>
         </button>
     </div>
