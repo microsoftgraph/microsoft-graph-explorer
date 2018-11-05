@@ -30,6 +30,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   public ngOnInit() {
     if (this.getAuthenticationStatus() === 'authenticated') {
       this.displayUserProfile();
+      this.setPermissions();
     }
   }
 
@@ -89,7 +90,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     Promise.all(promisesGetUserInfo).then(() => {
       localStorage.setItem('status', 'authenticated');
       this.changeDetectorRef.detectChanges();
-      this.setPermissions();
     }).catch((e) => {
       localStorage.setItem('status', 'authenticated');
     });
