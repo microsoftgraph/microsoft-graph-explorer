@@ -35,11 +35,10 @@
                 <tr role="row" *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
                     <td role="gridcell" class="half-width-col">
                         <input class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly"
-                            role="textbox" aria-label="Add request header name" type="text" [attr.placeholder]="getPlaceholder(header)">
+                            role="textbox" name="Add request header name" type="text" [attr.placeholder]="getPlaceholder(header)">
                     </td>
                     <td role="gridcell" class="half-width-col">
-                        <input class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text"
-                            name="default" [class.invisible]="isLastHeader(header)" role="textbox" aria-label="Add request header value">
+                        <input class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" [class.invisible]="isLastHeader(header)" role="textbox" name="Add request header value">
                     </td>
                     <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)" (keydown)="removeHeaderKeyDown($event, header)" role="button" aria-label="Remove request header"
                         tabindex="0">

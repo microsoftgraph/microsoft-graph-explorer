@@ -31,7 +31,7 @@ export function initializeAceEditor(editor, ariaLabel: string, text?: string) {
     }
 
     editor.moveCursorTo(1, 0);
-    editor.textInput.getElement().setAttribute('aria-label', ariaLabel);
+    editor.textInput.getElement().setAttribute('name', ariaLabel);
 }
 
 /**

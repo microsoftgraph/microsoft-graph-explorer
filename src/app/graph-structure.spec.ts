@@ -1,10 +1,10 @@
 import { HttpModule } from '@angular/http';
 
 import {
-    inject,
     TestBed,
 } from '@angular/core/testing';
 
+import { AuthService } from './authentication/auth.service';
 import { GraphApiVersions } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath, parseMetadata } from './graph-structure';
@@ -15,14 +15,11 @@ describe('Graph structural tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
-        providers: [GraphService],
+        providers: [GraphService, AuthService],
     });
-  });
 
-  // tslint:disable-next-line
-  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
-    graphService = _graphService;
-  }));
+    graphService = TestBed.get(GraphService);
+  });
 
   for (const version of GraphApiVersions) {
     it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`,

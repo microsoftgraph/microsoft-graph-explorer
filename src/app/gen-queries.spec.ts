@@ -14,6 +14,7 @@ import {
 } from '@angular/core/testing'; // tslint:disable-line
 
 import { localLogout } from './authentication/auth';
+import { AuthService } from './authentication/auth.service';
 import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from './base';
 import { SampleQueries } from './gen-queries';
 import { GraphService } from './graph-service';
@@ -40,6 +41,7 @@ function convertHeaders(graphRequestHeaders: IGraphRequestHeader[]): Headers {
 }
 
 let graphService: GraphService;
+
 describe('Sample query validation', () => {
 
   beforeAll(() => {
@@ -49,7 +51,7 @@ describe('Sample query validation', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
-      providers: [GraphService],
+      providers: [ GraphService, AuthService ],
     });
   });
 
