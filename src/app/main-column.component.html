@@ -49,7 +49,7 @@
             {{getStr('Response Headers')}}
         </li>
     </ul>
-    <share-link-btn *ngIf="showShareButton"></share-link-btn>
+    <share-link-btn *ngIf="explorerValues.selectedOption === 'GET'"></share-link-btn>
     <div class="ms-Pivot-content" data-content="response" >
         <div id="response-viewer">
             <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" [attr.name]="getStr('User photo')"/>
