@@ -10,7 +10,6 @@
     "ban-comma-operator": true,
     "no-unused-expression": true,
     "no-duplicate-variable": true,
-    "no-unused-variable": true,
     "curly": true,
     "class-name": true,
     "triple-equals": true,
@@ -59,7 +58,8 @@
   },
   "linterOptions": {
     "exclude": [
-      "src/app/loc_strings.ts"
+      "src/app/loc_strings.ts",
+      "src/app/gen-queries.ts"
     ]
   }
 }

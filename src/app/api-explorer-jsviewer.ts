@@ -18,9 +18,9 @@ function getTextAreaAriaLabel(ariaLabel: string): string {
 export function initializeJsonViewer() {
 
     const jsonViewer = getJsonViewer();
-    const ariaLabel = getTextAreaAriaLabel('Response body');
+    const name = getTextAreaAriaLabel('Response body');
 
-    jsonViewer.textInput.getElement().setAttribute('aria-label', ariaLabel);
+    jsonViewer.textInput.getElement().setAttribute('name', name);
 
     commonAceSetup(jsonViewer);
     jsonViewer.getSession().setMode('ace/mode/javascript');
@@ -38,9 +38,9 @@ export function initializeJsonViewer() {
 
 export function initializeResponseHeadersViewer() {
     const jsonViewer = getAceEditorFromElId('response-header-viewer');
-    const ariaLabel = getTextAreaAriaLabel('Response headers viewer');
+    const name = getTextAreaAriaLabel('Response headers viewer');
 
-    jsonViewer.textInput.getElement().setAttribute('aria-label', ariaLabel);
+    jsonViewer.textInput.getElement().setAttribute('name', name);
 
     commonAceSetup(jsonViewer);
 
