@@ -12,33 +12,34 @@ export class AuthService {
         this.app = new Msal.UserAgentApplication((window as any).ClientId, '', this.authCallback, {});
     }
 
-    public authCallback = (errorDesc, token, error) => {
+    public authCallback = async (errorDesc, token, error) => {
         if (token) {
             localStorage.setItem('status', 'authenticated');
+            await this.getToken();
         } else if (errorDesc || error) {
             localStorage.setItem('status', 'anonymous');
         }
     }
 
-    public async login(scopes: any = []) {
-        const hasScopes = scopes.length > 0;
-        let listOfScopes = this.defaultUserScopes();
-        if (hasScopes) {
-            listOfScopes = scopes;
-        }
-        return this.app.loginRedirect(listOfScopes);
+    public async login() {
+        return this.app.loginRedirect(this.defaultUserScopes());
     }
 
     public logout() {
         this.app.logout();
     }
 
-    public getToken() {
-        return this.app.acquireTokenSilent(this.defaultUserScopes())
+    public getToken(scopes: any = []) {
+        const hasScopes = scopes.length > 0;
+        let listOfScopes = this.defaultUserScopes();
+        if (hasScopes) {
+            listOfScopes = scopes;
+        }
+        return this.app.acquireTokenSilent(listOfScopes)
             .then((accessToken) => {
                 return accessToken;
             }, (error) => {
-                return this.app.acquireTokenPopup(this.defaultUserScopes())
+                return this.app.acquireTokenPopup(listOfScopes)
                     .then((accessToken) => {
                         return accessToken;
                     }, (err) => {
