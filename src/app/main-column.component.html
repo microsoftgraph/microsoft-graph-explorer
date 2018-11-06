@@ -1,9 +1,19 @@
 <div id="request-bar-row-form" layout="row" layout-align="start center">
     <!-- HTTP METHOD -->
-    <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption"
-        class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu" [attr.aria-label]="getStr('HTTP verb selector')" [attr.tabindex]="isAuthenticated() ? '-1' : '0'">
-        <select #verbSelector [disabled]="!isAuthenticated()" tabindex="0" role="button" [attr.name]="getStr('HTTP verb selector')">
-            <option *ngFor="let choice of methods">{{choice}}</option>
+    <div [title]="isAuthenticated() ? '' : getStr('login to send requests')"
+      #httpMethod id="httpMethodSelect"
+      [ngClass]="explorerValues.selectedOption"
+      class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu"
+      [attr.aria-label]="getStr('HTTP verb selector')"
+      [attr.tabindex]="isAuthenticated() ? '-1' : '0'"
+    >
+      <select
+        #verbSelector
+        tabindex="0"
+        role="button"
+        [attr.name]="getStr('HTTP verb selector')"
+        >
+          <option *ngFor="let choice of methods">{{choice}}</option>
         </select>
     </div>
 
