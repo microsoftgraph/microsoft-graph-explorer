@@ -40,7 +40,17 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   // Https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
   public login() {
-    this.authService.login();
+    localStorage.setItem('status', 'authenticating');
+    this.changeDetectorRef.detectChanges();
+    this.authService.login()
+      .then((user) => {
+        if (user) {
+          this.displayUserProfile();
+          this.setPermissions();
+          localStorage.setItem('status', 'authenticated');
+          this.changeDetectorRef.detectChanges();
+        }
+      });
   }
 
   public logout() {
@@ -69,6 +79,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   private displayUserProfile() {
     localStorage.setItem('status', 'authenticating');
+    this.changeDetectorRef.detectChanges();
     const promisesGetUserInfo = [];
     // Get displayName and email
     promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`)
@@ -85,13 +96,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
         const imageUrl = window.URL.createObjectURL(blob);
         AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
-      }));
+        // tslint:disable-next-line:no-console
+      }).catch((e) => console.log(e)));
 
     Promise.all(promisesGetUserInfo).then(() => {
       localStorage.setItem('status', 'authenticated');
       this.changeDetectorRef.detectChanges();
-    }).catch((e) => {
-      localStorage.setItem('status', 'authenticated');
     });
   }
 }

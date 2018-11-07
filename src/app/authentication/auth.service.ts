@@ -11,26 +11,19 @@ export class AuthService {
 
     constructor() {
         this.app = new Msal.UserAgentApplication((window as any).ClientId, '', this.authCallback,
-            this.acquireTokenRedirectCallBack, {});
-    }
-
-    public authCallback = (errorDesc, token, error) => {
-        if (token) {
-            localStorage.setItem('status', 'authenticated');
-            this.getToken();
-        } else if (errorDesc || error) {
-            localStorage.setItem('status', 'anonymous');
-        }
-    }
-
-    public acquireTokenRedirectCallBack = (errorDesc, token, error, tokenType) => {
-        if (tokenType === 'access_token') {
-            return token;
-        }
+            {});
     }
 
     public login() {
-        return this.app.loginRedirect(this.defaultUserScopes());
+        return this.app.loginPopup(this.defaultUserScopes())
+        .then(() => {
+                localStorage.setItem('status', 'authenticated');
+                this.getToken();
+                return true;
+            }, () => {
+            localStorage.setItem('status', 'anonymous');
+            return false;
+        });
     }
 
     public logout() {
@@ -46,8 +39,13 @@ export class AuthService {
         return this.app.acquireTokenSilent(listOfScopes)
             .then((accessToken) => {
                 return accessToken;
-            }, (error) => {
-                return this.app.acquireTokenRedirect(listOfScopes);
+            }, () => {
+                return this.app.acquireTokenPopup(listOfScopes)
+                    .then((accessToken) => {
+                        return accessToken;
+                    }, () => {
+                        return null;
+                    });
             });
     }
 
