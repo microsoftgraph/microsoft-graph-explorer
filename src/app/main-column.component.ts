@@ -153,7 +153,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
          */
         const selectElement = this._httpMethodEl.element.nativeElement.children[1];
         const selectElementButton = selectElement && selectElement.children[0];
-        const hasDisabledAttribute = selectElementButton && selectElementButton.hasAttribute('disabled');
+        const hasDisabledAttribute = !!selectElementButton && selectElementButton.hasAttribute('disabled');
 
         // Since ngAfterViewChecked is called after every change detection cycle the hasDisabledAttribute makes sure
         // We are calling setAttribute/removeAttribute once and not every time ngAfterViewChecked is called.
