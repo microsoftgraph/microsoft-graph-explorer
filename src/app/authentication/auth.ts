@@ -46,7 +46,7 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
       redirect_uri: window.location.pathname, //required to remove extra url params that make URLs not match
     });
 
-  hello.on('auth.login', (auth) => {
+  hello.on('auth.login', async (auth) => {
     let accessToken;
 
     if (auth.network === 'msft') {
@@ -59,34 +59,36 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
       AppComponent.explorerValues.authentication.status = 'authenticating';
       changeDetectorRef.detectChanges();
 
-      const promisesGetUserInfo = [];
-      AppComponent.explorerValues.authentication.user = {};
+      try {
+          let user = {};
 
-      // get displayName and email
-      promisesGetUserInfo.push(apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`).then((result) => {
-        const resultBody = result.json();
+          const userInfoUrl = `${AppComponent.Options.GraphUrl}/v1.0/me`;
+          const userPictureUrl = `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`;
 
-        AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
-        AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
-      }));
+          const userInfo = await apiService.performQuery('GET', userInfoUrl);
+          const jsonUserInfo = userInfo.json();
+          user = Object.assign(
+              user,
+              { displayName: jsonUserInfo.displayName, emailAdress: jsonUserInfo.mail || jsonUserInfo.userPrincipalName});
 
-      // get profile image
-      promisesGetUserInfo.push(apiService.performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`).then((result) => {
-        const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
-        const imageUrl = window.URL.createObjectURL(blob);
-        AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
-      }).catch((e) => console.log(e)));
+          try {
+              const userPicture = await apiService.performQuery('GET_BINARY', userPictureUrl);
+              const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg'});
+              const imageUrl = window.URL.createObjectURL(blob);
+              user = Object.assign(user, { profileImageUrl: imageUrl });
+          } catch (e) {
+              user = Object.assign(user, { profileImageUrl: null });
+          }
 
-      Promise.all(promisesGetUserInfo).then(() => {
-        AppComponent.explorerValues.authentication.status = 'authenticated';
-        changeDetectorRef.detectChanges();
-      }).catch((e) => {
-        // occurs when hello got an access token, but it's already expired
-        localLogout();
-      });
+          AppComponent.explorerValues.authentication.user = user;
+
+          AppComponent.explorerValues.authentication.status = 'authenticated';
+          changeDetectorRef.detectChanges();
+      } catch (e) {
+          localLogout();
+      }
 
       // set which permissions are checked
-
       const scopes = getScopes();
       scopes.push('openid');
       for (const scope of PermissionScopes) {
