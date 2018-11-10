@@ -212,5 +212,9 @@
   "create a new owner": "create a new owner",
   "Notifications (beta)": "Notifications (beta)",
   "create a raw notification": "create a raw notification",
-  "create a visual notification": "create a visual notification"
-}
+  "create a visual notification": "create a visual notification",
+  "apps in your app catalog": "apps in your app catalog",
+  "apps unique to your tenant": "apps unique to your tenant",
+  "apps in a team": "apps in a team",
+  "tabs in a channel": "tabs in a channel"
+  }
