@@ -1,0 +1,79 @@
+<div class="ms-Dialog center-dialog ms-Dialog--close" id="scopes-dialog">
+    <button class="ms-Dialog-button ms-Dialog-buttonClose">
+        <i class="ms-Icon ms-Icon--Cancel"></i>
+    </button>
+    <div class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
+    <p class="ms-Dialog-subText">Select different
+        <a class="ms-Link" href="https://developer.microsoft.com/graph/docs/concepts/permissions_reference" target="_blank">permissions</a>
+        to try out Microsoft Graph API endpoints.</p>
+    <div class="ms-Dialog-content">
+
+        <div id="scopes-list-table-container" #scopesListTableContainer [style.height.px]="getScopesListTableHeight()">
+            <table class="ms-Table" id="scopes-list-table">
+                <tr *ngFor="let scope of scopes">
+                    <td class="scopeRow">
+                        <div class="c-checkbox">
+                            <label class="c-label">
+                                <!-- scope.consented indicates that the user or admin has previously consented to the scope.-->
+                                <input type="checkbox" 
+                                    [disabled]="scope.consented"
+                                    (change)="toggleRequestScope(scope)"
+                                    name="checkboxId1" 
+                                    value="value1" 
+                                    [attr.aria-label]="getScopeLabel(scope.name)"
+                                    [tabindex]=""
+                                    >
+                                <span aria-hidden="true" [title]="scope.description">{{scope.name}}
+                                    <i class="consented-label" *ngIf="scope.consented">{{getStr('Consented')}}</i>
+                                    <i class="preview-label" *ngIf="scope.preview">{{getStr('Preview')}}</i>
+                                </span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <span *ngIf="scope.admin">
+                            Admin
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="scopeListIsDirty()">
+            <div class="ms-MessageBar ms-MessageBar--warning">
+                <div class="ms-MessageBar-content">
+                    <div class="ms-MessageBar-icon">
+                        <i class="ms-Icon ms-Icon--Info"></i>
+                    </div>
+                    <div class="ms-MessageBar-text" role="alert" aria-live="assertive">
+                        {{getStr('To change permissions, you will need to log-in again.')}}
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="hasSelectedAdminScope">
+            <div class="ms-MessageBar ms-MessageBar--warning">
+                <div class="ms-MessageBar-content">
+                    <div class="ms-MessageBar-icon">
+                        <i class="ms-Icon ms-Icon--Info"></i>
+                    </div>
+                    <div class="ms-MessageBar-text" role="alert" aria-live="assertive">
+                        You have selected permissions that only an administrator can grant. To get access, an
+                        administrator can grant
+                        <a class="ms-Link" href="#" [style.font-size.px]="15" (click)="startAdminConsentFlow()">access
+                            to your entire organization</a>.
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ms-Dialog-actions">
+        <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="!scopeListIsDirty()" (click)="getNewAccessToken()">
+            <span class="ms-Button-label" style="text-transform: capitalize;">{{getStr('modify permissions')}}</span>
+        </button>
+        <button class="ms-Button ms-Dialog-action">
+            <span class="ms-Button-label">{{getStr('Close')}}</span>
+        </button>
+    </div>
+</div>

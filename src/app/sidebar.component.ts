@@ -1,29 +1,33 @@
-// ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-// ------------------------------------------------------------------------------
+/*
+ ------------------------------------------------------------------------------
+  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+  See License in the project root for license information.
+ ------------------------------------------------------------------------------
+*/
 
-import { Component, AfterViewInit } from '@angular/core';
-import { SampleQueryCategory } from "./base";
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { SampleCategories } from "./getting-started-queries";
+import { AfterViewInit, Component } from '@angular/core';
+import { ISampleQueryCategory } from './base';
+import { SampleCategories } from './getting-started-queries';
+import { GraphExplorerComponent } from './GraphExplorerComponent';
 
 declare let fabric;
 
 @Component({
     selector: 'sidebar',
     templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.css']
+    styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent extends GraphExplorerComponent implements AfterViewInit {
-    sampleCategoryPanel: Element;
-    historyPanel: Element;
+    public sampleCategoryPanel: Element;
+    public historyPanel: Element;
+    public categories: ISampleQueryCategory[] = SampleCategories;
 
-    ngAfterViewInit(): void {
-        this.historyPanel = document.querySelector("#history-panel");
-        this.sampleCategoryPanel = document.querySelector("#sample-categories-panel");
+    public ngAfterViewInit(): void {
+        this.historyPanel = document.querySelector('#history-panel');
+        this.sampleCategoryPanel = document.querySelector('#sample-categories-panel');
 
         $(document).keyup((e) => {
-            if (e.keyCode === 27) { // esc
+            if (e.keyCode === 27) { // Esc
                 this.closePanels();
             }
         });
@@ -35,37 +39,36 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
      * @param categoryTitle The sample category title that will be changed into an element id.
      * @returns A sample category title as an ID.
      */
-    idifyCategory(categoryTitle: string): string {
+    public idifyCategory(categoryTitle: string): string {
         return categoryTitle.replace(/\s+/g, '-').toLowerCase();
     }
 
-    categories: SampleQueryCategory[] = SampleCategories
-
-    manageCategories() {
-        // open sample category panel
+    public manageCategories() {
+        // Open sample category panel
         new fabric['Panel'](this.sampleCategoryPanel); // tslint:disable-line
 
         // Set the focus on the first actionable control in the sampleCategoryPanel.
-        (document.querySelector("#closeSampleCategories") as any).focus();
+        (document.querySelector('#closeSampleCategories') as any).focus();
+
     }
 
-    manageHistory() {
-        // open history panel
+    public manageHistory() {
+        // Open history panel
         new fabric['Panel'](this.historyPanel); // tslint:disable-line
-        (document.querySelector("#history-panel tbody tr:first-child") as any).focus();
+        (document.querySelector('#history-panel tbody tr:first-child') as any).focus();
     }
 
-    closePanels() {
+    public closePanels() {
         try {
-            (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click();
+            (document.querySelector('#history-panel .ms-Panel-closeButton') as any).click();
         } catch (e) {
-
+            throw e;
         }
 
         try {
-            (document.querySelector("#sample-categories-panel .ms-Panel-closeButton") as any).click();
+            (document.querySelector('#sample-categories-panel .ms-Panel-closeButton') as any).click();
         } catch (e) {
-
+            throw e;
         }
-    };
+    }
 }

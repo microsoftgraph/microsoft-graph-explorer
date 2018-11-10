@@ -1,0 +1,50 @@
+#ms-signin-button {
+    max-width: 215px;
+    margin: 20px 0 0px 0px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px;
+}
+
+#signout {
+    float: right;
+    padding-right: 16px;
+    color: #00bcf2;
+}
+
+#userDisplayName {
+    color: #e2e2e2
+}
+
+#userMail {
+    color: #a0a0a0;
+}
+
+#authenticating-progress-bar {
+    margin: 0px auto;
+}
+
+.noPicture .ms-Persona-details {
+    padding-left: 0px;
+}
+
+#ms-signin-button-holder {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+}
+
+#manage-permissions {
+    float: left;
+    color: #00bcf2;
+}
+
+#signout, #manage-permissions {
+    margin-top: 9px;
+}
+
+#persona-holder {
+    margin-top: 15px;
+    margin-bottom: -15px;
+}

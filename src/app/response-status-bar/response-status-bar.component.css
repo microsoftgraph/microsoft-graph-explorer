@@ -1,0 +1,31 @@
+.ms-MessageBar {
+    width: 100%;
+    margin: 0px auto;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+.ms-MessageBar-content {
+    padding: 6px;
+}
+.ms-MessageBar-content div {
+    float: left;
+}
+.ms-MessageBar-content .ms-MessageBar-actionsOneline {
+    float: right;
+}
+.hide-action-bar {
+    opacity: 0;
+}
+
+.ms-MessageBar-text {
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+}
+
+.ms-Icon.ms-Icon--Cancel {
+    color: black;
+}
