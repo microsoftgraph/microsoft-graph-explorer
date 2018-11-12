@@ -10,20 +10,17 @@ export class AuthService {
     private app: any;
 
     constructor() {
-        this.app = new Msal.UserAgentApplication((window as any).ClientId, '', this.authCallback,
+        this.app = new Msal.UserAgentApplication((window as any).ClientId, '',
             {});
     }
 
-    public login() {
+    public async login() {
         return this.app.loginPopup(this.defaultUserScopes())
-        .then(() => {
-                localStorage.setItem('status', 'authenticated');
-                this.getToken();
-                return true;
+            .then(async () => {
+                return this.getToken();
             }, () => {
-            localStorage.setItem('status', 'anonymous');
-            return false;
-        });
+                return false;
+            });
     }
 
     public logout() {

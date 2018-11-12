@@ -29,7 +29,8 @@ export function checkHasValidAuthToken(authService) {
 export function isAuthenticated() {
   const status = localStorage.getItem('status');
   if (status && status !== 'anonymous') {
-      return true;
-    }
+    return true;
+  }
+  localStorage.setItem('status', 'anonymous');
   return false;
 }

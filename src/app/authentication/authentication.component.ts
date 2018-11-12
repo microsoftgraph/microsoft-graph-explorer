@@ -43,11 +43,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     localStorage.setItem('status', 'authenticating');
     this.changeDetectorRef.detectChanges();
     this.authService.login()
-      .then((user) => {
-        if (user) {
+      .then((accessToken) => {
+        if (accessToken) {
           this.displayUserProfile();
           this.setPermissions();
-          localStorage.setItem('status', 'authenticated');
+        } else {
+          localStorage.setItem('status', 'anonymous');
           this.changeDetectorRef.detectChanges();
         }
       });
@@ -78,8 +79,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   private displayUserProfile() {
-    localStorage.setItem('status', 'authenticating');
-    this.changeDetectorRef.detectChanges();
     const promisesGetUserInfo = [];
     // Get displayName and email
     promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`)
