@@ -15,11 +15,11 @@
                         <div class="c-checkbox">
                             <label class="c-label">
                                 <!-- scope.consented indicates that the user or admin has previously consented to the scope.-->
-                                <input type="checkbox" 
+                                <input type="checkbox"
                                     [disabled]="scope.consented"
                                     (change)="toggleRequestScope(scope)"
-                                    name="checkboxId1" 
-                                    value="value1" 
+                                    name="checkboxId1"
+                                    value="value1"
                                     [attr.aria-label]="getScopeLabel(scope.name)"
                                     [tabindex]=""
                                     >
@@ -46,22 +46,6 @@
                     </div>
                     <div class="ms-MessageBar-text" role="alert" aria-live="assertive">
                         {{getStr('To change permissions, you will need to log-in again.')}}
-                        <br />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="hasSelectedAdminScope">
-            <div class="ms-MessageBar ms-MessageBar--warning">
-                <div class="ms-MessageBar-content">
-                    <div class="ms-MessageBar-icon">
-                        <i class="ms-Icon ms-Icon--Info"></i>
-                    </div>
-                    <div class="ms-MessageBar-text" role="alert" aria-live="assertive">
-                        You have selected permissions that only an administrator can grant. To get access, an
-                        administrator can grant
-                        <a class="ms-Link" href="#" [style.font-size.px]="15" (click)="startAdminConsentFlow()">access
-                            to your entire organization</a>.
                         <br />
                     </div>
                 </div>

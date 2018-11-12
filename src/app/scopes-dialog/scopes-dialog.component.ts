@@ -154,17 +154,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     }
   }
 
-  public startAdminConsentFlow() {
-    const loginProperties = {
-      display: 'page',
-      nonce: 'graph_explorer',
-      prompt: 'select_account',
-    };
-
-    hello('msft_admin_consent').login(loginProperties);
-
-  }
-
   public getNewAccessToken() {
     // @todo type HelloJSLoginOptions
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
