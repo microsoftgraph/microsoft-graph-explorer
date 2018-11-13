@@ -27,8 +27,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     super();
   }
 
-  public ngOnInit() {
-    if (this.getAuthenticationStatus() === 'authenticated' && haveValidAccessToken(this.authService)) {
+  public async ngOnInit() {
+    const valid = await haveValidAccessToken(this.authService);
+    if (this.getAuthenticationStatus() === 'authenticated' && valid) {
       this.displayUserProfile();
       this.setPermissions();
     }
@@ -47,9 +48,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         if (accessToken) {
           this.displayUserProfile();
           this.setPermissions();
-        } else {
-          localStorage.setItem('status', 'anonymous');
-          this.changeDetectorRef.detectChanges();
         }
       });
   }

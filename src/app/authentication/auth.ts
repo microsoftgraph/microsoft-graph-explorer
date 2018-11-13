@@ -20,8 +20,10 @@ export function localLogout() {
   localStorage.setItem('status', 'anonymous');
 }
 
-export function checkHasValidAuthToken(authService) {
-  if (!haveValidAccessToken(authService) && isAuthenticated()) {
+export async function checkHasValidAuthToken(authService) {
+  const valid = await haveValidAccessToken(authService);
+  const authenticated = isAuthenticated();
+  if (!valid && authenticated) {
     localLogout();
   }
 }
