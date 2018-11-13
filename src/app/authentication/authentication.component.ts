@@ -10,7 +10,7 @@ import { GraphService } from '../graph-service';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
-import { localLogout } from './auth';
+import { haveValidAccessToken, localLogout } from './auth';
 import { AuthService } from './auth.service';
 @Component({
   selector: 'authentication',
@@ -28,7 +28,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public ngOnInit() {
-    if (this.getAuthenticationStatus() === 'authenticated') {
+    if (this.getAuthenticationStatus() === 'authenticated' && haveValidAccessToken(this.authService)) {
       this.displayUserProfile();
       this.setPermissions();
     }

@@ -21,12 +21,12 @@ export class GraphService {
 
         if (queryType === 'GET') {
             return this.http
-            .get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, {headers})
-            .toPromise();
+                .get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`, { headers })
+                .toPromise();
         } else if (queryType === 'GET_BINARY') {
             return this.http
-            .get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`,
-            {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
+                .get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`,
+                    { headers, responseType: ResponseContentType.ArrayBuffer }).toPromise();
         }
     }
 
@@ -57,14 +57,17 @@ export class GraphService {
     }
 
     public handleRequest = async function(requestHeaders, query, queryType, postBody, authService) {
-        const accessToken = await authService.getToken();
+        let accessToken = await authService.getTokenSilent();
+        if (accessToken === null) {
+            accessToken = await authService.getTokenPopup();
+        }
         requestHeaders.append('Authorization', `Bearer ${accessToken}`);
         switch (queryType) {
             case 'GET':
                 return this.http.get(query, { headers: requestHeaders }).toPromise();
             case 'GET_BINARY':
                 return this.http.get(query, { responseType: ResponseContentType.ArrayBuffer, headers: requestHeaders })
-                .toPromise();
+                    .toPromise();
             case 'PUT':
                 return this.http.put(query, postBody, { headers: requestHeaders }).toPromise();
             case 'POST':

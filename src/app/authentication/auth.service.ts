@@ -17,7 +17,7 @@ export class AuthService {
     public async login() {
         return this.app.loginPopup(this.defaultUserScopes())
             .then(async () => {
-                return this.getToken();
+                return this.getTokenSilent();
             }, () => {
                 return false;
             });
@@ -27,7 +27,7 @@ export class AuthService {
         this.app.logout();
     }
 
-    public getToken(scopes: any = []) {
+    public getTokenSilent(scopes: any = []) {
         const hasScopes = scopes.length > 0;
         let listOfScopes = this.defaultUserScopes();
         if (hasScopes) {
@@ -37,16 +37,16 @@ export class AuthService {
             .then((accessToken) => {
                 return accessToken;
             }, () => {
-                return this.app.acquireTokenPopup(listOfScopes)
-                    .then((accessToken) => {
-                        return accessToken;
-                    }, () => {
-                        return null;
-                    });
+                return null;
             });
     }
 
-    public getNewToken(listOfScopes) {
+    public getTokenPopup(scopes: any = []) {
+        const hasScopes = scopes.length > 0;
+        let listOfScopes = this.defaultUserScopes();
+        if (hasScopes) {
+            listOfScopes = scopes;
+        }
         return this.app.acquireTokenPopup(listOfScopes)
             .then((accessToken) => {
                 return accessToken;
@@ -60,7 +60,7 @@ export class AuthService {
     }
 
     public async getScopes() {
-        const accessToken = await this.getToken();
+        const accessToken = await this.getTokenSilent();
         const jwtToken = JWT(accessToken);
         let scopesStr = jwtToken.scp;
 

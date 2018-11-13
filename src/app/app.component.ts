@@ -6,8 +6,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { refreshAceEditorsContent } from './ace-utils';
-import { GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
-    IMessageBarContent, RequestType } from './base';
+import {
+    GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
+    IMessageBarContent, RequestType,
+} from './base';
 import { initFabricComponents } from './fabric-components';
 import { GenericDialogComponent } from './generic-message-dialog.component';
 import { GraphService } from './graph-service';
@@ -20,10 +22,10 @@ declare let mwf;
 declare let moment;
 
 @Component({
-  selector: 'api-explorer',
-  providers: [GraphService],
-  templateUrl: './app.component.html',
-  styles: [`
+    selector: 'api-explorer',
+    providers: [GraphService],
+    templateUrl: './app.component.html',
+    styles: [`
   #explorer-main {
       padding-left: 12px;
   }
@@ -83,7 +85,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     public static setMessage(message: IMessage) {
         AppComponent.message = message;
-        setTimeout(() => {GenericDialogComponent.showDialog(); });
+        setTimeout(() => { GenericDialogComponent.showDialog(); });
     }
 
     constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) { // tslint:disable-line
@@ -92,46 +94,46 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     }
 
     public ngAfterViewInit(): void {
-      // When clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
-      if (typeof $ !== 'undefined') {
-        $('api-explorer .ms-Pivot-link').on('click', () => {
-          setTimeout(refreshAceEditorsContent, 0);
-        });
-      }
+        // When clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
+        if (typeof $ !== 'undefined') {
+            $('api-explorer .ms-Pivot-link').on('click', () => {
+                setTimeout(refreshAceEditorsContent, 0);
+            });
+        }
 
-      parseMetadata(this.GraphService, 'v1.0');
-      parseMetadata(this.GraphService, 'beta');
+        parseMetadata(this.GraphService, 'v1.0');
+        parseMetadata(this.GraphService, 'beta');
     }
 
     public ngOnInit() {
-    for (const key in AppComponent.Options) {
-      if (key in window) {
-        AppComponent.Options[key] = window[key];
-      }
+        for (const key in AppComponent.Options) {
+            if (key in window) {
+                AppComponent.Options[key] = window[key];
+            }
+        }
+
+        AppComponent.Options.GraphVersions.push('Other');
+
+        initFabricComponents();
+
+        mwf.ComponentFactory.create([{
+            component: mwf.Drawer,
+        }]);
+
+        moment.locale(AppComponent.Options.Language);
+
+        // Set explorer state that depends on configuration
+        AppComponent.explorerValues.endpointUrl = AppComponent.Options
+            .GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
+
+        // Show the Microsoft Graph TOU when we load GE.
+        AppComponent.messageBarContent = {
+            text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' ' +
+                'target=\'_blank\'>Microsoft Graph Terms of Use</a> and the ' +
+                '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
+                ' target=\'_blank\'>Microsoft Privacy Statement</a>.',
+            backgroundClass: 'ms-MessageBar--warning',
+            icon: 'none',
+        };
     }
-
-    AppComponent.Options.GraphVersions.push('Other');
-
-    initFabricComponents();
-
-    mwf.ComponentFactory.create([{
-        component: mwf.Drawer,
-    }]);
-
-    moment.locale(AppComponent.Options.Language);
-
-    // Set explorer state that depends on configuration
-    AppComponent.explorerValues.endpointUrl = AppComponent.Options
-      .GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
-
-    // Show the Microsoft Graph TOU when we load GE.
-    AppComponent.messageBarContent = {
-      text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' ' +
-          'target=\'_blank\'>Microsoft Graph Terms of Use</a> and the ' +
-          '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
-          ' target=\'_blank\'>Microsoft Privacy Statement</a>.',
-      backgroundClass: 'ms-MessageBar--warning',
-      icon: 'none',
-    };
-  }
- }
+}

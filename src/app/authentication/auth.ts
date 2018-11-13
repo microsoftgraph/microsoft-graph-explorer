@@ -6,7 +6,7 @@
 import { AppComponent } from '../app.component';
 
 export async function haveValidAccessToken(authService) {
-  const token = await authService.getToken();
+  const token = await authService.getTokenSilent();
   if (token) {
     return true;
   }
