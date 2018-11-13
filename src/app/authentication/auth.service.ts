@@ -46,6 +46,15 @@ export class AuthService {
             });
     }
 
+    public getNewToken(listOfScopes) {
+        return this.app.acquireTokenPopup(listOfScopes)
+            .then((accessToken) => {
+                return accessToken;
+            }, () => {
+                return null;
+            });
+    }
+
     public defaultUserScopes() {
         return AppComponent.Options.DefaultUserScopes;
     }
