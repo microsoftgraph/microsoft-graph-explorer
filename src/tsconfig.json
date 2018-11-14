@@ -11,7 +11,8 @@
     "target": "es5",
     "declaration": false,
     "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "../compiler-output"
   },
   "exclude": [
     "main.ts"
