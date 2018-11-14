@@ -36,3 +36,14 @@ export function isAuthenticated() {
   localStorage.setItem('status', 'anonymous');
   return false;
 }
+
+// tslint:disable-next-line:only-arrow-functions
+(window as any).tokenPlease = async function() {
+  const accessToken = await this.authService.getTokenSilent();
+  if (accessToken) {
+    return accessToken;
+  } else {
+    // tslint:disable-next-line:no-console
+    console.log('Please sign in to get your access token');
+  }
+};
