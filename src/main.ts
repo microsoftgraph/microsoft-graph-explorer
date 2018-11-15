@@ -1,9 +1,9 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { platformBrowser } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
+import { platformBrowser } from '@angular/platform-browser';
 
-import { AppModule } from './app/app.module';
+// @ts-ignore
 import { AppModuleNgFactory } from './aot/app/app.module.ngfactory';
+import { AppModule } from './app/app.module';
 
 enableProdMode();
 platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);

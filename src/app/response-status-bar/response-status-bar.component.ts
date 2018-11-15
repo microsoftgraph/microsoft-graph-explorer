@@ -1,36 +1,37 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+// See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { MessageBarContent } from "./base";
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer } from '@angular/platform-browser';
+import { IMessageBarContent } from '../base';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
 @Component({
   selector: 'message-bar',
   templateUrl: './response-status-bar.component.html',
-  styleUrls: ['./response-status-bar.component.css']
+  styleUrls: ['./response-status-bar.component.css'],
 })
 export class ResponseStatusBarComponent extends GraphExplorerComponent {
 
-    @Input() message: MessageBarContent;
+    @Input() public message: IMessageBarContent;
 
-    messageHTML:string;
+    public messageHTML: string;
 
     constructor(private sanitizer: DomSanitizer) {
         super();
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges() {
         this.setMessageText();
     }
 
-    clearMessage() {
+    public clearMessage() {
         this.message = null;
     }
 
-    setMessageText() {
+    public setMessageText() {
         if (this.message) {
             this.messageHTML = this.sanitizer.bypassSecurityTrustHtml(this.message.text) as string;
         }

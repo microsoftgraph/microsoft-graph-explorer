@@ -1,142 +1,162 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+// See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { Tokens } from "./tokens";
-import { isAuthenticated } from "./auth";
+import { isAuthenticated } from './authentication/auth';
+import { Tokens } from './tokens';
 
-export interface ExplorerOptions {
-    AuthUrl?: string
-    GraphUrl?: string
-    ClientId?: string
-    Language?: string
-    RedirectUrl?: string
-    DefaultUserScopes?: string
-    GraphVersions?: string[]
-    PathToBuildDir: string
+export interface IExplorerOptions {
+    AuthUrl?: string;
+    GraphUrl?: string;
+    ClientId?: string;
+    Language?: string;
+    RedirectUrl?: string;
+    DefaultUserScopes?: string;
+    GraphVersions?: string[];
+    PathToBuildDir: string;
 }
 
-export let Methods:RequestType[] = [
+export let Methods: RequestType[] = [
     'GET',
     'POST',
     'PUT',
     'PATCH',
-    'DELETE'
+    'DELETE',
 ];
 
+export type GraphApiVersion = 'v1.0' | 'beta';
+export let GraphApiVersions: GraphApiVersion[] = ['v1.0', 'beta'];
 
-export type GraphApiVersion = "v1.0" | "beta";
-export let GraphApiVersions:GraphApiVersion[] = ["v1.0", "beta"];
+export type AuthenticationStatus = 'anonymous' | 'authenticating' | 'authenticated';
 
-export type AuthenticationStatus = "anonymous" | "authenticating" | "authenticated";
+export type RequestType = 'GET' | 'PUT' | 'POST' | 'GET_BINARY' | 'POST' | 'PATCH' | 'DELETE';
 
-export type RequestType = "GET" | "PUT" | "POST" | "GET_BINARY" | "POST" | "PATCH" | "DELETE";
-
-export interface PermissionScope {
-  name: string
-  description: string
-  longDescription: string
-  preview: boolean
-  admin: boolean
-
-  enabled?: boolean
-
-  /**
-   * Used in the scopes dialog for checking/unchecking before scope is actually enabled in the token.
-   */
-  enabledTarget?: boolean
+/***
+ * Represents a scope.
+ */
+export interface IPermissionScope {
+    /**
+     * The scope name.
+     */
+    name: string;
+    /**
+     * A short description of the scope.
+     */
+    description: string;
+    /**
+     * A long description of the scope.
+     */
+    longDescription: string;
+    /**
+     * Specifies whether the scope is currently in preview.
+     */
+    preview: boolean;
+    /**
+     * Specifies whether the property is only consent-able via admin consent.
+     */
+    admin: boolean;
+    /**
+     * Specifies whether the user has already consented to the scope.
+     */
+    consented?: boolean;
+    /**
+     * Specifies whether the user wants to request this scope. Used in the scopes
+     * dialog for checking/unchecking before scope is actually enabled in the token.
+     */
+    requested?: boolean;
 }
 
-export interface GraphApiCall {
-    statusCode?: number
-    duration?: number
-    method?: RequestType
-    humanName?: string
-    requestUrl?: string
-    postBody?: string
-    headers?: GraphRequestHeader[]
+export interface IGraphApiCall {
+    statusCode?: number;
+    duration?: number;
+    method?: RequestType;
+    humanName?: string;
+    requestUrl?: string;
+    postBody?: string;
+    headers?: IGraphRequestHeader[];
 
-    requestSentAt?: Date
-    relativeDate?: string
+    requestSentAt?: Date;
+    relativeDate?: string;
 
 }
 
-export interface SampleQuery extends GraphApiCall {
-    docLink?: string
-    AAD?: boolean
-    MSA?: boolean
-    category: string
-    tip?: string
+export interface ISampleQuery extends IGraphApiCall {
+    docLink?: string;
+    AAD?: boolean;
+    MSA?: boolean;
+    category: string;
+    tip?: string;
 }
 
-export interface SampleQueryCategory {
-    title: string
-    enabled?: boolean
-    queries?: SampleQuery[]
+export interface ISampleQueryCategory {
+    title: string;
+    enabled?: boolean;
+    queries?: ISampleQuery[];
 }
 
-export interface ExplorerValues {
-    selectedOption?: RequestType
-    selectedVersion?: GraphApiVersion
-    endpointUrl?: string
+export interface IExplorerValues {
+    selectedOption?: RequestType;
+    selectedVersion?: GraphApiVersion;
+    endpointUrl?: string;
     authentication?: {
         status?: AuthenticationStatus
         user?: {
             displayName?: string
             emailAddress?: string
-            profileImageUrl?: string
-        }
-    }
-    showImage?: boolean
-    requestInProgress?: boolean,
-    headers?: GraphRequestHeader[]
-    postBody?: string
+            profileImageUrl?: string,
+        },
+    };
+    showImage?: boolean;
+    requestInProgress?: boolean;
+    headers?: IGraphRequestHeader[];
+    postBody?: string;
 }
 
-export interface GraphRequestHeader {
-    name: string
-    value: string
-    enabled?: boolean
-    readonly?: boolean
+export interface IGraphRequestHeader {
+    name: string;
+    value: string;
+    enabled?: boolean;
+    readonly?: boolean;
 }
 
-export interface AutoCompleteItem {
-    url: string
-    fullUrl: string
+export interface IAutoCompleteItem {
+    url: string;
+    fullUrl: string;
 }
 
 export const CommonHeaders = [
-    "Accept",
-    "Accept-Charset",
-    "Accept-Encoding",
-    "Accept-Language",
-    "Accept-Datetime",
-    "Authorization",
-    "Cache-Control",
-    "Connection",
-    "Cookie",
-    "Content-Length",
-    "Content-MD5",
-    "Content-Type",
-    "Date",
-    "Expect",
-    "Forwarded",
-    "From",
-    "Host",
-    "If-Match",
-    "If-Modified-Since",
-    "If-None-Match",
-    "If-Range",
-    "If-Unmodified-Since",
-    "Max-Forwards",
-    "Origin",
-    "Pragma",
-    "Proxy-Authorization",
-    "Range",
-    "User-Agent",
-    "Upgrade",
-    "Via",
-    "Warning"
+    'Accept',
+    'Accept-Charset',
+    'Accept-Encoding',
+    'Accept-Language',
+    'Accept-Datetime',
+    'Authorization',
+    'Cache-Control',
+    'Connection',
+    'Cookie',
+    'Content-Length',
+    'Content-MD5',
+    'Content-Type',
+    'Date',
+    'Expect',
+    'Forwarded',
+    'From',
+    'Host',
+    'If-Match',
+    'If-Modified-Since',
+    'If-None-Match',
+    'If-Range',
+    'If-Unmodified-Since',
+    'Max-Forwards',
+    'Origin',
+    'Pragma',
+    'Proxy-Authorization',
+    'Range',
+    'User-Agent',
+    'Upgrade',
+    'Via',
+    'Warning',
 ];
 
 /**
@@ -152,20 +172,20 @@ export const CommonHeaders = [
  * Tokens are maintained in tokens.ts.
  */
 
-export interface Token {
-    placeholder: string
+export interface IToken {
+    placeholder: string;
 
-    // base defaults to replace the placeholder with. Not used if any of the below are defined
-    defaultValue?: string
-    defaultValueFn?: Function
+    // Base defaults to replace the placeholder with. Not used if any of the below are defined
+    defaultValue?: string;
+    defaultValueFn?: Function;
 
-    // when the user is not authenticated, use these values for the demo tenant
-    demoTenantValue?: string
-    demoTenantValueFn?: Function
+    // When the user is not authenticated, use these values for the demo tenant
+    demoTenantValue?: string;
+    demoTenantValueFn?: Function;
 
-    // when the user is authenticated with MSA or AAD, replace token with these values
-    authenticatedUserValue?: string
-    authenticatedUserValueFn?: Function
+    // When the user is authenticated with MSA or AAD, replace token with these values
+    authenticatedUserValue?: string;
+    authenticatedUserValueFn?: Function;
 }
 
 /*
@@ -173,8 +193,8 @@ export interface Token {
  * replace the token with.
  * Order: Authenticated user values, demo tenant replacament values, default replacement values.
  */
-function getTokenSubstituteValue(token:Token) {
-    let priorityOrder = []; // desc
+function getTokenSubstituteValue(token: IToken) {
+    const priorityOrder = []; // Desc
 
     if (isAuthenticated()) {
         priorityOrder.push(token.authenticatedUserValueFn);
@@ -187,13 +207,13 @@ function getTokenSubstituteValue(token:Token) {
     priorityOrder.push(token.defaultValueFn);
     priorityOrder.push(token.defaultValue);
 
-    for (let tokenVal of priorityOrder) {
+    for (const tokenVal of priorityOrder) {
         if (!tokenVal) {
             continue;
         }
-        if (typeof tokenVal === "string") {
+        if (typeof tokenVal === 'string') {
             return tokenVal;
-        } else if (typeof tokenVal === "function") {
+        } else if (typeof tokenVal === 'function') {
             return tokenVal();
         }
     }
@@ -205,19 +225,19 @@ function getTokenSubstituteValue(token:Token) {
  * values.  When a token is found, use getTokenSubstituteValue() to find the right
  * value to substitute based on the session.
  */
-export function substituteTokens(query:SampleQuery) {
-    type QueryFields = keyof GraphApiCall;
+export function substituteTokens(query: ISampleQuery) {
+    type QueryFields = keyof IGraphApiCall;
 
-    for (let token of Tokens) {
-        let queryFieldsToCheck:QueryFields[] = ['requestUrl', 'postBody'];
+    for (const token of Tokens) {
+        const queryFieldsToCheck: QueryFields[] = ['requestUrl', 'postBody'];
 
-        for (let queryField of queryFieldsToCheck) {
-            if (!query[queryField]) { // if the sample doesn't have a post body, don't search for tokens in it
+        for (const queryField of queryFieldsToCheck) {
+            if (!query[queryField]) { // If the sample doesn't have a post body, don't search for tokens in it
                 continue;
             }
 
             if ((query[queryField] as string).indexOf(`{${token.placeholder}}`) !== -1) {
-                let substitutedValue = getTokenSubstituteValue(token);
+                const substitutedValue = getTokenSubstituteValue(token);
                 if (!substitutedValue) {
                     continue;
                 }
@@ -227,19 +247,19 @@ export function substituteTokens(query:SampleQuery) {
     }
 }
 
-export interface Message {
-    title: string
-    body: string
+export interface IMessage {
+    title: string;
+    body: string;
 }
 
-export interface MessageBarContent {
-    icon: string
-    backgroundClass: string
-    text: string
+export interface IMessageBarContent {
+    icon: string;
+    backgroundClass: string;
+    text: string;
 }
 
 export let AllowedGraphDomains = [
-    "https://graph.microsoft.com",
-    "https://canary.graph.microsoft.com",
-    "https://microsoftgraph.chinacloudapi.cn"
-]
+    'https://graph.microsoft.com',
+    'https://canary.graph.microsoft.com',
+    'https://microsoftgraph.chinacloudapi.cn',
+];

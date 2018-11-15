@@ -1,16 +1,17 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+// See License in the project root for license information.
 // ------------------------------------------------------------------------------
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
-import { GraphExplorerComponent } from "./GraphExplorerComponent";
-import { GraphApiCall } from "./base";
-import { AppComponent } from "./app.component";
-import { getShortQueryText } from "./ApiCallDisplayHelpers";
-import { saveHistoryToLocalStorage } from "./history";
-import { QueryRunnerService } from "./query-runner.service";
+import { getShortQueryText } from './ApiCallDisplayHelpers';
+import { AppComponent } from './app.component';
+import { IGraphApiCall } from './base';
+import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { saveHistoryToLocalStorage } from './history';
+import { QueryRunnerService } from './query-runner.service';
 
-declare let moment:any;
+declare let moment: any;
 
 @Component({
   selector: 'history-panel',
@@ -19,42 +20,41 @@ declare let moment:any;
   providers: [QueryRunnerService],
 })
 export class HistoryPanelComponent extends GraphExplorerComponent implements OnInit {
-    constructor(private _changeDetectionRef : ChangeDetectorRef, private queryRunnerService: QueryRunnerService) {
+    constructor(private changeDetectorRef: ChangeDetectorRef, private queryRunnerService: QueryRunnerService) {
         super();
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         setInterval(() => {
-            for (let historyRecord of AppComponent.requestHistory) {
+            for (const historyRecord of AppComponent.requestHistory) {
                 historyRecord.relativeDate = moment(historyRecord.requestSentAt).fromNow();
             }
-            this._changeDetectionRef.detectChanges();
+            this.changeDetectorRef.detectChanges();
         }, 5000);
     }
 
-
-    closeHistoryPanel = () => {
-        (document.querySelector("#history-panel .ms-Panel-closeButton") as any).click()
+    public closeHistoryPanel = () => {
+        (document.querySelector('#history-panel .ms-Panel-closeButton') as any).click();
     };
 
-    getQueryText(query: GraphApiCall) {
+    public getQueryText(query: IGraphApiCall) {
         return getShortQueryText(query);
     }
 
-    getSuccessClass(query: GraphApiCall) {        
-        return query.statusCode >= 200 && query.statusCode < 300 ? "success" : "error";
+    public getSuccessClass(query: IGraphApiCall) {
+        return query.statusCode >= 200 && query.statusCode < 300 ? 'success' : 'error';
     }
 
-    removeQueryFromHistory(query:GraphApiCall) {
+    public removeQueryFromHistory(query: IGraphApiCall) {
         AppComponent.removeRequestFromHistory(query);
     }
 
-    clearHistory() {
+    public clearHistory() {
         AppComponent.requestHistory = [];
-        saveHistoryToLocalStorage(AppComponent.requestHistory)
+        saveHistoryToLocalStorage(AppComponent.requestHistory);
     }
 
-    handleQueryClick(query: GraphApiCall) {
+    public handleQueryClick(query: IGraphApiCall) {
         if (!this.isAuthenticated() && query.method !== 'GET') {
             return;
         }

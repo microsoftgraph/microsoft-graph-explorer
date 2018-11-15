@@ -1,4 +1,7 @@
-<div class="ms-MessageBar ms-MessageBar-singleline" [ngClass]="message?.backgroundClass" [class.hide-action-bar]="message == null">
+<div
+    class="ms-MessageBar ms-MessageBar-singleline"
+    [ngClass]="message?.backgroundClass"
+    [class.hide-action-bar]="message == null">
     <div class="ms-MessageBar-content">
         <table aria-labelledby="responseStatusText">
             <tr>
@@ -8,14 +11,24 @@
                     </div>
                 </td>
                 <div class="ms-MessageBar-actionables">
-                    <div id="responseStatusText" class="ms-MessageBar-text" tabindex="0" [innerHtml]="messageHTML" role="alert" aria-live="polite"></div>
+                    <div
+                        id="responseStatusText"
+                        class="ms-MessageBar-text"
+                        tabindex="0"
+                        [innerHtml]="messageHTML" role="alert" aria-live="polite">
+                    </div>
                 </div>
                 <td>
                 </td>
                 <td>
                     <div class="ms-MessageBar-actionsOneline">
                         <div id="dismiss-btn" class="ms-MessageBar-icon">
-                            <div tabindex="0" role="button" aria-label="Close status message" (click)="clearMessage()">
+                            <div
+                                tabindex="0" role="button"
+                                aria-label="Close status message"
+                                (click)="clearMessage()"
+                                (keyup.enter)="clearMessage()"
+                                >
                                 <i class="ms-Icon ms-Icon--Cancel"></i>
                             </div>
                         </div>

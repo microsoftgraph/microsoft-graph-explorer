@@ -1,4 +1,4 @@
-declare let ace:any;
+declare let ace: any;
 
 /**
  * ACE editors don't update their content when a parent DOM element is hidden. After
@@ -6,7 +6,7 @@ declare let ace:any;
  * should be notified to refresh their views
  */
 export function refreshAceEditorsContent() {
-    for (let aceEditor of $(".ace_editor").toArray()) {
+    for (const aceEditor of $('.ace_editor').toArray()) {
         ace.edit(aceEditor).resize();
     }
 }

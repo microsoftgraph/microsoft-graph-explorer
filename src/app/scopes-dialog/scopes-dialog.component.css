@@ -36,7 +36,7 @@
 }
 
 .c-checkbox input[type=checkbox]:focus+span:before {
-    outline: none !important;
+    outline: 2px solid #0078d7;
 }
 
 label.c-label {
@@ -45,6 +45,11 @@ label.c-label {
 }
 
 .preview-label {
+    margin-left: 10px;
+}
+
+.consented-label {
+    color: forestgreen;
     margin-left: 10px;
 }
 
