@@ -216,10 +216,9 @@
   "apps in your app catalog": "apps in your app catalog",
   "apps unique to your tenant": "apps unique to your tenant",
   "apps in a team": "apps in a team",
-  "tabs in a channel": "tabs in a channel"
+  "tabs in a channel": "tabs in a channel",
   "items shared with me" : "items shared with me",
   "items viewed and modified by me" : "items viewed and modified by me",
-  "apps in a team" : "apps in a team",
   "messages (without replies) in a channel" : "messages (without replies) in a channel",
   "message in a channel" : "message in a channel",
   "replies to a message in channel" : "replies to a message in channel",
