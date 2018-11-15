@@ -906,7 +906,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "GET",
     "humanName": "channels of a team which I am member of",
     "requestUrl": "/v1.0/teams/{team-id}/channels",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_channels",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/channel_list",
     "tip": "This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams"
 },
 {
@@ -922,7 +922,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "POST",
     "humanName": "create channel",
     "requestUrl": "/v1.0/teams/{team-id}/channels",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_post_channels",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/channel_post",
     "postBody": "{\r\n   \"displayName\": \"Architecture Discussion\",\r\n   \"description\": \"This channel is where we debate all future architecture plans\"\r\n }",
     "tip": "This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams."
 },
@@ -931,7 +931,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "GET",
     "humanName": "apps in a team",
     "requestUrl": "/v1.0/teams/{team-id}/installedApps?$expand=teamsAppDefinition",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teams_apps_list",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teamsappinstallation_list",
     "tip": "This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams"
 },
 {
@@ -939,7 +939,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "GET",
     "humanName": "tabs in a channel",
     "requestUrl": "/v1.0/teams/{team-id}/channels/{channel-id}/tabs?$expand=teamsApp",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/channels_tabs_list",
+    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teamstab_list",
     "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/v1.0/me/joinedTeams 2) GET https://graph.microsoft.com/v1.0/teams/{team-id}/channels"
 },
 {
