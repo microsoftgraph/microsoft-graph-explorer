@@ -46,15 +46,24 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     this.authService.login()
       .then((accessToken) => {
         if (accessToken) {
+          localStorage.setItem('status', 'authenticated');
+          this.changeDetectorRef.detectChanges();
           this.displayUserProfile();
           this.setPermissions();
+        } else {
+          localStorage.setItem('status', 'anonymous');
+          this.changeDetectorRef.detectChanges();
         }
+      }).catch(() => {
+        localStorage.setItem('status', 'anonymous');
+        this.changeDetectorRef.detectChanges();
       });
+
   }
 
   public logout() {
     localLogout();
-    this.authService.logout();
+    this.changeDetectorRef.detectChanges();
   }
 
   public getAuthenticationStatus() {
