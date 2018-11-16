@@ -85,29 +85,30 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }
   }
 
-  private displayUserProfile() {
-    const promisesGetUserInfo = [];
-    // Get displayName and email
-    promisesGetUserInfo.push(this.apiService.performQuery('GET', `${AppComponent.Options.GraphUrl}/v1.0/me`)
-      .then((result) => {
-        const resultBody = result.json();
-        AppComponent.explorerValues.authentication.user.displayName = resultBody.displayName;
-        AppComponent.explorerValues.authentication.user.emailAddress = resultBody.mail || resultBody.userPrincipalName;
-      }));
+  private async displayUserProfile() {
+    try {
+      const userInfoUrl = `${AppComponent.Options.GraphUrl}/v1.0/me`;
+      const userPictureUrl = `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`;
 
-    // Get profile image
-    promisesGetUserInfo.push(this.apiService
-      .performQuery('GET_BINARY', `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`)
-      .then((result) => {
-        const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
+      const userInfo = await this.apiService.performQuery('GET', userInfoUrl);
+      const jsonUserInfo = userInfo.json();
+      AppComponent.explorerValues.authentication.user.displayName = jsonUserInfo.displayName;
+      AppComponent.explorerValues.authentication.user.emailAddress
+      = jsonUserInfo.mail || jsonUserInfo.userPrincipalName;
+
+      try {
+        const userPicture = await this.apiService.performQuery('GET_BINARY', userPictureUrl);
+        const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg' });
         const imageUrl = window.URL.createObjectURL(blob);
         AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
-        // tslint:disable-next-line:no-console
-      }).catch((e) => console.log(e)));
+      } catch (e) {
+        AppComponent.explorerValues.authentication.user.profileImageUrl = null;
+      }
 
-    Promise.all(promisesGetUserInfo).then(() => {
       localStorage.setItem('status', 'authenticated');
       this.changeDetectorRef.detectChanges();
-    });
+    } catch (e) {
+      localLogout();
+    }
   }
 }

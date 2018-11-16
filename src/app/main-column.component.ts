@@ -3,7 +3,7 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { AfterViewInit, Component, DoCheck, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { initializeJsonViewer, initializeResponseHeadersViewer } from './api-explorer-jsviewer';
 import { AppComponent } from './app.component';
@@ -20,7 +20,7 @@ declare let mwf: any;
     styleUrls: ['./main-column.component.css'],
     providers: [QueryRunnerService],
 })
-export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck {
+export class MainColumnComponent extends GraphExplorerComponent implements AfterViewInit, DoCheck, AfterViewChecked {
     public oldExplorerValues: IExplorerValues = {};
     public myControl = new FormControl();
     public methods = Methods;
@@ -72,21 +72,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             }
 
             this.oldExplorerValues = JSON.parse(JSON.stringify(this.explorerValues));
-        }
-    }
-
-    public ngAfterViewChecked() {
-        /**
-         * Disable the the httpVerb picker after the view has changed and the client is not authenticated. We are doing
-         * like this since the httpVerb picker is a non-Angular, Microsoft Web Framework component that is loaded into
-         * the DOM. It is not part of the Angular template and is loaded at ngAfterViewInit().
-         */
-        if (this.isAuthenticated()) {
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute('aria-disabled', 'false');
-            this._httpMethodEl.element.nativeElement.children[1].children[0].removeAttribute('disabled');
-        } else {
-            this._httpMethodEl.element.nativeElement.children[1].setAttribute('aria-disabled', 'true');
-            this._httpMethodEl.element.nativeElement.children[1].children[0].setAttribute('disabled', '');
         }
     }
 
@@ -143,6 +128,44 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
                 }
             },
         }]);
+    }
+
+    public ngAfterViewChecked() {
+        /*
+         The code here disables/enables the http verb select element based on the authenticated status of the user.
+
+         The html below is a model representation of how the MWF select element is rendered in the dom.
+         The easier solution here would have been to disable the select element when the user logout but
+         doing so does not disable the button element until the page is reloaded.
+
+         <div>
+             <select _ngcontent-c2="" role="button" tabindex="0" name="HTTP verb selector" id="httpMethodSelect-select">
+                <options>...</options>
+             </select>
+             <div class="c-select-menu f-persist f-border" aria-disabled="true">
+                <button aria-haspopup="true" aria-expanded="false" tabindex="0" disabled="">
+                    GET
+                </button>
+              </div>
+          <div>
+
+          Because of the limitation mentioned above we have to manually get a reference to the button and disable it.
+         */
+        const selectElement = this._httpMethodEl.element.nativeElement.children[1];
+        const selectElementButton = selectElement && selectElement.children[0];
+        const hasDisabledAttribute = !!selectElementButton && selectElementButton.hasAttribute('disabled');
+
+        // Since ngAfterViewChecked is called after every change detection cycle the hasDisabledAttribute makes sure
+        // We are calling setAttribute/removeAttribute once and not every time ngAfterViewChecked is called.
+        // Checking that the selectElement is not undefined will prevent a situation we have in the staging environment
+        // Where setAttribute is called on an undefined object.
+        if (this.isAuthenticated() && selectElement !== undefined && hasDisabledAttribute) {
+            selectElement.setAttribute('aria-disabled', 'false');
+            selectElementButton.removeAttribute('disabled');
+        } else if (!this.isAuthenticated() && !hasDisabledAttribute) {
+            selectElement.setAttribute('aria-disabled', 'true');
+            selectElementButton.setAttribute('disabled', '');
+        }
     }
 
     public endpointInputKeyDown(event) {

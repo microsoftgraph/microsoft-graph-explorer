@@ -164,12 +164,34 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
 
   public static showDialog() { // tslint:disable-line
 
-    const el = document.querySelector('#scopes-dialog');
-    const fabricDialog = new fabric.Dialog(el);
+    const scopesDialog = document.querySelector('#scopes-dialog');
+    const fabricDialog = new fabric.Dialog(scopesDialog);
     fabricDialog.open();
 
     mwf.ComponentFactory.create([{
       component: mwf.Checkbox,
     }]);
+
+    // We are explicitly focusing on the close icon button here despite setting the autofocus property.
+    // This is because Edge does not give this element focus even with the autofocus property set.
+    // See: https://stackoverflow.com/questions/51867504/edge-how-to-make-autofocus-work-with-refresh-button
+    (scopesDialog.childNodes[2] as any).focus();
+  }
+
+  public focusOnFirstElement(firstElement: Element) {
+    (firstElement as any).focus();
+  }
+
+  public focusOnLastElement(event: any, lastElement: Element) {
+    if (event.shiftKey && event.keyCode === 9) {
+      (lastElement as any).focus();
+    }
+  }
+
+  public getTabIndex(scope) {
+    // Consented scopes appear as disabled elements.
+    // Users should not be able to tab through them.
+    const isDisabled = scope.consented;
+    return isDisabled ? '-1' : '0';
   }
 }

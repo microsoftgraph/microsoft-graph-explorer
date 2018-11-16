@@ -1,9 +1,19 @@
 <div id="request-bar-row-form" layout="row" layout-align="start center">
     <!-- HTTP METHOD -->
-    <div [title]="isAuthenticated() ? '' : getStr('login to send requests')" #httpMethod id="httpMethodSelect" [ngClass]="explorerValues.selectedOption"
-        class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu" [attr.aria-label]="getStr('HTTP verb selector')" [attr.tabindex]="isAuthenticated() ? '-1' : '0'">
-        <select #verbSelector [disabled]="!isAuthenticated()" tabindex="0" role="button" [attr.name]="getStr('HTTP verb selector')">
-            <option *ngFor="let choice of methods">{{choice}}</option>
+    <div [title]="isAuthenticated() ? '' : getStr('login to send requests')"
+      #httpMethod id="httpMethodSelect"
+      [ngClass]="explorerValues.selectedOption"
+      class="c-select f-border first-row-mobile bump-flex-row-mobile fixed-with-mwf-menu"
+      [attr.aria-label]="getStr('HTTP verb selector')"
+      [attr.tabindex]="isAuthenticated() ? '-1' : '0'"
+    >
+      <select
+        #verbSelector
+        tabindex="0"
+        role="button"
+        [attr.name]="getStr('HTTP verb selector')"
+        >
+          <option *ngFor="let choice of methods">{{choice}}</option>
         </select>
     </div>
 
@@ -49,7 +59,7 @@
             {{getStr('Response Headers')}}
         </li>
     </ul>
-    <share-link-btn *ngIf="showShareButton"></share-link-btn>
+    <share-link-btn *ngIf="explorerValues.selectedOption === 'GET'"></share-link-btn>
     <div class="ms-Pivot-content" data-content="response" >
         <div id="response-viewer">
             <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" [attr.name]="getStr('User photo')"/>
