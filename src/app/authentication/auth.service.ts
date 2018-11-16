@@ -10,8 +10,8 @@ export class AuthService {
     private app: any;
 
     constructor() {
-        this.app = new Msal.UserAgentApplication((window as any).ClientId, '',
-            {});
+        const { ClientId } = (window as any);
+        this.app = new Msal.UserAgentApplication(ClientId, '', {});
     }
 
     public async login() {
@@ -23,11 +23,7 @@ export class AuthService {
             });
     }
 
-    public logout() {
-        this.app.logout();
-    }
-
-    public getTokenSilent(scopes: any = []) {
+    public getTokenSilent(scopes: string[] = []) {
         const hasScopes = scopes.length > 0;
         let listOfScopes = this.defaultUserScopes();
         if (hasScopes) {
@@ -41,7 +37,7 @@ export class AuthService {
             });
     }
 
-    public getTokenPopup(scopes: any = []) {
+    public getTokenPopup(scopes: string[] = []) {
         const hasScopes = scopes.length > 0;
         let listOfScopes = this.defaultUserScopes();
         if (hasScopes) {
@@ -60,6 +56,10 @@ export class AuthService {
     }
 
     public async getScopes() {
+        /*
+        Breaks down the access token to produce the user consented scopes using Jwt decode
+        The scopes are fed to the modify permissions dialog in an array
+        */
         const accessToken = await this.getTokenSilent();
         const jwtToken = JWT(accessToken);
         let scopesStr = jwtToken.scp;
@@ -69,6 +69,10 @@ export class AuthService {
             return;
         }
 
+        /*
+        the scopes can be separated by '+' / ',' or spaces.
+        The dialog requires that they be in an array of strings.
+        */
         scopesStr = scopesStr.toLowerCase();
         if (scopesStr.indexOf('+') !== -1) {
             return scopesStr.split('+');
