@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { AppComponent } from '../app.component';
-
+import { deleteHistoryFromLocalStorage } from '../history';
 export async function haveValidAccessToken(authService) {
   const token = await authService.getTokenSilent();
   if (token) {
@@ -17,6 +17,7 @@ export function localLogout() {
   // Anonymous users can only GET
   AppComponent.explorerValues.selectedOption = 'GET';
   AppComponent.explorerValues.authentication.user = {};
+  deleteHistoryFromLocalStorage();
   localStorage.setItem('status', 'anonymous');
 }
 
