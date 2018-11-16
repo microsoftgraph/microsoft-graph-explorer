@@ -57,7 +57,7 @@
     "moment": "^2.21.0",
     "npm": "^6.4.1",
     "rxjs": "^5.4.0",
-    "systemjs": "^0.20.12",
+    "systemjs": "^0.19.27",
     "zone.js": "^0.8.5"
   },
   "repository": {

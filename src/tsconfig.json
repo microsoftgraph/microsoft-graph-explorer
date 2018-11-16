@@ -12,7 +12,7 @@
     "declaration": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
-    "outDir": "../compiler-output"
+    "outDir": "compiler-output"
   },
   "exclude": [
     "main.ts"
