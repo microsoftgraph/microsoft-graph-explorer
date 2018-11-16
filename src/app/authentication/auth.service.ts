@@ -23,7 +23,7 @@ export class AuthService {
             });
     }
 
-    public getTokenSilent(scopes: string[] = []) {
+    public getTokenSilent(scopes: any = []) {
         const hasScopes = scopes.length > 0;
         let listOfScopes = this.defaultUserScopes();
         if (hasScopes) {
@@ -37,7 +37,7 @@ export class AuthService {
             });
     }
 
-    public getTokenPopup(scopes: string[] = []) {
+    public getTokenPopup(scopes: any = []) {
         const hasScopes = scopes.length > 0;
         let listOfScopes = this.defaultUserScopes();
         if (hasScopes) {
