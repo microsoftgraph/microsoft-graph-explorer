@@ -66,3 +66,6 @@ method-badge {
     height: 22px;
 }
 
+.query-link:hover .ms-Icon--Page:before {
+    content: '\E729';
+}
