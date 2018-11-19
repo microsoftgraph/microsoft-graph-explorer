@@ -1,9 +1,20 @@
 #ms-signin-button {
-    max-width: 215px;
+    width: 215px;
+    height: 39px;
     margin: 20px 0 0px 0px;
+    border: none;
     cursor: pointer;
     display: inline-block;
-    padding: 5px;
+    color: black;
+    text-align: center;
+    font-family:"Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
+    font-size: 15px;
+    background: url('../../../assets/images/MSSignInButton.svg') no-repeat;
+    background-size: 100%;
+}
+
+.button-text {
+  padding-left: 20px;
 }
 
 #signout {
