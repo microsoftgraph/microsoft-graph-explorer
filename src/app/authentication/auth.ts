@@ -19,6 +19,7 @@ export function localLogout() {
   AppComponent.explorerValues.authentication.user = {};
   deleteHistoryFromLocalStorage();
   localStorage.setItem('status', 'anonymous');
+  sessionStorage.clear();
 }
 
 export async function checkHasValidAuthToken(authService) {
