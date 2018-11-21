@@ -75,6 +75,9 @@ describe('Sample query validation', () => {
     if (query.method !== 'GET') {
       continue;
     }
+    if (query.skipTest) {
+      continue;
+    }
     substituteTokens(query);
     it(`GET query should execute: ${query.humanName}`, (done) => {
       substituteTokens(query);
