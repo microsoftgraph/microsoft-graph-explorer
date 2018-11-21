@@ -76,7 +76,7 @@ export const SampleQueries: ISampleQuery[] = [
   for (let i = 0; i < queries.length; i++) {
     let csvQuery = queries[i];
     let sampleQuery = convertRawQueryToSampleQueryType(csvQuery);
-
+    sampleQuery.skipTest = false;
     cleanupSampleQuery(sampleQuery);
 
     formattedQueryArr.push(JSON.stringify(sampleQuery, null, 4));
