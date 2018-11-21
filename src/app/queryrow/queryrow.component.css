@@ -70,6 +70,6 @@ method-badge {
 }
 
 .query:hover {
-    text-decoration: underline !important;
+    text-decoration: underline;
     color: #fff;
 }
