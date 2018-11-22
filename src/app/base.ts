@@ -84,6 +84,7 @@ export interface IGraphApiCall {
 export interface ISampleQuery extends IGraphApiCall {
     docLink?: string;
     AAD?: boolean;
+    skipTest?: boolean;
     MSA?: boolean;
     category: string;
     tip?: string;
