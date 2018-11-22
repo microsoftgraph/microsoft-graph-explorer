@@ -436,6 +436,13 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: 'IdentityRiskyUser.Read.All',
+    description: 'Read identity risky user information (preview)',
+    longDescription: 'Allows the app to read identity risky user information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'DeviceManagementServiceConfig.Read.All',
     description: 'Read Microsoft Intune configuration (preview)',
     longDescription: 'Allows the app to read Microsoft Intune service properties including device enrollment and third party service connection configuration.',
