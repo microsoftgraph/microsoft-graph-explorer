@@ -54,6 +54,6 @@ label.c-label {
 }
 
 .scopeRow:hover, .scopeRow:focus {
-    background: rgba(0,0,0,0.25);
-    outline: 2px solid white;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.25);
 }

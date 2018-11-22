@@ -4,11 +4,11 @@
 // ------------------------------------------------------------------------------
 
 import { Component, Input } from '@angular/core';
-import { getShortQueryText } from './ApiCallDisplayHelpers';
-import { AppComponent } from './app.component';
-import { ISampleQuery } from './base';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { QueryRunnerService } from './query-runner.service';
+import { getShortQueryText } from './../ApiCallDisplayHelpers';
+import { AppComponent } from './../app.component';
+import { ISampleQuery } from './../base';
+import { GraphExplorerComponent } from './../GraphExplorerComponent';
+import { QueryRunnerService } from './../query-runner.service';
 
 @Component({
     selector: 'query-row',

@@ -17,7 +17,7 @@ import { HistoryPanelComponent } from './history-panel.component';
 import { HistoryRowComponent } from './history-query.component';
 import { MainColumnComponent } from './main-column.component';
 import { MethodBadgeComponent } from './method-badge.component';
-import { QueryRowComponent } from './queryrow.component';
+import { QueryRowComponent } from './queryrow/queryrow.component';
 import { RequestEditorsComponent } from './request-editors.component';
 import { ResponseStatusBarComponent } from './response-status-bar/response-status-bar.component';
 import { SampleCategoriesPanelComponent } from './sample-categories-panel.component';
