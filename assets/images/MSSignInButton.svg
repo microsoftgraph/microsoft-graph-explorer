@@ -13,7 +13,7 @@
 	.st7{font-size:15px;}
 	.st8{fill:none;}
 </style>
-<symbol  id="MS_x5F_Symbol_x5F_19" viewBox="0 -19 19 19">
+<symbol  id="MS_x5F_Symbol_x5F_19" viewBox="0 -15 19 19">
 	<rect y="-9" class="st0" width="9" height="9"/>
 	<rect y="-19" class="st1" width="9" height="9"/>
 	<rect x="10" y="-9" class="st2" width="9" height="9"/>
@@ -22,7 +22,7 @@
 <rect class="st4" width="215" height="48"/>
 <g>
 
-		<use xlink:href="#MS_x5F_Symbol_x5F_19"  width="19" height="19" y="-19" transform="matrix(1 0 0 -1 13 10)" style="overflow:visible;"/>
+		<use xlink:href="#MS_x5F_Symbol_x5F_19"  width="19" height="26" y="-23" transform="matrix(1 0 0 -1 13 10)" style="overflow:visible;"/>
 	<rect x="12" y="9" class="st8" width="21" height="21"/>
 </g>
 </svg>
