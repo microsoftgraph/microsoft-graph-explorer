@@ -7,7 +7,7 @@
     "build:watch": "npm run build -- -w",
     "build:aot": "ngc -p src/tsconfig-aot.json",
     "build:prod": "npm run build:aot && npm run rollup",
-    "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
+    "start": "concurrently \"npm run build:watch\" \"npm run serve\" \"node file-utility\"",
     "serve": "lite-server -c=bs-config.json",
     "test": "npm run build && karma start karma.conf.js --single-run --browsers ChromeHeadless",
     "test:watch": "concurrently \"npm run build:watch\" \"karma start karma.conf.js\"",
@@ -22,6 +22,7 @@
     "@types/hellojs": "^0.2.31",
     "@types/jasmine": "2.5.47",
     "@types/jquery": "^2.0.40",
+    "chokidar": "^2.0.4",
     "concurrently": "^3.2.0",
     "fast-csv": "2.4.0",
     "husky": "^1.1.2",
@@ -57,7 +58,7 @@
     "moment": "^2.21.0",
     "npm": "^6.4.1",
     "rxjs": "^5.4.0",
-    "systemjs": "^0.20.12",
+    "systemjs": "^0.19.27",
     "zone.js": "^0.8.5"
   },
   "repository": {
