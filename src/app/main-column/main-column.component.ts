@@ -5,12 +5,12 @@
 
 import { AfterViewChecked, AfterViewInit, Component, DoCheck, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { initializeJsonViewer, initializeResponseHeadersViewer } from './api-explorer-jsviewer';
-import { AppComponent } from './app.component';
-import { GraphApiVersion, IExplorerValues, IMessageBarContent, Methods } from './base';
-import { constructGraphLinksFromFullPath, getUrlsFromServiceURL, IGraphNodeLink } from './graph-structure';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { QueryRunnerService } from './query-runner.service';
+import { initializeJsonViewer, initializeResponseHeadersViewer } from '../api-explorer-jsviewer';
+import { AppComponent } from '../app.component';
+import { GraphApiVersion, IExplorerValues, IMessageBarContent, Methods } from '../base';
+import { constructGraphLinksFromFullPath, getUrlsFromServiceURL, IGraphNodeLink } from '../graph-structure';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
+import { QueryRunnerService } from '../query-runner.service';
 
 declare let mwf: any;
 

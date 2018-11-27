@@ -5,9 +5,9 @@
 
 import { AfterViewInit, Component } from '@angular/core';
 
-import { getRequestBodyEditor, initializeAceEditor } from './api-explorer-jseditor';
-import { IGraphRequestHeader } from './base';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { getRequestBodyEditor, initializeAceEditor } from '../api-explorer-jseditor';
+import { IGraphRequestHeader } from '../base';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
 @Component({
   selector: 'request-editors',

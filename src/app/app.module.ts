@@ -15,10 +15,10 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { GenericDialogComponent } from './generic-message-dialog.component';
 import { HistoryPanelComponent } from './history-panel.component';
 import { HistoryRowComponent } from './history-query.component';
-import { MainColumnComponent } from './main-column.component';
+import { MainColumnComponent } from './main-column/main-column.component';
 import { MethodBadgeComponent } from './method-badge.component';
 import { QueryRowComponent } from './queryrow/queryrow.component';
-import { RequestEditorsComponent } from './request-editors.component';
+import { RequestEditorsComponent } from './request-editors/request-editors.component';
 import { ResponseStatusBarComponent } from './response-status-bar/response-status-bar.component';
 import { SampleCategoriesPanelComponent } from './sample-categories-panel.component';
 import { ScopesDialogComponent } from './scopes-dialog/scopes-dialog.component';
