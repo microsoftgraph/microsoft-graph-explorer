@@ -15,5 +15,5 @@ steps:
 - script: |
     npm install
     npm run lint
-    npm rin test
+    npm run test
   displayName: 'npm install and build'
