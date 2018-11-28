@@ -16,10 +16,8 @@ const account = process.env.AZURE_STORAGE_ACCOUNT;
 const accountKey = process.env.AZURE_STORAGE_ACCESS_KEY;
 
 const sharedCredential = new SharedKeyCredential(account, accountKey);
-
 const pipeline = StorageURL.newPipeline(sharedCredential);
 const serviceURL = new ServiceURL(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
     pipeline
 );
