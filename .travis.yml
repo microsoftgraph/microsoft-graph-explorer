@@ -15,5 +15,5 @@ deploy:
   provider: script
   script: deploy.sh
   on:
-    all_branches: true
+    all_branches: false
     condtion: $TRAVIS_BRANCH =~ ^dev$
