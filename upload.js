@@ -12,7 +12,6 @@ const {
 
 dotenv.load();
 
-
 const account = process.env.AZURE_STORAGE_ACCOUNT;
 const accountKey = process.env.AZURE_STORAGE_ACCESS_KEY;
 
@@ -35,7 +34,7 @@ const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
 
 async function upload() {
     try {
-        const uploadBlobResponse = await blockBlobURL.upload(
+        await blockBlobURL.upload(
             Aborter.none,
             productionBuild,
             productionBuild.length,
