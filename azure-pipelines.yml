@@ -18,4 +18,4 @@ steps:
       npm run lint
     displayName: 'npm build and deploy'
 
-  - bash: if [ $Build.SourceBranchName == "dev" ] then npm run build:prod npm run stage fi
+  - bash: if [ $Build.SourceBranchName == "dev" ] then npm run build:prod; npm run stage; fi
