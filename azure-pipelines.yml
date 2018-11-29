@@ -16,6 +16,7 @@ steps:
       npm install
       npm runt test
       npm run lint
+      npm run build:prod
     displayName: 'npm build and deploy'
 
-  - bash: if [ $Build.SourceBranchName == "dev" ] then npm run build:prod; npm run stage; fi
+  - bash: [ $Build.SourceBranchName == "dev" ] && npm run stage
