@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-npm run build:prod
-npm run stage
+if [ $Build.SourceBranchName == 'dev' ]
+  then
+    npm run build:prod
+    npm run stage
+fi
+
 
