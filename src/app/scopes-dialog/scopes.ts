@@ -651,5 +651,21 @@ export const PermissionScopes: IPermissionScope[] = [
       'Allows the app to deliver its notifications, on your behalf. Also allows the app to read, update, and delete your notification items for this app',
     preview: false,
     admin: false
+  },
+  {
+    name: 'PrivilegedAccess.ReadWrite.AzureResources',
+    description: 'Read and write privileged access to Azure resources',
+    longDescription:
+      'Allows the app to read and write privileged access requests to Azure resources on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'PrivilegedAccess.ReadWrite.AzureAD',
+    description: 'Read and write privileged access to Azure Active Directory',
+    longDescription:
+      'Allows the app to request and manage just in time elevation (including scheduled elevation) of users to Azure AD built-in administrative roles, on your behalf.',
+    preview: true,
+    admin: true
   }
 ];
