@@ -19,4 +19,4 @@ steps:
       npm run build:prod
     displayName: 'npm build and deploy'
 
-  - bash: [ $Build.SourceBranchName == "dev" ] && npm run stage
+  - bash: [ $Build.SourceBranchName == "dev" ]; then npm run stage; fi
