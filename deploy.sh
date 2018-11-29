@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
-if [ $Build.SourceBranchName == 'dev' ]
+echo "*****"
+echo $Build.SourceBranchName
+echo "*****"
+if [ $Build.SourceBranchName == "dev" ]
   then
     npm run build:prod
     npm run stage
+
+  echo  "Staged changes"
 fi
 
 
