@@ -10,5 +10,3 @@ if [ $Build.SourceBranchName == "dev" ]
 
   echo  "Staged changes"
 fi
-
-
