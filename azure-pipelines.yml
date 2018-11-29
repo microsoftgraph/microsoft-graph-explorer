@@ -16,6 +16,4 @@ steps:
       npm install
       npm runt test
       npm run lint
-      npm run build:prod
-      npm run stage
     displayName: 'npm install and build'
