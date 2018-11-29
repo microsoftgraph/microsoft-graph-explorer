@@ -16,5 +16,5 @@ steps:
       npm install
       npm runt test
       npm run lint
-      deploy.sh
+      run deploy.sh
     displayName: 'npm install and build'
