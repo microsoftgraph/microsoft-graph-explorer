@@ -68,7 +68,7 @@ function saveSampleQueries() {
 
 // WARNING - This file is generated from util-scripts/query-importer.js
 
-import { ISampleQuery } from "./base";
+import { ISampleQuery } from "../base";
 
 export const SampleQueries: ISampleQuery[] = [
   `;
@@ -86,7 +86,7 @@ export const SampleQueries: ISampleQuery[] = [
 
   outStr += ']'
 
-  fs.writeFile("src/app/gen-queries.ts", outStr, function (err) {
+  fs.writeFile("src/app/generate-queries/gen-queries.ts", outStr, function (err) {
     if (err) {
       return console.log(err);
     }
