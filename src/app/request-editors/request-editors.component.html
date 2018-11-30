@@ -1,7 +1,6 @@
 <div class="ms-Pivot">
     <ul class="ms-Pivot-links" role="tablist">
         <li class="ms-Pivot-link is-selected"
-            #bodyTab
             aria-selected="true"
             data-content="body"
             [attr.title]="getStr('request body')"
@@ -12,7 +11,6 @@
         </li>
         <li class="ms-Pivot-link"
             data-content="headers"
-            #headerTab
             [attr.title]="getStr('request header')"
             tabindex="0"
             role="tab"
@@ -34,11 +32,23 @@
                 </tr>
                 <tr role="row" *ngFor="let header of explorerValues.headers; let idx = index" class="header-row">
                     <td role="gridcell" class="half-width-col">
-                        <input class="c-text-field" (ngModelChange)="createNewHeaderField()" [(ngModel)]="header.name" [disabled]="header.readonly"
-                            role="textbox" name="Add request header name" type="text" [attr.placeholder]="getPlaceholder(header)">
+                        <input class="c-text-field"
+                               (ngModelChange)="createNewHeaderField()"
+                               [(ngModel)] = "header.name"
+                               [disabled] = "header.readonly"
+                               role="textbox"
+                               name="Add request header name"
+                               type="text"
+                               [attr.placeholder]="getPlaceholder(header)">
                     </td>
                     <td role="gridcell" class="half-width-col">
-                        <input class="c-text-field header-value" [(ngModel)]="header.value" [disabled]="header.readonly" type="text" [class.invisible]="isLastHeader(header)" role="textbox" name="Add request header value">
+                        <input class="c-text-field header-value"
+                               [(ngModel)]="header.value"
+                               [disabled]="header.readonly"
+                               type="text"
+                               [class.invisible]="isLastHeader(header)"
+                               role="textbox"
+                               name="Add request header value">
                     </td>
                     <td class="remove-header-btn" [class.invisible]="isLastHeader(header)" (click)="removeHeader(header)" (keydown)="removeHeaderKeyDown($event, header)" role="button" aria-label="Remove request header"
                         tabindex="0">

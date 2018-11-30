@@ -24,8 +24,7 @@ export class RequestInterceptor implements HttpInterceptor {
           });
         });
 
-        AppComponent.explorerValues.headers.push(...reqHeaders);
-        console.log(AppComponent.explorerValues.headers);
+        AppComponent.explorerValues.headers.unshift(...reqHeaders);
         return next.handle(req);
     }
 }
