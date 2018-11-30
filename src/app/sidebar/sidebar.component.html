@@ -1,0 +1,45 @@
+<div id="explorer-sidebar">
+    <div class="arrow-left"></div>
+    <div>
+        <span id="explorer-title" class="c-heading-3 panel-header" tabindex="0" [attr.title]="getStr('Graph Explorer')">{{getStr('Graph Explorer')}}</span>
+    </div>
+    <div class="c-drawer">
+        <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
+            <span class="c-heading-5 panel-header">
+                <i class="ms-Icon ms-Icon--Permissions" aria-hidden="true"></i>{{getStr('Authentication')}}</span>
+        </button>
+        <div id="authDrawer" class="panel-content">
+            <authentication></authentication>
+        </div>
+    </div>
+
+    <div class="c-drawer">
+        <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
+            <span class="c-heading-5 panel-header">
+                <img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}" title="Image of a rocket that represents"
+                />{{getStr('Sample Queries')}}</span>
+        </button>
+        <div id="refineDrawer" class="panel-content">
+            <div id="sample-queries-scroll">
+                <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
+                    <div>
+                        <span class="category-heading" [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
+                    </div>
+                    <query-row [query]="query" [category]="idifyCategory(category.title)" *ngFor="let query of category.queries"></query-row>
+                </div>
+            </div>
+            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show more samples')}}</a>
+        </div>
+    </div>
+    <div class="c-drawer">
+        <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
+            <span class="c-heading-5 panel-header">
+                <i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span>
+        </button>
+        <div id="historyDrawer" class="panel-content">
+            <history-query-row *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
+            <a href="#" id="show-full-history" (click)="manageHistory()" [hidden]="getRequestHistory().length == 0" class="c-hyperlink"
+                tabindex=0>{{getStr('Show More')}}</a>
+        </div>
+    </div>
+</div>

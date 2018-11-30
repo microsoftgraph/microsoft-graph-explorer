@@ -8,5 +8,8 @@
       "/dist": "dist",
       "/secrets.js": "secrets.js"
     }
+  },
+  "watchOptions": {
+    "exclude": "compiler-output"
   }
 }
