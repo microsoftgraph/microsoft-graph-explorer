@@ -15,13 +15,13 @@ import { AppComponent } from './app.component';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { GenericDialogComponent } from './generic-message-dialog.component';
-import { RequestInterceptor } from './graph-service';
+import { GraphRequestInterceptor } from './graph-service/graph-request-interceptor';
 import { HistoryPanelComponent } from './history-panel.component';
 import { HistoryRowComponent } from './history-query.component';
-import { MainColumnComponent } from './main-column.component';
+import { MainColumnComponent } from './main-column/main-column.component';
 import { MethodBadgeComponent } from './method-badge.component';
 import { QueryRowComponent } from './queryrow/queryrow.component';
-import { RequestEditorsComponent } from './request-editors.component';
+import { RequestEditorsComponent } from './request-editors/request-editors.component';
 import { ResponseStatusBarComponent } from './response-status-bar/response-status-bar.component';
 import { SampleCategoriesPanelComponent } from './sample-categories-panel.component';
 import { ScopesDialogComponent } from './scopes-dialog/scopes-dialog.component';
@@ -37,7 +37,7 @@ import { SidebarComponent } from './sidebar.component';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptor,
+      useClass: GraphRequestInterceptor,
       multi: true,
     },
   ],

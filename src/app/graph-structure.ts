@@ -5,7 +5,7 @@
 
 import { AppComponent } from './app.component';
 import { GraphApiVersion, GraphApiVersions } from './base';
-import { GraphService } from './graph-service';
+import { GraphService } from './graph-service/graph-service';
 export type GraphNodeLinkTagName = 'Property' | 'NavigationProperty' | 'EntitySet' | 'Singleton';
 
 export interface IGraphNodeLink {

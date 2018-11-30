@@ -5,7 +5,7 @@ import {
     TestBed,
 } from '@angular/core/testing';
 
-import { GraphApiVersions } from './base';
+import { GraphApiVersions } from '../base';
 import { GraphService } from './graph-service';
 
 let graphService: GraphService;

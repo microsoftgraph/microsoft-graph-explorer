@@ -3,31 +3,11 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response, ResponseContentType } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Headers, Response } from '@angular/http';
 
-import { AppComponent } from './app.component';
-import { AllowedGraphDomains, RequestType } from './base';
-
-@Injectable()
-export class RequestInterceptor implements HttpInterceptor {
-    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const headerKeys = req.headers.keys();
-        const reqHeaders = [];
-
-        headerKeys.forEach((headerKey) => {
-          reqHeaders.push({
-            name: headerKey,
-            value: req.headers.get(headerKey),
-          });
-        });
-
-        AppComponent.explorerValues.headers.unshift(...reqHeaders);
-        return next.handle(req);
-    }
-}
+import { AllowedGraphDomains, RequestType } from '../base';
 
 @Injectable()
 export class GraphService {

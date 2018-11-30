@@ -7,7 +7,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { AppComponent } from '../app.component';
 import { IExplorerOptions, IMessage } from '../base';
-import { GraphService } from '../graph-service';
+import { GraphService } from '../graph-service/graph-service';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { getParameterByName } from '../util';
 

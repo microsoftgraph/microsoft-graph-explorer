@@ -4,7 +4,7 @@ import { getAceEditorFromElId, getJsonViewer, getRequestBodyEditor } from './api
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
 import { IGraphApiCall } from './base';
-import { GraphService } from './graph-service';
+import { GraphService } from './graph-service/graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
 import { getString } from './localization-helpers';
 import { getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,

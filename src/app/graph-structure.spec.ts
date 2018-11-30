@@ -6,7 +6,7 @@ import {
 } from '@angular/core/testing';
 
 import { GraphApiVersions } from './base';
-import { GraphService } from './graph-service';
+import { GraphService } from './graph-service/graph-service';
 import { constructGraphLinksFromFullPath, parseMetadata } from './graph-structure';
 
 let graphService: GraphService;

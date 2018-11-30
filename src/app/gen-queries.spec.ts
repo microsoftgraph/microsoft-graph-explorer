@@ -16,7 +16,7 @@ import {
 import { localLogout } from './authentication/auth';
 import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from './base';
 import { SampleQueries } from './gen-queries';
-import { GraphService } from './graph-service';
+import { GraphService } from './graph-service/graph-service';
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
   for (const version of GraphApiVersions) {

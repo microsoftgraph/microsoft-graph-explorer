@@ -11,7 +11,7 @@ import { GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, I
     IMessageBarContent, RequestType } from './base';
 import { initFabricComponents } from './fabric-components';
 import { GenericDialogComponent } from './generic-message-dialog.component';
-import { GraphService } from './graph-service';
+import { GraphService } from './graph-service/graph-service';
 import { parseMetadata } from './graph-structure';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
 import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history';
