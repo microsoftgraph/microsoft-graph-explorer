@@ -3,18 +3,40 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
+import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
+import { Observable } from 'rxjs';
 
+import { AppComponent } from './app.component';
 import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
-export class GraphService {
-  constructor(private http: Http) { }
+export class RequestInterceptor implements HttpInterceptor {
+    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const headerKeys = req.headers.keys();
+        const reqHeaders = [];
 
-  public performAnonymousQuery(queryType: RequestType, query: string, headers?: Headers): Promise<Response> {
+        headerKeys.forEach((headerKey) => {
+          reqHeaders.push({
+            name: headerKey,
+            value: req.headers.get(headerKey),
+          });
+        });
+
+        AppComponent.explorerValues.headers.push(...reqHeaders);
+        console.log(AppComponent.explorerValues.headers);
+        return next.handle(req);
+    }
+}
+
+@Injectable()
+export class GraphService {
+  constructor(private http: HttpClient) { }
+
+  public performAnonymousQuery(queryType: RequestType, query: string, headers?: HttpHeaders): Promise<Response> {
         if (!headers) {
-            headers = new Headers();
+            headers = new HttpHeaders();
         }
         headers.append('Authorization', 'Bearer {token:https://graph.microsoft.com/}');
 
@@ -22,8 +44,8 @@ export class GraphService {
             return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`,
               {headers}).toPromise();
         } else if (queryType === 'GET_BINARY') {
-            return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`,
-              {headers, responseType: ResponseContentType.ArrayBuffer}).toPromise();
+            // return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`,
+            //   {headers, responseType: ResponseContentType.Json}).toPromise();
         }
     }
 
@@ -48,21 +70,21 @@ export class GraphService {
 
         requestHeaders.append('Authorization', `Bearer ${hello.getAuthResponse('msft').access_token}`);
 
-        switch (queryType) {
-            case 'GET':
-                return this.http.get(query, {headers: requestHeaders}).toPromise();
-            case 'GET_BINARY':
-                return this.http.get(query,
-                  {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
-            case 'PUT':
-                return this.http.put(query, postBody, {headers : requestHeaders}).toPromise();
-            case 'POST':
-                return this.http.post(query, postBody, {headers : requestHeaders}).toPromise();
-            case 'PATCH':
-                return this.http.patch(query, postBody, {headers : requestHeaders}).toPromise();
-            case 'DELETE':
-                return this.http.delete(query, {headers : requestHeaders}).toPromise();
-        }
+        // switch (queryType) {
+        //     case 'GET':
+        //         return this.http.get(query, {headers: requestHeaders}).toPromise();
+        //     case 'GET_BINARY':
+        //         return this.http.get(query,
+        //           {responseType: ResponseContentType.ArrayBuffer, headers : requestHeaders}).toPromise();
+        //     case 'PUT':
+        //         return this.http.put(query, postBody, {headers : requestHeaders}).toPromise();
+        //     case 'POST':
+        //         return this.http.post(query, postBody, {headers : requestHeaders}).toPromise();
+        //     case 'PATCH':
+        //         return this.http.patch(query, postBody, {headers : requestHeaders}).toPromise();
+        //     case 'DELETE':
+        //         return this.http.delete(query, {headers : requestHeaders}).toPromise();
+        // }
     }
 
   public getMetadata = (graphUrl: string, version: string) => {

@@ -3,16 +3,19 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
+import '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { GenericDialogComponent } from './generic-message-dialog.component';
+import { RequestInterceptor } from './graph-service';
 import { HistoryPanelComponent } from './history-panel.component';
 import { HistoryRowComponent } from './history-query.component';
 import { MainColumnComponent } from './main-column.component';
@@ -26,11 +29,18 @@ import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';
 import { SidebarComponent } from './sidebar.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, HttpClientModule],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
     ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
