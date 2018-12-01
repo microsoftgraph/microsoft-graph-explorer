@@ -4,10 +4,9 @@
 // ------------------------------------------------------------------------------
 
 import '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -29,16 +28,18 @@ import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';
 import { SidebarComponent } from './sidebar.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, HttpClientModule],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
     ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: GraphRequestInterceptor,
-      multi: true,
+      provide: GraphRequestInterceptor,
+      useFactory: (backend: XHRBackend, requestOptions: RequestOptions) => {
+        return new GraphRequestInterceptor(backend, requestOptions);
+      },
+      deps: [XHRBackend, RequestOptions],
     },
   ],
   bootstrap: [AppComponent],
