@@ -1,4 +1,4 @@
-import { HttpModule } from '@angular/http';
+import { ConnectionBackend, HttpModule } from '@angular/http';
 
 import {
     inject,
@@ -6,6 +6,7 @@ import {
 } from '@angular/core/testing';
 
 import { GraphApiVersions } from './base';
+import { GraphRequestInterceptor } from './graph-service/graph-request-interceptor';
 import { GraphService } from './graph-service/graph-service';
 import { constructGraphLinksFromFullPath, parseMetadata } from './graph-structure';
 
@@ -15,7 +16,7 @@ describe('Graph structural tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
-        providers: [GraphService],
+        providers: [GraphService, GraphRequestInterceptor, ConnectionBackend],
     });
   });
 

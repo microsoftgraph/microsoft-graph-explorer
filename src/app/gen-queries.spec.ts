@@ -6,7 +6,7 @@
 // tslint:disable-next-line
 // gen-queries.spec.ts prepares non destructive sample queries and runs the tests.
 
-import { Headers, HttpModule } from '@angular/http';
+import { ConnectionBackend, Headers, HttpModule } from '@angular/http';
 
 import {
   inject,
@@ -16,6 +16,7 @@ import {
 import { localLogout } from './authentication/auth';
 import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from './base';
 import { SampleQueries } from './gen-queries';
+import { GraphRequestInterceptor } from './graph-service/graph-request-interceptor';
 import { GraphService } from './graph-service/graph-service';
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
@@ -49,7 +50,7 @@ describe('Sample query validation', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
-      providers: [GraphService],
+      providers: [GraphService, GraphRequestInterceptor, ConnectionBackend],
     });
   });
 

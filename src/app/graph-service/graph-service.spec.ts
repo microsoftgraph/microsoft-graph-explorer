@@ -1,4 +1,4 @@
-import { HttpModule } from '@angular/http';
+import { ConnectionBackend, HttpModule } from '@angular/http';
 
 import {
     inject,
@@ -6,6 +6,7 @@ import {
 } from '@angular/core/testing';
 
 import { GraphApiVersions } from '../base';
+import { GraphRequestInterceptor } from './graph-request-interceptor';
 import { GraphService } from './graph-service';
 
 let graphService: GraphService;
@@ -14,7 +15,7 @@ describe('Metadata download and parsing', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
-        providers: [GraphService],
+        providers: [GraphService, GraphRequestInterceptor, ConnectionBackend],
     });
   });
 
