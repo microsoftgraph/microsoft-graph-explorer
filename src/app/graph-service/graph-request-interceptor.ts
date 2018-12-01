@@ -35,6 +35,7 @@ export class GraphRequestInterceptor extends Http {
     }
 
     private updateGraphExplorerOptions(options) {
+        AppComponent.explorerValues.headers = [{ name: '', value: '' }];
 
         if (options !== undefined) {
             const { headers: requestHeaders } = options;

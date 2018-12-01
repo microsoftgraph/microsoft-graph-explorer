@@ -179,7 +179,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             return;
         }
         this.queryRunnerService.executeExplorerQuery();
-    }
+    };
 
     public getRelativeUrlFromGraphNodeLinks(links: IGraphNodeLink[]) {
         return links.map((x) => x.name).join('/');

@@ -36,7 +36,7 @@ export class QueryRunnerService {
       requestUrl: AppComponent.explorerValues.endpointUrl,
       method: AppComponent.explorerValues.selectedOption,
       requestSentAt: new Date(),
-      headers: AppComponent.explorerValues.headers,
+      headers: (AppComponent.explorerValues.headers = [{ name: '', value: '' }]),
       postBody: getRequestBodyEditor().getSession().getValue(),
     };
 
