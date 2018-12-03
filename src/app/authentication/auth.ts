@@ -69,7 +69,7 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
           const jsonUserInfo = userInfo.json();
           user = Object.assign(
               user,
-              { displayName: jsonUserInfo.displayName, emailAdress: jsonUserInfo.mail || jsonUserInfo.userPrincipalName});
+              { displayName: jsonUserInfo.displayName, emailAddress: jsonUserInfo.mail || jsonUserInfo.userPrincipalName});
 
           try {
               const userPicture = await apiService.performQuery('GET_BINARY', userPictureUrl);
