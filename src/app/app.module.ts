@@ -36,8 +36,8 @@ import { SidebarComponent } from './sidebar.component';
   providers: [
     {
       provide: GraphRequestInterceptor,
-      useFactory: (backend: XHRBackend, requestOptions: RequestOptions) => {
-        return new GraphRequestInterceptor(backend, requestOptions);
+      useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions) => {
+        return new GraphRequestInterceptor(xhrBackend, requestOptions);
       },
       deps: [XHRBackend, RequestOptions],
     },

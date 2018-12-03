@@ -1,4 +1,4 @@
-import { ConnectionBackend, HttpModule } from '@angular/http';
+import { HttpModule, XHRBackend } from '@angular/http';
 
 import { TestBed } from '@angular/core/testing';
 
@@ -12,7 +12,7 @@ describe('Metadata download and parsing', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
-        providers: [GraphService, GraphRequestInterceptor, ConnectionBackend],
+        providers: [GraphService, GraphRequestInterceptor, XHRBackend],
     });
 
     graphService = TestBed.get(GraphService);

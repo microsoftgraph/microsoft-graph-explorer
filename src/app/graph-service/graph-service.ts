@@ -11,7 +11,7 @@ import { GraphRequestInterceptor } from './graph-request-interceptor';
 
 @Injectable()
 export class GraphService {
-  constructor(private http: Http) { }
+  constructor(private http: GraphRequestInterceptor) { }
 
   public performAnonymousQuery(requestType: RequestType, query: string, headers?: Headers): Promise<Response> {
         if (!headers) {
@@ -67,7 +67,7 @@ export class GraphService {
         }
     }
 
-  public getMetadata = (graphUrl: string, version: string) => {
-        return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
-    }
+  public getMetadata = (graphUrl: string, version: string): Promise<Response> => {
+      return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
+  }
 }

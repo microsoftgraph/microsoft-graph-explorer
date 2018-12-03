@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ConnectionBackend, Http, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { Http, RequestOptions, RequestOptionsArgs, XHRBackend } from '@angular/http';
 import { Observable } from 'rxjs';
 import { AppComponent } from '../app.component';
 
 @Injectable()
 export class GraphRequestInterceptor extends Http {
-    constructor(connectionBackend: ConnectionBackend, requestOptions: RequestOptions) {
-        super(connectionBackend, requestOptions);
+    constructor(xhrBackend: XHRBackend, requestOptions: RequestOptions) {
+        super(xhrBackend, requestOptions);
     }
 
     public get(url: string, options?: RequestOptionsArgs): Observable<any> {
