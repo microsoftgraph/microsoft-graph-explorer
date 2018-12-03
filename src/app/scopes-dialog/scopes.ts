@@ -664,7 +664,7 @@ export const PermissionScopes: IPermissionScope[] = [
     name: 'PrivilegedAccess.ReadWrite.AzureAD',
     description: 'Read and write privileged access to Azure Active Directory',
     longDescription:
-      'Allows the app to request and manage just in time elevation (including scheduled elevation) of users to Azure AD built-in administrative roles, on your behalf.',
+      'Allows the app to request and manage just in time elevation of users to Azure AD built-in administrative roles, on your behalf.',
     preview: true,
     admin: true
   }
