@@ -4,14 +4,14 @@
 // ------------------------------------------------------------------------------
 
 import { Injectable } from '@angular/core';
-import { Headers, Response, ResponseContentType } from '@angular/http';
+import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 
 import { AllowedGraphDomains, RequestType } from '../base';
 import { GraphRequestInterceptor } from './graph-request-interceptor';
 
 @Injectable()
 export class GraphService {
-  constructor(private http: GraphRequestInterceptor) { }
+  constructor(private http: Http) { }
 
   public performAnonymousQuery(requestType: RequestType, query: string, headers?: Headers): Promise<Response> {
         if (!headers) {

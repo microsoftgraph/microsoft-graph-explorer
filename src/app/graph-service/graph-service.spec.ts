@@ -1,28 +1,22 @@
 import { ConnectionBackend, HttpModule } from '@angular/http';
 
-import {
-    inject,
-    TestBed,
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { GraphApiVersions } from '../base';
 import { GraphRequestInterceptor } from './graph-request-interceptor';
 import { GraphService } from './graph-service';
 
-let graphService: GraphService;
 describe('Metadata download and parsing', () => {
+  let graphService: GraphService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
         providers: [GraphService, GraphRequestInterceptor, ConnectionBackend],
     });
-  });
 
-  // tslint:disable-next-line
-  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
-    graphService = _graphService;
-  }));
+    graphService = TestBed.get(GraphService);
+  });
 
   for (const version of GraphApiVersions) {
     it(`should download ${version} metadata`, (done) => {

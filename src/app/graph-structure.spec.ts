@@ -10,20 +10,17 @@ import { GraphRequestInterceptor } from './graph-service/graph-request-intercept
 import { GraphService } from './graph-service/graph-service';
 import { constructGraphLinksFromFullPath, parseMetadata } from './graph-structure';
 
-let graphService: GraphService;
 describe('Graph structural tests', () => {
+  let graphService: GraphService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
         providers: [GraphService, GraphRequestInterceptor, ConnectionBackend],
     });
-  });
 
-  // tslint:disable-next-line
-  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
-    graphService = _graphService;
-  }));
+    graphService = TestBed.get(GraphService);
+  });
 
   for (const version of GraphApiVersions) {
     it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`,
