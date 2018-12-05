@@ -6,18 +6,16 @@
 // tslint:disable-next-line
 // gen-queries.spec.ts prepares non destructive sample queries and runs the tests.
 
+import {
+  TestBed,
+} from '@angular/core/testing';
 import { ConnectionBackend, Headers, HttpModule } from '@angular/http';
 
-import {
-  inject,
-  TestBed,
-} from '@angular/core/testing'; // tslint:disable-line
-
-import { localLogout } from './authentication/auth';
-import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from './base';
+import { localLogout } from '../authentication/auth';
+import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from '../base';
+import { GraphRequestInterceptor } from '../graph-service/graph-request-interceptor';
+import { GraphService } from '../graph-service/graph-service';
 import { SampleQueries } from './gen-queries';
-import { GraphRequestInterceptor } from './graph-service/graph-request-interceptor';
-import { GraphService } from './graph-service/graph-service';
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
   for (const version of GraphApiVersions) {
@@ -40,8 +38,8 @@ function convertHeaders(graphRequestHeaders: IGraphRequestHeader[]): Headers {
   return headers;
 }
 
-let graphService: GraphService;
 describe('Sample query validation', () => {
+  let graphService: GraphService;
 
   beforeAll(() => {
     localLogout();
@@ -52,11 +50,9 @@ describe('Sample query validation', () => {
       imports: [HttpModule],
       providers: [GraphService, GraphRequestInterceptor, ConnectionBackend],
     });
-  });
 
-  it('Creates an instance of the graph service', inject([GraphService], (graphSvc: GraphService) => {
-    graphService = graphSvc;
-  }));
+    graphService = TestBed.get(GraphService);
+  });
 
   for (const query of SampleQueries) {
     it(`${query.humanName}: Doc link should exist and match request version`, () => {
@@ -112,18 +108,18 @@ describe('Sample query validation', () => {
 
       graphService.performAnonymousQuery(query.method, 'https://graph.microsoft.com' + query.requestUrl, headers)
         .then((res) => {
-        if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
-          const response = res.json();
-          if (response && response.value && response.value.constructor === Array) {
-            if (response.value.length === 0 && skipResponseLengthCheck()) {
-              done.fail(`${query.humanName}: All sample GETs on collections must have values`);
+          if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
+            const response = res.json();
+            if (response && response.value && response.value.constructor === Array) {
+              if (response.value.length === 0 && skipResponseLengthCheck()) {
+                done.fail(`${query.humanName}: All sample GETs on collections must have values`);
+              }
             }
           }
-        }
-        done();
-      }).catch((e: Response) => {
-        done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
-      });
+          done();
+        }).catch((e: Response) => {
+          done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
+        });
     });
   }
 });
