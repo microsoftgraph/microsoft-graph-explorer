@@ -26,6 +26,6 @@ steps:
       azureSubscription: 'arm-connection'
       destination: 'azureBlob'
       storage: 'graphstagingblobstorage'
-      containerName: 'staging/Scripts/build/js/GraphExplorer'
+      containerName: 'staging/vendor/bower_components/explorer/dist'
     displayName: 'Stage'
 
