@@ -35,7 +35,10 @@ export class QueryRunnerService {
       AppComponent.explorerValues.endpointUrl = $('#graph-request-url input').val();
     }
 
-    const postBodyValue = getRequestBodyEditor().getValue();
+    let postBodyValue = '';
+    if (AppComponent.explorerValues.selectedOption === 'POST') {
+      postBodyValue = getRequestBodyEditor().getValue();
+    }
 
     const query: IGraphApiCall = {
       requestUrl: AppComponent.explorerValues.endpointUrl,

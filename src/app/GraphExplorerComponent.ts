@@ -61,20 +61,15 @@ export class GraphExplorerComponent {
     this.shouldEndWithOneEmptyHeader();
 
     AppComponent.explorerValues.postBody = '';
-    const postBodyEditor = getRequestBodyEditor();
     if (query.postBody) {
-
+      const postBodyEditor = getRequestBodyEditor();
       const rawPostBody = query.postBody;
-
-      // Try to format the post body
-
       let formattedPostBody;
       try {
         formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
       } catch (e) {
         throw (e);
       }
-
       AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
       postBodyEditor.setValue(AppComponent.explorerValues.postBody);
     }
