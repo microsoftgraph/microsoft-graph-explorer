@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { getAceEditorFromElId, getJsonViewer, getRequestBodyEditor } from './api-explorer-jseditor';
+import { getAceEditorFromElId, getJsonViewer } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
 import { IGraphApiCall } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
 import { getString } from './localization-helpers';
-import { getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
-  insertHeadersIntoResponseViewer, isImageResponse, showResults } from './response-handlers';
+import { getRequestBodyEditor } from './monaco-editor/monaco-editor';
+import {
+  getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
+  insertHeadersIntoResponseViewer, isImageResponse, showResults,
+} from './response-handlers';
 import { createHeaders } from './util';
 
 @Injectable()
@@ -32,12 +35,14 @@ export class QueryRunnerService {
       AppComponent.explorerValues.endpointUrl = $('#graph-request-url input').val();
     }
 
+    const postBodyValue = getRequestBodyEditor().getValue();
+
     const query: IGraphApiCall = {
       requestUrl: AppComponent.explorerValues.endpointUrl,
       method: AppComponent.explorerValues.selectedOption,
       requestSentAt: new Date(),
       headers: AppComponent.explorerValues.headers,
-      postBody: getRequestBodyEditor().getSession().getValue(),
+      postBody: postBodyValue,
     };
 
     checkHasValidAuthToken();

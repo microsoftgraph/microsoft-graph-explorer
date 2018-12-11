@@ -5,14 +5,14 @@
 
 import { AfterViewInit, Component } from '@angular/core';
 
-import { getRequestBodyEditor, initializeAceEditor } from './api-explorer-jseditor';
 import { IGraphRequestHeader } from './base';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { getRequestBodyEditor, initializeEditor } from './monaco-editor/monaco-editor';
 
 @Component({
-  selector: 'request-editors',
-  styleUrls: ['./request-editors.component.css'],
-  templateUrl: './request-editors.component.html',
+    selector: 'request-editors',
+    styleUrls: ['./request-editors.component.css'],
+    templateUrl: './request-editors.component.html',
 })
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
     public ngAfterViewInit(): void {
@@ -22,7 +22,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
 
     public initPostBodyEditor() {
         const postBodyEditor = getRequestBodyEditor();
-        initializeAceEditor(postBodyEditor, this.getStr('Request body editor'));
+        initializeEditor(postBodyEditor, this.getStr('Request body editor'));
     }
 
     public isLastHeader(header: IGraphRequestHeader) {
@@ -58,7 +58,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
         if (idx !== -1) {
             this.explorerValues.headers.splice(idx, 1);
         } else {
-          throw new Error('Can\'t remove header');
+            throw new Error('Can\'t remove header');
         }
     }
 
