@@ -3,8 +3,7 @@
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { getAceEditorFromElId } from './api-explorer-jseditor';
-import { getJsonViewer } from './monaco-editor/monaco-editor';
+import { getJsonViewer, getResponseHeaderViewer } from './monaco-editor/monaco-editor';
 
 export function showResults(results, responseContentType) {
     if (responseContentType) {
@@ -25,8 +24,8 @@ export function insertHeadersIntoResponseViewer(headers: Headers) {
         headersArr.push(headerKey + ': ' + headerValue);
     });
 
-    getAceEditorFromElId('response-header-viewer').getSession().setValue('');
-    getAceEditorFromElId('response-header-viewer').getSession().insert(0, headersArr.join('\n'));
+    getResponseHeaderViewer().setValue('');
+    getResponseHeaderViewer().setValue(headersArr.join('\n'));
 }
 
 export function handleHtmlResponse(results) {

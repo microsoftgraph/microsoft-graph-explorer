@@ -5,6 +5,9 @@
 
 declare let monaco: any;
 
+export function getResponseHeaderViewer() {
+    return getEditorFromElementId('response-header-viewer', 'text');
+}
 export function getRequestBodyEditor() {
     return getEditorFromElementId('post-body-editor', 'json');
 }
