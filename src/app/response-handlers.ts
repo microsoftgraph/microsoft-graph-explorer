@@ -3,13 +3,14 @@
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { getAceEditorFromElId, getJsonViewer } from './api-explorer-jseditor';
+import { getAceEditorFromElId } from './api-explorer-jseditor';
+import { getJsonViewer } from './monaco-editor/monaco-editor';
 
 export function showResults(results, responseContentType) {
-    getJsonViewer().setValue('');
-    getJsonViewer().getSession().insert(0, results);
     if (responseContentType) {
-        getJsonViewer().getSession().setMode('ace/mode/' + responseContentType);
+        const viewer = getJsonViewer(responseContentType);
+        viewer.setValue('');
+        viewer.setValue(results);
     }
 }
 

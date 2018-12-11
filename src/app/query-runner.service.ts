@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { getAceEditorFromElId, getJsonViewer } from './api-explorer-jseditor';
+import { getAceEditorFromElId } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
 import { IGraphApiCall } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
 import { getString } from './localization-helpers';
-import { getRequestBodyEditor } from './monaco-editor/monaco-editor';
+import { getJsonViewer, getRequestBodyEditor } from './monaco-editor/monaco-editor';
 import {
   getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
   insertHeadersIntoResponseViewer, isImageResponse, showResults,
@@ -20,8 +20,9 @@ export class QueryRunnerService {
   public static clearResponse() {
     // Clear response preview and headers
     getAceEditorFromElId('response-header-viewer').getSession().setValue('');
-    getJsonViewer().getSession().setValue('');
-
+    window.editor.dispose();
+    getJsonViewer().setValue('');
+    getRequestBodyEditor().setValue('');
     AppComponent.explorerValues.showImage = false;
     AppComponent.messageBarContent = null;
   }
@@ -63,6 +64,7 @@ export class QueryRunnerService {
       try {
         this.handleSuccessfulQueryResponse(res, query);
       } catch (e) {
+        alert(e);
         AppComponent.messageBarContent = {
           text: getString(AppComponent.Options, 'explorer-error'),
           backgroundClass: 'ms-MessageBar--error',

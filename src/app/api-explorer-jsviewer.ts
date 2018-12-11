@@ -3,8 +3,9 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { commonAceSetup, getAceEditorFromElId, getJsonViewer } from './api-explorer-jseditor';
+import { commonAceSetup, getAceEditorFromElId } from './api-explorer-jseditor';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { getJsonViewer } from './monaco-editor/monaco-editor';
 
 /**
  * Gets the localized aria-label for a response viewer textarea.

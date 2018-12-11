@@ -6,20 +6,18 @@
 declare let monaco: any;
 
 export function getRequestBodyEditor() {
-    return getEditorFromElementId('monaco-container-edit');
+    return getEditorFromElementId('monaco-container-edit', 'json');
 }
 
-export function getJsonViewer() {
-    return getEditorFromElementId('monaco-container-view');
+export function getJsonViewer(format?: string) {
+    let language = 'json';
+    if (format && format !== 'json') {
+        language = format;
+    }
+    return getEditorFromElementId('jsonViewer', language);
 }
 
-/* window.editor.onDidChangeModelContent((e) => {
-    // tslint:disable-next-line:no-console
-    console.log(window.editor.getValue(), e);
-}); */
-
-export function getEditorFromElementId(id) {
-
+export function getEditorFromElementId(id, format) {
     const editorOptions = {
         model: {},
     };
@@ -27,7 +25,7 @@ export function getEditorFromElementId(id) {
     const monacoContainer = monaco.Uri.parse(`a://b/${id}.json`);
 
     if (!monaco.editor.getModel(monacoContainer)) {
-        const model = monaco.editor.createModel('', 'javascript', monacoContainer);
+        const model = monaco.editor.createModel('', format, monacoContainer);
         editorOptions.model = model;
     } else {
         window.editor.dispose();

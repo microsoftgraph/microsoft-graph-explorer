@@ -21,8 +21,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
     }
 
     public initPostBodyEditor() {
-        const postBodyEditor = getRequestBodyEditor();
-        initializeEditor(postBodyEditor, this.getStr('Request body editor'));
+        getRequestBodyEditor();
     }
 
     public isLastHeader(header: IGraphRequestHeader) {
