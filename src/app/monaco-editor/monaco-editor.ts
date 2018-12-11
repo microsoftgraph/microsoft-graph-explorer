@@ -6,7 +6,7 @@
 declare let monaco: any;
 
 export function getRequestBodyEditor() {
-    return getEditorFromElementId('monaco-container-edit', 'json');
+    return getEditorFromElementId('post-body-editor', 'json');
 }
 
 export function getJsonViewer(format?: string) {

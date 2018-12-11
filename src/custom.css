@@ -15,6 +15,7 @@
 }
 
 #jsonViewer, #response-header-viewer {
+    width: 100%;
     height: 50vh;
     border: 1px solid #ccc;
 }
