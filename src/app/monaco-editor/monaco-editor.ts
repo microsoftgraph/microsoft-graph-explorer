@@ -13,6 +13,11 @@ export function getJsonViewer() {
     return getEditorFromElementId('monaco-container-view');
 }
 
+/* window.editor.onDidChangeModelContent((e) => {
+    // tslint:disable-next-line:no-console
+    console.log(window.editor.getValue(), e);
+}); */
+
 export function getEditorFromElementId(id) {
 
     const editorOptions = {
@@ -25,11 +30,13 @@ export function getEditorFromElementId(id) {
         const model = monaco.editor.createModel('', 'javascript', monacoContainer);
         editorOptions.model = model;
     } else {
+        window.editor.dispose();
         editorOptions.model = monaco.editor.getModel(monacoContainer);
     }
     editor = monaco.editor.create(document.getElementById(id), {
         model: editorOptions.model,
     });
+    window.editor = editor;
     return editor;
 }
 /**
