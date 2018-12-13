@@ -5,9 +5,9 @@
 
 import { AfterViewInit, Component } from '@angular/core';
 
-import { IGraphRequestHeader } from './base';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { initializeEditor } from './monaco-editor/monaco-editor';
+import { IGraphRequestHeader } from '../base';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
+import { initializeEditor } from '../request-editors/monaco-editor';
 
 @Component({
     selector: 'request-editors',
@@ -17,10 +17,6 @@ import { initializeEditor } from './monaco-editor/monaco-editor';
 export class RequestEditorsComponent extends GraphExplorerComponent implements AfterViewInit {
     public ngAfterViewInit(): void {
         this.addEmptyHeader();
-        this.initPostBodyEditor();
-    }
-
-    public initPostBodyEditor() {
         initializeEditor();
     }
 
