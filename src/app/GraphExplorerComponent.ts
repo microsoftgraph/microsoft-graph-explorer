@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { isAuthenticated as isAuthHelper } from './authentication/auth';
 import { IGraphApiCall, IGraphRequestHeader, ISampleQuery, substituteTokens } from './base';
 import { getString } from './localization-helpers';
-import { getRequestBodyEditor } from './monaco-editor/monaco-editor';
 import { QueryRunnerService } from './query-runner.service';
 
 export class GraphExplorerComponent {
