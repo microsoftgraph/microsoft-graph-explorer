@@ -7,7 +7,7 @@ import { AfterViewInit, Component } from '@angular/core';
 
 import { IGraphRequestHeader } from './base';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { getRequestBodyEditor, initializeEditor } from './monaco-editor/monaco-editor';
+import { initializeEditor } from './monaco-editor/monaco-editor';
 
 @Component({
     selector: 'request-editors',
@@ -21,7 +21,7 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
     }
 
     public initPostBodyEditor() {
-        getRequestBodyEditor();
+        initializeEditor();
     }
 
     public isLastHeader(header: IGraphRequestHeader) {

@@ -62,7 +62,6 @@ export class GraphExplorerComponent {
 
     AppComponent.explorerValues.postBody = '';
     if (query.postBody) {
-      const postBodyEditor = getRequestBodyEditor();
       const rawPostBody = query.postBody;
       let formattedPostBody;
       try {
@@ -71,7 +70,7 @@ export class GraphExplorerComponent {
         throw (e);
       }
       AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
-      postBodyEditor.setValue(AppComponent.explorerValues.postBody);
+      window.bodyEditor.setValue(AppComponent.explorerValues.postBody);
     }
   }
   public shouldEndWithOneEmptyHeader() {

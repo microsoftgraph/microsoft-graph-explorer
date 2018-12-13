@@ -3,13 +3,10 @@
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { getJsonViewer, getResponseHeaderViewer } from './monaco-editor/monaco-editor';
-
 export function showResults(results, responseContentType) {
     if (responseContentType) {
-        const viewer = getJsonViewer(responseContentType);
-        viewer.setValue('');
-        viewer.setValue(results);
+        window.resultsViewer.setValue('');
+        window.resultsViewer.setValue(results);
     }
 }
 
@@ -24,8 +21,8 @@ export function insertHeadersIntoResponseViewer(headers: Headers) {
         headersArr.push(headerKey + ': ' + headerValue);
     });
 
-    getResponseHeaderViewer().setValue('');
-    getResponseHeaderViewer().setValue(headersArr.join('\n'));
+    window.headersViewer.setValue('');
+    window.headersViewer.setValue(headersArr.join('\n'));
 }
 
 export function handleHtmlResponse(results) {

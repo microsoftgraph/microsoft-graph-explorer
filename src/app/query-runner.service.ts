@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { getAceEditorFromElId } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
 import { IGraphApiCall } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
 import { getString } from './localization-helpers';
-import { getJsonViewer, getRequestBodyEditor } from './monaco-editor/monaco-editor';
 import {
   getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
   insertHeadersIntoResponseViewer, isImageResponse, showResults,
@@ -19,10 +17,9 @@ export class QueryRunnerService {
 
   public static clearResponse() {
     // Clear response preview and headers
-    getAceEditorFromElId('response-header-viewer').getSession().setValue('');
-    window.editor.dispose();
-    getJsonViewer().setValue('');
-    getRequestBodyEditor().setValue('');
+    window.headersViewer.setValue('');
+    window.bodyEditor.setValue('');
+    window.resultsViewer.setValue('');
     AppComponent.explorerValues.showImage = false;
     AppComponent.messageBarContent = null;
   }
@@ -37,8 +34,8 @@ export class QueryRunnerService {
     }
 
     let postBodyValue = '';
-    if (AppComponent.explorerValues.selectedOption === 'POST') {
-      postBodyValue = getRequestBodyEditor().getValue();
+    if (AppComponent.explorerValues.selectedOption !== 'GET') {
+      postBodyValue = window.bodyEditor.getValue();
     }
 
     const query: IGraphApiCall = {

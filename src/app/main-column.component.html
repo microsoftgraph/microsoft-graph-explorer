@@ -63,10 +63,10 @@
     <div class="ms-Pivot-content" data-content="response" >
         <div id="response-viewer">
             <img id="responseImg" tabindex="0" [hidden]="!explorerValues.showImage" style="margin-top:10px" ng-cloak role="img" [attr.name]="getStr('User photo')"/>
-            <div id="jsonViewer" tabindex="0" [hidden]="explorerValues.showImage" role="textbox" [attr.aria-label]="getStr('Response body')"></div>
+            <div id="results-viewer" tabindex="0" [hidden]="explorerValues.showImage" role="textbox" [attr.aria-label]="getStr('Response body')"></div>
         </div>
     </div>
     <div class="ms-Pivot-content" data-content="response-headers" >
-        <div id="monaco-header-viewer" role="textbox" title="response headers" tabindex="0" [attr.aria-label]="getStr('Response headers viewer')"></div>
+        <div id="headers-viewer" role="textbox" title="response headers" tabindex="0" [attr.aria-label]="getStr('Response headers viewer')"></div>
     </div>
 </div>
