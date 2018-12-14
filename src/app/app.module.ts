@@ -23,7 +23,7 @@ import { ResponseStatusBarComponent } from './response-status-bar/response-statu
 import { SampleCategoriesPanelComponent } from './sample-categories-panel.component';
 import { ScopesDialogComponent } from './scopes-dialog/scopes-dialog.component';
 import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';
-import { SidebarComponent } from './sidebar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
