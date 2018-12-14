@@ -17,9 +17,9 @@ export class QueryRunnerService {
 
   public static clearResponse() {
     // Clear response preview and headers
-    window.headersViewer.setValue('');
-    window.bodyEditor.setValue('');
-    window.resultsViewer.setValue('');
+    (window as any).headersViewer.setValue('');
+    (window as any).bodyEditor.setValue('');
+    (window as any).resultsViewer.setValue('');
     AppComponent.explorerValues.showImage = false;
     AppComponent.messageBarContent = null;
   }
@@ -35,7 +35,7 @@ export class QueryRunnerService {
 
     let postBodyValue = '';
     if (AppComponent.explorerValues.selectedOption !== 'GET') {
-      postBodyValue = window.bodyEditor.getValue();
+      postBodyValue = (window as any).bodyEditor.getValue();
     }
 
     const query: IGraphApiCall = {
@@ -127,7 +127,7 @@ export class QueryRunnerService {
 
     fetchImagePromise.then((result: any) => {
       const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
-      const imageUrl = window.URL.createObjectURL(blob);
+      const imageUrl = (window as any).URL.createObjectURL(blob);
 
       const imageResultViewer = document.getElementById('responseImg') as HTMLImageElement;
       imageResultViewer.src = imageUrl;
@@ -202,9 +202,9 @@ export class QueryRunnerService {
 
     if (query.statusCode === 401 || query.statusCode === 403) {
       text += `
-        <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please
-        <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.
-        </span>`;
+      <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please
+      <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.
+      </span>`;
     }
 
     return text;

@@ -69,7 +69,7 @@ export class GraphExplorerComponent {
         throw (e);
       }
       AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
-      window.bodyEditor.setValue(AppComponent.explorerValues.postBody);
+      (window as any).bodyEditor.setValue(AppComponent.explorerValues.postBody);
     }
   }
   public shouldEndWithOneEmptyHeader() {

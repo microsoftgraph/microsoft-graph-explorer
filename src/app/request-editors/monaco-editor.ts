@@ -14,15 +14,15 @@ export function initializeEditor() {
     const bodyModel = monaco.editor.createModel('', 'json', bodyEditor);
     const resultsModel = monaco.editor.createModel('', 'json', resultsViewer);
 
-    window.headersViewer = monaco.editor.create(document.getElementById('response-header-viewer'), {
+    (window as any).headersViewer = monaco.editor.create(document.getElementById('response-header-viewer'), {
         model: headersModel,
     });
 
-    window.bodyEditor = monaco.editor.create(document.getElementById('body-editor'), {
+    (window as any).bodyEditor = monaco.editor.create(document.getElementById('body-editor'), {
         model: bodyModel,
     });
 
-    window.resultsViewer = monaco.editor.create(document.getElementById('results-viewer'), {
+    (window as any).resultsViewer = monaco.editor.create(document.getElementById('results-viewer'), {
         model: resultsModel,
     });
 }

@@ -5,8 +5,8 @@
 
 export function showResults(results, responseContentType) {
     if (responseContentType) {
-        window.resultsViewer.setValue('');
-        window.resultsViewer.setValue(results);
+        (window as any).resultsViewer.setValue('');
+        (window as any).resultsViewer.setValue(results);
     }
 }
 
@@ -21,8 +21,8 @@ export function insertHeadersIntoResponseViewer(headers: Headers) {
         headersArr.push(headerKey + ': ' + headerValue);
     });
 
-    window.headersViewer.setValue('');
-    window.headersViewer.setValue(headersArr.join('\n'));
+    (window as any).headersViewer.setValue('');
+    (window as any).headersViewer.setValue(headersArr.join('\n'));
 }
 
 export function handleHtmlResponse(results) {
