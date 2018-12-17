@@ -14,10 +14,23 @@ steps:
 
   - script: |
       npm install
+    displayName: 'npm install'
+  - script: |
       npm run lint
-      npm run test
+    displayName: 'Runs linting checks'
+  - script: |
+      npm test
+    displayName: 'Runs tests'
+  - script: |
+      npm run import:samples
+    displayName: 'Imports samples'
+  - script: |
+      npm run import:loc-strings
+    displayName: 'Imports loc-strings'
+  - script: |
       npm run build:prod
-    displayName: 'npm install and build'
+    displayName: 'Runs a production build'
+
 
   - task: AzureFileCopy@2
     inputs:
