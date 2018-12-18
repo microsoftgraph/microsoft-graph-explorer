@@ -40,7 +40,7 @@ export class GraphExplorerComponent {
       return;
     }
 
-    QueryRunnerService.clearResponse();
+    QueryRunnerService.clearResponse(true);
 
     // Copy the sample query or history item so we're not changing history/samples
     const query: ISampleQuery = jQuery.extend(true, {}, originalQuery);

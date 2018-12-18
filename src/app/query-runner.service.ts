@@ -15,10 +15,12 @@ import { createHeaders } from './util';
 @Injectable()
 export class QueryRunnerService {
 
-  public static clearResponse() {
+  public static clearResponse(clearAllViewers?: boolean) {
     // Clear response preview and headers
+    if (clearAllViewers) {
+      (window as any).bodyEditor.setValue('');
+    }
     (window as any).headersViewer.setValue('');
-    (window as any).bodyEditor.setValue('');
     (window as any).resultsViewer.setValue('');
     AppComponent.explorerValues.showImage = false;
     AppComponent.messageBarContent = null;
