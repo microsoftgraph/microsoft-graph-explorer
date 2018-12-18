@@ -2,9 +2,13 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
+declare let monaco: any;
 
 export function showResults(results, responseContentType) {
     if (responseContentType) {
+        const model =
+            (window as any).resultsViewer.getModel();
+        monaco.editor.setModelLanguage(model, responseContentType);
         (window as any).resultsViewer.setValue('');
         (window as any).resultsViewer.setValue(results);
     }
