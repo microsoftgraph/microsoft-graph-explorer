@@ -34,8 +34,8 @@
 
     <button name="button" class="c-button explorer-form-row bump-flex-row-mobile" type="submit" id="submitBtn" (click)="submit()">
         <span [hidden]="explorerValues.requestInProgress">
-            <i id="go-lightning-icon" class="ms-Icon ms-Icon--LightningBolt" style="padding-right: 10px;" aria-hidden="true"></i>{{getStr('Run
-            Query')}}</span>
+            <i id="go-lightning-icon" class="ms-Icon ms-Icon--LightningBolt" style="padding-right: 10px;" aria-hidden="true"></i>
+            {{getStr('Run Query')}}</span>
         <div class="ms-Spinner" [hidden]="!explorerValues.requestInProgress"></div>
     </button>
 </div>
