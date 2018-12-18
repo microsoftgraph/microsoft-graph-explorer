@@ -61,7 +61,6 @@ export class QueryRunnerService {
       try {
         this.handleSuccessfulQueryResponse(res, query);
       } catch (e) {
-        alert(e);
         AppComponent.messageBarContent = {
           text: getString(AppComponent.Options, 'explorer-error'),
           backgroundClass: 'ms-MessageBar--error',
