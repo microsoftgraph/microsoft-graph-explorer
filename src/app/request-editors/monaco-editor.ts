@@ -16,13 +16,22 @@ export function initializeEditor() {
 
     (window as any).headersViewer = monaco.editor.create(document.getElementById('response-header-viewer'), {
         model: headersModel,
+        minimap: {
+            enabled: false,
+        },
     });
 
     (window as any).bodyEditor = monaco.editor.create(document.getElementById('body-editor'), {
         model: bodyModel,
+        minimap: {
+            enabled: false,
+        },
     });
 
     (window as any).resultsViewer = monaco.editor.create(document.getElementById('results-viewer'), {
+        minimap: {
+            enabled: false,
+        },
         model: resultsModel,
     });
 }
