@@ -19,6 +19,7 @@ export function initializeEditor() {
         minimap: {
             enabled: false,
         },
+        automaticLayout: true,
     });
 
     (window as any).bodyEditor = monaco.editor.create(document.getElementById('body-editor'), {
