@@ -27,6 +27,7 @@ export function initializeEditor() {
         minimap: {
             enabled: false,
         },
+        automaticLayout: true,
     });
 
     (window as any).resultsViewer = monaco.editor.create(document.getElementById('results-viewer'), {
@@ -34,5 +35,6 @@ export function initializeEditor() {
             enabled: false,
         },
         model: resultsModel,
+        automaticLayout: true,
     });
 }
