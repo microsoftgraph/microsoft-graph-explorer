@@ -19,6 +19,7 @@ export function initializeEditor() {
         minimap: {
             enabled: false,
         },
+        readOnly: true,
         automaticLayout: true,
     });
 
@@ -31,6 +32,7 @@ export function initializeEditor() {
     });
 
     (window as any).resultsViewer = monaco.editor.create(document.getElementById('results-viewer'), {
+        readOnly: true,
         minimap: {
             enabled: false,
         },
