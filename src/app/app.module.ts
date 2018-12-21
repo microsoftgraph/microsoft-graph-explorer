@@ -10,8 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
+import { Routing } from './app.router';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { LogoutComponent } from './authentication/logout.component';
 import { GenericDialogComponent } from './generic-message-dialog.component';
 import { HistoryPanelComponent } from './history-panel.component';
 import { HistoryRowComponent } from './history-query.component';
@@ -26,11 +28,11 @@ import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, Routing],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
-    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent],
+    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, LogoutComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
