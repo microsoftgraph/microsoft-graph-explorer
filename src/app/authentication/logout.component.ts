@@ -10,6 +10,7 @@ export class LogoutComponent {
 
     public ngOnInit() {
         localLogout();
+        (window as any).location.href = '/';
     }
 
 }
