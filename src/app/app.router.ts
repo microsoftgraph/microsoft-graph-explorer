@@ -6,4 +6,4 @@ export const AppRoutes: Routes = [
     { path: 'logout', component: LogoutComponent },
 ];
 
-export const Routing: ModuleWithProviders = RouterModule.forRoot(AppRoutes);
+export const RoutingModule: ModuleWithProviders = RouterModule.forRoot(AppRoutes);
