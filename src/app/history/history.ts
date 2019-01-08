@@ -3,7 +3,7 @@
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { IGraphApiCall } from './base';
+import { IGraphApiCall } from '../base';
 
 const LocalStorageKeyGraphRequestHistory = 'GRAPH_V4.1_REQUEST_HISTORY';
 

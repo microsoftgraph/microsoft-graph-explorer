@@ -4,12 +4,12 @@
 // ------------------------------------------------------------------------------
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
-import { getShortQueryText } from './ApiCallDisplayHelpers';
-import { AppComponent } from './app.component';
-import { IGraphApiCall } from './base';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { getShortQueryText } from '../ApiCallDisplayHelpers';
+import { AppComponent } from '../app.component';
+import { IGraphApiCall } from '../base';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
+import { QueryRunnerService } from '../query-runner.service';
 import { saveHistoryToLocalStorage } from './history';
-import { QueryRunnerService } from './query-runner.service';
 
 declare let moment: any;
 

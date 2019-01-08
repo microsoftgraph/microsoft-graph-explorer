@@ -14,7 +14,7 @@ import { GenericDialogComponent } from './generic-message-dialog.component';
 import { GraphService } from './graph-service';
 import { parseMetadata } from './graph-structure';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history';
+import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history/history';
 import { getParameterByName } from './util';
 
 declare let mwf;
