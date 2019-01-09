@@ -4,7 +4,6 @@
 // ------------------------------------------------------------------------------
 
 import { ChangeDetectorRef } from '@angular/core';
-
 import { AppComponent } from '../app.component';
 import { IExplorerOptions, IMessage } from '../base';
 import { GraphService } from '../graph-service';
@@ -60,32 +59,32 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
       changeDetectorRef.detectChanges();
 
       try {
-          let user = {};
+        let user = {};
 
-          const userInfoUrl = `${AppComponent.Options.GraphUrl}/v1.0/me`;
-          const userPictureUrl = `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`;
+        const userInfoUrl = `${AppComponent.Options.GraphUrl}/v1.0/me`;
+        const userPictureUrl = `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`;
 
-          const userInfo = await apiService.performQuery('GET', userInfoUrl);
-          const jsonUserInfo = userInfo.json();
-          user = Object.assign(
-              user,
-              { displayName: jsonUserInfo.displayName, emailAddress: jsonUserInfo.mail || jsonUserInfo.userPrincipalName});
+        const userInfo = await apiService.performQuery('GET', userInfoUrl);
+        const jsonUserInfo = userInfo.json();
+        user = Object.assign(
+          user,
+          { displayName: jsonUserInfo.displayName, emailAddress: jsonUserInfo.mail || jsonUserInfo.userPrincipalName});
 
-          try {
-              const userPicture = await apiService.performQuery('GET_BINARY', userPictureUrl);
-              const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg'});
-              const imageUrl = window.URL.createObjectURL(blob);
-              user = Object.assign(user, { profileImageUrl: imageUrl });
-          } catch (e) {
-              user = Object.assign(user, { profileImageUrl: null });
-          }
+        try {
+          const userPicture = await apiService.performQuery('GET_BINARY', userPictureUrl);
+          const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg'});
+          const imageUrl = window.URL.createObjectURL(blob);
+          user = Object.assign(user, { profileImageUrl: imageUrl });
+        } catch (e) {
+          user = Object.assign(user, { profileImageUrl: null });
+        }
 
-          AppComponent.explorerValues.authentication.user = user;
+        AppComponent.explorerValues.authentication.user = user;
 
-          AppComponent.explorerValues.authentication.status = 'authenticated';
-          changeDetectorRef.detectChanges();
+        AppComponent.explorerValues.authentication.status = 'authenticated';
+        changeDetectorRef.detectChanges();
       } catch (e) {
-          localLogout();
+        localLogout();
       }
 
       // set which permissions are checked
@@ -211,6 +210,7 @@ export function localLogout() {
   }
   AppComponent.explorerValues.authentication.status = 'anonymous';
   AppComponent.explorerValues.authentication.user = {};
+  sessionStorage.clear();
 }
 
 export function checkHasValidAuthToken() {
