@@ -4,9 +4,9 @@
 // ------------------------------------------------------------------------------
 
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { ISampleQuery } from './base';
-import { QueryRunnerService } from './query-runner.service';
-import { QueryRowComponent } from './queryrow/queryrow.component';
+import { ISampleQuery } from '../base';
+import { QueryRunnerService } from '../query-runner.service';
+import { QueryRowComponent } from '../queryrow/queryrow.component';
 
 declare let moment: any;
 

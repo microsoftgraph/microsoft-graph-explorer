@@ -14,10 +14,28 @@ steps:
 
   - script: |
       npm install
+    displayName: 'npm install'
+  - script: |
       npm run lint
-      npm run test
+    displayName: 'Runs linting checks'
+  - script: |
+      npm test
+    displayName: 'Runs tests'
+  - script: |
+      npm run import:samples
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+
+    displayName: 'Imports samples'
+  - script: |
+      npm run import:loc-strings
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+    displayName: 'Imports loc-strings'
+
+  - script: |
       npm run build:prod
-    displayName: 'npm install and build'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+    displayName: 'Runs a production build'
+
 
   - task: AzureFileCopy@2
     inputs:
@@ -27,5 +45,6 @@ steps:
       destination: 'azureBlob'
       storage: 'graphstagingblobstorage'
       containerName: 'staging/vendor/bower_components/explorer/dist'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
     displayName: 'Stage'
 

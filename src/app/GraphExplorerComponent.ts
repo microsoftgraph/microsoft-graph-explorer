@@ -3,7 +3,6 @@
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { getRequestBodyEditor } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { isAuthenticated as isAuthHelper } from './authentication/auth';
 import { IGraphApiCall, IGraphRequestHeader, ISampleQuery, substituteTokens } from './base';
@@ -15,7 +14,7 @@ export class GraphExplorerComponent {
   public explorerValues = AppComponent.explorerValues;
 
   public getStr(label: string): string {
-    return getString(AppComponent.Options, label) || '*****' + label ;
+    return getString(AppComponent.Options, label) || '*****' + label;
   }
 
   public getAssetPath(relPath: string): string {
@@ -24,11 +23,11 @@ export class GraphExplorerComponent {
 
   // Used in sidebar and panel
   public getRequestHistory = (limit?: number): IGraphApiCall[] => {
-      if (limit) {
-        return AppComponent.requestHistory.slice(0, limit);
-      }
+    if (limit) {
+      return AppComponent.requestHistory.slice(0, limit);
+    }
 
-      return AppComponent.requestHistory;
+    return AppComponent.requestHistory;
   }
 
   public isAuthenticated() {
@@ -41,45 +40,37 @@ export class GraphExplorerComponent {
       return;
     }
 
-    QueryRunnerService.clearResponse();
+    QueryRunnerService.clearResponse(true);
 
-      // Copy the sample query or history item so we're not changing history/samples
+    // Copy the sample query or history item so we're not changing history/samples
     const query: ISampleQuery = jQuery.extend(true, {}, originalQuery);
     substituteTokens(query);
 
-      // Set the endpoint url. if it's a relative path, add the configured graph URL
+    // Set the endpoint url. if it's a relative path, add the configured graph URL
     AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith('https://') ? query.requestUrl :
       AppComponent.Options.GraphUrl + query.requestUrl;
     AppComponent.explorerValues.selectedOption = query.method;
 
     if (query.headers) { // tslint:disable-line
-        AppComponent.explorerValues.headers = query.headers;
-      } else {
-        AppComponent.explorerValues.headers = [];
-      }
+      AppComponent.explorerValues.headers = query.headers;
+    } else {
+      AppComponent.explorerValues.headers = [];
+    }
 
     this.shouldEndWithOneEmptyHeader();
 
     AppComponent.explorerValues.postBody = '';
-    const postBodyEditorSession = getRequestBodyEditor().getSession();
     if (query.postBody) {
-
-        const rawPostBody = query.postBody;
-
-        // Try to format the post body
-
-        let formattedPostBody;
-        try {
-          formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
-        } catch (e) {
-          throw (e);
-        }
-
-        AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+      const rawPostBody = query.postBody;
+      let formattedPostBody;
+      try {
+        formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
+      } catch (e) {
+        throw (e);
       }
-
-    postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
-
+      AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+      (window as any).bodyEditor.setValue(AppComponent.explorerValues.postBody);
+    }
   }
   public shouldEndWithOneEmptyHeader() {
     const lastHeader = this.getLastHeader();
@@ -91,14 +82,14 @@ export class GraphExplorerComponent {
   }
 
   public addEmptyHeader() {
-      AppComponent.explorerValues.headers.push({
-          name: '',
-          value: '',
-      });
+    AppComponent.explorerValues.headers.push({
+      name: '',
+      value: '',
+    });
   }
 
   public getLastHeader(): IGraphRequestHeader {
-      return this.explorerValues.headers[this.explorerValues.headers.length - 1];
+    return this.explorerValues.headers[this.explorerValues.headers.length - 1];
   }
 
 }
