@@ -82,7 +82,7 @@ interface IHarQueryString {
 
 interface IHarPostData {
   mimeType: string;
-  params: IHarParams;
+  params?: IHarParams;
   text: string;
   comment?: string;
 }

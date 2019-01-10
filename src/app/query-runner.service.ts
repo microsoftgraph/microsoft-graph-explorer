@@ -6,6 +6,7 @@ import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
 import { IGraphApiCall } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
+import { generateHar } from './history/har/harUtil';
 import { getString } from './localization-helpers';
 import { getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
   insertHeadersIntoResponseViewer, isImageResponse, showResults } from './response-handlers';
@@ -152,7 +153,6 @@ export class QueryRunnerService {
   }
 
   public commonResponseHandler(res: Response, query: IGraphApiCall) {
-
     QueryRunnerService.clearResponse();
 
     // Common ops for successful and unsuccessful
@@ -179,6 +179,9 @@ export class QueryRunnerService {
       dataPoints.push('UnknownUrl');
     }
     dataPoints.push(isAuthenticated() ? 'authenticated' : 'demo');
+
+    const harPayload = this.createHarPayload(query, res);
+    const har = JSON.stringify(generateHar(harPayload));
   }
 
   public createTextSummary(query: IGraphApiCall) {
@@ -207,4 +210,44 @@ export class QueryRunnerService {
     return query.statusCode >= 200 && query.statusCode < 300;
   }
 
+  private createHarPayload(query: IGraphApiCall, res: Response) {
+    let harPayload = {
+      startedDateTime: query.requestSentAt.toString(),
+      time: query.duration,
+      method: query.method,
+      url: query.requestUrl,
+      cookies: [],
+      queryString: [{name: '', value: ''}],
+      status: query.statusCode,
+      statusText: res.statusText,
+      content: {
+        text: res.text(),
+        size: res.text().length,
+        mimeType: 'application/json',
+      },
+      request: {
+        headers: query.headers,
+      },
+      response: {
+        headers: res.headers.keys().reduce((acc: any, key: string) => {
+          const header = {name: key, value: res.headers.get(key)};
+          return [...acc, header];
+        }, []),
+      },
+      sendTime: 0,
+      waitTime: 0,
+      receiveTime: 0,
+      httpVersion: 'HTTP/1.1',
+    };
+
+    if (!!query.postBody) {
+      harPayload = Object.assign(harPayload, { //tslint:disable-line
+        postData: {
+          mimeType: 'application/json',
+          text: query.postBody || '',
+        },
+      });
+    }
+    return harPayload;
+  }
 }
