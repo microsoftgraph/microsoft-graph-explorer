@@ -160,7 +160,6 @@ export class QueryRunnerService {
 
     query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
     query.statusCode = res.status;
-    AppComponent.addRequestToHistory(query);
 
     AppComponent.messageBarContent = {
       text: this.createTextSummary(query),
@@ -182,6 +181,9 @@ export class QueryRunnerService {
 
     const harPayload = this.createHarPayload(query, res);
     const har = JSON.stringify(generateHar(harPayload));
+
+    const historyItem = {...query, har};
+    AppComponent.addRequestToHistory(historyItem);
   }
 
   public createTextSummary(query: IGraphApiCall) {
