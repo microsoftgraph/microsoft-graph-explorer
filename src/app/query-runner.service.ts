@@ -242,11 +242,11 @@ export class QueryRunnerService {
       httpVersion: 'HTTP/1.1',
     };
 
-    if (!!query.postBody) {
+    if (query.postBody) {
       harPayload = Object.assign(harPayload, { //tslint:disable-line
         postData: {
           mimeType: 'application/json',
-          text: query.postBody || '',
+          text: query.postBody,
         },
       });
     }
