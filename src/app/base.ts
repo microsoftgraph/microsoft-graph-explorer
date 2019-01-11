@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { isAuthenticated } from './authentication/auth';
+import { IHarFormat } from './history/har/IHarFormat';
 import { Tokens } from './tokens';
 
 export interface IExplorerOptions {
@@ -78,7 +79,7 @@ export interface IGraphApiCall {
 
     requestSentAt?: Date;
     relativeDate?: string;
-
+    har?: string;
 }
 
 export interface ISampleQuery extends IGraphApiCall {
