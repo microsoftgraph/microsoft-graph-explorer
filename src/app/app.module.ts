@@ -28,11 +28,9 @@ import { ScopesDialogComponent } from './scopes-dialog/scopes-dialog.component';
 import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
-const language = AppComponent.Options.Language;
-
 @NgModule({
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, RoutingModule],
-  providers: [{ provide: APP_BASE_HREF, useValue: '/developer.microsoft.com/' + language + '/graph/graph-explorer' }],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/developer.microsoft.com/en-US/graph/graph-explorer' }],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
