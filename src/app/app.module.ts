@@ -30,7 +30,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, RoutingModule],
-  providers: [{ provide: APP_BASE_HREF, useValue: `/${(window.location.pathname.split('/')[1] || '')}/graph/graph-explorer/` }],
+  providers: [{ provide: APP_BASE_HREF, useValue:
+      `/${(window.location.pathname.split('/')[1] || '')}/graph/graph-explorer/` }],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
