@@ -8,7 +8,6 @@ declare let monaco: any;
 export function initializeEditor() {
     const headersViewer = monaco.Uri.parse(`a://b/response-header-viewer.json`);
     const bodyEditor = monaco.Uri.parse(`a://b/body-editor.json`);
-
     const resultsViewer = monaco.Uri.parse(`a://b/results-viewer.json`);
 
     const headersModel = monaco.editor.createModel('', 'plain_text', headersViewer);
