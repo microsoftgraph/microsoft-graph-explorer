@@ -38,9 +38,7 @@ function getBaseUrl() {
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, RoutingModule],
-  providers: [{
-    provide: APP_BASE_HREF, useValue: getBaseUrl(),
-  }],
+  providers: [{ provide: APP_BASE_HREF, useValue: getBaseUrl() }],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
