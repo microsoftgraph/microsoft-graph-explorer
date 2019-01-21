@@ -69,7 +69,11 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
 
     public exportQuery(query: IGraphApiCall) {
       const blob = new Blob([query.har], { type: 'text/json' });
-      const filename = 'graph-explorer.har';
+
+      const url = query.requestUrl.substr(8).split('/');
+      url.pop(); // Removes leading slash
+
+      const filename = `${url.join('_')}.har`;
 
       if (window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveBlob(blob, filename);
