@@ -29,8 +29,6 @@ export function initializeEditor() {
             enabled: false,
         },
         automaticLayout: true,
-    }, {
-        value: '{}',
     });
 
     (window as any).resultsViewer = monaco.editor.create(document.getElementById('results-viewer'), {

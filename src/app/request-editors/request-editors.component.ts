@@ -9,8 +9,6 @@ import { IGraphRequestHeader } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { initializeEditor } from './monaco-editor';
 
-declare const bodyEditor: any;
-
 @Component({
     selector: 'request-editors',
     styleUrls: ['./request-editors.component.css'],
@@ -20,7 +18,6 @@ export class RequestEditorsComponent extends GraphExplorerComponent implements A
     public ngAfterViewInit(): void {
         this.addEmptyHeader();
         initializeEditor();
-        bodyEditor.setValue('{}');
     }
 
     public isLastHeader(header: IGraphRequestHeader) {
