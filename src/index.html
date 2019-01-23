@@ -1,49 +1,51 @@
 <!-- Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information. -->
 <!DOCTYPE html>
 <html>
-<head>
-    <base href="/">
-    <!--hello.js-->
-    <script src="../node_modules/hellojs/dist/hello.all.js"></script>
+    <head>
+        <base href="/">
+        <!-- Graph explorer depends on ACE editor -->
+        <!-- Must be inclued separetely -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
 
-    <!--Fabric-->
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.min.css">
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.components.min.css">
-    <script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/js/fabric.min.js"></script>
+        <!--hello.js-->
+        <script src="../node_modules/hellojs/dist/hello.all.js"></script>
 
-    <!-- MWF -->
-    <link rel="stylesheet" href="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/css/mwf-west-european-default.min.css">
-    <script src="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/scripts/mwf-main.var.min.js"></script>
+        <!--Fabric-->
+        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.min.css">
+        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/css/fabric.components.min.css">
+        <script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/js/fabric.min.js"></script>
 
-    <link rel="stylesheet" href="custom.css" />
+        <!-- MWF -->
+        <link rel="stylesheet" href="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/css/mwf-west-european-default.min.css">
+        <script src="https://assets.onestore.ms/cdnfiles/external/mwf/long/v1/v1.20.2/scripts/mwf-main.var.min.js"></script>
 
-    <!-- moment js -->
-    <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
+        <link rel="stylesheet" href="custom.css" />
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
+        <!-- moment js -->
+        <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
 
-    <!-- clientId, scopes, redirectUrl -->
-    <script src="../secrets.js"></script>
+        <!-- jQuery -->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 
-    <!-- Polyfill(s) for older browsers -->
-    <script src="../node_modules/core-js/client/shim.min.js"></script>
+        <!-- clientId, scopes, redirectUrl -->
+        <script src="../secrets.js"></script>
 
-    <script src="../node_modules/zone.js/dist/zone.js"></script>
-    <script src="../node_modules/systemjs/dist/system.js"></script>
+        <!-- Polyfill(s) for older browsers -->
+        <script src="../node_modules/core-js/client/shim.min.js"></script>
 
-    <script>var require = { paths: { 'vs': 'https://unpkg.com/monaco-editor@0.15.6/min/vs' } };</script>
-    <script src="https://unpkg.com/monaco-editor@0.15.6/min/vs/loader.js"></script>
-    <script src="https://unpkg.com/monaco-editor@0.15.6/min/vs/editor/editor.main.nls.js"></script>
-    <script src="https://unpkg.com/monaco-editor@0.15.6/min/vs/editor/editor.main.js"></script>
-</head>
-<body>
-    <api-explorer></api-explorer>
 
-    <script src="systemjs.config.js"></script>
-    <script>
+        <script src="../node_modules/zone.js/dist/zone.js"></script>
+        <script src="../node_modules/systemjs/dist/system.js"></script>
+    </head>
+    <body>
+        <api-explorer></api-explorer>
+
+        <script src="systemjs.config.js"></script>
+        <script>
           SystemJS.import('compiler-output/main-jit.js').catch(function(err){ console.error(err); });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
