@@ -21,7 +21,7 @@ import { HistoryRowComponent } from './history/history-query.component';
 import { MainColumnComponent } from './main-column.component';
 import { MethodBadgeComponent } from './method-badge.component';
 import { QueryRowComponent } from './queryrow/queryrow.component';
-import { RequestEditorsComponent } from './request-editors/request-editors.component';
+import { RequestEditorsComponent } from './request-editors.component';
 import { ResponseStatusBarComponent } from './response-status-bar/response-status-bar.component';
 import { SampleCategoriesPanelComponent } from './sample-categories-panel.component';
 import { ScopesDialogComponent } from './scopes-dialog/scopes-dialog.component';

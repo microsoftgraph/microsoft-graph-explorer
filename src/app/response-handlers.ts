@@ -2,15 +2,14 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
-declare let monaco: any;
+
+import { getAceEditorFromElId, getJsonViewer } from './api-explorer-jseditor';
 
 export function showResults(results, responseContentType) {
+    getJsonViewer().setValue('');
+    getJsonViewer().getSession().insert(0, results);
     if (responseContentType) {
-        const model =
-            (window as any).resultsViewer.getModel();
-        monaco.editor.setModelLanguage(model, responseContentType);
-        (window as any).resultsViewer.setValue('');
-        (window as any).resultsViewer.setValue(results);
+        getJsonViewer().getSession().setMode('ace/mode/' + responseContentType);
     }
 }
 
@@ -25,8 +24,8 @@ export function insertHeadersIntoResponseViewer(headers: Headers) {
         headersArr.push(headerKey + ': ' + headerValue);
     });
 
-    (window as any).headersViewer.setValue('');
-    (window as any).headersViewer.setValue(headersArr.join('\n'));
+    getAceEditorFromElId('response-header-viewer').getSession().setValue('');
+    getAceEditorFromElId('response-header-viewer').getSession().insert(0, headersArr.join('\n'));
 }
 
 export function handleHtmlResponse(results) {
