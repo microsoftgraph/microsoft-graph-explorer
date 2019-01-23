@@ -66,4 +66,24 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
             this.queryRunnerService.executeExplorerQuery(true);
         }
     }
+
+    public exportQuery(query: IGraphApiCall) {
+      const blob = new Blob([query.har], { type: 'text/json' });
+
+      const url = query.requestUrl.substr(8).split('/');
+      url.pop(); // Removes leading slash
+
+      const filename = `${url.join('_')}.har`;
+
+      if (window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveBlob(blob, filename);
+      } else {
+        const elem = window.document.createElement('a');
+        elem.href = window.URL.createObjectURL(blob);
+        elem.download = filename;
+        document.body.appendChild(elem);
+        elem.click();
+        document.body.removeChild(elem);
+      }
+    }
 }

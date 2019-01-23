@@ -220,5 +220,7 @@
   "messages (without replies) in a channel" : "messages (without replies) in a channel",
   "message in a channel" : "message in a channel",
   "replies to a message in channel" : "replies to a message in channel",
-  "reply of a message" : "reply of a message"
+  "reply of a message" : "reply of a message",
+  "Export": "Export",
+  "Action": "Action"
 }
