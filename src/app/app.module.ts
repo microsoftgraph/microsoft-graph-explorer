@@ -15,6 +15,7 @@ import { RoutingModule } from './app.router';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { LogoutComponent } from './authentication/logout.component';
+import { CanaryComponent } from './canary/canary.component';
 import { GenericDialogComponent } from './generic-message-dialog.component';
 import { HistoryPanelComponent } from './history/history-panel.component';
 import { HistoryRowComponent } from './history/history-query.component';
@@ -38,7 +39,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
-    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, LogoutComponent],
+    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, LogoutComponent,
+    CanaryComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
