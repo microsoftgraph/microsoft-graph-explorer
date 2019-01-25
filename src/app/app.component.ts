@@ -16,7 +16,7 @@ import { GraphService } from './graph-service';
 import { parseMetadata } from './graph-structure';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
 import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history/history';
-import { getParameterByName } from './util';
+import { getGraphUrl,  getParameterByName  } from './util';
 
 declare let mwf;
 declare let moment;
@@ -48,7 +48,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite ' +
             'People.Read Notes.ReadWrite.All Tasks.ReadWrite Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
         AuthUrl: 'https://login.microsoftonline.com',
-        GraphUrl: getParameterByName('GraphUrl') || 'https://canary.graph.microsoft.com',
+        GraphUrl: getParameterByName('GraphUrl') || getGraphUrl(),
         GraphVersions: GraphApiVersions,
         PathToBuildDir: '',
     };
@@ -107,6 +107,10 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
         this.activatedRoute.queryParams.subscribe((params) => {
             const mode = params.mode;
+            if (mode) {
+                localStorage.setItem('GRAPH_MODE', JSON.stringify(mode));
+                localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com');
+            }
         });
 
         AppComponent.Options.GraphVersions.push('Other');

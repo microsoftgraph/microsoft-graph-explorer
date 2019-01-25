@@ -14,8 +14,8 @@
         </div>
     </div>
 
-    <div class="c-drawer">
-        <button id="canary-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="canaryDrawer">
+    <div *ngIf="displayCanary()" class="c-drawer">
+        <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="canaryDrawer">
             <span class="c-heading-5 panel-header">
                 <i class="ms-Icon ms-Icon--Coffee" aria-hidden="true"></i>{{getStr('Canary')}}</span>
         </button>
@@ -39,8 +39,8 @@
                     <query-row [query]="query" [category]="idifyCategory(category.title)" *ngFor="let query of category.queries"></query-row>
                 </div>
             </div>
-            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">{{getStr('show
-                more samples')}}</a>
+            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">
+                {{getStr('show more samples')}}</a>
         </div>
     </div>
     <div class="c-drawer">
