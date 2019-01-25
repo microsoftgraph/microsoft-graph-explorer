@@ -39,5 +39,5 @@ export function getGraphUrl() {
     if (graphUrl) {
         return graphUrl;
     }
-    return 'https://graph.microsoft.com';
+    return 'https://graph.microsoft.com/';
 }

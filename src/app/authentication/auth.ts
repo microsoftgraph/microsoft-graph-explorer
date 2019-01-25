@@ -102,7 +102,10 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
 }
 
 export function generateDefaultUserScopes() {
-  const url = 'https://canary.graph.microsoft.com/';
+  if (JSON.parse(localStorage.getItem('GRAPH_MODE')) === null) {
+    return AppComponent.Options.DefaultUserScopes;
+  }
+  const url = localStorage.getItem('GRAPH_URL');
   let scopes = AppComponent.Options.DefaultUserScopes.split(' ');
   let newScopes = ''
   scopes.forEach(scope => {

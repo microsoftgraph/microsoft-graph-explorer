@@ -109,7 +109,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
             const mode = params.mode;
             if (mode) {
                 localStorage.setItem('GRAPH_MODE', JSON.stringify(mode));
-                localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com');
+                localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com/');
             }
         });
 
