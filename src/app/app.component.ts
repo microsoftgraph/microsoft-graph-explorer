@@ -4,9 +4,12 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { initAuth } from './authentication/auth';
-import { GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
-    IMessageBarContent, RequestType } from './base';
+import {
+    GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
+    IMessageBarContent, RequestType,
+} from './base';
 import { initFabricComponents } from './fabric-components';
 import { GenericDialogComponent } from './generic-message-dialog.component';
 import { GraphService } from './graph-service';
@@ -19,10 +22,10 @@ declare let mwf;
 declare let moment;
 
 @Component({
-  selector: 'api-explorer',
-  providers: [GraphService],
-  templateUrl: './app.component.html',
-  styles: [`
+    selector: 'api-explorer',
+    providers: [GraphService],
+    templateUrl: './app.component.html',
+    styles: [`
   #explorer-main {
       padding-left: 12px;
   }
@@ -43,9 +46,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         ClientId: '',
         Language: 'en-US',
         DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite ' +
-            'People.Read Notes.ReadWrite.All Tasks.ReadWrite  Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
+            'People.Read Notes.ReadWrite.All Tasks.ReadWrite Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
         AuthUrl: 'https://login.microsoftonline.com',
-        GraphUrl: getParameterByName('GraphUrl') || 'https://graph.microsoft.com',
+        GraphUrl: getParameterByName('GraphUrl') || 'https://canary.graph.microsoft.com',
         GraphVersions: GraphApiVersions,
         PathToBuildDir: '',
     };
@@ -82,50 +85,54 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     public static setMessage(message: IMessage) {
         AppComponent.message = message;
-        setTimeout(() => {GenericDialogComponent.showDialog(); });
+        setTimeout(() => { GenericDialogComponent.showDialog(); });
     }
 
-    constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) { // tslint:disable-line
+    constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef, private activatedRoute: ActivatedRoute) { // tslint:disable-line
         super();
         AppComponent._changeDetectionRef = chRef;
     }
 
     public ngAfterViewInit(): void {
-      parseMetadata(this.GraphService, 'v1.0');
-      parseMetadata(this.GraphService, 'beta');
+        parseMetadata(this.GraphService, 'v1.0');
+        parseMetadata(this.GraphService, 'beta');
     }
 
     public ngOnInit() {
-    for (const key in AppComponent.Options) {
-      if (key in window) {
-        AppComponent.Options[key] = window[key];
-      }
+        for (const key in AppComponent.Options) {
+            if (key in window) {
+                AppComponent.Options[key] = window[key];
+            }
+        }
+
+        this.activatedRoute.queryParams.subscribe((params) => {
+            const mode = params.mode;
+        });
+
+        AppComponent.Options.GraphVersions.push('Other');
+
+        initAuth(AppComponent.Options, this.GraphService, this.chRef);
+
+        initFabricComponents();
+
+        mwf.ComponentFactory.create([{
+            component: mwf.Drawer,
+        }]);
+
+        moment.locale(AppComponent.Options.Language);
+
+        // Set explorer state that depends on configuration
+        AppComponent.explorerValues.endpointUrl = AppComponent.Options
+            .GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
+
+        // Show the Microsoft Graph TOU when we load GE.
+        AppComponent.messageBarContent = {
+            text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' ' +
+                'target=\'_blank\'>Microsoft Graph Terms of Use</a> and the ' +
+                '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
+                ' target=\'_blank\'>Microsoft Privacy Statement</a>.',
+            backgroundClass: 'ms-MessageBar--warning',
+            icon: 'none',
+        };
     }
-
-    AppComponent.Options.GraphVersions.push('Other');
-
-    initAuth(AppComponent.Options, this.GraphService, this.chRef);
-
-    initFabricComponents();
-
-    mwf.ComponentFactory.create([{
-        component: mwf.Drawer,
-    }]);
-
-    moment.locale(AppComponent.Options.Language);
-
-    // Set explorer state that depends on configuration
-    AppComponent.explorerValues.endpointUrl = AppComponent.Options
-      .GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
-
-    // Show the Microsoft Graph TOU when we load GE.
-    AppComponent.messageBarContent = {
-      text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' ' +
-          'target=\'_blank\'>Microsoft Graph Terms of Use</a> and the ' +
-          '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
-          ' target=\'_blank\'>Microsoft Privacy Statement</a>.',
-      backgroundClass: 'ms-MessageBar--warning',
-      icon: 'none',
-    };
-  }
- }
+}
