@@ -1,11 +1,12 @@
-#activate-canary {
+#canary-holder {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#disable-canary {
     float: right;
     padding-right: 16px;
     color: #00bcf2;
     margin-top: 9px;
 }
 
-#canary-holder {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}

@@ -4,8 +4,6 @@
 // ------------------------------------------------------------------------------
 
 import { Component } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
 @Component({
@@ -15,12 +13,14 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 })
 export class CanaryComponent extends GraphExplorerComponent {
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor() {
     super();
   }
 
-  public getCanaryStatus() {
-    return true;
+  public disableCanary() {
+    localStorage.setItem('GRAPH_MODE', null);
+    localStorage.setItem('GRAPH_URL', 'https://graph.microsoft.com');
+    location.reload();
   }
 
 }
