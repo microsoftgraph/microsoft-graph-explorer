@@ -101,12 +101,12 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
   handleAdminConsentResponse();
 }
 
-export function generateDefaultUserScopes() {
+export function generateDefaultUserScopes(userScopes = AppComponent.Options.DefaultUserScopes) {
   if (JSON.parse(localStorage.getItem('GRAPH_MODE')) === null) {
-    return AppComponent.Options.DefaultUserScopes;
+    return userScopes;
   }
   const url = localStorage.getItem('GRAPH_URL');
-  let scopes = AppComponent.Options.DefaultUserScopes.split(' ');
+  const scopes = userScopes.split(' ');
   let newScopes = ''
   scopes.forEach(scope => {
     if (scope === 'openid' || scope === 'profile') {
@@ -187,6 +187,9 @@ export function getScopes() {
   if (!scopesStr) {
     return;
   }
+
+  const regexParameter = new RegExp(localStorage.getItem('GRAPH_URL'), 'g');
+  scopesStr = scopesStr.replace(regexParameter, '');
 
   scopesStr = scopesStr.toLowerCase();
 
