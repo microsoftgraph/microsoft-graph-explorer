@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
+import { getAceEditorFromElId, getJsonViewer, getRequestBodyEditor } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
 import { IGraphApiCall } from './base';
@@ -7,22 +8,18 @@ import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
 import { generateHar } from './history/har/harUtil';
 import { getString } from './localization-helpers';
-import {
-  getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
-  insertHeadersIntoResponseViewer, isImageResponse, showResults,
-} from './response-handlers';
+import { getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
+  insertHeadersIntoResponseViewer, isImageResponse, showResults } from './response-handlers';
 import { createHeaders } from './util';
 
 @Injectable()
 export class QueryRunnerService {
 
-  public static clearResponse(clearAllViewers?: boolean) {
+  public static clearResponse() {
     // Clear response preview and headers
-    if (clearAllViewers) {
-      (window as any).bodyEditor.setValue('');
-    }
-    (window as any).headersViewer.setValue('');
-    (window as any).resultsViewer.setValue('');
+    getAceEditorFromElId('response-header-viewer').getSession().setValue('');
+    getJsonViewer().getSession().setValue('');
+
     AppComponent.explorerValues.showImage = false;
     AppComponent.messageBarContent = null;
   }
@@ -36,17 +33,12 @@ export class QueryRunnerService {
       AppComponent.explorerValues.endpointUrl = $('#graph-request-url input').val();
     }
 
-    let postBodyValue = '';
-    if (AppComponent.explorerValues.selectedOption !== 'GET') {
-      postBodyValue = (window as any).bodyEditor.getValue();
-    }
-
     const query: IGraphApiCall = {
       requestUrl: AppComponent.explorerValues.endpointUrl,
       method: AppComponent.explorerValues.selectedOption,
       requestSentAt: new Date(),
       headers: AppComponent.explorerValues.headers,
-      postBody: postBodyValue,
+      postBody: getRequestBodyEditor().getSession().getValue(),
     };
 
     checkHasValidAuthToken();
@@ -129,7 +121,7 @@ export class QueryRunnerService {
 
     fetchImagePromise.then((result: any) => {
       const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
-      const imageUrl = (window as any).URL.createObjectURL(blob);
+      const imageUrl = window.URL.createObjectURL(blob);
 
       const imageResultViewer = document.getElementById('responseImg') as HTMLImageElement;
       imageResultViewer.src = imageUrl;
@@ -208,9 +200,9 @@ export class QueryRunnerService {
 
     if (query.statusCode === 401 || query.statusCode === 403) {
       text += `
-      <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please
-      <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.
-      </span>`;
+        <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please
+        <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.
+        </span>`;
     }
 
     return text;

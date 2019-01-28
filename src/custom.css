@@ -1,6 +1,11 @@
 /* ------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
 // ------------------------------------------------------------------------------*/
+.ace_editor {
+    box-shadow: none !important;
+    position: relative;
+}
+
 #response-viewer-labels {
     margin-top: 10px;
 }
@@ -9,10 +14,19 @@
     outline: none;
 }
 
-#results-viewer, #response-header-viewer {
-    width: 100%;
+#jsonViewer, #response-header-viewer {
     height: 50vh;
     border: 1px solid #ccc;
+}
+
+.ace_link_marker {
+    position: absolute;
+    border-bottom: 1px solid blue;
+}
+
+.ace-tm .ace_invalid {
+    color: inherit;
+    background-color: inherit;
 }
 
 #graph-version-select #-Other {
