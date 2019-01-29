@@ -102,20 +102,19 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
 }
 
 export function generateDefaultUserScopes(userScopes = AppComponent.Options.DefaultUserScopes) {
-  if (JSON.parse(localStorage.getItem('GRAPH_MODE')) === null) {
+  const graphMode = JSON.parse(localStorage.getItem('GRAPH_MODE'));
+  if (graphMode === null) {
     return userScopes;
   }
-  const url = localStorage.getItem('GRAPH_URL');
+  const graphUrl = localStorage.getItem('GRAPH_URL');
   const scopes = userScopes.split(' ');
-  let newScopes = ''
-  scopes.forEach(scope => {
+  const reducedScope = scopes.reduce((newScopes, scope) => {
     if (scope === 'openid' || scope === 'profile') {
-      newScopes = newScopes + scope + ' '
-    } else {
-      newScopes = newScopes + url + scope + ' '
+      return newScopes += scope + ' ';
     }
-  });
-  return newScopes
+    return newScopes += graphUrl + scope + ' ';
+  }, '')
+  return reducedScope;
 }
 
 export function refreshAccessToken() {
@@ -188,7 +187,8 @@ export function getScopes() {
     return;
   }
 
-  const regexParameter = new RegExp(localStorage.getItem('GRAPH_URL'), 'g');
+  const graphUrl = localStorage.getItem('GRAPH_URL');
+  const regexParameter = new RegExp(graphUrl, 'g');
   scopesStr = scopesStr.replace(regexParameter, '');
 
   scopesStr = scopesStr.toLowerCase();

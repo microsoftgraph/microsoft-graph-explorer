@@ -229,7 +229,7 @@ loc_strings['en-US'] = {
   "Action": "Action",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 
@@ -451,7 +451,7 @@ loc_strings['de-DE'] = {
   "create a visual notification": "Visuelle Benachrichtigung erstellen",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['es-ES'] = {
@@ -672,7 +672,7 @@ loc_strings['es-ES'] = {
   "create a visual notification": "crear una notificación visual",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['ja-JP'] = {
@@ -893,7 +893,7 @@ loc_strings['ja-JP'] = {
   "create a visual notification": "ビジュアル通知を作成する",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['zh-CN'] = {
@@ -1114,7 +1114,7 @@ loc_strings['zh-CN'] = {
   "create a visual notification": "创建可视化通知",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['ru-RU'] = {
@@ -1335,7 +1335,7 @@ loc_strings['ru-RU'] = {
   "create a visual notification": "создать визуальное уведомление",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['pt-BR'] = {
@@ -1556,7 +1556,7 @@ loc_strings['pt-BR'] = {
   "create a visual notification": "criar uma notificação visual",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['fr-FR'] = {
@@ -1777,5 +1777,5 @@ loc_strings['fr-FR'] = {
   "create a visual notification": "créer une notification visuelle",
   "Canary": "Canary",
   "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of graph explorer"
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
