@@ -33,7 +33,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   providers: [{
     provide: APP_BASE_HREF,
     useValue: window.location.hostname === 'localhost' ?
-      '/' : `/${(window.location.pathname.split('/')[1] || '')}graph/graph-explorer/`,
+      '/' : `/${(window.location.pathname.split('/')[1] || '')}/graph/graph-explorer/`,
   }],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
