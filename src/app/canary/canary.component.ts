@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { Component } from '@angular/core';
+import { localLogout } from '../authentication/auth';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
 @Component({
@@ -20,6 +21,7 @@ export class CanaryComponent extends GraphExplorerComponent {
   public disableCanary() {
     localStorage.setItem('GRAPH_MODE', null);
     localStorage.setItem('GRAPH_URL', 'https://graph.microsoft.com');
+    localLogout();
     location.reload();
   }
 
