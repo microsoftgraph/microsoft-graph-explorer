@@ -4,10 +4,10 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { refreshAceEditorsContent } from './ace-utils';
-import { initAuth } from './authentication/auth';
+import { initAuth, localLogout } from './authentication/auth';
 import {
     GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
     IMessageBarContent, RequestType,
@@ -18,7 +18,7 @@ import { GraphService } from './graph-service';
 import { parseMetadata } from './graph-structure';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
 import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history/history';
-import { getGraphUrl,  getParameterByName  } from './util';
+import { getGraphUrl, getParameterByName } from './util';
 
 declare let mwf;
 declare let moment;
@@ -96,15 +96,15 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     }
 
     public ngAfterViewInit(): void {
-      // When clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
-      if (typeof $ !== 'undefined') {
-        $('api-explorer .ms-Pivot-link').on('click', () => {
-          setTimeout(refreshAceEditorsContent, 0);
-        });
-      }
+        // When clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
+        if (typeof $ !== 'undefined') {
+            $('api-explorer .ms-Pivot-link').on('click', () => {
+                setTimeout(refreshAceEditorsContent, 0);
+            });
+        }
 
-      parseMetadata(this.GraphService, 'v1.0');
-      parseMetadata(this.GraphService, 'beta');
+        parseMetadata(this.GraphService, 'v1.0');
+        parseMetadata(this.GraphService, 'beta');
     }
 
     public ngOnInit() {
@@ -118,7 +118,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
             const mode = params.mode;
             if (mode) {
                 localStorage.setItem('GRAPH_MODE', JSON.stringify(mode));
-                localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com/');
+                localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com');
+                localLogout();
             }
         });
 

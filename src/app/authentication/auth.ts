@@ -112,7 +112,7 @@ export function generateDefaultUserScopes(userScopes = AppComponent.Options.Defa
     if (scope === 'openid' || scope === 'profile') {
       return newScopes += scope + ' ';
     }
-    return newScopes += graphUrl + scope + ' ';
+    return newScopes += graphUrl + '/' + scope + ' ';
   }, '')
   return reducedScope;
 }
