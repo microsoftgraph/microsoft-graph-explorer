@@ -13,7 +13,7 @@
   "secure score control profiles (beta)": "профили составляющих оценки безопасности (бета)",
   "update alert": "оповещение об обновлении",
   "To try the explorer, please ": "Чтобы опробовать песочницу, ",
-  "sign in": "войдите",
+  "sign in": "Войти с помощью учетной записи Майкрософт",
   " with your work or school account from Microsoft.": " с помощью рабочей или учебной учетной записи от корпорации Майкрософт.",
   "Submit": "Отправить",
   "Using demo tenant": "Вы используете тестовую учетную запись.",
@@ -213,5 +213,14 @@
   "create a new owner": "создать нового владельца",
   "Notifications (beta)": "Уведомления (бета)",
   "create a raw notification": "создать необработанное уведомление",
-  "create a visual notification": "создать визуальное уведомление"
+  "create a visual notification": "создать визуальное уведомление",
+  "items shared with me" : "элементы, к которым мне предоставлен доступ",
+  "items viewed and modified by me" : "элементы, просмотренные и измененные мной",
+  "apps in a team" : "приложения в команде",
+  "messages (without replies) in a channel" : "сообщения (без ответов) в канале",
+  "message in a channel" : "сообщение в канале",
+  "replies to a message in channel" : "ответы на сообщение в канале",
+  "reply of a message" : "ответ на сообщение",
+  "Export": "Экспорт",
+  "Action": "Действие"
 }
