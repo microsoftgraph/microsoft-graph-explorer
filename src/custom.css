@@ -93,7 +93,7 @@ api-explorer .c-select-menu>a:after, api-explorer .c-select-menu>button:after {
 
 /* frontdoor */
 .ms-PanelHost {
-    z-index: 999;
+    z-index: 3000002;
 }
 
 #deltaUi {
