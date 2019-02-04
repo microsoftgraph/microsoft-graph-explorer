@@ -13,7 +13,7 @@
   "secure score control profiles (beta)": "perfis de controle da classificação de segurança (beta)",
   "update alert": "alerta de atualização",
   "To try the explorer, please ": "Para experimentar o Explorador, ",
-  "sign in": "entrar",
+  "sign in": "Entrar com a Microsoft",
   " with your work or school account from Microsoft.": " com a sua conta corporativa ou de estudante da Microsoft.",
   "Submit": "Enviar",
   "Using demo tenant": "No momento, você está usando uma conta de amostra.",
@@ -213,5 +213,14 @@
   "create a new owner": "criar um novo proprietário",
   "Notifications (beta)": "Notificações (beta)",
   "create a raw notification": "criar uma notificação bruta",
-  "create a visual notification": "criar uma notificação visual"
+  "create a visual notification": "criar uma notificação visual",
+  "items shared with me" : "itens compartilhados comigo",
+  "items viewed and modified by me" : "itens exibidos e modificados por mim",
+  "apps in a team" : "aplicativos em uma equipe",
+  "messages (without replies) in a channel" : "mensagens (sem respostas) em um canal",
+  "message in a channel" : "mensagem em um canal",
+  "replies to a message in channel" : "respostas a uma mensagem em um canal",
+  "reply of a message" : "resposta de uma mensagem",
+  "Export": "Exportar",
+  "Action": "Ação"
 }
