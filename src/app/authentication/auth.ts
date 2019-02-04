@@ -68,11 +68,11 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
         const jsonUserInfo = userInfo.json();
         user = Object.assign(
           user,
-          { displayName: jsonUserInfo.displayName, emailAddress: jsonUserInfo.mail || jsonUserInfo.userPrincipalName});
+          { displayName: jsonUserInfo.displayName, emailAddress: jsonUserInfo.mail || jsonUserInfo.userPrincipalName });
 
         try {
           const userPicture = await apiService.performQuery('GET_BINARY', userPictureUrl);
-          const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg'});
+          const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg' });
           const imageUrl = window.URL.createObjectURL(blob);
           user = Object.assign(user, { profileImageUrl: imageUrl });
         } catch (e) {
@@ -101,6 +101,22 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
   handleAdminConsentResponse();
 }
 
+export function generateDefaultUserScopes(userScopes = AppComponent.Options.DefaultUserScopes) {
+  const graphMode = JSON.parse(localStorage.getItem('GRAPH_MODE'));
+  if (graphMode === null) {
+    return userScopes;
+  }
+  const graphUrl = localStorage.getItem('GRAPH_URL');
+  const scopes = userScopes.split(' ');
+  const reducedScope = scopes.reduce((newScopes, scope) => {
+    if (scope === 'openid' || scope === 'profile') {
+      return newScopes += scope + ' ';
+    }
+    return newScopes += graphUrl + '/' + scope + ' ';
+  }, '')
+  return reducedScope;
+}
+
 export function refreshAccessToken() {
   if (AppComponent.explorerValues.authentication.status !== 'authenticated') {
     console.log('Not refreshing access token since user is logged out or currently logging in.', new Date());
@@ -113,7 +129,7 @@ export function refreshAccessToken() {
     response_mode: 'fragment',
     nonce: 'graph_explorer',
     prompt: 'none',
-    scope: AppComponent.Options.DefaultUserScopes,
+    scope: generateDefaultUserScopes(),
     login_hint: AppComponent.explorerValues.authentication.user.emailAddress,
     domain_hint: 'organizations',
   };
@@ -170,6 +186,10 @@ export function getScopes() {
   if (!scopesStr) {
     return;
   }
+
+  const graphUrl = localStorage.getItem('GRAPH_URL');
+  const regexParameter = new RegExp(graphUrl, 'g');
+  scopesStr = scopesStr.replace(regexParameter, '');
 
   scopesStr = scopesStr.toLowerCase();
 

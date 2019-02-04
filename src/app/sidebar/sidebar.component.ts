@@ -58,6 +58,13 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
         (document.querySelector('#history-panel tbody tr:first-child') as any).focus();
     }
 
+    public displayCanary() {
+        if (JSON.parse(localStorage.getItem('GRAPH_MODE')) === null) {
+            return false;
+        }
+        return true;
+    }
+
     public closePanels() {
         try {
             (document.querySelector('#history-panel .ms-Panel-closeButton') as any).click();

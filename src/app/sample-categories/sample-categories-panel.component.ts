@@ -4,9 +4,9 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component } from '@angular/core';
-import { ISampleQueryCategory } from './base';
-import { SampleCategories, saveCategoryDisplayState } from './getting-started-queries';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { ISampleQueryCategory } from '../base';
+import { SampleCategories, saveCategoryDisplayState } from '../getting-started-queries';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
 declare let mwf: any;
 

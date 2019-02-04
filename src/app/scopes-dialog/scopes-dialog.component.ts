@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { generateDefaultUserScopes } from '../authentication/auth';
 import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
@@ -162,6 +163,9 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   }
 
   public getNewAccessToken() {
+    const scopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
+      .map((scope) => scope.name)
+      .join(' ');
     // @todo type HelloJSLoginOptions
     const loginProperties = {
       display: 'page',
@@ -170,9 +174,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
       prompt: 'select_account',
       /* Login hint not applied via AppComponent.explorerValues.authentication.user.emailAddress
       /* as it breaks MSA login. */
-      scope: PermissionScopes.filter((scope) => scope.requested && !scope.consented)
-        .map((scope) => scope.name)
-        .join(' '),
+      scope: generateDefaultUserScopes(scopes),
     };
 
     hello('msft').login(loginProperties);

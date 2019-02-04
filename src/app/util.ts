@@ -33,3 +33,11 @@ export function getParameterByName(name: string) {
   const results = regex.exec(location.search);
   return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
+
+export function getGraphUrl() {
+    const graphUrl = localStorage.getItem('GRAPH_URL');
+    if (graphUrl) {
+        return graphUrl;
+    }
+    return 'https://graph.microsoft.com';
+}

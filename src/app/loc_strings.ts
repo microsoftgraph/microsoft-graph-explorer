@@ -1,4 +1,4 @@
-// This is a generated file from bundleLocFiles.js 
+// This is a generated file from bundleLocFiles.js
 
 export const loc_strings = {};
 
@@ -226,7 +226,10 @@ loc_strings['en-US'] = {
   "replies to a message in channel" : "replies to a message in channel",
   "reply of a message" : "reply of a message",
   "Export": "Export",
-  "Action": "Action"
+  "Action": "Action",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 
@@ -445,7 +448,10 @@ loc_strings['de-DE'] = {
   "create a new owner": "Neuen Besitzer erstellen",
   "Notifications (beta)": "Benachrichtigungen (Beta)",
   "create a raw notification": "Unformatierte Benachrichtigung erstellen",
-  "create a visual notification": "Visuelle Benachrichtigung erstellen"
+  "create a visual notification": "Visuelle Benachrichtigung erstellen",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['es-ES'] = {
@@ -663,7 +669,10 @@ loc_strings['es-ES'] = {
   "create a new owner": "crear un propietario",
   "Notifications (beta)": "Notificaciones (beta)",
   "create a raw notification": "crear una notificación sin procesar",
-  "create a visual notification": "crear una notificación visual"
+  "create a visual notification": "crear una notificación visual",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['ja-JP'] = {
@@ -881,7 +890,10 @@ loc_strings['ja-JP'] = {
   "create a new owner": "新しい所有者を作成する",
   "Notifications (beta)": "通知 (ベータ版)",
   "create a raw notification": "直接通知を作成する",
-  "create a visual notification": "ビジュアル通知を作成する"
+  "create a visual notification": "ビジュアル通知を作成する",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['zh-CN'] = {
@@ -1099,7 +1111,10 @@ loc_strings['zh-CN'] = {
   "create a new owner": "创建一个新的所有者",
   "Notifications (beta)": "通知 (beta)",
   "create a raw notification": "创建原始通知",
-  "create a visual notification": "创建可视化通知"
+  "create a visual notification": "创建可视化通知",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['ru-RU'] = {
@@ -1317,7 +1332,10 @@ loc_strings['ru-RU'] = {
   "create a new owner": "создать нового владельца",
   "Notifications (beta)": "Уведомления (бета)",
   "create a raw notification": "создать необработанное уведомление",
-  "create a visual notification": "создать визуальное уведомление"
+  "create a visual notification": "создать визуальное уведомление",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['pt-BR'] = {
@@ -1535,7 +1553,10 @@ loc_strings['pt-BR'] = {
   "create a new owner": "criar um novo proprietário",
   "Notifications (beta)": "Notificações (beta)",
   "create a raw notification": "criar uma notificação bruta",
-  "create a visual notification": "criar uma notificação visual"
+  "create a visual notification": "criar uma notificação visual",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
 
 loc_strings['fr-FR'] = {
@@ -1753,5 +1774,8 @@ loc_strings['fr-FR'] = {
   "create a new owner": "créer un propriétaire",
   "Notifications (beta)": "Notifications (bêta)",
   "create a raw notification": "créer une notification brute",
-  "create a visual notification": "créer une notification visuelle"
+  "create a visual notification": "créer une notification visuelle",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
