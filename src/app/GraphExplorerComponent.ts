@@ -63,9 +63,7 @@ export class GraphExplorerComponent {
     AppComponent.explorerValues.postBody = '';
     const postBodyEditorSession = getRequestBodyEditor().getSession();
     if (query.postBody) {
-
         const rawPostBody = query.postBody;
-
         AppComponent.explorerValues.postBody = rawPostBody;
       }
 
