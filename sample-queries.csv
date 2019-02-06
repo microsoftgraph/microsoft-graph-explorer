@@ -384,7 +384,7 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
         ""attribution"": {
             ""iconUrl"": ""https://graphexplorer.blob.core.windows.net/explorerIcon.png"",
             ""alternateText"": ""Microsoft Graph Explorer"",
-            ""addImageQuery"": ""false"",
+            ""addImageQuery"": ""false""
         },
         ""description"": ""A user activity made through the Microsoft Graph Explorer"",
         ""backgroundColor"": ""#008272"",
@@ -403,7 +403,7 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
         {
             ""userTimezone"": ""America/Los Angeles"",
             ""startedDateTime"": ""{todayMinusHour}"",
-            ""lastActiveDateTime"": ""{today}"",
+            ""lastActiveDateTime"": ""{today}""
         }
     ]
 }",Content-Type: application/json
