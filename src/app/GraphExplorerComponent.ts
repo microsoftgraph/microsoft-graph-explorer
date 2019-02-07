@@ -63,23 +63,22 @@ export class GraphExplorerComponent {
     AppComponent.explorerValues.postBody = '';
     const postBodyEditorSession = getRequestBodyEditor().getSession();
     if (query.postBody) {
+      const rawPostBody = query.postBody;
 
-        const rawPostBody = query.postBody;
+      AppComponent.explorerValues.postBody = rawPostBody;
+      // Try to format the post body
 
-        // Try to format the post body
-
-        let formattedPostBody;
-        try {
-          formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
-        } catch (e) {
-          throw (e);
-        }
-
-        AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+      let formattedPostBody;
+      try {
+        formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
+      } catch (e) {
+        throw (e);
       }
 
-    postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
+      AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+    }
 
+    postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
   }
   public shouldEndWithOneEmptyHeader() {
     const lastHeader = this.getLastHeader();
