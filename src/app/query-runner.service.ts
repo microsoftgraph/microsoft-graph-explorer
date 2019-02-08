@@ -1,27 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
+import { getAceEditorFromElId, getJsonViewer, getRequestBodyEditor } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
 import { IGraphApiCall } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
+import { generateHar } from './history/har/harUtil';
 import { getString } from './localization-helpers';
-import {
-  getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
-  insertHeadersIntoResponseViewer, isImageResponse, showResults,
-} from './response-handlers';
+import { getContentType, handleHtmlResponse, handleJsonResponse, handleTextResponse, handleXmlResponse,
+  insertHeadersIntoResponseViewer, isImageResponse, showResults } from './response-handlers';
 import { createHeaders } from './util';
 
 @Injectable()
 export class QueryRunnerService {
 
-  public static clearResponse(clearAllViewers?: boolean) {
+  public static clearResponse() {
     // Clear response preview and headers
-    if (clearAllViewers) {
-      (window as any).bodyEditor.setValue('');
-    }
-    (window as any).headersViewer.setValue('');
-    (window as any).resultsViewer.setValue('');
+    getAceEditorFromElId('response-header-viewer').getSession().setValue('');
+    getJsonViewer().getSession().setValue('');
+
     AppComponent.explorerValues.showImage = false;
     AppComponent.messageBarContent = null;
   }
@@ -35,17 +33,12 @@ export class QueryRunnerService {
       AppComponent.explorerValues.endpointUrl = $('#graph-request-url input').val();
     }
 
-    let postBodyValue = '';
-    if (AppComponent.explorerValues.selectedOption !== 'GET') {
-      postBodyValue = (window as any).bodyEditor.getValue();
-    }
-
     const query: IGraphApiCall = {
       requestUrl: AppComponent.explorerValues.endpointUrl,
       method: AppComponent.explorerValues.selectedOption,
       requestSentAt: new Date(),
       headers: AppComponent.explorerValues.headers,
-      postBody: postBodyValue,
+      postBody: getRequestBodyEditor().getSession().getValue(),
     };
 
     checkHasValidAuthToken();
@@ -128,7 +121,7 @@ export class QueryRunnerService {
 
     fetchImagePromise.then((result: any) => {
       const blob = new Blob([result.arrayBuffer()], { type: 'image/jpeg' });
-      const imageUrl = (window as any).URL.createObjectURL(blob);
+      const imageUrl = window.URL.createObjectURL(blob);
 
       const imageResultViewer = document.getElementById('responseImg') as HTMLImageElement;
       imageResultViewer.src = imageUrl;
@@ -160,7 +153,6 @@ export class QueryRunnerService {
   }
 
   public commonResponseHandler(res: Response, query: IGraphApiCall) {
-
     QueryRunnerService.clearResponse();
 
     // Common ops for successful and unsuccessful
@@ -168,7 +160,6 @@ export class QueryRunnerService {
 
     query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
     query.statusCode = res.status;
-    AppComponent.addRequestToHistory(query);
 
     AppComponent.messageBarContent = {
       text: this.createTextSummary(query),
@@ -187,6 +178,12 @@ export class QueryRunnerService {
       dataPoints.push('UnknownUrl');
     }
     dataPoints.push(isAuthenticated() ? 'authenticated' : 'demo');
+
+    const harPayload = this.createHarPayload(query, res);
+    const har = JSON.stringify(generateHar(harPayload));
+
+    const historyItem = {...query, har};
+    AppComponent.addRequestToHistory(historyItem);
   }
 
   public createTextSummary(query: IGraphApiCall) {
@@ -203,9 +200,9 @@ export class QueryRunnerService {
 
     if (query.statusCode === 401 || query.statusCode === 403) {
       text += `
-      <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please
-      <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.
-      </span>`;
+        <span style="margin-left: 40px;">Looks like you may not have the permissions for this call. Please
+        <a href="#" class="c-hyperlink" onclick="window.launchPermissionsDialog()" class="">modify your permissions</a>.
+        </span>`;
     }
 
     return text;
@@ -215,4 +212,44 @@ export class QueryRunnerService {
     return query.statusCode >= 200 && query.statusCode < 300;
   }
 
+  private createHarPayload(query: IGraphApiCall, res: Response) {
+    let harPayload = {
+      startedDateTime: query.requestSentAt.toString(),
+      time: query.duration,
+      method: query.method,
+      url: query.requestUrl,
+      cookies: [],
+      queryString: [{name: '', value: ''}],
+      status: query.statusCode,
+      statusText: res.statusText,
+      content: {
+        text: res.text(),
+        size: res.text().length,
+        mimeType: 'application/json',
+      },
+      request: {
+        headers: query.headers,
+      },
+      response: {
+        headers: res.headers.keys().reduce((acc: any, key: string) => {
+          const header = {name: key, value: res.headers.get(key)};
+          return [...acc, header];
+        }, []),
+      },
+      sendTime: 0,
+      waitTime: 0,
+      receiveTime: 0,
+      httpVersion: 'HTTP/1.1',
+    };
+
+    if (query.postBody) {
+      harPayload = Object.assign(harPayload, { //tslint:disable-line
+        postData: {
+          mimeType: 'application/json',
+          text: query.postBody,
+        },
+      });
+    }
+    return harPayload;
+  }
 }

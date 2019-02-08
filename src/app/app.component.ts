@@ -4,6 +4,8 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+
+import { refreshAceEditorsContent } from './ace-utils';
 import { initAuth } from './authentication/auth';
 import { GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
     IMessageBarContent, RequestType } from './base';
@@ -12,7 +14,7 @@ import { GenericDialogComponent } from './generic-message-dialog.component';
 import { GraphService } from './graph-service';
 import { parseMetadata } from './graph-structure';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history';
+import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history/history';
 import { getParameterByName } from './util';
 
 declare let mwf;
@@ -91,6 +93,13 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     }
 
     public ngAfterViewInit(): void {
+      // When clicking on a pivot (request headers/body or response headers/body), notify ACE to update content
+      if (typeof $ !== 'undefined') {
+        $('api-explorer .ms-Pivot-link').on('click', () => {
+          setTimeout(refreshAceEditorsContent, 0);
+        });
+      }
+
       parseMetadata(this.GraphService, 'v1.0');
       parseMetadata(this.GraphService, 'beta');
     }

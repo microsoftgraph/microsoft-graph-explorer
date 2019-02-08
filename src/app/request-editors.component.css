@@ -1,9 +1,8 @@
-#body-editor {
+#post-body-editor {
     position: relative;
     height: 20vh;
     border: 1px solid #ccc;
     margin-top: 10px;
-    width:100%;
 }
 
 .header-row input {
