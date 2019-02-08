@@ -11,6 +11,7 @@ export interface IExplorerOptions {
     AuthUrl?: string;
     GraphUrl?: string;
     ClientId?: string;
+    TenantId?: string;
     Language?: string;
     RedirectUrl?: string;
     DefaultUserScopes?: string;

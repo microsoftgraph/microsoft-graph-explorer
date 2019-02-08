@@ -16,8 +16,8 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
     msft: {
       oauth: {
         version: 2,
-        auth: options.AuthUrl + '/common/oauth2/v2.0/authorize',
-        grant: options.AuthUrl + '/common/oauth2/v2.0/token',
+        auth: options.AuthUrl + '/' + options.TenantId + '/oauth2/v2.0/authorize',
+        grant: options.AuthUrl + '/' + options.TenantId + '/oauth2/v2.0/token',
       },
       scope_delim: ' ',
 
@@ -27,8 +27,8 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
     }, msft_admin_consent: {
       oauth: {
         version: 2,
-        auth: options.AuthUrl + '/common/adminconsent',
-        grant: options.AuthUrl + '/common/oauth2/v2.0/token',
+        auth: options.AuthUrl + '/' + options.TenantId + '/adminconsent',
+        grant: options.AuthUrl + '/' + options.TenantId + '/oauth2/v2.0/token',
       },
       scope_delim: ' ',
 

@@ -46,6 +46,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
     public static Options: IExplorerOptions = {
         ClientId: '',
+        TenantId: 'common',
         Language: 'en-US',
         DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite ' +
             'People.Read Notes.ReadWrite.All Tasks.ReadWrite Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
