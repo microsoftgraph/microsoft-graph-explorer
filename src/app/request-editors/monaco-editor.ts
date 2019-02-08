@@ -2,8 +2,7 @@
 //  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
 //  See License in the project root for license information.
 // ------------------------------------------------------------------------------
-
-declare let monaco: any;
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 
 export function initializeEditor() {
     const headersViewer = monaco.Uri.parse(`a://b/response-header-viewer.json`);

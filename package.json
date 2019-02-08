@@ -58,8 +58,13 @@
     "moment": "^2.21.0",
     "monaco-editor": "^0.15.6",
     "npm": "^6.4.1",
+    "requirejs": "^2.3.6",
     "rxjs": "^5.4.0",
     "systemjs": "^0.19.27",
+    "systemjs-plugin-css": "^0.1.37",
+    "systemjs-plugin-text": "0.0.11",
+    "systemjs-plugin-traceur": "0.0.3",
+    "traceur": "0.0.111",
     "zone.js": "^0.8.5"
   },
   "repository": {

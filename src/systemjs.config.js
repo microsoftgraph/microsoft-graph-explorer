@@ -25,12 +25,21 @@
       '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
       '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
       '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
-
-      // other libraries
-      'rxjs':                      'npm:rxjs',
+      "monaco-editor": "npm:monaco-editor",
+      'rxjs': 'npm:rxjs',
+      'traceur': "npm:traceur/bin/traceur.js",
+      'css': 'npm:systemjs-plugin-css/css.js',
+      'text': 'npm:systemjs-plugin-text/text.js',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
     },
-
+    meta: {
+      '*.css': {
+        loader: 'css'
+      },
+      '*.html': {
+        loader: 'text'
+      }
+    },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
       app: {
@@ -44,6 +53,12 @@
       rxjs: {
         defaultExtension: 'js'
       }
+    },
+    '*.html': {
+      "loader": 'text'
+    },
+    '*.css': {
+      'loader': 'css'
     }
   });
 })(this);
