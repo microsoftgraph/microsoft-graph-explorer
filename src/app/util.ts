@@ -41,3 +41,8 @@ export function getGraphUrl() {
     }
     return 'https://graph.microsoft.com';
 }
+
+// tslint:disable-next-line:no-string-literal
+window['version'] = () => {
+    return '1.7.8';
+};
