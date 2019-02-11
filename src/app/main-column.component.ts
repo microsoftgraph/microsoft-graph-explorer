@@ -5,7 +5,6 @@
 
 import { AfterViewChecked, AfterViewInit, Component, DoCheck, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { initializeJsonViewer, initializeResponseHeadersViewer } from './api-explorer-jsviewer';
 import { AppComponent } from './app.component';
 import { GraphApiVersion, IExplorerValues, IMessageBarContent, Methods } from './base';
 import { constructGraphLinksFromFullPath, getUrlsFromServiceURL, IGraphNodeLink } from './graph-structure';
@@ -107,9 +106,6 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
                 });
             },
         }]);
-
-        initializeJsonViewer();
-        initializeResponseHeadersViewer();
 
         mwf.ComponentFactory.create([{
             component: mwf.AutoSuggest,
