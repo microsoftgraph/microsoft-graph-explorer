@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
-import { RoutingModule } from './app.router';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { LogoutComponent } from './authentication/logout.component';
@@ -30,7 +29,7 @@ import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule, RoutingModule],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
