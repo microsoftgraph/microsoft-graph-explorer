@@ -5,12 +5,13 @@
 
 import { AfterViewChecked, AfterViewInit, Component, DoCheck, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { initializeJsonViewer, initializeResponseHeadersViewer } from './api-explorer-jsviewer';
-import { AppComponent } from './app.component';
-import { GraphApiVersion, IExplorerValues, IMessageBarContent, Methods } from './base';
-import { constructGraphLinksFromFullPath, getUrlsFromServiceURL, IGraphNodeLink } from './graph-structure';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { QueryRunnerService } from './query-runner.service';
+import { initializeJsonViewer, initializeResponseHeadersViewer } from '../api-explorer-jsviewer';
+import { AppComponent } from '../app.component';
+import { GraphApiVersion, IExplorerValues, IMessageBarContent, Methods } from '../base';
+import { constructGraphLinksFromFullPath, getUrlsFromServiceURL, IGraphNodeLink } from '../graph-structure';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
+import { QueryRunnerService } from '../query-runner.service';
+import { getGraphUrl } from '../util';
 
 declare let mwf: any;
 
@@ -187,7 +188,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
     public updateVersionFromEndpointUrl() {
         // If the user typed in a different version, change the dropdown
-        const graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl + '/');
+        const graphPathStartingWithVersion = this.explorerValues.endpointUrl.split(getGraphUrl() + '/');
         if (graphPathStartingWithVersion.length < 2) {
             return;
         }
@@ -263,9 +264,9 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
     }
 
     public updateEndpointURLVersionFromVersion() {
-        /* AppComponent.Options.GraphUrl may be https://graph.microsoft.com/
+        /* getGraphUrl() may be https://graph.microsoft.com/
         or another sovereign cloud deployment endpoint*/
-        const path = this.explorerValues.endpointUrl.split(AppComponent.Options.GraphUrl + '/');
+        const path = this.explorerValues.endpointUrl.split(getGraphUrl() + '/');
         if (path.length > 1) {
             const pathStartingWithVersion = path[1].split('/');
 
@@ -273,7 +274,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             pathStartingWithVersion[0] = AppComponent.explorerValues.selectedVersion;
 
             // Updates URL in input field
-            this.explorerValues.endpointUrl = AppComponent.Options.GraphUrl + '/' + pathStartingWithVersion.join('/');
+            this.explorerValues.endpointUrl = getGraphUrl() + '/' + pathStartingWithVersion.join('/');
         }
     }
 
