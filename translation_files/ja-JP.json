@@ -222,5 +222,8 @@
   "replies to a message in channel" : "チャネル内のメッセージへの返信",
   "reply of a message" : "メッセージの返信",
   "Export": "エクスポート",
-  "Action": "アクション"
+  "Action": "アクション",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
