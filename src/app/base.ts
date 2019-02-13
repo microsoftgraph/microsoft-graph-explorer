@@ -9,7 +9,6 @@ import { Tokens } from './tokens';
 
 export interface IExplorerOptions {
     AuthUrl?: string;
-    GraphUrl?: string;
     ClientId?: string;
     Language?: string;
     RedirectUrl?: string;

@@ -4,7 +4,6 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { refreshAceEditorsContent } from './ace-utils';
 import { initAuth, localLogout } from './authentication/auth';
@@ -50,7 +49,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite ' +
             'People.Read Notes.ReadWrite.All Tasks.ReadWrite Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
         AuthUrl: 'https://login.microsoftonline.com',
-        GraphUrl: getParameterByName('GraphUrl') || getGraphUrl(),
+        GraphUrl: getGraphUrl(),
         GraphVersions: GraphApiVersions,
         PathToBuildDir: '',
     };
@@ -90,7 +89,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         setTimeout(() => { GenericDialogComponent.showDialog(); });
     }
 
-    constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef, private activatedRoute: ActivatedRoute) { // tslint:disable-line
+    constructor(private GraphService: GraphService, private chRef: ChangeDetectorRef) { // tslint:disable-line
         super();
         AppComponent._changeDetectionRef = chRef;
     }
@@ -114,14 +113,13 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
             }
         }
 
-        this.activatedRoute.queryParams.subscribe((params) => {
-            const mode = params.mode;
-            if (mode) {
-                localStorage.setItem('GRAPH_MODE', JSON.stringify(mode));
-                localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com');
-                localLogout();
-            }
-        });
+        const hash = location.hash.substr(1);
+        if (hash.includes('mode')) {
+            const mode = 'canary';
+            localStorage.setItem('GRAPH_MODE', JSON.stringify(mode));
+            localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com');
+            localLogout();
+        }
 
         AppComponent.Options.GraphVersions.push('Other');
 
@@ -136,8 +134,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         moment.locale(AppComponent.Options.Language);
 
         // Set explorer state that depends on configuration
-        AppComponent.explorerValues.endpointUrl = AppComponent.Options
-            .GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
+        AppComponent.explorerValues.endpointUrl = getGraphUrl()
+            + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
 
         // Show the Microsoft Graph TOU when we load GE.
         AppComponent.messageBarContent = {
