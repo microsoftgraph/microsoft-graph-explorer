@@ -49,7 +49,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite ' +
             'People.Read Notes.ReadWrite.All Tasks.ReadWrite Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
         AuthUrl: 'https://login.microsoftonline.com',
-        GraphUrl: getGraphUrl(),
         GraphVersions: GraphApiVersions,
         PathToBuildDir: '',
     };
