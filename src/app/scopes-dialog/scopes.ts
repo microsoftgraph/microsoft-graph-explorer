@@ -667,5 +667,21 @@ export const PermissionScopes: IPermissionScope[] = [
       'Allows the app to request and manage just in time elevation of users to Azure AD built-in administrative roles, on your behalf.',
     preview: true,
     admin: true
+  },
+  {
+    name: 'Policy.Read.All',
+    description: 'Read your organization\'s policies',
+    longDescription:
+      'Allows the app to read your organization\'s policies on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'Policy.ReadWrite.ConditionalAccess',
+    description: 'Read and write your organization\'s conditional access policies',
+    longDescription:
+      'Allows the app to read and write your organization\'s conditional access policies on your behalf.',
+    preview: true,
+    admin: true
   }
 ];
