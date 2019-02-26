@@ -222,5 +222,8 @@
   "replies to a message in channel" : "replies to a message in channel",
   "reply of a message" : "reply of a message",
   "Export": "Export",
-  "Action": "Action"
+  "Action": "Action",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }

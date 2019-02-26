@@ -9,6 +9,7 @@ import { isAuthenticated as isAuthHelper } from './authentication/auth';
 import { IGraphApiCall, IGraphRequestHeader, ISampleQuery, substituteTokens } from './base';
 import { getString } from './localization-helpers';
 import { QueryRunnerService } from './query-runner.service';
+import { getGraphUrl } from './util';
 
 export class GraphExplorerComponent {
 
@@ -49,7 +50,7 @@ export class GraphExplorerComponent {
 
       // Set the endpoint url. if it's a relative path, add the configured graph URL
     AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith('https://') ? query.requestUrl :
-      AppComponent.Options.GraphUrl + query.requestUrl;
+      getGraphUrl() + query.requestUrl;
     AppComponent.explorerValues.selectedOption = query.method;
 
     if (query.headers) { // tslint:disable-line

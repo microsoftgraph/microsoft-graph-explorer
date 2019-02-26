@@ -8,7 +8,7 @@ import { AppComponent } from '../app.component';
 import { IExplorerOptions, IMessage } from '../base';
 import { GraphService } from '../graph-service';
 import { PermissionScopes } from '../scopes-dialog/scopes';
-import { getParameterByName } from '../util';
+import { getParameterByName, getGraphUrl } from '../util';
 
 export function initAuth(options: IExplorerOptions, apiService: GraphService, changeDetectorRef: ChangeDetectorRef) {
   setInterval(refreshAccessToken, 1000 * 60 * 10); // refresh access token every 10 minutes
@@ -61,8 +61,8 @@ export function initAuth(options: IExplorerOptions, apiService: GraphService, ch
       try {
         let user = {};
 
-        const userInfoUrl = `${AppComponent.Options.GraphUrl}/v1.0/me`;
-        const userPictureUrl = `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`;
+        const userInfoUrl = `${getGraphUrl()}/v1.0/me`;
+        const userPictureUrl = `${getGraphUrl()}/beta/me/photo/$value`;
 
         const userInfo = await apiService.performQuery('GET', userInfoUrl);
         const jsonUserInfo = userInfo.json();

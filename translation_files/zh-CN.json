@@ -222,5 +222,8 @@
   "replies to a message in channel" : "频道中邮件的答复",
   "reply of a message" : "邮件的答复",
   "Export": "导出",
-  "Action": "操作"
+  "Action": "操作",
+  "Canary": "Canary",
+  "disable canary" : "disable canary",
+  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests"
 }
