@@ -1,4 +1,10 @@
 const fs = require('fs');
-const package = require('package');
+const thisApp = require('./package');
 
-fs.copyFileSync('dist/explorer.js', `dist/explorer_v${package.version}.js`);
+const dataToAppend = '' +
+    `
+!function() { return window['appVersion'] = '${thisApp.version}' }()
+    `;
+
+fs.appendFileSync('dist/explorer.js', dataToAppend);
+fs.copyFileSync('dist/explorer.js', `dist/explorer_v${thisApp.version}.js`);
