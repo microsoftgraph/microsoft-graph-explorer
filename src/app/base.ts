@@ -254,8 +254,8 @@ export interface IMessage {
 }
 
 export interface IMessageBarContent {
-    icon: string;
-    backgroundClass: string;
+    icon?: string;
+    backgroundClass?: string;
     text: string;
 }
 
