@@ -399,9 +399,7 @@ Security,POST,create multiple TI indicators (beta),/beta/security/tiIndicators/m
       ""tags"": [],
       ""targetProduct"": ""Azure ATP"",
       ""threatType"": ""WatchList"",
-      ""tlpLevel"": ""green"",
-      ""id"": null,
-      ""azureTenantId"": ""1063531e-68b1-4ff2-9546-d8d2d8a584c4""
+      ""tlpLevel"": ""green""
     },
     {
       ""activityGroupNames"": [],
@@ -417,9 +415,7 @@ Security,POST,create multiple TI indicators (beta),/beta/security/tiIndicators/m
       ""tags"": [],
       ""targetProduct"": ""Azure ATP"",
       ""threatType"": ""WatchList"",
-      ""tlpLevel"": ""green"",
-      ""id"": null,
-      ""azureTenantId"": ""1063531e-68b1-4ff2-9546-d8d2d8a584c4""
+      ""tlpLevel"": ""green""
     }
   ]
 }",
