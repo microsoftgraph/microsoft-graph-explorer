@@ -351,10 +351,10 @@ Security,GET,alerts filter by destination address,/v1.0/security/alerts?$filter=
 Security,GET,alerts filter by 'Status',/v1.0/security/alerts?$filter=Status eq 'NewAlert'&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list,AAD,,
 Security,GET,secure scores (beta),/beta/security/secureScores?$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescores_list,AAD,,
 Security,GET,secure score control profiles (beta),/beta/security/secureScoreControlProfiles?$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescorecontrolprofiles_list,AAD,,
-Security,Get,ti indicators (beta),/beta/security/tiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicators-list,AAD,,
-Security,Get,ti indicator by ID (beta),/beta/security/tiIndicators/{id},"This query requires the ti indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiindicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-get,AAD,,
+Security,Get,TI indicators (beta),/beta/security/tiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicators-list,AAD,,
+Security,Get,TI indicator by Id (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-get,AAD,,
 Security,Get,security actions (beta),/beta/security/securityActions,,https://docs.microsoft.com/en-us/graph/api/securityactions-list,AAD,,
-Security,Get,security actions  by ID (beta),/beta/security/securityActions/{id},"This query requires the security action id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/securityactions?$top=1",https://docs.microsoft.com/en-us/graph/api/securityaction-get,AAD,,
+Security,Get,security actions by Id (beta),/beta/security/securityActions/{id},"This query requires the security action id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/securityActions?$top=1",https://docs.microsoft.com/en-us/graph/api/securityaction-get,AAD,,
 Security,PATCH,update alert,/v1.0/security/alerts/{alert-id},"This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update,AAD,"{
   ""assignedTo"": ""test@contoso.com"",
   ""closedDateTime"": ""2018-08-27T00:00:00Z"",
@@ -369,7 +369,7 @@ Security,PATCH,update alert,/v1.0/security/alerts/{alert-id},"This query require
     ""vendor"": ""vendor""
   }
 }",
-Security,POST,create ti indicator,/beta/security/tiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicators-post,AAD,"{
+Security,POST,create TI indicator (beta),/beta/security/tiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicators-post,AAD,"{
   ""activityGroupNames"": [
       ""activityGroupNames-value""
     ],
@@ -383,7 +383,7 @@ Security,POST,create ti indicator,/beta/security/tiIndicators,,https://docs.micr
   ""threatType"": ""WatchList"",
   ""tlpLevel"": ""green""
 }",
-Security,POST,create multiple ti indicators,/beta/security/tiIndicators/microsoft.graph.submitTiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicator-submittiindicators,AAD,"{
+Security,POST,create multiple TI indicators (beta),/beta/security/tiIndicators/microsoft.graph.submitTiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicator-submittiindicators,AAD,"{
   ""value"": [
     {
       ""activityGroupNames"": [],
@@ -423,10 +423,12 @@ Security,POST,create multiple ti indicators,/beta/security/tiIndicators/microsof
     }
   ]
 }",
-Security,PATCH,Update a ti indicator,/beta/security/tiIndicators/{id},"This query requires the ti indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiindicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-update,AAD," {     
+Security,PATCH,update a TI indicator (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-update,AAD," {     
       ""additionalInformation"": ""Testing""
     }",
-Security,PATCH,Update multiple ti indicators,/beta/security/tiIndicators/microsoft.graph.updateTiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicator-updatetiindicators,AAD,"{
+Security,POST,update multiple TI indicators (beta),/beta/security/tiIndicators/microsoft.graph.updateTiIndicators,"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5
+
+ ",https://docs.microsoft.com/en-us/graph/api/tiindicator-updatetiindicators,AAD,"{
   ""value"": [
     {     
       ""id"": ""tiindicator-id-1"",
@@ -438,7 +440,7 @@ Security,PATCH,Update multiple ti indicators,/beta/security/tiIndicators/microso
     }
   ]
 }",
-Security,POST,create security action,/beta/security/securityActions,"Change the provider, vendor and parameters are needed",https://docs.microsoft.com/en-us/graph/api/securityactions-post,AAD,"{
+Security,POST,create security action (beta),/beta/security/securityActions,"Change the provider, vendor and parameters are needed",https://docs.microsoft.com/en-us/graph/api/securityactions-post,AAD,"{
     ""name"": ""blockIp"",
      ""vendorInformation"" : 
      {  ""provider"": ""Windows Defender ATP"",
@@ -448,14 +450,14 @@ Security,POST,create security action,/beta/security/securityActions,"Change the 
       {""name"": ""IP"", ""value"":""1.2.3.4"" }
     ]
 }",
-Security,DELETE,delete ti indicator,/beta/security/tiIndicators/{id},"This query requires the ti indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiindicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-delete,AAD,,
-Security,POST,delete multiple ti indicators,/beta/security/tiIndicators/microsoft.graph.deleteTiIndicators,"This query requires the ti indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiindicators?$top=5",https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicators,AAD,"{
+Security,DELETE,delete TI indicator (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-delete,AAD,,
+Security,POST,delete multiple TI indicators (beta),/beta/security/tiIndicators/microsoft.graph.deleteTiIndicators,"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5",https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicators,AAD,"{
   ""value"": [
     ""tiindicatorid-value1"",
     ""tiindicatorid-value2""
   ]
 }",
-Security,POST,delete multiple ti indicators by external Id,/beta/security/tiIndicators/microsoft.graph.deleteTiIndicatorsByExternalId,"This query requires the ti indicator external id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiindicators?$top=5",https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicatorsbyexternalid,AAD,"{
+Security,POST,delete multiple TI indicators by external Id (beta),/beta/security/tiIndicators/microsoft.graph.deleteTiIndicatorsByExternalId,"This query requires the TI indicator external id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5",https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicatorsbyexternalid,AAD,"{
   ""value"": [
     ""tiindicator-externalId-value1"",
      ""tiindicator-externalId-value2""
