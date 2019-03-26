@@ -45,6 +45,13 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: "Analytics.Read",
+    description: "Read user analytics",
+    longDescription: "Allows the app to read analytics data such as time spent in activities such as email, meetings, chats and calls.",
+    preview: true,
+    admin: false,
+  },
+  {
     name: "AppCatalog.ReadWrite.All",
     description: "Read and write to all app catalogs",
     longDescription: "Allows the app to create, read, update, and delete apps in the app catalogs.",
