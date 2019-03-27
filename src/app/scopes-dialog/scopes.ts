@@ -436,9 +436,23 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: 'IdentityRiskEvent.ReadWrite.All',
+    description: 'Read and write identity risk event information (preview)',
+    longDescription: 'Allows the app to read and write identity risk event information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'IdentityRiskyUser.Read.All',
     description: 'Read identity risky user information (preview)',
     longDescription: 'Allows the app to read identity risky user information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'IdentityRiskyUser.ReadWrite.All',
+    description: 'Read and write identity risky user information (preview)',
+    longDescription: 'Allows the app to read and write identity risky user information for all users in your organization on behalf of the signed-in user.',
     preview: true,
     admin: true,
   },
