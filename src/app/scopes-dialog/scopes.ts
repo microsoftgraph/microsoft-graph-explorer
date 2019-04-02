@@ -87,6 +87,20 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: false,
   },
   {
+    name: 'Chat.Read',
+    description: 'Read chat messages',
+    longDescription: 'Allows the app to read chat messages. ',
+    preview: false,
+    admin: false,
+  },
+  {
+    name: 'Chat.ReadWrite',
+    description: 'Read and write chat messages',
+    longDescription: 'Allows the app to read and write chat messages ',
+    preview: false,
+    admin: false,
+  },
+  {
     name: 'Contacts.Read',
     description: 'Read user contacts',
     longDescription: 'Allows the app to read user contacts.',
