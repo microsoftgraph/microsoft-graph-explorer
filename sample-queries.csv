@@ -2,7 +2,7 @@ Category Name,Type of Query,Query title (max length: 64 chars),Query URL,Tip (so
 Getting Started,GET,my profile,/v1.0/me/,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,BOTH,,
 Getting Started,GET,my photo,/v1.0/me/photo/$value,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get,BOTH,,
 Getting Started,GET,my mail,/v1.0/me/messages,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Getting Started,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+Getting Started,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0,BOTH,,
 Getting Started,GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
 Getting Started,GET,my manager,/v1.0/me/manager,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager,AAD,,
 Users,GET,my direct reports,/v1.0/me/directReports,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports,AAD,,
@@ -172,7 +172,7 @@ Personal Contacts,POST,add contact,/v1.0/me/contacts,Update the Request Body and
         ""+1 732 555 0102""
     ]
 }",Content-type: application/json
-OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0,BOTH,,
 OneDrive,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 OneDrive,GET,files shared with me,/v1.0/me/drive/sharedWithMe,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,
 OneDrive,GET,search my OneDrive,"/v1.0/me/drive/root/search(q='finance')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,

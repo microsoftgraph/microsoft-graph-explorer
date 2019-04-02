@@ -37,7 +37,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "GET",
     "humanName": "all the items in my drive",
     "requestUrl": "/v1.0/me/drive/root/children",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0",
     "skipTest": false
 },
 {
@@ -384,7 +384,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "GET",
     "humanName": "all the items in my drive",
     "requestUrl": "/v1.0/me/drive/root/children",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0",
     "skipTest": false
 },
 {
