@@ -683,5 +683,26 @@ export const PermissionScopes: IPermissionScope[] = [
       'Allows the app to read and write your organization\'s conditional access policies on your behalf.',
     preview: true,
     admin: true
-  }
+  },
+  {
+    name: 'Policy.ReadWrite.TrustFramework',
+    description: 'Read and write your organization\'s trust framework policies',
+    longDescription: 'Allows the app to read and write your organization\'s trust framework policies on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'TrustFrameworkKeySet.Read.All',
+    description: 'Read trust framework key sets',
+    longDescription: 'Allows the app to read trust framework key set properties on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'TrustFrameworkKeySet.ReadWrite.All',
+    description: 'Read and write trust framework key sets',
+    longDescription: 'Allows the app to read and write trust framework key set properties on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+}
 ];
