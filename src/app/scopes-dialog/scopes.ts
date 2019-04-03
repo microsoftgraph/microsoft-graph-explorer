@@ -45,6 +45,13 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: "Analytics.Read",
+    description: "Read user analytics",
+    longDescription: "Allows the app to read analytics data such as time spent in activities such as email, meetings, chats and calls.",
+    preview: true,
+    admin: false,
+  },
+  {
     name: "AppCatalog.ReadWrite.All",
     description: "Read and write to all app catalogs",
     longDescription: "Allows the app to create, read, update, and delete apps in the app catalogs.",
@@ -76,6 +83,20 @@ export const PermissionScopes: IPermissionScope[] = [
     name: 'Calendars.ReadWrite.Shared',
     description: 'Read and write user and shared calendars',
     longDescription: 'Allows the app to create, read, update and delete events in all calendars the user has permissions to access. This includes delegate and shared calendars.',
+    preview: false,
+    admin: false,
+  },
+  {
+    name: 'Chat.Read',
+    description: 'Read chat messages',
+    longDescription: 'Allows the app to read chat messages. ',
+    preview: false,
+    admin: false,
+  },
+  {
+    name: 'Chat.ReadWrite',
+    description: 'Read and write chat messages',
+    longDescription: 'Allows the app to read and write chat messages ',
     preview: false,
     admin: false,
   },
@@ -436,9 +457,23 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: 'IdentityRiskEvent.ReadWrite.All',
+    description: 'Read and write identity risk event information (preview)',
+    longDescription: 'Allows the app to read and write identity risk event information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'IdentityRiskyUser.Read.All',
     description: 'Read identity risky user information (preview)',
     longDescription: 'Allows the app to read identity risky user information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'IdentityRiskyUser.ReadWrite.All',
+    description: 'Read and write identity risky user information (preview)',
+    longDescription: 'Allows the app to read and write identity risky user information for all users in your organization on behalf of the signed-in user.',
     preview: true,
     admin: true,
   },
@@ -683,5 +718,26 @@ export const PermissionScopes: IPermissionScope[] = [
       'Allows the app to read and write your organization\'s conditional access policies on your behalf.',
     preview: true,
     admin: true
-  }
+  },
+  {
+    name: 'Policy.ReadWrite.TrustFramework',
+    description: 'Read and write your organization\'s trust framework policies',
+    longDescription: 'Allows the app to read and write your organization\'s trust framework policies on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'TrustFrameworkKeySet.Read.All',
+    description: 'Read trust framework key sets',
+    longDescription: 'Allows the app to read trust framework key set properties on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'TrustFrameworkKeySet.ReadWrite.All',
+    description: 'Read and write trust framework key sets',
+    longDescription: 'Allows the app to read and write trust framework key set properties on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+}
 ];

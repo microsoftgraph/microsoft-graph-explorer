@@ -2,7 +2,7 @@ Category Name,Type of Query,Query title (max length: 64 chars),Query URL,Tip (so
 Getting Started,GET,my profile,/v1.0/me/,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,BOTH,,
 Getting Started,GET,my photo,/v1.0/me/photo/$value,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get,BOTH,,
 Getting Started,GET,my mail,/v1.0/me/messages,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Getting Started,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+Getting Started,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0,BOTH,,
 Getting Started,GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
 Getting Started,GET,my manager,/v1.0/me/manager,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager,AAD,,
 Users,GET,my direct reports,/v1.0/me/directReports,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports,AAD,,
@@ -172,7 +172,7 @@ Personal Contacts,POST,add contact,/v1.0/me/contacts,Update the Request Body and
         ""+1 732 555 0102""
     ]
 }",Content-type: application/json
-OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0,BOTH,,
 OneDrive,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 OneDrive,GET,files shared with me,/v1.0/me/drive/sharedWithMe,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,
 OneDrive,GET,search my OneDrive,"/v1.0/me/drive/root/search(q='finance')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
@@ -352,12 +352,9 @@ Security,GET,alerts filter by 'Status',/v1.0/security/alerts?$filter=Status eq '
 Security,GET,secure scores (beta),/beta/security/secureScores?$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescores_list,AAD,,
 Security,GET,secure score control profiles (beta),/beta/security/secureScoreControlProfiles?$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescorecontrolprofiles_list,AAD,,
 Security,Get,TI indicators (beta),/beta/security/tiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicators-list,AAD,,
-Security,Get,TI indicator by Id (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-get,AAD,,
 Security,Get,security actions (beta),/beta/security/securityActions,,https://docs.microsoft.com/en-us/graph/api/securityactions-list,AAD,,
-Security,Get,security actions by Id (beta),/beta/security/securityActions/{id},"This query requires the security action id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/securityActions?$top=1",https://docs.microsoft.com/en-us/graph/api/securityaction-get,AAD,,
 Security,PATCH,update alert,/v1.0/security/alerts/{alert-id},"This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update,AAD,"{
   ""assignedTo"": ""test@contoso.com"",
-  ""closedDateTime"": ""2018-08-27T00:00:00Z"",
   ""comments"": [""Comment 0"", ""Comment 1""],
   ""tags"": [""Tag 0"", ""Tag 1""],
   ""feedback"": ""truePositive"",
@@ -375,8 +372,8 @@ Security,POST,create TI indicator (beta),/beta/security/tiIndicators,,https://do
     ],
   ""confidence"": 90,
   ""description"": ""This is a test indicator for demo purpose."",
-  ""expirationDateTime"": ""2019-03-10T21:57:11.3427811+00:00"",
-  ""externalId"": ""Test--8586502158541347997MS342"",
+  ""expirationDateTime"": ""{next-week}"",
+  ""externalId"": ""Test-8586502158541347997MS342"",
   ""fileHashType"": ""sha256"",
   ""fileHashValue"": ""289a8e8c330c27ab893fb769db38046feaca9d0b11e0aaa416ba70b0a51d58a4"",
   ""targetProduct"": ""Azure ATP"",
@@ -389,8 +386,7 @@ Security,POST,create multiple TI indicators (beta),/beta/security/tiIndicators/m
       ""activityGroupNames"": [],
       ""confidence"": 0,
       ""description"": ""This is a test indicator for demo purpose. Take no action on any observables set in this indicator."",
-      ""expirationDateTime"": ""2019-03-10T23:00:36.8121886+00:00"",
-      ""externalId"": ""Test--8586502120486653922MS812-0"",
+      ""externalId"": ""Test-8586502120486653922MS812-0"",
       ""fileHashType"": ""sha256"",
       ""fileHashValue"": ""0c0ebb4c90fa39785745bcc5e5cb40e3db7791be030061e2818684bc128b8f97"",
       ""killChain"": [],
@@ -399,16 +395,13 @@ Security,POST,create multiple TI indicators (beta),/beta/security/tiIndicators/m
       ""tags"": [],
       ""targetProduct"": ""Azure ATP"",
       ""threatType"": ""WatchList"",
-      ""tlpLevel"": ""green"",
-      ""id"": null,
-      ""azureTenantId"": ""1063531e-68b1-4ff2-9546-d8d2d8a584c4""
+      ""tlpLevel"": ""green""
     },
     {
       ""activityGroupNames"": [],
       ""confidence"": 0,
       ""description"": ""This is a test indicator for demo purpose. Take no action on any observables set in this indicator."",
-      ""expirationDateTime"": ""2019-03-10T23:00:36.8121886+00:00"",
-      ""externalId"": ""Test--8586502120486653922MS812-1"",
+      ""externalId"": ""Test-8586502120486653922MS812-1"",
       ""fileHashType"": ""sha256"",
       ""fileHashValue"": ""86267de22dbad234ecf97870fdcf1a0e31149ee7a5fb595c050f69ca00f3529e"",
       ""killChain"": [],
@@ -417,32 +410,30 @@ Security,POST,create multiple TI indicators (beta),/beta/security/tiIndicators/m
       ""tags"": [],
       ""targetProduct"": ""Azure ATP"",
       ""threatType"": ""WatchList"",
-      ""tlpLevel"": ""green"",
-      ""id"": null,
-      ""azureTenantId"": ""1063531e-68b1-4ff2-9546-d8d2d8a584c4""
+      ""tlpLevel"": ""green""
     }
   ]
 }",
-Security,PATCH,update a TI indicator (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-update,AAD," {     
+Security,PATCH,update a TI indicator (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-update,AAD," {
       ""additionalInformation"": ""Testing""
     }",
 Security,POST,update multiple TI indicators (beta),/beta/security/tiIndicators/microsoft.graph.updateTiIndicators,"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5
 
  ",https://docs.microsoft.com/en-us/graph/api/tiindicator-updatetiindicators,AAD,"{
   ""value"": [
-    {     
+    {
       ""id"": ""tiindicator-id-1"",
       ""additionalInformation"": ""Testing""
     },
-    {    
-      ""id"": ""tiindicator-id-2"",     
-      ""additionalInformation"": ""Testing 2""    
+    {
+      ""id"": ""tiindicator-id-2"",
+      ""additionalInformation"": ""Testing 2""
     }
   ]
 }",
 Security,POST,create security action (beta),/beta/security/securityActions,"Change the provider, vendor and parameters are needed",https://docs.microsoft.com/en-us/graph/api/securityactions-post,AAD,"{
     ""name"": ""blockIp"",
-     ""vendorInformation"" : 
+     ""vendorInformation"" :
      {  ""provider"": ""Windows Defender ATP"",
           ""vendor"": ""Microsoft""
       },

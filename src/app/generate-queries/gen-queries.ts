@@ -37,7 +37,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "GET",
     "humanName": "all the items in my drive",
     "requestUrl": "/v1.0/me/drive/root/children",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0",
     "skipTest": false
 },
 {
@@ -384,7 +384,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "GET",
     "humanName": "all the items in my drive",
     "requestUrl": "/v1.0/me/drive/root/children",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0",
     "skipTest": false
 },
 {
@@ -1160,14 +1160,6 @@ export const SampleQueries: ISampleQuery[] = [
 {
     "category": "Security",
     "method": "GET",
-    "humanName": "alerts select by 'Title'",
-    "requestUrl": "/v1.0/security/alerts?$top=5&$select=title",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list",
-    "skipTest": false
-},
-{
-    "category": "Security",
-    "method": "GET",
     "humanName": "alerts filter by 'Category'",
     "requestUrl": "/v1.0/security/alerts?$filter=Category eq 'ransomware'&$top=5",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list",
@@ -1208,12 +1200,105 @@ export const SampleQueries: ISampleQuery[] = [
 },
 {
     "category": "Security",
+    "method": "GET",
+    "humanName": "TI indicators (beta)",
+    "requestUrl": "/beta/security/tiIndicators",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicators-list",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "GET",
+    "humanName": "security actions (beta)",
+    "requestUrl": "/beta/security/securityActions",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/securityactions-list",
+    "skipTest": false
+},
+{
+    "category": "Security",
     "method": "PATCH",
     "humanName": "update alert",
     "requestUrl": "/v1.0/security/alerts/{alert-id}",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update",
-    "postBody": "{\r\n  \"assignedTo\": \"test@scuba.com\",\r\n  \"closedDateTime\": \"2018-08-27T00:00:00Z\",\r\n  \"comments\": [\"Comment 0\", \"Comment 1\"],\r\n  \"tags\": [\"Tag 0\", \"Tag 1\"],\r\n  \"feedback\": \"truePositive\",\r\n  \"status\": \"newAlert\",\r\n  \"vendorInformation\": {\r\n    \"provider\": \"provider\",\r\n    \"providerVersion\": \"3.0\",\r\n    \"subProvider\": null,\r\n    \"vendor\": \"vendor\"\r\n  }\r\n}\r\n",
+    "postBody": "{\r\n  \"assignedTo\": \"test@contoso.com\",\r\n  \"comments\": [\"Comment 0\", \"Comment 1\"],\r\n  \"tags\": [\"Tag 0\", \"Tag 1\"],\r\n  \"feedback\": \"truePositive\",\r\n  \"status\": \"newAlert\",\r\n  \"vendorInformation\": {\r\n    \"provider\": \"provider\",\r\n    \"providerVersion\": \"3.0\",\r\n    \"subProvider\": null,\r\n    \"vendor\": \"vendor\"\r\n  }\r\n}",
     "tip": "This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "POST",
+    "humanName": "create TI indicator (beta)",
+    "requestUrl": "/beta/security/tiIndicators",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicators-post",
+    "postBody": "{\r\n  \"activityGroupNames\": [\r\n      \"activityGroupNames-value\"\r\n    ],\r\n  \"confidence\": 90,\r\n  \"description\": \"This is a test indicator for demo purpose.\",\r\n  \"expirationDateTime\": \"{next-week}\",\r\n  \"externalId\": \"Test-8586502158541347997MS342\",\r\n  \"fileHashType\": \"sha256\",\r\n  \"fileHashValue\": \"289a8e8c330c27ab893fb769db38046feaca9d0b11e0aaa416ba70b0a51d58a4\",\r\n  \"targetProduct\": \"Azure ATP\",\r\n  \"threatType\": \"WatchList\",\r\n  \"tlpLevel\": \"green\"\r\n}",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "POST",
+    "humanName": "create multiple TI indicators (beta)",
+    "requestUrl": "/beta/security/tiIndicators/microsoft.graph.submitTiIndicators",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicator-submittiindicators",
+    "postBody": "{\r\n  \"value\": [\r\n    {\r\n      \"activityGroupNames\": [],\r\n      \"confidence\": 0,\r\n      \"description\": \"This is a test indicator for demo purpose. Take no action on any observables set in this indicator.\",\r\n      \"externalId\": \"Test-8586502120486653922MS812-0\",\r\n      \"fileHashType\": \"sha256\",\r\n      \"fileHashValue\": \"0c0ebb4c90fa39785745bcc5e5cb40e3db7791be030061e2818684bc128b8f97\",\r\n      \"killChain\": [],\r\n      \"malwareFamilyNames\": [],\r\n      \"severity\": 0,\r\n      \"tags\": [],\r\n      \"targetProduct\": \"Azure ATP\",\r\n      \"threatType\": \"WatchList\",\r\n      \"tlpLevel\": \"green\"\r\n    },\r\n    {\r\n      \"activityGroupNames\": [],\r\n      \"confidence\": 0,\r\n      \"description\": \"This is a test indicator for demo purpose. Take no action on any observables set in this indicator.\",\r\n      \"externalId\": \"Test-8586502120486653922MS812-1\",\r\n      \"fileHashType\": \"sha256\",\r\n      \"fileHashValue\": \"86267de22dbad234ecf97870fdcf1a0e31149ee7a5fb595c050f69ca00f3529e\",\r\n      \"killChain\": [],\r\n      \"malwareFamilyNames\": [],\r\n      \"severity\": 0,\r\n      \"tags\": [],\r\n      \"targetProduct\": \"Azure ATP\",\r\n      \"threatType\": \"WatchList\",\r\n      \"tlpLevel\": \"green\"\r\n    }\r\n  ]\r\n}",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "PATCH",
+    "humanName": "update a TI indicator (beta)",
+    "requestUrl": "/beta/security/tiIndicators/{id}",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicator-update",
+    "postBody": " {\r\n      \"additionalInformation\": \"Testing\"\r\n    }",
+    "tip": "This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "POST",
+    "humanName": "update multiple TI indicators (beta)",
+    "requestUrl": "/beta/security/tiIndicators/microsoft.graph.updateTiIndicators",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicator-updatetiindicators",
+    "postBody": "{\r\n  \"value\": [\r\n    {\r\n      \"id\": \"tiindicator-id-1\",\r\n      \"additionalInformation\": \"Testing\"\r\n    },\r\n    {\r\n      \"id\": \"tiindicator-id-2\",\r\n      \"additionalInformation\": \"Testing 2\"\r\n    }\r\n  ]\r\n}",
+    "tip": "This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5\r\n\r\n ",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "POST",
+    "humanName": "create security action (beta)",
+    "requestUrl": "/beta/security/securityActions",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/securityactions-post",
+    "postBody": "{\r\n    \"name\": \"blockIp\",\r\n     \"vendorInformation\" :\r\n     {  \"provider\": \"Windows Defender ATP\",\r\n          \"vendor\": \"Microsoft\"\r\n      },\r\n    \"parameters\" : [\r\n      {\"name\": \"IP\", \"value\":\"1.2.3.4\" }\r\n    ]\r\n}",
+    "tip": "Change the provider, vendor and parameters are needed",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "DELETE",
+    "humanName": "delete TI indicator (beta)",
+    "requestUrl": "/beta/security/tiIndicators/{id}",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicator-delete",
+    "tip": "This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "POST",
+    "humanName": "delete multiple TI indicators (beta)",
+    "requestUrl": "/beta/security/tiIndicators/microsoft.graph.deleteTiIndicators",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicators",
+    "postBody": "{\r\n  \"value\": [\r\n    \"tiindicatorid-value1\",\r\n    \"tiindicatorid-value2\"\r\n  ]\r\n}",
+    "tip": "This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5",
+    "skipTest": false
+},
+{
+    "category": "Security",
+    "method": "POST",
+    "humanName": "delete multiple TI indicators by external Id (beta)",
+    "requestUrl": "/beta/security/tiIndicators/microsoft.graph.deleteTiIndicatorsByExternalId",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicatorsbyexternalid",
+    "postBody": "{\r\n  \"value\": [\r\n    \"tiindicator-externalId-value1\",\r\n     \"tiindicator-externalId-value2\"\r\n  ]\r\n}",
+    "tip": "This query requires the TI indicator external id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5",
     "skipTest": false
 },
 {
