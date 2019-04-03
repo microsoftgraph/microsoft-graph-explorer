@@ -105,6 +105,11 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         parseMetadata(this.GraphService, 'beta');
     }
 
+    public getLocalisedString(message: string): string {
+        const g = new GraphExplorerComponent();
+        return g.getStr(message);
+    }
+
     public ngOnInit() {
         for (const key in AppComponent.Options) {
             if (key in window) {
@@ -138,10 +143,11 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
         // Show the Microsoft Graph TOU when we load GE.
         AppComponent.messageBarContent = {
-            text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' ' +
-                'target=\'_blank\'>Microsoft Graph Terms of Use</a> and the ' +
+            text: this.getLocalisedString('use the Microsoft Graph API') +
+                '<br><br><a href=\'https://aka.ms/msgraphtou\' ' +
+                'target=\'_blank\'>' + this.getLocalisedString('Terms of use') + '</a><br>' +
                 '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
-                ' target=\'_blank\'>Microsoft Privacy Statement</a>.',
+                ' target=\'_blank\'>' + this.getLocalisedString('Microsoft Privacy Statement') + '</a>.',
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'none',
         };
