@@ -154,6 +154,13 @@ export const PermissionScopes: PermissionScope[] = [
     longDescription: "Allows the app to read email in user mailboxes.",
     preview: false,
     admin: false,
+  },  
+  {
+    name: "Mail.ReadBasic",
+    description: "Read user basic mail",
+    longDescription: "Allows the app to read email in the signed-in user's mailbox except body, previewBody, attachments and any extended properties.",
+    preview: false,
+    admin: false,
   },
   {
     name: "Mail.Read.Shared",
