@@ -2,7 +2,7 @@ Category Name,Type of Query,Query title (max length: 64 chars),Query URL,Tip (so
 Getting Started,GET,my profile,/v1.0/me/,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/users,BOTH,,
 Getting Started,GET,my photo,/v1.0/me/photo/$value,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/profilephoto_get,BOTH,,
 Getting Started,GET,my mail,/v1.0/me/messages,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_messages,BOTH,,
-Getting Started,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+Getting Started,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0,BOTH,,
 Getting Started,GET,items trending around me,/beta/me/insights/trending,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/insights_list_trending,AAD,,
 Getting Started,GET,my manager,/v1.0/me/manager,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_manager,AAD,,
 Users,GET,my direct reports,/v1.0/me/directReports,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_directreports,AAD,,
@@ -94,12 +94,12 @@ Outlook Calendar,POST,find meeting time,/v1.0/me/findMeetingTimes,Update the Req
             ""timeslots"": [
             {
             ""start"": {
-                ""dateTime"": ""{today}"",  
-                ""timeZone"": ""Pacific Standard Time"" 
-                },  
-                ""end"": { 
-                ""dateTime"": ""{next-week}"",  
-                ""timeZone"": ""Pacific Standard Time"" 
+                ""dateTime"": ""{today}"",
+                ""timeZone"": ""Pacific Standard Time""
+                },
+                ""end"": {
+                ""dateTime"": ""{next-week}"",
+                ""timeZone"": ""Pacific Standard Time""
                 }
             }
             ]
@@ -172,7 +172,7 @@ Personal Contacts,POST,add contact,/v1.0/me/contacts,Update the Request Body and
         ""+1 732 555 0102""
     ]
 }",Content-type: application/json
-OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,BOTH,,
+OneDrive,GET,all the items in my drive,/v1.0/me/drive/root/children,,https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0,BOTH,,
 OneDrive,GET,my recent files,/v1.0/me/drive/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_recent,BOTH,,
 OneDrive,GET,files shared with me,/v1.0/me/drive/sharedWithMe,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/drive_sharedwithme,BOTH,,
 OneDrive,GET,search my OneDrive,"/v1.0/me/drive/root/search(q='finance')?select=name,id,webUrl",,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_search,BOTH,,
@@ -185,10 +185,10 @@ Excel,GET,worksheets in a workbook,/v1.0/me/drive/items/{drive-item-id}/workbook
 Excel,POST,add a new worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheetcollection_add,AAD,"{
   ""name"": ""My New Sheet""
 }",Content-type: application/json
-Excel,POST,calculate loan payment,/v1.0/me/drive/items/{drive-item-id}/workbook/functions/pmt,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/workbook#functions,AAD,"{ 
- ""rate"": 0.035, 
- ""nper"": 20, 
- ""pv"": -2000 
+Excel,POST,calculate loan payment,/v1.0/me/drive/items/{drive-item-id}/workbook/functions/pmt,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/workbook#functions,AAD,"{
+ ""rate"": 0.035,
+ ""nper"": 20,
+ ""pv"": -2000
 }",Content-type: application/json
 Excel,GET,used range in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets('Sheet1')/usedRange,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_usedrange,AAD,,
 Excel,GET,tables in worksheet,/v1.0/me/drive/items/{drive-item-id}/workbook/worksheets/Sheet1/tables,"This query requires a driveItem id.  To find the ID of the driveItem that corresponds to an Excel Workbook, you can run: GET https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,webUrl.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/worksheet_list_tables,AAD,,
@@ -316,37 +316,144 @@ Batching,POST,Combine a POST and a GET,/v1.0/$batch,This query will create a fol
  ]
 } ",Content-type: application/json
 ,,,,,,,,
-Microsoft Teams (beta),GET,my joined teams,/beta/me/joinedTeams,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_list_joinedteams,,,
-Microsoft Teams (beta),GET,members of a team,/beta/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_memberof,,,
-Microsoft Teams (beta),GET,channels of a team which I am member of,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_list_channels,,,
-Microsoft Teams (beta),GET,channel info,/beta/teams/{team-id}/channels/{channel-id},"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get,,,
-Microsoft Teams (beta),POST,create channel,/beta/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams.",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/group_post_channels,,"{
-   ""displayName"": ""Architecture Discussion"",		
-   ""description"": ""This channel is where we debate all future architecture plans""		
+Microsoft Teams,GET,my joined teams,/v1.0/me/joinedTeams,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_list_joinedteams,,,
+Microsoft Teams,GET,members of a team,/v1.0/groups/{group-id-for-teams}/members,"This query requires a group id of the Team.  To find the group id of teams you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/group_list_memberof,,,
+Microsoft Teams,GET,channels of a team which I am member of,/v1.0/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/channel_list,,,
+Microsoft Teams,GET,channel info,/v1.0/teams/{team-id}/channels/{channel-id},"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/v1.0/me/joinedTeams 2) GET https://graph.microsoft.com/v1.0/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/channel_get,,,
+Microsoft Teams,POST,create channel,/v1.0/teams/{team-id}/channels,"This query requires a team id.  To find the team id of teams you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams.",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/channel_post,,"{
+   ""displayName"": ""Architecture Discussion"",
+   ""description"": ""This channel is where we debate all future architecture plans""
  }",
-Microsoft Teams (beta),POST,create chat thread,/beta/teams/{team-id}/channels/{channel-id}/chatThreads,"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
-""rootMessage"": {
-       ""body"": {
-         ""contentType"": 2,		
-         ""content"": ""Hello world""		
-       }		
-   }		
- }",
-Microsoft Teams (beta),GET,apps in a team,/beta/teams/{team-id}/apps,"This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/teams_apps_list,,,
-Microsoft Teams (beta),GET,items in a team drive,/beta/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/beta/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/item_list_children,,,
+Microsoft Teams,GET,apps in a team,/v1.0/teams/{team-id}/installedApps?$expand=teamsAppDefinition,"This query requires a team id. To find the team id, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teamsappinstallation_list,,,
+Microsoft Teams,GET,tabs in a channel,/v1.0/teams/{team-id}/channels/{channel-id}/tabs?$expand=teamsApp,"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/v1.0/me/joinedTeams 2) GET https://graph.microsoft.com/v1.0/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teamstab_list,,,
+Microsoft Teams,GET,items in a team drive,/v1.0/groups/{group-id-for-teams}/drive/root/children,"This query requires a group id of the Team.  To find the group id of Teams you belong to, you can run: GET https://graph.microsoft.com/v1.0/me/joinedTeams",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/item_list_children,,,
 Microsoft Teams (beta),GET,messages (without replies) in a channel,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages,"This query requires a group id of the Team and channel id of the corresponding channel of that Team. To find the group id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_list_messages,,,
 Microsoft Teams (beta),GET,message in a channel,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id},"This query requires a group id of the Team, channel id of the corresponding channel of that Team and message id of the message you want to retrieve. To find the group id, channel id and message-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get_message,,,
 Microsoft Teams (beta),GET,replies to a message in channel,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies,"This query requires a group id of the Team, channel id of the corresponding channel of that Team and message id of the message of which you need the replies. To find the group id, channel id and message-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_list_messagereplies,,,
 Microsoft Teams (beta),GET,reply of a message,/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies/{reply-id},"This query requires a group id of the Team, channel id of the corresponding channel of that Team, message id of the message of which you need the reply and the id of the specific reply. To find the group id, channel id, message-id and reply-id you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/groups/{group-id-for-teams}/channels 3) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages 4) GET https://graph.microsoft.com/beta/teams/{group-id-for-teams}/channels/{channel-id}/messages/{message-id}/replies",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_get_messagereply,,,
+Microsoft Teams (beta),POST,create chat thread,/beta/teams/{team-id}/channels/{channel-id}/chatThreads,"This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads,,"{
+""rootMessage"": {
+       ""body"": {
+         ""contentType"": 2,
+         ""content"": ""Hello world""
+       }
+   }
+ }",
 Outlook Mail,GET,my inbox rules,/beta/me/mailFolders/inbox/messagerules,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/messagerule,BOTH,,
 Outlook Mail,GET,my outlook categories,/beta/me/outlook/masterCategories,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/outlookuser_list_mastercategories,BOTH,,
 Outlook Mail,GET,get email headers,/beta/me/messages?$select=internetMessageHeaders&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/message,BOTH,,
 Outlook Mail,GET,list conference rooms,/beta/me/findRooms,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/user_findrooms,AAD,,
-Security (beta),GET,alerts,/beta/security/alerts?$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security (beta),GET,alerts with 'High' severity,/beta/security/alerts?filter=Severity eq 'High'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security (beta),GET,alerts related to 'ransomware' category,/beta/security/alerts?filter=Category eq 'ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security (beta),GET,alerts from 'Azure Security Center',/beta/security/alerts?filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
-Security (beta),GET,alerts select by 'Title',/beta/security/alerts?$top=5&$select=title,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/alert_list,AAD,,
+Security,GET,alerts,/v1.0/security/alerts?$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list,AAD,,
+Security,GET,alerts with 'High' severity,/v1.0/security/alerts?$filter=Severity eq 'High'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list,AAD,,
+Security,GET,alerts from 'Azure Security Center',/v1.0/security/alerts?$filter=vendorInformation/provider eq 'ASC'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list,AAD,,
+Security,GET,alerts filter by 'Category',/v1.0/security/alerts?$filter=Category eq 'ransomware'&$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list,AAD,,
+Security,GET,alerts filter by destination address,/v1.0/security/alerts?$filter=networkConnections/any(d:d/destinationAddress eq '{destination-address}'),This query requires a destination address. Run https://graph.microsoft.com/v1.0/security/alerts?$top=1 and search the results for a destinationAddress property.,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list,AAD,,
+Security,GET,alerts filter by 'Status',/v1.0/security/alerts?$filter=Status eq 'NewAlert'&$top=1,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_list,AAD,,
+Security,GET,secure scores (beta),/beta/security/secureScores?$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescores_list,AAD,,
+Security,GET,secure score control profiles (beta),/beta/security/secureScoreControlProfiles?$top=5,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/securescorecontrolprofiles_list,AAD,,
+Security,Get,TI indicators (beta),/beta/security/tiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicators-list,AAD,,
+Security,Get,security actions (beta),/beta/security/securityActions,,https://docs.microsoft.com/en-us/graph/api/securityactions-list,AAD,,
+Security,PATCH,update alert,/v1.0/security/alerts/{alert-id},"This query requires an alert id. To find the ID of the alert, you can run: GET https://graph.microsoft.com/v1.0/security/alerts?$top=1",https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/alert_update,AAD,"{
+  ""assignedTo"": ""test@contoso.com"",
+  ""comments"": [""Comment 0"", ""Comment 1""],
+  ""tags"": [""Tag 0"", ""Tag 1""],
+  ""feedback"": ""truePositive"",
+  ""status"": ""newAlert"",
+  ""vendorInformation"": {
+    ""provider"": ""provider"",
+    ""providerVersion"": ""3.0"",
+    ""subProvider"": null,
+    ""vendor"": ""vendor""
+  }
+}",
+Security,POST,create TI indicator (beta),/beta/security/tiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicators-post,AAD,"{
+  ""activityGroupNames"": [
+      ""activityGroupNames-value""
+    ],
+  ""confidence"": 90,
+  ""description"": ""This is a test indicator for demo purpose."",
+  ""expirationDateTime"": ""{next-week}"",
+  ""externalId"": ""Test-8586502158541347997MS342"",
+  ""fileHashType"": ""sha256"",
+  ""fileHashValue"": ""289a8e8c330c27ab893fb769db38046feaca9d0b11e0aaa416ba70b0a51d58a4"",
+  ""targetProduct"": ""Azure ATP"",
+  ""threatType"": ""WatchList"",
+  ""tlpLevel"": ""green""
+}",
+Security,POST,create multiple TI indicators (beta),/beta/security/tiIndicators/microsoft.graph.submitTiIndicators,,https://docs.microsoft.com/en-us/graph/api/tiindicator-submittiindicators,AAD,"{
+  ""value"": [
+    {
+      ""activityGroupNames"": [],
+      ""confidence"": 0,
+      ""description"": ""This is a test indicator for demo purpose. Take no action on any observables set in this indicator."",
+      ""externalId"": ""Test-8586502120486653922MS812-0"",
+      ""fileHashType"": ""sha256"",
+      ""fileHashValue"": ""0c0ebb4c90fa39785745bcc5e5cb40e3db7791be030061e2818684bc128b8f97"",
+      ""killChain"": [],
+      ""malwareFamilyNames"": [],
+      ""severity"": 0,
+      ""tags"": [],
+      ""targetProduct"": ""Azure ATP"",
+      ""threatType"": ""WatchList"",
+      ""tlpLevel"": ""green""
+    },
+    {
+      ""activityGroupNames"": [],
+      ""confidence"": 0,
+      ""description"": ""This is a test indicator for demo purpose. Take no action on any observables set in this indicator."",
+      ""externalId"": ""Test-8586502120486653922MS812-1"",
+      ""fileHashType"": ""sha256"",
+      ""fileHashValue"": ""86267de22dbad234ecf97870fdcf1a0e31149ee7a5fb595c050f69ca00f3529e"",
+      ""killChain"": [],
+      ""malwareFamilyNames"": [],
+      ""severity"": 0,
+      ""tags"": [],
+      ""targetProduct"": ""Azure ATP"",
+      ""threatType"": ""WatchList"",
+      ""tlpLevel"": ""green""
+    }
+  ]
+}",
+Security,PATCH,update a TI indicator (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-update,AAD," {
+      ""additionalInformation"": ""Testing""
+    }",
+Security,POST,update multiple TI indicators (beta),/beta/security/tiIndicators/microsoft.graph.updateTiIndicators,"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5
+
+ ",https://docs.microsoft.com/en-us/graph/api/tiindicator-updatetiindicators,AAD,"{
+  ""value"": [
+    {
+      ""id"": ""tiindicator-id-1"",
+      ""additionalInformation"": ""Testing""
+    },
+    {
+      ""id"": ""tiindicator-id-2"",
+      ""additionalInformation"": ""Testing 2""
+    }
+  ]
+}",
+Security,POST,create security action (beta),/beta/security/securityActions,"Change the provider, vendor and parameters are needed",https://docs.microsoft.com/en-us/graph/api/securityactions-post,AAD,"{
+    ""name"": ""blockIp"",
+     ""vendorInformation"" :
+     {  ""provider"": ""Windows Defender ATP"",
+          ""vendor"": ""Microsoft""
+      },
+    ""parameters"" : [
+      {""name"": ""IP"", ""value"":""1.2.3.4"" }
+    ]
+}",
+Security,DELETE,delete TI indicator (beta),/beta/security/tiIndicators/{id},"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=1",https://docs.microsoft.com/en-us/graph/api/tiindicator-delete,AAD,,
+Security,POST,delete multiple TI indicators (beta),/beta/security/tiIndicators/microsoft.graph.deleteTiIndicators,"This query requires the TI indicator id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5",https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicators,AAD,"{
+  ""value"": [
+    ""tiindicatorid-value1"",
+    ""tiindicatorid-value2""
+  ]
+}",
+Security,POST,delete multiple TI indicators by external Id (beta),/beta/security/tiIndicators/microsoft.graph.deleteTiIndicatorsByExternalId,"This query requires the TI indicator external id. To find the ID, you can run: GET https://graph.microsoft.com/beta/security/tiIndicators?$top=5",https://docs.microsoft.com/en-us/graph/api/tiindicator-deletetiindicatorsbyexternalid,AAD,"{
+  ""value"": [
+    ""tiindicator-externalId-value1"",
+     ""tiindicator-externalId-value2""
+  ]
+}",
 User Activities,PUT,create a user activity and history item,/v1.0/me/activities/uniqueIdInAppContext,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_put_activity#example-2---deep-insert,BOTH,"{
     ""appActivityId"": ""uniqueIdInAppContext"",
     ""activitySourceHost"": ""https://graphexplorer.blob.core.windows.net"",
@@ -364,7 +471,7 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
         ""attribution"": {
             ""iconUrl"": ""https://graphexplorer.blob.core.windows.net/explorerIcon.png"",
             ""alternateText"": ""Microsoft Graph Explorer"",
-            ""addImageQuery"": ""false"",
+            ""addImageQuery"": ""false""
         },
         ""description"": ""A user activity made through the Microsoft Graph Explorer"",
         ""backgroundColor"": ""#008272"",
@@ -383,8 +490,57 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
         {
             ""userTimezone"": ""America/Los Angeles"",
             ""startedDateTime"": ""{todayMinusHour}"",
-            ""lastActiveDateTime"": ""{today}"",
+            ""lastActiveDateTime"": ""{today}""
         }
     ]
 }",Content-Type: application/json
 User Activities,GET,get recent user activities,/v1.0/me/activities/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities,BOTH,,
+Applications (beta),GET,retrieve the list of applications,/beta/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list,AAD,,
+Applications (beta),POST,create a new application,/beta/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_applications," ""AAD""","{
+        ""displayName"": ""My App""
+    }",Content-type: application/json
+Applications (beta),GET,retrieve application properties,/beta/applications/{application-id},This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_get,,,
+Applications (beta),PATCH,update application properties,/beta/applications/{application-id},This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_update,AAD,"{
+        ""signInAudience"": ""AzureADMyOrg""
+    }",Content-type: application/json
+Applications (beta),DELETE,delete an application,/beta/applications/{application-id},This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_delete,AAD,,
+Applications (beta),GET,retrieve a list of owners,/beta/applications/{application-id}/owners,This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list_owners,AAD,,
+Applications (beta),POST,create a new owner,/beta/applications/{application-id}/owners,This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications. In the request body supply a JSON representation of directoryObject object,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_owners,AAD,"{
+        ""directoryObject"": {
+        }
+    }",Content-type: application/json
+Notifications (beta),POST,create a raw notification,/beta/me/notifications,Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A raw notification is a notification that is received by the application and processed in an application specific manner.  A raw notification may or may not include UI/UX for the user. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info.,https://aka.ms/graphNotificationsDocs,BOTH,"{
+  ""targetHostName"": ""graphnotifications.sample.windows.com"",
+  ""appNotificationId"": ""sampleRawNotification"",
+  ""payload"": {
+    ""rawContent"": ""Hello World!""
+  },
+  ""targetPolicy"": {
+    ""platformTypes"": [
+      ""windows"",
+      ""ios"",
+      ""android""
+    ]
+  },
+  ""priority"": ""High"",
+  ""displayTimeToLive"": ""60""
+}",Content-Type: application/json
+Notifications (beta),POST,create a visual notification,/beta/me/notifications,Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A visual notification is a notification that a user can see by default within the notification center of the target platform. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info.,https://aka.ms/graphNotificationsDocs,BOTH,"{
+  ""targetHostName"": ""graphnotifications.sample.windows.com"",
+  ""appNotificationId"": ""sampleDirectToastNotification"",
+  ""payload"": {
+    ""visualContent"": {
+      ""title"": ""Hello World!"",
+      ""body"": ""Notifications are Great!""
+    }
+  },
+  ""targetPolicy"": {
+    ""platformTypes"": [
+      ""windows"",
+      ""ios"",
+      ""android""
+    ]
+  },
+  ""priority"": ""High"",
+  ""displayTimeToLive"": ""60""
+}",Content-Type: application/json

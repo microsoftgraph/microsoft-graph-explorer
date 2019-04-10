@@ -1,20 +1,21 @@
-import { GraphRequestHeader } from "./base";
-import { Headers } from "@angular/http"
+import { Headers } from '@angular/http';
+import { IGraphRequestHeader } from './base';
 
-export function createHeaders(explorerHeaders: GraphRequestHeader[]): Headers {
-    let h = new Headers();
+export function createHeaders(explorerHeaders: IGraphRequestHeader[]): Headers {
+    const h = new Headers();
 
-    for (let header of explorerHeaders) {
+    for (const header of explorerHeaders) {
       if (!header.name) {
           continue;
       }
-      // Handle backslash that is returned in odata.etag before double-quote
-      // as the etag would otherwise be invalid and request will fail
-      // if user just does copy-paste odata.etag value from the previous response
-      if (header.name === "If-Match"){
+      /*
+       Handle backslash that is returned in odata.etag before double-quote
+       as the etag would otherwise be invalid and request will fail
+       if user just does copy-paste odata.etag value from the previous response
+      */
+      if (header.name === 'If-Match') {
           h.append(header.name, header.value.replace(/\\"/g, '"'));
-      }
-      else{
+      } else {
       h.append(header.name, header.value);
       }
     }
@@ -22,10 +23,21 @@ export function createHeaders(explorerHeaders: GraphRequestHeader[]): Headers {
     return h;
 }
 
-// https://github.com/Microsoft/rDSN/blob/f1f474da71003b72f445dcebd6638768301ce930/src/tools/webstudio/app_package/static/js/analyzer.js#L2
+/*
+ https://github.com/Microsoft/rDSN/blob/f1f474da71003b72f445dcebd6638768301ce930/src/tools/webstudio/app_package
+ /static/js/analyzer.js#L2
+*/
 export function getParameterByName(name: string) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  const results = regex.exec(location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+export function getGraphUrl() {
+    const graphUrl = localStorage.getItem('GRAPH_URL');
+    if (graphUrl) {
+        return graphUrl;
+    }
+    return 'https://graph.microsoft.com';
 }

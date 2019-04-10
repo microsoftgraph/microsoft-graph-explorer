@@ -43,9 +43,11 @@ When your answer is yes to all of the questions, you are now ready to add your s
 
 Sample queries are added to [sample-queries.csv](./sample-queries.csv). You’ll add your sample query to this file. Make sure you fill out all of the fields that are applicable to your query. Run `npm run import:samples` after you’ve added your sample query. This will convert the samples in the CSV file to structured objects in src/app/get-queries. 
 
-Once you've added your sample queries, you'll need to add your query titles and category name to the en-US loc string files found in the [translation](./translation) directory. We'll localize and import the loc strings later. 
+Once you've added your sample queries, you'll need to add your query titles and category name to the en-US loc string files found in the [translation](./translation_files) directory. We'll localize and import the loc strings later. 
 
 Next, you need to run Graph Explorer on your development computer to verify that the samples are working as you expect. Go to [Running the explorer locally]( https://github.com/microsoftgraph/microsoft-graph-explorer#running-the-explorer-locally) to learn how to run Graph Explorer. Confirm that your samples work as expected with a signed in user account. 
+
+We now need to confirm that your samples will work against the demo tenant used when the user is not logged in. Run `npm test` to test all of the **GET** queries against the demo tenant.
 
 Now that you have a working sample query, build the Graph Explorer so that your changes are available to be staged. Run `npm run build:prod`. 
 
@@ -55,7 +57,7 @@ You are now ready to open your pull request to submit your changes. All GET samp
 
 #### Permissions
 
-Permissions like `Mail.Read` are listed in [scopes.ts](./src/app/scopes.ts) and each permission has a few properties, like its name and description.
+Permissions like `Mail.Read` are listed in [scopes.ts](src/app/scopes-dialog/scopes.ts) and each permission has a few properties, like its name and description.
 
 ```javascript
  {

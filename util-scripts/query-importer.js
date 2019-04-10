@@ -68,15 +68,15 @@ function saveSampleQueries() {
 
 // WARNING - This file is generated from util-scripts/query-importer.js
 
-import { SampleQuery } from "./base";
+import { ISampleQuery } from "../base";
 
-export const SampleQueries: SampleQuery[] = [
+export const SampleQueries: ISampleQuery[] = [
   `;
   formattedQueryArr = []
   for (let i = 0; i < queries.length; i++) {
     let csvQuery = queries[i];
     let sampleQuery = convertRawQueryToSampleQueryType(csvQuery);
-
+    sampleQuery.skipTest = false;
     cleanupSampleQuery(sampleQuery);
 
     formattedQueryArr.push(JSON.stringify(sampleQuery, null, 4));
@@ -86,7 +86,7 @@ export const SampleQueries: SampleQuery[] = [
 
   outStr += ']'
 
-  fs.writeFile("src/app/gen-queries.ts", outStr, function (err) {
+  fs.writeFile("src/app/generate-queries/gen-queries.ts", outStr, function (err) {
     if (err) {
       return console.log(err);
     }

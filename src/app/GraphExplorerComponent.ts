@@ -1,28 +1,30 @@
 // ------------------------------------------------------------------------------
-//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+//  See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { getString } from "./localization-helpers";
-import { AppComponent } from "./app.component";
-import { GraphApiCall, SampleQuery, GraphRequestHeader, substituteTokens } from "./base";
-import { getRequestBodyEditor } from "./api-explorer-jseditor";
-import { isAuthenticated as isAuthHelper } from "./auth";
-import { QueryRunnerService } from "./query-runner.service";
+import { getRequestBodyEditor } from './api-explorer-jseditor';
+import { AppComponent } from './app.component';
+import { isAuthenticated as isAuthHelper } from './authentication/auth';
+import { IGraphApiCall, IGraphRequestHeader, ISampleQuery, substituteTokens } from './base';
+import { getString } from './localization-helpers';
+import { QueryRunnerService } from './query-runner.service';
+import { getGraphUrl } from './util';
 
 export class GraphExplorerComponent {
 
-  explorerValues = AppComponent.explorerValues;
+  public explorerValues = AppComponent.explorerValues;
 
-  getStr(label:string):string {
-    return getString(AppComponent.Options, label) || "*****" + label ;
+  public getStr(label: string): string {
+    return getString(AppComponent.Options, label) || '*****' + label ;
   }
 
-  getAssetPath(relPath:string):string {
-    return AppComponent.Options.PathToBuildDir + "/" + relPath;
+  public getAssetPath(relPath: string): string {
+    return AppComponent.Options.PathToBuildDir + '/' + relPath;
   }
 
-  // used in sidebar and panel
-  getRequestHistory = (limit?:number):GraphApiCall[] => {
+  // Used in sidebar and panel
+  public getRequestHistory = (limit?: number): IGraphApiCall[] => {
       if (limit) {
         return AppComponent.requestHistory.slice(0, limit);
       }
@@ -30,75 +32,73 @@ export class GraphExplorerComponent {
       return AppComponent.requestHistory;
   }
 
-  isAuthenticated() {
+  public isAuthenticated() {
     return isAuthHelper();
   }
-  
-  loadQueryIntoEditor(originalQuery:GraphApiCall) {
-    // prevent logged out users from POSTing/others
+
+  public loadQueryIntoEditor(originalQuery: IGraphApiCall) {
+    // Prevent logged out users from POSTing/others
     if (!this.isAuthenticated() && originalQuery.method !== 'GET') {
       return;
     }
 
     QueryRunnerService.clearResponse();
 
+      // Copy the sample query or history item so we're not changing history/samples
+    const query: ISampleQuery = jQuery.extend(true, {}, originalQuery);
+    substituteTokens(query);
 
-      // copy the sample query or history item so we're not changing history/samples
-      let query:SampleQuery = jQuery.extend(true, {}, originalQuery);
-      substituteTokens(query);
-    
-      // set the endpoint url. if it's a relative path, add the configured graph URL
-      AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith("https://") ? query.requestUrl : AppComponent.Options.GraphUrl + query.requestUrl;
-      AppComponent.explorerValues.selectedOption = query.method;
+      // Set the endpoint url. if it's a relative path, add the configured graph URL
+    AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith('https://') ? query.requestUrl :
+      getGraphUrl() + query.requestUrl;
+    AppComponent.explorerValues.selectedOption = query.method;
 
-      if (query.headers) {
+    if (query.headers) { // tslint:disable-line
         AppComponent.explorerValues.headers = query.headers;
       } else {
-        AppComponent.explorerValues.headers = []
+        AppComponent.explorerValues.headers = [];
       }
 
-      this.shouldEndWithOneEmptyHeader();
+    this.shouldEndWithOneEmptyHeader();
 
-      AppComponent.explorerValues.postBody = "";
-      let postBodyEditorSession = getRequestBodyEditor().getSession();
-      if (query.postBody) {
+    AppComponent.explorerValues.postBody = '';
+    const postBodyEditorSession = getRequestBodyEditor().getSession();
+    if (query.postBody) {
+      const rawPostBody = query.postBody;
 
-        let rawPostBody = query.postBody;
+      AppComponent.explorerValues.postBody = rawPostBody;
+      // Try to format the post body
 
-        // try to format the post body
-
-        let formattedPostBody;
-        try {
-          formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
-        } catch (e) {
-          console.log("Can't format JSON post body");
-        }
-
-        AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+      let formattedPostBody;
+      try {
+        formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
+      } catch (e) {
+        throw (e);
       }
 
-      postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
+      AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+    }
 
-
+    postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
   }
-  shouldEndWithOneEmptyHeader() {
-    let lastHeader = this.getLastHeader();
-    if (lastHeader && lastHeader.name === "" && lastHeader.value === "") {
+  public shouldEndWithOneEmptyHeader() {
+    const lastHeader = this.getLastHeader();
+    if (lastHeader && lastHeader.name === '' && lastHeader.value === '') {
       return;
     } else {
       this.addEmptyHeader();
     }
   }
 
-  addEmptyHeader() {
+  public addEmptyHeader() {
       AppComponent.explorerValues.headers.push({
-          name: "",
-          value: ""
-      })
+          name: '',
+          value: '',
+      });
   }
 
-  getLastHeader():GraphRequestHeader {
-      return this.explorerValues.headers[this.explorerValues.headers.length - 1]
+  public getLastHeader(): IGraphRequestHeader {
+      return this.explorerValues.headers[this.explorerValues.headers.length - 1];
   }
 
 }

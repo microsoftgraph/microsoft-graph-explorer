@@ -1,0 +1,59 @@
+#ms-signin-button {
+    width: 215px;
+    height: 40px;
+    margin: 20px 0 0px 0px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    color: black;
+    text-align: center;
+    font-family:"Segoe UI","wf_segoe-ui_normal","Arial",sans-serif;
+    font-size: 15px;
+    background: url('http://graphstagingblobstorage.blob.core.windows.net/staging/vendor/bower_components/explorer/assets/images/MSSignInButton.png') no-repeat;
+    background-size: 100%;
+}
+
+.button-text {
+  padding-left: 20px;
+}
+
+#signout {
+    float: right;
+    padding-right: 16px;
+    color: #00bcf2;
+}
+
+#userDisplayName {
+    color: #e2e2e2
+}
+
+#userMail {
+    color: #a0a0a0;
+}
+
+#authenticating-progress-bar {
+    margin: 0px auto;
+}
+
+.noPicture .ms-Persona-details {
+    padding-left: 0px;
+}
+
+#ms-signin-button-holder {
+    width: 100%;
+    text-align: center;
+}
+
+#manage-permissions {
+    float: left;
+    color: #00bcf2;
+}
+
+#signout, #manage-permissions {
+    margin-top: 9px;
+}
+
+#persona-holder {
+    margin-top: 15px;
+    margin-bottom: -15px;
+}
