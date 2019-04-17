@@ -121,7 +121,9 @@ describe('Sample query validation', () => {
           }
           done();
         }).catch((e: Response) => {
-          done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
+          if (e.status !== 500) {
+            done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
+          }
         });
     });
   }

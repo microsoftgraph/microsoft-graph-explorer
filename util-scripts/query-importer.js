@@ -78,10 +78,6 @@ export const SampleQueries: ISampleQuery[] = [
     let sampleQuery = convertRawQueryToSampleQueryType(csvQuery);
     sampleQuery.skipTest = false;
 
-    if (sampleQuery.humanName === 'people relevant to a topic') {
-      sampleQuery.skipTest = true;
-    }
-
     cleanupSampleQuery(sampleQuery);
 
     formattedQueryArr.push(JSON.stringify(sampleQuery, null, 4));
