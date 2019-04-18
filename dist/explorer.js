@@ -2,4 +2,3 @@
 //# sourceMappingURL=explorer.js.map
 
 !function() { return window['appVersion'] = '1.7.10' }()
-    
