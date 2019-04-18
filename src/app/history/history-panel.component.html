@@ -13,7 +13,7 @@
                         <th>{{getStr('Date')}}</th>
                         <th>{{getStr('Status Code')}}</th>
                         <th style="text-align:right">{{getStr('Duration')}}</th>
-                        <th></th>
+                        <th>{{getStr("Action")}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,6 +27,7 @@
                             <span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span>
                         </td>
                         <td class="duration" (click)="handleQueryClick(query)">{{query.duration}} {{getStr('milliseconds')}}</td>
+                        <td class="export-query" (click)="exportQuery(query)">{{getStr("Export")}}</td>
                         <td class="remove-query" (click)="removeQueryFromHistory(query)">
                             <i class="ms-Icon ms-Icon--Cancel"></i>
                         </td>

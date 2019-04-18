@@ -4,11 +4,11 @@
 // ------------------------------------------------------------------------------
 
 import { isAuthenticated } from './authentication/auth';
+import { IHarFormat } from './history/har/IHarFormat';
 import { Tokens } from './tokens';
 
 export interface IExplorerOptions {
     AuthUrl?: string;
-    GraphUrl?: string;
     ClientId?: string;
     Language?: string;
     RedirectUrl?: string;
@@ -78,12 +78,13 @@ export interface IGraphApiCall {
 
     requestSentAt?: Date;
     relativeDate?: string;
-
+    har?: string;
 }
 
 export interface ISampleQuery extends IGraphApiCall {
     docLink?: string;
     AAD?: boolean;
+    skipTest?: boolean;
     MSA?: boolean;
     category: string;
     tip?: string;

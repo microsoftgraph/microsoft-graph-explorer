@@ -11,6 +11,11 @@ tr.request-history-query:hover td:not(.remove-query) {
     cursor: pointer;
 }
 
+td.export-query:hover {
+    color: #000fdf;
+    text-decoration: underline;
+}
+
 td.remove-query i {
     opacity: 0;
 }

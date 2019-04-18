@@ -45,6 +45,20 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: "Analytics.Read",
+    description: "Read user analytics",
+    longDescription: "Allows the app to read analytics data such as time spent in activities such as email, meetings, chats and calls.",
+    preview: true,
+    admin: false,
+  },
+  {
+    name: "AppCatalog.ReadWrite.All",
+    description: "Read and write to all app catalogs",
+    longDescription: "Allows the app to create, read, update, and delete apps in the app catalogs.",
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'Calendars.Read',
     description: 'Read user calendars',
     longDescription: 'Allows the app to read events in user calendars.',
@@ -69,6 +83,20 @@ export const PermissionScopes: IPermissionScope[] = [
     name: 'Calendars.ReadWrite.Shared',
     description: 'Read and write user and shared calendars',
     longDescription: 'Allows the app to create, read, update and delete events in all calendars the user has permissions to access. This includes delegate and shared calendars.',
+    preview: false,
+    admin: false,
+  },
+  {
+    name: 'Chat.Read',
+    description: 'Read chat messages',
+    longDescription: 'Allows the app to read chat messages. ',
+    preview: false,
+    admin: false,
+  },
+  {
+    name: 'Chat.ReadWrite',
+    description: 'Read and write chat messages',
+    longDescription: 'Allows the app to read and write chat messages ',
     preview: false,
     admin: false,
   },
@@ -429,6 +457,27 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: 'IdentityRiskEvent.ReadWrite.All',
+    description: 'Read and write identity risk event information (preview)',
+    longDescription: 'Allows the app to read and write identity risk event information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'IdentityRiskyUser.Read.All',
+    description: 'Read identity risky user information (preview)',
+    longDescription: 'Allows the app to read identity risky user information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'IdentityRiskyUser.ReadWrite.All',
+    description: 'Read and write identity risky user information (preview)',
+    longDescription: 'Allows the app to read and write identity risky user information for all users in your organization on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'DeviceManagementServiceConfig.Read.All',
     description: 'Read Microsoft Intune configuration (preview)',
     longDescription: 'Allows the app to read Microsoft Intune service properties including device enrollment and third party service connection configuration.',
@@ -629,7 +678,7 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to read audit logs data on your behalf',
     preview: false,
     admin: false
-  }, 
+  },
   {
     name: 'Notifications.ReadWrite.CreatedByApp',
     description: 'Deliver and manage your notifications for this app',
@@ -637,5 +686,58 @@ export const PermissionScopes: IPermissionScope[] = [
       'Allows the app to deliver its notifications, on your behalf. Also allows the app to read, update, and delete your notification items for this app',
     preview: false,
     admin: false
-  }
+  },
+  {
+    name: 'PrivilegedAccess.ReadWrite.AzureResources',
+    description: 'Read and write privileged access to Azure resources',
+    longDescription:
+      'Allows the app to read and write privileged access requests to Azure resources on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'PrivilegedAccess.ReadWrite.AzureAD',
+    description: 'Read and write privileged access to Azure Active Directory',
+    longDescription:
+      'Allows the app to request and manage just in time elevation of users to Azure AD built-in administrative roles, on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'Policy.Read.All',
+    description: 'Read your organization\'s policies',
+    longDescription:
+      'Allows the app to read your organization\'s policies on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'Policy.ReadWrite.ConditionalAccess',
+    description: 'Read and write your organization\'s conditional access policies',
+    longDescription:
+      'Allows the app to read and write your organization\'s conditional access policies on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'Policy.ReadWrite.TrustFramework',
+    description: 'Read and write your organization\'s trust framework policies',
+    longDescription: 'Allows the app to read and write your organization\'s trust framework policies on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'TrustFrameworkKeySet.Read.All',
+    description: 'Read trust framework key sets',
+    longDescription: 'Allows the app to read trust framework key set properties on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'TrustFrameworkKeySet.ReadWrite.All',
+    description: 'Read and write trust framework key sets',
+    longDescription: 'Allows the app to read and write trust framework key set properties on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+}
 ];

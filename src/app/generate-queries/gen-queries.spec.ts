@@ -13,11 +13,11 @@ import {
   TestBed,
 } from '@angular/core/testing'; // tslint:disable-line
 
-import { localLogout } from './authentication/auth';
-import { AuthService } from './authentication/auth.service';
-import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from './base';
+import { AuthService } from '../authentication/auth.service';
+import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from '../base';
+import { localLogout } from './../authentication/auth';
+import { GraphService } from './../graph-service';
 import { SampleQueries } from './gen-queries';
-import { GraphService } from './graph-service';
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
   for (const version of GraphApiVersions) {
@@ -77,6 +77,9 @@ describe('Sample query validation', () => {
     if (query.method !== 'GET') {
       continue;
     }
+    if (query.skipTest) {
+      continue;
+    }
     substituteTokens(query);
     it(`GET query should execute: ${query.humanName}`, (done) => {
       substituteTokens(query);
@@ -110,18 +113,21 @@ describe('Sample query validation', () => {
 
       graphService.performAnonymousQuery(query.method, 'https://graph.microsoft.com' + query.requestUrl, headers)
         .then((res) => {
-        if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
-          const response = res.json();
-          if (response && response.value && response.value.constructor === Array) {
-            if (response.value.length === 0 && skipResponseLengthCheck()) {
-              done.fail(`${query.humanName}: All sample GETs on collections must have values`);
+          if (res.headers.get('Content-Type').indexOf('application/json') !== -1) {
+            const response = res.json();
+            if (response && response.value && response.value.constructor === Array) {
+              if (response.value.length === 0 && skipResponseLengthCheck()) {
+                done.fail(`${query.humanName}: All sample GETs on collections must have values`);
+              }
             }
           }
-        }
-        done();
-      }).catch((e: Response) => {
-        done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
-      });
+          done();
+        }).catch((e: Response) => {
+          if (e.status < 500) {
+            done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
+          }
+          done();
+        });
     });
   }
 });

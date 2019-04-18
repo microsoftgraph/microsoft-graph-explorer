@@ -3,6 +3,7 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
+import { APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -12,25 +13,28 @@ import { AppComponent } from './app.component';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
 import { AuthService } from './authentication/auth.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { LogoutComponent } from './authentication/logout.component';
+import { CanaryComponent } from './canary/canary.component';
 import { GenericDialogComponent } from './generic-message-dialog.component';
-import { HistoryPanelComponent } from './history-panel.component';
-import { HistoryRowComponent } from './history-query.component';
-import { MainColumnComponent } from './main-column.component';
+import { HistoryPanelComponent } from './history/history-panel.component';
+import { HistoryRowComponent } from './history/history-query.component';
+import { MainColumnComponent } from './main-column/main-column.component';
 import { MethodBadgeComponent } from './method-badge.component';
-import { QueryRowComponent } from './queryrow.component';
+import { QueryRowComponent } from './queryrow/queryrow.component';
 import { RequestEditorsComponent } from './request-editors.component';
 import { ResponseStatusBarComponent } from './response-status-bar/response-status-bar.component';
-import { SampleCategoriesPanelComponent } from './sample-categories-panel.component';
+import { SampleCategoriesPanelComponent } from './sample-categories/sample-categories-panel.component';
 import { ScopesDialogComponent } from './scopes-dialog/scopes-dialog.component';
 import { ShareLinkBtnComponent } from './share-link/share-link-btn.component';
-import { SidebarComponent } from './sidebar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, BrowserAnimationsModule],
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
-    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent],
+    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, LogoutComponent,
+    CanaryComponent],
   bootstrap: [AppComponent],
   providers: [ AuthService ],
 })

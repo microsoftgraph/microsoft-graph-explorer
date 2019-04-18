@@ -13,7 +13,7 @@
   "secure score control profiles (beta)": "安全功能分数控制配置文件 (beta)",
   "update alert": "更新警报",
   "To try the explorer, please ": "若要试用资源管理器，请执行以下操作 ",
-  "sign in": "登录",
+  "sign in": "使用 Microsoft 凭据登录",
   " with your work or school account from Microsoft.": " 使用 Microsoft 提供的工作或学校帐户。",
   "Submit": "提交",
   "Using demo tenant": "当前使用的是示例帐户。",
@@ -152,6 +152,7 @@
   "OneNote": "OneNote",
   "Planner": "Planner",
   "SharePoint Sites": "SharePoint 网站",
+  "Microsoft Teams": "Microsoft Teams",
   "Microsoft Teams (beta)": "Microsoft Teams (beta)",
   "all buckets in Planner plan": "规划器计划中的所有存储桶",
   "all Planner tasks for user": "用户的所有规划器任务",
@@ -212,5 +213,14 @@
   "create a new owner": "创建一个新的所有者",
   "Notifications (beta)": "通知 (beta)",
   "create a raw notification": "创建原始通知",
-  "create a visual notification": "创建可视化通知"
+  "create a visual notification": "创建可视化通知",
+  "items shared with me" : "与我共享的项",
+  "items viewed and modified by me" : "由我查看和修改的项",
+  "apps in a team" : "团队中的应用",
+  "messages (without replies) in a channel" : "频道中的邮件（没有答复）",
+  "message in a channel" : "频道中的邮件",
+  "replies to a message in channel" : "频道中邮件的答复",
+  "reply of a message" : "邮件的答复",
+  "Export": "导出",
+  "Action": "操作"
 }

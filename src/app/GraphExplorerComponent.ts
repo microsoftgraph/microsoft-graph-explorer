@@ -9,6 +9,7 @@ import { isAuthenticated as isAuthHelper } from './authentication/auth';
 import { IGraphApiCall, IGraphRequestHeader, ISampleQuery, substituteTokens } from './base';
 import { getString } from './localization-helpers';
 import { QueryRunnerService } from './query-runner.service';
+import { getGraphUrl } from './util';
 
 export class GraphExplorerComponent {
 
@@ -49,7 +50,7 @@ export class GraphExplorerComponent {
 
       // Set the endpoint url. if it's a relative path, add the configured graph URL
     AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith('https://') ? query.requestUrl :
-      AppComponent.Options.GraphUrl + query.requestUrl;
+      getGraphUrl() + query.requestUrl;
     AppComponent.explorerValues.selectedOption = query.method;
 
     if (query.headers) { // tslint:disable-line
@@ -63,23 +64,22 @@ export class GraphExplorerComponent {
     AppComponent.explorerValues.postBody = '';
     const postBodyEditorSession = getRequestBodyEditor().getSession();
     if (query.postBody) {
+      const rawPostBody = query.postBody;
 
-        const rawPostBody = query.postBody;
+      AppComponent.explorerValues.postBody = rawPostBody;
+      // Try to format the post body
 
-        // Try to format the post body
-
-        let formattedPostBody;
-        try {
-          formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
-        } catch (e) {
-          throw (e);
-        }
-
-        AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+      let formattedPostBody;
+      try {
+        formattedPostBody = JSON.stringify(JSON.parse(rawPostBody), null, 2);
+      } catch (e) {
+        throw (e);
       }
 
-    postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
+      AppComponent.explorerValues.postBody = formattedPostBody || rawPostBody;
+    }
 
+    postBodyEditorSession.setValue(AppComponent.explorerValues.postBody);
   }
   public shouldEndWithOneEmptyHeader() {
     const lastHeader = this.getLastHeader();

@@ -6,6 +6,8 @@
 import { AppComponent } from './app.component';
 import { GraphApiVersion, GraphApiVersions } from './base';
 import { GraphService } from './graph-service';
+import { getGraphUrl } from './util';
+
 export type GraphNodeLinkTagName = 'Property' | 'NavigationProperty' | 'EntitySet' | 'Singleton';
 
 export interface IGraphNodeLink {
@@ -32,7 +34,7 @@ export function parseMetadata(apiService: GraphService, version?: GraphApiVersio
         }
 
         if (!graphStructureCache.containsVersion(version)) {
-            apiService.getMetadata(AppComponent.Options.GraphUrl, version).then((results: any) => {
+            apiService.getMetadata(getGraphUrl(), version).then((results: any) => {
                 const metadata = $($.parseXML(results._body));
 
                 const entitySetData = getEntitySets(metadata);
@@ -229,7 +231,7 @@ function combineUrlOptionsWithCurrentUrl(urlOptions: string[]): string[] {
         baseUrl.push(lastSegment.name);
     }
 
-    let baseUrlFinal = AppComponent.Options.GraphUrl + '/' + AppComponent.explorerValues.selectedVersion;
+    let baseUrlFinal = getGraphUrl() + '/' + AppComponent.explorerValues.selectedVersion;
 
     if (baseUrl.length > 0) {
         baseUrlFinal += '/' + baseUrl.join('/');

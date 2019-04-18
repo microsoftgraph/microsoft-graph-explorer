@@ -2,13 +2,17 @@
     <div tabindex="0" [attr.aria-label]="getStr('Using demo tenant')">{{getStr('Using demo tenant')}}</div>
     <div tabindex="0" [attr.aria-label]="getStr('To access your own data:')" >{{getStr('To access your own data:')}}</div>
     <div id="ms-signin-button-holder">
-        <img id="ms-signin-button"
-             alt="{{getStr('sign in')}}"
-             src="{{getAssetPath('assets/images/MSSignInButton.svg')}}"
-             (click)="login()"
-             (keyup.enter)="login()"
-             role="button" tabindex="0"
-        />
+        <button
+            id="ms-signin-button"
+            (click)="login()"
+            (keyup.enter)="login()"
+            role="button"
+            tabindex="0"
+        >
+            <span class="button-text">
+                {{getStr('sign in')}}
+            </span>
+        </button>
     </div>
 </div>
 <div *ngIf="getAuthenticationStatus() == 'authenticating'">

@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { ISampleQueryCategory } from './base';
-import { SampleQueries } from './gen-queries';
+import { SampleQueries } from './generate-queries/gen-queries';
 
 export function getLocalStorageDisplayKey(category: ISampleQueryCategory) {
     return `CATEGORY_DISPLAY_${category.title}`;

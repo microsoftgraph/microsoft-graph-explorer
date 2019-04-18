@@ -1,6 +1,5 @@
 .api-query:hover, .c-drawer>button:hover, .api-query:focus, .c-drawer>button:focus, .query-link:focus {
         background: rgba(0,0,0,0.25);
-        outline: 2px solid white;
     }
 
     .query-link {
@@ -64,4 +63,13 @@
 method-badge {
     margin:auto;
     height: 22px;
+}
+
+.query-link:hover .ms-Icon--Page:before {
+    content: '\E729';
+}
+
+.query:hover {
+    text-decoration: underline;
+    color: #fff;
 }

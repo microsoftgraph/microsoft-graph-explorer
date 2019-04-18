@@ -6,9 +6,9 @@
 */
 
 import { AfterViewInit, Component } from '@angular/core';
-import { ISampleQueryCategory } from './base';
-import { SampleCategories } from './getting-started-queries';
-import { GraphExplorerComponent } from './GraphExplorerComponent';
+import { ISampleQueryCategory } from '../base';
+import { SampleCategories } from '../getting-started-queries';
+import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
 declare let fabric;
 
@@ -56,6 +56,13 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
         // Open history panel
         new fabric['Panel'](this.historyPanel); // tslint:disable-line
         (document.querySelector('#history-panel tbody tr:first-child') as any).focus();
+    }
+
+    public displayCanary() {
+        if (JSON.parse(localStorage.getItem('GRAPH_MODE')) === null) {
+            return false;
+        }
+        return true;
     }
 
     public closePanels() {

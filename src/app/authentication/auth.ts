@@ -4,7 +4,8 @@
 // ------------------------------------------------------------------------------
 
 import { AppComponent } from '../app.component';
-import { deleteHistoryFromLocalStorage } from '../history';
+import { deleteHistoryFromLocalStorage } from '../history/history';
+
 export async function haveValidAccessToken(authService) {
   const token = await authService.getTokenSilent();
   if (token) {

@@ -10,6 +10,7 @@ import { GraphService } from '../graph-service';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
+import { getGraphUrl } from '../util';
 import { haveValidAccessToken, localLogout } from './auth';
 import { AuthService } from './auth.service';
 @Component({
@@ -39,26 +40,25 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  // Https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-protocols-implicit
-  public login() {
+  public async login() {
     localStorage.setItem('status', 'authenticating');
     this.changeDetectorRef.detectChanges();
-    this.authService.login()
-      .then((accessToken) => {
-        if (accessToken) {
-          localStorage.setItem('status', 'authenticated');
-          this.changeDetectorRef.detectChanges();
-          this.displayUserProfile();
-          this.setPermissions();
-        } else {
-          localStorage.setItem('status', 'anonymous');
-          this.changeDetectorRef.detectChanges();
-        }
-      }).catch(() => {
+    try {
+      const accessToken = await this.authService.login();
+
+      if (accessToken) {
+        localStorage.setItem('status', 'authenticated');
+        this.changeDetectorRef.detectChanges();
+        this.displayUserProfile();
+        this.setPermissions();
+      } else {
         localStorage.setItem('status', 'anonymous');
         this.changeDetectorRef.detectChanges();
-      });
-
+      }
+    } catch (error) {
+      localStorage.setItem('status', 'anonymous');
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   public logout() {
@@ -67,8 +67,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public getAuthenticationStatus() {
-    const status = localStorage.getItem('status');
-    return status;
+    return localStorage.getItem('status');
   }
 
   public manageScopes() {
@@ -76,8 +75,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public async setPermissions() {
-    // Set which permissions are checked
     const scopes = await this.authService.getScopes();
+
     scopes.push('openid');
     for (const scope of PermissionScopes) {
       // Scope.consented indicates that the user or admin has previously consented to the scope.
@@ -87,11 +86,11 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   private async displayUserProfile() {
     try {
-      const userInfoUrl = `${AppComponent.Options.GraphUrl}/v1.0/me`;
-      const userPictureUrl = `${AppComponent.Options.GraphUrl}/beta/me/photo/$value`;
-
+      const userInfoUrl = `${getGraphUrl()}/v1.0/me`;
+      const userPictureUrl = `${getGraphUrl()}/beta/me/photo/$value`;
       const userInfo = await this.apiService.performQuery('GET', userInfoUrl);
       const jsonUserInfo = userInfo.json();
+
       AppComponent.explorerValues.authentication.user.displayName = jsonUserInfo.displayName;
       AppComponent.explorerValues.authentication.user.emailAddress
       = jsonUserInfo.mail || jsonUserInfo.userPrincipalName;
@@ -100,12 +99,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         const userPicture = await this.apiService.performQuery('GET_BINARY', userPictureUrl);
         const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg' });
         const imageUrl = window.URL.createObjectURL(blob);
+
         AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
       } catch (e) {
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
       }
 
-      localStorage.setItem('status', 'authenticated');
       this.changeDetectorRef.detectChanges();
     } catch (e) {
       localLogout();

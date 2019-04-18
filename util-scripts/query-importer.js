@@ -68,7 +68,7 @@ function saveSampleQueries() {
 
 // WARNING - This file is generated from util-scripts/query-importer.js
 
-import { ISampleQuery } from "./base";
+import { ISampleQuery } from "../base";
 
 export const SampleQueries: ISampleQuery[] = [
   `;
@@ -76,6 +76,7 @@ export const SampleQueries: ISampleQuery[] = [
   for (let i = 0; i < queries.length; i++) {
     let csvQuery = queries[i];
     let sampleQuery = convertRawQueryToSampleQueryType(csvQuery);
+    sampleQuery.skipTest = false;
 
     cleanupSampleQuery(sampleQuery);
 
@@ -86,7 +87,7 @@ export const SampleQueries: ISampleQuery[] = [
 
   outStr += ']'
 
-  fs.writeFile("src/app/gen-queries.ts", outStr, function (err) {
+  fs.writeFile("src/app/generate-queries/gen-queries.ts", outStr, function (err) {
     if (err) {
       return console.log(err);
     }

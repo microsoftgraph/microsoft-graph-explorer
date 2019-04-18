@@ -6,6 +6,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { refreshAceEditorsContent } from './ace-utils';
+import { localLogout } from './authentication/auth';
 import {
     GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
     IMessageBarContent, RequestType,
@@ -15,8 +16,8 @@ import { GenericDialogComponent } from './generic-message-dialog.component';
 import { GraphService } from './graph-service';
 import { parseMetadata } from './graph-structure';
 import { GraphExplorerComponent } from './GraphExplorerComponent';
-import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history';
-import { getParameterByName } from './util';
+import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history/history';
+import { getGraphUrl, getParameterByName } from './util';
 
 declare let mwf;
 declare let moment;
@@ -48,7 +49,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         // tslint:disable-next-line:max-line-length
         DefaultUserScopes: ['openid', 'profile', 'User.ReadWrite', 'User.ReadBasic.All', 'Sites.ReadWrite.All', 'Contacts.ReadWrite', 'People.Read', 'Notes.ReadWrite.All', 'Tasks.ReadWrite', 'Mail.ReadWrite', 'Files.ReadWrite.All', 'Calendars.ReadWrite'],
         AuthUrl: 'https://login.microsoftonline.com',
-        GraphUrl: getParameterByName('GraphUrl') || 'https://graph.microsoft.com',
         GraphVersions: GraphApiVersions,
         PathToBuildDir: '',
     };
@@ -105,11 +105,24 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         parseMetadata(this.GraphService, 'beta');
     }
 
+    public getLocalisedString(message: string): string {
+        const g = new GraphExplorerComponent();
+        return g.getStr(message);
+    }
+
     public ngOnInit() {
         for (const key in AppComponent.Options) {
             if (key in window) {
                 AppComponent.Options[key] = window[key];
             }
+        }
+
+        const hash = location.hash.substr(1);
+        if (hash.includes('mode')) {
+            const mode = 'canary';
+            localStorage.setItem('GRAPH_MODE', JSON.stringify(mode));
+            localStorage.setItem('GRAPH_URL', 'https://canary.graph.microsoft.com');
+            localLogout();
         }
 
         AppComponent.Options.GraphVersions.push('Other');
@@ -123,15 +136,16 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         moment.locale(AppComponent.Options.Language);
 
         // Set explorer state that depends on configuration
-        AppComponent.explorerValues.endpointUrl = AppComponent.Options
-            .GraphUrl + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
+        AppComponent.explorerValues.endpointUrl = getGraphUrl()
+            + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
 
         // Show the Microsoft Graph TOU when we load GE.
         AppComponent.messageBarContent = {
-            text: 'When you use the Microsoft Graph API, you agree to the <a href=\'https://aka.ms/msgraphtou\' ' +
-                'target=\'_blank\'>Microsoft Graph Terms of Use</a> and the ' +
-                '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
-                ' target=\'_blank\'>Microsoft Privacy Statement</a>.',
+            text: this.getLocalisedString('use the Microsoft Graph API') +
+                '<br><br><a class=\'link\' href=\'https://aka.ms/msgraphtou\' ' +
+                'target=\'_blank\'>' + this.getLocalisedString('Terms of use') + '</a><br>' +
+                '<a class=\'link\' href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
+                ' target=\'_blank\'>' + this.getLocalisedString('Microsoft Privacy Statement') + '</a>.',
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'none',
         };

@@ -155,7 +155,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   }
 
   public getNewAccessToken() {
-    // @todo type HelloJSLoginOptions
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
 
