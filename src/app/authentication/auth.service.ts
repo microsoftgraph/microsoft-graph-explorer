@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as JWT from 'jwt-decode';
 import { AppComponent } from '../app.component';
 
-declare let Msal: any;
+declare const Msal: any;
 
 @Injectable()
 export class AuthService {
