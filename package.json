@@ -50,7 +50,6 @@
     "core-js": "^2.4.1",
     "jwt-decode": "^2.2.0",
     "har-schema": "^2.0.0",
-    "hellojs": "git+https://github.com/dan-silver/hello.js.git",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.1.0",
     "karma-cli": "^1.0.1",
