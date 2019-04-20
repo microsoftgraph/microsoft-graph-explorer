@@ -44,13 +44,13 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     localStorage.setItem('status', 'authenticating');
     this.changeDetectorRef.detectChanges();
     try {
-      const accessToken = await this.authService.login();
+      const loginResponse = await this.authService.login();
 
-      if (accessToken) {
+      if (loginResponse) {
         localStorage.setItem('status', 'authenticated');
         this.changeDetectorRef.detectChanges();
         this.displayUserProfile();
-        this.setPermissions();
+        this.setPermissions(loginResponse.scopes);
       } else {
         localStorage.setItem('status', 'anonymous');
         this.changeDetectorRef.detectChanges();
@@ -74,12 +74,17 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     ScopesDialogComponent.showDialog();
   }
 
-  public async setPermissions() {
-    const scopes = await this.authService.getScopes();
-    scopes.push('openid');
+  public async setPermissions(scopes?) {
+    if (!scopes) {
+      scopes = await this.authService.getScopes();
+    }
+    const scopesLowerCase = scopes.map((item) => {
+        return item.toLowerCase();
+    });
+    scopesLowerCase.push('openid');
     for (const scope of PermissionScopes) {
       // Scope.consented indicates that the user or admin has previously consented to the scope.
-      scope.consented = scopes.indexOf(scope.name.toLowerCase()) !== -1;
+      scope.consented = scopesLowerCase.indexOf(scope.name.toLowerCase()) !== -1;
     }
   }
 

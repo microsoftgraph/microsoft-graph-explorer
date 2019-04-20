@@ -23,24 +23,19 @@ export class AuthService {
         this.app = new Msal.UserAgentApplication(config);
     }
 
+    public logout() {
+        this.app.logout();
+    }
+
     public async login() {
         const loginRequest = {
-            scopes: this.defaultUserScopes(),
+            scopes: AppComponent.Options.DefaultUserScopes,
             prompt:  'select_account',
         };
 
-        const accessTokenRequest = {
-            scopes: this.defaultUserScopes(),
-        };
-
         try {
-            await this.app.loginPopup(loginRequest);
-            try {
-                const response = await this.app.acquireTokenSilent(accessTokenRequest);
-                return response.accessToken;
-            } catch (error) {
-                return false;
-            }
+            const response = await this.app.acquireTokenPopup(loginRequest);
+            return response;
         } catch (error) {
             return false;
         }
@@ -48,7 +43,7 @@ export class AuthService {
 
     public async getTokenSilent(scopes: any = []) {
         const hasScopes = scopes.length > 0;
-        let listOfScopes = this.defaultUserScopes();
+        let listOfScopes = AppComponent.Options.DefaultUserScopes;
         if (hasScopes) {
             listOfScopes = scopes;
         }
@@ -65,14 +60,14 @@ export class AuthService {
 
     public async getTokenPopup(scopes: any = []) {
         const hasScopes = scopes.length > 0;
-        let listOfScopes = this.defaultUserScopes();
+        let listOfScopes = AppComponent.Options.DefaultUserScopes;
         if (hasScopes) {
             listOfScopes = scopes;
         }
         try {
-            const accessToken = await this.app.acquireTokenPopup(listOfScopes);
-            if (accessToken) {
-                return accessToken;
+            const response = await this.app.acquireTokenPopup({scopes: listOfScopes});
+            if (response) {
+                return response;
             }
             return null;
         } catch (error) {
@@ -80,14 +75,21 @@ export class AuthService {
         }
     }
 
-    public defaultUserScopes() {
-        return AppComponent.Options.DefaultUserScopes;
-    }
-
     public async getScopes() {
-        const response = await this.getTokenSilent();
-        if (response.scopes) {
-            const scopesLowerCase = response.scopes.map((item) => {
+        let scopes = [];
+        try {
+            const response = await this.getTokenSilent();
+            if (response.scopes) {
+                scopes = response.scopes;
+            }
+        } catch (error) {
+            const response = await this.app.acquireTokenPopup({scopes: AppComponent.Options.DefaultUserScopes});
+            if (response) {
+                scopes = response.scopes;
+            }
+        }
+        if (scopes.length > 0) {
+            const scopesLowerCase = scopes.map((item) => {
                 return item.toLowerCase();
             });
             return scopesLowerCase;
