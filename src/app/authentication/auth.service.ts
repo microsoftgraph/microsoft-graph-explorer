@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as JWT from 'jwt-decode';
 import { AppComponent } from '../app.component';
 
 declare const Msal: any;
@@ -11,18 +10,36 @@ export class AuthService {
 
     constructor() {
         const { ClientId } = (window as any);
-        this.app = new Msal.UserAgentApplication(ClientId, '', {});
+        const config = {
+            auth: {
+                clientId:  ClientId,
+                redirectUri: 'http://localhost:3000',
+            },
+            cache: {
+                cacheLocation: 'localStorage',
+                storeAuthStateInCookie: true,
+            },
+        };
+        this.app = new Msal.UserAgentApplication(config);
     }
 
     public async login() {
+        const loginRequest = {
+            scopes: this.defaultUserScopes(),
+            prompt:  'select_account',
+        };
+
+        const accessTokenRequest = {
+            scopes: this.defaultUserScopes(),
+        };
+
         try {
-            const idToken = await this.app.loginPopup(this.defaultUserScopes());
-            if (idToken) {
-                try {
-                    return this.getTokenSilent();
-                } catch (error) {
-                    return false;
-                }
+            await this.app.loginPopup(loginRequest);
+            try {
+                const response = await this.app.acquireTokenSilent(accessTokenRequest);
+                return response.accessToken;
+            } catch (error) {
+                return false;
             }
         } catch (error) {
             return false;
@@ -36,9 +53,9 @@ export class AuthService {
             listOfScopes = scopes;
         }
         try {
-            const accessToken = await this.app.acquireTokenSilent(listOfScopes);
-            if (accessToken) {
-                return accessToken;
+            const response = await this.app.acquireTokenSilent({scopes: listOfScopes});
+            if (response.accessToken) {
+                return response;
             }
             return null;
         } catch (error) {
@@ -68,30 +85,13 @@ export class AuthService {
     }
 
     public async getScopes() {
-        /*
-        Breaks down the access token to produce the user consented scopes using Jwt decode
-        The scopes are fed to the modify permissions dialog in an array
-        */
-        const accessToken = await this.getTokenSilent();
-        const jwtToken = JWT(accessToken);
-        let scopesStr = jwtToken.scp;
-
-        // ScopesStr is something like "Files.Read,Mail.Send,User.Read"
-        if (!scopesStr) {
-            return;
+        const response = await this.getTokenSilent();
+        if (response.scopes) {
+            const scopesLowerCase = response.scopes.map((item) => {
+                return item.toLowerCase();
+            });
+            return scopesLowerCase;
         }
-
-        /*
-        the scopes can be separated by '+' / ',' or spaces.
-        The dialog requires that they be in an array of strings.
-        */
-        scopesStr = scopesStr.toLowerCase();
-        if (scopesStr.indexOf('+') !== -1) {
-            return scopesStr.split('+');
-        } else if (scopesStr.indexOf(',') !== -1) {
-            return scopesStr.split(',');
-        } else if (scopesStr.split(' ').length > 2) {
-            return scopesStr.split(' ');
-        }
+        return [];
     }
 }

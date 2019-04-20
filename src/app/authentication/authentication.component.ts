@@ -76,7 +76,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async setPermissions() {
     const scopes = await this.authService.getScopes();
-
     scopes.push('openid');
     for (const scope of PermissionScopes) {
       // Scope.consented indicates that the user or admin has previously consented to the scope.

@@ -57,11 +57,11 @@ export class GraphService {
     }
 
     public handleRequest = async function(requestHeaders, query, queryType, postBody, authService) {
-        let accessToken = await authService.getTokenSilent();
-        if (accessToken === null) {
-            accessToken = await authService.getTokenPopup();
+        let response = await authService.getTokenSilent();
+        if (response === null) {
+            response = await authService.getTokenPopup();
         }
-        requestHeaders.append('Authorization', `Bearer ${accessToken}`);
+        requestHeaders.append('Authorization', `Bearer ${response.accessToken}`);
         switch (queryType) {
             case 'GET':
                 return this.http.get(query, { headers: requestHeaders }).toPromise();
