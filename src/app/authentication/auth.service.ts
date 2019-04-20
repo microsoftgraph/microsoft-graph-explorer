@@ -15,40 +15,52 @@ export class AuthService {
     }
 
     public async login() {
-        return this.app.loginPopup(this.defaultUserScopes())
-            .then(async () => {
-                return this.getTokenSilent();
-            }, () => {
-                return false;
-            });
+        try {
+            const idToken = await this.app.loginPopup(this.defaultUserScopes());
+            if (idToken) {
+                try {
+                    return this.getTokenSilent();
+                } catch (error) {
+                    return false;
+                }
+            }
+        } catch (error) {
+            return false;
+        }
     }
 
-    public getTokenSilent(scopes: any = []) {
+    public async getTokenSilent(scopes: any = []) {
         const hasScopes = scopes.length > 0;
         let listOfScopes = this.defaultUserScopes();
         if (hasScopes) {
             listOfScopes = scopes;
         }
-        return this.app.acquireTokenSilent(listOfScopes)
-            .then((accessToken) => {
+        try {
+            const accessToken = await this.app.acquireTokenSilent(listOfScopes);
+            if (accessToken) {
                 return accessToken;
-            }, () => {
-                return null;
-            });
+            }
+            return null;
+        } catch (error) {
+            return  null;
+        }
     }
 
-    public getTokenPopup(scopes: any = []) {
+    public async getTokenPopup(scopes: any = []) {
         const hasScopes = scopes.length > 0;
         let listOfScopes = this.defaultUserScopes();
         if (hasScopes) {
             listOfScopes = scopes;
         }
-        return this.app.acquireTokenPopup(listOfScopes)
-            .then((accessToken) => {
+        try {
+            const accessToken = await this.app.acquireTokenPopup(listOfScopes);
+            if (accessToken) {
                 return accessToken;
-            }, () => {
-                return null;
-            });
+            }
+            return null;
+        } catch (error) {
+            return null;
+        }
     }
 
     public defaultUserScopes() {
