@@ -739,5 +739,19 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to read and write trust framework key set properties on behalf of the signed-in user.',
     preview: true,
     admin: true
+},
+{
+    name: 'InformationProtectionPolicy.Read',
+    description: 'Read user labels and label policies',
+    longDescription: 'Allows an app to read Microsoft Information Protection sensitivity labels and label policy settings for which the user is in scope.',
+    preview: true,
+    admin: false
+},
+{
+    name: 'InformationProtectionPolicy.Read.All',
+    description: 'Read all published labels and label policies for an organization',
+    longDescription: 'Allows an app to read published sensitivity labels and label policy settings for the entire organization or a specific user without a signed in user.',
+    preview: true,
+    admin: true
 }
 ];
