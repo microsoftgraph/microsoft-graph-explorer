@@ -144,9 +144,9 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         // Show the Microsoft Graph TOU when we load GE.
         AppComponent.messageBarContent = {
             text: this.getLocalisedString('use the Microsoft Graph API') +
-                '<br><br><a href=\'https://aka.ms/msgraphtou\' ' +
+                '<br><br><a class=\'link\' href=\'https://aka.ms/msgraphtou\' ' +
                 'target=\'_blank\'>' + this.getLocalisedString('Terms of use') + '</a><br>' +
-                '<a href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
+                '<a class=\'link\' href=\'https://go.microsoft.com/fwlink/?LinkId=521839\'' +
                 ' target=\'_blank\'>' + this.getLocalisedString('Microsoft Privacy Statement') + '</a>.',
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'none',

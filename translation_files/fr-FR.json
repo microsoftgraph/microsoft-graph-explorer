@@ -222,11 +222,5 @@
   "replies to a message in channel" : "réponses à un message dans le canal",
   "reply of a message" : "réponse d’un message",
   "Export": "Exporter",
-  "Action": "Action",
-  "Canary": "Canary",
-  "disable canary" : "disable canary",
-  "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests",
-  "use the Microsoft Graph API" : "When you use the Microsoft Graph API, you agree to the Microsoft Graph Terms of Use",
-  "Terms of use" : "View the Microsoft Graph Terms of Use",
-  "Microsoft Privacy Statement" : "View the Microsoft Privacy Statement"
+  "Action": "Action"
 }

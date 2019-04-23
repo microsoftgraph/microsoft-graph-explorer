@@ -715,7 +715,7 @@ export const SampleQueries: ISampleQuery[] = [
     "humanName": "people relevant to a topic",
     "requestUrl": "/v1.0/me/people/?$search=\"topic: contoso\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get",
-    "skipTest": false
+    "skipTest": false,
 },
 {
     "category": "Extensions",
