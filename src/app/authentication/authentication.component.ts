@@ -47,10 +47,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       const loginResponse = await this.authService.login();
 
       if (loginResponse) {
-        localStorage.setItem('status', 'authenticated');
-        this.changeDetectorRef.detectChanges();
         this.displayUserProfile();
-        this.setPermissions(loginResponse.scopes);
+        this.setPermissions();
       } else {
         localStorage.setItem('status', 'anonymous');
         this.changeDetectorRef.detectChanges();
@@ -74,10 +72,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     ScopesDialogComponent.showDialog();
   }
 
-  public async setPermissions(scopes?) {
-    if (!scopes) {
-      scopes = await this.authService.getScopes();
-    }
+  public async setPermissions() {
+    const scopes = await this.authService.getScopes();
     const scopesLowerCase = scopes.map((item) => {
         return item.toLowerCase();
     });
@@ -109,6 +105,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
       }
 
+      localStorage.setItem('status', 'authenticated');
       this.changeDetectorRef.detectChanges();
     } catch (e) {
       localLogout();

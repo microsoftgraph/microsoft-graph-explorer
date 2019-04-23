@@ -158,6 +158,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
     await this.authService.getTokenPopup(selectedScopes);
+    window.location.reload();
   }
 
   public static showDialog() { // tslint:disable-line

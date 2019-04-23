@@ -34,7 +34,7 @@ export class AuthService {
         };
 
         try {
-            const response = await this.app.acquireTokenPopup(loginRequest);
+            const response = await this.app.loginPopup(loginRequest);
             return response;
         } catch (error) {
             return false;
@@ -94,6 +94,6 @@ export class AuthService {
             });
             return scopesLowerCase;
         }
-        return [];
+        return scopes;
     }
 }
