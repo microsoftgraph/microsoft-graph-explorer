@@ -6,12 +6,12 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { AuthService } from './authentication/auth.service';
+import { getTokenPopup, getTokenSilent } from './authentication/auth.service';
 import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
 export class GraphService {
-    constructor(private http: Http, private authService: AuthService) { }
+    constructor(private http: Http) { }
 
     public performAnonymousQuery(queryType: RequestType, query: string, headers?: Headers): Promise<Response> {
         if (!headers) {
@@ -48,7 +48,7 @@ export class GraphService {
         if (typeof requestHeaders === 'undefined') {
             requestHeaders = new Headers();
         }
-        const queryResult = this.handleRequest(requestHeaders, query, queryType, postBody, this.authService);
+        const queryResult = this.handleRequest(requestHeaders, query, queryType, postBody);
         return queryResult;
     }
 
@@ -56,10 +56,10 @@ export class GraphService {
         return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 
-    public handleRequest = async function(requestHeaders, query, queryType, postBody, authService) {
-        let response = await authService.getTokenSilent();
+    public handleRequest = async function(requestHeaders, query, queryType, postBody) {
+        let response = await getTokenSilent();
         if (response === null) {
-            response = await authService.getTokenPopup();
+            response = await getTokenPopup();
         }
         requestHeaders.append('Authorization', `Bearer ${response.accessToken}`);
         switch (queryType) {

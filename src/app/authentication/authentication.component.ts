@@ -12,7 +12,8 @@ import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
 import { haveValidAccessToken, localLogout } from './auth';
-import { AuthService } from './auth.service';
+import { getScopes, login } from './auth.service';
+
 @Component({
   selector: 'authentication',
   styleUrls: ['./authentication.component.css'],
@@ -23,13 +24,13 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public authInfo = this.explorerValues.authentication;
 
-  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private apiService: GraphService,
+  constructor(private sanitizer: DomSanitizer, private apiService: GraphService,
               private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
   public async ngOnInit() {
-    const valid = await haveValidAccessToken(this.authService);
+    const valid = await haveValidAccessToken();
     if (this.getAuthenticationStatus() === 'authenticated' && valid) {
       this.displayUserProfile();
       this.setPermissions();
@@ -44,7 +45,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     localStorage.setItem('status', 'authenticating');
     this.changeDetectorRef.detectChanges();
     try {
-      const loginResponse = await this.authService.login();
+      const loginResponse = await login();
 
       if (loginResponse) {
         this.displayUserProfile();
@@ -73,7 +74,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public async setPermissions() {
-    const scopes = await this.authService.getScopes();
+    const scopes = await getScopes();
     const scopesLowerCase = scopes.map((item) => {
         return item.toLowerCase();
     });

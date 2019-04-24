@@ -3,7 +3,6 @@ import { Response } from '@angular/http';
 import { getAceEditorFromElId, getJsonViewer, getRequestBodyEditor } from './api-explorer-jseditor';
 import { AppComponent } from './app.component';
 import { checkHasValidAuthToken, isAuthenticated } from './authentication/auth';
-import { AuthService } from './authentication/auth.service';
 import { IGraphApiCall } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath } from './graph-structure';
@@ -25,7 +24,7 @@ export class QueryRunnerService {
     AppComponent.messageBarContent = null;
   }
 
-  constructor(private graphService: GraphService, private authService: AuthService) { }
+  constructor(private graphService: GraphService) { }
 
   public executeExplorerQuery(fromSample?: boolean) {
 
@@ -42,7 +41,7 @@ export class QueryRunnerService {
       postBody: getRequestBodyEditor().getSession().getValue(),
     };
 
-    checkHasValidAuthToken(this.authService);
+    checkHasValidAuthToken();
     let graphRequest: Promise<Response>;
     if (isAuthenticated()) {
       graphRequest = this.graphService.performQuery(query.method, query.requestUrl, query.postBody,

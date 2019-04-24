@@ -3,7 +3,6 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
-import { APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -11,7 +10,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AriaSelectedMSPivotLinkDirective } from './aria-selected.directive';
-import { AuthService } from './authentication/auth.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { LogoutComponent } from './authentication/logout.component';
 import { CanaryComponent } from './canary/canary.component';
@@ -36,6 +34,5 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, LogoutComponent,
     CanaryComponent],
   bootstrap: [AppComponent],
-  providers: [ AuthService ],
 })
 export class AppModule { }

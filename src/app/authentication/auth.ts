@@ -5,9 +5,10 @@
 
 import { AppComponent } from '../app.component';
 import { deleteHistoryFromLocalStorage } from '../history/history';
+import { getTokenSilent } from './auth.service';
 
-export async function haveValidAccessToken(authService) {
-  const token = await authService.getTokenSilent();
+export async function haveValidAccessToken() {
+  const token = await getTokenSilent();
   if (token) {
     return true;
   }
@@ -23,8 +24,8 @@ export function localLogout() {
   sessionStorage.clear();
 }
 
-export async function checkHasValidAuthToken(authService) {
-  const valid = await haveValidAccessToken(authService);
+export async function checkHasValidAuthToken() {
+  const valid = await haveValidAccessToken();
   const authenticated = isAuthenticated();
   if (!valid && authenticated) {
     localLogout();
@@ -42,7 +43,7 @@ export function isAuthenticated() {
 
 // tslint:disable-next-line:only-arrow-functions
 (window as any).tokenPlease = async function() {
-  const accessToken = await this.authService.getTokenSilent();
+  const accessToken = await getTokenSilent();
   if (accessToken) {
     return accessToken;
   } else {

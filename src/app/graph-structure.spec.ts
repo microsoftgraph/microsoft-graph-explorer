@@ -4,7 +4,6 @@ import {
     TestBed,
 } from '@angular/core/testing';
 
-import { AuthService } from './authentication/auth.service';
 import { GraphApiVersions } from './base';
 import { GraphService } from './graph-service';
 import { constructGraphLinksFromFullPath, parseMetadata } from './graph-structure';
@@ -15,7 +14,7 @@ describe('Graph structural tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
-        providers: [GraphService, AuthService],
+        providers: [GraphService],
     });
 
     graphService = TestBed.get(GraphService);

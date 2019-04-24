@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { AuthService } from '../authentication/auth.service';
+import { getTokenPopup } from '../authentication/auth.service';
 import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
@@ -42,7 +42,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public hasChangedScopeListHeight: boolean = false;
   public hasRequestedAdminConsent: boolean = false;
 
-  constructor(private authService: AuthService) {
+  constructor() {
     super();
   }
   // Updates the style.height of the scopes-list-table-container element.
@@ -157,7 +157,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public async getNewAccessToken() {
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
-    await this.authService.getTokenPopup(selectedScopes);
+    await getTokenPopup(selectedScopes);
     window.location.reload();
   }
 
