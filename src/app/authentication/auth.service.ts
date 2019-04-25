@@ -5,7 +5,6 @@ const { ClientId } = (window as any);
 const config = {
     auth: {
         clientId:  ClientId,
-        redirectUri: 'http://localhost:3000',
     },
     cache: {
         cacheLocation: 'localStorage',
