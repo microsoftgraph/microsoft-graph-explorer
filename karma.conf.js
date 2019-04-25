@@ -65,12 +65,14 @@ module.exports = function(config) {
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },
 
+      { pattern: 'node_modules/msal/**/*.js', included: false, watched: false },
+
       // Paths loaded via module imports:
       // Angular itself
       { pattern: 'node_modules/@angular/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false },
 
-      { pattern: appBase + '/systemjs.config.js', included: false, watched: false },
+      { pattern: 'systemjs.config.js', included: false, watched: false },
       { pattern: appBase + '/systemjs.config.extras.js', included: false, watched: false },
       'karma-test-shim.js', // optionally extend SystemJS mapping e.g., with barrels
 
@@ -88,7 +90,8 @@ module.exports = function(config) {
       { pattern: appBase + '**/*.ts', included: false, watched: false },
       { pattern: appBase + '**/*.js.map', included: false, watched: false },
       { pattern: testingSrcBase + '**/*.ts', included: false, watched: false },
-      { pattern: testingBase + '**/*.js.map', included: false, watched: false}
+      { pattern: testingBase + '**/*.js.map', included: false, watched: false},
+
     ],
 
     // Proxied base paths for loading assets
@@ -103,7 +106,7 @@ module.exports = function(config) {
 
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
