@@ -20,7 +20,7 @@ export function logout() {
 
 export async function login() {
     const loginRequest = {
-        scopes: AppComponent.Options.DefaultUserScopes,
+        scopes: this.generateUserScopes(),
         prompt:  'select_account',
     };
 
@@ -39,7 +39,7 @@ export async function getTokenSilent(scopes: any = []) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenSilent({scopes: listOfScopes});
+        const response = await app.acquireTokenSilent({scopes: this.generateUserScopes(listOfScopes)});
         if (response.accessToken) {
             return response;
         }
@@ -49,14 +49,14 @@ export async function getTokenSilent(scopes: any = []) {
     }
 }
 
-export async function getTokenPopup(scopes: any = []) {
+export async function getTokenPopup(scopes: string[] = []) {
     const hasScopes = scopes.length > 0;
     let listOfScopes = AppComponent.Options.DefaultUserScopes;
     if (hasScopes) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenPopup({scopes: listOfScopes});
+        const response = await app.acquireTokenPopup({scopes: this.generateUserScopes(listOfScopes)});
         if (response) {
             return response;
         }
@@ -74,7 +74,7 @@ export async function getScopes() {
             scopes = response.scopes;
         }
     } catch (error) {
-        const response = await app.acquireTokenPopup({scopes: AppComponent.Options.DefaultUserScopes});
+        const response = await app.acquireTokenPopup({scopes: this.generateUserScopes()});
         if (response) {
             scopes = response.scopes;
         }
@@ -87,3 +87,22 @@ export async function getScopes() {
     }
     return scopes;
 }
+
+export function generateUserScopes(userScopes = AppComponent.Options.DefaultUserScopes) {
+    const graphMode = JSON.parse(localStorage.getItem('GRAPH_MODE'));
+    if (graphMode === null) {
+      return userScopes;
+    }
+    const graphUrl = localStorage.getItem('GRAPH_URL');
+    const reducedScopes = userScopes.reduce((newScopes, scope) => {
+      if (scope === 'openid' || scope === 'profile') {
+        return newScopes += scope + ' ';
+      }
+      return newScopes += graphUrl + '/' + scope + ' ';
+    }, '');
+
+    const scopes = reducedScopes.split(' ').filter((scope) => {
+        return scope !== '';
+    });
+    return scopes;
+  }
