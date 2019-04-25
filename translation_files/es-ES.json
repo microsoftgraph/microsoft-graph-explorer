@@ -222,5 +222,8 @@
   "replies to a message in channel" : "respuestas a un mensaje en un canal",
   "reply of a message" : "respuesta de un mensaje",
   "Export": "Exportar",
-  "Action": "Acción"
+  "Action": "Acción",
+  "use the Microsoft Graph API" : "Al usar la API de Microsoft Graph, acepta las Condiciones de uso de Microsoft Graph",
+  "Terms of use" : "Ver las Condiciones de uso de Microsoft Graph",
+  "Microsoft Privacy Statement" : "Ver la declaración de privacidad de Microsoft"
 }

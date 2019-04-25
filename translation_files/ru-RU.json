@@ -222,5 +222,8 @@
   "replies to a message in channel" : "ответы на сообщение в канале",
   "reply of a message" : "ответ на сообщение",
   "Export": "Экспорт",
-  "Action": "Действие"
+  "Action": "Действие",
+  "use the Microsoft Graph API" : "Используя API Microsoft Graph, вы соглашаетесь с условиями использования Microsoft Graph",
+  "Terms of use" : "Смотреть условия использования Microsoft Graph",
+  "Microsoft Privacy Statement" : "Смотреть заявление о конфиденциальности корпорации Майкрософт"
 }

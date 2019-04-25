@@ -222,5 +222,8 @@
   "replies to a message in channel" : "频道中邮件的答复",
   "reply of a message" : "邮件的答复",
   "Export": "导出",
-  "Action": "操作"
+  "Action": "操作",
+  "use the Microsoft Graph API" : "使用 Microsoft Graph API 时，表示你同意 Microsoft Graph 使用条款",
+  "Terms of use" : "查看 Microsoft Graph 使用条款",
+  "Microsoft Privacy Statement" : "查看 Microsoft 隐私声明"
 }
