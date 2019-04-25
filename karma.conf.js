@@ -106,13 +106,13 @@ module.exports = function(config) {
 
     port: 9876,
     colors: true,
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
 
     // Adding this since we are getting a timeout in CI. The default at 10 seconds was not enough.
-    browserNoActivityTimeout: 1000*15
+    browserNoActivityTimeout: 1000*20
   }
 
   config.set(configuration);
