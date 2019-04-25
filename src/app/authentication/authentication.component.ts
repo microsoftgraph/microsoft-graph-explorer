@@ -30,8 +30,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public async ngOnInit() {
-    const valid = await haveValidAccessToken();
-    if (this.getAuthenticationStatus() === 'authenticated' && valid) {
+    if (this.getAuthenticationStatus() === 'authenticated') {
       this.displayUserProfile();
       this.setPermissions();
     }
