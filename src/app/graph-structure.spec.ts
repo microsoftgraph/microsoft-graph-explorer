@@ -1,6 +1,7 @@
 import { HttpModule } from '@angular/http';
 
 import {
+    inject,
     TestBed,
 } from '@angular/core/testing';
 
@@ -112,7 +113,7 @@ describe('Graph structural tests', () => {
         expect(links[1].type).toBe('Edm.String');
     });
 
-  it('https://graph.microsoft.com/beta/me/drive/quota => [user] -> [drive] -> [drive quoata]', () => {
+  it('https://graph.microsoft.com/beta/me/drive/quota => [user] -> [drive] -> [drive quota]', () => {
         const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/drive/quota');
         expect(links.length).toBe(3);
 

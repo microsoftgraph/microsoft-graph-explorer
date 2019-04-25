@@ -59,7 +59,8 @@
   "linterOptions": {
     "exclude": [
       "src/app/loc_strings.ts",
-      "src/app/generate-queries/gen-queries.ts"
+      "src/app/generate-queries/gen-queries.ts",
+      "src/node_modules/**"
     ]
   }
 }

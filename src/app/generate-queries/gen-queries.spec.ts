@@ -51,6 +51,7 @@ describe('Sample query validation', () => {
       imports: [HttpModule],
       providers: [GraphService],
     });
+    graphService = TestBed.get(GraphService);
   });
 
   it('Creates an instance of the graph service', inject([GraphService], (graphSvc: GraphService) => {

@@ -16,6 +16,7 @@ describe('Metadata download and parsing', () => {
         imports: [HttpModule],
         providers: [GraphService ],
     });
+    graphService = TestBed.get(GraphService);
   });
 
   // tslint:disable-next-line
