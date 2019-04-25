@@ -1,6 +1,6 @@
+import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
-declare const Msal: any;
 const { ClientId } = (window as any);
 const config = {
     auth: {
@@ -12,7 +12,8 @@ const config = {
         storeAuthStateInCookie: true,
     },
 };
-const app = new Msal.UserAgentApplication(config);
+
+const app = new Msal.UserAgentApplication((config as any));
 
 export function logout() {
     app.logout();
