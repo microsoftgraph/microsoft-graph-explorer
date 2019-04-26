@@ -20,7 +20,7 @@ export function logout() {
 
 export async function login() {
     const loginRequest = {
-        scopes: this.generateUserScopes(),
+        scopes: generateUserScopes(),
         prompt:  'select_account',
     };
 
@@ -39,7 +39,7 @@ export async function getTokenSilent(scopes: any = []) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenSilent({scopes: this.generateUserScopes(listOfScopes)});
+        const response = await app.acquireTokenSilent({scopes: generateUserScopes(listOfScopes)});
         if (response.accessToken) {
             return response;
         }
@@ -56,7 +56,7 @@ export async function getTokenPopup(scopes: string[] = []) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenPopup({scopes: this.generateUserScopes(listOfScopes)});
+        const response = await app.acquireTokenPopup({scopes: generateUserScopes(listOfScopes)});
         if (response) {
             return response;
         }
@@ -69,12 +69,12 @@ export async function getTokenPopup(scopes: string[] = []) {
 export async function getScopes() {
     let scopes = [];
     try {
-        const response = await this.getTokenSilent();
+        const response = await getTokenSilent();
         if (response.scopes) {
             scopes = response.scopes;
         }
     } catch (error) {
-        const response = await app.acquireTokenPopup({scopes: this.generateUserScopes()});
+        const response = await app.acquireTokenPopup({scopes: generateUserScopes()});
         if (response) {
             scopes = response.scopes;
         }
