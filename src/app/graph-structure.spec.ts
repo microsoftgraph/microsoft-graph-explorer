@@ -17,12 +17,9 @@ describe('Graph structural tests', () => {
         imports: [HttpModule],
         providers: [GraphService],
     });
-  });
 
-  // tslint:disable-next-line
-  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
-    graphService = _graphService;
-  }));
+    graphService = TestBed.get(GraphService);
+  });
 
   for (const version of GraphApiVersions) {
     it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`,
@@ -116,7 +113,7 @@ describe('Graph structural tests', () => {
         expect(links[1].type).toBe('Edm.String');
     });
 
-  it('https://graph.microsoft.com/beta/me/drive/quota => [user] -> [drive] -> [drive quoata]', () => {
+  it('https://graph.microsoft.com/beta/me/drive/quota => [user] -> [drive] -> [drive quota]', () => {
         const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/drive/quota');
         expect(links.length).toBe(3);
 

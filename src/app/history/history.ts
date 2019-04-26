@@ -21,6 +21,10 @@ export function saveHistoryToLocalStorage(requestHistory: IGraphApiCall[]) {
     }
 }
 
+export function deleteHistoryFromLocalStorage() {
+    localStorage.setItem(LocalStorageKeyGraphRequestHistory, JSON.stringify([]));
+}
+
 export function loadHistoryFromLocalStorage(): IGraphApiCall[] {
     const possibleHistory = localStorage.getItem(LocalStorageKeyGraphRequestHistory);
 

@@ -2,7 +2,7 @@
  * System configuration for Angular samples
  * Adjust as necessary for your application needs.
  */
-(function (global) {
+(function () {
   System.config({
     paths: {
       // paths serve as alias
@@ -27,8 +27,10 @@
       '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
 
       // other libraries
-      'rxjs':                      'npm:rxjs',
+      'rxjs': 'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+      'jwt-decode': 'npm:jwt-decode/build/jwt-decode.min.js',
+      'msal': 'npm:msal/dist/msal.js',
     },
 
     // packages tells the System loader how to load when no filename and/or no extension

@@ -10,7 +10,16 @@
         "src/app/*.js": true,
         "src/**/.js.map": true,
         "src/**/.d.ts": true,
-        "**/*gulp-tsc*": true
+        "**/*gulp-tsc*": true,
+        "**/.git": true,
+        "**/.DS_Store": true,
+        // exclude .js and .js.map files, when in a TypeScript project
+        "**/*.js": { "when": "$(basename).ts"},
+        "**/*.js.map": true,
+        "**/node_modules": true,
+        "**/compiler-output": true,
+        "**/aot": true,
+        "**/.github": true,
     },
     "files.trimTrailingWhitespace": true
 }

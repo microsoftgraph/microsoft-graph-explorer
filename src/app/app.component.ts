@@ -6,7 +6,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { refreshAceEditorsContent } from './ace-utils';
-import { initAuth, localLogout } from './authentication/auth';
+import { localLogout } from './authentication/auth';
 import {
     GraphApiVersion, GraphApiVersions, IExplorerOptions, IExplorerValues, IGraphApiCall, IMessage,
     IMessageBarContent, RequestType,
@@ -46,8 +46,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
     public static Options: IExplorerOptions = {
         ClientId: '',
         Language: 'en-US',
-        DefaultUserScopes: 'openid profile User.ReadWrite User.ReadBasic.All Sites.ReadWrite.All Contacts.ReadWrite ' +
-            'People.Read Notes.ReadWrite.All Tasks.ReadWrite Mail.ReadWrite Files.ReadWrite.All Calendars.ReadWrite',
+        // tslint:disable-next-line:max-line-length
+        DefaultUserScopes: ['openid', 'profile', 'User.ReadWrite', 'User.ReadBasic.All', 'Sites.ReadWrite.All', 'Contacts.ReadWrite', 'People.Read', 'Notes.ReadWrite.All', 'Tasks.ReadWrite', 'Mail.ReadWrite', 'Files.ReadWrite.All', 'Calendars.ReadWrite'],
         AuthUrl: 'https://login.microsoftonline.com',
         GraphVersions: GraphApiVersions,
         PathToBuildDir: '',
@@ -126,8 +126,6 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         }
 
         AppComponent.Options.GraphVersions.push('Other');
-
-        initAuth(AppComponent.Options, this.GraphService, this.chRef);
 
         initFabricComponents();
 

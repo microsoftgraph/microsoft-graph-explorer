@@ -24,7 +24,7 @@ export class QueryRunnerService {
     AppComponent.messageBarContent = null;
   }
 
-  constructor(private GraphService: GraphService) { } // tslint:disable-line
+  constructor(private graphService: GraphService) { }
 
   public executeExplorerQuery(fromSample?: boolean) {
 
@@ -44,10 +44,10 @@ export class QueryRunnerService {
     checkHasValidAuthToken();
     let graphRequest: Promise<Response>;
     if (isAuthenticated()) {
-      graphRequest = this.GraphService.performQuery(query.method, query.requestUrl, query.postBody,
+      graphRequest = this.graphService.performQuery(query.method, query.requestUrl, query.postBody,
         createHeaders(query.headers));
     } else {
-      graphRequest = this.GraphService.performAnonymousQuery(query.method, query.requestUrl,
+      graphRequest = this.graphService.performAnonymousQuery(query.method, query.requestUrl,
         createHeaders(query.headers));
     }
     AppComponent.explorerValues.requestInProgress = true;
@@ -74,7 +74,7 @@ export class QueryRunnerService {
     const resultBody = res.text();
 
     AppComponent.explorerValues.showImage = false;
-    const contentType = getContentType(headers);
+    const contentType = getContentType(headers as any);
 
     if (isImageResponse(contentType)) {
       /*
@@ -85,7 +85,7 @@ export class QueryRunnerService {
       return;
     }
 
-    insertHeadersIntoResponseViewer(headers);
+    insertHeadersIntoResponseViewer(headers as any);
     switch (contentType) {
       case 'application/json': {
         handleJsonResponse(res.json());
@@ -112,10 +112,10 @@ export class QueryRunnerService {
   public fetchImage(query: IGraphApiCall) {
     let fetchImagePromise: Promise<any>;
     if (isAuthenticated()) {
-      fetchImagePromise = this.GraphService
+      fetchImagePromise = this.graphService
         .performQuery('GET_BINARY', AppComponent.explorerValues.endpointUrl);
     } else {
-      fetchImagePromise = this.GraphService
+      fetchImagePromise = this.graphService
         .performAnonymousQuery('GET_BINARY', AppComponent.explorerValues.endpointUrl);
     }
 
@@ -133,7 +133,7 @@ export class QueryRunnerService {
 
   public handleUnsuccessfulQueryResponse(res: Response, query: IGraphApiCall) {
     this.commonResponseHandler(res, query);
-    insertHeadersIntoResponseViewer(res.headers);
+    insertHeadersIntoResponseViewer(res.headers as any);
     let errorText;
 
     try {

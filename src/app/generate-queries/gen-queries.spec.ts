@@ -41,21 +41,15 @@ function convertHeaders(graphRequestHeaders: IGraphRequestHeader[]): Headers {
 
 let graphService: GraphService;
 describe('Sample query validation', () => {
-
   beforeAll(() => {
     localLogout();
-  });
 
-  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [GraphService],
     });
+    graphService = TestBed.get(GraphService);
   });
-
-  it('Creates an instance of the graph service', inject([GraphService], (graphSvc: GraphService) => {
-    graphService = graphSvc;
-  }));
 
   for (const query of SampleQueries) {
     it(`${query.humanName}: Doc link should exist and match request version`, () => {
