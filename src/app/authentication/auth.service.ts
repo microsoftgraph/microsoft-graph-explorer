@@ -8,7 +8,7 @@ const config = {
     },
     cache: {
         cacheLocation: 'localStorage',
-        storeAuthStateInCookie: false,
+        storeAuthStateInCookie: true,
     },
 };
 
