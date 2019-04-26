@@ -8,7 +8,7 @@ const config = {
     },
     cache: {
         cacheLocation: 'localStorage',
-        storeAuthStateInCookie: true,
+        storeAuthStateInCookie: false, // this is causing issues in staging currently
     },
 };
 
