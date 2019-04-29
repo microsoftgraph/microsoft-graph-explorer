@@ -11,8 +11,8 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
-import { haveValidAccessToken, localLogout } from './auth';
-import { getScopes, login } from './auth.service';
+import { localLogout } from './auth';
+import { getScopes, login, logout } from './auth.service';
 
 @Component({
   selector: 'authentication',
@@ -61,7 +61,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public logout() {
     localLogout();
-    this.changeDetectorRef.detectChanges();
+    logout();
   }
 
   public getAuthenticationStatus() {

@@ -6,7 +6,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { getTokenPopup, getTokenSilent } from './authentication/auth.service';
+import { acquireNewAccessToken, getTokenSilent } from './authentication/auth.service';
 import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
@@ -59,7 +59,7 @@ export class GraphService {
     public handleRequest = async function(requestHeaders, query, queryType, postBody) {
         let response = await getTokenSilent();
         if (response === null) {
-            response = await getTokenPopup();
+            response = await acquireNewAccessToken();
         }
         requestHeaders.append('Authorization', `Bearer ${response.accessToken}`);
         switch (queryType) {
