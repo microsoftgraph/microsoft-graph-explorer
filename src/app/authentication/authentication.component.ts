@@ -49,6 +49,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       if (loginResponse) {
         this.displayUserProfile();
         this.setPermissions();
+        this.changeDetectorRef.detectChanges();
       } else {
         localStorage.setItem('status', 'anonymous');
         this.changeDetectorRef.detectChanges();
