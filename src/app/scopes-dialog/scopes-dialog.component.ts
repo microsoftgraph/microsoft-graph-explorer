@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { getTokenPopup } from '../authentication/auth.service';
+import { acquireNewAccessToken } from '../authentication/auth.service';
 import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
@@ -157,7 +157,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public async getNewAccessToken() {
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
-    await getTokenPopup(selectedScopes);
+    await acquireNewAccessToken(selectedScopes);
     window.location.reload();
   }
 
