@@ -166,7 +166,7 @@ function  acquireTokenErrorRedirectCallBack(error) {
     console.log(error);
 }
 
-function getLoginType() {
+export function getLoginType() {
     const ua = window.navigator.userAgent;
     const msie = ua.indexOf('MSIE ');
     const msie11 = ua.indexOf('Trident/');
