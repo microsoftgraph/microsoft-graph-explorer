@@ -20,7 +20,7 @@ export function localLogout() {
   AppComponent.explorerValues.selectedOption = 'GET';
   AppComponent.explorerValues.authentication.user = {};
   deleteHistoryFromLocalStorage();
-  localStorage.setItem('status', 'anonymous');
+  AppComponent.explorerValues.authentication.status = 'anonymous';
   sessionStorage.clear();
 }
 
@@ -33,19 +33,19 @@ export async function checkHasValidAuthToken() {
 }
 
 export function isAuthenticated() {
-  const status = localStorage.getItem('status');
+  const status = AppComponent.explorerValues.authentication.status ;
   if (status && status !== 'anonymous') {
     return true;
   }
-  localStorage.setItem('status', 'anonymous');
+  AppComponent.explorerValues.authentication.status = 'anonymous';
   return false;
 }
 
 // tslint:disable-next-line:only-arrow-functions
 (window as any).tokenPlease = async function() {
-  const accessToken = await getTokenSilent();
-  if (accessToken) {
-    return accessToken;
+  const result = await getTokenSilent();
+  if (result) {
+    return result.accessToken;
   } else {
     // tslint:disable-next-line:no-console
     console.log('Please sign in to get your access token');
