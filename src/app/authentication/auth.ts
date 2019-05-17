@@ -19,8 +19,8 @@ export function localLogout() {
   // Anonymous users can only GET
   AppComponent.explorerValues.selectedOption = 'GET';
   AppComponent.explorerValues.authentication.user = {};
-  deleteHistoryFromLocalStorage();
   AppComponent.explorerValues.authentication.status = 'anonymous';
+  deleteHistoryFromLocalStorage();
   sessionStorage.clear();
 }
 
