@@ -42,12 +42,15 @@ export function isAuthenticated() {
 }
 
 // tslint:disable-next-line:only-arrow-functions
-(window as any).tokenPlease = async function() {
-  const result = await getTokenSilent();
-  if (result) {
-    return result.accessToken;
-  } else {
-    // tslint:disable-next-line:no-console
-    console.log('Please sign in to get your access token');
-  }
+(window as any).tokenPlease = function() {
+  getTokenSilent().then(
+    (result) => {
+      // tslint:disable-next-line:no-console
+      console.log(result.accessToken);
+    },
+    () => {
+      // tslint:disable-next-line:no-console
+      console.log('Please sign in to get your access token');
+    },
+  );
 };
