@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { getTokenPopup } from '../authentication/auth.service';
+import { acquireNewAccessToken, getLoginType } from '../authentication/auth.service';
 import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
@@ -155,10 +155,15 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   }
 
   public async getNewAccessToken() {
+    const loginType = getLoginType();
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
-    await getTokenPopup(selectedScopes);
-    window.location.reload();
+    await acquireNewAccessToken(selectedScopes);
+    if (loginType === 'REDIRECT') {
+      setTimeout(() => { window.location.reload(); }, 5000);
+    } else {
+      window.location.reload();
+    }
   }
 
   public static showDialog() { // tslint:disable-line

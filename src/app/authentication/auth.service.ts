@@ -11,8 +11,11 @@ const config = {
         storeAuthStateInCookie: true,
     },
 };
-
 const app = new Msal.UserAgentApplication((config as any));
+const loginType = getLoginType();
+
+// Register Callbacks for redirect flow
+app.handleRedirectCallbacks(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
 
 export function logout() {
     app.logout();
@@ -20,48 +23,80 @@ export function logout() {
 
 export async function login() {
     const loginRequest = {
-        scopes: this.generateUserScopes(),
+        scopes: generateUserScopes(),
         prompt:  'select_account',
     };
 
-    try {
-        const response = await app.loginPopup(loginRequest);
+    if (loginType === 'POPUP') {
+        try {
+            const response = await app.loginPopup(loginRequest);
 
-        localStorage.setItem('status', 'authenticated');
-        return response;
-    } catch (error) {
-        // tslint:disable-next-line
-        console.log(error);
+            localStorage.setItem('status', 'authenticated');
+            return response;
+        } catch (error) {
+            // tslint:disable-next-line
+            console.log(error);
+        }
     }
 }
 
 export async function getTokenSilent(scopes: any = []) {
-    const hasScopes = scopes.length > 0;
+    const hasScopes = (scopes.length > 0);
     let listOfScopes = AppComponent.Options.DefaultUserScopes;
     if (hasScopes) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenSilent({scopes: this.generateUserScopes(listOfScopes)});
+        const response = await app.acquireTokenSilent({scopes: generateUserScopes(listOfScopes)});
         if (response.accessToken) {
             return response;
         }
         return null;
     } catch (error) {
-        return  null;
+        if (requiresInteraction(error.errorCode)) {
+            if (loginType === 'POPUP') {
+                try {
+                    const interactionResponse = await app.acquireTokenPopup({scopes: generateUserScopes(listOfScopes)});
+                    if (interactionResponse && interactionResponse.accessToken) {
+                        return interactionResponse;
+                    }
+                } catch (error) {
+                    return null;
+                }
+            } else if (loginType === 'REDIRECT') {
+                try {
+                    app.acquireTokenRedirect({scopes: generateUserScopes(listOfScopes)});
+                } catch (error) {
+                    return null;
+                }
+            }
+        }
     }
 }
 
-export async function getTokenPopup(scopes: string[] = []) {
-    const hasScopes = scopes.length > 0;
+export async function acquireNewAccessToken(scopes: string[] = []) {
+    const hasScopes = (scopes.length > 0);
     let listOfScopes = AppComponent.Options.DefaultUserScopes;
     if (hasScopes) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenPopup({scopes: this.generateUserScopes(listOfScopes)});
-        if (response) {
-            return response;
+        if (loginType === 'POPUP') {
+            try {
+                const response = await app.acquireTokenPopup({scopes: generateUserScopes(listOfScopes)});
+                if (response) {
+                    return response;
+                }
+                return null;
+            } catch (error) {
+                return null;
+            }
+        } else if (loginType === 'REDIRECT') {
+            try {
+                app.acquireTokenRedirect({scopes: generateUserScopes(listOfScopes)});
+            } catch (error) {
+                return null;
+            }
         }
         return null;
     } catch (error) {
@@ -72,15 +107,12 @@ export async function getTokenPopup(scopes: string[] = []) {
 export async function getScopes() {
     let scopes = [];
     try {
-        const response = await this.getTokenSilent();
+        const response = await getTokenSilent();
         if (response.scopes) {
             scopes = response.scopes;
         }
     } catch (error) {
-        const response = await app.acquireTokenPopup({scopes: this.generateUserScopes()});
-        if (response) {
-            scopes = response.scopes;
-        }
+        return scopes;
     }
     if (scopes.length > 0) {
         const scopesLowerCase = scopes.map((item) => {
@@ -109,3 +141,34 @@ export function generateUserScopes(userScopes = AppComponent.Options.DefaultUser
     });
     return scopes;
   }
+
+function requiresInteraction(errorCode) {
+    if (!errorCode || !errorCode.length) {
+        return false;
+    }
+    return errorCode === 'consent_required' ||
+        errorCode === 'interaction_required' ||
+        errorCode === 'login_required';
+}
+
+function acquireTokenRedirectCallBack(response) {
+    localStorage.setItem('status', 'authenticated');
+    if (response && response.tokenType === 'access_token') {
+        return response.accessToken;
+    }
+}
+
+function  acquireTokenErrorRedirectCallBack(error) {
+    // tslint:disable-next-line:no-console
+    console.log(error);
+}
+
+export function getLoginType() {
+    const ua = window.navigator.userAgent;
+    const msie = ua.indexOf('MSIE ');
+    const msie11 = ua.indexOf('Trident/');
+    const msedge = ua.indexOf('Edge/');
+    const isIE = msie > 0 || msie11 > 0;
+    const isEdge = msedge > 0;
+    return isIE || isEdge ? 'REDIRECT' : 'POPUP';
+}
