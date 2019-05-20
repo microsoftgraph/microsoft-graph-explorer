@@ -43,7 +43,9 @@ export function isAuthenticated() {
 
 // tslint:disable-next-line:only-arrow-functions
 (window as any).tokenPlease = async function() {
-  const accessToken = await getTokenSilent();
+  // tslint:disable-next-line:no-console
+  console.log('Getting you a token');
+  const { accessToken } = await getTokenSilent();
   if (accessToken) {
     return accessToken;
   } else {
