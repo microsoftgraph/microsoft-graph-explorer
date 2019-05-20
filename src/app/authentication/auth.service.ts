@@ -26,9 +26,12 @@ export async function login() {
 
     try {
         const response = await app.loginPopup(loginRequest);
+
+        localStorage.setItem('status', 'authenticated');
         return response;
     } catch (error) {
-        return false;
+        // tslint:disable-next-line
+        console.log(error);
     }
 }
 
