@@ -30,15 +30,12 @@ export async function login() {
     if (loginType === 'POPUP') {
         try {
             const response = await app.loginPopup(loginRequest);
+
+            localStorage.setItem('status', 'authenticated');
             return response;
         } catch (error) {
-            return false;
-        }
-    } else if (loginType === 'REDIRECT') {
-        try {
-            app.loginRedirect(loginRequest);
-        } catch (error) {
-            return false;
+            // tslint:disable-next-line
+            console.log(error);
         }
     }
 }
