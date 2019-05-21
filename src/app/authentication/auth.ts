@@ -53,4 +53,5 @@ export function isAuthenticated() {
       console.log('Please sign in to get your access token');
     },
   );
+
 };

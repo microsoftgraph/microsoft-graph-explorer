@@ -32,13 +32,8 @@ export async function login() {
             const response = await app.loginPopup(loginRequest);
             return response;
         } catch (error) {
-            return false;
-        }
-    } else if (loginType === 'REDIRECT') {
-        try {
-            app.loginRedirect(loginRequest);
-        } catch (error) {
-            return false;
+            // tslint:disable-next-line
+            console.log(error);
         }
     }
 }

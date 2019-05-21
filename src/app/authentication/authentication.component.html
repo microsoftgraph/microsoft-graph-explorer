@@ -15,7 +15,7 @@
         </button>
     </div>
 </div>
-<div *ngIf="getAuthenticationStatus() == 'authenticating'">
+<div *ngIf="getAuthenticationStatus() === 'authenticating'">
     <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..."
         tabindex="0" aria-label="indeterminate local small progress bar">
         <span></span>
@@ -25,7 +25,7 @@
         <span></span>
     </div>
 </div>
-<div *ngIf="getAuthenticationStatus() == 'authenticated'" id="persona-holder">
+<div *ngIf="getAuthenticationStatus() === 'authenticated'" id="persona-holder">
     <div class="ms-Persona" [class.noPicture]="!authInfo.user.profileImageUrl">
         <div class="ms-Persona-imageArea" *ngIf="authInfo.user.profileImageUrl">
             <img class="ms-Persona-image" [src]="sanitize(authInfo.user.profileImageUrl)">

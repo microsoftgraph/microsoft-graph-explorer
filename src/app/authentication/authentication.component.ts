@@ -49,10 +49,11 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     AppComponent.explorerValues.authentication.status = 'authenticating';
     this.changeDetectorRef.detectChanges();
     try {
-      const loginResponse = await login();
-      if (loginResponse) {
+      const loginSuccess = await login();
+      if (loginSuccess) {
         this.displayUserProfile();
         this.setPermissions();
+        localStorage.setItem('status', 'authenticated');
         this.changeDetectorRef.detectChanges();
       } else {
         AppComponent.explorerValues.authentication.status = 'anonymous';
@@ -109,9 +110,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       } catch (e) {
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
       }
-
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.changeDetectorRef.detectChanges();
+
     } catch (e) {
       localLogout();
     }
