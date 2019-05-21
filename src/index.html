@@ -42,6 +42,12 @@
 
         <script src="systemjs.config.js"></script>
         <script>
+            window.onload = function() {
+                localStorage.removeItem('hello');
+                localStorage.removeItem('msft');
+            };
+</script>
+        <script>
           SystemJS.import('compiler-output/main-jit.js').catch(function(err){ console.error(err); });
         </script>
     </body>

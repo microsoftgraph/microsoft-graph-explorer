@@ -11,7 +11,7 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
-import { localLogout } from './auth';
+import { haveValidAccessToken, localLogout } from './auth';
 import { getScopes, login, logout } from './auth.service';
 
 @Component({
@@ -30,9 +30,14 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public async ngOnInit() {
-    if (this.getAuthenticationStatus() === 'authenticated') {
+    AppComponent.explorerValues.authentication.status = 'authenticating';
+    const valid = await haveValidAccessToken();
+    if (valid) {
+      AppComponent.explorerValues.authentication.status = 'authenticated';
       this.displayUserProfile();
       this.setPermissions();
+    } else {
+      AppComponent.explorerValues.authentication.status = 'anonymous';
     }
   }
 
@@ -41,23 +46,21 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public async login() {
-    localStorage.setItem('status', 'authenticating');
+    AppComponent.explorerValues.authentication.status = 'authenticating';
     this.changeDetectorRef.detectChanges();
     try {
       const loginSuccess = await login();
-
       if (loginSuccess) {
         this.displayUserProfile();
         this.setPermissions();
-
         localStorage.setItem('status', 'authenticated');
         this.changeDetectorRef.detectChanges();
       } else {
-        localStorage.setItem('status', 'anonymous');
+        AppComponent.explorerValues.authentication.status = 'anonymous';
         this.changeDetectorRef.detectChanges();
       }
     } catch (error) {
-      localStorage.setItem('status', 'anonymous');
+      AppComponent.explorerValues.authentication.status = 'anonymous';
       this.changeDetectorRef.detectChanges();
     }
   }
@@ -68,7 +71,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public getAuthenticationStatus() {
-    return localStorage.getItem('status');
+    return AppComponent.explorerValues.authentication.status;
   }
 
   public manageScopes() {
@@ -107,6 +110,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       } catch (e) {
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
       }
+      AppComponent.explorerValues.authentication.status = 'authenticated';
+      this.changeDetectorRef.detectChanges();
+
     } catch (e) {
       localLogout();
     }

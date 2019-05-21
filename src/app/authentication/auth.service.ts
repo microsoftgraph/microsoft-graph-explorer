@@ -7,7 +7,7 @@ const config = {
         clientId:  ClientId,
     },
     cache: {
-        cacheLocation: 'localStorage',
+        cacheLocation: 'sessionStorage',
         storeAuthStateInCookie: true,
     },
 };
@@ -51,24 +51,7 @@ export async function getTokenSilent(scopes: any = []) {
         }
         return null;
     } catch (error) {
-        if (requiresInteraction(error.errorCode)) {
-            if (loginType === 'POPUP') {
-                try {
-                    const interactionResponse = await app.acquireTokenPopup({scopes: generateUserScopes(listOfScopes)});
-                    if (interactionResponse && interactionResponse.accessToken) {
-                        return interactionResponse;
-                    }
-                } catch (error) {
-                    return null;
-                }
-            } else if (loginType === 'REDIRECT') {
-                try {
-                    app.acquireTokenRedirect({scopes: generateUserScopes(listOfScopes)});
-                } catch (error) {
-                    return null;
-                }
-            }
-        }
+        return null;
     }
 }
 
@@ -150,7 +133,6 @@ function requiresInteraction(errorCode) {
 }
 
 function acquireTokenRedirectCallBack(response) {
-    localStorage.setItem('status', 'authenticated');
     if (response && response.tokenType === 'access_token') {
         return response.accessToken;
     }
