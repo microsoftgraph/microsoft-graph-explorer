@@ -35,6 +35,14 @@ export async function login() {
             // tslint:disable-next-line
             console.log(error);
         }
+    } else if (loginType === 'REDIRECT') {
+        try {
+            const response = await app.loginRedirect(loginRequest);
+            return response;
+        } catch (error) {
+            // tslint:disable-next-line
+            console.log(error);
+        }
     }
 }
 
