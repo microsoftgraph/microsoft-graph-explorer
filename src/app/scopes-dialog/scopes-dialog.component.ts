@@ -158,10 +158,10 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     const loginType = getLoginType();
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
+
     await acquireNewAccessToken(selectedScopes);
-    if (loginType === 'REDIRECT') {
-      setTimeout(() => { window.location.reload(); }, 5000);
-    } else {
+
+    if (loginType === 'POPUP') {
       window.location.reload();
     }
   }
