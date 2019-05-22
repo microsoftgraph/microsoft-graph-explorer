@@ -47,21 +47,21 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async login() {
     AppComponent.explorerValues.authentication.status = 'authenticating';
-    this.changeDetectorRef.detectChanges();
+
     try {
       const loginSuccess = await login();
+
       if (loginSuccess) {
         this.displayUserProfile();
         this.setPermissions();
         localStorage.setItem('status', 'authenticated');
         this.changeDetectorRef.detectChanges();
       } else {
+
         AppComponent.explorerValues.authentication.status = 'anonymous';
-        this.changeDetectorRef.detectChanges();
       }
     } catch (error) {
       AppComponent.explorerValues.authentication.status = 'anonymous';
-      this.changeDetectorRef.detectChanges();
     }
   }
 

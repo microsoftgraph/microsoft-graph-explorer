@@ -7,7 +7,7 @@ const config = {
         clientId:  ClientId,
     },
     cache: {
-        cacheLocation: 'sessionStorage',
+        cacheLocation: 'localStorage',
         storeAuthStateInCookie: true,
     },
 };

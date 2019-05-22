@@ -149,5 +149,16 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'none',
         };
+
+        const authStatus = localStorage.getItem('status');
+
+        switch (authStatus) {
+            case 'authenticated':
+                AppComponent.explorerValues.authentication.status = 'authenticated';
+                break;
+            case 'anonymous':
+                AppComponent.explorerValues.authentication.status = 'anonymous';
+                break;
+        }
     }
 }
