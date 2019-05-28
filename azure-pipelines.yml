@@ -43,3 +43,11 @@ steps:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
     displayName: 'Stage'
 
+- task: YodLabs.O365PostMessage.O365PostMessageBuild.O365PostMessageBuild@0
+  displayName: 'Graph Client Tooling pipeline fail notification'
+  inputs:
+    addressType: serviceEndpoint
+    serviceEndpointName: 'microsoftgraph pipeline status'
+    title: '$(Build.DefinitionName) failure notification'
+    text: 'This pipeline has failed. View the build details for further information. This is a blocking failure. '
+  condition: failed()
