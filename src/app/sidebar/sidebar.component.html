@@ -15,7 +15,8 @@
     </div>
 
     <div *ngIf="displayCanary()" class="c-drawer">
-        <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="canaryDrawer">
+        <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true"
+            aria-controls="canaryDrawer">
             <span class="c-heading-5 panel-header">
                 <i class="ms-Icon ms-Icon--Coffee" aria-hidden="true"></i>{{getStr('Canary')}}</span>
         </button>
@@ -25,18 +26,21 @@
     </div>
 
     <div class="c-drawer">
-        <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer">
+        <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer" id="sample-query-btn">
             <span class="c-heading-5 panel-header">
-                <img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}" title="Image of a rocket that represents" />
+                <img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"
+                    title="Image of a rocket that represents" />
                 {{getStr('Sample Queries')}}</span>
         </button>
         <div id="refineDrawer" class="panel-content">
             <div id="sample-queries-scroll">
                 <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
                     <div>
-                        <span class="category-heading" [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
+                        <span class="category-heading"
+                            [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
                     </div>
-                    <query-row [query]="query" [category]="idifyCategory(category.title)" *ngFor="let query of category.queries"></query-row>
+                    <query-row [query]="query" [category]="idifyCategory(category.title)"
+                        *ngFor="let query of category.queries"></query-row>
                 </div>
             </div>
             <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">
@@ -44,7 +48,7 @@
         </div>
     </div>
     <div class="c-drawer">
-        <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer">
+        <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer" id="sample-history-btn">
             <span class="c-heading-5 panel-header">
                 <i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span>
         </button>

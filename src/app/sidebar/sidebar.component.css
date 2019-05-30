@@ -31,6 +31,7 @@ span#explorer-title {
 
 .c-drawer {
     padding-bottom: 5px;
+    background: #2f2f2f;
 }
 
 #explorer-sidebar .panel-header {
@@ -99,6 +100,14 @@ a#show-full-history {
 }
 a#show-full-history[hidden] {
     display: none;
+}
+
+#sample-query-btn {
+    background: #2F2F2F;
+}
+
+#sample-history-btn {
+    background: #2F2F2F;
 }
 
 @media (max-width: 639px) {
