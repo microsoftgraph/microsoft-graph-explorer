@@ -83,7 +83,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             elements: [this._httpMethodEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateHttpMethod();
-                event[0].Select.subscribe({
+                event[0].subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedOption = method.id;
 
@@ -99,7 +99,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             elements: [this._graphVersionEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateGraphVersionSelect();
-                event[0].Select.subscribe({
+                event[0].subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedVersion = document
                             .getElementById('-' + method.id).children[0].textContent as GraphApiVersion;
