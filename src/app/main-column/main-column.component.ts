@@ -83,7 +83,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             elements: [this._httpMethodEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateHttpMethod();
-                event[0].selectMenu.subscribe({
+                event[0].Select.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedOption = method.id;
 
@@ -99,7 +99,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             elements: [this._graphVersionEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateGraphVersionSelect();
-                event[0].selectMenu.subscribe({
+                event[0].Select.subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedVersion = document
                             .getElementById('-' + method.id).children[0].textContent as GraphApiVersion;
@@ -246,7 +246,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             return;
         }
 
-        const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.t.selectMenu;
+        const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.Select;
 
         let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
         if (graphVersionIdx === -1) {
@@ -285,7 +285,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             return;
         }
 
-        const httpMethodSelectMenu = httpMethodSelectMenuEl.mwfInstances.t.selectMenu;
+        const httpMethodSelectMenu = httpMethodSelectMenuEl.mwfInstances.Select.selectMenu;
 
         const elementIdxToSelect = httpMethodSelectMenu.items[Methods.indexOf(this.explorerValues.selectedOption)];
         httpMethodSelectMenu.onItemSelected(elementIdxToSelect);
