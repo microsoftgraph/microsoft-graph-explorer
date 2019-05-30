@@ -246,7 +246,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             return;
         }
 
-        const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.Select;
+        const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.Select.selectMenu;
 
         let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
         if (graphVersionIdx === -1) {
