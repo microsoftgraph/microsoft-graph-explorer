@@ -13,7 +13,7 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { QueryRunnerService } from '../query-runner.service';
 import { getGraphUrl } from '../util';
 
-declare let mwf: any;
+declare let mwfAutoInit: any;
 
 @Component({
     selector: 'main-column',
@@ -78,8 +78,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
     public ngAfterViewInit(): void {
         // Init httpMethod
-        mwf.ComponentFactory.create([{
-            component: mwf.Select,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.Select,
             elements: [this._httpMethodEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateHttpMethod();
@@ -94,8 +94,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
         }]);
 
         // Init Graph version selector
-        mwf.ComponentFactory.create([{
-            component: mwf.Select,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.Select,
             elements: [this._graphVersionEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateGraphVersionSelect();
@@ -112,8 +112,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
         initializeJsonViewer();
         initializeResponseHeadersViewer();
 
-        mwf.ComponentFactory.create([{
-            component: mwf.AutoSuggest,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.AutoSuggest,
             elements: [this._autoSuggestEl.element.nativeElement],
             callback: (autoSuggests) => {
                 if (autoSuggests && (autoSuggests.length > 0)) {
