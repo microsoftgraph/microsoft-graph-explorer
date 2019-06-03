@@ -16,7 +16,7 @@ export class GraphExplorerComponent {
   public explorerValues = AppComponent.explorerValues;
 
   public getStr(label: string): string {
-    return getString(AppComponent.Options, label) || '*****' + label ;
+    return getString(AppComponent.Options, label) || '*****' + label;
   }
 
   public getAssetPath(relPath: string): string {
@@ -25,11 +25,11 @@ export class GraphExplorerComponent {
 
   // Used in sidebar and panel
   public getRequestHistory = (limit?: number): IGraphApiCall[] => {
-      if (limit) {
-        return AppComponent.requestHistory.slice(0, limit);
-      }
+    if (limit) {
+      return AppComponent.requestHistory.slice(0, limit);
+    }
 
-      return AppComponent.requestHistory;
+    return AppComponent.requestHistory;
   }
 
   public isAuthenticated() {
@@ -44,20 +44,20 @@ export class GraphExplorerComponent {
 
     QueryRunnerService.clearResponse();
 
-      // Copy the sample query or history item so we're not changing history/samples
+    // Copy the sample query or history item so we're not changing history/samples
     const query: ISampleQuery = jQuery.extend(true, {}, originalQuery);
     substituteTokens(query);
 
-      // Set the endpoint url. if it's a relative path, add the configured graph URL
+    // Set the endpoint url. if it's a relative path, add the configured graph URL
     AppComponent.explorerValues.endpointUrl = query.requestUrl.startsWith('https://') ? query.requestUrl :
       getGraphUrl() + query.requestUrl;
     AppComponent.explorerValues.selectedOption = query.method;
 
     if (query.headers) { // tslint:disable-line
-        AppComponent.explorerValues.headers = query.headers;
-      } else {
-        AppComponent.explorerValues.headers = [];
-      }
+      AppComponent.explorerValues.headers = query.headers;
+    } else {
+      AppComponent.explorerValues.headers = [];
+    }
 
     this.shouldEndWithOneEmptyHeader();
 
@@ -91,14 +91,14 @@ export class GraphExplorerComponent {
   }
 
   public addEmptyHeader() {
-      AppComponent.explorerValues.headers.push({
-          name: '',
-          value: '',
-      });
+    AppComponent.explorerValues.headers.push({
+      name: '',
+      value: '',
+    });
   }
 
   public getLastHeader(): IGraphRequestHeader {
-      return this.explorerValues.headers[this.explorerValues.headers.length - 1];
+    return this.explorerValues.headers[this.explorerValues.headers.length - 1];
   }
 
 }
