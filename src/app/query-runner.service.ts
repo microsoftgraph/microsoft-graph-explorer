@@ -166,8 +166,10 @@ export class QueryRunnerService {
       icon: this.isSuccessful(query) ? 'ms-Icon--Completed' : 'ms-Icon--ErrorBadge',
     };
 
-    const queries = ['/v1.0/me/', '/v1.0/users/'];
-    const hasQuery = queries.indexOf(query.requestUrl);
+    const queryRegx = /(\/v1\.0\/)(me\/)|(user\/)/;
+    const hasQuery = queryRegx.test(query.requestUrl);
+    console.log(query.requestUrl)
+    console.log(hasQuery);
     const isGET = query.method === 'GET';
 
     if (this.isSuccessful(query) && hasQuery && isGET) {
