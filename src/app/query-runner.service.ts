@@ -21,7 +21,6 @@ export class QueryRunnerService {
     getJsonViewer().getSession().setValue('');
 
     AppComponent.explorerValues.showImage = false;
-    AppComponent.messageBarContent = null;
   }
 
   constructor(private graphService: GraphService) { }
@@ -56,7 +55,7 @@ export class QueryRunnerService {
       try {
         this.handleSuccessfulQueryResponse(res, query);
       } catch (e) {
-        AppComponent.messageBarContent = {
+        AppComponent.requestStatus = {
           text: getString(AppComponent.Options, 'explorer-error'),
           backgroundClass: 'ms-MessageBar--error',
           icon: 'ms-Icon--ErrorBadge',
@@ -161,11 +160,19 @@ export class QueryRunnerService {
     query.duration = (new Date()).getTime() - query.requestSentAt.getTime();
     query.statusCode = res.status;
 
-    AppComponent.messageBarContent = {
+    AppComponent.requestStatus = {
       text: this.createTextSummary(query),
       backgroundClass: this.isSuccessful(query) ? 'ms-MessageBar--success' : 'ms-MessageBar--error',
       icon: this.isSuccessful(query) ? 'ms-Icon--Completed' : 'ms-Icon--ErrorBadge',
     };
+
+    const queries = ['/v1.0/me/', '/v1.0/users/'];
+    const hasQuery = queries.indexOf(query.requestUrl);
+    const isGET = query.method === 'GET';
+
+    if (this.isSuccessful(query) && hasQuery && isGET) {
+      this.displayTipMessage('Use $select for additional properties');
+    }
 
     // Telemetry data points.
     const dataPoints: any[] = [query.statusCode];
@@ -210,6 +217,14 @@ export class QueryRunnerService {
 
   public isSuccessful(query: IGraphApiCall) {
     return query.statusCode >= 200 && query.statusCode < 300;
+  }
+
+  public displayTipMessage(tip: string = '') {
+    AppComponent.tip = {
+      backgroundClass: 'ms-MessageBar--warning',
+      icon: 'ms-Icon--Info',
+      text: tip,
+    };
   }
 
   private createHarPayload(query: IGraphApiCall, res: Response) {

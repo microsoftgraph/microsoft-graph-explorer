@@ -48,7 +48,22 @@
 <request-editors></request-editors>
 <div id="spacer-1"></div>
 
-<message-bar [message]="messageBarContent()"></message-bar>
+<message-bar [message]="requestStatus()"></message-bar>
+
+<!--
+This message-bar is shown to users when they query the following samples
+GET ../v1.0/me
+GET ../v1.0/users
+GET ../v1.0/users/{id}
+
+Because even with documentation, developers still think that /v1.0/me and /v1.0/users is not GA because it has only a subset of
+the properties that are in /beta. However v1.0 has all the same properties, but has a "default properties" behavior.
+For all other properties developers need to use $select.
+
+This message bar informs developers that they need to use $select to get non-default properties.
+-->
+<message-bar [message]="tipMessage()"></message-bar>
+
 <!-- response -->
 <div class="ms-Pivot" id="response-viewer-labels" tabindex="0">
     <ul class="ms-Pivot-links" role="tablist">

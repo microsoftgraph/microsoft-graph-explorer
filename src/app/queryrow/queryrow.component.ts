@@ -71,11 +71,11 @@ export class QueryRowComponent extends GraphExplorerComponent {
         }
     }
 
-    public displayTipMessage() {
-        AppComponent.messageBarContent = {
+    public displayTipMessage(tip: string = '') {
+        AppComponent.tip = {
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'ms-Icon--Info',
-            text: this.query.tip,
+            text: tip || this.query.tip,
         };
     }
 }

@@ -39,7 +39,9 @@ declare let moment;
 })
 export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
 
-    public static messageBarContent: IMessageBarContent;
+    public static tip: IMessageBarContent;
+    public static requestStatus: IMessageBarContent;
+
     public static _changeDetectionRef: ChangeDetectorRef; // tslint:disable-line
     public static message: IMessage;
 
@@ -139,8 +141,11 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         AppComponent.explorerValues.endpointUrl = getGraphUrl()
             + `/${(getParameterByName('version') || 'v1.0')}/${getParameterByName('request') || 'me/'}`;
 
-        // Show the Microsoft Graph TOU when we load GE.
-        AppComponent.messageBarContent = {
+        /**
+         * Shows useful information to the user.
+         * By default, it shows Microsoft TOU.
+         */
+        AppComponent.tip = {
             text: this.getLocalisedString('use the Microsoft Graph API') +
                 '<br><br><a class=\'link\' href=\'https://aka.ms/msgraphtou\' ' +
                 'target=\'_blank\'>' + this.getLocalisedString('Terms of use') + '</a><br>' +
@@ -149,6 +154,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'none',
         };
+
+        AppComponent.requestStatus = null;
 
         const authStatus = localStorage.getItem('status');
 

@@ -36,8 +36,12 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
         super();
     }
 
-    public messageBarContent(): IMessageBarContent {
-        return AppComponent.messageBarContent;
+    public tipMessage(): IMessageBarContent {
+        return AppComponent.tip;
+    }
+
+    public requestStatus(): IMessageBarContent {
+        return AppComponent.requestStatus;
     }
 
     public ngDoCheck() {
