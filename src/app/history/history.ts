@@ -12,7 +12,7 @@ export function saveHistoryToLocalStorage(requestHistory: IGraphApiCall[]) {
     try {
         localStorage.setItem(LocalStorageKeyGraphRequestHistory, JSON.stringify(requestHistory));
     } catch (e) {
-        AppComponent.messageBarContent = {
+        AppComponent.tip = {
             backgroundClass: 'ms-MessageBar--warning',
             icon: 'ms-Icon--Info',
             text: 'You have reached the browser storage limit,' +
@@ -21,7 +21,7 @@ export function saveHistoryToLocalStorage(requestHistory: IGraphApiCall[]) {
     }
 }
 
-export function deleteHistoryFromLocalStorage() {
+export function deleteHistoryFromLocalStoraFge() {
     localStorage.setItem(LocalStorageKeyGraphRequestHistory, JSON.stringify([]));
 }
 
