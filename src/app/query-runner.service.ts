@@ -166,10 +166,14 @@ export class QueryRunnerService {
       icon: this.isSuccessful(query) ? 'ms-Icon--Completed' : 'ms-Icon--ErrorBadge',
     };
 
-    const queryRegx = /(\/v1\.0\/)(me\/)|(user\/)/;
-    const hasQuery = queryRegx.test(query.requestUrl);
-    console.log(query.requestUrl)
-    console.log(hasQuery);
+    const queries = [
+      'https://graph.microsoft.com/v1.0/me/',
+      'https://graph.microsoft.com/v1.0/user/',
+    ];
+
+    const hasQuery = queries[0].match(query.requestUrl) ||
+      queries[1].match(query.requestUrl);
+
     const isGET = query.method === 'GET';
 
     if (this.isSuccessful(query) && hasQuery && isGET) {
