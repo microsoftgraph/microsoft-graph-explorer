@@ -48,7 +48,7 @@
 <request-editors></request-editors>
 <div id="spacer-1"></div>
 
-<message-bar [message]="requestStatus()"></message-bar>
+<message-bar *ngIf="requestStatus()" [message]="requestStatus()"></message-bar>
 
 <!--
 This message-bar is shown to users when they query the following samples
@@ -62,6 +62,7 @@ For all other properties developers need to use $select.
 
 This message bar informs developers that they need to use $select to get non-default properties.
 -->
+
 <message-bar [message]="tipMessage()"></message-bar>
 
 <!-- response -->
