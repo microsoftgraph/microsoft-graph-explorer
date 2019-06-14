@@ -61,6 +61,14 @@ button#auth-drawer-button {
     background: #2f2f2f !important;
 }
 
+#auth-drawer-canary-button:after{
+    content:none;
+}
+
+button#auth-drawer-canary-button {
+    background: #2f2f2f !important;
+}
+
 .arrow-left {
     border-top: 18px solid transparent;
     border-bottom: 18px solid transparent;
