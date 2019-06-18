@@ -4,7 +4,7 @@ import { AppComponent } from '../app.component';
 const { ClientId } = (window as any);
 const config = {
     auth: {
-        clientId:  ClientId,
+        clientId: ClientId,
     },
     cache: {
         cacheLocation: 'localStorage',
@@ -12,7 +12,6 @@ const config = {
     },
 };
 const app = new Msal.UserAgentApplication((config as any));
-const loginType = getLoginType();
 
 // Register Callbacks for redirect flow
 app.handleRedirectCallbacks(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
@@ -24,25 +23,15 @@ export function logout() {
 export async function login() {
     const loginRequest = {
         scopes: generateUserScopes(),
-        prompt:  'select_account',
+        prompt: 'select_account',
     };
 
-    if (loginType === 'POPUP') {
-        try {
-            const response = await app.loginPopup(loginRequest);
-            return response;
-        } catch (error) {
-            // tslint:disable-next-line
-            console.log(error);
-        }
-    } else if (loginType === 'REDIRECT') {
-        try {
-            const response = await app.loginRedirect(loginRequest);
-            return response;
-        } catch (error) {
-            // tslint:disable-next-line
-            console.log(error);
-        }
+    try {
+        const response = await app.loginRedirect(loginRequest);
+        return response;
+    } catch (error) {
+        // tslint:disable-next-line
+        console.log(error);
     }
 }
 
@@ -53,7 +42,7 @@ export async function getTokenSilent(scopes: any = []) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenSilent({scopes: generateUserScopes(listOfScopes)});
+        const response = await app.acquireTokenSilent({ scopes: generateUserScopes(listOfScopes) });
         if (response.accessToken) {
             return response;
         }
@@ -70,24 +59,11 @@ export async function acquireNewAccessToken(scopes: string[] = []) {
         listOfScopes = scopes;
     }
     try {
-        if (loginType === 'POPUP') {
-            try {
-                const response = await app.acquireTokenPopup({scopes: generateUserScopes(listOfScopes)});
-                if (response) {
-                    return response;
-                }
-                return null;
-            } catch (error) {
-                return null;
-            }
-        } else if (loginType === 'REDIRECT') {
-            try {
-                app.acquireTokenRedirect({scopes: generateUserScopes(listOfScopes)});
-            } catch (error) {
-                return null;
-            }
+        try {
+            app.acquireTokenRedirect({ scopes: generateUserScopes(listOfScopes) });
+        } catch (error) {
+            return null;
         }
-        return null;
     } catch (error) {
         return null;
     }
@@ -115,21 +91,21 @@ export async function getScopes() {
 export function generateUserScopes(userScopes = AppComponent.Options.DefaultUserScopes) {
     const graphMode = JSON.parse(localStorage.getItem('GRAPH_MODE'));
     if (graphMode === null) {
-      return userScopes;
+        return userScopes;
     }
     const graphUrl = localStorage.getItem('GRAPH_URL');
     const reducedScopes = userScopes.reduce((newScopes, scope) => {
-      if (scope === 'openid' || scope === 'profile') {
-        return newScopes += scope + ' ';
-      }
-      return newScopes += graphUrl + '/' + scope + ' ';
+        if (scope === 'openid' || scope === 'profile') {
+            return newScopes += scope + ' ';
+        }
+        return newScopes += graphUrl + '/' + scope + ' ';
     }, '');
 
     const scopes = reducedScopes.split(' ').filter((scope) => {
         return scope !== '';
     });
     return scopes;
-  }
+}
 
 function requiresInteraction(errorCode) {
     if (!errorCode || !errorCode.length) {
@@ -146,7 +122,7 @@ function acquireTokenRedirectCallBack(response) {
     }
 }
 
-function  acquireTokenErrorRedirectCallBack(error) {
+function acquireTokenErrorRedirectCallBack(error) {
     // tslint:disable-next-line:no-console
     console.log(error);
 }
