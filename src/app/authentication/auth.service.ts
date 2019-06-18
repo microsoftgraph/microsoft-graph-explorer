@@ -14,7 +14,7 @@ const config = {
 const app = new Msal.UserAgentApplication((config as any));
 
 // Register Callbacks for redirect flow
-app.handleRedirectCallbacks(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
+app.handleRedirectCallback(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
 
 export function logout() {
     app.logout();
