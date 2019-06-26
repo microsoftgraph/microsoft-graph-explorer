@@ -1,6 +1,7 @@
+import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
-const { ClientId, Msal } = (window as any);
+const { ClientId } = (window as any);
 const config = {
     auth: {
         clientId: ClientId,
