@@ -1,15 +1,13 @@
 import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
-const { ClientId, InstrumentationKey, appInsights } = (window as any);
-
-appInsights.loadAppInsights();
+const { ClientId, appInsights } = (window as any);
 
 function loggerCallback(logLevel: string, message: string, containsPii: boolean) {
     appInsights.trackEvent('GE-Classic: MSAL Error', message);
 }
 
-const config = {
+const config: any = {
     auth: {
         clientId: ClientId,
     },
@@ -24,7 +22,7 @@ const config = {
         },
     },
 };
-const app = new Msal.UserAgentApplication((config as any));
+const app = new Msal.UserAgentApplication(config);
 
 // Register Callbacks for redirect flow
 app.handleRedirectCallback(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
