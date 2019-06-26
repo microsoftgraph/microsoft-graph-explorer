@@ -21,6 +21,11 @@ describe('Graph structural tests', () => {
     graphService = TestBed.get(GraphService);
   });
 
+  // tslint:disable-next-line
+  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
+    graphService = _graphService;
+  }));
+
   for (const version of GraphApiVersions) {
     it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`,
         (done) => {
