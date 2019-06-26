@@ -1,7 +1,14 @@
 import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
-const { ClientId } = (window as any);
+const { ClientId, InstrumentationKey, appInsights } = (window as any);
+
+appInsights.loadAppInsights();
+
+function loggerCallback(logLevel: string, message: string, containsPii: boolean) {
+    appInsights.trackEvent('GE-Classic: MSAL Error', message);
+}
+
 const config = {
     auth: {
         clientId: ClientId,
@@ -9,6 +16,12 @@ const config = {
     cache: {
         cacheLocation: 'localStorage',
         storeAuthStateInCookie: true,
+    },
+    system: {
+        logger: {
+            localCallback: loggerCallback,
+            level: Msal.LogLevel.Error,
+        },
     },
 };
 const app = new Msal.UserAgentApplication((config as any));
