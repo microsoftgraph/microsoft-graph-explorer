@@ -74,6 +74,7 @@ describe('Graph structural tests', () => {
 
   it('https://graph.microsoft.com/beta/me/photos/ => [user] -> [profilePhoto collection]', () => {
     const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/photos/');
+
     expect(links.length).toBe(2);
 
     expect(links[0].type).toBe('microsoft.graph.user');
