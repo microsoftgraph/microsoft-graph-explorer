@@ -89,6 +89,23 @@ export function isAccountExpired() {
     return true;
 }
 
+export async function acquireNewAccessToken(scopes: string[] = []) {
+  const hasScopes = (scopes.length > 0);
+  let listOfScopes = AppComponent.Options.DefaultUserScopes;
+  if (hasScopes) {
+    listOfScopes = scopes;
+  }
+  try {
+    try {
+      app.acquireTokenRedirect({ scopes: generateUserScopes(listOfScopes) });
+    } catch (error) {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function getScopes() {
     let scopes = [];
     try {
