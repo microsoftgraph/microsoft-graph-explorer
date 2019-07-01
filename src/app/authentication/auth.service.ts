@@ -6,7 +6,7 @@ const { ClientId, appInsights, instrumentationKey } = (window as any);
 function loggerCallback(level: LogLevel, message: string) {
     // Track appInsight's events when the instrumentation key is defined
     if (instrumentationKey !== undefined) {
-        appInsights.trackEvent('GE-Classic: MSAL Error', message);
+        appInsights.trackEvent('GE-Classic: MSAL', message);
     }
 }
 const logger = new Logger(loggerCallback, { level: LogLevel.Verbose, correlationId: '1234'});
@@ -26,7 +26,7 @@ const config: any = {
 const app = new UserAgentApplication(config);
 
 // Register Callbacks for redirect flow
-app.handleRedirectCallback(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
+app.handleRedirectCallbacks(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
 
 export function logout() {
     app.logout();
