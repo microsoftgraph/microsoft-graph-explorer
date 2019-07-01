@@ -13,9 +13,9 @@ import {
   TestBed,
 } from '@angular/core/testing'; // tslint:disable-line
 
-import { localLogout } from '../authentication/auth';
 import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from '../base';
-import { GraphService } from '../graph-service';
+import { localLogout } from './../authentication/auth';
+import { GraphService } from './../graph-service';
 import { SampleQueries } from './gen-queries';
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
@@ -41,7 +41,7 @@ function convertHeaders(graphRequestHeaders: IGraphRequestHeader[]): Headers {
 
 let graphService: GraphService;
 describe('Sample query validation', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     localLogout();
 
     TestBed.configureTestingModule({
@@ -50,11 +50,6 @@ describe('Sample query validation', () => {
     });
     graphService = TestBed.get(GraphService);
   });
-
-  // tslint:disable-next-line
-  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
-    graphService = _graphService;
-  }));
 
   for (const query of SampleQueries) {
     it(`${query.humanName}: Doc link should exist and match request version`, () => {
@@ -120,11 +115,11 @@ describe('Sample query validation', () => {
           }
           done();
         }).catch((e: Response) => {
-          if (e.status < 500) {
-            done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
-          }
-          done();
-        });
+        if (e.status < 500) {
+          done.fail(`${query.humanName}: Can't execute sample GET request, ${e.status}, ${JSON.stringify(e.json())}`);
+        }
+        done();
+      });
     });
   }
 });

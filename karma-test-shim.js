@@ -4,12 +4,12 @@ Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 // Uncomment to get full stacktrace output. Sometimes helpful, usually not.
 // Error.stackTraceLimit = Infinity; //
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000*18; // We are getting random timeouts at 10 sec, increasing to 15 seconds.
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000*15; // We are getting random timeouts at 10 sec, increasing to 15 seconds.
 
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is 'src/')
-var builtPaths = (['src/compiler-output/app/'])
-                 .map(function(p) { return '/base/'+p;});
+var builtPaths = (__karma__.config.builtPaths || ['src/'])
+  .map(function(p) { return '/base/'+p;});
 
 __karma__.loaded = function () { };
 
@@ -24,9 +24,9 @@ function isSpecFile(path) {
 // Is a "built" file if is JavaScript file in one of the "built" folders
 function isBuiltFile(path) {
   return isJsFile(path) &&
-         builtPaths.reduce(function(keep, bp) {
-           return keep || (path.substr(0, bp.length) === bp);
-         }, false);
+    builtPaths.reduce(function(keep, bp) {
+      return keep || (path.substr(0, bp.length) === bp);
+    }, false);
 }
 
 var allSpecFiles = Object.keys(window.__karma__.files)
@@ -63,12 +63,12 @@ System.import('systemjs.config.js')
 /** Optional SystemJS configuration extras. Keep going w/o it */
 function importSystemJsExtras(){
   return System.import('systemjs.config.extras.js')
-  .catch(function(reason) {
-    console.log(
-      'Warning: System.import could not load the optional "systemjs.config.extras.js". Did you omit it by accident? Continuing without it.'
-    );
-    console.log(reason);
-  });
+    .catch(function(reason) {
+      console.log(
+        'Warning: System.import could not load the optional "systemjs.config.extras.js". Did you omit it by accident? Continuing without it.'
+      );
+      console.log(reason);
+    });
 }
 
 function initTestBed(){
@@ -77,14 +77,14 @@ function initTestBed(){
     System.import('@angular/platform-browser-dynamic/testing')
   ])
 
-  .then(function (providers) {
-    var coreTesting    = providers[0];
-    var browserTesting = providers[1];
+    .then(function (providers) {
+      var coreTesting    = providers[0];
+      var browserTesting = providers[1];
 
-    coreTesting.TestBed.initTestEnvironment(
-      browserTesting.BrowserDynamicTestingModule,
-      browserTesting.platformBrowserDynamicTesting());
-  })
+      coreTesting.TestBed.initTestEnvironment(
+        browserTesting.BrowserDynamicTestingModule,
+        browserTesting.platformBrowserDynamicTesting());
+    })
 }
 
 // Import all spec files and start karma
@@ -94,5 +94,5 @@ function initTesting () {
       return System.import(moduleName);
     })
   )
-  .then(__karma__.start, __karma__.error);
+    .then(__karma__.start, __karma__.error);
 }
