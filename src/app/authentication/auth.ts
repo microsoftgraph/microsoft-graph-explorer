@@ -5,7 +5,7 @@
 
 import { AppComponent } from '../app.component';
 import { deleteHistoryFromLocalStorage } from '../history/history';
-import { getTokenSilent } from './auth.service';
+import { getTokenSilent, isAccountExpired } from './auth.service';
 
 export async function haveValidAccessToken() {
   const token = await getTokenSilent();
@@ -26,7 +26,7 @@ export function localLogout() {
 
 export async function checkHasValidAuthToken() {
   const valid = await haveValidAccessToken();
-  const authenticated = isAuthenticated();
+  const authenticated = isAccountExpired();
   if (!valid && authenticated) {
     localLogout();
   }
