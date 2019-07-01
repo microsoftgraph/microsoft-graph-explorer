@@ -12,7 +12,7 @@ import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
 import { haveValidAccessToken, localLogout } from './auth';
-import { getScopes, login, logout } from './auth.service';
+import { getScopes, getTokenSilent, isAccountExpired, login, logout } from './auth.service';
 
 @Component({
   selector: 'authentication',
@@ -30,15 +30,24 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   public async ngOnInit() {
-    AppComponent.explorerValues.authentication.status = 'authenticating';
-    const valid = await haveValidAccessToken();
-    if (valid) {
-      AppComponent.explorerValues.authentication.status = 'authenticated';
-      this.displayUserProfile();
-      this.setPermissions();
-    } else {
-      AppComponent.explorerValues.authentication.status = 'anonymous';
+    AppComponent.explorerValues.authentication.status = 'anonymous';
+    const accountHasExpired = isAccountExpired();
+    if (accountHasExpired) {
+      return AppComponent.explorerValues.authentication.status = 'anonymous';
     }
+
+    AppComponent.explorerValues.authentication.status = 'authenticating';
+
+    return getTokenSilent()
+      .then(() => {
+        AppComponent.explorerValues.authentication.status = 'authenticated';
+        this.displayUserProfile();
+        this.setPermissions();
+      }).catch((error) => {
+        // tslint:disable-next-line
+        console.log(error);
+        AppComponent.explorerValues.authentication.status = 'anonymous';
+      });
   }
 
   public sanitize(url: string): SafeUrl {
@@ -49,17 +58,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     AppComponent.explorerValues.authentication.status = 'authenticating';
 
     try {
-      const loginSuccess = await login();
-
-      if (loginSuccess) {
-        this.displayUserProfile();
-        this.setPermissions();
-        localStorage.setItem('status', 'authenticated');
-        this.changeDetectorRef.detectChanges();
-      } else {
-
-        AppComponent.explorerValues.authentication.status = 'anonymous';
-      }
+        await login();
     } catch (error) {
       AppComponent.explorerValues.authentication.status = 'anonymous';
     }
