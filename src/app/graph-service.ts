@@ -6,7 +6,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { getTokenSilent } from './authentication/auth.service';
 import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
