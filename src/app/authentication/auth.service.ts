@@ -1,11 +1,12 @@
-import * as Msal from 'msal';
+import { Logger, LogLevel, UserAgentApplication } from 'msal';
 import { AppComponent } from '../app.component';
 
 const { ClientId, appInsights } = (window as any);
 
-function loggerCallback(logLevel: string, message: string, containsPii: boolean) {
+function loggerCallback(level: LogLevel, message: string) {
     appInsights.trackEvent('GE-Classic: MSAL Error', message);
 }
+const logger = new Logger(loggerCallback, { level: LogLevel.Verbose, correlationId: '1234'});
 
 const config: any = {
     auth: {
@@ -16,13 +17,10 @@ const config: any = {
         storeAuthStateInCookie: true,
     },
     system: {
-        logger: {
-            localCallback: loggerCallback,
-            level: Msal.LogLevel.Error,
-        },
+        logger,
     },
 };
-const app = new Msal.UserAgentApplication(config);
+const app = new UserAgentApplication(config);
 
 // Register Callbacks for redirect flow
 app.handleRedirectCallback(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
