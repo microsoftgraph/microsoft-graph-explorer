@@ -16,7 +16,7 @@ const config: any = {
         clientId: ClientId,
     },
     cache: {
-        cacheLocation: 'sessionStorage',
+        cacheLocation: 'localStorage',
         storeAuthStateInCookie: true,
     },
     system: {
@@ -79,8 +79,14 @@ export async function getTokenSilent(scopes: any = []) {
 }
 
 export function isAccountExpired() {
-    const { idToken }: any = app.getAccount();
-    return idToken.exp < (Date.now() / 1000);
+    const account = app.getAccount();
+
+    if (account) {
+        const { idToken }: any = account;
+        return idToken.exp < (Date.now() / 1000);
+    }
+
+    return true;
 }
 
 export async function getScopes() {
