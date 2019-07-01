@@ -1,10 +1,13 @@
 import { Logger, LogLevel, UserAgentApplication } from 'msal';
 import { AppComponent } from '../app.component';
 
-const { ClientId, appInsights } = (window as any);
+const { ClientId, appInsights, instrumentationKey } = (window as any);
 
 function loggerCallback(level: LogLevel, message: string) {
-    appInsights.trackEvent('GE-Classic: MSAL Error', message);
+    // Track appInsight's events when the instrumentation key is defined
+    if (instrumentationKey !== undefined) {
+        appInsights.trackEvent('GE-Classic: MSAL Error', message);
+    }
 }
 const logger = new Logger(loggerCallback, { level: LogLevel.Verbose, correlationId: '1234'});
 
