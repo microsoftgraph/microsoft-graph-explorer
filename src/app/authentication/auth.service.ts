@@ -1,7 +1,17 @@
 import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
-const { ClientId } = (window as any);
+const { ClientId, appInsights } = (window as any);
+
+const loggerCallback = (level: Msal.LogLevel, message: string): void => {
+    collectLogs(message);
+};
+
+const collectLogs = (message: string): void => {
+    appInsights.trackEvent('MSAL Error', message);
+};
+
+const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose, correlationId: '1234' });
 const config = {
     auth: {
         clientId:  ClientId,
@@ -10,7 +20,9 @@ const config = {
         cacheLocation: 'localStorage',
         storeAuthStateInCookie: true,
     },
+    system: { logger },
 };
+
 const app = new Msal.UserAgentApplication((config as any));
 const loginType = getLoginType();
 
@@ -32,6 +44,7 @@ export async function login() {
             const response = await app.loginPopup(loginRequest);
             return response;
         } catch (error) {
+            collectLogs(error.message);
             // tslint:disable-next-line
             console.log(error);
         }
@@ -40,6 +53,8 @@ export async function login() {
             const response = await app.loginRedirect(loginRequest);
             return response;
         } catch (error) {
+            collectLogs(error.message);
+
             // tslint:disable-next-line
             console.log(error);
         }
@@ -59,6 +74,7 @@ export async function getTokenSilent(scopes: any = []) {
         }
         return null;
     } catch (error) {
+        collectLogs(error.message);
         return null;
     }
 }
@@ -78,17 +94,20 @@ export async function acquireNewAccessToken(scopes: string[] = []) {
                 }
                 return null;
             } catch (error) {
+                collectLogs(error.message);
                 return null;
             }
         } else if (loginType === 'REDIRECT') {
             try {
                 app.acquireTokenRedirect({scopes: generateUserScopes(listOfScopes)});
             } catch (error) {
+                collectLogs(error.message);
                 return null;
             }
         }
         return null;
     } catch (error) {
+        collectLogs(error.message);
         return null;
     }
 }
@@ -101,6 +120,7 @@ export async function getScopes() {
             scopes = response.scopes;
         }
     } catch (error) {
+        collectLogs(error.message);
         return scopes;
     }
     if (scopes.length > 0) {
@@ -147,6 +167,8 @@ function acquireTokenRedirectCallBack(response) {
 }
 
 function  acquireTokenErrorRedirectCallBack(error) {
+    collectLogs(error.message);
+
     // tslint:disable-next-line:no-console
     console.log(error);
 }
