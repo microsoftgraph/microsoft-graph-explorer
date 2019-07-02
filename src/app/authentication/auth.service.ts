@@ -7,7 +7,7 @@ const loggerCallback = (level: Msal.LogLevel, message: string): void => {
     collectLogs(message);
 };
 
-const collectLogs = (message: string): void => {
+export const collectLogs = (message: string): void => {
     appInsights.trackEvent('MSAL Error', message);
 };
 

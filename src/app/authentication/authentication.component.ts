@@ -12,7 +12,7 @@ import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
 import { haveValidAccessToken, localLogout } from './auth';
-import { getScopes, login, logout } from './auth.service';
+import { collectLogs, getScopes, login, logout  } from './auth.service';
 
 @Component({
   selector: 'authentication',
@@ -61,6 +61,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         AppComponent.explorerValues.authentication.status = 'anonymous';
       }
     } catch (error) {
+      collectLogs(error.message);
       AppComponent.explorerValues.authentication.status = 'anonymous';
     }
   }
@@ -108,12 +109,14 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
         AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
       } catch (e) {
+        collectLogs(e.message);
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
       }
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.changeDetectorRef.detectChanges();
 
     } catch (e) {
+      collectLogs(e.message);
       localLogout();
     }
   }
