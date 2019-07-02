@@ -13,7 +13,7 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { QueryRunnerService } from '../query-runner.service';
 import { getGraphUrl } from '../util';
 
-declare let mwf: any;
+declare let mwfAutoInit: any;
 
 @Component({
     selector: 'main-column',
@@ -78,12 +78,12 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
     public ngAfterViewInit(): void {
         // Init httpMethod
-        mwf.ComponentFactory.create([{
-            component: mwf.Select,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.Select,
             elements: [this._httpMethodEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateHttpMethod();
-                event[0].selectMenu.subscribe({
+                event[0].subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedOption = method.id;
 
@@ -94,12 +94,12 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
         }]);
 
         // Init Graph version selector
-        mwf.ComponentFactory.create([{
-            component: mwf.Select,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.Select,
             elements: [this._graphVersionEl.element.nativeElement],
             callback: (event: any) => {
                 this.updateGraphVersionSelect();
-                event[0].selectMenu.subscribe({
+                event[0].subscribe({
                     onSelectionChanged: (method) => {
                         this.explorerValues.selectedVersion = document
                             .getElementById('-' + method.id).children[0].textContent as GraphApiVersion;
@@ -112,8 +112,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
         initializeJsonViewer();
         initializeResponseHeadersViewer();
 
-        mwf.ComponentFactory.create([{
-            component: mwf.AutoSuggest,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.AutoSuggest,
             elements: [this._autoSuggestEl.element.nativeElement],
             callback: (autoSuggests) => {
                 if (autoSuggests && (autoSuggests.length > 0)) {
@@ -246,7 +246,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             return;
         }
 
-        const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.t.selectMenu;
+        const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.Select.selectMenu;
 
         let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
         if (graphVersionIdx === -1) {
@@ -285,7 +285,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             return;
         }
 
-        const httpMethodSelectMenu = httpMethodSelectMenuEl.mwfInstances.t.selectMenu;
+        const httpMethodSelectMenu = httpMethodSelectMenuEl.mwfInstances.Select.selectMenu;
 
         const elementIdxToSelect = httpMethodSelectMenu.items[Methods.indexOf(this.explorerValues.selectedOption)];
         httpMethodSelectMenu.onItemSelected(elementIdxToSelect);
