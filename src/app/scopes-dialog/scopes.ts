@@ -748,6 +748,13 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
 },
 {
+    name: 'Places.Read.All',
+    description: 'Allows the app to read company places.',
+    longDescription: 'Allows the app to read company places (Conf Rooms and Room Lists) for calendar events and other applications.',
+    preview: true,
+    admin: true
+},
+{
     name: 'InformationProtectionPolicy.Read',
     description: 'Read user labels and label policies',
     longDescription: 'Allows an app to read Microsoft Information Protection sensitivity labels and label policy settings for which the user is in scope.',
