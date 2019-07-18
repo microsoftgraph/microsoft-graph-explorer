@@ -5,6 +5,7 @@
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { acquireNewAccessToken, getLoginType } from '../authentication/auth.service';
+import { app } from '../authentication/msal-user-agent';
 import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
@@ -159,7 +160,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
 
-    await acquireNewAccessToken(selectedScopes);
+    await acquireNewAccessToken(app, selectedScopes);
 
     if (loginType === 'POPUP') {
       window.location.reload();

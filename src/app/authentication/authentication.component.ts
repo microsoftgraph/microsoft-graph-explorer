@@ -13,7 +13,8 @@ import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
 import { haveValidAccessToken, localLogout } from './auth';
-import { acquireNewAccessToken, collectLogs, getMsalUserAgentApp, login, logout } from './auth.service';
+import { acquireNewAccessToken, collectLogs, login, logout } from './auth.service';
+import { app } from './msal-user-agent';
 
 @Component({
   selector: 'authentication',
@@ -24,23 +25,19 @@ import { acquireNewAccessToken, collectLogs, getMsalUserAgentApp, login, logout 
 export class AuthenticationComponent extends GraphExplorerComponent {
 
   public authInfo = this.explorerValues.authentication;
-  private app: UserAgentApplication;
 
   constructor(private sanitizer: DomSanitizer, private apiService: GraphService,
               private changeDetectorRef: ChangeDetectorRef) {
     super();
-    this.app = getMsalUserAgentApp();
     this.acquireTokenCallBack = this.acquireTokenCallBack.bind(this);
   }
 
   public async ngOnInit() {
-
     // Register Callbacks for redirect flow
-    this.app.handleRedirectCallbacks(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
-
+    app.handleRedirectCallbacks(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
     AppComponent.explorerValues.authentication.status = 'authenticating';
-    if (this.app.getAccount()) {
-      await acquireNewAccessToken(this.app)
+    if (app.getAccount()) {
+      await acquireNewAccessToken(app)
         .then(this.acquireTokenCallBack)
         .catch(this.acquireTokenErrorCallBack);
     } else {
@@ -54,7 +51,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async login() {
     AppComponent.explorerValues.authentication.status = 'authenticating';
-    await login(this.app).then(this.acquireTokenCallBack)
+    await login(app).then(this.acquireTokenCallBack)
       .catch(this.acquireTokenErrorCallBack);
   }
 
@@ -115,11 +112,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   private acquireTokenCallBack(response) {
     if (response && response.tokenType === 'access_token') {
+
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.setPermissions(response);
       this.displayUserProfile();
     } else if (response && response.tokenType === 'id_token') {
-      acquireNewAccessToken(this.app)
+      acquireNewAccessToken(app)
         .then(this.acquireTokenCallBack).catch(this.acquireTokenErrorCallBack);
     } else {
       AppComponent.explorerValues.authentication.status = 'anonymous';

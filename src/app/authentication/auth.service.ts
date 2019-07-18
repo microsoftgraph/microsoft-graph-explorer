@@ -1,7 +1,7 @@
 import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
-const { ClientId, appInsights } = (window as any);
+const { appInsights } = (window as any);
 
 const loginType = getLoginType();
 
@@ -15,26 +15,6 @@ export const collectLogs = (message: string): void => {
 
 const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose, correlationId: '1234' });
 
-const config = {
-    auth: {
-        clientId: ClientId,
-    },
-    cache: {
-        cacheLocation: 'localStorage',
-        storeAuthStateInCookie: true,
-    },
-    system: { logger },
-};
-
-let app: Msal.UserAgentApplication;
-
-export function getMsalUserAgentApp() {
-    if (!app) {
-        app = new Msal.UserAgentApplication((config as any));
-    }
-    return app;
-}
-
 export function logout(userAgentApp: Msal.UserAgentApplication) {
     userAgentApp.logout();
 }
@@ -45,7 +25,7 @@ export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, sc
     if (hasScopes) {
         listOfScopes = scopes;
     }
-    return app.acquireTokenSilent({ scopes: generateUserScopes(listOfScopes) });
+    return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(listOfScopes) });
 }
 
 export async function login(userAgentApp: Msal.UserAgentApplication) {

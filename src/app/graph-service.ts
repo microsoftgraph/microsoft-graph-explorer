@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { acquireNewAccessToken, getTokenSilent } from './authentication/auth.service';
+import { app } from './authentication/msal-user-agent';
 import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
@@ -56,10 +57,10 @@ export class GraphService {
         return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 
-    public handleRequest = async function(requestHeaders, query, queryType, postBody) {
-        let response = await getTokenSilent();
+    public handleRequest = async (requestHeaders, query, queryType, postBody) => {
+        let response = await getTokenSilent(app);
         if (response === null) {
-            response = await acquireNewAccessToken();
+            response = await acquireNewAccessToken(app);
         }
         requestHeaders.append('Authorization', `Bearer ${response.accessToken}`);
         switch (queryType) {
