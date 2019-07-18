@@ -160,10 +160,13 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
 
-    await acquireNewAccessToken(app, selectedScopes);
-
+    try {
+      const resp = await acquireNewAccessToken(app, selectedScopes);
+    } catch (error) {
+      throw error;
+    }
     if (loginType === 'POPUP') {
-      window.location.reload();
+      // Window.location.reload();
     }
   }
 

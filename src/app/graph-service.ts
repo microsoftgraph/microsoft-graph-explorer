@@ -12,7 +12,11 @@ import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
 export class GraphService {
-    constructor(private http: Http) { }
+    private app: any;
+
+    constructor(private http: Http) {
+        this.app = app;
+    }
 
     public performAnonymousQuery(queryType: RequestType, query: string, headers?: Headers): Promise<Response> {
         if (!headers) {
@@ -49,7 +53,7 @@ export class GraphService {
         if (typeof requestHeaders === 'undefined') {
             requestHeaders = new Headers();
         }
-        const queryResult = this.handleRequest(requestHeaders, query, queryType, postBody);
+        const queryResult = this.handleRequest(this.app, requestHeaders, query, queryType, postBody);
         return queryResult;
     }
 
@@ -57,10 +61,10 @@ export class GraphService {
         return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 
-    public handleRequest = async (requestHeaders, query, queryType, postBody) => {
-        let response = await getTokenSilent(app);
+    public handleRequest = async (msalUserAgent, requestHeaders, query, queryType, postBody) => {
+        let response = await getTokenSilent(msalUserAgent);
         if (response === null) {
-            response = await acquireNewAccessToken(app);
+            response = await acquireNewAccessToken(msalUserAgent);
         }
         requestHeaders.append('Authorization', `Bearer ${response.accessToken}`);
         switch (queryType) {

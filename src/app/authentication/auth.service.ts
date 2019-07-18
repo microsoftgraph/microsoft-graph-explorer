@@ -13,6 +13,7 @@ export const collectLogs = (message: string): void => {
     appInsights.trackEvent('MSAL Error', message);
 };
 
+// TODO: Add msal logger
 const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose, correlationId: '1234' });
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
