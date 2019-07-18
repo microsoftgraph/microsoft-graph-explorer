@@ -3,6 +3,8 @@ import { AppComponent } from '../app.component';
 
 const { ClientId, appInsights } = (window as any);
 
+const loginType = getLoginType();
+
 const loggerCallback = (level: Msal.LogLevel, message: string): void => {
     collectLogs(message);
 };
@@ -12,9 +14,10 @@ export const collectLogs = (message: string): void => {
 };
 
 const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose, correlationId: '1234' });
+
 const config = {
     auth: {
-        clientId:  ClientId,
+        clientId: ClientId,
     },
     cache: {
         cacheLocation: 'localStorage',
@@ -23,133 +26,96 @@ const config = {
     system: { logger },
 };
 
-const app = new Msal.UserAgentApplication((config as any));
-const loginType = getLoginType();
+let app: Msal.UserAgentApplication;
 
-// Register Callbacks for redirect flow
-app.handleRedirectCallbacks(acquireTokenRedirectCallBack, acquireTokenErrorRedirectCallBack);
-
-export function logout() {
-    app.logout();
+export function getMsalUserAgentApp() {
+    if (!app) {
+        app = new Msal.UserAgentApplication((config as any));
+    }
+    return app;
 }
 
-export async function login() {
+export function logout(userAgentApp: Msal.UserAgentApplication) {
+    userAgentApp.logout();
+}
+
+export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, scopes: any = []) {
+    const hasScopes = (scopes.length > 0);
+    let listOfScopes = AppComponent.Options.DefaultUserScopes;
+    if (hasScopes) {
+        listOfScopes = scopes;
+    }
+    return app.acquireTokenSilent({ scopes: generateUserScopes(listOfScopes) });
+}
+
+export async function login(userAgentApp: Msal.UserAgentApplication) {
     const loginRequest = {
         scopes: generateUserScopes(),
-        prompt:  'select_account',
+        prompt: 'select_account',
     };
 
     if (loginType === 'POPUP') {
         try {
-            const response = await app.loginPopup(loginRequest);
+            const response = await userAgentApp.loginPopup(loginRequest);
             return response;
         } catch (error) {
-            collectLogs(error.message);
-            // tslint:disable-next-line
-            console.log(error);
+            throw error;
         }
     } else if (loginType === 'REDIRECT') {
-        try {
-            const response = await app.loginRedirect(loginRequest);
-            return response;
-        } catch (error) {
-            collectLogs(error.message);
-
-            // tslint:disable-next-line
-            console.log(error);
-        }
+        await userAgentApp.loginRedirect(loginRequest);
     }
 }
 
-export async function getTokenSilent(scopes: any = []) {
+export async function acquireNewAccessToken(userAgentApp: Msal.UserAgentApplication, scopes: string[] = []) {
     const hasScopes = (scopes.length > 0);
     let listOfScopes = AppComponent.Options.DefaultUserScopes;
     if (hasScopes) {
         listOfScopes = scopes;
     }
     try {
-        const response = await app.acquireTokenSilent({scopes: generateUserScopes(listOfScopes)});
-        if (response.accessToken) {
-            return response;
-        }
-        return null;
+        const response = getTokenSilent(userAgentApp, { scopes: generateUserScopes(listOfScopes) });
+        return response;
     } catch (error) {
-        collectLogs(error.message);
-        return null;
-    }
-}
-
-export async function acquireNewAccessToken(scopes: string[] = []) {
-    const hasScopes = (scopes.length > 0);
-    let listOfScopes = AppComponent.Options.DefaultUserScopes;
-    if (hasScopes) {
-        listOfScopes = scopes;
-    }
-    try {
-        if (loginType === 'POPUP') {
-            try {
-                const response = await app.acquireTokenPopup({scopes: generateUserScopes(listOfScopes)});
-                if (response) {
-                    return response;
+        if (requiresInteraction(error.errorCode)) {
+            if (loginType === 'POPUP') {
+                try {
+                    const res = await userAgentApp
+                        .acquireTokenPopup({ scopes: generateUserScopes(listOfScopes) });
+                    return res;
+                } catch (error) {
+                    throw error;
                 }
-                return null;
-            } catch (error) {
-                collectLogs(error.message);
-                return null;
+            } else if (loginType === 'REDIRECT') {
+                userAgentApp.acquireTokenRedirect({ scopes: generateUserScopes(listOfScopes) });
             }
-        } else if (loginType === 'REDIRECT') {
-            try {
-                app.acquireTokenRedirect({scopes: generateUserScopes(listOfScopes)});
-            } catch (error) {
-                collectLogs(error.message);
-                return null;
-            }
+        } else {
+            throw error;
         }
-        return null;
-    } catch (error) {
-        collectLogs(error.message);
-        return null;
     }
 }
 
-export async function getScopes() {
-    let scopes = [];
-    try {
-        const response = await getTokenSilent();
-        if (response.scopes) {
-            scopes = response.scopes;
-        }
-    } catch (error) {
-        collectLogs(error.message);
-        return scopes;
-    }
-    if (scopes.length > 0) {
-        const scopesLowerCase = scopes.map((item) => {
-            return item.toLowerCase();
-        });
-        return scopesLowerCase;
-    }
-    return scopes;
+export function getAccount(userAgentApp: Msal.UserAgentApplication) {
+    return userAgentApp.getAccount();
 }
 
 export function generateUserScopes(userScopes = AppComponent.Options.DefaultUserScopes) {
     const graphMode = JSON.parse(localStorage.getItem('GRAPH_MODE'));
     if (graphMode === null) {
-      return userScopes;
+        return userScopes;
     }
     const graphUrl = localStorage.getItem('GRAPH_URL');
     const reducedScopes = userScopes.reduce((newScopes, scope) => {
-      if (scope === 'openid' || scope === 'profile') {
-        return newScopes += scope + ' ';
-      }
-      return newScopes += graphUrl + '/' + scope + ' ';
+        if (scope === 'openid' || scope === 'profile') {
+            return newScopes += scope + ' ';
+        }
+        return newScopes += graphUrl + '/' + scope + ' ';
     }, '');
 
     const scopes = reducedScopes.split(' ').filter((scope) => {
         return scope !== '';
     });
     return scopes;
-  }
+}
 
 function requiresInteraction(errorCode) {
     if (!errorCode || !errorCode.length) {
@@ -158,19 +124,6 @@ function requiresInteraction(errorCode) {
     return errorCode === 'consent_required' ||
         errorCode === 'interaction_required' ||
         errorCode === 'login_required';
-}
-
-function acquireTokenRedirectCallBack(response) {
-    if (response && response.tokenType === 'access_token') {
-        return response.accessToken;
-    }
-}
-
-function  acquireTokenErrorRedirectCallBack(error) {
-    collectLogs(error.message);
-
-    // tslint:disable-next-line:no-console
-    console.log(error);
 }
 
 export function getLoginType() {

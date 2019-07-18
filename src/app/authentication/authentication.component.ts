@@ -5,6 +5,7 @@
 
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AuthResponse, UserAgentApplication } from 'msal';
 import { AppComponent } from '../app.component';
 import { GraphService } from '../graph-service';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
@@ -12,7 +13,7 @@ import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
 import { haveValidAccessToken, localLogout } from './auth';
-import { collectLogs, getScopes, login, logout  } from './auth.service';
+import { acquireNewAccessToken, collectLogs, getMsalUserAgentApp, login, logout } from './auth.service';
 
 @Component({
   selector: 'authentication',
@@ -23,19 +24,25 @@ import { collectLogs, getScopes, login, logout  } from './auth.service';
 export class AuthenticationComponent extends GraphExplorerComponent {
 
   public authInfo = this.explorerValues.authentication;
+  private app: UserAgentApplication;
 
   constructor(private sanitizer: DomSanitizer, private apiService: GraphService,
               private changeDetectorRef: ChangeDetectorRef) {
     super();
+    this.app = getMsalUserAgentApp();
+    this.acquireTokenCallBack = this.acquireTokenCallBack.bind(this);
   }
 
   public async ngOnInit() {
+
+    // Register Callbacks for redirect flow
+    this.app.handleRedirectCallbacks(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
+
     AppComponent.explorerValues.authentication.status = 'authenticating';
-    const valid = await haveValidAccessToken();
-    if (valid) {
-      AppComponent.explorerValues.authentication.status = 'authenticated';
-      this.displayUserProfile();
-      this.setPermissions();
+    if (this.app.getAccount()) {
+      await acquireNewAccessToken(this.app)
+        .then(this.acquireTokenCallBack)
+        .catch(this.acquireTokenErrorCallBack);
     } else {
       AppComponent.explorerValues.authentication.status = 'anonymous';
     }
@@ -47,28 +54,13 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async login() {
     AppComponent.explorerValues.authentication.status = 'authenticating';
-
-    try {
-      const loginSuccess = await login();
-
-      if (loginSuccess) {
-        this.displayUserProfile();
-        this.setPermissions();
-        localStorage.setItem('status', 'authenticated');
-        this.changeDetectorRef.detectChanges();
-      } else {
-
-        AppComponent.explorerValues.authentication.status = 'anonymous';
-      }
-    } catch (error) {
-      collectLogs(error.message);
-      AppComponent.explorerValues.authentication.status = 'anonymous';
-    }
+    await login(this.app).then(this.acquireTokenCallBack)
+      .catch(this.acquireTokenErrorCallBack);
   }
 
   public logout() {
     localLogout();
-    logout();
+    // Logout();
   }
 
   public getAuthenticationStatus() {
@@ -79,10 +71,10 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     ScopesDialogComponent.showDialog();
   }
 
-  public async setPermissions() {
-    const scopes = await getScopes();
+  public async setPermissions(response: AuthResponse) {
+    const scopes = response.scopes;
     const scopesLowerCase = scopes.map((item) => {
-        return item.toLowerCase();
+      return item.toLowerCase();
     });
     scopesLowerCase.push('openid');
     for (const scope of PermissionScopes) {
@@ -100,7 +92,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
       AppComponent.explorerValues.authentication.user.displayName = jsonUserInfo.displayName;
       AppComponent.explorerValues.authentication.user.emailAddress
-      = jsonUserInfo.mail || jsonUserInfo.userPrincipalName;
+        = jsonUserInfo.mail || jsonUserInfo.userPrincipalName;
 
       try {
         const userPicture = await this.apiService.performQuery('GET_BINARY', userPictureUrl);
@@ -119,5 +111,23 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       collectLogs(e.message);
       localLogout();
     }
+  }
+
+  private acquireTokenCallBack(response) {
+    if (response && response.tokenType === 'access_token') {
+      AppComponent.explorerValues.authentication.status = 'authenticated';
+      this.setPermissions(response);
+      this.displayUserProfile();
+    } else if (response && response.tokenType === 'id_token') {
+      acquireNewAccessToken(this.app)
+        .then(this.acquireTokenCallBack).catch(this.acquireTokenErrorCallBack);
+    } else {
+      AppComponent.explorerValues.authentication.status = 'anonymous';
+    }
+  }
+
+  private acquireTokenErrorCallBack(error) {
+    collectLogs(error.message);
+    AppComponent.explorerValues.authentication.status = 'anonymous';
   }
 }
