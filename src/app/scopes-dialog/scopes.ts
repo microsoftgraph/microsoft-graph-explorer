@@ -760,5 +760,19 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows an app to read published sensitivity labels and label policy settings for the entire organization or a specific user without a signed in user.',
     preview: true,
     admin: true
+},
+{
+    name: 'WorkforceIntegration.Read.All',
+    description: 'Read the workforce integrations configured in the tenant',
+    longDescription: 'Allows an app to read workforce integrations configured in the tenant on your behalf.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'WorkforceIntegration.ReadWrite.All',
+    description: 'Read and write the workforce integrations configured in the tenant',
+    longDescription: 'Allows an app to read and write workforce integrations configured in the tenant on your behalf.',
+    preview: true,
+    admin: true
 }
 ];
