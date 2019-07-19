@@ -13,7 +13,7 @@
   "secure score control profiles (beta)": "profils de contrôle des scores sécurisés (bêta)",
   "update alert": "mettre à jour l’alerte",
   "To try the explorer, please ": "Pour essayer l’afficheur, veuillez ",
-  "sign in": "Vous connecter avec Microsoft",
+  "sign in": "Se connecter",
   " with your work or school account from Microsoft.": " avec votre compte scolaire ou professionnel de Microsoft.",
   "Submit": "Submit",
   "Using demo tenant": "Vous utilisez actuellement un compte factice.",
@@ -222,5 +222,8 @@
   "replies to a message in channel" : "réponses à un message dans le canal",
   "reply of a message" : "réponse d’un message",
   "Export": "Exporter",
-  "Action": "Action"
+  "Action": "Action",
+  "use the Microsoft Graph API" : "Lorsque vous utilisez l’API Microsoft Graph, vous acceptez les Conditions d’Utilisation de Microsoft Graph.",
+  "Terms of use" : "Afficher les Conditions d’Utilisation de Microsoft Graph",
+  "Microsoft Privacy Statement" : "Afficher la Déclaration de Confidentialité de Microsoft"
 }

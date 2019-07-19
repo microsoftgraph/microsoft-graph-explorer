@@ -13,9 +13,9 @@ import {
   TestBed,
 } from '@angular/core/testing'; // tslint:disable-line
 
+import { localLogout } from '../authentication/auth';
 import { GraphApiVersion, GraphApiVersions, IGraphRequestHeader, substituteTokens } from '../base';
-import { localLogout } from './../authentication/auth';
-import { GraphService } from './../graph-service';
+import { GraphService } from '../graph-service';
 import { SampleQueries } from './gen-queries';
 
 function getGraphVersionFromUrl(url: string): GraphApiVersion {
@@ -41,20 +41,19 @@ function convertHeaders(graphRequestHeaders: IGraphRequestHeader[]): Headers {
 
 let graphService: GraphService;
 describe('Sample query validation', () => {
-
-  beforeAll(() => {
-    localLogout();
-  });
-
   beforeEach(() => {
+    localLogout();
+
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [GraphService],
     });
+    graphService = TestBed.get(GraphService);
   });
 
-  it('Creates an instance of the graph service', inject([GraphService], (graphSvc: GraphService) => {
-    graphService = graphSvc;
+  // tslint:disable-next-line
+  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
+    graphService = _graphService;
   }));
 
   for (const query of SampleQueries) {

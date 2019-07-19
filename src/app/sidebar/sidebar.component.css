@@ -61,6 +61,14 @@ button#auth-drawer-button {
     background: #2f2f2f !important;
 }
 
+#auth-drawer-canary-button:after{
+    content:none;
+}
+
+button#auth-drawer-canary-button {
+    background: #2f2f2f !important;
+}
+
 .arrow-left {
     border-top: 18px solid transparent;
     border-bottom: 18px solid transparent;
@@ -102,6 +110,14 @@ a#show-full-history[hidden] {
     display: none;
 }
 
+#sample-query-btn {
+    background: #2F2F2F;
+}
+
+#sample-history-btn {
+    background: #2F2F2F;
+}
+
 @media (max-width: 639px) {
     #explorer-sidebar {
         min-height: inherit;
@@ -109,11 +125,11 @@ a#show-full-history[hidden] {
     }
 }
 
-
- #sample-query-btn {
+#sample-query-btn {
     background: #2F2F2F;
 }
 
  #sample-history-btn {
     background: #2F2F2F;
 }
+

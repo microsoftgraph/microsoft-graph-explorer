@@ -4,7 +4,7 @@
 // ------------------------------------------------------------------------------
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { generateDefaultUserScopes } from '../authentication/auth';
+import { acquireNewAccessToken } from '../authentication/auth.service';
 import { IPermissionScope } from '../base';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
@@ -42,6 +42,9 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public hasChangedScopeListHeight: boolean = false;
   public hasRequestedAdminConsent: boolean = false;
 
+  constructor() {
+    super();
+  }
   // Updates the style.height of the scopes-list-table-container element.
   public getScopesListTableHeight(): string {
     this.scopesListTableHeight = window.getComputedStyle(this.scopesTableList.nativeElement, null)
@@ -151,33 +154,11 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     }
   }
 
-  public startAdminConsentFlow() {
-    const loginProperties = {
-      display: 'page',
-      nonce: 'graph_explorer',
-      prompt: 'select_account',
-    };
+  public async getNewAccessToken() {
+    const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
+      .map((scope) => scope.name);
 
-    hello('msft_admin_consent').login(loginProperties);
-
-  }
-
-  public getNewAccessToken() {
-    const scopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
-      .map((scope) => scope.name)
-      .join(' ');
-    // @todo type HelloJSLoginOptions
-    const loginProperties = {
-      display: 'page',
-      response_type: 'token',
-      nonce: 'graph_explorer',
-      prompt: 'select_account',
-      /* Login hint not applied via AppComponent.explorerValues.authentication.user.emailAddress
-      /* as it breaks MSA login. */
-      scope: generateDefaultUserScopes(scopes),
-    };
-
-    hello('msft').login(loginProperties);
+    await acquireNewAccessToken(selectedScopes);
   }
 
   public static showDialog() { // tslint:disable-line

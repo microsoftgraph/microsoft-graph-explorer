@@ -14,8 +14,9 @@ describe('Metadata download and parsing', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [HttpModule],
-        providers: [GraphService],
+        providers: [GraphService ],
     });
+    graphService = TestBed.get(GraphService);
   });
 
   // tslint:disable-next-line

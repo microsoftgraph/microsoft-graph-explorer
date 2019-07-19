@@ -15,6 +15,7 @@
     "outDir": "compiler-output"
   },
   "exclude": [
-    "main.ts"
+    "main.ts",
+    "node_modules/"
   ]
 }
