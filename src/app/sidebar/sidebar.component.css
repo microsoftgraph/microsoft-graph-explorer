@@ -124,3 +124,12 @@ a#show-full-history[hidden] {
         padding-bottom: 15px;
     }
 }
+
+#sample-query-btn {
+    background: #2F2F2F;
+}
+
+ #sample-history-btn {
+    background: #2F2F2F;
+}
+

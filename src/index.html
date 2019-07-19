@@ -6,7 +6,9 @@
     <!-- Graph explorer depends on ACE editor -->
     <!-- Must be inclued separetely -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js" class="pre"></script>
+  
+    <!--hello.js-->
+    <script src="../node_modules/hellojs/dist/hello.all.js"></script>
 
     <!--Fabric-->
     <link rel="stylesheet"
@@ -20,6 +22,11 @@
         href="https://www.microsoft.com/mwf/css/bundle/1.57.4/west-european/default/mwf-main.min.css?apiVersion=1.0">
     <script src="https://mwf-service.akamaized.net/mwf/js/bundle/1.57.4/mwf-auto-init-main.var.min.js"></script>
 
+
+    </script>
+    <!-- moment js -->
+    <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
+
     <link rel="stylesheet" href="custom.css" />
 
     <!-- moment js -->
@@ -31,16 +38,6 @@
 
     <!-- clientId, scopes, redirectUrl -->
     <script src="../secrets.js"></script>
-
-    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
-    <script type="text/javascript">
-        var appInsights = window.appInsights || function (a) {
-            function b(a) { c[a] = function () { var b = arguments; c.queue.push(function () { c[a].apply(c, b) }) } } var c = { config: a }, d = document, e = window; setTimeout(function () { var b = d.createElement("script"); b.src = a.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js", d.getElementsByTagName("script")[0].parentNode.appendChild(b) }); try { c.cookie = d.cookie } catch (a) { } c.queue = []; for (var f = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; f.length;)b("track" + f.pop()); if (b("setAuthenticatedUserContext"), b("clearAuthenticatedUserContext"), b("startTrackEvent"), b("stopTrackEvent"), b("startTrackPage"), b("stopTrackPage"), b("flush"), !a.disableExceptionTracking) { f = "onerror", b("_" + f); var g = e[f]; e[f] = function (a, b, d, e, h) { var i = g && g(a, b, d, e, h); return !0 !== i && c["_" + f](a, b, d, e, h), i } } return c
-        }({
-            instrumentationKey: window.instrumentationKey
-        });
-        window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length && appInsights.trackPageView();
-    </script>
 
     <!-- Polyfill(s) for older browsers -->
     <script src="../node_modules/core-js/client/shim.min.js"></script>
@@ -55,14 +52,7 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-        window.onload = function () {
-            localStorage.removeItem('hello');
-            localStorage.removeItem('msft');
-        };
-    </script>
-    <script>
         SystemJS.import('compiler-output/main-jit.js').catch(function (err) { console.error(err); });
     </script>
 </body>
-
 </html>
