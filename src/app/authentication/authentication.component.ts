@@ -12,7 +12,7 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
-import { haveValidAccessToken, localLogout } from './auth';
+import { localLogout } from './auth';
 import { acquireNewAccessToken, collectLogs, login, logout } from './auth.service';
 import { app } from './msal-user-agent';
 
@@ -57,7 +57,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public logout() {
     localLogout();
-    // Logout();
+    app.logout();
   }
 
   public getAuthenticationStatus() {
@@ -110,7 +110,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }
   }
 
-  private acquireTokenCallBack(response) {
+  private async acquireTokenCallBack(response) {
     if (response && response.tokenType === 'access_token') {
 
       AppComponent.explorerValues.authentication.status = 'authenticated';

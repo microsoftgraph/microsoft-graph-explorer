@@ -20,13 +20,9 @@ export function logout(userAgentApp: Msal.UserAgentApplication) {
     userAgentApp.logout();
 }
 
-export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, scopes: any = []) {
-    const hasScopes = (scopes.length > 0);
-    let listOfScopes = AppComponent.Options.DefaultUserScopes;
-    if (hasScopes) {
-        listOfScopes = scopes;
-    }
-    return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(listOfScopes) });
+// tslint:disable-next-line: max-line-length
+export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, scopes: string[]): Promise<Msal.AuthResponse> {
+    return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
 }
 
 export async function login(userAgentApp: Msal.UserAgentApplication) {
@@ -53,26 +49,19 @@ export async function acquireNewAccessToken(userAgentApp: Msal.UserAgentApplicat
     if (hasScopes) {
         listOfScopes = scopes;
     }
-    try {
-        const response = getTokenSilent(userAgentApp, { scopes: generateUserScopes(listOfScopes) });
-        return response;
-    } catch (error) {
+    return getTokenSilent(userAgentApp, generateUserScopes(listOfScopes)).catch((error) => {
         if (requiresInteraction(error.errorCode)) {
             if (loginType === 'POPUP') {
                 try {
-                    const res = await userAgentApp
-                        .acquireTokenPopup({ scopes: generateUserScopes(listOfScopes) });
-                    return res;
+                    return userAgentApp.acquireTokenPopup({ scopes: generateUserScopes(listOfScopes) });
                 } catch (error) {
                     throw error;
                 }
             } else if (loginType === 'REDIRECT') {
                 userAgentApp.acquireTokenRedirect({ scopes: generateUserScopes(listOfScopes) });
             }
-        } else {
-            throw error;
         }
-    }
+    });
 }
 
 export function getAccount(userAgentApp: Msal.UserAgentApplication) {

@@ -161,12 +161,14 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
       .map((scope) => scope.name);
 
     try {
-      const resp = await acquireNewAccessToken(app, selectedScopes);
+      await acquireNewAccessToken(app, selectedScopes).then((response) => {
+        return;
+      });
     } catch (error) {
       throw error;
     }
     if (loginType === 'POPUP') {
-      // Window.location.reload();
+      window.location.reload();
     }
   }
 
