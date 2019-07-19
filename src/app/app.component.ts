@@ -19,7 +19,7 @@ import { GraphExplorerComponent } from './GraphExplorerComponent';
 import { loadHistoryFromLocalStorage, saveHistoryToLocalStorage } from './history/history';
 import { getGraphUrl, getParameterByName } from './util';
 
-declare let mwf;
+declare let mwfAutoInit;
 declare let moment;
 
 @Component({
@@ -131,8 +131,8 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
 
         initFabricComponents();
 
-        mwf.ComponentFactory.create([{
-            component: mwf.Drawer,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.Drawer,
         }]);
 
         moment.locale(AppComponent.Options.Language);

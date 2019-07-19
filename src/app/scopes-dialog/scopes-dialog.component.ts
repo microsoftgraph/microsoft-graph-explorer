@@ -10,7 +10,7 @@ import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from './scopes';
 
 declare let fabric;
-declare let mwf;
+declare let mwfAutoInit;
 
 @Component({
   selector: 'scopes-dialog',
@@ -186,8 +186,8 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     const fabricDialog = new fabric.Dialog(scopesDialog);
     fabricDialog.open();
 
-    mwf.ComponentFactory.create([{
-      component: mwf.Checkbox,
+    mwfAutoInit.ComponentFactory.create([{
+      component: mwfAutoInit.Checkbox,
     }]);
 
     // We are explicitly focusing on the close icon button here despite setting the autofocus property.

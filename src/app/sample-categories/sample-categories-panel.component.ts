@@ -8,7 +8,7 @@ import { ISampleQueryCategory } from '../base';
 import { SampleCategories, saveCategoryDisplayState } from '../getting-started-queries';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 
-declare let mwf: any;
+declare let mwfAutoInit: any;
 
 @Component({
     selector: 'sample-categories-panel',
@@ -19,8 +19,8 @@ export class SampleCategoriesPanelComponent extends GraphExplorerComponent imple
     public categories: ISampleQueryCategory[] = SampleCategories;
 
     public ngAfterViewInit(): void {
-        mwf.ComponentFactory.create([{
-            component: mwf.Toggle,
+        mwfAutoInit.ComponentFactory.create([{
+            component: mwfAutoInit.Toggle,
         }]);
     }
 
