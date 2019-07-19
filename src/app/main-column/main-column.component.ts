@@ -152,7 +152,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
           Because of the limitation mentioned above we have to manually get a reference to the button and disable it.
          */
-        const selectElement = this._httpMethodEl.element.nativeElement.children[0];
+        const selectElement = this._httpMethodEl.element.nativeElement.children[1];
         const selectElementButton = selectElement && selectElement.children[0];
         const hasDisabledAttribute = !!selectElementButton && selectElementButton.hasAttribute('disabled');
 
