@@ -166,9 +166,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     } catch (error) {
       throw error;
     }
-    if (loginType === 'POPUP') {
-      window.location.reload();
-    }
   }
 
   public static showDialog() { // tslint:disable-line
