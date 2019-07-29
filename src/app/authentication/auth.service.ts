@@ -6,7 +6,9 @@ const { appInsights } = (window as any);
 const loginType = getLoginType();
 
 export const collectLogs = (message: string): void => {
-    appInsights.trackEvent('MSAL Error', message);
+    if (appInsights) {
+        appInsights.trackEvent('MSAL Error', message);
+    }
 };
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
