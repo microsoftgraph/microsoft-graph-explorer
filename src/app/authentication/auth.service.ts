@@ -1,4 +1,4 @@
-import { Logger, LogLevel, UserAgentApplication } from 'msal';
+import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
 const { appInsights } = (window as any);

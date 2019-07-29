@@ -16,7 +16,6 @@ import { localLogout } from './auth';
 import { acquireNewAccessToken, collectLogs, login, logout } from './auth.service';
 import { app } from './msal-user-agent';
 
-
 @Component({
   selector: 'authentication',
   styleUrls: ['./authentication.component.css'],
@@ -44,19 +43,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     } else {
       AppComponent.explorerValues.authentication.status = 'anonymous';
     }
-
-    AppComponent.explorerValues.authentication.status = 'authenticating';
-
-    return getTokenSilent()
-      .then(() => {
-        AppComponent.explorerValues.authentication.status = 'authenticated';
-        this.displayUserProfile();
-        this.setPermissions();
-      }).catch((error) => {
-        // tslint:disable-next-line
-        console.log(error);
-        AppComponent.explorerValues.authentication.status = 'anonymous';
-      });
   }
 
   public sanitize(url: string): SafeUrl {

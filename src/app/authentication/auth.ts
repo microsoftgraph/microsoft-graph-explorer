@@ -9,7 +9,6 @@ import { deleteHistoryFromLocalStorage } from '../history/history';
 import { getAccount, getTokenSilent } from './auth.service';
 import { app } from './msal-user-agent';
 
-
 export function localLogout() {
   // Anonymous users can only GET
   AppComponent.explorerValues.selectedOption = 'GET';
