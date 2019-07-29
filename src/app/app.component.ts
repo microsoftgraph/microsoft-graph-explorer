@@ -47,7 +47,7 @@ export class AppComponent extends GraphExplorerComponent implements OnInit, Afte
         ClientId: '',
         Language: 'en-US',
         // tslint:disable-next-line:max-line-length
-        DefaultUserScopes: ['openid', 'profile', 'User.ReadWrite', 'User.ReadBasic.All', 'Sites.ReadWrite.All', 'Contacts.ReadWrite', 'People.Read', 'Notes.ReadWrite.All', 'Tasks.ReadWrite', 'Mail.ReadWrite', 'Files.ReadWrite.All', 'Calendars.ReadWrite'],
+        DefaultUserScopes: ['openid', 'profile', 'User.Read'],
         AuthUrl: 'https://login.microsoftonline.com',
         GraphVersions: GraphApiVersions,
         PathToBuildDir: '',

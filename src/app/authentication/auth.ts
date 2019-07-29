@@ -3,17 +3,11 @@
 // See License in the project root for license information.
 // ------------------------------------------------------------------------------
 
+import { UserAgentApplication } from 'msal';
 import { AppComponent } from '../app.component';
 import { deleteHistoryFromLocalStorage } from '../history/history';
-import { getTokenSilent, isAccountExpired } from './auth.service';
-
-export async function haveValidAccessToken() {
-  const token = await getTokenSilent();
-  if (token) {
-    return true;
-  }
-  return false;
-}
+import { getAccount, getTokenSilent } from './auth.service';
+import { app } from './msal-user-agent';
 
 export function localLogout() {
   // Anonymous users can only GET
@@ -24,10 +18,10 @@ export function localLogout() {
   sessionStorage.clear();
 }
 
-export async function checkHasValidAuthToken() {
-  const valid = await haveValidAccessToken();
-  const authenticated = isAccountExpired();
-  if (!valid && authenticated) {
+export async function checkHasValidAuthToken(userAgentApp: UserAgentApplication) {
+  const hasAccount = await getAccount(userAgentApp);
+  const authenticated = isAuthenticated();
+  if (!hasAccount && authenticated) {
     localLogout();
   }
 }
@@ -43,15 +37,16 @@ export function isAuthenticated() {
 
 // tslint:disable-next-line:only-arrow-functions
 (window as any).tokenPlease = function() {
-  getTokenSilent().then(
+  const scopes = AppComponent.Options.DefaultUserScopes;
+
+  getTokenSilent(app, scopes).then(
     (result) => {
       // tslint:disable-next-line:no-console
       console.log(result.accessToken);
     },
-    () => {
+    (err) => {
       // tslint:disable-next-line:no-console
       console.log('Please sign in to get your access token');
     },
   );
-
 };

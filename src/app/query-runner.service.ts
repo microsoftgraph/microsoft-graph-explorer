@@ -41,7 +41,8 @@ export class QueryRunnerService {
       postBody: getRequestBodyEditor().getSession().getValue(),
     };
 
-    checkHasValidAuthToken();
+    checkHasValidAuthToken(this.graphService.app);
+
     let graphRequest: Promise<Response>;
     if (isAuthenticated()) {
       graphRequest = this.graphService.performQuery(query.method, query.requestUrl, query.postBody,

@@ -6,11 +6,17 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import { acquireNewAccessToken } from './authentication/auth.service';
+import { app } from './authentication/msal-user-agent';
 import { AllowedGraphDomains, RequestType } from './base';
 
 @Injectable()
 export class GraphService {
-    constructor(private http: Http) { }
+    public app: any;
+
+    constructor(private http: Http) {
+        this.app = app;
+    }
 
     public performAnonymousQuery(queryType: RequestType, query: string, headers?: Headers): Promise<Response> {
         if (!headers) {
@@ -47,7 +53,7 @@ export class GraphService {
         if (typeof requestHeaders === 'undefined') {
             requestHeaders = new Headers();
         }
-        const queryResult = this.handleRequest(requestHeaders, query, queryType, postBody);
+        const queryResult = this.handleRequest(this.app, requestHeaders, query, queryType, postBody);
         return queryResult;
     }
 
@@ -55,25 +61,26 @@ export class GraphService {
         return this.http.get(`${graphUrl}/${version}/$metadata`).toPromise();
     }
 
-    public handleRequest = async function(requestHeaders, query, queryType, postBody) {
-        const token = localStorage.getItem('token');
-
-        requestHeaders.append('Authorization', `Bearer ${token}`);
-        switch (queryType) {
-            case 'GET':
-                return this.http.get(query, { headers: requestHeaders }).toPromise();
-            case 'GET_BINARY':
-                return this.http.get(query, { responseType: ResponseContentType.ArrayBuffer, headers: requestHeaders })
-                    .toPromise();
-            case 'PUT':
-                return this.http.put(query, postBody, { headers: requestHeaders }).toPromise();
-            case 'POST':
-                return this.http.post(query, postBody, { headers: requestHeaders }).toPromise();
-            case 'PATCH':
-                return this.http.patch(query, postBody, { headers: requestHeaders }).toPromise();
-            case 'DELETE':
-                return this.http.delete(query, { headers: requestHeaders }).toPromise();
-        }
+    public handleRequest = async (msalUserAgent, requestHeaders, query, queryType, postBody): Promise<Response> => {
+        return acquireNewAccessToken(msalUserAgent).then((response) => {
+            requestHeaders.append('Authorization', `Bearer ${response.accessToken}`);
+            switch (queryType) {
+                case 'GET':
+                    return this.http.get(query, { headers: requestHeaders }).toPromise();
+                case 'GET_BINARY':
+                    return this.http.get(query,
+                        { responseType: ResponseContentType.ArrayBuffer, headers: requestHeaders })
+                        .toPromise();
+                case 'PUT':
+                    return this.http.put(query, postBody, { headers: requestHeaders }).toPromise();
+                case 'POST':
+                    return this.http.post(query, postBody, { headers: requestHeaders }).toPromise();
+                case 'PATCH':
+                    return this.http.patch(query, postBody, { headers: requestHeaders }).toPromise();
+                case 'DELETE':
+                    return this.http.delete(query, { headers: requestHeaders }).toPromise();
+            }
+        });
     };
 
 }
