@@ -21,10 +21,15 @@ describe('Graph structural tests', () => {
     graphService = TestBed.get(GraphService);
   });
 
+  // tslint:disable-next-line
+  it('Creates an instance of the graph service', inject([GraphService], (_graphService: GraphService) => {
+    graphService = _graphService;
+  }));
+
   for (const version of GraphApiVersions) {
     it(`should download ${version} metadata and build the graph structures(Entity,EntitySet,SingleTon) from it`,
         (done) => {
-        return parseMetadata(graphService, version).then(done);
+        return parseMetadata(graphService, version).then(() => done());
     });
   }
 
@@ -69,6 +74,7 @@ describe('Graph structural tests', () => {
 
   it('https://graph.microsoft.com/beta/me/photos/ => [user] -> [profilePhoto collection]', () => {
     const links = constructGraphLinksFromFullPath('https://graph.microsoft.com/beta/me/photos/');
+
     expect(links.length).toBe(2);
 
     expect(links[0].type).toBe('microsoft.graph.user');

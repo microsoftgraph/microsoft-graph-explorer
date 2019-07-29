@@ -13,14 +13,16 @@ steps:
   - script: |
       npm run lint
     displayName: 'Runs linting checks'
-  - script: |
-      npm test
-    displayName: 'Runs tests'
+
   - script: |
       npm run import:samples
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
-
     displayName: 'Imports samples'
+
+  - script: |
+      npm test
+    displayName: 'Runs tests'
+
   - script: |
       npm run import:loc-strings
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))

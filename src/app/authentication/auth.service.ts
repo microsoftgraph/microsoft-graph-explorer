@@ -1,4 +1,4 @@
-import * as Msal from 'msal';
+import { Logger, LogLevel, UserAgentApplication } from 'msal';
 import { AppComponent } from '../app.component';
 
 const { appInsights } = (window as any);
@@ -23,7 +23,6 @@ export async function login(userAgentApp: Msal.UserAgentApplication) {
         scopes: generateUserScopes(),
         prompt: 'select_account',
     };
-
     if (loginType === 'POPUP') {
         try {
             const response = await userAgentApp.loginPopup(loginRequest);

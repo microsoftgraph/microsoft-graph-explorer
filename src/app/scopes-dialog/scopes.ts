@@ -748,6 +748,13 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
 },
 {
+    name: 'Places.Read.All',
+    description: 'Allows the app to read company places.',
+    longDescription: 'Allows the app to read company places (Conf Rooms and Room Lists) for calendar events and other applications.',
+    preview: true,
+    admin: true
+},
+{
     name: 'InformationProtectionPolicy.Read',
     description: 'Read user labels and label policies',
     longDescription: 'Allows an app to read Microsoft Information Protection sensitivity labels and label policy settings for which the user is in scope.',
@@ -758,6 +765,20 @@ export const PermissionScopes: IPermissionScope[] = [
     name: 'InformationProtectionPolicy.Read.All',
     description: 'Read all published labels and label policies for an organization',
     longDescription: 'Allows an app to read published sensitivity labels and label policy settings for the entire organization or a specific user without a signed in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'WorkforceIntegration.Read.All',
+    description: 'Read the workforce integrations configured in the tenant',
+    longDescription: 'Allows an app to read workforce integrations configured in the tenant on your behalf.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'WorkforceIntegration.ReadWrite.All',
+    description: 'Read and write the workforce integrations configured in the tenant',
+    longDescription: 'Allows an app to read and write workforce integrations configured in the tenant on your behalf.',
     preview: true,
     admin: true
 }
