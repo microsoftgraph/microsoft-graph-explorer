@@ -48,7 +48,7 @@
                         (keydown.escape)="focusOnMoreSamples()" *ngFor="let query of category.queries"></query-row>
                 </div>
             </div>
-            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()">
+            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()" role="button">
                 {{getStr('show more samples')}}</a>
         </div>
     </div>
@@ -60,7 +60,7 @@
         <div id="historyDrawer" class="panel-content">
             <history-query-row *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
             <a href="#" id="show-full-history" (click)="manageHistory()" [hidden]="getRequestHistory().length == 0"
-                class="c-hyperlink" tabindex=0>{{getStr('Show More')}}</a>
+                class="c-hyperlink" tabindex=0 role="button">{{getStr('Show More')}}</a>
         </div>
     </div>
 </div>
