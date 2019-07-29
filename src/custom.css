@@ -61,6 +61,11 @@ api-explorer .c-select-menu>a:after, api-explorer .c-select-menu>button:after {
     text-align: center;
 }
 
+#httpMethodSelect button:after {
+    font-size: 10px;
+    color: black;
+}
+
 #httpMethodSelect.GET .c-select-menu.f-border button {
     background-color: #000fdf;
 }
