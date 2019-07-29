@@ -33,6 +33,11 @@
     display: none;
 }
 
+#graph-version-select button:after {
+    color: black;
+    font-size: 12px;
+}
+
 api-explorer button {
     min-width: initial;
 }
@@ -62,7 +67,7 @@ api-explorer .c-select-menu>a:after, api-explorer .c-select-menu>button:after {
 }
 
 #httpMethodSelect button:after {
-    font-size: 10px;
+    font-size: 12px;
     color: black;
 }
 
