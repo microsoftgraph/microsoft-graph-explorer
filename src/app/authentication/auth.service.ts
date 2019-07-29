@@ -5,16 +5,9 @@ const { appInsights } = (window as any);
 
 const loginType = getLoginType();
 
-const loggerCallback = (level: Msal.LogLevel, message: string): void => {
-    collectLogs(message);
-};
-
 export const collectLogs = (message: string): void => {
     appInsights.trackEvent('MSAL Error', message);
 };
-
-// TODO: Add msal logger
-const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose, correlationId: '1234' });
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
     userAgentApp.logout();
@@ -103,5 +96,10 @@ export function getLoginType() {
     const msedge = ua.indexOf('Edge/');
     const isIE = msie > 0 || msie11 > 0;
     const isEdge = msedge > 0;
-    return isIE || isEdge ? 'REDIRECT' : 'POPUP';
+
+    /**
+     * Always redirects because of transient issues caused by showing a pop up. Graph Explorer
+     * loses hold of the iframe Pop Up
+     */
+    return 'REDIRECT';
 }
