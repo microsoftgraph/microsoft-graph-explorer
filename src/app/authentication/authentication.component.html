@@ -1,7 +1,7 @@
 <div *ngIf="getAuthenticationStatus() == 'anonymous'">
     <div tabindex="0" [attr.aria-label]="getStr('Using demo tenant')">{{getStr('Using demo tenant')}}</div>
     <div tabindex="0" [attr.aria-label]="getStr('To access your own data:')" >{{getStr('To access your own data:')}}</div>
-    <div id="ms-signin-button-holder">
+    <div id="ms-signin-button-container">
         <button
             id="ms-signin-button"
             (click)="login()"

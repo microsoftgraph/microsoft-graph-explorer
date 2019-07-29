@@ -1,3 +1,8 @@
+#ms-signin-button-container {
+    width: 100%;
+    text-align: center;
+}
+
 #ms-signin-button {
     width: 215px;
     height: 40px;
@@ -11,6 +16,11 @@
     font-size: 15px;
     background: url('http://graphstagingblobstorage.blob.core.windows.net/staging/vendor/bower_components/explorer/assets/images/MSSignInButton.png') no-repeat;
     background-size: 100%;
+    border-spacing: 5px;
+}
+
+[tabindex]:focus {
+    outline: 1px dashed #fff;
 }
 
 .button-text {
@@ -37,11 +47,6 @@
 
 .noPicture .ms-Persona-details {
     padding-left: 0px;
-}
-
-#ms-signin-button-holder {
-    width: 100%;
-    text-align: center;
 }
 
 #manage-permissions {
