@@ -55,7 +55,7 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
     public manageHistory() {
         // Open history panel
         new fabric['Panel'](this.historyPanel); // tslint:disable-line
-        (document.querySelector('#history-panel tbody tr:first-child') as any).focus();
+        (document.querySelector('#close-history-btn') as any).focus();
     }
 
     public focusOnMoreSamples() {
