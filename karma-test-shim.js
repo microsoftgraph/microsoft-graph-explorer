@@ -4,11 +4,11 @@ Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 // Uncomment to get full stacktrace output. Sometimes helpful, usually not.
 // Error.stackTraceLimit = Infinity; //
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000*15; // We are getting random timeouts at 10 sec, increasing to 15 seconds.
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000*30; // We are getting random timeouts at 10 sec, increasing to 30 seconds.
 
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is 'src/')
-var builtPaths = (__karma__.config.builtPaths || ['src/'])
+var builtPaths = (['src/compiler-output/app/'])
                  .map(function(p) { return '/base/'+p;});
 
 __karma__.loaded = function () { };

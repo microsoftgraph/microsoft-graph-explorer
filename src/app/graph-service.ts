@@ -81,7 +81,6 @@ export class GraphService {
                     return this.http.delete(query, { headers: requestHeaders }).toPromise();
             }
         });
-
     };
 
 }
