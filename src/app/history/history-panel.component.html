@@ -1,5 +1,5 @@
-<div id="history-panel" class="ms-Panel ms-Panel--xl">
-    <button class="ms-Panel-closeButton ms-PanelAction-close" tabindex="0">
+<div id="history-panel" class="ms-Panel ms-Panel--xl" tabindex="1">
+    <button class="ms-Panel-closeButton ms-PanelAction-close"  id="close-history-btn" tabindex="1">
         <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
     </button>
     <div class="ms-Panel-contentInner">
@@ -17,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let query of getRequestHistory()" class="request-history-query" [class.restrict]="!isAuthenticated() && query.method != 'GET'">
+                    <tr *ngFor="let query of getRequestHistory()" tabindex="1" class="request-history-query" [class.restrict]="!isAuthenticated() && query.method != 'GET'">
                         <td (click)="handleQueryClick(query)">
                             <method-badge [query]="query"></method-badge>
                         </td>
@@ -35,7 +35,7 @@
                 </tbody>
             </table>
             <div id="panel-actions">
-                <button name="button" class="c-button" type="submit" (click)="clearHistory()">
+                <button tabindex="1" name="button" class="c-button" type="submit" (click)="clearHistory()" (keydown.tab)="focusOnCloseBtn()">
                     {{getStr('Remove All')}}
                 </button>
             </div>

@@ -86,4 +86,8 @@ export class HistoryPanelComponent extends GraphExplorerComponent implements OnI
         document.body.removeChild(elem);
       }
     }
+
+    public focusOnCloseBtn() {
+      (document.querySelector('#history-panel') as any).focus();
+    }
 }
