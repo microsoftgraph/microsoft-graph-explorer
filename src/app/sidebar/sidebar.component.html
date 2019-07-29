@@ -40,6 +40,7 @@
                             [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
                     </div>
                     <query-row [query]="query" [category]="idifyCategory(category.title)"
+                               (keydown.escape)="focusOnMoreSamples()"
                         *ngFor="let query of category.queries"></query-row>
                 </div>
             </div>
