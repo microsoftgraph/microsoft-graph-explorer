@@ -19,7 +19,35 @@ declare let mwfAutoInit;
   templateUrl: './scopes-dialog.component.html',
 })
 export class ScopesDialogComponent extends GraphExplorerComponent implements AfterViewInit {
+  public static fabricDialog: any;
+
+  public static showDialog() { // tslint:disable-line
+
+    const scopesDialog = document.querySelector('#scopes-dialog');
+    ScopesDialogComponent.fabricDialog = new fabric.Dialog(scopesDialog);
+    ScopesDialogComponent.fabricDialog.open();
+
+    mwfAutoInit.ComponentFactory.create([{
+      component: mwfAutoInit.Checkbox,
+    }]);
+
+    // We are explicitly focusing on the close icon button here despite setting the autofocus property.
+    // This is because Edge does not give this element focus even with the autofocus property set.
+    // See: https://stackoverflow.com/questions/51867504/edge-how-to-make-autofocus-work-with-refresh-button
+    (scopesDialog.childNodes[2] as any).focus();
+  }
+
+  public static closeDialog() {
+    ScopesDialogComponent.fabricDialog.close();
+  }
   public scopes: IPermissionScope[] = PermissionScopes;
+
+  /**
+   * Angular doesn't support access of static properties in .html file. This creates an instance variable
+   * which can be accessed from the template files. The variable is used as a proxy for accessing static
+   * properties of this class.
+   */
+  public ScopesDialogComponent = ScopesDialogComponent;
 
   /**
    * Specifies whether we have any admin scopes selected in the scopes-dialog UI.
@@ -166,22 +194,6 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
     } catch (error) {
       throw error;
     }
-  }
-
-  public static showDialog() { // tslint:disable-line
-
-    const scopesDialog = document.querySelector('#scopes-dialog');
-    const fabricDialog = new fabric.Dialog(scopesDialog);
-    fabricDialog.open();
-
-    mwfAutoInit.ComponentFactory.create([{
-      component: mwfAutoInit.Checkbox,
-    }]);
-
-    // We are explicitly focusing on the close icon button here despite setting the autofocus property.
-    // This is because Edge does not give this element focus even with the autofocus property set.
-    // See: https://stackoverflow.com/questions/51867504/edge-how-to-make-autofocus-work-with-refresh-button
-    (scopesDialog.childNodes[2] as any).focus();
   }
 
   public focusOnFirstElement(firstElement: Element) {
