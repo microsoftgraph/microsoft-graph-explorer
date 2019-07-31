@@ -19,9 +19,8 @@ export function logout(userAgentApp: Msal.UserAgentApplication) {
 export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, scopes: string[]): Promise<Msal.AuthResponse> {
     try {
         return await userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
-    } catch (e) {
-        // tslint:disable-next-line
-        console.log(e);
+    } catch (error) {
+        collectLogs(error);
     }
 }
 
