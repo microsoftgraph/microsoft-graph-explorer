@@ -13,7 +13,7 @@ import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
 import { localLogout } from './auth';
-import { acquireNewAccessToken, collectLogs, login, logout } from './auth.service';
+import { acquireNewAccessToken, collectLogs, getTokenSilent, login, logout } from './auth.service';
 import { app } from './msal-user-agent';
 
 @Component({
@@ -35,13 +35,16 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   public async ngOnInit() {
     // Register Callbacks for redirect flow
     app.handleRedirectCallbacks(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
-    AppComponent.explorerValues.authentication.status = 'authenticating';
-    if (app.getAccount()) {
-      await acquireNewAccessToken(app)
+    AppComponent.explorerValues.authentication.status = 'anonymous';
+
+    const account = app.getAccount();
+    const defaultScopes = AppComponent.Options.DefaultUserScopes;
+
+    if (account) {
+      AppComponent.explorerValues.authentication.status = 'authenticating';
+      await getTokenSilent(app, defaultScopes)
         .then(this.acquireTokenCallBack)
-        .catch(this.acquireTokenErrorCallBack);
-    } else {
-      AppComponent.explorerValues.authentication.status = 'anonymous';
+        .then(this.acquireTokenErrorCallBack);
     }
   }
 
@@ -113,8 +116,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   private async acquireTokenCallBack(response) {
     if (response && response.tokenType === 'access_token') {
       AppComponent.explorerValues.authentication.status = 'authenticated';
-      await this.displayUserProfile();
-      await this.setPermissions(response);
+      this.displayUserProfile();
+      this.setPermissions(response);
     } else if (response && response.tokenType === 'id_token') {
       await acquireNewAccessToken(app)
         .then(this.acquireTokenCallBack).catch(this.acquireTokenErrorCallBack);
@@ -124,7 +127,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   private acquireTokenErrorCallBack(error) {
-    collectLogs(error.message);
-    AppComponent.explorerValues.authentication.status = 'anonymous';
+    if (error) {
+      collectLogs(error.message);
+      AppComponent.explorerValues.authentication.status = 'anonymous';
+    }
   }
 }
