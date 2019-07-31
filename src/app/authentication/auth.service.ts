@@ -5,9 +5,9 @@ const { appInsights } = (window as any);
 
 const loginType = getLoginType();
 
-export const collectLogs = (message: string): void => {
+export const collectLogs = (error: any): void => {
     if (appInsights) {
-        appInsights.trackEvent('MSAL Error', message);
+        appInsights.trackException(error, 'acquireTokenErrorCallback', {});
     }
 };
 
@@ -17,7 +17,7 @@ export function logout(userAgentApp: Msal.UserAgentApplication) {
 
 // tslint:disable-next-line: max-line-length
 export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, scopes: string[]): Promise<Msal.AuthResponse> {
-    return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
+ return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
 }
 
 export async function login(userAgentApp: Msal.UserAgentApplication) {
