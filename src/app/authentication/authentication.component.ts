@@ -128,6 +128,11 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   private acquireTokenErrorCallBack(error) {
     if (error) {
+      // tslint:disable
+      console.log('***');
+      console.log(error);
+      console.log('***');
+      // tslint:enable
       collectLogs(error.message);
       AppComponent.explorerValues.authentication.status = 'anonymous';
     }
