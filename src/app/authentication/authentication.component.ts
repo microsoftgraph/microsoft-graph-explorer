@@ -122,8 +122,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     } else if (response && response.tokenType === 'id_token') {
       await acquireNewAccessToken(app)
         .then(this.acquireTokenCallBack).catch(this.acquireTokenErrorCallBack);
-    } else {
-      AppComponent.explorerValues.authentication.status = 'anonymous';
     }
   }
 
