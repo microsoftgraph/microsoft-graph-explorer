@@ -43,7 +43,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
     if (account) {
       AppComponent.explorerValues.authentication.status = 'authenticating';
-      await getTokenSilent(app, defaultScopes)
+      await acquireNewAccessToken(app, defaultScopes)
         .then(this.acquireTokenCallBack)
         .then(this.acquireTokenErrorCallBack);
     }
