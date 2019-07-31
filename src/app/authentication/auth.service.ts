@@ -17,11 +17,7 @@ export function logout(userAgentApp: Msal.UserAgentApplication) {
 
 // tslint:disable-next-line: max-line-length
 export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, scopes: string[]): Promise<Msal.AuthResponse> {
-    try {
-        return await userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
-    } catch (error) {
-        collectLogs(error);
-    }
+ return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
 }
 
 export async function login(userAgentApp: Msal.UserAgentApplication) {
