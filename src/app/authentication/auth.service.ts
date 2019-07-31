@@ -5,7 +5,7 @@ const { appInsights } = (window as any);
 
 const loginType = getLoginType();
 
-export const collectLogs = (error: Error): void => {
+export const collectLogs = (error: any): void => {
     if (appInsights) {
         appInsights.trackException(error, 'acquireTokenErrorCallback', {});
     }

@@ -129,9 +129,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }
   }
 
-  private acquireTokenErrorCallBack(error) {
+  private acquireTokenErrorCallBack(error: any): void {
     if (error) {
-      collectLogs(error.message);
+      collectLogs(error);
       AppComponent.explorerValues.authentication.status = 'anonymous';
     }
   }
