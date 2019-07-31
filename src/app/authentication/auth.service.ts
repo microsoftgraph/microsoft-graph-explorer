@@ -5,9 +5,9 @@ const { appInsights } = (window as any);
 
 const loginType = getLoginType();
 
-export const collectLogs = (message: string): void => {
+export const collectLogs = (error: Error): void => {
     if (appInsights) {
-        appInsights.trackEvent('MSAL Error', message);
+        appInsights.trackException(error, 'acquireTokenErrorCallback', {});
     }
 };
 

@@ -30,6 +30,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
               private changeDetectorRef: ChangeDetectorRef) {
     super();
     this.acquireTokenCallBack = this.acquireTokenCallBack.bind(this);
+    this.acquireTokenErrorCallBack = this.acquireTokenErrorCallBack.bind(this);
   }
 
   public async ngOnInit() {
@@ -114,6 +115,8 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   private async acquireTokenCallBack(response) {
+    // tslint:disable-next-line
+    console.log(response);
     if (response && response.tokenType === 'access_token') {
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.displayUserProfile();
@@ -128,11 +131,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   private acquireTokenErrorCallBack(error) {
     if (error) {
-      // tslint:disable
-      console.log('***');
-      console.log(error);
-      console.log('***');
-      // tslint:enable
       collectLogs(error.message);
       AppComponent.explorerValues.authentication.status = 'anonymous';
     }
