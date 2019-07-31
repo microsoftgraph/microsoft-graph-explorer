@@ -115,8 +115,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   private async acquireTokenCallBack(response) {
-    // tslint:disable-next-line
-    console.log(response);
     if (response && response.tokenType === 'access_token') {
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.displayUserProfile();
