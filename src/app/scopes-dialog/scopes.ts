@@ -781,5 +781,12 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows an app to read and write workforce integrations configured in the tenant on your behalf.',
     preview: true,
     admin: true
+},
+{
+    name: 'UserNotification.ReadWrite.CreatedByApp',
+    description: 'Deliver and manage user notifications',
+    longDescription: 'Allows the app to deliver its notifications on behalf of signed-in users. Also allows the app to read, update, and delete the user\'s notification items.',
+    preview: false,
+    admin: false
 }
 ];
