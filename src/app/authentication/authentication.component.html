@@ -3,6 +3,7 @@
     <div tabindex="0" [attr.aria-label]="getStr('To access your own data:')" >{{getStr('To access your own data:')}}</div>
     <div id="ms-signin-button-container">
         <button
+            *ngIf="getAuthenticationStatus() !== 'authenticating'"
             id="ms-signin-button"
             (click)="login()"
             (keyup.enter)="login()"
