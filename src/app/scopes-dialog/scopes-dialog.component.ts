@@ -39,7 +39,9 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
 
   public static closeDialog() {
     ScopesDialogComponent.fabricDialog.close();
+    (document.querySelector('#modify-permissions') as any).focus();
   }
+
   public scopes: IPermissionScope[] = PermissionScopes;
 
   /**
