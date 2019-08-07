@@ -158,14 +158,7 @@ export class ScopesDialogComponent extends GraphExplorerComponent implements Aft
   public async getNewAccessToken() {
     const selectedScopes = PermissionScopes.filter((scope) => scope.requested && !scope.consented)
       .map((scope) => scope.name);
-
-    try {
-      await acquireNewAccessToken(app, selectedScopes).then((response) => {
-        return;
-      });
-    } catch (error) {
-      throw error;
-    }
+    await acquireNewAccessToken(app, selectedScopes);
   }
 
   public static showDialog() { // tslint:disable-line

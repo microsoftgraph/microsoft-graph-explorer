@@ -13,7 +13,7 @@ import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
 import { getGraphUrl } from '../util';
 import { localLogout } from './auth';
-import { acquireNewAccessToken, collectLogs, getTokenSilent, login, logout } from './auth.service';
+import { acquireNewAccessToken, collectLogs, login, requiresInteraction } from './auth.service';
 import { app } from './msal-user-agent';
 
 @Component({
@@ -128,7 +128,10 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   private acquireTokenErrorCallBack(error: any): void {
     if (error) {
       collectLogs(error);
-      AppComponent.explorerValues.authentication.status = 'anonymous';
+
+      if (!requiresInteraction(error.errorCode)) {
+        AppComponent.explorerValues.authentication.status = 'anonymous';
+      }
     }
   }
 }
