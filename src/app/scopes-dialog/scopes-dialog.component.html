@@ -1,4 +1,4 @@
-<div class="ms-Dialog center-dialog ms-Dialog--close" id="scopes-dialog" tabindex="0">
+<div class="ms-Dialog center-dialog ms-Dialog--close" id="scopes-dialog" tabindex="0" (keydown.esc)="ScopesDialogComponent.closeDialog()">
     <!--
     This empty tag is a workaround for fixing an off by one error.
 
@@ -11,7 +11,7 @@
         autofocus>
         <i class="ms-Icon ms-Icon--Cancel"></i>
     </button>
-    <div tabindex="0" class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
+    <div id="modify-permissions" tabindex="0" class="ms-Dialog-title">{{getStr('modify permissions')}}</div>
     <p class="ms-Dialog-subText" tabindex="0">Select different
         <a class="ms-Link" href="https://developer.microsoft.com/graph/docs/concepts/permissions_reference" target="_blank">permissions</a>
         to try out Microsoft Graph API endpoints.</p>
