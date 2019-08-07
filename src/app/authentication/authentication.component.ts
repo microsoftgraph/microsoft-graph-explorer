@@ -129,6 +129,10 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     if (error) {
       collectLogs(error);
 
+      /**
+       * We only want to change the authentication status to anonymous for errors other than those
+       * that require interation from the user.
+       */
       if (!requiresInteraction(error.errorCode)) {
         AppComponent.explorerValues.authentication.status = 'anonymous';
       }
