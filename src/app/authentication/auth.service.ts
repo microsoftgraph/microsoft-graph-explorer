@@ -81,13 +81,14 @@ export function generateUserScopes(userScopes = AppComponent.Options.DefaultUser
     return scopes;
 }
 
-function requiresInteraction(errorCode) {
+export function requiresInteraction(errorCode) {
     if (!errorCode || !errorCode.length) {
         return false;
     }
     return errorCode === 'consent_required' ||
         errorCode === 'interaction_required' ||
-        errorCode === 'login_required';
+        errorCode === 'login_required' ||
+        errorCode === 'token_renewal_error';
 }
 
 export function getLoginType() {
