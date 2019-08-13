@@ -1,14 +1,11 @@
 import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
 
-const { appInsights } = (window as any);
-
 const loginType = getLoginType();
 
 export const collectLogs = (error: any): void => {
-    if (appInsights) {
-        appInsights.trackException(error, 'acquireTokenErrorCallback', {});
-    }
+    // tslint:disable-next-line
+    console.log(error);
 };
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
