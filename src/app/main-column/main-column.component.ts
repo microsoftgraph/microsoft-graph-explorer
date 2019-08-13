@@ -247,12 +247,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
         const graphVersionSelectMenu = graphVersionSelectEl.mwfInstances.Select.selectMenu;
 
-        let graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
+        const graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
         if (graphVersionIdx === -1) {
-            document.getElementById('-Other').children[0].textContent = this.explorerValues.selectedVersion;
-            graphVersionIdx = this.GraphVersions.indexOf('Other');
-
-            // If we're selecting the other twice, the button text won't update automatically
             document.querySelector('.graph-version.c-select button').textContent = this.explorerValues.selectedVersion;
         }
 
