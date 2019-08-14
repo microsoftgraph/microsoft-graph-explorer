@@ -249,7 +249,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
         const graphVersionIdx = this.GraphVersions.indexOf(this.explorerValues.selectedVersion);
         if (graphVersionIdx === -1) {
-            document.querySelector('.graph-version.c-select button').textContent = this.explorerValues.selectedVersion;
+            document.querySelector('.graph-version.c-select button').textContent = 'Other';
         }
 
         graphVersionSelectMenu.onItemSelected(graphVersionSelectMenu.items[graphVersionIdx]);
