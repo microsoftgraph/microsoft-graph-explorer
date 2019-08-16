@@ -14,7 +14,7 @@ export function logout(userAgentApp: Msal.UserAgentApplication) {
 
 // tslint:disable-next-line: max-line-length
 export async function getTokenSilent(userAgentApp: Msal.UserAgentApplication, scopes: string[]): Promise<Msal.AuthResponse> {
- return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
+    return userAgentApp.acquireTokenSilent({ scopes: generateUserScopes(scopes) });
 }
 
 export async function login(userAgentApp: Msal.UserAgentApplication) {
@@ -89,13 +89,6 @@ export function requiresInteraction(errorCode) {
 }
 
 export function getLoginType() {
-    const ua = window.navigator.userAgent;
-    const msie = ua.indexOf('MSIE ');
-    const msie11 = ua.indexOf('Trident/');
-    const msedge = ua.indexOf('Edge/');
-    const isIE = msie > 0 || msie11 > 0;
-    const isEdge = msedge > 0;
-
     /**
      * Always redirects because of transient issues caused by showing a pop up. Graph Explorer
      * loses hold of the iframe Pop Up
