@@ -100,7 +100,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         const blob = new Blob([userPicture.arrayBuffer()], { type: 'image/jpeg' });
         const imageUrl = window.URL.createObjectURL(blob);
 
-        AppComponent.explorerValues.authentication.user.profileImageUrl = imageUrl;
+        AppComponent.explorerValues.authentication.user.profileImageUrl = this.sanitize(imageUrl) as string;
       } catch (e) {
         collectLogs(e.message);
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
