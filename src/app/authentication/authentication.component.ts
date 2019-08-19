@@ -41,6 +41,16 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     const prevVersion = localStorage.getItem('version');
     const { appVersion } = (window as any);
 
+    const hostname = window.location.hostname;
+
+    /**
+     * This forces a logout for users who do not have the version property in localstorage.
+     * The version is set when they log in, so this will only happen once.
+     */
+    if (hostname !== 'localhost' && prevVersion === null) {
+      localStorage.clear();
+    }
+
     /**
      * If there's a newer version of Graph Explorer clear localStorage.
      */
