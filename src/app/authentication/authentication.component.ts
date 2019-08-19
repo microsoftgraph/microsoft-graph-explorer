@@ -38,6 +38,16 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     app.handleRedirectCallbacks(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
     AppComponent.explorerValues.authentication.status = 'anonymous';
 
+    const prevVersion = localStorage.getItem('version');
+    const { appVersion } = (window as any);
+
+    /**
+     * If there's a newer version of Graph Explorer clear localStorage.
+     */
+    if (prevVersion && appVersion && this.isAppOutdated(appVersion, prevVersion)) {
+      localStorage.clear();
+    }
+
     const account = app.getAccount();
     const defaultScopes = AppComponent.Options.DefaultUserScopes;
 
@@ -48,7 +58,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         .then(this.acquireTokenErrorCallBack);
     }
   }
-
   public sanitize(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
@@ -82,6 +91,17 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       // Scope.consented indicates that the user or admin has previously consented to the scope.
       scope.consented = scopesLowerCase.indexOf(scope.name.toLowerCase()) !== -1;
     }
+  }
+
+  private isAppOutdated(current: string, previous: string): boolean {
+    const [ currMajor, currMinor, currPatch ] = current.split('.').map((value) => Number(value));
+    const [ prevMajor, prevMinor, prevPatch ] = previous.split('.').map((value) => Number(value));
+
+    if (currMajor > prevMajor) { return true; }
+    if (currMinor > prevMinor) { return true; }
+    if (currPatch > prevPatch) { return true; }
+
+    return false;
   }
 
   private async displayUserProfile() {
@@ -119,6 +139,14 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.displayUserProfile();
       this.setPermissions(response);
+
+      /**
+       * Setting the version here allows us to know which version of Graph Explorer the user authenticated with.
+       */
+      const { appVersion } = (window as any);
+      if (appVersion) {
+        localStorage.setItem('version', appVersion);
+      }
     } else if (response && response.tokenType === 'id_token') {
       await acquireNewAccessToken(app)
         .then(this.acquireTokenCallBack).catch(this.acquireTokenErrorCallBack);
