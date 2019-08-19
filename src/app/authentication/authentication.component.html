@@ -29,7 +29,7 @@
 <div *ngIf="getAuthenticationStatus() === 'authenticated'" id="persona-holder">
     <div class="ms-Persona" [class.noPicture]="!authInfo.user.profileImageUrl">
         <div class="ms-Persona-imageArea" *ngIf="authInfo.user.profileImageUrl">
-            <img class="ms-Persona-image" [src]="sanitize(authInfo.user.profileImageUrl)">
+            <img class="ms-Persona-image" [src]="authInfo.user.profileImageUrl">
         </div>
         <div class="ms-Persona-details">
             <div class="ms-Persona-primaryText" id='userDisplayName' *ngIf="authInfo.user.displayName">{{authInfo.user.displayName}}</div>
