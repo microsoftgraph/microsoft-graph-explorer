@@ -52,9 +52,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     }
 
     /**
-     * If there's a newer version of Graph Explorer clear localStorage.
+     * Clear localStorage when the version of GraphExplorer changes.
      */
-    if (prevVersion && appVersion && this.isAppOutdated(appVersion, prevVersion)) {
+    if (prevVersion && appVersion && appVersion !== prevVersion) {
       localStorage.clear();
     }
 
@@ -101,17 +101,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       // Scope.consented indicates that the user or admin has previously consented to the scope.
       scope.consented = scopesLowerCase.indexOf(scope.name.toLowerCase()) !== -1;
     }
-  }
-
-  private isAppOutdated(current: string, previous: string): boolean {
-    const [ currMajor, currMinor, currPatch ] = current.split('.').map((value) => Number(value));
-    const [ prevMajor, prevMinor, prevPatch ] = previous.split('.').map((value) => Number(value));
-
-    if (currMajor > prevMajor) { return true; }
-    if (currMinor > prevMinor) { return true; }
-    if (currPatch > prevPatch) { return true; }
-
-    return false;
   }
 
   private async displayUserProfile() {
