@@ -38,6 +38,26 @@ export class AuthenticationComponent extends GraphExplorerComponent {
     app.handleRedirectCallbacks(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
     AppComponent.explorerValues.authentication.status = 'anonymous';
 
+    const prevVersion = localStorage.getItem('version');
+    const { appVersion } = (window as any);
+
+    const hostname = window.location.hostname;
+
+    /**
+     * This forces a logout for users who do not have the version property in localstorage.
+     * The version is set when they log in, so this will only happen once.
+     */
+    if (hostname !== 'localhost' && prevVersion === null) {
+      localStorage.clear();
+    }
+
+    /**
+     * Clear localStorage when the version of GraphExplorer changes.
+     */
+    if (prevVersion && appVersion && appVersion !== prevVersion) {
+      localStorage.clear();
+    }
+
     const account = app.getAccount();
     const defaultScopes = AppComponent.Options.DefaultUserScopes;
 
@@ -48,7 +68,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
         .then(this.acquireTokenErrorCallBack);
     }
   }
-
   public sanitize(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
@@ -119,6 +138,14 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.displayUserProfile();
       this.setPermissions(response);
+
+      /**
+       * Setting the version here allows us to know which version of Graph Explorer the user authenticated with.
+       */
+      const { appVersion } = (window as any);
+      if (appVersion) {
+        localStorage.setItem('version', appVersion);
+      }
     } else if (response && response.tokenType === 'id_token') {
       await acquireNewAccessToken(app)
         .then(this.acquireTokenCallBack).catch(this.acquireTokenErrorCallBack);
