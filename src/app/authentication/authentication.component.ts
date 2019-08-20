@@ -74,6 +74,15 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async login() {
     AppComponent.explorerValues.authentication.status = 'authenticating';
+
+    /**
+     * Setting the version here allows us to know which version of Graph Explorer the user authenticated with.
+     */
+    const { appVersion } = (window as any);
+    if (appVersion) {
+      localStorage.setItem('version', appVersion);
+    }
+
     await login(app).then(this.acquireTokenCallBack)
       .catch(this.acquireTokenErrorCallBack);
   }
@@ -138,14 +147,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.displayUserProfile();
       this.setPermissions(response);
-
-      /**
-       * Setting the version here allows us to know which version of Graph Explorer the user authenticated with.
-       */
-      const { appVersion } = (window as any);
-      if (appVersion) {
-        localStorage.setItem('version', appVersion);
-      }
     } else if (response && response.tokenType === 'id_token') {
       await acquireNewAccessToken(app)
         .then(this.acquireTokenCallBack).catch(this.acquireTokenErrorCallBack);
