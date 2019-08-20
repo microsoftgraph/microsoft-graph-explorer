@@ -9,9 +9,10 @@ const loggerCallback = (level: Msal.LogLevel, message: string): void => {
 
 const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose, correlationId: '1234' });
 
-const config = {
+const config: Msal.Configuration = {
   auth: {
     clientId: ClientId,
+    navigateToLoginRequestUrl: false,
   },
   cache: {
     cacheLocation: 'localStorage',
