@@ -161,10 +161,8 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
         // Where setAttribute is called on an undefined object.
         if (this.isAuthenticated() && selectElement !== undefined && hasDisabledAttribute) {
             selectElement.setAttribute('aria-disabled', 'false');
-            selectElementButton.removeAttribute('disabled');
         } else if (!this.isAuthenticated() && !hasDisabledAttribute) {
             selectElement.setAttribute('aria-disabled', 'true');
-            selectElementButton.setAttribute('disabled', '');
         }
     }
 
