@@ -5,7 +5,7 @@
 
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { AuthResponse, UserAgentApplication } from 'msal';
+import { AuthResponse } from 'msal';
 import { AppComponent } from '../app.component';
 import { GraphService } from '../graph-service';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
@@ -35,7 +35,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async ngOnInit() {
     // Register Callbacks for redirect flow
-    app.handleRedirectCallbacks(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
+    app.handleRedirectCallback(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
     AppComponent.explorerValues.authentication.status = 'anonymous';
 
     const prevVersion = localStorage.getItem('version');
