@@ -49,7 +49,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
      */
     if (hostname !== 'localhost' && prevVersion === null) {
       localStorage.clear();
-      localStorage.setItem('hostname-clear', 'guilty as charged');
     }
 
     /**
@@ -57,7 +56,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
      */
     if (prevVersion && appVersion && appVersion !== prevVersion) {
       localStorage.clear();
-      localStorage.setItem('version-change-clear', 'guilty as charged');
     }
 
     const account = app.getAccount();
