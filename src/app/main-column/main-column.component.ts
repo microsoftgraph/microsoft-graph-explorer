@@ -151,7 +151,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
           Because of the limitation mentioned above we have to manually get a reference to the button and disable it.
          */
-        const selectElement = this._httpMethodEl.element.nativeElement.children[1];
+        const selectElement = this._httpMethodEl.element.nativeElement.children[0];
         const selectElementButton = selectElement && selectElement.children[0];
         const hasDisabledAttribute = !!selectElementButton && selectElementButton.hasAttribute('disabled');
 
@@ -164,7 +164,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
             selectElementButton.removeAttribute('disabled');
         } else if (!this.isAuthenticated() && !hasDisabledAttribute) {
             selectElement.setAttribute('aria-disabled', 'true');
-            selectElementButton.setAttribute('disabled', '');
+            selectElementButton.setAttribute('disabled', 'true');
         }
     }
 
