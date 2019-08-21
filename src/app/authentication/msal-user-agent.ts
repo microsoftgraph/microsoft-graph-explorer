@@ -12,7 +12,6 @@ const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Verbose, c
 const config: Msal.Configuration = {
   auth: {
     clientId: ClientId,
-    navigateToLoginRequestUrl: false,
   },
   cache: {
     cacheLocation: 'localStorage',
