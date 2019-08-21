@@ -26,8 +26,9 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public authInfo = this.explorerValues.authentication;
 
-  constructor(private sanitizer: DomSanitizer, private apiService: GraphService,
-              private changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    private sanitizer: DomSanitizer, private apiService: GraphService,
+    private changeDetectorRef: ChangeDetectorRef) {
     super();
     this.acquireTokenCallBack = this.acquireTokenCallBack.bind(this);
     this.acquireTokenErrorCallBack = this.acquireTokenErrorCallBack.bind(this);
@@ -161,7 +162,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
        * We only want to change the authentication status to anonymous for errors other than those
        * that require interation from the user.
        */
-      if (!requiresInteraction(error.errorCode)) {
+      if (!requiresInteraction(error.errorCode) || error.errorCode !== 'acquiretoken_progress_error') {
         AppComponent.explorerValues.authentication.status = 'anonymous';
       }
     }
