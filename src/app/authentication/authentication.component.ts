@@ -166,14 +166,6 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   private acquireTokenErrorCallBack(error: any): void {
     if (error) {
       collectLogs(error);
-
-      /**
-       * We only want to change the authentication status to anonymous for errors other than those
-       * that require interation from the user.
-       */
-      if (!requiresInteraction(error.errorCode) && error.errorCode !== 'acquiretoken_progress_error') {
-        AppComponent.explorerValues.authentication.status = 'anonymous';
-      }
     }
   }
 }
