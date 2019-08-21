@@ -36,7 +36,16 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async ngOnInit() {
     // Register Callbacks for redirect flow
-    app.handleRedirectCallback(this.acquireTokenCallBack, this.acquireTokenErrorCallBack);
+    app.handleRedirectCallback((error, response) => {
+      if (error) {
+        this.acquireTokenErrorCallBack(error);
+      } else {
+        AppComponent.explorerValues.authentication.status = 'authenticated';
+        this.displayUserProfile();
+        this.setPermissions(response);
+      }
+    });
+
     AppComponent.explorerValues.authentication.status = 'anonymous';
 
     const prevVersion = localStorage.getItem('version');
@@ -162,7 +171,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
        * We only want to change the authentication status to anonymous for errors other than those
        * that require interation from the user.
        */
-      if (!requiresInteraction(error.errorCode) || error.errorCode !== 'acquiretoken_progress_error') {
+      if (!requiresInteraction(error.errorCode) && error.errorCode !== 'acquiretoken_progress_error') {
         AppComponent.explorerValues.authentication.status = 'anonymous';
       }
     }
