@@ -36,15 +36,7 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
   public async ngOnInit() {
     // Register Callbacks for redirect flow
-    app.handleRedirectCallback((error, response) => {
-      if (error) {
-        this.acquireTokenErrorCallBack(error);
-      } else {
-        AppComponent.explorerValues.authentication.status = 'authenticated';
-        this.displayUserProfile();
-        this.setPermissions(response);
-      }
-    });
+    app.handleRedirectCallback(this.acquireTokenErrorCallBack, this.acquireTokenCallBack);
 
     AppComponent.explorerValues.authentication.status = 'anonymous';
 
