@@ -297,6 +297,27 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: false,
   },
   {
+    name: 'Organization.Read.All',
+    description: 'Read organization and related resources',
+    longDescription: 'Allows application to read the organization and related resources, on behalf of the signed-in user.',
+    preview: false,
+    admin: true,
+  },
+  {
+    name: 'Organization.ReadWrite.All',
+    description: 'Have full access to organization and related resources',
+    longDescription: 'Allows the application to read, create, update, and delete the organization and related resources, on behalf of the signed-in user.',
+    preview: false,
+    admin: true,
+  },
+  {
+    name: 'OrgContact.Read.All',
+    description: 'Read organization contacts',
+    longDescription: 'Allows the app to read all organizational contacts on behalf of the signed-in user.  These contacts are managed by the organization and are different from the user\'s personal contacts.',
+    preview: false,
+    admin: true,
+  },
+  {
     name: 'ProgramControl.Read.All',
     description: 'Read all programs that a user can access',
     longDescription: 'Allows the app to read programs and program controls that the signed-in user has access to in the organization',
