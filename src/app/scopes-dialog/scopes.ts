@@ -809,5 +809,12 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to deliver its notifications on behalf of signed-in users. Also allows the app to read, update, and delete the user\'s notification items.',
     preview: false,
     admin: false
+},
+{
+    name: 'ExternalItem.Read.All',
+    description: 'Search file and UDT connectors data',
+    longDescription: 'Allows the app to search from the file and UDT connectors data',
+    preview: true,
+    admin: false
 }
 ];
