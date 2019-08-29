@@ -776,7 +776,7 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
 },
 {
-    name: 'Places.Read.All',
+    name: 'Place.Read.All',
     description: 'Allows the app to read company places.',
     longDescription: 'Allows the app to read company places (Conf Rooms and Room Lists) for calendar events and other applications.',
     preview: true,
