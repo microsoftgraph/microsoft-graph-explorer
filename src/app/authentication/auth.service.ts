@@ -4,8 +4,19 @@ import { AppComponent } from '../app.component';
 const loginType = getLoginType();
 
 export const collectLogs = (error: any): void => {
-    // tslint:disable-next-line
-    console.log(error);
+    const { awa } = (window as any);
+
+    // Awa is only defined in staging & prod. This check avoids errors in localhost.
+    if (awa) {
+        const errorDetails = {
+            errorInfo: {
+                ErrorCategory: 'Graph Explorer - MSAL Error',
+                ErrorMessage: JSON.stringify(error),
+            },
+        };
+
+        awa.ct.captureClientError(errorDetails);
+    }
 };
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
