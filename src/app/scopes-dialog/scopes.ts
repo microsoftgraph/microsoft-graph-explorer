@@ -769,7 +769,7 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
 },
 {
-    name: 'Places.Read.All',
+    name: 'Place.Read.All',
     description: 'Allows the app to read company places.',
     longDescription: 'Allows the app to read company places (Conf Rooms and Room Lists) for calendar events and other applications.',
     preview: true,
@@ -808,6 +808,13 @@ export const PermissionScopes: IPermissionScope[] = [
     description: 'Deliver and manage user notifications',
     longDescription: 'Allows the app to deliver its notifications on behalf of signed-in users. Also allows the app to read, update, and delete the user\'s notification items.',
     preview: false,
+    admin: false
+},
+{
+    name: 'ExternalItem.Read.All',
+    description: 'Search file and UDT connectors data',
+    longDescription: 'Allows the app to search from the file and UDT connectors data',
+    preview: true,
     admin: false
 }
 ];
