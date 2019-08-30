@@ -7,7 +7,7 @@ const loggerCallback = (level: Msal.LogLevel, message: string): void => {
   collectLogs(message);
 };
 
-const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Error, correlationId: '1234' });
+const logger = new Msal.Logger(loggerCallback, { level: Msal.LogLevel.Error });
 
 const config: Msal.Configuration = {
   auth: {

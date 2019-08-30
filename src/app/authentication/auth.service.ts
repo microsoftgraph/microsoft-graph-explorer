@@ -6,15 +6,15 @@ const loginType = getLoginType();
 export const collectLogs = (error: any): void => {
     const { awa } = (window as any);
 
-    const errorDetails = {
-        errorInfo: {
-            ErrorCategory: 'Graph Explorer - MSAL Error',
-            ErrorMessage: JSON.stringify(error),
-        },
-    };
-
     // Awa is only defined in staging & prod. This check avoids errors in localhost.
     if (awa) {
+        const errorDetails = {
+            errorInfo: {
+                ErrorCategory: 'Graph Explorer - MSAL Error',
+                ErrorMessage: JSON.stringify(error),
+            },
+        };
+
         awa.ct.captureClientError(errorDetails);
     }
 };
