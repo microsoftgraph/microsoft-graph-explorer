@@ -1,6 +1,6 @@
 {
   "name": "microsoft-graph-explorer",
-  "version": "1.8.3",
+  "version": "1.9.0",
   "description": "Microsoft Graph Explorer",
   "scripts": {
     "build": "tsc -p src/",
