@@ -830,5 +830,19 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to search from the file and UDT connectors data',
     preview: true,
     admin: false
+},
+{
+    name: 'IdentityUserFlow.Read.All',
+    description: 'Read all identity user flows',
+    longDescription: 'Allows the app to read your organization\'s user flows, on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'IdentityUserFlow.ReadWrite.All',
+    description: 'Read and write all identity user flows',
+    longDescription: 'Allows the app to read or write your organization\'s user flows, on behalf of the signed-in user.',
+    preview: true,
+    admin: true
 }
 ];
