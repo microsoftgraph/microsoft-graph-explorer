@@ -792,14 +792,14 @@ export const PermissionScopes: IPermissionScope[] = [
 {
   name: 'Whiteboards.Read',
   description: 'Read user whiteboards',
-  longDescription: 'Allows the app to read all whiteboards you have access to, and the associated collaborators, on your behalf.',
+  longDescription: 'Allows the app to read all whiteboards you have access to, on your behalf.',
   preview: true,
   admin: false
 },
 {
   name: 'Whiteboards.ReadWrite',
   description: 'Manage user whiteboards',
-  longDescription: 'Allows the app to read and modify all whiteboards you have access to, and the associated collaborators, on your behalf.',
+  longDescription: 'Allows the app to read and modify all whiteboards you have access to, on your behalf.',
   preview: true,
   admin: false
 },
