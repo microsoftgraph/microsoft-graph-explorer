@@ -11,7 +11,7 @@
                 <div class="category-switch">
                     <div class="c-toggle" (click)="toggleCategory(category)">
                         <button name="example-1" role="checkbox" [attr.aria-checked]="category.enabled" [attr.aria-labelledby]="getId(category.title)"></button>
-                        <span [attr.data-on-string]="getStr('On')" [attr.data-off-string]="getStr('Off')">{{getStr('On')}}</span>
+                        <span [attr.data-on-string]="getStr('On')" [attr.data-off-string]="getStr('Off')">{{category.enabled? getStr('On') : getStr('Off')}}</span>
                     </div>
                 </div>
             </div>
