@@ -1411,7 +1411,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "POST",
     "humanName": "create a raw notification",
     "requestUrl": "/beta/me/notifications",
-    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/notifications-post?view=graph-rest-beta",
     "headers": [
         {
             "name": "Content-Type",
@@ -1427,7 +1427,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "POST",
     "humanName": "create a visual notification",
     "requestUrl": "/beta/me/notifications",
-    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/notifications-post?view=graph-rest-beta",
     "headers": [
         {
             "name": "Content-Type",

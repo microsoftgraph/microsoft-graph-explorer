@@ -9,9 +9,13 @@
             <div *ngFor="let category of categories" class="category-row" [attr.aria-label]="getStr(category.title)" [attr.id]="getId(category.title)">
                 {{getStr(category.title)}} ({{category.queries.length}})
                 <div class="category-switch">
-                    <div class="c-toggle" (click)="toggleCategory(category)">
-                        <button name="example-1" role="checkbox" [attr.aria-checked]="category.enabled" [attr.aria-labelledby]="getId(category.title)"></button>
-                        <span [attr.data-on-string]="getStr('On')" [attr.data-off-string]="getStr('Off')">{{getStr('On')}}</span>
+                    <div class="c-toggle toggle-control" (click)="toggleCategory(category)">
+                        <div>
+                            <button name="example-1" role="checkbox" [attr.aria-checked]="category.enabled" [attr.aria-labelledby]="getId(category.title)"></button>
+                        </div>
+                        <div>
+                            <span [attr.data-on-string]="getStr('On')" [attr.data-off-string]="getStr('Off')">{{category.enabled? getStr('On') : getStr('Off')}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
