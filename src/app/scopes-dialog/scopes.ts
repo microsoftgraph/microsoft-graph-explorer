@@ -129,13 +129,6 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: false,
   },
   {
-    name: 'ExternalItem.Read.All',
-    description: 'Search file and UDT connectors data',
-    longDescription: 'Allows the app to search from the file and UDT connectors data',
-    preview: true,
-    admin: false
-  },
-  {
     name: 'Files.Read',
     description: 'Read user files and files shared with user',
     longDescription: 'Allows the app to read the signed-in user\'s files and files shared with the user.',
@@ -292,7 +285,7 @@ export const PermissionScopes: IPermissionScope[] = [
   {
     name: 'Notes.ReadWrite',
     description: 'Read and write user notebooks',
-    longDescription: 'Allows the app to read the titles of notebooks and sections, read all pages, write all pages and create new pages on behalf of the signed-in user.  It cannot access password protected sections.',
+    longDescription: 'Allows the app to read the titles of notebooks and sections, read all pages, write all pages and create new pages on behalf of the signed-in user.  It cannot access password protected sections.',
     preview: false,
     admin: false,
   },
@@ -797,6 +790,20 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
 },
 {
+  name: 'Whiteboards.Read',
+  description: 'Read user whiteboards',
+  longDescription: 'Allows the app to read all whiteboards you have access to, and the associated collaborators, on your behalf.',
+  preview: true,
+  admin: false
+},
+{
+  name: 'Whiteboards.ReadWrite',
+  description: 'Manage user whiteboards',
+  longDescription: 'Allows the app to read and modify all whiteboards you have access to, and the associated collaborators, on your behalf.',
+  preview: true,
+  admin: false
+},
+{
     name: 'WorkforceIntegration.Read.All',
     description: 'Read the workforce integrations configured in the tenant',
     longDescription: 'Allows an app to read workforce integrations configured in the tenant on your behalf.',
@@ -815,6 +822,13 @@ export const PermissionScopes: IPermissionScope[] = [
     description: 'Deliver and manage user notifications',
     longDescription: 'Allows the app to deliver its notifications on behalf of signed-in users. Also allows the app to read, update, and delete the user\'s notification items.',
     preview: false,
+    admin: false
+},
+{
+    name: 'ExternalItem.Read.All',
+    description: 'Search file and UDT connectors data',
+    longDescription: 'Allows the app to search from the file and UDT connectors data',
+    preview: true,
     admin: false
 }
 ];
