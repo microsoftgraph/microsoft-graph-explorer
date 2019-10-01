@@ -1,12 +1,16 @@
 .category-row {
     margin-bottom: 15px;
     padding: 0 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.category-switch {
-    display: inline-block;
-    float: right;
-    width: 130px;
+.toggle-control {
+  display: flex;
+  width: 160px;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 div.c-toggle button {
