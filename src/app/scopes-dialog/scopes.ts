@@ -58,6 +58,62 @@ export const PermissionScopes: IPermissionScope[] = [
     preview: true,
     admin: true,
   },
+    {
+    name: 'ApprovalRequest.Read.AdminConsentRequest',
+    description: 'Read admin consent approval requests',
+    longDescription: 'Allows the app to read admin consent requests, business flows, and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ApprovalRequest.Read.CustomerLockbox',
+    description: 'Read customer lockbox approval requests',
+    longDescription: 'Allows the app to read customer lockbox requests, business flows and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ApprovalRequest.Read.EntitlementManagement',
+    description: 'Read entitlement management approval requests',
+    longDescription: 'Allows the app to read entitlement management requests, business flows, and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ApprovalRequest.Read.PriviligedAccess',
+    description: 'Read privileged access approval requests',
+    longDescription: 'Allows the app to read privileged access requests, business flows, and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ApprovalRequest.ReadWrite.AdminConsentRequest',
+    description: 'Read and write admin consent approval requests',
+    longDescription: 'Allows the app to read and write admin consent requests, business flows, and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ApprovalRequest.ReadWrite.CustomerLockbox',
+    description: 'Read and write customer lockbox approval requests',
+    longDescription: 'Allows the app to read and write customer lockbox requests, business flows and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ApprovalRequest.ReadWrite.EntitlementManagement',
+    description: 'Read and write entitlement management approval requests',
+    longDescription: 'Allows the app to read and write entitlement management requests, business flows, and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ApprovalRequest.ReadWrite.PriviligedAccess',
+    description: 'Read and write privileged access approval requests',
+    longDescription: 'Allows the app to read and write privileged access requests, business flows, and governance policy templates on your behalf.',
+    preview: true,
+    admin: true,
+  },
   {
     name: 'Calendars.Read',
     description: 'Read user calendars',
@@ -285,7 +341,7 @@ export const PermissionScopes: IPermissionScope[] = [
   {
     name: 'Notes.ReadWrite',
     description: 'Read and write user notebooks',
-    longDescription: 'Allows the app to read the titles of notebooks and sections, read all pages, write all pages and create new pages on behalf of the signed-in user.  It cannot access password protected sections.',
+    longDescription: 'Allows the app to read the titles of notebooks and sections, read all pages, write all pages and create new pages on behalf of the signed-in user.  It cannot access password protected sections.',
     preview: false,
     admin: false,
   },
@@ -792,14 +848,14 @@ export const PermissionScopes: IPermissionScope[] = [
 {
   name: 'Whiteboards.Read',
   description: 'Read user whiteboards',
-  longDescription: 'Allows the app to read all whiteboards you have access to, and the associated collaborators, on your behalf.',
+  longDescription: 'Allows the app to read all whiteboards you have access to, on your behalf.',
   preview: true,
   admin: false
 },
 {
   name: 'Whiteboards.ReadWrite',
   description: 'Manage user whiteboards',
-  longDescription: 'Allows the app to read and modify all whiteboards you have access to, and the associated collaborators, on your behalf.',
+  longDescription: 'Allows the app to read and modify all whiteboards you have access to, on your behalf.',
   preview: true,
   admin: false
 },
@@ -830,5 +886,19 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to search from the file and UDT connectors data',
     preview: true,
     admin: false
+},
+{
+    name: 'IdentityUserFlow.Read.All',
+    description: 'Read all identity user flows',
+    longDescription: 'Allows the app to read your organization\'s user flows, on behalf of the signed-in user.',
+    preview: true,
+    admin: true
+},
+{
+    name: 'IdentityUserFlow.ReadWrite.All',
+    description: 'Read and write all identity user flows',
+    longDescription: 'Allows the app to read or write your organization\'s user flows, on behalf of the signed-in user.',
+    preview: true,
+    admin: true
 }
 ];
