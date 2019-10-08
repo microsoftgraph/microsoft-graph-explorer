@@ -18,6 +18,7 @@ import { HistoryPanelComponent } from './history/history-panel.component';
 import { HistoryRowComponent } from './history/history-query.component';
 import { MainColumnComponent } from './main-column/main-column.component';
 import { MethodBadgeComponent } from './method-badge.component';
+import { BannerComponent } from './opt-in-out-banner/banner.component';
 import { QueryRowComponent } from './queryrow/queryrow.component';
 import { RequestEditorsComponent } from './request-editors.component';
 import { ResponseStatusBarComponent } from './response-status-bar/response-status-bar.component';
@@ -31,7 +32,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   declarations: [AppComponent, AriaSelectedMSPivotLinkDirective, ResponseStatusBarComponent,
     AuthenticationComponent, SidebarComponent, QueryRowComponent, MainColumnComponent, HistoryRowComponent,
     HistoryPanelComponent, MethodBadgeComponent, SampleCategoriesPanelComponent, RequestEditorsComponent,
-    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, LogoutComponent,
+    ShareLinkBtnComponent, ScopesDialogComponent, GenericDialogComponent, LogoutComponent, BannerComponent,
     CanaryComponent],
   bootstrap: [AppComponent],
 })
