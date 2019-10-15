@@ -544,9 +544,9 @@ Notifications (beta),POST,create a visual notification,/beta/me/notifications,Pl
   ""priority"": ""High"",
   ""displayTimeToLive"": ""60""
 }",Content-Type: application/json
-Search(beta),POST,search message,/beta/search,enable Mail.Read,https://aka.ms/mssearchapi,AAD,"{
+Search(beta),POST,search message,/beta/search/query,enable Mail.Read,https://aka.ms/mssearchapi,AAD,"{
     ""requests"": [{
-        ""entityType"": ""microsoft.graph.message"",
+        ""entityTypes"": ""microsoft.graph.message"",
         ""query"": {
             ""query_string"": {
                 ""query"": ""test""
@@ -556,9 +556,9 @@ Search(beta),POST,search message,/beta/search,enable Mail.Read,https://aka.ms/ms
         ""size"": 5
     }]
 }",Content-Type: application/json
-Search(beta),POST,search event,/beta/search,enable Calendars.Read,https://aka.ms/mssearchapi,AAD,"{
+Search(beta),POST,search event,/beta/search/query,enable Calendars.Read,https://aka.ms/mssearchapi,AAD,"{
     ""requests"": [{
-        ""entityType"": ""microsoft.graph.event"",
+        ""entityTypes"": ""microsoft.graph.event"",
         ""query"": {
             ""query_string"": {
                 ""query"": ""test""
@@ -576,7 +576,7 @@ Search(beta),POST,search event,/beta/search,enable Calendars.Read,https://aka.ms
         ""size"": 5
     }]
 }",Content-Type: application/json
-Search(beta),POST,search driveitems,/beta/search,enable Files.Read.All,https://aka.ms/mssearchapi,AAD,"{
+Search(beta),POST,search driveitems,/beta/search/query,enable Files.Read.All,https://aka.ms/mssearchapi,AAD,"{
   ""requests"": [{    
     ""entityTypes"": [""microsoft.graph.driveItem""],    
     ""query"": {
@@ -588,7 +588,7 @@ Search(beta),POST,search driveitems,/beta/search,enable Files.Read.All,https://a
     ""size"": 3
   }]
 }",Content-Type: application/json
-Search(beta),POST,search external files,/beta/search,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
+Search(beta),POST,search external files,/beta/search/query,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
   ""requests"": [{    
     ""entityTypes"": [""microsoft.graph.externalFile""],    
     ""query"": {
@@ -600,16 +600,20 @@ Search(beta),POST,search external files,/beta/search,enable ExternalItem.Read.Al
     ""size"": 25
   }]
 }",Content-Type: application/json
-Search(beta),POST,search external items,/beta/search,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
+Search(beta),POST,search external items,/beta/search/query,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
   ""requests"": [{
     ""entityTypes"": [""microsoft.graph.externalItem""],
     ""entitySources"": [""/external/connections(connection_friendly_name)""],
     ""query"": {
       ""query_string"": {
-        ""query"": ""substrate""
+        ""query"": ""test""
       }
     },
-    _""sources""= TODO
+    ""stored_fields"": [ 
+      	""title"", 
+      	""priority"", 
+      	""description""  
+       ] 
     ""from"": 0,
     ""size"": 25
   }]
