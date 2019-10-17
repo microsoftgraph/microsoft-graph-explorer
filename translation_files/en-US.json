@@ -239,8 +239,14 @@
   "Canary": "Canary",
   "disable canary" : "disable canary",
   "using canary" : "You are using the canary version of Graph Explorer. Sign in to make requests",
-  "Microsoft Graph query API" : "When you use the Microsoft Graph API, you agree to the Microsoft Graph Terms of Use",
+  "use the Microsoft Graph API" : "When you use the Microsoft Graph API, you agree to the Microsoft Graph Terms of Use",
   "Terms of use" : "View the Microsoft Graph Terms of Use",
   "Microsoft Privacy Statement" : "View the Microsoft Privacy Statement",
-  "Search(beta)" : "Search(beta)"
+  "try out preview" : "Switch the toggle to try out the new preview version",
+  "Search(beta)" : "Search(beta)",
+  "search message" : "search message",
+  "search event" : "search event",
+  "search driveitems" : "search driveitems",
+  "search external files" : "search external files",
+  "search external items" : "search external items"
 }
