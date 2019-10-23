@@ -544,51 +544,48 @@ Notifications (beta),POST,create a visual notification,/beta/me/notifications,Pl
   ""priority"": ""High"",
   ""displayTimeToLive"": ""60""
 }",Content-Type: application/json
-Search(beta),POST,search message,/beta/search/query,enable Mail.Read,https://aka.ms/mssearchapi,AAD,"{
-    ""requests"": [{
-        ""entityTypes"": ""microsoft.graph.message"",
+Search (beta),POST,search messages,/beta/search/query,enable Mail.Read,https://aka.ms/mssearchapi,AAD,"{
+    ""requests"": [
+      {
+        ""entityTypes"": [""microsoft.graph.message""],
         ""query"": {
-            ""query_string"": {
-                ""query"": ""test""
-            }
+          ""query_string"": {
+            ""query"": ""test""
+          }
         },
         ""from"": 0,
-        ""size"": 5
-    }]
-}",Content-Type: application/json
-Search(beta),POST,search event,/beta/search/query,enable Calendars.Read,https://aka.ms/mssearchapi,AAD,"{
-    ""requests"": [{
-        ""entityTypes"": ""microsoft.graph.event"",
-        ""query"": {
-            ""query_string"": {
-                ""query"": ""test""
-            }
-            , ""filter"": {
-                ""range"": {
-                  ""StartTime"": {
-                    ""lte"": ""2019-07-18T07:00:01Z"",
-                    ""gte"": ""2019-07-01T06:59:59Z""
-                  }
-                }
-              }
-        },
-        ""from"": 0,
-        ""size"": 5
-    }]
-}",Content-Type: application/json
-Search(beta),POST,search driveitems,/beta/search/query,enable Files.Read.All,https://aka.ms/mssearchapi,AAD,"{
-  ""requests"": [{    
-    ""entityTypes"": [""microsoft.graph.driveItem""],    
-    ""query"": {
-      ""query_string"": {
-        ""query"": ""test""
-       }
-    },
-    ""from"": 1,
-    ""size"": 3
+        ""size"" : 5
+     }
+    ]
+  }",Content-Type: application/json
+Search (beta),POST,search events,/beta/search/query,enable Calendars.Read,https://aka.ms/mssearchapi,AAD,"{
+  ""requests"": [
+    {
+      ""entityTypes"": [""microsoft.graph.event""],
+      ""query"": {
+          ""query_string"": {
+              ""query"": ""test""
+          }
+      },
+      ""from"": 0,
+      ""size"": 5
   }]
 }",Content-Type: application/json
-Search(beta),POST,search external files,/beta/search/query,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
+Search (beta),POST,search driveitems,/beta/search/query,enable Files.Read.All,https://aka.ms/mssearchapi,AAD,"{
+  ""requests"": [
+    {
+      ""entityTypes"": [""microsoft.graph.driveItem""],
+      ""query"": {
+        ""query_string"": {
+          ""query"": ""test""
+        }
+      },
+      ""from"": 0,
+      ""size"": 25
+    }
+  ]
+}",Content-Type: application/json
+Search (beta),POST,search external files,/beta/search/query,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
   ""requests"": [{    
     ""entityTypes"": [""microsoft.graph.externalFile""],    
     ""query"": {
@@ -596,25 +593,24 @@ Search(beta),POST,search external files,/beta/search/query,enable ExternalItem.R
         ""query"": ""test""
       }
     },
-    ""from"": 1,
+    ""from"": 0,
     ""size"": 25
   }]
 }",Content-Type: application/json
-Search(beta),POST,search external items,/beta/search/query,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
+Search (beta),POST,search external items,/beta/search/query,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
   ""requests"": [{
     ""entityTypes"": [""microsoft.graph.externalItem""],
-    ""entitySources"": [""/external/connections(connection_friendly_name)""],
+    ""contentSources"": [""/external/connections/connection_friendly_name""],
     ""query"": {
       ""query_string"": {
         ""query"": ""test""
       }
     },
-    ""stored_fields"": [ 
-      	""title"", 
-      	""priority"", 
-      	""description""  
-       ] 
     ""from"": 0,
-    ""size"": 25
+    ""size"": 25,
+    ""stored_fields"": [
+      	""number"",
+      	""shortdescription""
+       ]
   }]
 }",Content-Type: application/json
