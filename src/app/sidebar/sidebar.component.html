@@ -1,8 +1,9 @@
 <div id="explorer-sidebar">
-    <div class="arrow-left"></div>
-    <div>
+    <div style="display: flex;">
         <span id="explorer-title" class="c-heading-3 panel-header" [attr.title]="getStr('Graph Explorer')">
-            {{getStr('Graph Explorer')}}</span>
+            {{getStr('Graph Explorer')}}
+        </span>
+        <banner class="preview"></banner>
     </div>
     <div class="c-drawer">
         <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
@@ -11,12 +12,6 @@
         </button>
         <div id="authDrawer" class="panel-content">
             <authentication></authentication>
-        </div>
-    </div>
-
-    <div class="c-drawer">
-        <div class="panel-content">
-            <banner></banner>
         </div>
     </div>
 

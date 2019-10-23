@@ -25,8 +25,15 @@ a#show-full-history, a#manage-categories {
 }
 
 span#explorer-title {
-    margin-left: 40px;
+    margin-left: 1px;
     margin-top: 14px;
+}
+
+#explorer-sidebar .preview {
+    margin-top: 5%;
+    text-align: justify;
+    margin-right: 2px;
+    margin-left: 30%;
 }
 
 .c-drawer {
