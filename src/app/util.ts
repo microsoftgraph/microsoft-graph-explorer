@@ -2,7 +2,7 @@ import { Headers } from '@angular/http';
 import { IGraphRequestHeader } from './base';
 
 export function createHeaders(explorerHeaders: IGraphRequestHeader[]): Headers {
-    const headers = new Headers();
+    const h = new Headers();
 
     for (const header of explorerHeaders) {
       if (!header.name) {
@@ -14,13 +14,13 @@ export function createHeaders(explorerHeaders: IGraphRequestHeader[]): Headers {
        if user just does copy-paste odata.etag value from the previous response
       */
       if (header.name === 'If-Match') {
-        headers.append(header.name, header.value.replace(/\\"/g, '"'));
+          h.append(header.name, header.value.replace(/\\"/g, '"'));
       } else {
-        headers.append(header.name, header.value);
+      h.append(header.name, header.value);
       }
     }
 
-    return headers;
+    return h;
 }
 
 /*
