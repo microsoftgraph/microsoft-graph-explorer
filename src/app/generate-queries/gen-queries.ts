@@ -715,7 +715,7 @@ export const SampleQueries: ISampleQuery[] = [
     "humanName": "people relevant to a topic",
     "requestUrl": "/v1.0/me/people/?$search=\"topic: contoso\"",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/person_get",
-    "skipTest": false,
+    "skipTest": false
 },
 {
     "category": "Extensions",
@@ -1411,7 +1411,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "POST",
     "humanName": "create a raw notification",
     "requestUrl": "/beta/me/notifications",
-    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/notifications-post?view=graph-rest-beta",
     "headers": [
         {
             "name": "Content-Type",
@@ -1427,7 +1427,7 @@ export const SampleQueries: ISampleQuery[] = [
     "method": "POST",
     "humanName": "create a visual notification",
     "requestUrl": "/beta/me/notifications",
-    "docLink": "https://aka.ms/graphNotificationsDocs",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/notifications-post?view=graph-rest-beta",
     "headers": [
         {
             "name": "Content-Type",
@@ -1436,5 +1436,85 @@ export const SampleQueries: ISampleQuery[] = [
     ],
     "postBody": "{\r\n  \"targetHostName\": \"graphnotifications.sample.windows.com\",\r\n  \"appNotificationId\": \"sampleDirectToastNotification\",\r\n  \"payload\": {\r\n    \"visualContent\": {\r\n      \"title\": \"Hello World!\",\r\n      \"body\": \"Notifications are Great!\"\r\n    }\r\n  },\r\n  \"targetPolicy\": {\r\n    \"platformTypes\": [\r\n      \"windows\",\r\n      \"ios\",\r\n      \"android\"\r\n    ]\r\n  },\r\n  \"priority\": \"High\",\r\n  \"displayTimeToLive\": \"60\"\r\n}",
     "tip": "Please enable the Notifications.ReadWrite.CreatedByApp permission in order to use this query.  A visual notification is a notification that a user can see by default within the notification center of the target platform. Note - This query will only work with a sample application by default. See https://aka.ms/projectRomeSamples/ for additional info.",
+    "skipTest": false
+},
+{
+    "category": "Search (beta)",
+    "method": "POST",
+    "humanName": "search messages",
+    "requestUrl": "/beta/search/query",
+    "docLink": "https://aka.ms/mssearchapi",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n    \"requests\": [\r\n      {\r\n        \"entityTypes\": [\"microsoft.graph.message\"],\r\n        \"query\": {\r\n          \"query_string\": {\r\n            \"query\": \"test\"\r\n          }\r\n        },\r\n        \"from\": 0,\r\n        \"size\" : 5\r\n     }\r\n    ]\r\n  }",
+    "tip": "enable Mail.Read",
+    "skipTest": false
+},
+{
+    "category": "Search (beta)",
+    "method": "POST",
+    "humanName": "search events",
+    "requestUrl": "/beta/search/query",
+    "docLink": "https://aka.ms/mssearchapi",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"requests\": [\r\n    {\r\n      \"entityTypes\": [\"microsoft.graph.event\"],\r\n      \"query\": {\r\n          \"query_string\": {\r\n              \"query\": \"test\"\r\n          }\r\n      },\r\n      \"from\": 0,\r\n      \"size\": 5\r\n  }]\r\n}",
+    "tip": "enable Calendars.Read",
+    "skipTest": false
+},
+{
+    "category": "Search (beta)",
+    "method": "POST",
+    "humanName": "search driveitems",
+    "requestUrl": "/beta/search/query",
+    "docLink": "https://aka.ms/mssearchapi",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"requests\": [\r\n    {\r\n      \"entityTypes\": [\"microsoft.graph.driveItem\"],\r\n      \"query\": {\r\n        \"query_string\": {\r\n          \"query\": \"test\"\r\n        }\r\n      },\r\n      \"from\": 0,\r\n      \"size\": 25\r\n    }\r\n  ]\r\n}",
+    "tip": "enable Files.Read.All",
+    "skipTest": false
+},
+{
+    "category": "Search (beta)",
+    "method": "POST",
+    "humanName": "search external files",
+    "requestUrl": "/beta/search/query",
+    "docLink": "https://aka.ms/mssearchapi",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"requests\": [{\r\n    \"entityTypes\": [\"microsoft.graph.externalFile\"],\r\n    \"query\": {\r\n      \"query_string\": {\r\n        \"query\": \"test\"\r\n      }\r\n    },\r\n    \"from\": 0,\r\n    \"size\": 25\r\n  }]\r\n}",
+    "tip": "enable ExternalItem.Read.All",
+    "skipTest": false
+},
+{
+    "category": "Search (beta)",
+    "method": "POST",
+    "humanName": "search external items",
+    "requestUrl": "/beta/search/query",
+    "docLink": "https://aka.ms/mssearchapi",
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "postBody": "{\r\n  \"requests\": [{\r\n    \"entityTypes\": [\"microsoft.graph.externalItem\"],\r\n    \"contentSources\": [\"/external/connections/connection_friendly_name\"],\r\n    \"query\": {\r\n      \"query_string\": {\r\n        \"query\": \"test\"\r\n      }\r\n    },\r\n    \"from\": 0,\r\n    \"size\": 25,\r\n    \"stored_fields\": [\r\n      \t\"number\",\r\n      \t\"shortdescription\"\r\n       ]\r\n  }]\r\n}",
+    "tip": "enable ExternalItem.Read.All",
     "skipTest": false
 }]
