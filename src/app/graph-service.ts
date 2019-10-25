@@ -17,6 +17,7 @@ export class GraphService {
             headers = new Headers();
         }
         headers.append('Authorization', 'Bearer {token:https://graph.microsoft.com/}');
+        headers.append('SdkVersion', 'GraphExplorer/3.0');
 
         if (queryType === 'GET') {
             return this.http.get(`https://proxy.apisandbox.msdn.microsoft.com/svc?url=${encodeURIComponent(query)}`,
@@ -47,6 +48,7 @@ export class GraphService {
         }
 
         requestHeaders.append('Authorization', `Bearer ${hello.getAuthResponse('msft').access_token}`);
+        requestHeaders.append('SdkVersion', 'GraphExplorer/3.0');
 
         switch (queryType) {
             case 'GET':
