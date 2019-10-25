@@ -29,13 +29,6 @@ span#explorer-title {
     margin-top: 14px;
 }
 
-#explorer-sidebar .preview {
-    margin-top: 5%;
-    text-align: justify;
-    margin-right: 2px;
-    margin-left: 30%;
-}
-
 .c-drawer {
     padding-bottom: 5px;
     background: #2f2f2f;
