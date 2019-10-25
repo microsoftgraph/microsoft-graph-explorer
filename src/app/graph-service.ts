@@ -23,6 +23,7 @@ export class GraphService {
             headers = new Headers();
         }
         headers.append('Authorization', 'Bearer {token:https://graph.microsoft.com/}');
+        headers.append('SdkVersion', 'GraphExplorer/3.0');
 
         if (queryType === 'GET') {
             return this.http
@@ -53,6 +54,8 @@ export class GraphService {
         if (typeof requestHeaders === 'undefined') {
             requestHeaders = new Headers();
         }
+        requestHeaders.append('SdkVersion', 'GraphExplorer/3.0');
+
         const queryResult = this.handleRequest(this.app, requestHeaders, query, queryType, postBody);
         return queryResult;
     }
