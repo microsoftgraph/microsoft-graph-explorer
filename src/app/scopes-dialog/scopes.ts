@@ -31,6 +31,13 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: 'EntitlementManagement.ReadWrite.All',
+    description: 'Read and write entitlement management resources',
+    longDescription: 'Allows the app to request access to and manage access packages and related entitlement management resources on behalf of the signed-in user',
+    preview: true,
+    admin: true,
+  },  
+  {
     name: 'AgreementAcceptance.Read',
     description: 'Read user terms of use acceptance statuses',
     longDescription: 'Allows the app to read terms of use acceptance statuses on behalf of the signed-in user.',
