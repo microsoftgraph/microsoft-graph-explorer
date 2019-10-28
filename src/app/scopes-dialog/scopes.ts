@@ -185,6 +185,13 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: false,
   },
   {
+    name: 'EntitlementManagement.ReadWrite.All',
+    description: 'Read and write entitlement management resources',
+    longDescription: 'Allows the app to request access to and manage access packages and related entitlement management resources on behalf of the signed-in user',
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'Files.Read',
     description: 'Read user files and files shared with user',
     longDescription: 'Allows the app to read the signed-in user\'s files and files shared with the user.',
