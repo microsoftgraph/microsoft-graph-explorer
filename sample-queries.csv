@@ -495,17 +495,25 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
     ]
 }",Content-Type: application/json
 User Activities,GET,get recent user activities,/v1.0/me/activities/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities,BOTH,,
-Applications (beta),GET,retrieve the list of applications,/beta/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list,AAD,,
-Applications (beta),POST,create a new application,/beta/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_applications," ""AAD""","{
+Applications,GET,retrieve the list of applications,/v1.0/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_list,AAD,,
+Applications,POST,create a new application,/v1.0/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_post_applications, "AAD","{
         ""displayName"": ""My App""
     }",Content-type: application/json
-Applications (beta),GET,retrieve application properties,/beta/applications/{application-id},This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_get,,,
-Applications (beta),PATCH,update application properties,/beta/applications/{application-id},This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_update,AAD,"{
+Applications,GET,retrieve application properties,"/v1.0/applications/{id}",To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_get,,
+Applications,PATCH,update application properties,/v1.0/applications/{id},To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_update,AAD,"{
         ""signInAudience"": ""AzureADMyOrg""
     }",Content-type: application/json
-Applications (beta),DELETE,delete an application,/beta/applications/{application-id},This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_delete,AAD,,
-Applications (beta),GET,retrieve a list of owners,/beta/applications/{application-id}/owners,This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_list_owners,AAD,,
-Applications (beta),POST,create a new owner,/beta/applications/{application-id}/owners,This query requires an application id. To find the ID of an application&#44; you can run: GET https://graph.microsoft.com/beta/applications. In the request body supply a JSON representation of directoryObject object,https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/application_post_owners,AAD,"{
+Applications,DELETE,delete an application,/v1.0/applications/{id},To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_delete,AAD,,
+Applications,POST,add a strong password to an application,/v1.0/applications/{id}/addpassword,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_addpassword, "AAD","{
+        ""passwordCredential"": {
+              ""displayName"": ""Password friendly name""
+          }
+    }",Content-type: application/json
+Applications,POST,remove a password from an application,/v1.0/applications/{id}/removepassword,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_removepassword, "AAD","{
+        ""keyId"": ""<keyId of the password to be removed>""
+    }",Content-type: application/json
+Applications,GET,retrieve a list of owners,"/v1.0/applications/{id}/owners",To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_list_owners,AAD,,
+Applications,POST,create a new owner,/v1.0/applications/{id}/owners,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications. In the request body supply a JSON representation of directoryObject object,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_post_owners,"AAD","{
         ""directoryObject"": {
         }
     }",Content-type: application/json
@@ -586,8 +594,8 @@ Search (beta),POST,search driveitems,/beta/search/query,enable Files.Read.All,ht
   ]
 }",Content-Type: application/json
 Search (beta),POST,search external files,/beta/search/query,enable ExternalItem.Read.All,https://aka.ms/mssearchapi,AAD,"{
-  ""requests"": [{    
-    ""entityTypes"": [""microsoft.graph.externalFile""],    
+  ""requests"": [{
+    ""entityTypes"": [""microsoft.graph.externalFile""],
     ""query"": {
       ""query_string"": {
         ""query"": ""test""
