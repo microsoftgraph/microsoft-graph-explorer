@@ -499,21 +499,21 @@ Applications,GET,retrieve the list of applications,/v1.0/applications,,https://d
 Applications,POST,create a new application,/v1.0/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_post_applications, "AAD","{
         ""displayName"": ""My App""
     }",Content-type: application/json
-Applications,GET,retrieve application properties,"/v1.0/applications/{id}",To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_get,,
-Applications,PATCH,update application properties,/v1.0/applications/{id},To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_update,AAD,"{
+Applications,GET,retrieve application properties,"/v1.0/applications/{application-id}",To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_get,,
+Applications,PATCH,update application properties,/v1.0/applications/{application-id},To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_update,AAD,"{
         ""signInAudience"": ""AzureADMyOrg""
     }",Content-type: application/json
-Applications,DELETE,delete an application,/v1.0/applications/{id},To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_delete,AAD,,
-Applications,POST,add a strong password to an application,/v1.0/applications/{id}/addpassword,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_addpassword, "AAD","{
+Applications,DELETE,delete an application,/v1.0/applications/{application-id},To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_delete,AAD,,
+Applications,POST,add a strong password to an application,/v1.0/applications/{application-id}/addpassword,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_addpassword, "AAD","{
         ""passwordCredential"": {
               ""displayName"": ""Password friendly name""
           }
     }",Content-type: application/json
-Applications,POST,remove a password from an application,/v1.0/applications/{id}/removepassword,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_removepassword, "AAD","{
+Applications,POST,remove a password from an application,/v1.0/applications/{application-id}/removepassword,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_removepassword, "AAD","{
         ""keyId"": ""<keyId of the password to be removed>""
     }",Content-type: application/json
-Applications,GET,retrieve a list of owners,"/v1.0/applications/{id}/owners",To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_list_owners,AAD,,
-Applications,POST,create a new owner,/v1.0/applications/{id}/owners,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications. In the request body supply a JSON representation of directoryObject object,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_post_owners,"AAD","{
+Applications,GET,retrieve a list of owners,"/v1.0/applications/{application-id}/owners",To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_list_owners,AAD,,
+Applications,POST,create a new owner,/v1.0/applications/{application-id}/owners,To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications. In the request body supply a JSON representation of directoryObject object,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_post_owners,"AAD","{
         ""directoryObject"": {
         }
     }",Content-type: application/json
