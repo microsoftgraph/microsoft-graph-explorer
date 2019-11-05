@@ -18,7 +18,8 @@ export class BannerComponent extends GraphExplorerComponent {
         const path = location.href;
         const urlObject: URL = new URL(path);
         const { protocol, hostname, pathname, port } = urlObject;
-        const url = `${protocol}//${hostname}${(port) ? ':' + port : ''}${pathname}`;
+        let url = `${protocol}//${hostname}${(port) ? ':' + port : ''}${pathname}`;
+        url = url.replace(/\/$/, '');
         window.location.href = url.includes('localhost') ? 'http://localhost:3000' : `${url}/preview`;
     }
 
