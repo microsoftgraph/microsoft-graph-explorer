@@ -63,6 +63,11 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
         (document.querySelector('#manage-categories') as any).focus();
     }
 
+    public focusOnShowMore() {
+        // Set the focus on the first actionable control in the sampleCategoryPanel.
+        (document.querySelector('#show-full-history') as any).focus();
+    }
+
     public displayCanary() {
         if (JSON.parse(localStorage.getItem('GRAPH_MODE')) === null) {
             return false;
@@ -71,16 +76,17 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
     }
 
     public closePanels() {
-        try {
-            (document.querySelector('#history-panel .ms-Panel-closeButton') as any).click();
-        } catch (e) {
-            throw e;
+        const historyPanel = document.querySelector('#close-history-btn') as any;
+        const samplesPanel = document.querySelector('#closeSampleCategories') as any;
+
+        if (historyPanel) {
+            historyPanel.click();
+            this.focusOnShowMore();
         }
 
-        try {
-            (document.querySelector('#sample-categories-panel .ms-Panel-closeButton') as any).click();
-        } catch (e) {
-            throw e;
+        if (samplesPanel) {
+            samplesPanel.click();
+            this.focusOnMoreSamples();
         }
     }
 }
