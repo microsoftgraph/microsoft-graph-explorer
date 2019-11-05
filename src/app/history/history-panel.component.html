@@ -1,5 +1,6 @@
 <div id="history-panel" class="ms-Panel ms-Panel--xl" tabindex="1">
-    <button name="button" aria-label="close history button" class="ms-Panel-closeButton ms-PanelAction-close"  id="close-history-btn" tabindex="1">
+    <button name="button" aria-label="close history button" class="ms-Panel-closeButton ms-PanelAction-close"
+        id="close-history-btn" tabindex="1">
         <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
     </button>
     <div class="ms-Panel-contentInner">
@@ -17,7 +18,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let query of getRequestHistory()" tabindex="1" class="request-history-query" [class.restrict]="!isAuthenticated() && query.method != 'GET'">
+                    <tr *ngFor="let query of getRequestHistory()" tabindex="1" class="request-history-query"
+                        [class.restrict]="!isAuthenticated() && query.method != 'GET'"
+                        (keydown.enter)="handleQueryClick(query)">
                         <td (click)="handleQueryClick(query)">
                             <method-badge [query]="query"></method-badge>
                         </td>
@@ -26,7 +29,8 @@
                         <td (click)="handleQueryClick(query)">
                             <span class="status-code" [ngClass]="getSuccessClass(query)">{{query.statusCode}}</span>
                         </td>
-                        <td class="duration" (click)="handleQueryClick(query)">{{query.duration}} {{getStr('milliseconds')}}</td>
+                        <td class="duration" (click)="handleQueryClick(query)">{{query.duration}}
+                            {{getStr('milliseconds')}}</td>
                         <td class="export-query" (click)="exportQuery(query)">{{getStr("Export")}}</td>
                         <td class="remove-query" (click)="removeQueryFromHistory(query)">
                             <i class="ms-Icon ms-Icon--Cancel"></i>
@@ -35,7 +39,8 @@
                 </tbody>
             </table>
             <div id="panel-actions">
-                <button tabindex="1" name="button" class="c-button" type="submit" (click)="clearHistory()" (keydown.tab)="focusOnCloseBtn()">
+                <button tabindex="1" name="button" class="c-button" type="submit" (click)="clearHistory()"
+                    (keydown.tab)="focusOnCloseBtn()">
                     {{getStr('Remove All')}}
                 </button>
             </div>
