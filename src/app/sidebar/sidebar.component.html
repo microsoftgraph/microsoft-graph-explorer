@@ -48,7 +48,7 @@
                 </div>
             </div>
             <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()"
-                role="button">
+                (click)="setOpenPanel('samples')" role="button">
                 {{getStr('show more samples')}}</a>
         </div>
     </div>
@@ -59,8 +59,9 @@
         </button>
         <div id="historyDrawer" class="panel-content">
             <history-query-row *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
-            <a href="#" id="show-full-history" (click)="manageHistory()" [hidden]="getRequestHistory().length == 0"
-                class="c-hyperlink" tabindex=0 role="button">{{getStr('Show More')}}</a>
+            <a href="#" id="show-full-history" (click)="manageHistory()" (click)="setOpenPanel('history')"
+                [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0
+                role="button">{{getStr('Show More')}}</a>
         </div>
     </div>
 </div>

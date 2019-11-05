@@ -22,6 +22,12 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
     public historyPanel: Element;
     public categories: ISampleQueryCategory[] = SampleCategories;
 
+    public openPanel = '';
+
+    public setOpenPanel(panel: string) {
+        this.openPanel = panel;
+    }
+
     public ngAfterViewInit(): void {
         this.historyPanel = document.querySelector('#history-panel');
         this.sampleCategoryPanel = document.querySelector('#sample-categories-panel');
@@ -79,14 +85,14 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
         const historyPanel = document.querySelector('#close-history-btn') as any;
         const samplesPanel = document.querySelector('#closeSampleCategories') as any;
 
-        if (historyPanel) {
-            historyPanel.click();
-            this.focusOnShowMore();
-        }
-
-        if (samplesPanel) {
+        if (this.openPanel === 'samples') {
             samplesPanel.click();
             this.focusOnMoreSamples();
+        }
+
+        if (this.openPanel === 'history') {
+            historyPanel.click();
+            this.focusOnShowMore();
         }
     }
 }
