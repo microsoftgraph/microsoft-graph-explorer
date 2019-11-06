@@ -381,6 +381,20 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true,
   },
   {
+    name: 'Presence.Read',
+    description: 'Read your Presence information',
+    longDescription: 'Allows the app to read your presence information on your behalf. Presence information includes activity, availability, status note, calendar out-of-office message, timezone and location.',
+    preview: true,
+    admin: true,
+  },
+    {
+    name: 'Presence.Read.All',
+    description: 'Read presence information of all users in your organization',
+    longDescription: 'Allows the app to read presence information of all users in the directory on your behalf. Presence information includes activity, availability, status note, calendar out-of-office message, timezone and location.',
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'ProgramControl.Read.All',
     description: 'Read all programs that a user can access',
     longDescription: 'Allows the app to read programs and program controls that the signed-in user has access to in the organization',
