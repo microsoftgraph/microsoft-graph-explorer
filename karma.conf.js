@@ -1,10 +1,10 @@
-module.exports = function(config) {
+module.exports = function (config) {
 
-  var appBase    = 'src/';       // transpiled app JS and map files
+  var appBase = 'src/';       // transpiled app JS and map files
   var appSrcBase = appBase;      // app source TS files
 
   // Testing helpers (optional) are conventionally in a folder called `testing`
-  var testingBase    = 'testing/'; // transpiled test JS and map files
+  var testingBase = 'testing/'; // transpiled test JS and map files
   var testingSrcBase = 'testing/'; // test source TS files
 
   // http://karma-runner.github.io/2.0/config/configuration-file.html
@@ -62,6 +62,9 @@ module.exports = function(config) {
       'node_modules/moment/min/moment-with-locales.min.js',
       'node_modules/jquery/dist/jquery.min.js',
 
+      // guid-typescript
+      { pattern: 'node_modules/guid-typescript/dist/guid.js', included: false, watched: false },
+
       // RxJs
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },
@@ -89,7 +92,8 @@ module.exports = function(config) {
       { pattern: appBase + '**/*.ts', included: false, watched: false },
       { pattern: appBase + '**/*.js.map', included: false, watched: false },
       { pattern: testingSrcBase + '**/*.ts', included: false, watched: false },
-      { pattern: testingBase + '**/*.js.map', included: false, watched: false}
+      { pattern: testingBase + '**/*.js.map', included: false, watched: false },
+
     ],
 
     // Proxied base paths for loading assets
@@ -110,7 +114,7 @@ module.exports = function(config) {
     singleRun: false,
 
     // Adding this since we are getting a timeout in CI. The default at 10 seconds was not enough.
-    browserNoActivityTimeout: 1000*15
+    browserNoActivityTimeout: 1000 * 30
   }
 
   config.set(configuration);
