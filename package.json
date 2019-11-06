@@ -26,7 +26,7 @@
     "fast-csv": "2.4.0",
     "husky": "^1.1.2",
     "jasmine-core": "2.6.1",
-    "jquery": "^3.2.1",
+    "jquery": "^3.4.0",
     "lite-server": "^2.3.0",
     "rollup": "^0.41.6",
     "rollup-plugin-commonjs": "^8.0.2",
