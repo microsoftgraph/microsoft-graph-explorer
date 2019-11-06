@@ -1,6 +1,7 @@
+import { Guid } from 'guid-typescript';
+
 import { AppComponent } from './app.component';
 import { IToken } from './base';
-
 /**
  * For more information on Tokens, see the IToken interface definition
  * in base.ts. This is an unordered list of all tokens that can supply
@@ -144,5 +145,9 @@ export const Tokens: IToken[] = [
   {
     placeholder: 'list-title',
     defaultValue: 'Contoso Home',
+  },
+  {
+    placeholder: 'Enter Password',
+    defaultValue: Guid.create().toString(),
   },
 ];
