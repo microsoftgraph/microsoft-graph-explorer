@@ -22,7 +22,7 @@ Users,POST,create user,/v1.0/users,,https://developer.microsoft.com/en-us/graph/
         ""mailNickname"": ""MelissaD"",
         ""passwordPolicies"": ""DisablePasswordExpiration"",
         ""passwordProfile"": {
-            ""password"": ""Test1234"",
+            ""password"": ""{Enter Password}"",
             ""forceChangePasswordNextSignIn"": false
         },
         ""officeLocation"": ""131/1105"",
