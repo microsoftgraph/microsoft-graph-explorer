@@ -147,7 +147,7 @@ export const Tokens: IToken[] = [
     defaultValue: 'Contoso Home',
   },
   {
-    placeholder: 'Enter Password',
+    placeholder: 'Placeholder Password',
     defaultValue: Guid.create().toString(),
   },
 ];
