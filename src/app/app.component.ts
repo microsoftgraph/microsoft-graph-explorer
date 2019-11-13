@@ -34,7 +34,6 @@ declare let moment;
   sidebar {
       padding: 0px;
   }
-
 `],
 })
 export class AppComponent extends GraphExplorerComponent implements OnInit, AfterViewInit {
