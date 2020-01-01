@@ -793,6 +793,22 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: false
   },
   {
+    name: 'OnlineMeetings.ReadAll',
+    description: 'Read Online Meeting details from the app.',
+    longDescription:
+      'Allows the app to read VTC associated online meeting details in your organization without a signed-in user',
+    preview: false,
+    admin: true
+  },    
+  {
+    name: 'OnlineMeetings.ReadWrite',
+    description: 'Read and manage Online Meetings.',
+    longDescription:
+      'Allows an app to create, delete, and read online meetings on behalf of a signed-in user.',
+    preview: false,
+    admin: false
+  },  
+  {
     name: 'PrivilegedAccess.ReadWrite.AzureResources',
     description: 'Read and write privileged access to Azure resources',
     longDescription:
