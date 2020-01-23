@@ -36,7 +36,7 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to request access to and manage access packages and related entitlement management resources on behalf of the signed-in user',
     preview: true,
     admin: true,
-  },  
+  },
   {
     name: 'AgreementAcceptance.Read',
     description: 'Read user terms of use acceptance statuses',
@@ -799,7 +799,7 @@ export const PermissionScopes: IPermissionScope[] = [
       'Allows the app to read VTC associated online meeting details in your organization without a signed-in user',
     preview: false,
     admin: true
-  },    
+  },
   {
     name: 'OnlineMeetings.ReadWrite',
     description: 'Read and manage Online Meetings.',
@@ -807,7 +807,7 @@ export const PermissionScopes: IPermissionScope[] = [
       'Allows an app to create, delete, and read online meetings on behalf of a signed-in user.',
     preview: false,
     admin: false
-  },  
+  },
   {
     name: 'PrivilegedAccess.ReadWrite.AzureResources',
     description: 'Read and write privileged access to Azure resources',
@@ -944,5 +944,19 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to read or write your organization\'s user flows, on behalf of the signed-in user.',
     preview: true,
     admin: true
+},
+{
+  name: 'Schedule.Read.All',
+  description: 'Read user schedule items',
+  longDescription: 'Allows the app to read schedule, schedule groups, shifts and associated entities in the Teams/Shifts application on behalf of the signed-in user.',
+  preview: true,
+  admin: true
+},
+{
+  name: 'Schedule.ReadWrite.All',
+  description: 'Read and write user schedule items',
+  longDescription: 'Allows the app to manage schedule, schedule groups, shifts and associated entities in the Teams/Shifts application on behalf of the signed-in user.',
+  preview: true,
+  admin: true
 }
 ];
