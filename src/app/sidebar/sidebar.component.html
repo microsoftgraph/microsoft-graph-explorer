@@ -1,82 +1,63 @@
 <div id="explorer-sidebar">
-    <<<<<<< HEAD <div style="display: flex;">
+    <div class="arrow-left"></div>
+    <div class="title-container">
         <span id="explorer-title" class="c-heading-3 panel-header" [attr.title]="getStr('Graph Explorer')">
-            {{getStr('Graph Explorer')}}
-        </span>
-        =======
-        <div class="arrow-left"></div>
-        <div class="title-container">
-            <span id="explorer-title" class="c-heading-3 panel-header" [attr.title]="getStr('Graph Explorer')">
-                {{getStr('Graph Explorer')}}</span>
-            <banner></banner>
-            >>>>>>> dev-hellojs
+            {{getStr('Graph Explorer')}}</span>
+        <banner></banner>
+    </div>
+    <div class="c-drawer">
+        <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
+            <span class="c-heading-5 panel-header">
+                <i class="ms-Icon ms-Icon--Permissions" aria-hidden="true"></i>{{getStr('Authentication')}}</span>
+        </button>
+        <div id="authDrawer" class="panel-content">
+            <authentication></authentication>
         </div>
-        <div class="c-drawer">
-            <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true"
-                aria-controls="authDrawer">
-                <span class="c-heading-5 panel-header">
-                    <i class="ms-Icon ms-Icon--Permissions" aria-hidden="true"></i>{{getStr('Authentication')}}</span>
-            </button>
-            <div id="authDrawer" class="panel-content">
-                <authentication></authentication>
-            </div>
+    </div>
+    <div *ngIf="displayCanary()" class="c-drawer">
+        <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true"
+            aria-controls="canaryDrawer">
+            <span class="c-heading-5 panel-header">
+                <i class="ms-Icon ms-Icon--Coffee" aria-hidden="true"></i>{{getStr('Canary')}}</span>
+        </button>
+        <div class="panel-content">
+            <canary></canary>
         </div>
-        <div *ngIf="displayCanary()" class="c-drawer">
-            <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true"
-                aria-controls="canaryDrawer">
-                <span class="c-heading-5 panel-header">
-                    <i class="ms-Icon ms-Icon--Coffee" aria-hidden="true"></i>{{getStr('Canary')}}</span>
-            </button>
-            <div class="panel-content">
-                <canary></canary>
-            </div>
-        </div>
+    </div>
 
-        <div class="c-drawer">
-            <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer" id="sample-query-btn">
-                <span class="c-heading-5 panel-header">
-                    <img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"
-                        title="Image of a rocket that represents" />
-                    {{getStr('Sample Queries')}}</span>
-            </button>
-            <div id="refineDrawer" class="panel-content">
-                <div id="sample-queries-scroll">
-                    <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
-                        <div>
-                            <span class="category-heading"
-                                [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
-                        </div>
-                        <query-row [query]="query" [category]="idifyCategory(category.title)" <<<<<<< HEAD
-                            (keydown.escape)="focusOnMoreSamples()" *ngFor="let query of category.queries"></query-row>
+    <div class="c-drawer">
+        <button class="c-glyph" aria-expanded="true" aria-controls="refineDrawer" id="sample-query-btn">
+            <span class="c-heading-5 panel-header">
+                <img id="getting-started-svg" src="{{getAssetPath('assets/images/rocket1.svg')}}"
+                    title="Image of a rocket that represents" />
+                {{getStr('Sample Queries')}}</span>
+        </button>
+        <div id="refineDrawer" class="panel-content">
+            <div id="sample-queries-scroll">
+                <div *ngFor="let category of categories" class="sample-category" [hidden]="!category.enabled">
+                    <div>
+                        <span class="category-heading"
+                            [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
                     </div>
+                    <query-row [query]="query" [category]="idifyCategory(category.title)"
+                        (keydown.escape)="focusOnMoreSamples()" *ngFor="let query of category.queries"></query-row>
                 </div>
-                <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()"
-                    role="button">
-                    =======
-                    (keydown.escape)="focusOnMoreSamples()" *ngFor="let query of category.queries"></query-row>
             </div>
+            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()"
+                (click)="setOpenPanel('samples')" role="button">
+                {{getStr('show more samples')}}</a>
         </div>
-        <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()"
-            (click)="setOpenPanel('samples')" role="button">
-            >>>>>>> dev-hellojs
-            {{getStr('show more samples')}}</a>
-</div>
-</div>
-<div class="c-drawer">
-    <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer" id="sample-history-btn">
-        <span class="c-heading-5 panel-header">
-            <i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span>
-    </button>
-    <div id="historyDrawer" class="panel-content">
-        <history-query-row *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
-        <<<<<<< HEAD <a href="#" id="show-full-history" (click)="manageHistory()"
-            [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0 role="button">
-            {{getStr('Show More')}}</a>
-            =======
+    </div>
+    <div class="c-drawer">
+        <button class="c-glyph" aria-expanded="true" aria-controls="historyDrawer" id="sample-history-btn">
+            <span class="c-heading-5 panel-header">
+                <i class="ms-Icon ms-Icon--History" aria-hidden="true"></i>{{getStr('History')}}</span>
+        </button>
+        <div id="historyDrawer" class="panel-content">
+            <history-query-row *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
             <a href="#" id="show-full-history" (click)="manageHistory()" (click)="setOpenPanel('history')"
                 [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0
                 role="button">{{getStr('Show More')}}</a>
-            >>>>>>> dev-hellojs
+        </div>
     </div>
-</div>
 </div>
