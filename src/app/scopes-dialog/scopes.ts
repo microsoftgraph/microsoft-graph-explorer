@@ -65,7 +65,7 @@ export const PermissionScopes: IPermissionScope[] = [
     preview: true,
     admin: true,
   },
-  {
+    {
     name: 'ApprovalRequest.Read.AdminConsentRequest',
     description: 'Read admin consent approval requests',
     longDescription: 'Allows the app to read admin consent requests, business flows, and governance policy templates on your behalf.',
@@ -190,13 +190,6 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to create, read, update and delete contacts that the user has permissions to, including the user\'s own and shared contacts.',
     preview: false,
     admin: false,
-  },
-  {
-    name: 'EntitlementManagement.ReadWrite.All',
-    description: 'Read and write entitlement management resources',
-    longDescription: 'Allows the app to request access to and manage access packages and related entitlement management resources on behalf of the signed-in user',
-    preview: true,
-    admin: true,
   },
   {
     name: 'Files.Read',
@@ -394,7 +387,7 @@ export const PermissionScopes: IPermissionScope[] = [
     preview: true,
     admin: true,
   },
-  {
+    {
     name: 'Presence.Read.All',
     description: 'Read presence information of all users in your organization',
     longDescription: 'Allows the app to read presence information of all users in the directory on your behalf. Presence information includes activity, availability, status note, calendar out-of-office message, timezone and location.',
@@ -784,7 +777,7 @@ export const PermissionScopes: IPermissionScope[] = [
     preview: false,
     admin: false
   },
-  {
+   {
     name: 'AuditLog.Read.All',
     description: 'Read audit logs data',
     longDescription: 'Allows the app to read audit logs data on your behalf',
@@ -853,117 +846,117 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to read and write your organization\'s trust framework policies on behalf of the signed-in user.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'TrustFrameworkKeySet.Read.All',
     description: 'Read trust framework key sets',
     longDescription: 'Allows the app to read trust framework key set properties on behalf of the signed-in user.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'TrustFrameworkKeySet.ReadWrite.All',
     description: 'Read and write trust framework key sets',
     longDescription: 'Allows the app to read and write trust framework key set properties on behalf of the signed-in user.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'Place.Read.All',
     description: 'Allows the app to read company places.',
     longDescription: 'Allows the app to read company places (Conf Rooms and Room Lists) for calendar events and other applications.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'Place.ReadWrite.All',
     description: 'Allows the app to read and write company places.',
     longDescription: 'Allows the app to read and write company places (Conf Rooms and Room Lists) for calendar events and other applications.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'InformationProtectionPolicy.Read',
     description: 'Read user labels and label policies',
     longDescription: 'Allows an app to read Microsoft Information Protection sensitivity labels and label policy settings for which the user is in scope.',
     preview: true,
     admin: false
-  },
-  {
+},
+{
     name: 'InformationProtectionPolicy.Read.All',
     description: 'Read all published labels and label policies for an organization',
     longDescription: 'Allows an app to read published sensitivity labels and label policy settings for the entire organization or a specific user without a signed in user.',
     preview: true,
     admin: true
-  },
-  {
-    name: 'Whiteboards.Read',
-    description: 'Read user whiteboards',
-    longDescription: 'Allows the app to read all whiteboards you have access to, on your behalf.',
-    preview: true,
-    admin: false
-  },
-  {
-    name: 'Whiteboards.ReadWrite',
-    description: 'Manage user whiteboards',
-    longDescription: 'Allows the app to read and modify all whiteboards you have access to, on your behalf.',
-    preview: true,
-    admin: false
-  },
-  {
+},
+{
+  name: 'Whiteboards.Read',
+  description: 'Read user whiteboards',
+  longDescription: 'Allows the app to read all whiteboards you have access to, on your behalf.',
+  preview: true,
+  admin: false
+},
+{
+  name: 'Whiteboards.ReadWrite',
+  description: 'Manage user whiteboards',
+  longDescription: 'Allows the app to read and modify all whiteboards you have access to, on your behalf.',
+  preview: true,
+  admin: false
+},
+{
     name: 'WorkforceIntegration.Read.All',
     description: 'Read the workforce integrations configured in the tenant',
     longDescription: 'Allows an app to read workforce integrations configured in the tenant on your behalf.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'WorkforceIntegration.ReadWrite.All',
     description: 'Read and write the workforce integrations configured in the tenant',
     longDescription: 'Allows an app to read and write workforce integrations configured in the tenant on your behalf.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'UserNotification.ReadWrite.CreatedByApp',
     description: 'Deliver and manage user notifications',
     longDescription: 'Allows the app to deliver its notifications on behalf of signed-in users. Also allows the app to read, update, and delete the user\'s notification items.',
     preview: false,
     admin: false
-  },
-  {
+},
+{
     name: 'ExternalItem.Read.All',
     description: 'Search file and UDT connectors data',
     longDescription: 'Allows the app to search from the file and UDT connectors data',
     preview: true,
     admin: false
-  },
-  {
+},
+{
     name: 'IdentityUserFlow.Read.All',
     description: 'Read all identity user flows',
     longDescription: 'Allows the app to read your organization\'s user flows, on behalf of the signed-in user.',
     preview: true,
     admin: true
-  },
-  {
+},
+{
     name: 'IdentityUserFlow.ReadWrite.All',
     description: 'Read and write all identity user flows',
     longDescription: 'Allows the app to read or write your organization\'s user flows, on behalf of the signed-in user.',
     preview: true,
     admin: true
-  },
-  {
-    name: 'Schedule.Read.All',
-    description: 'Read user schedule items',
-    longDescription: 'Allows the app to read schedule, schedule groups, shifts and associated entities in the Teams/Shifts application on behalf of the signed-in user.',
-    preview: true,
-    admin: true
-  },
-  {
-    name: 'Schedule.ReadWrite.All',
-    description: 'Read and write user schedule items',
-    longDescription: 'Allows the app to manage schedule, schedule groups, shifts and associated entities in the Teams/Shifts application on behalf of the signed-in user.',
-    preview: true,
-    admin: true
-  }
+},
+{
+  name: 'Schedule.Read.All',
+  description: 'Read user schedule items',
+  longDescription: 'Allows the app to read schedule, schedule groups, shifts and associated entities in the Teams/Shifts application on behalf of the signed-in user.',
+  preview: true,
+  admin: true
+},
+{
+  name: 'Schedule.ReadWrite.All',
+  description: 'Read and write user schedule items',
+  longDescription: 'Allows the app to manage schedule, schedule groups, shifts and associated entities in the Teams/Shifts application on behalf of the signed-in user.',
+  preview: true,
+  admin: true
+}
 ];

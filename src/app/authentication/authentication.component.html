@@ -1,18 +1,24 @@
 <div *ngIf="getAuthenticationStatus() == 'anonymous'">
     <div tabindex="0" [attr.aria-label]="getStr('Using demo tenant')">{{getStr('Using demo tenant')}}</div>
-    <div tabindex="0" [attr.aria-label]="getStr('To access your own data:')">{{getStr('To access your own data:')}}
-    </div>
+    <div tabindex="0" [attr.aria-label]="getStr('To access your own data:')" >{{getStr('To access your own data:')}}</div>
     <div id="ms-signin-button-container">
-        <button id="ms-signin-button" (click)="login()" (keyup.enter)="login()" role="link" tabindex="0">
+        <button
+            *ngIf="getAuthenticationStatus() !== 'authenticating'"
+            id="ms-signin-button"
+            (click)="login()"
+            (keyup.enter)="login()"
+            role="button"
+            tabindex="0"
+        >
             <span class="button-text">
                 {{getStr('sign in')}}
             </span>
         </button>
     </div>
 </div>
-<div *ngIf="getAuthenticationStatus() == 'authenticating'">
-    <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar"
-        aria-valuetext="Loading..." tabindex="0" aria-label="indeterminate local small progress bar">
+<div *ngIf="getAuthenticationStatus() === 'authenticating'">
+    <div class="c-progress f-indeterminate-local f-progress-small" id="authenticating-progress-bar" role="progressbar" aria-valuetext="Loading..."
+        tabindex="0" aria-label="indeterminate local small progress bar">
         <span></span>
         <span></span>
         <span></span>
@@ -26,13 +32,10 @@
             <img class="ms-Persona-image" [src]="authInfo.user.profileImageUrl">
         </div>
         <div class="ms-Persona-details">
-            <div class="ms-Persona-primaryText" id='userDisplayName' *ngIf="authInfo.user.displayName">
-                {{authInfo.user.displayName}}</div>
-            <div class="ms-Persona-secondaryText" id='userMail' *ngIf="authInfo.user.emailAddress">
-                {{authInfo.user.emailAddress}}</div>
+            <div class="ms-Persona-primaryText" id='userDisplayName' *ngIf="authInfo.user.displayName">{{authInfo.user.displayName}}</div>
+            <div class="ms-Persona-secondaryText" id='userMail' *ngIf="authInfo.user.emailAddress">{{authInfo.user.emailAddress}}</div>
         </div>
     </div>
-    <a href="#" id="manage-permissions" class="c-hyperlink" tabindex=0 (click)="manageScopes()"
-        role="button">{{getStr('modify permissions')}}</a>
+    <a href="#" id="manage-permissions" class="c-hyperlink" tabindex=0 (click)="manageScopes()" role="button">{{getStr('modify permissions')}}</a>
     <a href="#" id="signout" class="c-hyperlink" tabindex=0 (click)="logout()">{{getStr('sign out')}}</a>
 </div>
