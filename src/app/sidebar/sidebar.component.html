@@ -1,8 +1,9 @@
 <div id="explorer-sidebar">
-    <div style="display: flex;">
+    <div class="arrow-left"></div>
+    <div class="title-container">
         <span id="explorer-title" class="c-heading-3 panel-header" [attr.title]="getStr('Graph Explorer')">
-            {{getStr('Graph Explorer')}}
-        </span>
+            {{getStr('Graph Explorer')}}</span>
+        <banner></banner>
     </div>
     <div class="c-drawer">
         <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true" aria-controls="authDrawer">
@@ -13,15 +14,8 @@
             <authentication></authentication>
         </div>
     </div>
-
-    <div class="c-drawer">
-        <div class="panel-content">
-            <banner></banner>
-        </div>
-    </div>
-
     <div *ngIf="displayCanary()" class="c-drawer">
-        <button id="auth-drawer-canary-button" class="c-glyph" aria-expanded="true" disabled="true"
+        <button id="auth-drawer-button" class="c-glyph" aria-expanded="true" disabled="true"
             aria-controls="canaryDrawer">
             <span class="c-heading-5 panel-header">
                 <i class="ms-Icon ms-Icon--Coffee" aria-hidden="true"></i>{{getStr('Canary')}}</span>
@@ -46,11 +40,11 @@
                             [attr.id]="idifyCategory(category.title)">{{getStr(category.title)}}</span>
                     </div>
                     <query-row [query]="query" [category]="idifyCategory(category.title)"
-                               (keydown.escape)="focusOnMoreSamples()"
-                        *ngFor="let query of category.queries"></query-row>
+                        (keydown.escape)="focusOnMoreSamples()" *ngFor="let query of category.queries"></query-row>
                 </div>
             </div>
-            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()" role="button">
+            <a href="#" id="manage-categories" class="c-hyperlink" tabindex=0 (click)="manageCategories()"
+                (click)="setOpenPanel('samples')" role="button">
                 {{getStr('show more samples')}}</a>
         </div>
     </div>
@@ -61,8 +55,9 @@
         </button>
         <div id="historyDrawer" class="panel-content">
             <history-query-row *ngFor="let query of getRequestHistory(5)" [query]="query"></history-query-row>
-            <a href="#" id="show-full-history" (click)="manageHistory()" [hidden]="getRequestHistory().length == 0"
-                class="c-hyperlink" tabindex=0 role="button">{{getStr('Show More')}}</a>
+            <a href="#" id="show-full-history" (click)="manageHistory()" (click)="setOpenPanel('history')"
+                [hidden]="getRequestHistory().length == 0" class="c-hyperlink" tabindex=0
+                role="button">{{getStr('Show More')}}</a>
         </div>
     </div>
 </div>
