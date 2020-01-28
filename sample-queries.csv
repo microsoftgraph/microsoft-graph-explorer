@@ -496,7 +496,7 @@ User Activities,PUT,create a user activity and history item,/v1.0/me/activities/
 }",Content-Type: application/json
 User Activities,GET,get recent user activities,/v1.0/me/activities/recent,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/projectrome_get_recent_activities,BOTH,,
 Applications,GET,retrieve the list of applications,/v1.0/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_list,AAD,,
-Applications,POST,create a new application,/v1.0/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_post_applications," ""AAD""","{
+Applications,POST,create a new application,/v1.0/applications,,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_post_applications,AAD,"{
         ""displayName"": ""My App""
     }",Content-type: application/json
 Applications,GET,retrieve application properties,"/v1.0/applications/{application-id}",To use this query&#44; first retrieve the object ID of the application. To find the object ID&#44; run GET https://graph.microsoft.com/v1.0/applications,https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/application_get,,
