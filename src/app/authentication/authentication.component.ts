@@ -132,14 +132,14 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
         AppComponent.explorerValues.authentication.user.profileImageUrl = this.sanitize(imageUrl) as string;
       } catch (e) {
-        collectLogs(e.message);
+        collectLogs(e);
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
       }
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.changeDetectorRef.detectChanges();
 
     } catch (e) {
-      collectLogs(e.message);
+      collectLogs(e);
       localLogout();
     }
   }

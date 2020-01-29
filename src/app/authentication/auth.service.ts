@@ -1,22 +1,12 @@
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
+import { telemetry } from '../telemetry';
 
 const loginType = getLoginType();
 
-export const collectLogs = (error: any): void => {
-    const { awa } = (window as any);
-
-    // Awa is only defined in staging & prod. This check avoids errors in localhost.
-    if (awa) {
-        const errorDetails = {
-            errorInfo: {
-                ErrorCategory: 'Graph Explorer - MSAL Error',
-                ErrorMessage: JSON.stringify(error),
-            },
-        };
-
-        awa.ct.captureClientError(errorDetails);
-    }
+export const collectLogs = (error: Error): void => {
+    telemetry.trackException(error, SeverityLevel.Critical);
 };
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
