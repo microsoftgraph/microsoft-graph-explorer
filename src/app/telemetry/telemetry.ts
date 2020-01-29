@@ -1,5 +1,10 @@
 import { ApplicationAnalytics, ApplicationInsights, SeverityLevel } from '@microsoft/applicationinsights-web';
-import ITelemetry from './types';
+
+interface ITelemetry {
+  initialize(): void;
+  trackEvent(eventName: string, payload: any): void;
+  trackException(error: Error, severityLevel: SeverityLevel): void;
+}
 
 class Telemetry implements ITelemetry {
   private appInsights: ApplicationInsights;
