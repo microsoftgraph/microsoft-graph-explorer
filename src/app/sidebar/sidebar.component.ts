@@ -22,6 +22,12 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
     public historyPanel: Element;
     public categories: ISampleQueryCategory[] = SampleCategories;
 
+    public openPanel = '';
+
+    public setOpenPanel(panel: string) {
+        this.openPanel = panel;
+    }
+
     public ngAfterViewInit(): void {
         this.historyPanel = document.querySelector('#history-panel');
         this.sampleCategoryPanel = document.querySelector('#sample-categories-panel');
@@ -63,6 +69,11 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
         (document.querySelector('#manage-categories') as any).focus();
     }
 
+    public focusOnShowMore() {
+        // Set the focus on the first actionable control in the sampleCategoryPanel.
+        (document.querySelector('#show-full-history') as any).focus();
+    }
+
     public displayCanary() {
         if (JSON.parse(localStorage.getItem('GRAPH_MODE')) === null) {
             return false;
@@ -71,16 +82,17 @@ export class SidebarComponent extends GraphExplorerComponent implements AfterVie
     }
 
     public closePanels() {
-        try {
-            (document.querySelector('#history-panel .ms-Panel-closeButton') as any).click();
-        } catch (e) {
-            throw e;
+        const historyPanel = document.querySelector('#close-history-btn') as any;
+        const samplesPanel = document.querySelector('#closeSampleCategories') as any;
+
+        if (this.openPanel === 'samples') {
+            samplesPanel.click();
+            this.focusOnMoreSamples();
         }
 
-        try {
-            (document.querySelector('#sample-categories-panel .ms-Panel-closeButton') as any).click();
-        } catch (e) {
-            throw e;
+        if (this.openPanel === 'history') {
+            historyPanel.click();
+            this.focusOnShowMore();
         }
     }
 }

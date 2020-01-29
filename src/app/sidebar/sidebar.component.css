@@ -25,7 +25,7 @@ a#show-full-history, a#manage-categories {
 }
 
 span#explorer-title {
-    margin-left: 1px;
+    margin-left: 10px;
     margin-top: 14px;
 }
 
@@ -123,4 +123,9 @@ a#show-full-history[hidden] {
         min-height: inherit;
         padding-bottom: 15px;
     }
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
 }
