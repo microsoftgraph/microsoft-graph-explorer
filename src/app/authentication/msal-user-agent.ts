@@ -1,6 +1,4 @@
 import * as Msal from 'msal';
-import { telemetry } from '../telemetry';
-import { collectLogs } from './auth.service';
 
 const { ClientId } = (window as any);
 
