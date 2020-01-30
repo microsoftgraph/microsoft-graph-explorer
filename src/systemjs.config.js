@@ -31,7 +31,8 @@
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'jwt-decode': 'npm:jwt-decode/build/jwt-decode.min.js',
       'msal': 'npm:msal/dist/msal.js',
-      'guid-typescript': 'npm:guid-typescript/dist/guid.js'
+      'guid-typescript': 'npm:guid-typescript/dist/guid.js',
+      '@microsoft/applicationinsights-web': 'npm:@microsoft/applicationinsights-web/dist/applicationinsights-web.min.js'
     },
 
     // packages tells the System loader how to load when no filename and/or no extension
