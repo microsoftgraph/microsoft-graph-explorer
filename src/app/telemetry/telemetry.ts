@@ -9,7 +9,6 @@ interface ITelemetry {
 class Telemetry implements ITelemetry {
   private appInsights: ApplicationInsights;
   private config: any;
-  private reactPlugin: any;
 
   constructor() {
     this.config = {
