@@ -11,11 +11,12 @@ class Telemetry implements ITelemetry {
   private config: any;
 
   constructor() {
-    this.config = {
-      instrumentationKey: (window as any).instrumentationKey,
+    const config = {
+      instrumentationKey: (window as any).InstrumentationKey,
       disableExceptionTracking: true,
     };
 
+    appInsights.config = config;
     this.appInsights = appInsights;
   }
 

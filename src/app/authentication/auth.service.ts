@@ -5,9 +5,9 @@ import { telemetry } from '../telemetry/telemetry';
 const loginType = getLoginType();
 
 export const collectLogs = (error: Error): void => {
-    const { SeverityLevel } = (window as any);
+    const { appInsights } = (window as any);
 
-    telemetry.trackException(error, SeverityLevel.Critical);
+    telemetry.trackException(error, 'Critical');
 };
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
