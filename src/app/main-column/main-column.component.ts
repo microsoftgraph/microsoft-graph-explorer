@@ -11,7 +11,7 @@ import { GraphApiVersion, IExplorerValues, IMessageBarContent, Methods } from '.
 import { constructGraphLinksFromFullPath, getUrlsFromServiceURL, IGraphNodeLink } from '../graph-structure';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { QueryRunnerService } from '../query-runner.service';
-import { telemetry } from '../telemetry';
+import { telemetry } from '../telemetry/telemetry';
 import { getGraphUrl } from '../util';
 
 declare let mwfAutoInit: any;

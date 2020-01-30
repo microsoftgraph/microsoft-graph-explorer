@@ -1,6 +1,6 @@
 import * as Msal from 'msal';
 import { AppComponent } from '../app.component';
-import { telemetry } from '../telemetry';
+import { telemetry } from '../telemetry/telemetry';
 
 const loginType = getLoginType();
 
