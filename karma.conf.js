@@ -64,6 +64,8 @@ module.exports = function (config) {
       // guid-typescript
       { pattern: 'node_modules/guid-typescript/dist/guid.js', included: false, watched: false },
 
+      { pattern: 'node_modules/@microsoft/applicationinsights-web/dist/applicationinsights-web.min.js', included: false, watched: false },
+
       // RxJs
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },
