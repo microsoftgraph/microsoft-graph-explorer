@@ -1,4 +1,4 @@
-const { appInsights, SeverityLevel } = (window as any);
+import { ApplicationInsights, SeverityLevel } from '@microsoft/applicationinsights-web';
 
 interface ITelemetry {
   initialize(): void;
@@ -7,8 +7,7 @@ interface ITelemetry {
 }
 
 class Telemetry implements ITelemetry {
-  private appInsights: any;
-  private config: any;
+  private appInsights: ApplicationInsights;
 
   constructor() {
     const config = {
@@ -16,12 +15,12 @@ class Telemetry implements ITelemetry {
       disableExceptionTracking: true,
     };
 
-    appInsights.config = config;
-    this.appInsights = appInsights;
+    this.appInsights = new ApplicationInsights({ config });
   }
 
   public initialize() {
-    this.appInsights = appInsights;
+    this.appInsights.loadAppInsights();
+    this.appInsights.trackPageView();
   }
 
   public trackEvent(eventName: string, payload: any) {
@@ -32,7 +31,7 @@ class Telemetry implements ITelemetry {
     this.appInsights.trackEvent({ name: eventName }, payload);
   }
 
-  public trackException(error: Error, severityLevel: any) {
+  public trackException(error: Error, severityLevel: SeverityLevel) {
     this.appInsights.trackException({ error, severityLevel });
   }
 
