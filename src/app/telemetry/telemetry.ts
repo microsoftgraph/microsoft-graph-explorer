@@ -24,7 +24,7 @@ class Telemetry implements ITelemetry {
   }
 
   public trackEvent(eventName: string, payload: any) {
-    if (!this.valid(eventName)) {
+    if (!this.validateEventName(eventName)) {
       throw new Error('Invalid telemetry event name');
     }
 
@@ -36,7 +36,7 @@ class Telemetry implements ITelemetry {
   }
 
   // A valid event name ends with the word EVENT
-  private valid(eventName: string): boolean {
+  private validateEventName(eventName: string): boolean {
     const listOfWords = eventName.split('_');
     const lastIndex = listOfWords.length - 1;
     const lastWord = listOfWords[lastIndex];
