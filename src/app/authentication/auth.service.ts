@@ -1,14 +1,8 @@
-import { SeverityLevel } from '@microsoft/applicationinsights-web';
 import * as Msal from 'msal';
 
 import { AppComponent } from '../app.component';
-import { telemetry } from '../telemetry/telemetry';
 
 const loginType = getLoginType();
-
-export const collectLogs = (error: Error): void => {
-    telemetry.trackException(error, SeverityLevel.Critical);
-};
 
 export function logout(userAgentApp: Msal.UserAgentApplication) {
     userAgentApp.logout();
