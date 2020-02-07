@@ -8,10 +8,13 @@ interface ITelemetry {
 
 class Telemetry implements ITelemetry {
   private appInsights: ApplicationInsights;
+  private instrumentationKey: string;
 
   constructor() {
+    this.instrumentationKey = (window as any).InstrumentationKey || '';
+
     const config = {
-      instrumentationKey: (window as any).InstrumentationKey,
+      instrumentationKey: this.instrumentationKey,
       disableExceptionTracking: true,
     };
 
@@ -19,8 +22,10 @@ class Telemetry implements ITelemetry {
   }
 
   public initialize() {
-    this.appInsights.loadAppInsights();
-    this.appInsights.trackPageView();
+    if (this.instrumentationKey) {
+      this.appInsights.loadAppInsights();
+      this.appInsights.trackPageView();
+    }
   }
 
   public trackEvent(eventName: string, payload: any) {
