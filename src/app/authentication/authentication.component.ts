@@ -5,15 +5,17 @@
 
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 import { AuthResponse } from 'msal';
 import { AppComponent } from '../app.component';
 import { GraphService } from '../graph-service';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { PermissionScopes } from '../scopes-dialog/scopes';
 import { ScopesDialogComponent } from '../scopes-dialog/scopes-dialog.component';
+import { telemetry } from '../telemetry/telemetry';
 import { getGraphUrl } from '../util';
 import { localLogout } from './auth';
-import { acquireNewAccessToken, collectLogs, login, requiresInteraction } from './auth.service';
+import { acquireNewAccessToken, login, requiresInteraction } from './auth.service';
 import { app } from './msal-user-agent';
 
 @Component({
@@ -132,14 +134,12 @@ export class AuthenticationComponent extends GraphExplorerComponent {
 
         AppComponent.explorerValues.authentication.user.profileImageUrl = this.sanitize(imageUrl) as string;
       } catch (e) {
-        collectLogs(e.message);
         AppComponent.explorerValues.authentication.user.profileImageUrl = null;
       }
       AppComponent.explorerValues.authentication.status = 'authenticated';
       this.changeDetectorRef.detectChanges();
 
     } catch (e) {
-      collectLogs(e.message);
       localLogout();
     }
   }
@@ -156,8 +156,10 @@ export class AuthenticationComponent extends GraphExplorerComponent {
   }
 
   private acquireTokenErrorCallBack(error: any): void {
+    AppComponent.explorerValues.authentication.status = 'anonymous';
+
     if (error) {
-      collectLogs(error);
+      telemetry.trackException(error, SeverityLevel.Critical);
     }
   }
 }

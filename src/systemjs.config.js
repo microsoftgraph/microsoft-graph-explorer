@@ -31,7 +31,15 @@
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'jwt-decode': 'npm:jwt-decode/build/jwt-decode.min.js',
       'msal': 'npm:msal/dist/msal.js',
-      'guid-typescript': 'npm:guid-typescript/dist/guid.js'
+      'guid-typescript': 'npm:guid-typescript/dist/guid.js',
+
+      '@microsoft/applicationinsights-core-js': 'npm:@microsoft/applicationinsights-core-js/dist/applicationinsights-core-js.min.js',
+      '@microsoft/applicationinsights-analytics-js': 'npm:@microsoft/applicationinsights-analytics-js/dist/applicationinsights-analytics-js.js',
+      '@microsoft/applicationinsights-channel-js': 'npm:@microsoft/applicationinsights-channel-js/dist/applicationinsights-channel-js.min.js',
+      '@microsoft/applicationinsights-common': 'npm:@microsoft/applicationinsights-common/dist/applicationinsights-common.min.js',
+      '@microsoft/applicationinsights-dependencies-js': 'npm@microsoft/applicationinsights-dependencies-js/dist/applicationinsights-dependencies-js/dist/applicationinsights-dependencies-js.min.js',
+      '@microsoft/applicationinsights-properties-js': 'npm@microsoft/applicationinsights-properties-js/dist/applicationinsights-properties-js.min.js',
+      '@microsoft/applicationinsights-web': 'npm:@microsoft/applicationinsights-web/dist/applicationinsights-web.min.js'
     },
 
     // packages tells the System loader how to load when no filename and/or no extension

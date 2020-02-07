@@ -11,6 +11,7 @@ import { GraphApiVersion, IExplorerValues, IMessageBarContent, Methods } from '.
 import { constructGraphLinksFromFullPath, getUrlsFromServiceURL, IGraphNodeLink } from '../graph-structure';
 import { GraphExplorerComponent } from '../GraphExplorerComponent';
 import { QueryRunnerService } from '../query-runner.service';
+import { telemetry } from '../telemetry/telemetry';
 import { getGraphUrl } from '../util';
 
 declare let mwfAutoInit: any;
@@ -77,6 +78,9 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
     }
 
     public ngAfterViewInit(): void {
+        // Init telemetry
+        telemetry.initialize();
+
         // Init httpMethod
         mwfAutoInit.ComponentFactory.create([{
             component: mwfAutoInit.Select,
