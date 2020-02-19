@@ -840,6 +840,14 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
   },
   {
+    name: 'Policy.ReadWrite.Authorization',
+    description: 'Read and write your organization\'s authorization policy',
+    longDescription:
+      'Allows the app to read and write your organization\'s authorization policy on your behalf. For example, authorization policies can control some of the permissions that the out-of-the-box user role has by default.',
+    preview: true,
+    admin: true
+  },
+  {
     name: 'Policy.ReadWrite.ConditionalAccess',
     description: 'Read and write your organization\'s conditional access policies',
     longDescription:
