@@ -12,10 +12,12 @@ class Telemetry implements ITelemetry {
 
   constructor() {
     this.instrumentationKey = (window as any).InstrumentationKey || '';
+    const { mscc } = (window as any);
 
     const config = {
       instrumentationKey: this.instrumentationKey,
       disableExceptionTracking: true,
+      disableTelemetry: mscc.hasConsent() ? false : true,
     };
 
     this.appInsights = new ApplicationInsights({ config });
