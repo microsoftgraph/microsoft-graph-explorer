@@ -86,7 +86,7 @@ export const Tokens: IToken[] = [
   },
   {
     placeholder: 'application-id',
-    demoTenantValue: '03c2bc3d-adaf-45b9-86e2-e95bddc6ad3d',
+    demoTenantValue: 'acc848e9-e8ec-4feb-a521-8d58b5482e09',
   },
   {
     placeholder: 'destination-address',
