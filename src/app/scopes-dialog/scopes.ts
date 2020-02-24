@@ -832,6 +832,14 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
   },
   {
+    name: 'PrivilegedAccess.ReadWrite.AzureADGroup',
+    description: 'Read and write privileged access to Azure AD Groups',
+    longDescription:
+      'Allows the app to request and manage just in time elevation of users to members or owners of Azure AD Groups, on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
     name: 'Policy.Read.All',
     description: 'Read your organization\'s policies',
     longDescription:
