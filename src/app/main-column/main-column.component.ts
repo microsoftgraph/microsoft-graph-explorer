@@ -79,11 +79,7 @@ export class MainColumnComponent extends GraphExplorerComponent implements After
 
     public ngAfterViewInit(): void {
         // Init telemetry
-        const { mscc }: any = window;
-
-        if (mscc && mscc.hasConsent()) {
-            telemetry.initialize();
-        }
+        telemetry.initialize();
 
         // Init httpMethod
         mwfAutoInit.ComponentFactory.create([{
