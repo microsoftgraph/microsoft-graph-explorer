@@ -32,23 +32,11 @@ class Telemetry implements ITelemetry {
   }
 
   public trackEvent(eventName: string, payload: any) {
-    if (!this.validateEventName(eventName)) {
-      throw new Error('Invalid telemetry event name');
-    }
-
     this.appInsights.trackEvent({ name: eventName }, payload);
   }
 
   public trackException(error: Error, severityLevel: SeverityLevel) {
     this.appInsights.trackException({ error, severityLevel });
-  }
-
-  // A valid event name ends with the word EVENT
-  private validateEventName(eventName: string): boolean {
-    const listOfWords = eventName.split('_');
-    const lastIndex = listOfWords.length - 1;
-    const lastWord = listOfWords[lastIndex];
-    return lastWord === 'EVENT';
   }
 
   private filterFunction(envelope: any): boolean {
