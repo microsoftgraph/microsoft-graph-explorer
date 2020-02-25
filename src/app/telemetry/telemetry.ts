@@ -26,6 +26,7 @@ class Telemetry implements ITelemetry {
   public initialize() {
     if (this.instrumentationKey) {
       this.appInsights.loadAppInsights();
+      this.appInsights.addTelemetryInitializer(this.filterFunction);
       this.appInsights.trackPageView();
     }
   }
@@ -48,6 +49,19 @@ class Telemetry implements ITelemetry {
     const lastIndex = listOfWords.length - 1;
     const lastWord = listOfWords[lastIndex];
     return lastWord === 'EVENT';
+  }
+
+  private filterFunction(envelope: any): boolean {
+    envelope.baseData.name = 'Graph Explorer V3';
+
+    const uri = envelope.baseData.uri;
+    if (uri) {
+      const startOfFragment = uri.indexOf('#');
+      const sanitisedUri = uri.substring(0, startOfFragment);
+      envelope.baseData.uri = sanitisedUri;
+    }
+
+    return true;
   }
 }
 
