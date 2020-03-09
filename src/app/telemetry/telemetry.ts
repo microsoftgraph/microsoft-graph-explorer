@@ -17,7 +17,7 @@ class Telemetry implements ITelemetry {
     const config = {
       instrumentationKey: this.instrumentationKey,
       disableExceptionTracking: true,
-      disableTelemetry: mscc && mscc.hasConsent() ? false : true,
+      disableTelemetry: this.instrumentationKey ? false : true,
     };
 
     this.appInsights = new ApplicationInsights({ config });
