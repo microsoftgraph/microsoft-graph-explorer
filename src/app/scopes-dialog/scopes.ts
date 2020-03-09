@@ -848,10 +848,25 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: true
   },
   {
+    name: 'Policy.Read.PermissionGrant',
+    description: 'Read consent and permission grant policies',
+    longDescription:
+      'Allows the app to read policies related to consent and permission grants for applications, on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
     name: 'Policy.ReadWrite.ConditionalAccess',
     description: 'Read and write your organization\'s conditional access policies',
     longDescription:
       'Allows the app to read and write your organization\'s conditional access policies on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'Policy.ReadWrite.PermissionGrant',
+    description: 'Manage consent and permission grant policies',
+    longDescription: 'Allows the app to manage policies related to consent and permission grants for applications, on your behalf.',
     preview: true,
     admin: true
   },
