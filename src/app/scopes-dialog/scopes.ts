@@ -988,5 +988,12 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to manage schedule, schedule groups, shifts and associated entities in the Teams/Shifts application on behalf of the signed-in user.',
     preview: true,
     admin: true
+  },
+  {
+    name: 'Subscription.Read.All',
+    description: 'Read all webhook subscriptions',
+    longDescription: 'Allows the app to read all webhook subscriptions on behalf of the signed-in user.',
+    preview: true,
+    admin: true
   }
 ];
