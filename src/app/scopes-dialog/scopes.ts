@@ -995,5 +995,33 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to read all webhook subscriptions on behalf of the signed-in user.',
     preview: true,
     admin: true
+  },
+  {
+    name: 'UserAuthenticationMethod.Read',
+    description: 'Read user authentication methods',
+    longDescription: 'Allows the app to read the signed-in user\'s authentication methods, including phone numbers and Authenticator app settings. This does not allow the app to see secret information like the signed-in user\'s passwords, or to sign-in or otherwise use the signed-in user\'s authentication methods.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'UserAuthenticationMethod.Read.All',
+    description: 'Read all users\' authentication methods',
+    longDescription: 'Allows the app to read authentication methods of all users in your organization that the signed-in user has access to. Authentication methods include things like a user\'s phone numbers and Authenticator app settings. This does not allow the app to see secret information like passwords, or to sign-in or otherwise use the authentication methods.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'UserAuthenticationMethod.ReadWrite',
+    description: 'Read and write user authentication methods',
+    longDescription: 'Allows the app to read and write the signed-in user\'s authentication methods, including phone numbers and Authenticator app settings. This does not allow the app to see secret information like the signed-in user\'s passwords, or to sign-in or otherwise use the signed-in user\'s authentication methods.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'UserAuthenticationMethod.ReadWrite.All',
+    description: 'Read and write all users\' authentication methods',
+    longDescription: 'Allows the app to read and write authentication methods of all users in your organization that the signed-in user has access to. Authentication methods include things like a user\'s phone numbers and Authenticator app settings. This does not allow the app to see secret information like passwords, or to sign-in or otherwise use the authentication methods.',
+    preview: true,
+    admin: true
   }
 ];
