@@ -805,7 +805,7 @@ export const SampleQueries: ISampleQuery[] = [
     "humanName": "my pages",
     "requestUrl": "/v1.0/me/onenote/pages",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_list_pages",
-    "skipTest": false
+    "skipTest": true
 },
 {
     "category": "OneNote",
