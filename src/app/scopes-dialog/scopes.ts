@@ -1023,5 +1023,12 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to read and write authentication methods of all users in your organization that the signed-in user has access to. Authentication methods include things like a user\'s phone numbers and Authenticator app settings. This does not allow the app to see secret information like passwords, or to sign-in or otherwise use the authentication methods.',
     preview: true,
     admin: true
+  },
+  {
+    name: 'Policy.ReadWrite.AuthenticationFlows',
+    description: 'Read and write authentication flow policies',
+    longDescription: 'Allows the app to read and write authentication flow policies that determine which authentication flows are enabled in the tenant and other authentication-flow-related tasks.',
+    preview: true,
+    admin: true
   }
 ];
