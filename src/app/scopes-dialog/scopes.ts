@@ -164,6 +164,20 @@ export const PermissionScopes: IPermissionScope[] = [
     admin: false,
   },
   {
+    name: 'ConsentRequest.Read.All',
+    description: 'Read consent requests',
+    longDescription: 'Allows the app to read consent requests and approvals on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
+    name: 'ConsentRequest.ReadWrite.All',
+    description: 'Read and write consent requests',
+    longDescription: 'Allows the app to read app consent requests and approvals, and deny or approve those requests on behalf of the signed-in user.',
+    preview: true,
+    admin: true,
+  },
+  {
     name: 'Contacts.Read',
     description: 'Read user contacts',
     longDescription: 'Allows the app to read user contacts.',
@@ -860,6 +874,14 @@ export const PermissionScopes: IPermissionScope[] = [
     description: 'Read and write your organization\'s conditional access policies',
     longDescription:
       'Allows the app to read and write your organization\'s conditional access policies on your behalf.',
+    preview: true,
+    admin: true
+  },
+  {
+    name: 'Policy.ReadWrite.ConsentRequest',
+    description: 'Read and write consent request policy',
+    longDescription:
+      'Allows the app to read and write your organization's consent requests policy on behalf of the signed-in user.',
     preview: true,
     admin: true
   },
