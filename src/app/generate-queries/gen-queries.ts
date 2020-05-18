@@ -805,7 +805,7 @@ export const SampleQueries: ISampleQuery[] = [
     "humanName": "my pages",
     "requestUrl": "/v1.0/me/onenote/pages",
     "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/section_list_pages",
-    "skipTest": true
+    "skipTest": false
 },
 {
     "category": "OneNote",
@@ -1056,6 +1056,16 @@ export const SampleQueries: ISampleQuery[] = [
     "skipTest": false
 },
 {
+    "category": "Microsoft Teams",
+    "method": "POST",
+    "humanName": "send channel message",
+    "requestUrl": "/v1.0/teams/{team-id}/channels/{channel-id}/messages",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/channel-post-messages?view=graph-rest-beta&tabs=http",
+    "postBody": "{\r\n  \"body\": {\r\n    \"content\": \"Hello World\"\r\n  }\r\n}",
+    "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/v1.0/me/joinedTeams 2) GET https://graph.microsoft.com/v1.0/teams/{team-id}/channels",
+    "skipTest": false
+},
+{
     "category": "Microsoft Teams (beta)",
     "method": "GET",
     "humanName": "messages (without replies) in a channel",
@@ -1094,10 +1104,10 @@ export const SampleQueries: ISampleQuery[] = [
 {
     "category": "Microsoft Teams (beta)",
     "method": "POST",
-    "humanName": "create chat thread",
-    "requestUrl": "/beta/teams/{team-id}/channels/{channel-id}/chatThreads",
-    "docLink": "https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/api/channel_post_chatthreads",
-    "postBody": "{\r\n\"rootMessage\": {\r\n       \"body\": {\r\n         \"contentType\": 2,\r\n         \"content\": \"Hello world\"\r\n       }\r\n   }\r\n }",
+    "humanName": "send channel message",
+    "requestUrl": "/beta/teams/{team-id}/channels/{channel-id}/messages",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/channel-post-messages?view=graph-rest-beta&tabs=http",
+    "postBody": "{\r\n  \"body\": {\r\n    \"content\": \"Hello World\"\r\n  }\r\n}",
     "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/beta/me/joinedTeams 2) GET https://graph.microsoft.com/beta/teams/{team-id}/channels",
     "skipTest": false
 },
