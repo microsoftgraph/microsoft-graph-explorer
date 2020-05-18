@@ -1056,6 +1056,16 @@ export const SampleQueries: ISampleQuery[] = [
     "skipTest": false
 },
 {
+    "category": "Microsoft Teams",
+    "method": "POST",
+    "humanName": "send channel message",
+    "requestUrl": "/v1.0/teams/{team-id}/channels/{channel-id}/messages",
+    "docLink": "https://docs.microsoft.com/en-us/graph/api/channel-post-messages?view=graph-rest-beta&tabs=http",
+    "postBody": "{\r\n  \"body\": {\r\n    \"content\": \"Hello World\"\r\n  }\r\n}",
+    "tip": "This query requires a team id and a channel id from that team. To find the team id  & channel id, you can run: 1) GET https://graph.microsoft.com/v1.0/me/joinedTeams 2) GET https://graph.microsoft.com/v1.0/teams/{team-id}/channels",
+    "skipTest": false
+},
+{
     "category": "Microsoft Teams (beta)",
     "method": "GET",
     "humanName": "messages (without replies) in a channel",
