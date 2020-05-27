@@ -1023,5 +1023,12 @@ export const PermissionScopes: IPermissionScope[] = [
     longDescription: 'Allows the app to read and write authentication methods of all users in your organization that the signed-in user has access to. Authentication methods include things like a user\'s phone numbers and Authenticator app settings. This does not allow the app to see secret information like passwords, or to sign-in or otherwise use the authentication methods.',
     preview: true,
     admin: true
+  },
+  {
+    name: 'AuditLog.Create',
+    description: 'Create audit logs for user actions',
+    longDescription: 'Allows the app to create and send audit logs for the actions performed by the signed-in user.',
+    preview: true,
+    admin: true
   }
 ];
